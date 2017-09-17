@@ -22,11 +22,13 @@
         "styles/styles.css",
         "styles/global.scss",
         "../node_modules/materialize-css/dist/css/materialize.min.css",
-        "../node_modules/mdi/css/materialdesignicons.min.css"
+        "../node_modules/mdi/css/materialdesignicons.min.css",
+        "../node_modules/roboto-fontface/css/roboto/roboto-fontface.css"        
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/materialize-css/dist/js/materialize.min.js"
+        "../node_modules/materialize-css/dist/js/materialize.min.js",
+        "./assets/js/ol-custom.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
