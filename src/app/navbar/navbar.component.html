@@ -1,9 +1,9 @@
 <mz-navbar>
-  <a href="#" class="brand-logo">Kramerius</a>
+  <a [routerLink]="['']" class="brand-logo">Kramerius</a>
   <mz-navbar-item-container [align]="'right'">
-    <mz-navbar-item><a href="#">Sbírky</a></mz-navbar-item>
-    <mz-navbar-item><a href="#">Procházet</a></mz-navbar-item>
-    <mz-navbar-item><a href="#">Nápověda</a></mz-navbar-item>
+    <mz-navbar-item [active]="router.isActive('/collections')"><a routerLink='collections'>Sbírky</a></mz-navbar-item>
+    <mz-navbar-item [active]="router.isActive('/browse')"><a routerLink='browse'>Procházet</a></mz-navbar-item>
+    <mz-navbar-item [active]="router.isActive('/help')"><a routerLink='help'>Nápověda</a></mz-navbar-item>
   </mz-navbar-item-container>
 </mz-navbar>
 
