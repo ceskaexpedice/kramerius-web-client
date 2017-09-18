@@ -18,7 +18,7 @@ export class BookComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute,
-              private bookSerrvice: BookService,
+              public bookSerrvice: BookService,
               private modsParserService: ModsParserService,
               private krameriusApiService: KrameriusApiService) {
   }
