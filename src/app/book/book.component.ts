@@ -1,3 +1,5 @@
+import { Metadata } from './../model/metadata.model';
+import { ModsParserService } from './../services/mods-parser.service';
 import { Page } from './../model/page.model';
 import { BookService } from './../services/book.service';
 import { KrameriusApiService } from './../services/kramerius-api.service';
@@ -12,10 +14,12 @@ import { Component, OnInit } from '@angular/core';
 export class BookComponent implements OnInit {
 
   children = [];
+  metadata: Metadata;
 
 
   constructor(private route: ActivatedRoute,
               private bookSerrvice: BookService,
+              private modsParserService: ModsParserService,
               private krameriusApiService: KrameriusApiService) {
   }
 
@@ -32,8 +36,10 @@ export class BookComponent implements OnInit {
   private loadDocument(uuid: string) {
     const ctx = this;
     this.krameriusApiService.getChildren(uuid).subscribe(response => {
-      console.log(response);
       ctx.children = response;
+    });
+    this.krameriusApiService.getMods(uuid).subscribe(response => {
+      ctx.metadata = ctx.modsParserService.parse(response);
     });
   }
 

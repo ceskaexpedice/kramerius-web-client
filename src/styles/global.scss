@@ -21,6 +21,7 @@ app-root {
             color: #337CBD;
             font-size: 28px;
             padding-left: 20px;
+            font-weight: 300;
         }
         box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.1);
     }
@@ -40,10 +41,12 @@ app-root {
         flex-flow: row;
         app-viewer {
             flex: 1;
+            height: 100%;
         }
         app-navigation {
             float: left;
             width: 260px;
+            height: 100%;
             box-shadow: 0px 2px 1px 1px hsla(0, 0%, 0%, 0.15);
             z-index: 10;
             

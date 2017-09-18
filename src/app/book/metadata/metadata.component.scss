@@ -1,0 +1,32 @@
+.metadata {
+    padding: 20px 10px 10px;
+    font-weight: 300;
+    .title {
+        color: #337CBD;
+        font-size: 22px;
+    }
+    .subtitle {
+        color: #888888;
+        font-size: 15px;
+    }
+    .divider {
+        display: block;
+        height: 1px;
+        margin: 10px 0;
+        background: #ddd;
+    }
+
+    .label {
+        font-weight: 400;
+        font-size: 13px;
+        color: #aaa;
+        margin-bottom: 3px;
+    }
+
+    .value {
+        font-weight: 400;
+        font-size: 15px;
+        color: #444;
+    }
+
+}

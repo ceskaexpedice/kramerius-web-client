@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Metadata } from './../../model/metadata.model';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-metadata',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./metadata.component.scss']
 })
 export class MetadataComponent implements OnInit {
+  @Input() metadata: Metadata;
 
   constructor() { }
 
   ngOnInit() {
   }
+
 
 }

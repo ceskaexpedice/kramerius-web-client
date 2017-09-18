@@ -1,3 +1,4 @@
+import { ModsParserService } from './services/mods-parser.service';
 import { BookService } from './services/book.service';
 import { Http, HttpModule } from '@angular/http';
 import { KrameriusApiService } from './services/kramerius-api.service';
@@ -51,7 +52,8 @@ import { NavigationItemComponent } from './book/navigation/navigation-item/navig
   ],
   providers: [
     KrameriusApiService,
-    BookService
+    BookService,
+    ModsParserService
   ],
   bootstrap: [AppComponent]
 })

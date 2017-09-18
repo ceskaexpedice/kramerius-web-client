@@ -1,3 +1,19 @@
-<div class="metadata">
+<div class="metadata" *ngIf="metadata">
+  <div class="title" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].title}}</div>
+  <div class="subtitle" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].subTitle}}</div>
+  
+  <div class="divider"></div>
 
+  <div *ngIf="metadata.authors.length > 0">
+    <div class="label">Autor</div>
+    <div *ngFor="let author of metadata.authors" class="value" >{{ author.name }}</div>
+    <div class="divider"></div>
+  </div>
+  
+  <div *ngIf="metadata.publishers.length > 0">
+    <div class="label">Nakladatelské údaje</div>
+    <div *ngFor="let publisher of metadata.publishers" class="value" >{{ publisher.fullDetail() }}</div>
+    <div class="divider"></div>
+  </div>
+  
 </div>
