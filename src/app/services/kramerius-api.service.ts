@@ -34,6 +34,9 @@ export class KrameriusApiService {
         return this.BASE_URL + '/search/api/v5.0/item/' + uuid;
     }
 
+    getThumbUrl(uuid: string) {
+        return this.getItemUrl(uuid) + '/thumb';
+    }
 
     getDc(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
@@ -63,6 +66,14 @@ export class KrameriusApiService {
           .catch(this.handleError);
     }
 
+    getZoomifyRootUrl(uuid: string): string {
+        return `${this.BASE_URL}/search/zoomify/${uuid}/`;
+    }
+
+    getZoomifyProperties(uuid: string) {
+        const url = `${this.getZoomifyRootUrl(uuid)}ImageProperties.xml`;
+        return this.http.get(url);
+    }
 
 
 }

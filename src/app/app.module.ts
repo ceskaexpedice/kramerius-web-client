@@ -1,3 +1,6 @@
+import { BookService } from './services/book.service';
+import { Http, HttpModule } from '@angular/http';
+import { KrameriusApiService } from './services/kramerius-api.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,6 +17,9 @@ import { HelpComponent } from './help/help.component';
 import { HomeComponent } from './home/home.component';
 import { BrowseComponent } from './browse/browse.component';
 import { CollectionsComponent } from './collections/collections.component';
+import { NavigationComponent } from './book/navigation/navigation.component';
+import { MetadataComponent } from './book/metadata/metadata.component';
+import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
 
 @NgModule({
   declarations: [
@@ -24,21 +30,29 @@ import { CollectionsComponent } from './collections/collections.component';
     HelpComponent,
     HomeComponent,
     BrowseComponent,
-    CollectionsComponent
+    CollectionsComponent,
+    NavigationComponent,
+    MetadataComponent,
+    NavigationItemComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpModule,
     MaterializeModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'collections', component: CollectionsComponent },
       { path: 'browse', component: BrowseComponent },
       { path: 'help', component: HelpComponent },
-      { path: 'documents/:uuid', component: BookComponent }
+      { path: 'documents/:uuid', component: BookComponent },
+      { path: 'documents', component: BookComponent }
     ])
   ],
-  providers: [],
+  providers: [
+    KrameriusApiService,
+    BookService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

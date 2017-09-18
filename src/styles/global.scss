@@ -3,6 +3,9 @@ html, body {
     height: 100%;
     display: block;
 }
+* {
+    box-sizing: border-box;    
+}
 app-root {
     // display: flex;
     // flex-flow: column;
@@ -33,10 +36,28 @@ app-root {
         height: calc(100% - 65px);
         display: block;
         width: 100%;
+        display: flex;
+        flex-flow: row;
+        app-viewer {
+            flex: 1;
+        }
+        app-navigation {
+            float: left;
+            width: 260px;
+            box-shadow: 0px 2px 1px 1px hsla(0, 0%, 0%, 0.15);
+            z-index: 10;
+            
+        }
+        app-metadata {
+            float: right;
+            width: 260px;
+            box-shadow: 0px 2px 1px 1px hsla(0, 0%, 0%, 0.15);
+            z-index: 10;
+        }
     }
 
     h1 {
-        font-size: 40px;
+        font-size: 30px;
         color: #444444;
     }
 }
