@@ -72,7 +72,9 @@ export class KrameriusApiService {
 
     getZoomifyProperties(uuid: string) {
         const url = `${this.getZoomifyRootUrl(uuid)}ImageProperties.xml`;
-        return this.http.get(url);
+        return this.http.get(url)
+            .map(response => response['_body'])
+            .catch(this.handleError);
     }
 
 

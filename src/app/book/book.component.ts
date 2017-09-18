@@ -1,3 +1,5 @@
+import { Page } from './../model/page.model';
+import { BookService } from './../services/book.service';
 import { KrameriusApiService } from './../services/kramerius-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +13,9 @@ export class BookComponent implements OnInit {
 
   children = [];
 
+
   constructor(private route: ActivatedRoute,
+              private bookSerrvice: BookService,
               private krameriusApiService: KrameriusApiService) {
   }
 
@@ -30,6 +34,23 @@ export class BookComponent implements OnInit {
     this.krameriusApiService.getChildren(uuid).subscribe(response => {
       console.log(response);
       ctx.children = response;
+    });
+  }
+
+  public onItemSelected(item) {
+    console.log('onItemSelected', item);
+    const ctx = this;
+    const url = this.krameriusApiService.getZoomifyRootUrl(item.pid);
+    this.krameriusApiService.getZoomifyProperties(item.pid).subscribe(response => {
+      console.log(response);
+      if (!response) {
+        return;
+      }
+      const a = response.toLowerCase().split('"');
+      const width = parseInt(a[1], 10);
+      const height = parseInt(a[3], 10);
+      const page = new Page(width, height, url);
+      this.bookSerrvice.leftPage = page;
     });
   }
 

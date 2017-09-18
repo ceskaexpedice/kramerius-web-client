@@ -1,4 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Page } from './../../model/page.model';
+import { KrameriusApiService } from './../../services/kramerius-api.service';
+import { BookService } from './../../services/book.service';
+import { Component, OnInit, Input,
+  OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
 declare var ol: any;
 
@@ -7,7 +11,7 @@ declare var ol: any;
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss']
 })
-export class ViewerComponent implements OnInit {
+export class ViewerComponent implements OnInit, OnChanges {
 
   // private url1 = 'https://kramerius.mzk.cz/search/zoomify/uuid:0e859fd0-9a32-11e7-920d-005056827e51/';
   // private width1 = 1688;
@@ -27,13 +31,13 @@ export class ViewerComponent implements OnInit {
   // private width2 = 1265.33;
   // private height2 = 1813;
 
-  private url1 = 'https://kramerius.mzk.cz/search/zoomify/uuid:5de8741e-3f83-49f8-b7a6-274e1f49603b/';
-  private width1 = 2056;
-  private height1 = 2775;
+  // private url1 = 'https://kramerius.mzk.cz/search/zoomify/uuid:5de8741e-3f83-49f8-b7a6-274e1f49603b/';
+  // private width1 = 2056;
+  // private height1 = 2775;
 
-  private url2 = 'https://kramerius.mzk.cz/search/zoomify/uuid:ce36d3a4-fd97-4439-9bff-8524a6010be7/';
-  private width2 = 2149;
-  private height2 = 2774;
+  // private url2 = 'https://kramerius.mzk.cz/search/zoomify/uuid:ce36d3a4-fd97-4439-9bff-8524a6010be7/';
+  // private width2 = 2149;
+  // private height2 = 2774;
 
   private view;
   private imageLayer;
@@ -50,7 +54,9 @@ export class ViewerComponent implements OnInit {
 
   private zoomFactor = 1.5;
 
-  constructor() { }
+  constructor(public bookService: BookService) { }
+
+  @Input() page: Page;
 
   ngOnInit() {
     this.init();
@@ -74,18 +80,30 @@ export class ViewerComponent implements OnInit {
     this.updateView();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('ngOnChanges');
+    console.log('page', this.page);
+    if (this.view) {
+      this.bookService.rightPage = null;
+      this.updateView();
+    }
+  }
+
   updateView() {
-    const image1 = {
-      url: this.url1,
-      width: this.width1,
-      height: this.height1
-    };
-    const image2 = {
-      url: this.url2,
-      width: this.width2,
-      height: this.height2
-    };
-    this.updateImage(image1, image2, this);
+    // const image1 = {
+    //   url: this.url1,
+    //   width: this.width1,
+    //   height: this.height1
+    // };
+    // const image2 = {
+    //   url: this.url2,
+    //   width: this.width2,
+    //   height: this.height2
+    // };
+    const image1 = this.bookService.leftPage;
+    const image2 = this.bookService.rightPage;
+
+    this.updateImage(image1, image2, true);
   }
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-navigation',
@@ -7,10 +7,15 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
   @Input() children;
+  @Output() itemSelected = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  public onItemClicked(item) {
+    this.itemSelected.emit(item);
   }
 
 }
