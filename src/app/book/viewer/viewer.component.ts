@@ -103,7 +103,9 @@ export class ViewerComponent implements OnInit, OnChanges {
     const image1 = this.bookService.leftPage;
     const image2 = this.bookService.rightPage;
 
-    this.updateImage(image1, image2, true);
+    if (image1 != null) {
+      this.updateImage(image1, image2, true);
+    }
   }
 
 

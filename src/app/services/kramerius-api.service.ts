@@ -40,6 +40,10 @@ export class KrameriusApiService {
         return this.getItemUrl(uuid) + '/thumb';
     }
 
+    // getThumbUrl2(uuid: string) {
+    //     return `${this.BASE_URL}/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
+    // }
+
     getDc(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
         return this.http.get(url)
