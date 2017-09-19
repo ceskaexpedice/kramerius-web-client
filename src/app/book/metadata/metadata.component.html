@@ -28,4 +28,12 @@
     <div class="divider"></div>
   </div>
   
+  <div *ngIf="metadata.locations.length > 0">
+    <div class="label">Místo uložení</div>
+    <div *ngFor="let location of metadata.locations">
+      <div class="value">{{location.physicalLocation}}</div>
+      <div class="value" *ngIf="location.shelfLocator">Signatura: {{location.shelfLocator}}</div>
+    </div>
+    <div class="divider"></div>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-import { Metadata, TitleInfo, Author, Publisher } from './../model/metadata.model';
+import { Metadata, TitleInfo, Author, Publisher, Location } from './../model/metadata.model';
 import { Page } from './../model/page.model';
 import { Injectable } from '@angular/core';
 import { parseString, processors, Builder } from 'xml2js';
@@ -27,6 +27,7 @@ export class ModsParserService {
         this.processTitles(root['titleInfo'], metadata);
         this.processAuthors(root['name'], metadata);
         this.processPublishers(root['originInfo'], metadata);
+        this.processLocations(root['location'], metadata);
         this.processSubjects(root['subject'], metadata);
         console.log('---', metadata);
         return metadata;
@@ -56,7 +57,6 @@ export class ModsParserService {
             const author = new Author();
             let given;
             let family;
-            console.log("item", item);
             if (!item.namePart) {
                 continue;
             }
@@ -93,13 +93,22 @@ export class ModsParserService {
         }
         for (const item of array) {
             const publisher = new Publisher();
-            if (item.publisher) {
-                publisher.name = item.publisher[0]['_'];
-            }
-            if (item.dateIssued) {
-                publisher.date = item.dateIssued[0]['_'];
-            }
+            publisher.name = this.getText(item.publisher);
+            publisher.date = this.getText(item.dateIssued);
             metadata.publishers.push(publisher);
+        }
+    }
+
+
+    private processLocations(array, metadata: Metadata) {
+        if (!array) {
+            return;
+        }
+        for (const item of array) {
+            const location = new Location();
+            location.physicalLocation = this.getText(item.physicalLocation);
+            location.shelfLocator = this.getText(item.shelfLocator);
+            metadata.locations.push(location);
         }
     }
 
@@ -115,6 +124,14 @@ export class ModsParserService {
             if (item.geographic) {
                 metadata.geonames.push(item.geographic[0]['_']);
             }
+        }
+    }
+
+    private getText(element) {
+        if (element) {
+            return element[0]['_'];
+        } else {
+            return null;
         }
     }
 

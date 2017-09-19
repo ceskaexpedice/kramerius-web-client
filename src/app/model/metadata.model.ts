@@ -5,7 +5,7 @@ export class Metadata {
     public publishers: Publisher[] = [];
     public keywords: string[] = [];
     public geonames: string[] = [];
-
+    public locations: Location[] = [];
 
     constructor() {
     }
@@ -22,6 +22,11 @@ export class TitleInfo {
 export class Author {
     public name;
     public date;
+}
+
+export class Location {
+    public shelfLocator;
+    public physicalLocation;
 }
 
 export class Publisher {
