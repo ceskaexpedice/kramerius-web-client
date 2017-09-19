@@ -13,9 +13,10 @@ export class KrameriusApiService {
     private static STREAM_DC = 'DC';
     private static STREAM_MODS = 'BIBLIO_MODS';
 
-    private BASE_URL = 'https://kramerius.mzk.cz';
+    // private BASE_URL = 'https://kramerius.mzk.cz';
     // private BASE_URL = 'http://kramerius4.nkp.cz';
-    
+    private BASE_URL = 'http://kramerius4.mlp.cz';
+
 
 
     constructor(private http: Http) { }
@@ -35,6 +36,15 @@ export class KrameriusApiService {
     private getItemUrl(uuid: string) {
         return this.BASE_URL + '/search/api/v5.0/item/' + uuid;
     }
+
+    getSearchAutocompleteUrl(term: string) {
+        return this.BASE_URL + '/search/api/v5.0/search/?fl=PID,dc.title,dc.creator&q=dc.title:'
+        + term.toLowerCase()
+        + '*+AND+(fedora.model:monograph%5E4+OR+fedora.model:map+'
+        + 'OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)'
+        + '+AND+dostupnost:public&rows=30';
+    }
+
 
     getThumbUrl(uuid: string) {
         return this.getItemUrl(uuid) + '/thumb';

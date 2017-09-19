@@ -3,6 +3,8 @@ export class Metadata {
     public titles: TitleInfo[] = [];
     public authors: Author[] = [];
     public publishers: Publisher[] = [];
+    public keywords: string[] = [];
+    public geonames: string[] = [];
 
 
     constructor() {

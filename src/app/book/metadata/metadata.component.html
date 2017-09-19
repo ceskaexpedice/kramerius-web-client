@@ -15,5 +15,17 @@
     <div *ngFor="let publisher of metadata.publishers" class="value" >{{ publisher.fullDetail() }}</div>
     <div class="divider"></div>
   </div>
+
+  <div *ngIf="metadata.keywords.length > 0">
+    <div class="label">Klíčová slova</div>
+    <div *ngFor="let keyword of metadata.keywords" class="value" >{{ keyword }}</div>
+    <div class="divider"></div>
+  </div>
+
+  <div *ngIf="metadata.geonames.length > 0">
+    <div class="label">Geografické názvy</div>
+    <div *ngFor="let geoname of metadata.geonames" class="value" >{{ geoname }}</div>
+    <div class="divider"></div>
+  </div>
   
 </div>

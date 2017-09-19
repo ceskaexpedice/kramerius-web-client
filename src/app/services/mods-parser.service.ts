@@ -27,6 +27,7 @@ export class ModsParserService {
         this.processTitles(root['titleInfo'], metadata);
         this.processAuthors(root['name'], metadata);
         this.processPublishers(root['originInfo'], metadata);
+        this.processSubjects(root['subject'], metadata);
         console.log('---', metadata);
         return metadata;
     }
@@ -99,6 +100,21 @@ export class ModsParserService {
                 publisher.date = item.dateIssued[0]['_'];
             }
             metadata.publishers.push(publisher);
+        }
+    }
+
+
+    private processSubjects(array, metadata: Metadata) {
+        if (!array) {
+            return;
+        }
+        for (const item of array) {
+            if (item.topic) {
+                metadata.keywords.push(item.topic[0]['_']);
+            }
+            if (item.geographic) {
+                metadata.geonames.push(item.geographic[0]['_']);
+            }
         }
     }
 

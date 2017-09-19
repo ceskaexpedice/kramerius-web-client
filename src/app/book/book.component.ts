@@ -43,7 +43,12 @@ export class BookComponent implements OnInit {
     this.krameriusApiService.getChildren(uuid).subscribe(response => {
       if (response && response.length > 0) {
         ctx.onItemSelected(response[0]);
-        ctx.children = response;
+        // ctx.children = response;
+        ctx.children = [];
+        const limit = Math.min(response.length, 30);
+        for (let i = 0; i < limit; i++) {
+          ctx.children.push(response[i]);
+        }
       }
     });
     this.krameriusApiService.getMods(uuid).subscribe(response => {

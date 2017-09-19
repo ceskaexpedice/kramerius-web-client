@@ -10,10 +10,11 @@ import { MaterializeModule } from 'ng2-materialize';
 import { FormsModule } from '@angular/forms';
 
 
+
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ViewerComponent } from './book/viewer/viewer.component';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { BookComponent } from './book/book.component';
 import { HelpComponent } from './help/help.component';
@@ -26,6 +27,15 @@ import { NavigationItemComponent } from './book/navigation/navigation-item/navig
 
 import { Ng2CompleterModule } from 'ng2-completer';
 
+
+const ROUTES: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'collections', component: CollectionsComponent },
+  { path: 'browse', component: BrowseComponent },
+  { path: 'help', component: HelpComponent },
+  { path: 'documents/:uuid', component: BookComponent },
+  { path: 'documents', component: BookComponent }
+];
 
 @NgModule({
   declarations: [
@@ -48,14 +58,7 @@ import { Ng2CompleterModule } from 'ng2-completer';
     FormsModule,
     Ng2CompleterModule,
     MaterializeModule.forRoot(),
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent },
-      { path: 'collections', component: CollectionsComponent },
-      { path: 'browse', component: BrowseComponent },
-      { path: 'help', component: HelpComponent },
-      { path: 'documents/:uuid', component: BookComponent },
-      { path: 'documents', component: BookComponent }
-    ])
+    RouterModule.forRoot(ROUTES)
   ],
   providers: [
     KrameriusApiService,
