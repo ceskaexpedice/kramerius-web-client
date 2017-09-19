@@ -1,5 +1,17 @@
 <mz-navbar>
   <a [routerLink]="['']" class="brand-logo">Kramerius</a>
+
+
+  <div class="library-search-wrapper">
+      <div (keyup.enter)="onEnter()" class="input-field" style="width:100%;">
+         <ng2-completer (selected)="onSelected($event)" [(ngModel)]="searchStr" [matchClass]="'highlight'"
+          [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="'Hledat v digitální knihovně'" [inputName]="'autocomplete-input'">
+          </ng2-completer>
+      </div>
+    </div>
+    
+
+
   <mz-navbar-item-container [align]="'right'">
     <mz-navbar-item><a routerLink='documents/uuid:530719f5-ee95-4449-8ce7-12b0f4cadb22'>Dokument</a></mz-navbar-item>      
     <!-- <mz-navbar-item [active]="router.isActive('/collections')"><a routerLink='collections'>Sbírky</a></mz-navbar-item>

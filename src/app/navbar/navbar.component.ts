@@ -1,3 +1,4 @@
+import { LibrarySearchService } from './../services/library-search.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,9 +9,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public router: Router) { }
+  searchStr;
+
+  constructor(public router: Router,
+    public service: LibrarySearchService) {
+  }
 
   ngOnInit() {
   }
+
+  onSelected(event) {
+    console.log('onSelected', event);
+    if (event) {
+      const uuid = event['originalObject']['PID'];
+      this.router.navigate(['/documents/' + uuid]);
+    }
+    // console.log("onSelected", event['originalObject']['PID']);
+    // console.log("onSelected", this.searchStr);
+  }
+
+  onEnter() {
+  }
+
 
 }

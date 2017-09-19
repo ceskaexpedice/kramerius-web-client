@@ -1,3 +1,4 @@
+import { LibrarySearchService } from './services/library-search.service';
 import { ModsParserService } from './services/mods-parser.service';
 import { BookService } from './services/book.service';
 import { Http, HttpModule } from '@angular/http';
@@ -6,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterializeModule } from 'ng2-materialize';
+import { FormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
@@ -21,6 +23,9 @@ import { CollectionsComponent } from './collections/collections.component';
 import { NavigationComponent } from './book/navigation/navigation.component';
 import { MetadataComponent } from './book/metadata/metadata.component';
 import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
+
+import { Ng2CompleterModule } from 'ng2-completer';
+
 
 @NgModule({
   declarations: [
@@ -40,6 +45,8 @@ import { NavigationItemComponent } from './book/navigation/navigation-item/navig
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    FormsModule,
+    Ng2CompleterModule,
     MaterializeModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
@@ -53,8 +60,10 @@ import { NavigationItemComponent } from './book/navigation/navigation-item/navig
   providers: [
     KrameriusApiService,
     BookService,
-    ModsParserService
+    ModsParserService,
+    LibrarySearchService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
