@@ -5,6 +5,7 @@ import { Http, HttpModule } from '@angular/http';
 import { KrameriusApiService } from './services/kramerius-api.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { TranslatorModule } from 'angular-translator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterializeModule } from 'ng2-materialize';
 import { FormsModule } from '@angular/forms';
@@ -26,6 +27,7 @@ import { MetadataComponent } from './book/metadata/metadata.component';
 import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
 
 import { Ng2CompleterModule } from 'ng2-completer';
+
 
 
 const ROUTES: Routes = [
@@ -58,7 +60,11 @@ const ROUTES: Routes = [
     FormsModule,
     Ng2CompleterModule,
     MaterializeModule.forRoot(),
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES),
+    TranslatorModule.forRoot({
+      providedLanguages: ['en', 'cs'],
+      defaultLanguage: 'cs'
+    })
   ],
   providers: [
     KrameriusApiService,

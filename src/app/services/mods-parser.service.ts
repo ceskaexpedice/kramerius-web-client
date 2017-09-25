@@ -29,6 +29,7 @@ export class ModsParserService {
         this.processPublishers(root['originInfo'], metadata);
         this.processLocations(root['location'], metadata);
         this.processSubjects(root['subject'], metadata);
+        this.processLanguages(root['language'], metadata);
         console.log('---', metadata);
         return metadata;
     }
@@ -123,6 +124,22 @@ export class ModsParserService {
             }
             if (item.geographic) {
                 metadata.geonames.push(item.geographic[0]['_']);
+            }
+        }
+    }
+
+    private processLanguages(array, metadata: Metadata) {
+        console.log('languages', array);
+        if (!array) {
+            return;
+        }
+        for (const item of array) {
+            if (item.languageTerm && item.languageTerm[0] && item.languageTerm[0]['$']) {
+                const elem = item.languageTerm;
+                const params = elem[0]['$'];
+                if (params['type'] === 'code' && params['authority'] === 'iso639-2b') {
+                    metadata.languages.push(this.getText(elem));
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 import { LibrarySearchService } from './../services/library-search.service';
 import { Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
+import { Translator } from 'angular-translator';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,8 @@ export class NavbarComponent implements OnInit {
 
   searchStr;
 
-  constructor(public router: Router,
+  constructor(public translator: Translator,
+    public router: Router,
     public service: LibrarySearchService) {
   }
 
@@ -29,6 +31,11 @@ export class NavbarComponent implements OnInit {
     }
     // console.log("onSelected", event['originalObject']['PID']);
     // console.log("onSelected", this.searchStr);
+  }
+
+  onLanguageChanged(lang: string) {
+    localStorage.setItem('lang', lang);
+    this.translator.language = lang;
   }
 
   onEnter() {

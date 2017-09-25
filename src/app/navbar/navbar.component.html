@@ -1,5 +1,5 @@
 <mz-navbar>
-  <a [routerLink]="['']" class="brand-logo">Kramerius</a>
+  <a [routerLink]="['']" class="brand-logo">{{ 'app-title' | translate }}</a>
 
 
   <div class="library-search-wrapper">
@@ -20,6 +20,11 @@
     <mz-navbar-item><a routerLink='collections'>Sbírky</a></mz-navbar-item>
     <mz-navbar-item><a routerLink='browse'>Procházet</a></mz-navbar-item>
     <mz-navbar-item><a routerLink='help'>Nápověda</a></mz-navbar-item>
+
+    <mz-navbar-item><a *ngIf="translator.language == 'cs'" (click)='onLanguageChanged("en")'>English</a></mz-navbar-item>
+    <mz-navbar-item><a *ngIf="translator.language == 'en'" (click)='onLanguageChanged("cs")'>Česky</a></mz-navbar-item>
+    
+    
   </mz-navbar-item-container>
 </mz-navbar>
 

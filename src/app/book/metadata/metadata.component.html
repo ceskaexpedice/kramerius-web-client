@@ -5,34 +5,40 @@
   <div class="divider"></div>
 
   <div *ngIf="metadata.authors.length > 0">
-    <div class="label">Autor</div>
+    <div class="label">{{ 'metadata.author' | translate }}</div>
     <div *ngFor="let author of metadata.authors" class="value" >{{ author.name }}</div>
     <div class="divider"></div>
   </div>
   
   <div *ngIf="metadata.publishers.length > 0">
-    <div class="label">Nakladatelské údaje</div>
+    <div class="label">{{ 'metadata.publisher' | translate }}</div>
     <div *ngFor="let publisher of metadata.publishers" class="value" >{{ publisher.fullDetail() }}</div>
     <div class="divider"></div>
   </div>
 
   <div *ngIf="metadata.keywords.length > 0">
-    <div class="label">Klíčová slova</div>
+    <div class="label">{{ 'metadata.keywords' | translate }}</div>
     <div *ngFor="let keyword of metadata.keywords" class="value" >{{ keyword }}</div>
     <div class="divider"></div>
   </div>
 
   <div *ngIf="metadata.geonames.length > 0">
-    <div class="label">Geografické názvy</div>
+    <div class="label">{{ 'metadata.geonames' | translate }}</div>
     <div *ngFor="let geoname of metadata.geonames" class="value" >{{ geoname }}</div>
+    <div class="divider"></div>
+  </div>
+
+  <div *ngIf="metadata.languages.length > 0">
+    <div class="label">{{ 'metadata.languages' | translate }}</div>
+    <div *ngFor="let language of metadata.languages" class="value" >{{ 'language.' + language | translate }}</div>
     <div class="divider"></div>
   </div>
   
   <div *ngIf="metadata.locations.length > 0">
-    <div class="label">Místo uložení</div>
+    <div class="label">{{ 'metadata.location' | translate }}</div>
     <div *ngFor="let location of metadata.locations">
-      <div class="value">{{location.physicalLocation}}</div>
-      <div class="value" *ngIf="location.shelfLocator">Signatura: {{location.shelfLocator}}</div>
+      <div class="value">{{ 'sigla.' + location.physicalLocation | translate }}</div>
+      <div class="value" *ngIf="location.shelfLocator">{{ 'metadata.shelf_locator' | translate: { shelf_locator: location.shelfLocator } }}</div>
     </div>
     <div class="divider"></div>
   </div>

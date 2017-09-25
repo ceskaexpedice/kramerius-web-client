@@ -13,9 +13,9 @@ export class KrameriusApiService {
     private static STREAM_DC = 'DC';
     private static STREAM_MODS = 'BIBLIO_MODS';
 
-    // private BASE_URL = 'https://kramerius.mzk.cz';
+    private BASE_URL = 'https://kramerius.mzk.cz';
     // private BASE_URL = 'http://kramerius4.nkp.cz';
-    private BASE_URL = 'http://kramerius4.mlp.cz';
+    // private BASE_URL = 'http://kramerius4.mlp.cz';
 
 
 
