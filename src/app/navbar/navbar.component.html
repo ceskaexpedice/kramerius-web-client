@@ -3,7 +3,7 @@
 
 
   <div class="library-search-wrapper">
-      <div (keyup.enter)="onEnter()" class="input-field" style="width:100%;">
+      <div (keyup.enter)="onEnter()" class="input-field" style="width:100%; height:100%;">
          <ng2-completer (selected)="onSelected($event)" [(ngModel)]="searchStr" [matchClass]="'highlight'"
           [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="'Hledat v digitální knihovně'" [inputName]="'autocomplete-input'">
           </ng2-completer>

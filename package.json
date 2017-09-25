@@ -21,7 +21,6 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
-    "angulartics2": "^2.4.0",
     "core-js": "^2.4.1",
     "mdi": "^2.0.46",
     "ng2-completer": "^1.6.3",
