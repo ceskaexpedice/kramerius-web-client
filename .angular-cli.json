@@ -23,7 +23,7 @@
         "styles/global.scss",
         "../node_modules/materialize-css/dist/css/materialize.min.css",
         "../node_modules/mdi/css/materialdesignicons.min.css",
-        "../node_modules/roboto-fontface/css/roboto/roboto-fontface.css"        
+        "../node_modules/roboto-fontface/css/roboto/roboto-fontface.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
@@ -62,7 +62,8 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
-    "component": {}
+    "styleExt": "scss",
+    "component": {
+    }
   }
 }
