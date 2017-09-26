@@ -27,7 +27,9 @@ export class NavbarComponent implements OnInit {
     console.log('onSelected', event);
     if (event) {
       const uuid = event['originalObject']['PID'];
-      this.router.navigate(['/documents/' + uuid]);
+      const title = event['title'];
+      this.router.navigate(['/search'], { queryParams: { q: title } });
+      // this.router.navigate(['/documents/' + uuid]);
     }
     // console.log("onSelected", event['originalObject']['PID']);
     // console.log("onSelected", this.searchStr);
@@ -38,7 +40,14 @@ export class NavbarComponent implements OnInit {
     this.translator.language = lang;
   }
 
-  onEnter() {
+  onKeyUp(event) {
+    if (event.keyCode === 13) {
+      let q = this.searchStr;
+      if (q == null) {
+        q = '';
+      }
+      this.router.navigate(['/search'], { queryParams: { q: q } });
+    }
   }
 
 

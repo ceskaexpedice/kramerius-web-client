@@ -1,4 +1,4 @@
-<div class="result-card-wrapper" *ngIf="item">
+<a class="result-card-wrapper" *ngIf="item" routerLink="/documents/{{item['PID']}}/">
   <div class="result-card">      
     <div class="result-card-image">
       <div class="image" [style.background-image]="getThumb()"></div>
@@ -9,4 +9,4 @@
         <div class="result-card-date">{{item['datum_str']}}</div>
     </div>
   </div>
-</div>
+</a>

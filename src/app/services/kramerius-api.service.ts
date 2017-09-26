@@ -39,7 +39,7 @@ export class KrameriusApiService {
 
 
     getSearchResults(query: string) {
-        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=_query_:%22{!dismax%20qf=%27dc.title^1000%20text^0.0001%27%20v=$q1}%22%20AND%20(fedora.model:monograph^5%20OR%20fedora.model:periodical^5%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)&q1=' + query + '&rows=60&start=0';
+        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=_query_:%22{!dismax%20qf=%27dc.title^1000%20text^0.0001%27%20v=$q1}%22%20AND%20(fedora.model:monograph^5%20OR%20fedora.model:periodical^5%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)+AND+dostupnost:public&q1=' + query + '&rows=60&start=0';
         return this.http.get(url)
             .map(response => response.json())
             .catch(this.handleError);

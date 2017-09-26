@@ -101,7 +101,7 @@ app-root {
 
 
 .library-search-wrapper {
-    position: absolute; left: 230px; top: 18px; width: calc(100% - 680px);
+    position: absolute; left: 230px; top: 18px; width: calc(100% - 600px);
     @media screen and (max-width: 1000px) {
         display: none;
     }    
