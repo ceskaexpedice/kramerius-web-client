@@ -5,6 +5,7 @@ export class Metadata {
     public publishers: Publisher[] = [];
     public keywords: string[] = [];
     public geonames: string[] = [];
+    public notes: string[] = [];
     public languages: string[] = [];
     public locations: Location[] = [];
 

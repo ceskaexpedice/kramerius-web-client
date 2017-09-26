@@ -12,6 +12,7 @@
         "languages": "Jazyk",
         "geonames": "Geografické názvy",
         "location": "Místo uložení",
+        "notes": "Poznámky",
         "shelf_locator": "Signatura: {{shelf_locator}}"
     },
     "sigla": {

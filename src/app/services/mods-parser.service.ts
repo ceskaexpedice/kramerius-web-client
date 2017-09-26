@@ -30,6 +30,7 @@ export class ModsParserService {
         this.processLocations(root['location'], metadata);
         this.processSubjects(root['subject'], metadata);
         this.processLanguages(root['language'], metadata);
+        this.processNotes(root['note'], metadata);
         console.log('---', metadata);
         return metadata;
     }
@@ -40,12 +41,8 @@ export class ModsParserService {
         }
         for (const item of array) {
             const titleInfo = new TitleInfo();
-            if (item.title) {
-                titleInfo.title = item.title[0]['_'];
-            }
-            if (item.subTitle) {
-                titleInfo.subTitle = item.subTitle[0]['_'];
-            }
+            titleInfo.title = this.getText(item.title);
+            titleInfo.subTitle = this.getText(item.subTitle);
             metadata.titles.push(titleInfo);
         }
     }
@@ -129,7 +126,6 @@ export class ModsParserService {
     }
 
     private processLanguages(array, metadata: Metadata) {
-        console.log('languages', array);
         if (!array) {
             return;
         }
@@ -141,6 +137,15 @@ export class ModsParserService {
                     metadata.languages.push(this.getText(elem));
                 }
             }
+        }
+    }
+
+    private processNotes(array, metadata: Metadata) {
+        if (!array) {
+            return;
+        }
+        for (const item of array) {
+            metadata.notes.push(item['_']);
         }
     }
 

@@ -12,6 +12,7 @@
         "languages": "Language",        
         "geonames": "Geographic names",
         "location": "Location",
+        "notes": "Notes",
         "shelf_locator": "Shelf number: {{shelf_locator}}"
     },
     "sigla": {
