@@ -1,0 +1,8 @@
+.search-results {
+    height: 100%;
+    overflow: auto;
+    app-result-card {
+        width: 25%;
+        float: left;
+    }
+}

@@ -27,6 +27,10 @@ import { MetadataComponent } from './book/metadata/metadata.component';
 import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
 
 import { Ng2CompleterModule } from 'ng2-completer';
+import { SearchComponent } from './search/search.component';
+import { SearchResultsComponent } from './search/search-results/search-results.component';
+import { SearchFiltersComponent } from './search/search-filters/search-filters.component';
+import { ResultCardComponent } from './search/search-results/result-card/result-card.component';
 
 
 
@@ -34,6 +38,7 @@ const ROUTES: Routes = [
   { path: '', component: HomeComponent },
   { path: 'collections', component: CollectionsComponent },
   { path: 'browse', component: BrowseComponent },
+  { path: 'search', component: SearchComponent },
   { path: 'help', component: HelpComponent },
   { path: 'documents/:uuid', component: BookComponent },
   { path: 'documents', component: BookComponent }
@@ -51,7 +56,11 @@ const ROUTES: Routes = [
     CollectionsComponent,
     NavigationComponent,
     MetadataComponent,
-    NavigationItemComponent
+    NavigationItemComponent,
+    SearchComponent,
+    SearchResultsComponent,
+    SearchFiltersComponent,
+    ResultCardComponent
   ],
   imports: [
     BrowserModule,
