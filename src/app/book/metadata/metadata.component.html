@@ -16,6 +16,12 @@
     <div class="divider"></div>
   </div>
 
+  <div *ngIf="metadata.doctype">
+    <div class="label">{{ 'metadata.doctype' | translate }}</div>
+    <div class="value" >{{ 'model.' + metadata.doctype | translate }}</div>
+    <div class="divider"></div>
+  </div>
+
   <div *ngIf="metadata.keywords.length > 0">
     <div class="label">{{ 'metadata.keywords' | translate }}</div>
     <div *ngFor="let keyword of metadata.keywords" class="value" >{{ keyword }}</div>

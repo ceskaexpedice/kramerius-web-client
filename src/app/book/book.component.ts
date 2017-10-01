@@ -53,6 +53,9 @@ export class BookComponent implements OnInit {
     });
     this.krameriusApiService.getMods(uuid).subscribe(response => {
       ctx.metadata = ctx.modsParserService.parse(response);
+      this.krameriusApiService.getItem(uuid).subscribe(item => {
+        ctx.metadata.doctype = item['model'];
+      });
     });
   }
 

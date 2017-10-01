@@ -10,6 +10,8 @@ export class Metadata {
     public locations: Location[] = [];
     public abstracts: string[] = [];
 
+    public doctype: string;
+
     constructor() {
     }
 
