@@ -31,7 +31,7 @@ export class ModsParserService {
         this.processSubjects(root['subject'], metadata);
         this.processLanguages(root['language'], metadata);
         this.processNotes(root['note'], metadata);
-        console.log('---', metadata);
+        this.processAbstracts(root['abstract'], metadata);
         return metadata;
     }
 
@@ -146,6 +146,15 @@ export class ModsParserService {
         }
         for (const item of array) {
             metadata.notes.push(item['_']);
+        }
+    }
+
+    private processAbstracts(array, metadata: Metadata) {
+        if (!array) {
+            return;
+        }
+        for (const item of array) {
+            metadata.abstracts.push(item['_']);
         }
     }
 

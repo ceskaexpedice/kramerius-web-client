@@ -1,6 +1,8 @@
 .metadata {
     padding: 20px 10px 10px;
     font-weight: 300;
+    height: 100%;
+    overflow: auto;
     .title {
         color: #337CBD;
         font-size: 22px;
@@ -22,7 +24,6 @@
         color: #999;
         margin-bottom: 3px;
     }
-
     .value {
         font-weight: 400;
         font-size: 15px;

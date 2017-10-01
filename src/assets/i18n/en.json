@@ -12,6 +12,8 @@
         "languages": "Language",        
         "geonames": "Geographic names",
         "location": "Location",
+        "abstract": "Abstract",
+        "doctype": "Document type",    
         "notes": "Notes",
         "shelf_locator": "Shelf number: {{shelf_locator}}"
     },

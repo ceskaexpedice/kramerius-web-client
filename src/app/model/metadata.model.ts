@@ -8,6 +8,7 @@ export class Metadata {
     public notes: string[] = [];
     public languages: string[] = [];
     public locations: Location[] = [];
+    public abstracts: string[] = [];
 
     constructor() {
     }

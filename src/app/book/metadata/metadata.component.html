@@ -43,6 +43,13 @@
     <div class="divider"></div>
   </div>
 
+  <div *ngIf="metadata.abstracts.length > 0">
+    <div class="label">{{ 'metadata.abstract' | translate }}</div>
+    <div *ngFor="let abstract of metadata.abstracts" class="value" >{{ abstract }}</div>
+    <div class="divider"></div>
+  </div>
+  
+
   <div *ngIf="metadata.notes.length > 0">
     <div class="label">{{ 'metadata.notes' | translate }}</div>
     <div *ngFor="let note of metadata.notes" class="value" >{{ note }}</div>

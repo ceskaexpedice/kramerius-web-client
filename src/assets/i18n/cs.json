@@ -12,6 +12,8 @@
         "languages": "Jazyk",
         "geonames": "Geografické názvy",
         "location": "Místo uložení",
+        "abstract": "Abstrakt",
+        "doctype": "Typ dokumentu",        
         "notes": "Poznámky",
         "shelf_locator": "Signatura: {{shelf_locator}}"
     },
