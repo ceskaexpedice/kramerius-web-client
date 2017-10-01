@@ -123,13 +123,13 @@ export class ModsParserService {
         for (const item of array) {
             if (item.topic) {
                 const text = this.getText(item.topic);
-                if (text) {
+                if (text && metadata.keywords.indexOf(text) < 0) {
                     metadata.keywords.push(text);
                 }
             }
             if (item.geographic) {
                 const text = this.getText(item.topic);
-                if (text) {
+                if (text && metadata.geonames.indexOf(text) < 0) {
                     metadata.geonames.push(text);
                 }
             }
@@ -157,7 +157,7 @@ export class ModsParserService {
         }
         for (const item of array) {
             const text = item['_'];
-            if (text && (!param || (item['$'] && item['$'][param['key']] ===  param['value']))) {
+            if (text && objects.indexOf(text) < 0 && (!param || (item['$'] && item['$'][param['key']] ===  param['value']))) {
                 objects.push(text);
             }
         }
