@@ -61,11 +61,9 @@ export class BookComponent implements OnInit {
   }
 
   public onItemSelected(item) {
-    console.log('onItemSelected', item);
     const ctx = this;
     const url = this.krameriusApiService.getZoomifyRootUrl(item.pid);
     this.krameriusApiService.getZoomifyProperties(item.pid).subscribe(response => {
-      console.log(response);
       if (!response) {
         return;
       }

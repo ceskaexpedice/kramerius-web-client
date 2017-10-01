@@ -13,7 +13,6 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
         super();
     }
     public search(term: string): void {
-      console.log('searched for :' + term);
     //   const url = 'https://kramerius.mzk.cz/search/api/v5.0/search/?fl=PID,dc.title,dc.creator&q=dc.title:'
     //                 + term
     //                 + '*+AND+(fedora.model:monograph%5E4+OR+fedora.model:periodical%5E4+OR+fedora.model:map+OR+fedora.model:soundrecording+'
@@ -28,7 +27,6 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
         this.http.get(url)
             .map((res: Response) => {
                 const json = res.json();
-                console.log('json', json);
                 const items = [];
                 const cache = {};
                 for (const item of json['response']['docs']) {

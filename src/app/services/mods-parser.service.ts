@@ -22,8 +22,6 @@ export class ModsParserService {
     private createMetadata(mods): Metadata {
         const metadata = new Metadata();
         const root = mods['modsCollection']['mods'][0];
-        console.log('json metadata', root);
-
         this.processTitles(root['titleInfo'], metadata);
         this.processAuthors(root['name'], metadata);
         this.processPublishers(root['originInfo'], metadata);

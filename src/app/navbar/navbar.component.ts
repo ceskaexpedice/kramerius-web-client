@@ -24,15 +24,11 @@ export class NavbarComponent implements OnInit {
   }
 
   onSelected(event) {
-    console.log('onSelected', event);
     if (event) {
       const uuid = event['originalObject']['PID'];
       const title = event['title'];
       this.router.navigate(['/search'], { queryParams: { q: title } });
-      // this.router.navigate(['/view/' + uuid]);
     }
-    // console.log("onSelected", event['originalObject']['PID']);
-    // console.log("onSelected", this.searchStr);
   }
 
   onLanguageChanged(lang: string) {

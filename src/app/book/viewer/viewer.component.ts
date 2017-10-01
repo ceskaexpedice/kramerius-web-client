@@ -81,8 +81,6 @@ export class ViewerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('ngOnChanges');
-    console.log('page', this.page);
     if (this.view) {
       this.bookService.rightPage = null;
       this.updateView();

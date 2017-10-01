@@ -25,9 +25,7 @@ export class SearchComponent implements OnInit {
   makeSearch(query: string) {
     this.krameriusApiService.getSearchResults(query).subscribe(response => {
       const numFound = response['response']['numFound'];
-      console.log('numFound', numFound);
       this.results = response['response']['docs'];
-      console.log('result', this.results);
     });
   }
 }
