@@ -17,6 +17,10 @@
         "notes": "Poznámky",
         "shelf_locator": "Signatura: {{shelf_locator}}"
     },
+    "periodical": {
+        "volume": "Ročník: {{volume}}",
+        "issue": "Číslo: {{issue}}"   
+    },
     "model" : {
         "monograph" : "Kniha",
         "monographunit" : "Kniha",

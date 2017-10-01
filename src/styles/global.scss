@@ -62,6 +62,25 @@ app-root {
         }
     }
 
+    app-periodical  {
+        height: 100%;
+        display: block;
+        width: 100%;
+        display: flex;
+        flex-flow: row;
+        app-periodical-content {
+            flex: 1;
+            height: 100%;
+        }
+        app-metadata {
+            float: right;
+            width: 300px;
+            height: 100%;
+            box-shadow: 0px 2px 1px 1px hsla(0, 0%, 0%, 0.15);
+            z-index: 10;
+        }
+    }
+
     app-search {
         height: 100%;
         display: block;

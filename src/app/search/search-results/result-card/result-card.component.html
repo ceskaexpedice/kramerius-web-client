@@ -1,4 +1,4 @@
-<a class="result-card-wrapper" *ngIf="item" routerLink="/documents/{{item['PID']}}/">
+<a class="result-card-wrapper" *ngIf="item" routerLink="{{getUrl()}}">
   <div class="result-card">      
     <div class="result-card-strip">
       <div class="result-card-strip-in result-card-strip-{{item['fedora.model']}}"></div>
@@ -11,7 +11,6 @@
         <div class="result-card-authors">{{item['dc.creator']}}</div>
         <div class="result-card-date">{{item['datum_str']}}</div>
         <div class="result-card-doctype">{{ 'model.' + item['fedora.model'] | translate }}</div>
-        
     </div>
   </div>
 </a>

@@ -1,3 +1,11 @@
+import { PeriodicalYearsItemComponent } from './periodical/periodical-content/periodical-years-layout/periodical-years-item/periodical-years-item.component';
+import { PeriodicalGridItemComponent } from './periodical/periodical-content/periodical-grid-layout/periodical-grid-item/periodical-grid-item.component';
+import { PeriodicalYearsLayoutComponent } from './periodical/periodical-content/periodical-years-layout/periodical-years-layout.component';
+import { PeriodicalGridLayoutComponent } from './periodical/periodical-content/periodical-grid-layout/periodical-grid-layout.component';
+import { PeriodicalToolbarComponent } from './periodical/periodical-content/periodical-toolbar/periodical-toolbar.component';
+import { PeriodicalContentComponent } from './periodical/periodical-content/periodical-content.component';
+import { SolrService } from './services/solr.service';
+import { Utils } from './services/utils.service';
 import { LibrarySearchService } from './services/library-search.service';
 import { ModsParserService } from './services/mods-parser.service';
 import { BookService } from './services/book.service';
@@ -23,7 +31,7 @@ import { HomeComponent } from './home/home.component';
 import { BrowseComponent } from './browse/browse.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { NavigationComponent } from './book/navigation/navigation.component';
-import { MetadataComponent } from './book/metadata/metadata.component';
+import { MetadataComponent } from './metadata/metadata.component';
 import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
 
 import { Ng2CompleterModule } from 'ng2-completer';
@@ -31,7 +39,7 @@ import { SearchComponent } from './search/search.component';
 import { SearchResultsComponent } from './search/search-results/search-results.component';
 import { SearchFiltersComponent } from './search/search-filters/search-filters.component';
 import { ResultCardComponent } from './search/search-results/result-card/result-card.component';
-
+import { PeriodicalComponent } from './periodical/periodical.component';
 
 
 const ROUTES: Routes = [
@@ -39,9 +47,10 @@ const ROUTES: Routes = [
   { path: 'collections', component: CollectionsComponent },
   { path: 'browse', component: BrowseComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'periodical/:uuid', component: PeriodicalComponent },
   { path: 'help', component: HelpComponent },
-  { path: 'documents/:uuid', component: BookComponent },
-  { path: 'documents', component: BookComponent }
+  { path: 'view/:uuid', component: BookComponent },
+  { path: 'view', component: BookComponent }
 ];
 
 @NgModule({
@@ -60,7 +69,14 @@ const ROUTES: Routes = [
     SearchComponent,
     SearchResultsComponent,
     SearchFiltersComponent,
-    ResultCardComponent
+    ResultCardComponent,
+    PeriodicalComponent,
+    PeriodicalContentComponent,
+    PeriodicalToolbarComponent,
+    PeriodicalGridLayoutComponent,
+    PeriodicalYearsLayoutComponent,
+    PeriodicalGridItemComponent,
+    PeriodicalYearsItemComponent
   ],
   imports: [
     BrowserModule,
@@ -78,6 +94,8 @@ const ROUTES: Routes = [
   providers: [
     KrameriusApiService,
     BookService,
+    Utils,
+    SolrService,
     ModsParserService,
     LibrarySearchService
   ],

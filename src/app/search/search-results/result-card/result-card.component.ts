@@ -21,4 +21,12 @@ export class ResultCardComponent implements OnInit {
     return this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
   }
 
+  getUrl() {
+    if (this.item['fedora.model'] === 'periodical') {
+      return `/periodical/${this.item['PID']}`;
+    } else {
+      return `/view/${this.item['PID']}`;
+    }
+  }
+
 }

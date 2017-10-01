@@ -6,13 +6,13 @@
 
   <div *ngIf="metadata.authors.length > 0">
     <div class="label">{{ 'metadata.author' | translate }}</div>
-    <div *ngFor="let author of metadata.authors" class="value" >{{ author.name }}</div>
+    <div *ngFor="let author of metadata.authors; first as first" [class.space]="!first" class="value" >{{ author.name }}</div>
     <div class="divider"></div>
   </div>
   
   <div *ngIf="metadata.publishers.length > 0">
     <div class="label">{{ 'metadata.publisher' | translate }}</div>
-    <div *ngFor="let publisher of metadata.publishers" class="value" >{{ publisher.fullDetail() }}</div>
+    <div *ngFor="let publisher of metadata.publishers; first as first" [class.space]="!first" class="value" >{{ publisher.fullDetail() }}</div>
     <div class="divider"></div>
   </div>
 
@@ -43,7 +43,7 @@
   <div *ngIf="metadata.locations.length > 0">
     <div class="label">{{ 'metadata.location' | translate }}</div>
     <div *ngFor="let location of metadata.locations">
-      <div class="value">{{ 'sigla.' + location.physicalLocation | translate }}</div>
+      <div class="value" *ngIf="location.physicalLocation">{{ 'sigla.' + location.physicalLocation | translate }}</div>
       <div class="value" *ngIf="location.shelfLocator">{{ 'metadata.shelf_locator' | translate: { shelf_locator: location.shelfLocator } }}</div>
     </div>
     <div class="divider"></div>

@@ -51,10 +51,11 @@ export class BookComponent implements OnInit {
         }
       }
     });
-    this.krameriusApiService.getMods(uuid).subscribe(response => {
-      ctx.metadata = ctx.modsParserService.parse(response);
-      this.krameriusApiService.getItem(uuid).subscribe(item => {
-        ctx.metadata.doctype = item['model'];
+    this.krameriusApiService.getItem(uuid).subscribe(item => {
+      const doctype = item['model'];
+      this.krameriusApiService.getMods(item['root_pid']).subscribe(response => {
+        ctx.metadata = ctx.modsParserService.parse(response);
+        ctx.metadata.doctype = doctype;
       });
     });
   }

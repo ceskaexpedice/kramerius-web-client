@@ -1,0 +1,22 @@
+<div class="periodical-content">
+  
+  <app-periodical-toolbar 
+        *ngIf="metadata"
+        (layoutSelected)="onLayoutSelected($event)" 
+        [activeLayout]="activeLayout" 
+        [metadata]="metadata">
+  </app-periodical-toolbar>
+  
+  <app-periodical-grid-layout
+        *ngIf="activeLayout=='grid'"
+        class="periodical-layout"
+        [items]="items">
+  </app-periodical-grid-layout>  
+  
+  <app-periodical-years-layout
+        *ngIf="activeLayout=='years'" 
+        class="periodical-layout"
+        [items]="items">
+  </app-periodical-years-layout>    
+  
+</div>

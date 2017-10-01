@@ -1,3 +1,4 @@
+import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { Injectable } from '@angular/core';
@@ -19,7 +20,7 @@ export class KrameriusApiService {
 
 
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private utils: Utils) { }
 
 
     private handleError(error: Response) {
@@ -45,10 +46,27 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
+
+    getPeriodicalVolumes(uuid: string) {
+        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/*%20AND%20level:1%20AND%20(fedora.model:periodicalvolume)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=1500&start=0';
+        return this.http.get(url)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    getPeriodicalIssues(periodicalUuid: string, volumeUuid: string) {
+        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*%20AND%20level:2%20AND%20(fedora.model:periodicalitem%20OR%20fedora.model:supplement)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=1500&start=0';
+        return this.http.get(url)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+
+
     getSearchAutocompleteUrl(term: string) {
         return this.BASE_URL + '/search/api/v5.0/search/?fl=PID,dc.title,dc.creator&q=dc.title:'
         + term.toLowerCase()
-        + '*+AND+(fedora.model:monograph%5E4+OR+fedora.model:map+'
+        + '*+AND+(fedora.model:monograph%5E5+OR+fedora.model:periodical%5E4+OR+fedora.model:map+'
         + 'OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)'
         + '+AND+dostupnost:public&rows=30';
     }

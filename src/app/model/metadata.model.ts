@@ -15,6 +15,13 @@ export class Metadata {
     constructor() {
     }
 
+    public getTitle(): string {
+        if (this.titles && this.titles.length > 0) {
+            return this.titles[0].title;
+        } else {
+            return '';
+        }
+    }
 }
 
 
@@ -32,6 +39,10 @@ export class Author {
 export class Location {
     public shelfLocator;
     public physicalLocation;
+
+    empty() {
+        return !(this.shelfLocator || this. physicalLocation);
+    }
 }
 
 
@@ -58,5 +69,9 @@ export class Publisher {
             s += this.date;
         }
         return s;
+    }
+
+    empty() {
+        return !(this.name || this. date || this.place);
     }
 }

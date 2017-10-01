@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit {
       const uuid = event['originalObject']['PID'];
       const title = event['title'];
       this.router.navigate(['/search'], { queryParams: { q: title } });
-      // this.router.navigate(['/documents/' + uuid]);
+      // this.router.navigate(['/view/' + uuid]);
     }
     // console.log("onSelected", event['originalObject']['PID']);
     // console.log("onSelected", this.searchStr);

@@ -1,4 +1,4 @@
-import { Metadata } from './../../model/metadata.model';
+import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

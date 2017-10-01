@@ -93,7 +93,9 @@ export class ModsParserService {
             const publisher = new Publisher();
             publisher.name = this.getText(item.publisher);
             publisher.date = this.getText(item.dateIssued);
-            metadata.publishers.push(publisher);
+            if (!publisher.empty()) {
+                metadata.publishers.push(publisher);
+            }
         }
     }
 
@@ -106,7 +108,9 @@ export class ModsParserService {
             const location = new Location();
             location.physicalLocation = this.getText(item.physicalLocation);
             location.shelfLocator = this.getText(item.shelfLocator);
-            metadata.locations.push(location);
+            if (!location.empty()) {
+                metadata.locations.push(location);
+            }
         }
     }
 
@@ -117,10 +121,16 @@ export class ModsParserService {
         }
         for (const item of array) {
             if (item.topic) {
-                metadata.keywords.push(item.topic[0]['_']);
+                const text = this.getText(item.topic);
+                if (text) {
+                    metadata.keywords.push(text);
+                }
             }
             if (item.geographic) {
-                metadata.geonames.push(item.geographic[0]['_']);
+                const text = this.getText(item.topic);
+                if (text) {
+                    metadata.geonames.push(text);
+                }
             }
         }
     }
@@ -145,7 +155,10 @@ export class ModsParserService {
             return;
         }
         for (const item of array) {
-            metadata.notes.push(item['_']);
+            const text = item['_'];
+            if (text) {
+                metadata.notes.push(text);
+            }
         }
     }
 
@@ -154,7 +167,10 @@ export class ModsParserService {
             return;
         }
         for (const item of array) {
-            metadata.abstracts.push(item['_']);
+            const text = item['_'];
+            if (text) {
+                metadata.abstracts.push(text);
+            }
         }
     }
 

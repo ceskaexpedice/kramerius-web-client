@@ -17,6 +17,10 @@
         "notes": "Notes",
         "shelf_locator": "Shelf number: {{shelf_locator}}"
     },
+    "periodical": {
+        "volume": "Volume: {{volume}}",
+        "issue": "Issue: {{issue}}" 
+    },
     "model" : {
         "monograph" : "Book",
         "monographunit" : "Book",
