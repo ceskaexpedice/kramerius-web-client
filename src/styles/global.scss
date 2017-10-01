@@ -121,11 +121,18 @@ app-root {
 
 
 .library-search-wrapper {
-    position: absolute; left: 230px; top: 18px; width: calc(100% - 600px);
+    position: absolute; 
+    left: 230px; 
+    top: 18px;
+    width: calc(100% - 600px);
     @media screen and (max-width: 1000px) {
         display: none;
     }    
+    input {
+        line-height: 20px !important;
+    }
 }
+
     
 .completer-image {
     // border-radius: 50%;
