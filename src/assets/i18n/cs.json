@@ -15,6 +15,7 @@
         "abstract": "Abstrakt",
         "doctype": "Typ dokumentu",        
         "notes": "Poznámky",
+        "genres": "Žánr",
         "shelf_locator": "Signatura: {{shelf_locator}}"
     },
     "periodical": {

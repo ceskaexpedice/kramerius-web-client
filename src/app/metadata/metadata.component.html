@@ -28,6 +28,12 @@
     <div class="divider"></div>
   </div>
 
+  <div *ngIf="metadata.genres.length > 0">
+    <div class="label">{{ 'metadata.genres' | translate }}</div>
+    <div *ngFor="let genre of metadata.genres" class="value" >{{ genre }}</div>
+    <div class="divider"></div>
+  </div>
+
   <div *ngIf="metadata.geonames.length > 0">
     <div class="label">{{ 'metadata.geonames' | translate }}</div>
     <div *ngFor="let geoname of metadata.geonames" class="value" >{{ geoname }}</div>

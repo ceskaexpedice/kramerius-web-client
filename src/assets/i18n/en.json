@@ -15,6 +15,7 @@
         "abstract": "Abstract",
         "doctype": "Document type",    
         "notes": "Notes",
+        "genres": "Genre",        
         "shelf_locator": "Shelf number: {{shelf_locator}}"
     },
     "periodical": {

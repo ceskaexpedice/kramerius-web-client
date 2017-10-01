@@ -9,6 +9,7 @@ export class Metadata {
     public languages: string[] = [];
     public locations: Location[] = [];
     public abstracts: string[] = [];
+    public genres: string[] = [];
 
     public doctype: string;
 

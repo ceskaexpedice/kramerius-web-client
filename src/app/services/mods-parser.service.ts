@@ -28,8 +28,10 @@ export class ModsParserService {
         this.processLocations(root['location'], metadata);
         this.processSubjects(root['subject'], metadata);
         this.processLanguages(root['language'], metadata);
-        this.processNotes(root['note'], metadata);
-        this.processAbstracts(root['abstract'], metadata);
+
+        this.processSimpleArray(root['note'], metadata.notes, null);
+        this.processSimpleArray(root['abstract'], metadata.abstracts, null);
+        this.processSimpleArray(root['genre'], metadata.genres, { key: 'authority', value: 'czenas' });
         return metadata;
     }
 
@@ -149,29 +151,18 @@ export class ModsParserService {
         }
     }
 
-    private processNotes(array, metadata: Metadata) {
+    private processSimpleArray(array, objects, param) {
         if (!array) {
             return;
         }
         for (const item of array) {
             const text = item['_'];
-            if (text) {
-                metadata.notes.push(text);
+            if (text && (!param || (item['$'] && item['$'][param['key']] ===  param['value']))) {
+                objects.push(text);
             }
         }
     }
 
-    private processAbstracts(array, metadata: Metadata) {
-        if (!array) {
-            return;
-        }
-        for (const item of array) {
-            const text = item['_'];
-            if (text) {
-                metadata.abstracts.push(text);
-            }
-        }
-    }
 
     private getText(element) {
         if (element) {
