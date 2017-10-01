@@ -69,9 +69,10 @@ export class ModsParserService {
                     }
                     if (type === 'date') {
                         author.date = partName['_'];
-                    } else {
-                        author.name = partName['_'];
                     }
+                    // else {
+                    //     author.name = partName['_'];
+                    // }
                 } else {
                     author.name = partName['_'];
                 }
