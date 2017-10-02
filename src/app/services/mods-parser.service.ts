@@ -128,7 +128,7 @@ export class ModsParserService {
                 }
             }
             if (item.geographic) {
-                const text = this.getText(item.topic);
+                const text = this.getText(item.geographic);
                 if (text && metadata.geonames.indexOf(text) < 0) {
                     metadata.geonames.push(text);
                 }
