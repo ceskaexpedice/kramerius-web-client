@@ -1,0 +1,47 @@
+// --- VARIABLES --
+
+// font path
+$roboto-font-path: "assets/fonts/roboto/" !default;
+$mdi-font-path: "assets/fonts" !default;
+
+// colors
+$primary-color: color("light-blue", "darken-3") !default;
+$primary-color-light: lighten($primary-color, 15%) !default;
+$primary-color-dark: darken($primary-color, 15%) !default;
+
+$secondary-color: color("grey", "darken-3") !default;
+$link-color: color("cyan", "darken-1") !default;
+
+// collapsible
+$collapsible-header-color: color("grey", "lighten-4") !default;
+
+// footer
+$footer-bg-color: color("grey", "darken-3") !default;
+
+/*
+blue 		-> 0277bd -> x -> hlavni barva, logo, titulky, aktivni filtry, aktivni bg
+grey lighten-6 	-> fafafa -> x -> bg navbar, bg facets, bg metadata
+grey lighten-5	-> eceff1 -> x -> separator line - home page, facet right border
+grey lighten-4	-> ebebeb -> x -> tabs line, tabs of document type line
+grey lighten-3	-> e0e0e0 -> x -> item border, search box border, facet separator line, 
+grey lighten-2	-> d2d2d2 -> x -> navbar bottom border
+grey lighten-1	-> bdbdbd -> x -> light mdi color, 
+
+grey base	-> 9e9e9e -> x -> arrow back next to logo
+grey darken-1	-> 757575 -> x -> text color, dark mdi color
+grey darken-2	-> 616161 -> x -> text color darker
+grey darken-3	-> 212121 -> x -> text color black - facet title, arrows etc.
+
+
+red 		-> d50000 -> x -> remove color
+orange		-> ffab40 -> x -> count of periodica color
+
+knihy		-> ec407a
+mapy		-> c0ca33
+noviny		-> 66bb6a
+grafiky		-> ef5350
+audio		-> ffab40
+archivalie	-> 00bfa5
+hudebniny	-> 9575cd
+rukopisy	-> 78909c
+*/

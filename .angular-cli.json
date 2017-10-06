@@ -19,11 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles/styles.css",
-        "styles/global.scss",
-        "../node_modules/materialize-css/dist/css/materialize.min.css",
-        "../node_modules/mdi/css/materialdesignicons.min.css",
-        "../node_modules/roboto-fontface/css/roboto/roboto-fontface.css"
+        "styles.scss"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",

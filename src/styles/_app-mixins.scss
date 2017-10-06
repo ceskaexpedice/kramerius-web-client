@@ -1,0 +1,57 @@
+// --- MIXINS ---
+
+// set border
+@mixin set-border($position, $height, $style, $color) {
+  @if ($position == "top") {
+    border-width: #{$height}px 0 0 0; 
+    border-style: solid;
+    border-color: $color;
+  }
+  @else if ($position == "right") {
+    border-width: 0 #{$height}px 0 0; 
+    border-style: solid;
+    border-color: $color;
+  }
+  @else if ($position == "bottom") {
+    border-width: 0 0 #{$height}px 0; 
+    border-style: solid;
+    border-color: $color;
+  }
+  @else if ($position == "left") {
+    border-width: 0 0 0 #{$height}px; 
+    border-style: solid;
+    border-color: $color;	
+  }
+  @else if ($position == "right-left-bottom") {
+    border-width: 0 #{$height}px #{$height}px #{$height}px; 
+    border-style: solid;
+    border-color: $color;	
+  }
+  @else {
+    border-width: #{$height}px #{$height}px #{$height}px #{$height}px; 
+    border-style: solid;
+    border-color: $color;
+  }
+}
+
+
+// set mdi icon
+@mixin set-mdi-icon($selector, $character-code, $size, $valign) {
+  &:#{$selector} {
+    content: unquote("\"\\#{$character-code}\"");
+    font: normal normal normal #{$size}px/1 "Material Design Icons";
+    vertical-align: $valign;
+  }
+}
+
+// clearfix
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}

@@ -1,0 +1,14 @@
+// --- ROOT STYLE ---
+
+@import "styles/app-pallete";
+@import "styles/app-color";
+
+@import "styles/app-variables";
+
+@import "../node_modules/materialize-css/sass/materialize.scss";
+@import "../node_modules/mdi/scss/materialdesignicons.scss";
+
+@import "styles/app-mixins";
+@import "styles/app-mdi";
+@import "styles/app-global";
+@import "styles/app-navbar";
