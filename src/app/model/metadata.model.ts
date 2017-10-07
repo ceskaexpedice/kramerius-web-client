@@ -12,6 +12,8 @@ export class Metadata {
     public genres: string[] = [];
 
     public doctype: string;
+    public volume: Volume = new Volume();
+
 
     constructor() {
     }
@@ -31,6 +33,10 @@ export class TitleInfo {
     public subTitle;
 }
 
+export class Volume {
+    public year;
+    public number;
+}
 
 export class Author {
     public name;

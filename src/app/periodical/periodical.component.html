@@ -1,4 +1,5 @@
 <app-periodical-content
+      *ngIf="metadata && items"
       [metadata]="metadata" 
       [items]="items"
       [doctype]="doctype">

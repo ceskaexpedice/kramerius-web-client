@@ -1,0 +1,12 @@
+<div class="periodical-calendar-layout">
+    
+<div class="datepicker-container"
+        *ngFor="let date of dates; let i = index">
+    <ng-datepicker 
+        [activeDays]="daysOfMonths[i]"
+        [daysUrl]="daysOfMonthsItems[i]"
+        [date]="dates[i]">
+    </ng-datepicker>
+  </div>
+
+</div>

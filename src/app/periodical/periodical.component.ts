@@ -17,6 +17,8 @@ export class PeriodicalComponent implements OnInit {
   metadata: Metadata;
   items: PeriodicalItem[];
   doctype: string;
+  volumeYear;
+  volumeNumber;
 
   constructor(private route: ActivatedRoute,
     private solrService: SolrService,
@@ -40,6 +42,10 @@ export class PeriodicalComponent implements OnInit {
       this.krameriusApiService.getMods(item['root_pid']).subscribe(response => {
         ctx.metadata = ctx.modsParserService.parse(response);
         ctx.metadata.doctype = 'periodical';
+        if (item['details']) {
+          ctx.metadata.volume.number = item['details']['volumeNumber'];
+          ctx.metadata.volume.year = item['details']['year'];
+        }
       });
       if (ctx.doctype === 'periodical') {
         this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(response => {

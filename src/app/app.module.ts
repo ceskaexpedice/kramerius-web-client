@@ -1,3 +1,4 @@
+import { PeriodicalCalendarLayoutComponent } from './periodical/periodical-content/periodical-calendar-layout/periodical-calendar-layout.component';
 import { PeriodicalYearsItemComponent } from './periodical/periodical-content/periodical-years-layout/periodical-years-item/periodical-years-item.component';
 import { PeriodicalGridItemComponent } from './periodical/periodical-content/periodical-grid-layout/periodical-grid-item/periodical-grid-item.component';
 import { PeriodicalYearsLayoutComponent } from './periodical/periodical-content/periodical-years-layout/periodical-years-layout.component';
@@ -17,7 +18,7 @@ import { TranslatorModule } from 'angular-translator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterializeModule } from 'ng2-materialize';
 import { FormsModule } from '@angular/forms';
-
+import { NgDatepickerModule } from './ng-datepicker/ng-datepicker.module';
 
 
 import { AppComponent } from './app.component';
@@ -75,6 +76,7 @@ const ROUTES: Routes = [
     PeriodicalToolbarComponent,
     PeriodicalGridLayoutComponent,
     PeriodicalYearsLayoutComponent,
+    PeriodicalCalendarLayoutComponent,
     PeriodicalGridItemComponent,
     PeriodicalYearsItemComponent
   ],
@@ -83,6 +85,7 @@ const ROUTES: Routes = [
     BrowserAnimationsModule,
     HttpModule,
     FormsModule,
+    NgDatepickerModule,
     Ng2CompleterModule,
     MaterializeModule.forRoot(),
     RouterModule.forRoot(ROUTES),

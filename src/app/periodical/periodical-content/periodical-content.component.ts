@@ -21,6 +21,8 @@ export class PeriodicalContentComponent implements OnInit {
   ngOnInit() {
     if (this.doctype === 'periodical') {
       this.activeLayout = 'years';
+    } else {
+      this.activeLayout = 'calendar';
     }
   }
 
