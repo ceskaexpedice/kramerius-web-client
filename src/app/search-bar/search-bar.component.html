@@ -1,5 +1,9 @@
-<div class="input-field">
-  <ng2-completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="searchStr" [matchClass]="'highlight'"
-  [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="'Hledat v digitální knihovně'" [inputName]="'autocomplete-input'">
-  </ng2-completer>
+<div class="app-search-bar-wrapper">
+  <div class="input-field">
+    <ng2-completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="searchStr" [matchClass]="'highlight'"
+    [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="'searchbar.placeholder' | translate" [inputName]="'autocomplete-input'">
+    </ng2-completer>
+  </div>
+  <i mz-icon-mdi [icon]="'magnify'" (click)="search()" class="app-cursor-pointer"></i>
+  <i mz-icon-mdi [icon]="'close'" (click)="cleanQ()" class="app-cursor-pointer"></i><!-- objevi se pouze pokud bude :focus a pokud bude query, po kliknuti na close by se melo vymazat query --> 
 </div>

@@ -1,12 +1,51 @@
 html, body {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-* {
-    box-sizing: border-box;    
+  width: 100%;
+  height: 100%;
+  display: block;
+  font-family: 'Roboto-Condensed-Regular';
 }
 
+* {
+  box-sizing: border-box;    
+}
+
+
+// --- pedro ---
+
+
+a,
+.app-cursor-pointer {
+  cursor: pointer;
+}
+
+//cleaners
+.app-clean-mg {
+  margin: 0 !important;
+}
+
+.app-clean-pd {
+  padding: 0 !important;
+}
+
+// clearfix
+.clearfix {
+  @include clearfix();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// --- end ---
 
 app-root {
     width: 100%;
@@ -115,7 +154,7 @@ app-root {
 
 
 
-    .library-search-wrapper {
+    /*.library-search-wrapper {
         position: absolute; 
         left: 230px; 
         top: 18px;
@@ -123,7 +162,7 @@ app-root {
         @media screen and (max-width: 1000px) {
             display: none;
         }    
-    }
+    }*/
     
     .completer-image {
         // border-radius: 50%;
@@ -135,7 +174,7 @@ app-root {
         float: right !important;
     }
     
-    .input-field ng2-completer input[type="search"] {
+    /*.input-field ng2-completer input[type="search"] {
         display: block;
         line-height: 20px;
         padding-left: inherit;
@@ -145,17 +184,17 @@ app-root {
         padding: 5px;
         background: #ffffff;
         color: #555555;
-    }
+    }*/
     
-    .input-field ng2-completer input[type="search"]:focus {
+    /*.input-field ng2-completer input[type="search"]:focus {
         border: 1px solid #139BE1;
-    }
+    }*/
     
-    .highlight {
+    /*.highlight {
         color: #139BE1;
-    }
+    }*/
     
-    .completer-selected-row {
+    /*.completer-selected-row {
         background-color: #eee !important;
         color: inherit !important;
     }
@@ -213,7 +252,7 @@ app-root {
         width: 100% !important;
         text-align: left;
         text-transform: none;
-    }
+    }*/
 
 
 }

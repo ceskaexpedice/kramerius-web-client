@@ -1,4 +1,7 @@
+import { LibrarySearchService } from './../services/library-search.service';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Translator } from 'angular-translator'
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(public translator: Translator,
+    public router: Router,
+    public service: LibrarySearchService) {
+  }
 
   ngOnInit() {
+  }
+  
+   onLanguageChanged(lang: string) {
+    localStorage.setItem('lang', lang);
+    this.translator.language = lang;
   }
 
 }

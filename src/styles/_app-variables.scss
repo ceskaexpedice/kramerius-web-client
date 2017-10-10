@@ -10,7 +10,7 @@ $primary-color:         color("light-blue", "darken-3") !default; // 0277bd -> h
 $primary-color-light:   lighten($primary-color, 15%) !default;
 $primary-color-dark:    darken($primary-color, 15%) !default;
 
-$secondary-color:       color("grey", "darken-3") !default;
+$secondary-color:       $primary-color !default;
 $link-color:            $primary-color !default;
 
 // custom
@@ -39,9 +39,13 @@ $app-type-archivalie:   color("teal", "accent-4") !default; // 00bfa5 -> archiva
 $app-type-hudebniny:    color("deep-purple", "lighten-2") !default; // 9575cd -> hudebniny
 $app-type-rukopisy:     color("blue-grey", "lighten-1") !default; // 78909c -> rukopisy
 
+// global
+$app-border-radius:     2px !default;
+
 // navbar
 $navbar-font-color:     $app-grey-d-1 !default;
 $navbar-height:         68px !default;
+
 
 /*
 blue-grey lighten-5	  -> eceff1 -> separator line - home page, facet right border

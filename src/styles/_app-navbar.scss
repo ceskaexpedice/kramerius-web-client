@@ -1,21 +1,39 @@
 // --- NAVBAR ---
 
 app-navbar {
-  /*display: block;
-  margin-bottom: 1px;
-  
-  mz-navbar nav {
-    background-color: #f0f0f0;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.1);
-
-    ul a {
-      color: #999999;
+  nav {
+    background-color: $app-grey-l-5;
+    padding-left: 20px;
+    @include set-border(bottom, 1, solid, $app-grey-c-1);
+    box-shadow: 0 2px 2px 0 rgba(38, 50, 56, 0), 0 1px 5px 0 rgba(38, 50, 56, 0.1), 0 3px 1px -20px rgba(38, 50, 56, 0.1);
+    
+    .nav-wrapper {
+      .app-arrow-left {
+        color: $app-grey;
+      }
+      .brand-logo {
+        .app-pipe {
+          padding-left: 20px;
+          @include set-border(left, 1, solid, $app-grey-l-2);
+        }
+      }
+      .col {
+        float: left;
+        
+        &.app-col-left {
+          width: 260px;
+        }
+        &.app-col-right {
+          width: 600px;
+          //height: 100%;
+        }
+      }
+      .checkbox-field {
+        display: inline-block;
+        line-height: 68px;
+        @extend .app-clean-mg;
+        padding-left: 20px;
+      }
     }
-    .brand-logo {
-      color: #337CBD;
-      font-size: 28px;
-      padding-left: 20px;
-      font-weight: 300;
-    }
-  }*/
+  }
 }
