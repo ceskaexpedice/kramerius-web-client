@@ -1,0 +1,14 @@
+@font-face {
+  font: {
+    family: "PT Serif";
+    weight: 700;
+    style: normal;
+  }
+
+  src: url("#{$pt-serif-path}/pt-serif-bold.eot");
+  src: local("PT Serif"),
+       url("#{$pt-serif-path}/pt-serif-bold.eot#iefix") format("embedded-opentype"),
+       url("#{$pt-serif-path}/pt-serif-bold.woff2") format("woff2"),
+       url("#{$pt-serif-path}/pt-serif-bold.woff") format("woff"),
+       url("#{$pt-serif-path}/pt-serif-bold.ttf") format("truetype");
+}
