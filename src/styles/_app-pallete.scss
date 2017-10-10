@@ -337,6 +337,11 @@ $shades: (
   "transparent":  transparent
 );
 
+$custom: (
+  "grey-l-2":     #ebebeb,
+  "grey-l-1":     #d2d2d2
+);
+
 $colors: (
   "materialize-red": $materialize-red,
   "red": $red,
@@ -358,7 +363,8 @@ $colors: (
   "brown": $brown,
   "blue-grey": $blue-grey,
   "grey": $grey,
-  "shades": $shades
+  "shades": $shades,
+  "custom": $custom
 );
 
 
