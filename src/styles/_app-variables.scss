@@ -23,8 +23,8 @@ $app-grey-d-1:          color("grey", "darken-1") !default; // 757575 -> text co
 $app-grey-d-2:          color("grey", "darken-2") !default; // 616161 -> text color darker
 $app-grey-d-4:          color("grey", "darken-4") !default; // 212121 -> text color black - facet title, arrows etc.
 
-$app-grey-c-2:          color("custom", "grey-l-2") !default; // d2d2d2 -> tabs line, tabs of document type line
-$app-grey-c-1:          color("custom", "grey-l-1") !default; // ebebeb -> navbar bottom border
+$app-grey-c-2:          color("custom", "grey-l-2") !default; // d2d2d2 -> navbar bottom border
+$app-grey-c-1:          color("custom", "grey-l-1") !default; // ebebeb -> tabs line, tabs of document type line
 
 $app-red:               color("red", "accent-4") !default; // d50000 -> remove color
 $app-orange:            color("orange", "accent-2") !default; // ffab40 -> count of periodica color
@@ -42,15 +42,19 @@ $app-type-rukopisy:     color("blue-grey", "lighten-1") !default; // 78909c -> r
 // global
 $app-border-radius:     2px !default;
 
-// navbar
-$navbar-font-color:     $app-grey-d-1 !default;
-$navbar-height:         68px !default;
-
 // search bar
 $app-search-bar-height: 44px !default;
 
 // layout
-$app-side-col-width:    300px !default;   
+$app-side-col-width:    300px !default;
+
+// materialize variables
+$navbar-font-color:     $app-grey-d-1 !default;
+$navbar-height:         68px !default;
+
+$button-padding: 0 1rem !default;
+
+$tabs-underline-color: $primary-color !default;
 
 
 /*

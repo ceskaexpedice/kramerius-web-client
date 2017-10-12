@@ -1,5 +1,31 @@
 // --- HOME ---
 
 app-home {
-  
+  section {
+    &.container {
+      margin-top: 80px;
+    }
+    &:first-child {
+      .row {
+        &:first-child,
+        &:nth-child(2) {
+          margin-bottom: 10px;
+        }
+        .col {
+
+        }
+      }
+    }
+    &:nth-child(2) {
+      .tabs {
+        @include set-border(bottom, 1, solid, $app-grey-c-2);
+      }
+      .app-tab-content {
+        .app-tab-wrapper {
+          padding: 40px 0;
+          text-align: center;
+        }
+      }
+    }
+  }
 }

@@ -26,6 +26,7 @@ app-search-bar {
       font-size: inherit;
       top: 0.6rem;
       @extend .app-cursor-pointer;
+      color: $app-grey;
     }
     .mdi-magnify {
       left: 0.8rem;
@@ -55,9 +56,14 @@ app-search-bar {
   }
   .checkbox-field {
     display: inline-block;
-    line-height: 68px;
+    //line-height: 68px;
     @extend .app-clean-mg;
     padding-left: 20px;
+    color: $app-grey;
+  }
+  [type="checkbox"] + label:before, 
+  [type="checkbox"]:not(.filled-in) + label:after {
+    border-color: $app-grey;
   }
 }
 

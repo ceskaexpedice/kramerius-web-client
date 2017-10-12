@@ -11,6 +11,13 @@
   "searchbar": {
     "placeholder": "Hledat v digitální knihovně ..."
   },
+  "home": {
+    "desc": "Vyhledávání v digitalizovaných dokumentech",
+    "btn_enter": "Vstupte",
+    "tab_visited": "Moje navštívené",
+    "tab_requested": "Nejžádanějsí",
+    "tab_latest": "Nejnovější"
+  },
   "metadata": {
     "author": "Autor",
     "publisher": "Nakladatelské údaje",

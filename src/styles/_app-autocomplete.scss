@@ -27,7 +27,7 @@
         display: inherit !important;
         
         &.completer-selected-row {
-          background-color: $app-grey-l-2 !important;
+          background-color: color("grey", "lighten-3") !important;
         }
         .highlight {
           color: $primary-color;
@@ -35,12 +35,19 @@
         }
         .completer-title {
           font-size: 16px;
-          color: #666666;
+          color: $app-grey-d-2;
           display: block;
           line-height: 22px;
           padding: 3px 0;
         }
       }
+    }
+    
+    .completer-no-results,
+    .completer-searching {
+      padding: 1rem 3rem !important;
+      color: $app-grey;
+      line-height: normal;
     }
   }
 }

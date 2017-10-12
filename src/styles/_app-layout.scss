@@ -9,31 +9,37 @@ app-root {
 
 app-root {
   main {
-    height: calc(100% - #{$navbar-height});
     width: 100%;
+    height: calc(100% - #{$navbar-height});
     
     app-search,
     app-periodical,
     app-book {
-      height: 100%;
       width: 100%;
+      height: 100%;
       display: flex;
       flex-flow: row;
+    }
+    
+    app-search-filters,
+    app-navigation,
+    app-metadata {
+      width: $app-side-col-width;
+      height: 100%;
+      z-index: 10;
+      background-color: $app-grey-l-5;
+      @include set-border(right, 2, solid, $app-grey-l-2);
     }
     
     app-search {
       app-search-filters {
         float: left;
-        height: 100%;
-        width: $app-side-col-width;
-        z-index: 10;
         //width: 260px;
-        //box-shadow: 0px 2px 1px 1px hsla(0, 0%, 0%, 0.15);
       }
       app-search-results {
         flex: 1;
         height: 100%;
-        background: #f0f0f0;
+        background-color: color("shades", "white");
         padding: 5px;
       }
     }
@@ -45,19 +51,13 @@ app-root {
       }
       app-navigation {
         float: left;
-        height: 100%;
-        width: $app-side-col-width;
-        z-index: 10;
+        @include set-border(right, 2, solid, $app-grey-l-2);
         //width: 230px;
-        //box-shadow: 0px 2px 1px 1px hsla(0, 0%, 0%, 0.15);
       }
       app-metadata {
         float: right;
-        width: $app-side-col-width;
-        height: 100%;
-        z-index: 10;
+        @include set-border(left, 2, solid, $app-grey-l-2);
         //width: 300px;
-        //box-shadow: 0px 2px 1px 1px hsla(0, 0%, 0%, 0.15);
       }
     }
 
@@ -68,11 +68,8 @@ app-root {
       }
       app-metadata {
         float: right;
-        width: $app-side-col-width;
-        height: 100%;
-        z-index: 10;
+        @include set-border(left, 2, solid, $app-grey-l-2);
         //width: 300px;
-        //box-shadow: 0px 2px 1px 1px hsla(0, 0%, 0%, 0.15);
       }
     }
   }

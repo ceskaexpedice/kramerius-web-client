@@ -7,11 +7,14 @@ import { AppState } from '../app.state';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
   constructor(public state: AppState) {
     
   }
 
-  ngOnInit(){}
+  ngOnInit(){
+    $(document).ready(function(){
+      $('ul.tabs').tabs();
+    });
+  }
 
 }
