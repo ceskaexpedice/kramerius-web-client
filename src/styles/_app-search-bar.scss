@@ -4,8 +4,8 @@ app-search-bar {
   .app-search-bar-wrapper {
     position: relative;
     display: inline-block;
-    width: 100%;
-    height: 44px;
+    width: 600px;
+    height: $app-search-bar-height;
     vertical-align: middle;
     margin-bottom: 3px;
     background-color: color("shades", "white");
@@ -35,12 +35,14 @@ app-search-bar {
     }
     
     .input-field {
-       padding-right: 3rem;
+      padding-right: 3rem;
+      margin-top: 0;
       
       input[type=search] {
-        height: 44px;
-        line-height: 44px;
+        height: $app-search-bar-height;
+        line-height: $app-search-bar-height;
         padding-left: 3rem;
+        border: none;
 
         &:focus {
           background-color: transparent;
@@ -50,6 +52,12 @@ app-search-bar {
         }
       }      
     }
+  }
+  .checkbox-field {
+    display: inline-block;
+    line-height: 68px;
+    @extend .app-clean-mg;
+    padding-left: 20px;
   }
 }
 

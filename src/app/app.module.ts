@@ -35,6 +35,7 @@ import { MetadataComponent } from './metadata/metadata.component';
 import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
 
 import { Ng2CompleterModule } from 'ng2-completer';
+import { AppState } from './app.state';
 import { SearchComponent } from './search/search.component';
 import { SearchResultsComponent } from './search/search-results/search-results.component';
 import { SearchFiltersComponent } from './search/search-filters/search-filters.component';
@@ -94,6 +95,7 @@ const ROUTES: Routes = [
     })
   ],
   providers: [
+    AppState,
     KrameriusApiService,
     BookService,
     Utils,

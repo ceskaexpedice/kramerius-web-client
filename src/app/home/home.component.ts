@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppState } from '../app.state';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(public state: AppState) {
+    
   }
+
+  ngOnInit(){}
 
 }

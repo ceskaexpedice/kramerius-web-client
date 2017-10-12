@@ -1,5 +1,5 @@
 <mz-navbar class="clearfix">
-  <div class="col app-col-left">
+  <div *ngIf="state.activePage != '/'" class="col app-col-left">
     <a mz-tooltip [tooltip]="'navbar.back' | translate" [position]="'bottom'" class="app-arrow-left">
       <i mz-icon-mdi [icon]="'arrow-left'" [align]="'left'"></i>
     </a>
@@ -7,13 +7,10 @@
       <img src="/assets/img/logo-kramerius.png" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />
     </a>
   </div><!--/.app-col-left -->
-  <div class="col app-col-right">
-    <app-search-bar></app-search-bar> 
-  </div><!--/.app-col-right -->
   
-  <mz-checkbox-container>
-    <input mz-checkbox [label]="'navbar.checkbox_label' | translate" id="checkbox-id" type="checkbox">
-  </mz-checkbox-container> 
+  <div *ngIf="state.activePage != '/'" class="col app-col-right">
+    <app-search-bar></app-search-bar>
+  </div><!--/.app-col-right -->
     
   <mz-navbar-item-container [align]="'right'">
     <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive" [active]="collections.isActive">

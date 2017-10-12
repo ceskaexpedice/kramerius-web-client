@@ -46,6 +46,12 @@ $app-border-radius:     2px !default;
 $navbar-font-color:     $app-grey-d-1 !default;
 $navbar-height:         68px !default;
 
+// search bar
+$app-search-bar-height: 44px !default;
+
+// layout
+$app-side-col-width:    300px !default;   
+
 
 /*
 blue-grey lighten-5	  -> eceff1 -> separator line - home page, facet right border
