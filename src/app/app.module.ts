@@ -42,6 +42,8 @@ import { SearchFiltersComponent } from './search/search-filters/search-filters.c
 import { ResultCardComponent } from './search/search-results/result-card/result-card.component';
 import { PeriodicalComponent } from './periodical/periodical.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { SearchFiltersUsedComponent } from './search/search-filters-used/search-filters-used.component';
+import { SearchCountComponent } from './search/search-count/search-count.component';
 
 
 const ROUTES: Routes = [
@@ -79,7 +81,9 @@ const ROUTES: Routes = [
     PeriodicalYearsLayoutComponent,
     PeriodicalGridItemComponent,
     PeriodicalYearsItemComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    SearchFiltersUsedComponent,
+    SearchCountComponent
   ],
   imports: [
     BrowserModule,

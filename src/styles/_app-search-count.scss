@@ -1,0 +1,16 @@
+// --- SEARCH COUNT ---
+
+app-search-count {
+  .collection {
+    border: none;
+    @extend .app-clean-mg;
+    @include set-border(bottom, 1, solid, $app-grey-l-2);
+    color: $app-grey-d-1;
+    
+    .collection-item {
+      min-height: 1.6rem;
+      line-height: 1.6rem;
+      padding: 15px 20px;
+    }
+  }
+}

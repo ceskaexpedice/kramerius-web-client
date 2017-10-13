@@ -1,0 +1,28 @@
+<div class="app-search-filters-wrapper">
+  <app-search-count></app-search-count>
+  <app-search-filters-used></app-search-filters-used>
+  
+  <mz-collapsible [mode]="'expandable'">
+    <mz-collapsible-item [active]="true" *ngFor="let facet of facets">
+      <mz-collapsible-item-header>
+       {{facet.title}}
+       <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
+       <i mz-icon-mdi [icon]="'chevron-left'" [class]="'app-clean-mg'"></i>
+      </mz-collapsible-item-header>
+     <mz-collapsible-item-body>
+      <mz-collection>
+        <ng-container *ngFor="let facetItem of facet.items; let i = index;">
+          <mz-collection-item *ngIf="i < 5">
+            <span class="app-row">
+              <a>{{facetItem.item}}</a>
+              <span>
+                {{facetItem.count}}
+              </span>
+            </span>
+          </mz-collection-item>
+        </ng-container>
+      </mz-collection>
+      </mz-collapsible-item-body>
+    </mz-collapsible-item>
+  </mz-collapsible>
+</div>

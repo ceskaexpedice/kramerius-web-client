@@ -11,6 +11,11 @@
   "searchbar": {
     "placeholder": "Hledat v digitální knihovně ..."
   },
+  "filters": {
+    "used_header": "Aktivní filtry",
+    "tooltip_remove_filter": "Zrušit tento filtr",
+    "tooltip_remove_filter_all": "Zrušit všechny aktivní filtry"
+  },
   "home": {
     "desc": "Vyhledávání v digitalizovaných dokumentech",
     "btn_enter": "Vstupte",

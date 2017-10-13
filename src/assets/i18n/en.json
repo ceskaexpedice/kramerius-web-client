@@ -11,6 +11,11 @@
   "searchbar": {
     "placeholder": "Search in digital library ..."
   },
+  "filters": {
+    "used_header": "Active filters",
+    "tooltip_remove_filter": "Cancel this filter",
+    "tooltip_remove_filter_all": "Cancel all filters"
+  },
   "home": {
     "desc": "Searching in digital documents",
     "btn_enter": "Enter",
