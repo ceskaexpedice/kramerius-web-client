@@ -1,41 +1,41 @@
-.result-card-wrapper {
+.document-card-wrapper {
     padding: 6px;
     display: block;
-    .result-card {
+    .document-card {
         background: #ffffff;
         cursor: pointer;
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
         height: 130px;
         overflow: hidden;
         padding: 8px 8px 8px 0;
-        .result-card-strip {
+        .document-card-strip {
             float: left;
             width: 3px;
             height: 100%;
             padding-top: 10px;
             z-index: 9999;
-            .result-card-strip-in {
+            .document-card-strip-in {
                 background: #eeeeee;
                 width: 100%;
                 height: 30px;
-                &.result-card-strip-monograph {
+                &.document-card-strip-monograph {
                     background: #d8376f;
                 }
-                &.result-card-strip-periodical {
+                &.document-card-strip-periodical {
                     background: #7ab871;
                 }
-                &.result-card-strip-sheetmusic {
+                &.document-card-strip-sheetmusic {
                     background: #9078c7;
                 }
-                &.result-card-strip-map {
+                &.document-card-strip-map {
                     background: #ffab30;
                 }
-                &.result-card-strip-graphic {
+                &.document-card-strip-graphic {
                     background: #1e83d2;
                 }
             }
         }
-        .result-card-image {
+        .document-card-image {
             height: 100%;
             width: 90px;
             margin-right: 8px;
@@ -49,8 +49,8 @@
                 background-size: contain;
             }
         }
-        .result-card-content {
-            .result-card-title {
+        .document-card-content {
+            .document-card-title {
                 line-height: 20px;
                 font-size: 17px;
                 overflow: hidden;
@@ -64,7 +64,7 @@
                 text-overflow: ellipsis;
                 margin-bottom: 12px;
             }
-            .result-card-authors {
+            .document-card-authors {
                 color: #888;
                 font-size: 14px;
                 line-height: 18px;
@@ -72,7 +72,7 @@
                 height: 18px;
                 margin-bottom: 5px;
             }
-            .result-card-date {
+            .document-card-date {
                 color: #888;
                 font-size: 14px;
                 line-height: 18px;
@@ -80,7 +80,7 @@
                 margin-bottom: 5px;
                 height: 18px;
             }
-            .result-card-doctype {
+            .document-card-doctype {
                 color: #888;
                 font-size: 14px;
                 line-height: 18px;

@@ -1,3 +1,4 @@
+import { DocumentCardComponent } from './shared/document-card/document-card.component';
 import { PeriodicalCalendarLayoutComponent } from './periodical/periodical-content/periodical-calendar-layout/periodical-calendar-layout.component';
 import { PeriodicalYearsItemComponent } from './periodical/periodical-content/periodical-years-layout/periodical-years-item/periodical-years-item.component';
 import { PeriodicalGridItemComponent } from './periodical/periodical-content/periodical-grid-layout/periodical-grid-item/periodical-grid-item.component';
@@ -40,7 +41,6 @@ import { AppState } from './app.state';
 import { SearchComponent } from './search/search.component';
 import { SearchResultsComponent } from './search/search-results/search-results.component';
 import { SearchFiltersComponent } from './search/search-filters/search-filters.component';
-import { ResultCardComponent } from './search/search-results/result-card/result-card.component';
 import { PeriodicalComponent } from './periodical/periodical.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { SearchFiltersUsedComponent } from './search/search-filters-used/search-filters-used.component';
@@ -74,7 +74,7 @@ const ROUTES: Routes = [
     SearchComponent,
     SearchResultsComponent,
     SearchFiltersComponent,
-    ResultCardComponent,
+    DocumentCardComponent,
     PeriodicalComponent,
     PeriodicalContentComponent,
     PeriodicalToolbarComponent,

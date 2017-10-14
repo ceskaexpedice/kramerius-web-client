@@ -1,3 +1,4 @@
+import { SolrService } from './solr.service';
 import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
 import { NotFoundError } from './../common/errors/not-found-error';
@@ -20,7 +21,10 @@ export class KrameriusApiService {
 
 
 
-    constructor(private http: Http, private utils: Utils) { }
+    constructor(private http: Http,
+        private utils: Utils,
+        private solrService: SolrService) {
+    }
 
 
     private handleError(error: Response) {
@@ -43,6 +47,20 @@ export class KrameriusApiService {
         const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=_query_:%22{!dismax%20qf=%27dc.title^1000%20text^0.0001%27%20v=$q1}%22%20AND%20(fedora.model:monograph^5%20OR%20fedora.model:periodical^5%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)+AND+dostupnost:public&q1=' + query + '&rows=60&start=0';
         return this.http.get(url)
             .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    getNewest() {
+        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph%20OR%20fedora.model:periodical%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=9&start=0';
+        return this.http.get(url)
+            .map(response => this.solrService.documentItems(response.json()))
+            .catch(this.handleError);
+    }
+
+    getRecommended() {
+        const url = this.BASE_URL + '/search/api/v5.0/feed/custom';
+        return this.http.get(url)
+            .map(response => this.utils.parseRecommended(response.json()))
             .catch(this.handleError);
     }
 
@@ -75,10 +93,6 @@ export class KrameriusApiService {
     getThumbUrl(uuid: string) {
         return this.getItemUrl(uuid) + '/thumb';
     }
-
-    // getThumbUrl2(uuid: string) {
-    //     return `${this.BASE_URL}/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
-    // }
 
     getDc(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);

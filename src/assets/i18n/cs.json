@@ -20,6 +20,7 @@
     "desc": "Vyhledávání v digitalizovaných dokumentech",
     "btn_enter": "Vstupte",
     "tab_visited": "Moje navštívené",
+    "tab_recommended": "Doporučené",    
     "tab_requested": "Nejžádanějsí",
     "tab_latest": "Nejnovější"
   },

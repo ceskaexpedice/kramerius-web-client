@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Translator } from 'angular-translator';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AppState } from './app.state';
@@ -9,13 +9,13 @@ import { AppState } from './app.state';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   constructor(
     private translator: Translator,
     private route: ActivatedRoute,
     private router: Router, public state: AppState) {
-    
+
     const lang = localStorage.getItem('lang');
     if (lang) {
       this.translator.language = lang;
@@ -24,12 +24,9 @@ export class AppComponent {
 
   ngOnInit() {
     this.router.events.subscribe(val => {
-      if(val instanceof NavigationEnd) {
-        // console.log(this.route.snapshot);
-        //console.log(val); 
+      if (val instanceof NavigationEnd) {
         this.state.activePage = val.url;
       }
     });
-  } 
-  
+  }
 }

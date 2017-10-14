@@ -22,8 +22,15 @@ app-home {
       }
       .app-tab-content {
         .app-tab-wrapper {
-          padding: 40px 0;
-          text-align: center;
+          padding: 10px 0;
+          // text-align: center;
+          background: #fff;
+          app-document-card {
+            width: 33.33%;
+            display: block;
+            float: left;
+          }
+
         }
       }
     }

@@ -20,6 +20,7 @@
     "desc": "Searching in digital documents",
     "btn_enter": "Enter",
     "tab_visited": "My visited",
+    "tab_recommended": "Recommended",        
     "tab_requested": "The most requested",
     "tab_latest": "The latest"
   },
