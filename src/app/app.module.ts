@@ -1,3 +1,4 @@
+import { LocalStorageService } from './services/local-storage.service';
 import { DocumentCardComponent } from './shared/document-card/document-card.component';
 import { PeriodicalCalendarLayoutComponent } from './periodical/periodical-content/periodical-calendar-layout/periodical-calendar-layout.component';
 import { PeriodicalYearsItemComponent } from './periodical/periodical-content/periodical-years-layout/periodical-years-item/periodical-years-item.component';
@@ -108,7 +109,8 @@ const ROUTES: Routes = [
     Utils,
     SolrService,
     ModsParserService,
-    LibrarySearchService
+    LibrarySearchService,
+    LocalStorageService
   ],
   bootstrap: [AppComponent]
 })

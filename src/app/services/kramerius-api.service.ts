@@ -118,7 +118,7 @@ export class KrameriusApiService {
     getItem(uuid: string) {
         const url = this.getItemUrl(uuid);
         return this.http.get(url)
-          .map(response => response.json())
+          .map(response => this.utils.parseItem(response.json()))
           .catch(this.handleError);
     }
 

@@ -1,3 +1,5 @@
+import { DocumentItem } from './../model/document_item.model';
+import { LocalStorageService } from './../services/local-storage.service';
 import { PeriodicalItem } from './../model/periodicalItem.model';
 import { SolrService } from './../services/solr.service';
 import { ActivatedRoute } from '@angular/router';
@@ -23,6 +25,7 @@ export class PeriodicalComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private solrService: SolrService,
     private modsParserService: ModsParserService,
+    private localStorageService: LocalStorageService,
     private krameriusApiService: KrameriusApiService) { }
 
   ngOnInit() {
@@ -37,22 +40,21 @@ export class PeriodicalComponent implements OnInit {
 
   private loadDocument(uuid: string) {
     const ctx = this;
-    this.krameriusApiService.getItem(uuid).subscribe(item => {
-      ctx.doctype = item['model'];
-      this.krameriusApiService.getMods(item['root_pid']).subscribe(response => {
+    this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem)  => {
+      ctx.doctype = item.doctype;
+      this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
         ctx.metadata = ctx.modsParserService.parse(response);
         ctx.metadata.doctype = 'periodical';
-        if (item['details']) {
-          ctx.metadata.volume.number = item['details']['volumeNumber'];
-          ctx.metadata.volume.year = item['details']['year'];
-        }
+        ctx.metadata.volume.number = item.volumeNumber;
+        ctx.metadata.volume.year = item.volumeYear;
       });
       if (ctx.doctype === 'periodical') {
+        this.localStorageService.addToVisited(item);
         this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(response => {
           this.items = this.solrService.periodicalItems(response);
         });
       } else if (ctx.doctype === 'periodicalvolume') {
-        this.krameriusApiService.getPeriodicalIssues(item['root_pid'], uuid).subscribe(response => {
+        this.krameriusApiService.getPeriodicalIssues(item.root_uuid, uuid).subscribe(response => {
           this.items = this.solrService.periodicalItems(response);
         });
       }

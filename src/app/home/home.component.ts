@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../services/local-storage.service';
 import { DocumentItem } from './../model/document_item.model';
 import { KrameriusApiService } from './../services/kramerius-api.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,8 +13,13 @@ export class HomeComponent implements OnInit {
 
   newest: DocumentItem[];
   recommended: DocumentItem[];
+  visited: DocumentItem[];
 
-  constructor(public state: AppState, private krameriusApiService: KrameriusApiService) {
+  constructor(
+    public state: AppState,
+    private krameriusApiService: KrameriusApiService,
+    private localStorageService: LocalStorageService
+  ) {
 
   }
 
@@ -26,6 +32,7 @@ export class HomeComponent implements OnInit {
     });
     this.getNewest();
     this.getRecommended();
+    this.getVisited();
   }
 
   getNewest() {
@@ -39,4 +46,9 @@ export class HomeComponent implements OnInit {
       this.recommended = response;
     });
   }
+
+  getVisited() {
+    this.visited = this.localStorageService.getVisited();
+  }
+
 }

@@ -4,16 +4,20 @@ export class DocumentItem {
     date: string;
     doctype: string;
     uuid: string;
+    root_uuid: string;
     public: boolean;
+    url: string;
+    volumeNumber: string;
+    volumeYear: string;
 
     constructor() {
     }
 
-    getUrl(): string {
+    resolveUrl() {
         if (this.doctype === 'periodical') {
-            return '/periodical/' + this.uuid;
+            this.url =  '/periodical/' + this.uuid;
         } else {
-            return '/view/' + this.uuid;
+            this.url = '/view/' + this.uuid;
         }
     }
 

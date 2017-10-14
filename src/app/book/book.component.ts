@@ -1,3 +1,5 @@
+import { LocalStorageService } from './../services/local-storage.service';
+import { DocumentItem } from './../model/document_item.model';
 import { Metadata } from './../model/metadata.model';
 import { ModsParserService } from './../services/mods-parser.service';
 import { Page } from './../model/page.model';
@@ -19,6 +21,7 @@ export class BookComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               public bookSerrvice: BookService,
+              private localStorageService: LocalStorageService,
               private modsParserService: ModsParserService,
               private krameriusApiService: KrameriusApiService) {
   }
@@ -51,11 +54,11 @@ export class BookComponent implements OnInit {
         }
       }
     });
-    this.krameriusApiService.getItem(uuid).subscribe(item => {
-      const doctype = item['model'];
-      this.krameriusApiService.getMods(item['root_pid']).subscribe(response => {
+    this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+      this.localStorageService.addToVisited(item);
+      this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
         ctx.metadata = ctx.modsParserService.parse(response);
-        ctx.metadata.doctype = doctype;
+        ctx.metadata.doctype = item.doctype;
       });
     });
   }

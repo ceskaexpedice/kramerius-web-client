@@ -59,6 +59,7 @@ export class SolrService {
             item.doctype = doc['fedora.model'];
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
+            item.resolveUrl();
             items.push(item);
         }
         return items;

@@ -14,16 +14,28 @@ export class Utils {
         console.log('data', json);
         const items: DocumentItem[] = [];
         for (const doc of json['data']) {
-            const item = new DocumentItem();
-            item.title = doc['title'];
-            item.uuid = doc['pid'];
-            item.public = doc['policy'] === 'public';
-            item.doctype = doc['model'];
-            item.date = doc['datumstr'];
-            item.authors = doc['author'];
-            items.push(item);
+            items.push(this.parseItem(doc));
         }
         return items;
+    }
+
+    parseItem(json): DocumentItem {
+        const item = new DocumentItem();
+        item.title = json['title'];
+        item.uuid = json['pid'];
+        item.root_uuid = json['root_pid'];
+        item.public = json['policy'] === 'public';
+        item.doctype = json['model'];
+        item.date = json['datumstr'];
+        item.authors = json['author'];
+
+        if (item.doctype === 'periodicalvolume' && json['details']) {
+            item.volumeNumber = json['details']['volumeNumber'];
+            item.volumeYear = json['details']['year'];
+        }
+
+        item.resolveUrl();
+        return item;
     }
 
 }
