@@ -1,0 +1,46 @@
+// --- GLOBAL ---
+
+body {
+  font-family: 'Roboto-Condensed-Regular';
+}
+
+* {
+  box-sizing: border-box;    
+}
+
+a,
+.app-cursor-pointer {
+  cursor: pointer;
+}
+
+// font
+.app-font-bold {
+  font-family: 'Roboto-Condensed-Bold';
+}
+
+//cleaners
+.app-clean-mg {
+  margin: 0 !important;
+}
+
+.app-clean-pd {
+  padding: 0 !important;
+}
+
+// clearfix
+.clearfix {
+  @include clearfix();
+}
+
+// others
+button {
+  @extend .z-depth-0;
+  i {
+    &.left {
+      margin-right: 5px;
+    }
+    &.right {
+      margin-left: 5px;
+    } 
+  }
+}

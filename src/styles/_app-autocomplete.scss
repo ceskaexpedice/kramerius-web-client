@@ -1,0 +1,53 @@
+// --- AUTOCOMPLETE ---
+
+.completer-dropdown-holder {
+  margin-top: -15px;
+  
+  .completer-dropdown {
+    border: 1px solid $app-grey-l-2 !important;
+    margin-top: -15px;
+    display: block;
+    min-width: 100px;
+    max-height: 500px;
+    overflow-y: auto;
+    opacity: 1;
+    position: static;
+    z-index: 999;
+    will-change: width, height;
+    @extend .app-clean-pd;
+    width: 100% !important;
+    will-change: width, height;
+    box-shadow:  0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 5px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.05);
+    
+    .completer-row-wrapper {
+      .completer-row {
+        width: 100% !important;
+        padding: 0 0 0 3rem !important;
+        margin-bottom: 0 !important;
+        display: inherit !important;
+        
+        &.completer-selected-row {
+          background-color: color("grey", "lighten-3") !important;
+        }
+        .highlight {
+          color: $primary-color;
+          font-weight: 700;
+        }
+        .completer-title {
+          font-size: 16px;
+          color: $app-grey-d-2;
+          display: block;
+          line-height: 22px;
+          padding: 3px 0;
+        }
+      }
+    }
+    
+    .completer-no-results,
+    .completer-searching {
+      padding: 1rem 3rem !important;
+      color: $app-grey;
+      line-height: normal;
+    }
+  }
+}

@@ -1,0 +1,76 @@
+// --- LAYOUT ---
+html,
+body, 
+app-root {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+app-root {
+  main {
+    width: 100%;
+    height: calc(100% - #{$navbar-height});
+    
+    app-search,
+    app-periodical,
+    app-book {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-flow: row;
+    }
+    
+    app-search-filters,
+    app-navigation,
+    app-metadata {
+      width: $app-side-col-width;
+      height: 100%;
+      z-index: 10;
+      background-color: $app-grey-l-5;
+      @include set-border(right, 2, solid, $app-grey-l-2);
+    }
+    
+    app-search {
+      app-search-filters {
+        float: left;
+        //width: 260px;
+      }
+      app-search-results {
+        flex: 1;
+        height: 100%;
+        background-color: color("shades", "white");
+        padding: 5px;
+      }
+    }
+    
+    app-book {
+      app-viewer {
+        flex: 1;
+        height: 100%;
+      }
+      app-navigation {
+        float: left;
+        @include set-border(right, 2, solid, $app-grey-l-2);
+        //width: 230px;
+      }
+      app-metadata {
+        float: right;
+        @include set-border(left, 2, solid, $app-grey-l-2);
+        //width: 300px;
+      }
+    }
+
+    app-periodical  {
+      app-periodical-content {
+        flex: 1;
+        height: 100%;
+      }
+      app-metadata {
+        float: right;
+        @include set-border(left, 2, solid, $app-grey-l-2);
+        //width: 300px;
+      }
+    }
+  }
+}

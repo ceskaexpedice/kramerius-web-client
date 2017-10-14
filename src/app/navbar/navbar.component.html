@@ -1,30 +1,29 @@
-<mz-navbar>
-  <a [routerLink]="['']" class="brand-logo">{{ 'app-title' | translate }}</a>
-
-
-  <div class="library-search-wrapper">
-      <div class="input-field" style="width:100%; height:100%;">
-         <ng2-completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="searchStr" [matchClass]="'highlight'"
-          [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="'Hledat v digitální knihovně'" [inputName]="'autocomplete-input'">
-          </ng2-completer>
-      </div>
-    </div>
+<mz-navbar class="clearfix">
+  <div *ngIf="state.activePage != '/'" class="col app-col-left">
+    <a mz-tooltip [tooltip]="'navbar.back' | translate" [position]="'bottom'" class="app-arrow-left">
+      <i mz-icon-mdi [icon]="'arrow-left'" [align]="'left'"></i>
+    </a>
+    <a [routerLink]="['']" class="brand-logo" mz-tooltip [tooltip]="'navbar.home' | translate" [position]="'bottom'">
+      <img src="/assets/img/logo-kramerius.png" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />
+    </a>
+  </div><!--/.app-col-left -->
+  
+  <div *ngIf="state.activePage != '/'" class="col app-col-right">
+    <app-search-bar></app-search-bar>
+  </div><!--/.app-col-right -->
     
-
-
   <mz-navbar-item-container [align]="'right'">
-    <!-- <mz-navbar-item><a routerLink='view'>Dokument</a></mz-navbar-item>       -->
-    <!-- <mz-navbar-item [active]="router.isActive('/collections')"><a routerLink='collections'>Sbírky</a></mz-navbar-item>
-    <mz-navbar-item [active]="router.isActive('/browse')"><a routerLink='browse'>Procházet</a></mz-navbar-item>
-    <mz-navbar-item [active]="router.isActive('/help')"><a routerLink='help'>Nápověda</a></mz-navbar-item> -->
-    <mz-navbar-item><a routerLink='collections'>{{ 'navbar.collections' | translate }}</a></mz-navbar-item>
-    <mz-navbar-item><a routerLink='browse'>{{ 'navbar.browse' | translate }}</a></mz-navbar-item>
-    <mz-navbar-item><a routerLink='help'>{{ 'navbar.help' | translate }}</a></mz-navbar-item>
-
+    <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive" [active]="collections.isActive">
+      <a routerLink='collections'>{{ 'navbar.collections' | translate }}</a>
+    </mz-navbar-item>
+    <mz-navbar-item routerLinkActive="active" #browse="routerLinkActive" [active]="browse.isActive">
+      <a routerLink='browse'>{{ 'navbar.browse' | translate }}</a>
+    </mz-navbar-item>
+    <mz-navbar-item routerLinkActive="active" #help="routerLinkActive" [active]="help.isActive">
+      <a routerLink='help'>{{ 'navbar.help' | translate }}</a>
+    </mz-navbar-item>
     <mz-navbar-item><a *ngIf="translator.language == 'cs'" (click)='onLanguageChanged("en")'>English</a></mz-navbar-item>
     <mz-navbar-item><a *ngIf="translator.language == 'en'" (click)='onLanguageChanged("cs")'>Česky</a></mz-navbar-item>
-    
-    
   </mz-navbar-item-container>
 </mz-navbar>
 

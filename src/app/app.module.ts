@@ -36,11 +36,15 @@ import { MetadataComponent } from './metadata/metadata.component';
 import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
 
 import { Ng2CompleterModule } from 'ng2-completer';
+import { AppState } from './app.state';
 import { SearchComponent } from './search/search.component';
 import { SearchResultsComponent } from './search/search-results/search-results.component';
 import { SearchFiltersComponent } from './search/search-filters/search-filters.component';
 import { ResultCardComponent } from './search/search-results/result-card/result-card.component';
 import { PeriodicalComponent } from './periodical/periodical.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
+import { SearchFiltersUsedComponent } from './search/search-filters-used/search-filters-used.component';
+import { SearchCountComponent } from './search/search-count/search-count.component';
 
 
 const ROUTES: Routes = [
@@ -78,7 +82,10 @@ const ROUTES: Routes = [
     PeriodicalYearsLayoutComponent,
     PeriodicalCalendarLayoutComponent,
     PeriodicalGridItemComponent,
-    PeriodicalYearsItemComponent
+    PeriodicalYearsItemComponent,
+    SearchBarComponent,
+    SearchFiltersUsedComponent,
+    SearchCountComponent
   ],
   imports: [
     BrowserModule,
@@ -95,6 +102,7 @@ const ROUTES: Routes = [
     })
   ],
   providers: [
+    AppState,
     KrameriusApiService,
     BookService,
     Utils,

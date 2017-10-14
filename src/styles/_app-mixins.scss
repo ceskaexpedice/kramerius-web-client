@@ -1,0 +1,92 @@
+// --- MIXINS ---
+
+// set border
+@mixin set-border($position, $height, $style, $color) {
+  @if ($position == "top") {
+    border-width: #{$height}px 0 0 0; 
+    border-style: solid;
+    border-color: $color;
+  }
+  @else if ($position == "right") {
+    border-width: 0 #{$height}px 0 0; 
+    border-style: solid;
+    border-color: $color;
+  }
+  @else if ($position == "bottom") {
+    border-width: 0 0 #{$height}px 0; 
+    border-style: solid;
+    border-color: $color;
+  }
+  @else if ($position == "left") {
+    border-width: 0 0 0 #{$height}px; 
+    border-style: solid;
+    border-color: $color;	
+  }
+  @else if ($position == "right-left-bottom") {
+    border-width: 0 #{$height}px #{$height}px #{$height}px; 
+    border-style: solid;
+    border-color: $color;	
+  }
+  @else {
+    border-width: #{$height}px #{$height}px #{$height}px #{$height}px; 
+    border-style: solid;
+    border-color: $color;
+  }
+}
+
+
+// set mdi icon
+@mixin set-mdi-icon($selector, $character-code, $size, $valign) {
+  &:#{$selector} {
+    content: unquote("\"\\#{$character-code}\"");
+    font: normal normal normal #{$size}px/1 "Material Design Icons";
+    vertical-align: $valign;
+  }
+}
+
+// clearfix
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+// roboto fontface
+@mixin roboto-font($name, $variant, $type, $weight, $style) {
+
+  $font-full-path: '#{$roboto-font-path}/#{$name}-#{$variant}/#{$name}-#{$variant}';
+
+  @font-face {
+    font-family: '#{$name}-#{$variant}';
+    src: url('#{$font-full-path}-#{$type}.eot');
+    src: local('#{$name} #{$variant}'),
+         local('#{$name} #{$variant} #{$type}'),
+         local('#{$name}-#{$variant} #{$type}'),
+         local('#{$name}-#{$variant}-#{$type}'),
+         url('#{$font-full-path}-#{$type}.eot?#iefix') format('embedded-opentype'),
+         url('#{$font-full-path}-#{$type}.woff2') format('woff2'),
+         url('#{$font-full-path}-#{$type}.woff') format('woff'),
+         url('#{$font-full-path}-#{$type}.ttf') format('truetype'),
+         url('#{$font-full-path}-#{$type}.svg##{$variant}') format('svg');
+    font-weight: $weight;
+    font-style: $style;
+  }
+
+  @font-face {
+    font-family: '#{$name}-#{$variant}-#{$type}';
+    src: url('#{$name}-#{$font-full-path}-#{$type}.eot');
+    src: local('#{$name} #{$variant} #{$type}'),
+         local('#{$name}-#{$variant} #{$type}'),
+         local('#{$name}-#{$variant}-#{$type}'),
+         url('#{$font-full-path}-#{$type}.eot?#iefix') format('embedded-opentype'),
+         url('#{$font-full-path}-#{$type}.woff2') format('woff2'),
+         url('#{$font-full-path}-#{$type}.woff') format('woff'),
+         url('#{$font-full-path}-#{$type}.ttf') format('truetype'),
+         url('#{$font-full-path}-#{$type}.svg##{$variant}') format('svg');
+  }
+}
