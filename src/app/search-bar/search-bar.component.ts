@@ -31,6 +31,10 @@ export class SearchBarComponent implements OnInit {
     }
   }
 
+  cleanQuery() {
+    this.searchStr = '';
+  }
+
   onLanguageChanged(lang: string) {
     localStorage.setItem('lang', lang);
     this.translator.language = lang;
@@ -38,12 +42,16 @@ export class SearchBarComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.keyCode === 13) {
-      let q = this.searchStr;
-      if (q == null) {
-        q = '';
-      }
-      this.router.navigate(['/search'], { queryParams: { q: q } });
+      this.search();
     }
+  }
+
+  search() {
+    let q = this.searchStr;
+    if (q == null) {
+      q = '';
+    }
+    this.router.navigate(['/search'], { queryParams: { q: q } });
   }
 
 }
