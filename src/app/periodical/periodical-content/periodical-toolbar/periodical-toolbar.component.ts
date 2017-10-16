@@ -10,6 +10,11 @@ export class PeriodicalToolbarComponent implements OnInit {
 
   @Input() metadata: Metadata;
   @Input() activeLayout: string;
+
+  @Input() gridLayoutEnabled: boolean;
+  @Input() yearsLayoutEnabled: boolean;
+  @Input() calendarLayoutEnabled: boolean;
+  
   @Output() layoutSelected = new EventEmitter<string>();
 
   constructor() { }

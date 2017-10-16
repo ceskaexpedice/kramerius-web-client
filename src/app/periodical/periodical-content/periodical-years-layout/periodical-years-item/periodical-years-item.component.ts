@@ -11,8 +11,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PeriodicalYearsItemComponent implements OnInit {
   @Input() item: PeriodicalItem;
 
-  constructor(private krameriusApiService: KrameriusApiService,
-    private _sanitizer: DomSanitizer) { }
+  constructor() { }
 
   ngOnInit() {
   }
