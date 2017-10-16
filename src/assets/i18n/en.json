@@ -14,7 +14,9 @@
   "filters": {
     "used_header": "Active filters",
     "tooltip_remove_filter": "Cancel this filter",
-    "tooltip_remove_filter_all": "Cancel all filters"
+    "tooltip_remove_filter_all": "Cancel all filters",
+    "btn_show_more": "Show more",
+    "btn_show_less": "Show less"
   },
   "home": {
     "desc": "Searching in digital documents",

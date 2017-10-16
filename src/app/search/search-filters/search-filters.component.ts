@@ -34,17 +34,17 @@ export class SearchFiltersComponent implements OnInit {
      items: [
        {item: "Item 1", count: "333"},
        {item: "Item 2", count: "234"},
-       {item: "Item3", count: "2"}
+       {item: "Item 3", count: "2"}
      ]
    },
-   /*{id: 3, title: "Jazyk",
+   /*{id: 4, title: "Jazyk",
      items: [
        {item: "Item 1", count: "234"},
        {item: "Item 2", count: "33"},
        {item: "Item 3", count: "1"}
      ]
    },
-   {id: 3, title: "Sbírky",
+   {id: 5, title: "Sbírky",
      items: [
        {item: "Item 1", count: "190"},
        {item: "Item 2", count: "23"},

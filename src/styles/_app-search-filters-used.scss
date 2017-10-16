@@ -17,7 +17,7 @@ app-search-filters-used {
       min-height: 1.6rem;
       line-height: 1.6rem;
       
-      .mdi-close-circle{
+      .mdi-close-circle {
         position: absolute;
         top: 0;
         right: 15px;
@@ -33,6 +33,7 @@ app-search-filters-used {
       padding: 0 20px !important;
       border: none;
       color: $app-grey-d-1;
+      line-height: 1.35rem;
       
       span {
         .mdi {

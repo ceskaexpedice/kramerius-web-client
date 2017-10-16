@@ -20,6 +20,12 @@
               </span>
             </span>
           </mz-collection-item>
+          <!-- Priklad tlacitka "show more/show less" -->
+          <mz-collection-item *ngIf="facet.items.length > 5 && i == 5">
+            <span class="app-row">
+              <a class="light-blue-text text-darken-3">{{'filters.btn_show_more' | translate}}</a>
+            </span>
+          </mz-collection-item>
         </ng-container>
       </mz-collection>
       </mz-collapsible-item-body>
