@@ -1,15 +1,18 @@
 <div class="periodical-toolbar">
  
-  <div (click)="selectLayout('years')" class="layout-button" [class.layout-button-active]="activeLayout == 'years'">
-    <img src="/assets/img/ic_periodical_layout_years.png">
-  </div>
-  <div (click)="selectLayout('grid')" class="layout-button" [class.layout-button-active]="activeLayout == 'grid'">
+  <div *ngIf="gridLayoutEnabled" (click)="selectLayout('grid')" class="layout-button" [class.layout-button-active]="activeLayout == 'grid'">
     <img src="/assets/img/ic_periodical_layout_grid.png">
   </div>
-  <!-- <div (click)="selectLayout('list')" class="layout-button" [class.layout-button-active]="activeLayout == 'list'">
-    <img src="/assets/img/ic_periodical_layout_list.png">
-  </div> -->
+      
+  <div *ngIf="yearsLayoutEnabled" (click)="selectLayout('years')" class="layout-button" [class.layout-button-active]="activeLayout == 'years'">
+    <img src="/assets/img/ic_periodical_layout_years.png">
+  </div>
+  
+  <div *ngIf="calendarLayoutEnabled" (click)="selectLayout('calendar')" class="layout-button" [class.layout-button-active]="activeLayout == 'calendar'">
+    <img src="/assets/img/ic_periodical_layout_calendar.png">
+  </div>
   <div class="periodical-title" *ngIf="metadata" >{{ metadata.getTitle() }}</div>
+
 </div>
 
 

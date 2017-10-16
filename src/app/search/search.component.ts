@@ -1,3 +1,5 @@
+import { SolrService } from './../services/solr.service';
+import { DocumentItem } from './../model/document_item.model';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { KrameriusApiService } from '../services/kramerius-api.service';
@@ -9,9 +11,10 @@ import { KrameriusApiService } from '../services/kramerius-api.service';
 })
 export class SearchComponent implements OnInit {
 
-  results: any[] = [];
+  results: DocumentItem[] = [];
 
   constructor(private route: ActivatedRoute,
+    private solrService: SolrService,
     private krameriusApiService: KrameriusApiService) { }
 
   ngOnInit() {
@@ -24,8 +27,9 @@ export class SearchComponent implements OnInit {
 
   makeSearch(query: string) {
     this.krameriusApiService.getSearchResults(query).subscribe(response => {
-      const numFound = response['response']['numFound'];
-      this.results = response['response']['docs'];
+      const numFound = this.solrService.numberOfResults(response);
+      console.log('numberOfResults', numFound);
+      this.results = this.solrService.documentItems(response);
     });
   }
 }

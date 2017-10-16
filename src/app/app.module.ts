@@ -1,3 +1,6 @@
+import { LocalStorageService } from './services/local-storage.service';
+import { DocumentCardComponent } from './shared/document-card/document-card.component';
+import { PeriodicalCalendarLayoutComponent } from './periodical/periodical-content/periodical-calendar-layout/periodical-calendar-layout.component';
 import { PeriodicalYearsItemComponent } from './periodical/periodical-content/periodical-years-layout/periodical-years-item/periodical-years-item.component';
 import { PeriodicalGridItemComponent } from './periodical/periodical-content/periodical-grid-layout/periodical-grid-item/periodical-grid-item.component';
 import { PeriodicalYearsLayoutComponent } from './periodical/periodical-content/periodical-years-layout/periodical-years-layout.component';
@@ -17,7 +20,7 @@ import { TranslatorModule } from 'angular-translator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterializeModule } from 'ng2-materialize';
 import { FormsModule } from '@angular/forms';
-
+import { NgDatepickerModule } from './ng-datepicker/ng-datepicker.module';
 
 
 import { AppComponent } from './app.component';
@@ -39,7 +42,6 @@ import { AppState } from './app.state';
 import { SearchComponent } from './search/search.component';
 import { SearchResultsComponent } from './search/search-results/search-results.component';
 import { SearchFiltersComponent } from './search/search-filters/search-filters.component';
-import { ResultCardComponent } from './search/search-results/result-card/result-card.component';
 import { PeriodicalComponent } from './periodical/periodical.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { SearchFiltersUsedComponent } from './search/search-filters-used/search-filters-used.component';
@@ -73,12 +75,13 @@ const ROUTES: Routes = [
     SearchComponent,
     SearchResultsComponent,
     SearchFiltersComponent,
-    ResultCardComponent,
+    DocumentCardComponent,
     PeriodicalComponent,
     PeriodicalContentComponent,
     PeriodicalToolbarComponent,
     PeriodicalGridLayoutComponent,
     PeriodicalYearsLayoutComponent,
+    PeriodicalCalendarLayoutComponent,
     PeriodicalGridItemComponent,
     PeriodicalYearsItemComponent,
     SearchBarComponent,
@@ -90,6 +93,7 @@ const ROUTES: Routes = [
     BrowserAnimationsModule,
     HttpModule,
     FormsModule,
+    NgDatepickerModule,
     Ng2CompleterModule,
     MaterializeModule.forRoot(),
     RouterModule.forRoot(ROUTES),
@@ -105,7 +109,8 @@ const ROUTES: Routes = [
     Utils,
     SolrService,
     ModsParserService,
-    LibrarySearchService
+    LibrarySearchService,
+    LocalStorageService
   ],
   bootstrap: [AppComponent]
 })

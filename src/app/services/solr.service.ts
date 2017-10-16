@@ -1,3 +1,4 @@
+import { DocumentItem } from './../model/document_item.model';
 import { PeriodicalItem } from './../model/periodicalItem.model';
 import { Injectable } from '@angular/core';
 
@@ -47,5 +48,23 @@ export class SolrService {
     numberOfResults(solr): number {
         return solr['response']['numFound'];
     }
+
+    documentItems(solr): DocumentItem[] {
+        const items: DocumentItem[] = [];
+        for (const doc of solr['response']['docs']) {
+            const item = new DocumentItem();
+            item.title = doc['dc.title'];
+            item.uuid = doc['PID'];
+            item.public = doc['dostupnost'] === 'public';
+            item.doctype = doc['fedora.model'];
+            item.date = doc['datum_str'];
+            item.authors = doc['dc.creator'];
+            item.resolveUrl();
+            items.push(item);
+        }
+        return items;
+    }
+
+
 
 }

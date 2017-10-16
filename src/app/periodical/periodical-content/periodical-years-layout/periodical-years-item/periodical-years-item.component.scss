@@ -35,11 +35,12 @@
         &:hover {
           background: #d4d4d4;
         }
-        // &.kr-missing {
-        //   color: #aaaaaa;
-        //   &:hover {
-        //     background: #aaaaaa;
-        //   }
-        // }
+        &.missing {
+          color: #bbbbbb;
+          cursor: default;
+          &:hover {
+            background: #f0f0f0;
+          }
+        }
     }
 }

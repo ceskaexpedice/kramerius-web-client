@@ -23,10 +23,10 @@
   </div><!--/.row -->
   <div class="row">
     <div class="col s12">
-      <button mz-button class="light-blue darken-3">
+      <a mz-button [routerLink]="['/search']" [queryParams]="{q: ''}" class="light-blue darken-3">
         <i mz-icon-mdi [icon]="'arrow-right'" [align]="'left'"></i>
         {{'home.btn_enter' | translate}}
-      </button>
+      </a>
     </div><!--/.col -->
   </div><!--/.row -->
 </section>
@@ -35,24 +35,33 @@
 <section class="container">
   <ul id="app-tabs-card" class="tabs row app-clean-mg">
     <li class="tab col s4"><a href="#app-tab-1" class="active">{{'home.tab_visited' | translate}}</a></li>
-    <li class="tab col s4"><a href="#app-tab-2">{{'home.tab_requested' | translate}}</a></li>
-    <li class="tab col s4"><a href="#app-tab-3">{{'home.tab_latest' | translate}}</a></li>
-  </ul><!--/.tabs -->
+    <li class="tab col s4"><a href="#app-tab-2">{{'home.tab_latest' | translate}}</a></li>
+    <li class="tab col s4"><a href="#app-tab-3">{{'home.tab_recommended' | translate}}</a></li>
+  </ul>
+ 
   <div id="app-tab-1" class="col s12 grey lighten-5 app-tab-content">
     <div class="app-tab-wrapper">
-      Tab content 1
-    </div><!--/.app-tab-wrapper -->
-  </div><!--/.app-tab-content -->
+      
+        <app-document-card *ngFor="let item of visited" [item]="item"></app-document-card>         
+
+    </div>
+  </div>
+
   <div id="app-tab-2" class="col s12 grey lighten-5 app-tab-content">
     <div class="app-tab-wrapper">
-      Tab content 2
-    </div><!--/.app-tab-wrapper -->
-  </div><!--/.app-tab-content -->
+        
+        <app-document-card *ngFor="let item of newest" [item]="item"></app-document-card> 
+    
+    </div>
+  </div>
+
   <div id="app-tab-3" class="col s12 grey lighten-5 app-tab-content">
     <div class="app-tab-wrapper">
-      Tab content 3
-    </div><!--/.app-tab-wrapper -->
-  </div><!--/.app-tab-content -->
+
+        <app-document-card *ngFor="let item of recommended" [item]="item"></app-document-card> 
+        
+    </div>
+  </div>
 </section>
 
 

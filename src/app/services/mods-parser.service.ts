@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Metadata, TitleInfo, Author, Publisher, Location } from './../model/metadata.model';
 import { Page } from './../model/page.model';
 import { Injectable } from '@angular/core';
@@ -93,7 +94,24 @@ export class ModsParserService {
         for (const item of array) {
             const publisher = new Publisher();
             publisher.name = this.getText(item.publisher);
-            publisher.date = this.getText(item.dateIssued);
+            let dateFrom = null;
+            let dateTo = null;
+            let date = null;
+            if (item.dateIssued) {
+                for (const dateIssued of item.dateIssued) {
+                    if (this.hasAttribute(dateIssued, 'point', 'start')) {
+                        dateFrom = this.getText(dateIssued);
+                    } else if (this.hasAttribute(dateIssued, 'point', 'end')) {
+                        dateTo = this.getText(dateIssued);
+                    } else {
+                        date = this.getText(dateIssued);
+                    }
+                }
+                if (dateFrom && dateTo) {
+                    date = dateFrom + '-' + dateTo;
+                }
+                publisher.date = date;
+            }
             if (!publisher.empty()) {
                 metadata.publishers.push(publisher);
             }
@@ -166,10 +184,23 @@ export class ModsParserService {
 
     private getText(element) {
         if (element) {
-            return element[0]['_'];
+            if (Array.isArray(element)) {
+                return element[0]['_'];
+            } else {
+                return element['_'];
+            }
         } else {
             return null;
         }
+    }
+
+
+    private hasAttribute(element, attr, value) {
+        const params = element['$'];
+        if (params && params[attr] === value) {
+            return true;
+        }
+        return false;
     }
 
 

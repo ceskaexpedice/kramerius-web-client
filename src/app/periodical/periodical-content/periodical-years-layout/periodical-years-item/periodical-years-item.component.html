@@ -1,3 +1,9 @@
-<a class="periodical-years-item" routerLink="{{item.getUrl()}}">
+
+<a *ngIf="item.uuid; else missing" class="periodical-years-item" routerLink="{{item.getUrl()}}">
   <div class="periodical-years-item-title">{{ item.title }}</div>
 </a>
+<ng-template #missing>
+  <div class="periodical-years-item">
+    <div class="periodical-years-item-title missing">{{ item.title }}</div>
+  </div>
+</ng-template>

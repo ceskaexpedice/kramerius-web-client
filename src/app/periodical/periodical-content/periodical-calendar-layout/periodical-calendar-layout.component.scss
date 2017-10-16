@@ -1,0 +1,22 @@
+.periodical-calendar-layout {
+    height: 100%;
+    overflow: auto;
+    padding: 10px 10px;
+    .datepicker-container {
+        float: left;
+        width: 100%;
+        padding: 5px;
+        @media (min-width: 920px) {
+            width: 50%;
+        }
+        @media (min-width: 1250px) {
+            width: 33.333%;
+        }
+        @media (min-width: 1500px) {
+            width: 25%;
+        }
+        @media (min-width: 2150px) {
+            width: 16.666%;
+        }
+    }
+}

@@ -1,3 +1,4 @@
+import { SolrService } from './solr.service';
 import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
 import { NotFoundError } from './../common/errors/not-found-error';
@@ -20,7 +21,10 @@ export class KrameriusApiService {
 
 
 
-    constructor(private http: Http, private utils: Utils) { }
+    constructor(private http: Http,
+        private utils: Utils,
+        private solrService: SolrService) {
+    }
 
 
     private handleError(error: Response) {
@@ -46,6 +50,20 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
+    getNewest() {
+        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph%20OR%20fedora.model:periodical%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=9&start=0';
+        return this.http.get(url)
+            .map(response => this.solrService.documentItems(response.json()))
+            .catch(this.handleError);
+    }
+
+    getRecommended() {
+        const url = this.BASE_URL + '/search/api/v5.0/feed/custom';
+        return this.http.get(url)
+            .map(response => this.utils.parseRecommended(response.json()))
+            .catch(this.handleError);
+    }
+
 
     getPeriodicalVolumes(uuid: string) {
         const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/*%20AND%20level:1%20AND%20(fedora.model:periodicalvolume)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=1500&start=0';
@@ -55,7 +73,7 @@ export class KrameriusApiService {
     }
 
     getPeriodicalIssues(periodicalUuid: string, volumeUuid: string) {
-        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*%20AND%20level:2%20AND%20(fedora.model:periodicalitem%20OR%20fedora.model:supplement)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=100&start=0';
+        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*%20AND%20level:2%20AND%20(fedora.model:periodicalitem%20OR%20fedora.model:supplement)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=1000&start=0';
         return this.http.get(url)
             .map(response => response.json())
             .catch(this.handleError);
@@ -75,10 +93,6 @@ export class KrameriusApiService {
     getThumbUrl(uuid: string) {
         return this.getItemUrl(uuid) + '/thumb';
     }
-
-    // getThumbUrl2(uuid: string) {
-    //     return `${this.BASE_URL}/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
-    // }
 
     getDc(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
@@ -104,7 +118,7 @@ export class KrameriusApiService {
     getItem(uuid: string) {
         const url = this.getItemUrl(uuid);
         return this.http.get(url)
-          .map(response => response.json())
+          .map(response => this.utils.parseItem(response.json()))
           .catch(this.handleError);
     }
 

@@ -12,6 +12,8 @@ export class Metadata {
     public genres: string[] = [];
 
     public doctype: string;
+    public volume: Volume = new Volume();
+
 
     constructor() {
     }
@@ -23,6 +25,41 @@ export class Metadata {
             return '';
         }
     }
+
+    public getYearRange() {
+        if (this.publishers && this.volume) {
+          let min: number;
+          let max: number;
+          this.publishers.forEach(function(publisher) {
+            if (publisher && publisher.date) {
+              const d = publisher.date.replace(/ /g, '').split('-');
+              if (d.length === 2) {
+                if (!(isNaN(d[0]) || isNaN(d[1]) || d[0] % 1 !== 0 || d[1] % 1 !== 0)) {
+                  const d1 = parseInt(d[0], 10);
+                  const d2 = parseInt(d[1], 10);
+                  if (!min || d1 < min) {
+                    min = d1;
+                  }
+                  if (!max || d2 > max) {
+                    max = d2;
+                  }
+                }
+              }
+            }
+          });
+          const currentYear = new Date().getFullYear();
+          if (max && max > currentYear) {
+            max = currentYear;
+          }
+          if (min && max) {
+            return [min, max];
+          }
+        }
+    }
+
+
+
+
 }
 
 
@@ -31,6 +68,10 @@ export class TitleInfo {
     public subTitle;
 }
 
+export class Volume {
+    public year;
+    public number;
+}
 
 export class Author {
     public name;

@@ -1,9 +1,12 @@
-<div class="periodical-content">
-  
+<div class="periodical-content" *ngIf="metadata">
+                  
   <app-periodical-toolbar 
         *ngIf="metadata"
         (layoutSelected)="onLayoutSelected($event)" 
         [activeLayout]="activeLayout" 
+        [yearsLayoutEnabled]="yearsLayoutEnabled"
+        [calendarLayoutEnabled]="calendarLayoutEnabled"
+        [gridLayoutEnabled]="gridLayoutEnabled"
         [metadata]="metadata">
   </app-periodical-toolbar>
   
@@ -14,9 +17,18 @@
   </app-periodical-grid-layout>  
   
   <app-periodical-years-layout
-        *ngIf="activeLayout=='years'" 
+        *ngIf="activeLayout=='years' && items"
         class="periodical-layout"
-        [items]="items">
+        [items]="items"
+        [min]="minYear"
+        [max]="maxYear">
   </app-periodical-years-layout>    
+
+  <app-periodical-calendar-layout
+            *ngIf="items && metadata && activeLayout=='calendar'" 
+            class="periodical-layout"
+            [year]="metadata.volume.year"
+            [items]="items">
+  </app-periodical-calendar-layout>   
   
 </div>

@@ -1,3 +1,4 @@
+import { DocumentItem } from './../../model/document_item.model';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -7,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SearchResultsComponent implements OnInit {
 
-  @Input() results;
+  @Input() results: DocumentItem[];
 
   constructor() { }
 
