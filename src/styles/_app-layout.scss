@@ -14,11 +14,20 @@ app-root {
     
     app-search,
     app-periodical,
-    app-book {
+    app-book,
+    app-home {
       width: 100%;
       height: 100%;
       display: flex;
       flex-flow: row;
+    }
+    
+    app-home {
+      .app-content-wrapper {
+        flex: 1;
+        height: 100%;
+        overflow: auto;
+      }
     }
     
     app-search-filters,
@@ -40,7 +49,8 @@ app-root {
         flex: 1;
         height: 100%;
         background-color: color("shades", "white");
-        padding: 5px;
+        //padding: 5px;
+        padding: 0.5rem;
       }
     }
     

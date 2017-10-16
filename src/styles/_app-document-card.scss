@@ -1,0 +1,74 @@
+// --- RESULT CARD ---
+
+app-document-card {
+  position: relative;
+  
+  .card {
+    @include set-border(all, 1, solid, $app-grey-l-2);
+    box-shadow: 0 2px 2px 0 rgba(38, 50, 56, 0), 0 1px 5px 0 rgba(38, 50, 56, 0.1), 0 3px 1px -20px rgba(38, 50, 56, 0.1);
+    margin: 0.5rem;
+    height: 144px;
+    /*overflow: hidden;*/
+    
+    .app-card-mark {
+      width: 5px;
+      height: 30px;
+      background-color: $app-grey-l-1;
+      position: absolute;
+      top: 15px;
+      left: -3px;
+      
+      &.monograph {
+        background-color: #d8376f;
+      }
+      &.periodical {
+        background-color: #7ab871;
+      }
+      &.sheetmusic {
+        background-color: #9078c7;
+      }
+      &.map {
+        background-color: #ffab30;
+      }
+      &.graphic {
+        background-color: #1e83d2;
+      }
+    }
+    
+    .card-content {
+      padding: 15px;
+      height: 100%;
+      overflow: hidden;
+      
+      p {
+        height: 100%;
+        
+        mz-card-content {
+          display: table;
+          width: 100%;
+          height: 100%;
+
+          .app-media {
+            display: table-cell;
+            height: 100%;
+            width: 90px;
+
+            .app-thumb {
+              height: 100%;
+              width: 100%;
+              background-repeat: no-repeat;
+              background-position: top left;
+              background-size: contain;
+              z-index: 1199;
+            }
+          }
+          .app-content {
+            display: table-cell;
+            vertical-align: top;
+            padding-left: 15px;
+          }
+        } 
+      }
+    }
+  }
+}

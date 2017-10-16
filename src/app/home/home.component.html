@@ -1,67 +1,62 @@
-<section class="container center-align">
-  <div class="row">
-    <div class="col s12">
-      <a [routerLink]="['']" class="brand-logo" mz-tooltip [tooltip]="'navbar.home' | translate" [position]="'bottom'">
-        <img src="/assets/img/logo-kramerius.png" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />
-      </a>
-    </div><!--/.col -->
-  </div><!--/.row -->
-  <div class="row">
-    <div class="col offset-s4 s4 offset-s4">
-      <div class="divider"></div>
-    </div><!--/.col -->
-  </div><!--/.row -->
-  <div class="row">
-    <div class="col s12 grey-text text-darken-5">
-      {{'home.desc' | translate}}
-    </div><!--/.col -->
-  </div><!--/.row -->
-  <div class="row">
-    <div class="col offset-s1 s11">
-      <app-search-bar class="left-align"></app-search-bar>
-    </div><!--/.col -->
-  </div><!--/.row -->
-  <div class="row">
-    <div class="col s12">
-      <a mz-button [routerLink]="['/search']" [queryParams]="{q: ''}" class="light-blue darken-3">
-        <i mz-icon-mdi [icon]="'arrow-right'" [align]="'left'"></i>
-        {{'home.btn_enter' | translate}}
-      </a>
-    </div><!--/.col -->
-  </div><!--/.row -->
-</section>
+<div class="app-content-wrapper">
+  <section class="container center-align">
+    <div class="row">
+      <div class="col s12">
+        <a [routerLink]="['']" class="brand-logo" mz-tooltip [tooltip]="'navbar.home' | translate" [position]="'bottom'">
+          <img src="/assets/img/logo-kramerius.png" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />
+        </a>
+      </div><!--/.col -->
+    </div><!--/.row -->
+    <div class="row">
+      <div class="col offset-s4 s4 offset-s4">
+        <div class="divider"></div>
+      </div><!--/.col -->
+    </div><!--/.row -->
+    <div class="row">
+      <div class="col s12 grey-text text-darken-5">
+        {{'home.desc' | translate}}
+      </div><!--/.col -->
+    </div><!--/.row -->
+    <div class="row">
+      <div class="col offset-s1 s11">
+        <app-search-bar class="left-align"></app-search-bar>
+      </div><!--/.col -->
+    </div><!--/.row -->
+    <div class="row">
+      <div class="col s12">
+        <a mz-button [routerLink]="['/search']" [queryParams]="{q: ''}" class="light-blue darken-3 z-depth-0">
+          <i mz-icon-mdi [icon]="'arrow-right'" [align]="'left'"></i>
+          {{'home.btn_enter' | translate}}
+        </a>
+      </div><!--/.col -->
+    </div><!--/.row -->
+  </section>
 
-<!-- Musi se otestovat jestli existuje obsah alespon jednoho tabu + kolik tabu je a podle toho priradit class - s1 - s4 -->
-<section class="container">
-  <ul id="app-tabs-card" class="tabs row app-clean-mg">
-    <li class="tab col s4"><a href="#app-tab-1" class="active">{{'home.tab_visited' | translate}}</a></li>
-    <li class="tab col s4"><a href="#app-tab-2">{{'home.tab_latest' | translate}}</a></li>
-    <li class="tab col s4"><a href="#app-tab-3">{{'home.tab_recommended' | translate}}</a></li>
-  </ul>
- 
-  <div id="app-tab-1" class="col s12 grey lighten-5 app-tab-content">
-    <div class="app-tab-wrapper">
-      
+  <!-- Musi se otestovat jestli existuje obsah alespon jednoho tabu + kolik tabu je a podle toho priradit class - s1 - s4 -->
+  <section class="container">
+    <ul id="app-tabs-card" class="tabs row app-clean-mg">
+      <li class="tab col s4"><a href="#app-tab-1" class="active">{{'home.tab_visited' | translate}}</a></li>
+      <li class="tab col s4"><a href="#app-tab-2">{{'home.tab_latest' | translate}}</a></li>
+      <li class="tab col s4"><a href="#app-tab-3">{{'home.tab_recommended' | translate}}</a></li>
+    </ul>
+
+    <div id="app-tab-1" class="col s12 grey lighten-5 app-tab-content">
+      <div class="app-tab-wrapper">
         <app-document-card *ngFor="let item of visited" [item]="item"></app-document-card>         
-
+      </div>
     </div>
-  </div>
 
-  <div id="app-tab-2" class="col s12 grey lighten-5 app-tab-content">
-    <div class="app-tab-wrapper">
-        
+    <div id="app-tab-2" class="col s12 grey lighten-5 app-tab-content">
+      <div class="app-tab-wrapper">
         <app-document-card *ngFor="let item of newest" [item]="item"></app-document-card> 
-    
+      </div>
     </div>
-  </div>
 
-  <div id="app-tab-3" class="col s12 grey lighten-5 app-tab-content">
-    <div class="app-tab-wrapper">
-
+    <div id="app-tab-3" class="col s12 grey lighten-5 app-tab-content">
+      <div class="app-tab-wrapper">
         <app-document-card *ngFor="let item of recommended" [item]="item"></app-document-card> 
-        
+      </div>
     </div>
-  </div>
-</section>
-
+  </section>
+</div><!--/.app-content-wrapper -->
 
