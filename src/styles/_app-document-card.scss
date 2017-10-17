@@ -5,34 +5,38 @@ app-document-card {
   
   .card {
     @include set-border(all, 1, solid, $app-grey-l-2);
+    @extend .app-cursor-pointer;
     box-shadow: 0 2px 2px 0 rgba(38, 50, 56, 0), 0 1px 5px 0 rgba(38, 50, 56, 0.1), 0 3px 1px -20px rgba(38, 50, 56, 0.1);
     margin: 0.5rem;
     height: 144px;
-    /*overflow: hidden;*/
+    
+    &.hoverable {
+      &:hover {
+        @include set-border(all, 1, solid, $app-grey-c-1);
+        box-shadow: 0 8px 17px 0 rgba(38, 50, 56, 0.1), 0 6px 20px 0 rgba(38, 50, 56, 0.19);
+      }
+    }
     
     .app-card-mark {
-      width: 5px;
-      height: 30px;
+      width: 3px; // 5
+      height: 40px; // 30
       background-color: $app-grey-l-1;
       position: absolute;
       top: 15px;
-      left: -3px;
-      
-      &.monograph {
-        background-color: #d8376f;
-      }
-      &.periodical {
-        background-color: #7ab871;
-      }
-      &.sheetmusic {
-        background-color: #9078c7;
-      }
-      &.map {
-        background-color: #ffab30;
-      }
-      &.graphic {
-        background-color: #1e83d2;
-      }
+      left: -2px; // -3
+    }
+    
+    // set type of document color
+    .app-card-mark,
+    .app-card-doctype {
+      &.monograph {background-color: $app-type-monograph}
+      &.periodical {background-color: $app-type-periodical}
+      &.soundrecording {background-color: $app-type-soundrecording}
+      &.map {background-color: $app-type-map}
+      &.graphic {background-color: $app-type-graphic}
+      &.sheetmusic {background-color: $app-type-sheetmusic}
+      &.archive {background-color: $app-type-archive}
+      &.manuscript {background-color: $app-type-manuscript}
     }
     
     .card-content {
@@ -48,24 +52,64 @@ app-document-card {
           width: 100%;
           height: 100%;
 
-          .app-media {
+          .app-card-media {
             display: table-cell;
             height: 100%;
             width: 90px;
 
-            .app-thumb {
+            .app-card-thumb {
               height: 100%;
               width: 100%;
               background-repeat: no-repeat;
               background-position: top left;
               background-size: contain;
-              z-index: 1199;
             }
           }
-          .app-content {
+          
+          .app-card-content {
             display: table-cell;
             vertical-align: top;
             padding-left: 15px;
+            font-size: 0.9rem;
+            color: $app-grey-d-1;
+            position: relative;
+            
+            .app-card-title {
+              font-weight: 500;
+              font-size: 1.1rem;
+              margin-bottom: 5px;
+              color: $primary-color;
+              overflow: hidden;
+              line-height: 20px;
+              height: 40px;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+              display: -webkit-box;
+              text-overflow: ellipsis;
+            }
+            
+            .app-card-authors {
+              overflow: hidden;
+              line-height: 1.1rem;
+              height: 1.1rem;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+              display: -webkit-box;
+              text-overflow: ellipsis;
+            }
+            
+            .app-card-doctype {
+              position: absolute;
+              bottom: 0;
+              right: 0;
+              color: color("shades", "white");
+              padding: 0 6px;
+              border-radius: $app-border-radius;
+            }
+            
+            .mdi:before {
+              font-size: 1rem;
+            }
           }
         } 
       }

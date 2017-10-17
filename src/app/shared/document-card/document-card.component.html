@@ -1,31 +1,24 @@
-<!--<a class="document-card-wrapper" *ngIf="item" routerLink="{{item.url}}">
-  <div class="document-card">      
-    <div class="document-card-strip">
-      <div class="document-card-strip-in document-card-strip-{{item.doctype}}"></div>
-    </div>
-    <div class="document-card-image">
-      <div class="image" [style.background-image]="getThumb()"></div>
-    </div>
-    <div class="document-card-content">
-        <div class="document-card-title">{{item.title}}</div>
-        <div class="document-card-authors">{{item.authors}}</div>
-        <div class="document-card-date">{{item.date}}</div>
-        <div class="document-card-doctype">{{ 'model.' + item.doctype | translate }}</div>
-    </div>
-  </div>
-</a>-->
-
 <mz-card *ngIf="item" routerLink="{{item.url}}" [hoverable]="true">
   <mz-card-content>
     <div class="app-card-mark {{item.doctype}}"></div>
-    <div class="app-media">
-      <div class="app-thumb" [style.background-image]="getThumb()"></div>
-    </div>
-    <div class="app-content">
-      <div class="document-card-title">{{item.title}}</div>
-      <div class="document-card-authors">{{item.authors}}</div>
-      <div class="document-card-date">{{item.date}}</div>
-      <div class="document-card-doctype">{{ 'model.' + item.doctype | translate }}</div>
-    </div>
+    <div class="app-card-media">
+      <div class="app-card-thumb" [style.background-image]="getThumb()"></div>
+    </div><!--/.app-card-media -->
+    <div class="app-card-content">
+      <div *ngIf="item.title" class="app-card-title" mz-tooltip [tooltip]="item.title" [position]="'top'">
+        {{item.title}}
+      </div><!--/.app-card-title -->
+      <div *ngIf="item.authors" class="app-card-authors" mz-tooltip [tooltip]="item.authors" [position]="'top'">
+        <i mz-icon-mdi [icon]="'account'" [class]="'app-clean-mg'"></i>
+        {{item.authors}}
+      </div><!--/.app-card-authors -->
+      <div *ngIf="item.date" class="app-card-date">
+        <i mz-icon-mdi [icon]="'calendar-check'" [class]="'app-clean-mg'"></i>
+        {{item.date}}
+      </div><!--/.app-card-date -->
+      <div *ngIf="item.doctype" class="app-card-doctype {{item.doctype}}">
+        {{ 'model.' + item.doctype | translate }}
+      </div><!--/.app-card-doctype -->
+    </div><!--/.app-card-content -->
   </mz-card-content>
 </mz-card>
