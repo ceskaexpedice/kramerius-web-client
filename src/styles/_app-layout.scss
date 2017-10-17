@@ -22,6 +22,7 @@ app-root {
       flex-flow: row;
     }
     
+    // home
     app-home {
       .app-content-wrapper {
         flex: 1;
@@ -30,6 +31,7 @@ app-root {
       }
     }
     
+    // common behavior
     app-search-filters,
     app-navigation,
     app-metadata {
@@ -40,7 +42,7 @@ app-root {
       @include set-border(right, 2, solid, $app-grey-l-2);
     }
     
-    app-search {
+    /*app-search {
       app-search-filters {
         float: left;
         //width: 260px;
@@ -48,12 +50,43 @@ app-root {
       app-search-results {
         flex: 1;
         height: 100%;
-        background-color: color("shades", "white");
-        //padding: 5px;
+        background-color: color("shades", "white")
         padding: 0.5rem;
+      }
+    }*/
+    
+    // search
+    app-search {
+      app-search-filters {
+        float: left;
+      }
+      .app-search-wrapper {
+        flex: 1;
+        height: 100%;
+        background-color: color("shades", "white");
+        
+        app-search-filters-doctype {
+          display: block;
+          height: 55px;
+          line-height: 55px;
+          margin: 0 1rem;
+          @include set-border(bottom, 1, solid, $app-grey-c-2);
+          
+          .col {
+            padding: 0;
+          }
+        }
+        
+        app-search-results {
+          display: block;
+          height: calc(100% - 55px);
+          overflow: auto;
+          padding: 0.5rem;
+        }
       }
     }
     
+    // book
     app-book {
       app-viewer {
         flex: 1;
@@ -70,7 +103,8 @@ app-root {
         //width: 300px;
       }
     }
-
+    
+    // periodical
     app-periodical  {
       app-periodical-content {
         flex: 1;

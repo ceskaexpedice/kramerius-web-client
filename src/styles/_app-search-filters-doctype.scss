@@ -1,0 +1,28 @@
+// --- FILTERS DOCTYPE ---
+
+app-search-filters-doctype {
+  ul {
+    @extend .app-clean-mg;
+    
+    li {
+      float: left;
+      
+      &.active {
+        position: relative;
+        
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          @include set-border(bottom, 3, solid, $app-type-periodical);
+        }
+      }
+      
+      a {
+        padding: 0 1rem;
+      }
+    }
+  }
+}

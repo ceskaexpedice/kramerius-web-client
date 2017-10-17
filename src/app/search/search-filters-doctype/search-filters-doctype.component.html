@@ -1,0 +1,15 @@
+<div class="row app-clean-mg">
+  <div class="col s8">
+    <ul>
+      <ng-container>
+        <li *ngFor="let docTypeItem of doctype" [ngClass]="{'active' : docTypeItem.active === true}" class="{{docTypeItem.type}}">
+          <a>{{docTypeItem.title}}</a>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+  <div class="col s4 right-align">
+    right col
+  </div>
+</div>
+
