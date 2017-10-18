@@ -1,28 +1,113 @@
 // --- FILTERS DOCTYPE ---
 
 app-search-filters-doctype {
+  // common behavior
   ul {
     @extend .app-clean-mg;
     
     li {
       float: left;
+      color: $app-grey-l-1;
       
-      &.active {
-        position: relative;
-        
-        &:after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          @include set-border(bottom, 3, solid, $app-type-periodical);
+      &:not(.active) {
+        span {
+          &:hover {
+            color: $app-grey-d-1;
+          } 
         }
       }
-      
-      a {
-        padding: 0 1rem;
+    }
+  }
+  
+  // doctype col
+  .app-col-doctype {
+     ul {
+      li {
+        margin-right: 1px;
+
+        &.active {
+          position: relative;
+
+          &.monograph {
+            color: $app-type-monograph;
+            &:after {border-color: $app-type-monograph;}
+          }
+          &.periodical {
+            color: $app-type-periodical;
+            &:after {border-color: $app-type-periodical;}
+          }
+          &.soundrecording {
+            color: $app-type-soundrecording;
+            &:after {border-color: $app-type-soundrecording;}
+          }
+          &.map {
+            color: $app-type-map;
+            &:after {border-color: $app-type-map;}
+          }
+          &.graphic {
+            color: $app-type-graphic;
+            &:after {border-color: $app-type-graphic;}
+          }
+          &.sheetmusic {
+            color: $app-type-sheetmusic;
+            &:after {border-color: $app-type-sheetmusic;}
+          }
+          &.archive {
+            color: $app-type-archive;
+            &:after {border-color: $app-type-archive;}
+          }
+          &.manuscript {
+            color: $app-type-manuscript;
+            &:after {border-color: $app-type-manuscript;}
+          }
+
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            @include set-border(bottom, 2, solid, $app-grey);
+          }
+        }
+
+        span {
+          padding: 0 1rem;
+
+          i {
+            margin-right: 3px;
+          }
+        }
       }
     }
+  }
+  
+  // sort col
+  .app-col-sort {
+    ul {
+      li {
+        &.active {
+          color: $primary-color;
+        }
+        
+        span {
+          padding: 0 0.8rem;
+          
+          .app-mdi-menu-down {
+            margin-right: -4px;
+          }
+          
+          label {
+            font-size: inherit;
+          }
+        }
+        
+        &:not(:first-child) {
+          & > span {
+            @include set-border(left, 1, solid, $app-grey-l-2);
+          } 
+        }
+      }
+    }  
   }
 }

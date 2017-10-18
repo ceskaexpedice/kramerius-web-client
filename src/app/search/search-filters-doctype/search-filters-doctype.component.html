@@ -1,15 +1,45 @@
 <div class="row app-clean-mg">
-  <div class="col s8">
+  <div class="col s8 app-col-doctype">
     <ul>
-      <ng-container>
-        <li *ngFor="let docTypeItem of doctype" [ngClass]="{'active' : docTypeItem.active === true}" class="{{docTypeItem.type}}">
-          <a>{{docTypeItem.title}}</a>
-        </li>
-      </ng-container>
+      <li *ngFor="let docTypeItem of doctype" [ngClass]="{'active' : docTypeItem.active === true}" class="{{docTypeItem.type}}">
+        <span mz-tooltip [tooltip]="docTypeItem.title" [position]="'top'" class="app-cursor-pointer">
+          <i [class]="'app-mdi-' + docTypeItem.type"></i> {{docTypeItem.count}}
+        </span>
+      </li>
     </ul>
-  </div>
-  <div class="col s4 right-align">
-    right col
-  </div>
-</div>
+  </div><!--/.col -->
+  <div class="col s4 app-col-sort">
+    <ul class="right">
+      <li>
+        <span class="app-cursor-pointer">
+          <label>Řazení:</label>
+          <a id="app-btn-sort" href="#">dle relevance <i class="app-mdi-menu-down"></i></a>
+          <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
+            <mz-dropdown-item><a href="#!">Dle abecedy</a></mz-dropdown-item>
+            <mz-dropdown-item><a href="#!">Dle data</a></mz-dropdown-item>
+          </mz-dropdown>
+        </span>
+      </li>
+      <li>
+        <span class="app-cursor-pointer">
+          <a id="app-btn-count-row" href="#">10 <i class="app-mdi-menu-down"></i></a>
+          <mz-dropdown [id]="'app-count-row'" [dropdownButtonId]="'app-btn-count-row'" [constrainWidth]="false">
+            <mz-dropdown-item><a href="#!">20</a></mz-dropdown-item>
+            <mz-dropdown-item><a href="#!">30</a></mz-dropdown-item>
+          </mz-dropdown>
+        </span>
+      </li>
+      <li>
+        <span mz-tooltip [tooltip]="'doctype.tooltip_show_chartbar' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-chart-bar"></i>
+        </span>
+      </li>
+      <li class="active">
+        <span mz-tooltip [tooltip]="'doctype.tooltip_show_date' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-calendar-range"></i>
+        </span>
+      </li>
+    </ul>
+  </div><!--/.col -->
+</div><!--/.row -->
 
