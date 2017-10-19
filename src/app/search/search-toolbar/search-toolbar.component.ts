@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-search-filters-doctype',
-  templateUrl: './search-filters-doctype.component.html',
-  styleUrls: ['./search-filters-doctype.component.scss']
+  selector: 'app-search-toolbar',
+  templateUrl: './search-toolbar.component.html',
+  styleUrls: ['./search-toolbar.component.scss']
 })
-export class SearchFiltersDoctypeComponent implements OnInit {
+export class SearchToolbarComponent implements OnInit {
   
   // --- PRO TESTOVANI, POTOM VYMAZAT --- !!!!
  doctype = [
@@ -19,7 +19,6 @@ export class SearchFiltersDoctypeComponent implements OnInit {
    {id: 8, title: "Rukopisy", type: "manuscript", count: "103"}
  ]
  // --- PRO TESTOVANI, POTOM VYMAZAT --- !!!!
-
 
   constructor() { }
 

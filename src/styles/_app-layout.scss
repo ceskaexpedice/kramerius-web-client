@@ -65,7 +65,7 @@ app-root {
         height: 100%;
         background-color: color("shades", "white");
         
-        app-search-filters-doctype {
+        app-search-toolbar {
           display: block;
           height: 55px;
           line-height: 55px;
@@ -74,6 +74,10 @@ app-root {
           
           .col {
             padding: 0;
+            
+            h5 {
+              line-height: 55px;
+            }
           }
         }
         

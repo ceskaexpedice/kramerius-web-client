@@ -1,5 +1,5 @@
 <div class="row app-clean-mg">
-  <div class="col s8 app-col-doctype">
+  <div class="col s8 app-col-left">
     <ul>
       <li *ngFor="let docTypeItem of doctype" [ngClass]="{'active' : docTypeItem.active === true}" class="{{docTypeItem.type}}">
         <span mz-tooltip [tooltip]="docTypeItem.title" [position]="'top'" class="app-cursor-pointer">
@@ -8,7 +8,7 @@
       </li>
     </ul>
   </div><!--/.col -->
-  <div class="col s4 app-col-sort">
+  <div class="col s4 app-col-right">
     <ul class="right">
       <li>
         <span class="app-cursor-pointer">

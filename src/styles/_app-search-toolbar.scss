@@ -1,6 +1,6 @@
 // --- FILTERS DOCTYPE ---
 
-app-search-filters-doctype {
+app-search-toolbar {
   // common behavior
   ul {
     @extend .app-clean-mg;
@@ -19,9 +19,12 @@ app-search-filters-doctype {
     }
   }
   
-  // doctype col
-  .app-col-doctype {
-     ul {
+  .app-col-left {
+    h5 {
+      color: $app-grey-d-1;
+    }
+    
+    ul {
       li {
         margin-right: 1px;
 
@@ -82,8 +85,7 @@ app-search-filters-doctype {
     }
   }
   
-  // sort col
-  .app-col-sort {
+  .app-col-right {
     ul {
       li {
         &.active {

@@ -47,7 +47,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { SearchFiltersUsedComponent } from './search/search-filters-used/search-filters-used.component';
 import { SearchCountComponent } from './search/search-count/search-count.component';
 import { SearchPaginationComponent } from './search/search-pagination/search-pagination.component';
-import { SearchFiltersDoctypeComponent } from './search/search-filters-doctype/search-filters-doctype.component';
+import { SearchToolbarComponent } from './search/search-toolbar/search-toolbar.component';
 
 
 const ROUTES: Routes = [
@@ -90,7 +90,7 @@ const ROUTES: Routes = [
     SearchFiltersUsedComponent,
     SearchCountComponent,
     SearchPaginationComponent,
-    SearchFiltersDoctypeComponent
+    SearchToolbarComponent
   ],
   imports: [
     BrowserModule,
