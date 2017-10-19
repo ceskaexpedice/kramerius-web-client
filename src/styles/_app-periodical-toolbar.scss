@@ -1,35 +1,67 @@
 // --- PERIODICAL TOOLBAR ---
 
-.periodical-toolbar {
-  height:56px;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-  margin: 0 15px;
-  .periodical-title {
-    line-height: 56px;
-    height: 56px;
-    overflow: hidden;
-    color: #777;
-    font-size: 22px;
-    padding-left: 5px;
-  }
-  .layout-button {
-    float: right;
-    opacity: 0.25;
-    cursor: pointer;
-    &:hover {
-      opacity: 0.7;
+app-periodical-toolbar {
+  display: block;
+  height: $app-toolbar-height;
+  line-height: $app-toolbar-height;
+  margin: 0 1rem;
+  @include set-border(bottom, 1, solid, $app-grey-c-2);
+          
+  .col {
+    @extend .app-clean-pd;
+    
+    // common
+    ul {
+      @extend .app-clean-mg;
+
+      li {
+        float: left;
+        color: $app-grey-l-1;
+
+        &:not(.active) {
+          span {
+            &:hover {
+              color: $app-grey-d-1;
+            } 
+          }
+        }
+      }
     }
-    margin-left: 10px;
-    margin-top: 5px;
-    margin-top: 10px;
-    padding: 8px;
-    img {
-      width: 20px;
-      height: 20px;
+    
+    // col left
+    &.app-col-left {
+      h5 {
+        color: $app-grey-d-1;
+      }
     }
-    &.layout-button-active {
-      opacity: 0.7;
+    
+    // col right
+    &.app-col-right {
+      ul {
+        li {
+          &.active {
+            color: $primary-color;
+          }
+
+          span {
+            padding: 0 0.8rem;
+
+            .app-mdi-menu-down {
+              margin-right: -4px;
+            }
+
+            label {
+              font-size: inherit;
+            }
+          }
+
+          &:not(:first-child) {
+            & > span {
+              @include set-border(left, 1, solid, $app-grey-l-2);
+            } 
+          }
+        }
+      }  
     }
   }
 }

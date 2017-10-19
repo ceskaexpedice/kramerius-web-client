@@ -18,11 +18,14 @@
     "btn_show_more": "Show more",
     "btn_show_less": "Show less"
   },
-  "doctype": {
+  "toolbar": {
     "tooltip_show_chartbar": "Show chart bar",
     "tooltip_hidde_chartbar": "Hidde chart bar",
     "tooltip_show_date": "Show date from - to",
-    "tooltip_hidde_date": "Hidde date from - to"
+    "tooltip_hidde_date": "Hidde date from - to",
+    "tooltip_display_grid": "Display grid",
+    "tooltip_display_years": "Display years",
+    "tooltip_display_calendar": "Display calendar"
   },
   "home": {
     "desc": "Searching in digital documents",

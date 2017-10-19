@@ -1,18 +1,26 @@
-<div class="periodical-toolbar">
- 
-  <div *ngIf="gridLayoutEnabled" (click)="selectLayout('grid')" class="layout-button" [class.layout-button-active]="activeLayout == 'grid'">
-    <img src="/assets/img/ic_periodical_layout_grid.png">
-  </div>
-      
-  <div *ngIf="yearsLayoutEnabled" (click)="selectLayout('years')" class="layout-button" [class.layout-button-active]="activeLayout == 'years'">
-    <img src="/assets/img/ic_periodical_layout_years.png">
-  </div>
-  
-  <div *ngIf="calendarLayoutEnabled" (click)="selectLayout('calendar')" class="layout-button" [class.layout-button-active]="activeLayout == 'calendar'">
-    <img src="/assets/img/ic_periodical_layout_calendar.png">
-  </div>
-  <div class="periodical-title" *ngIf="metadata" >{{ metadata.getTitle() }}</div>
-
-</div>
+<div class="row app-clean-mg">
+  <div *ngIf="metadata" class="col s8 app-col-left">
+    <h5>{{metadata.getTitle()}}</h5>
+  </div><!--/.col -->
+  <div class="col s4 app-col-right">
+    <ul class="right">
+      <li *ngIf="gridLayoutEnabled" (click)="selectLayout('grid')" [class.active]="activeLayout == 'grid'">
+        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_grid' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-view-grid"></i>
+        </span>
+      </li>
+      <li *ngIf="yearsLayoutEnabled" (click)="selectLayout('years')" class="layout-button" [class.active]="activeLayout == 'years'">
+        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_years' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-calendar-blank"></i>
+        </span>
+      </li>
+      <li *ngIf="calendarLayoutEnabled" (click)="selectLayout('calendar')" class="layout-button" [class.active]="activeLayout == 'calendar'">
+        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_calendar' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-calendar-range"></i>
+        </span>
+      </li>
+    </ul>
+  </div><!--/.col -->
+</div><!--/.row -->
 
 

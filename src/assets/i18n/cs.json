@@ -18,11 +18,14 @@
     "btn_show_more": "Zobrazit více",
     "btn_show_less": "Zobrazit méně"
   },
-  "doctype": {
+  "toolbar": {
     "tooltip_show_chartbar": "Zobrazit časovou osu",
     "tooltip_hidde_chartbar": "Skrýt časovou osu",
     "tooltip_show_date": "Zobrazit časové rozmezí od - do",
-    "tooltip_hidde_date": "Skrýt časové rozmezí od - do"
+    "tooltip_hidde_date": "Skrýt časové rozmezí od - do",
+    "tooltip_display_grid": "Zobraz mřížku",
+    "tooltip_display_years": "Zobraz roky",
+    "tooltip_display_calendar": "Zobraz kalendář"
   },
   "home": {
     "desc": "Vyhledávání v digitalizovaných dokumentech",

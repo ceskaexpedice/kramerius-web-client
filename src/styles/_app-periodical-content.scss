@@ -12,7 +12,7 @@ app-periodical-content {
     app-periodical-grid-layout,
     app-periodical-years-layout,
     app-periodical-calendar-layout {
-      height: calc( 100% - 56px);
+      height: calc( 100% - #{$app-toolbar-height});
       display: block;
     }
     

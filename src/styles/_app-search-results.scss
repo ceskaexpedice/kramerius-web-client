@@ -2,7 +2,7 @@
 
 app-search-results {
   display: block;
-  height: calc(100% - 55px);
+  height: calc(100% - #{$app-toolbar-height});
   overflow: auto;
   padding: 0.5rem;
   
