@@ -1,37 +1,6 @@
 // --- MDI ---
 
-/*.app-mdi-menu-down {
-  @include set-mdi-icon(after, F35D, 24, middle);
-}
-
-.app-mdi-menu-up {
-  @include set-mdi-icon(after, F360, 24, middle);
-}
-
-.app-mdi-chart-bar {
-  @include set-mdi-icon(before, F128, 24, middle);
-}
-
-.app-mdi-close {
-  @include set-mdi-icon(before, F156, 24, middle);
-}
-
-.app-mdi-check {
-  @include set-mdi-icon(before, F12C, 24, middle);
-}
-
-.app-mdi-menu {
-  @include set-mdi-icon(after, F35C, 24, middle);
-}
-
-.app-mdi-close-circle {
-  @include set-mdi-icon(before, F159, 24, middle);
-}
-
-.app-mdi-open-in-new {
-  @include set-mdi-icon(before, F3CC, 16, initial);
-}*/
-
+// common 
 .app-mdi-menu-down {@include set-mdi-icon(before, F35D, 24, middle);}
 .app-mdi-chart-bar {@include set-mdi-icon(before, F128, 24, middle);}
 .app-mdi-calendar-range {@include set-mdi-icon(before, F678, 24, middle);}

@@ -1,6 +1,11 @@
 // --- SEARCH RESULTS --
 
 app-search-results {
+  display: block;
+  height: calc(100% - 55px);
+  overflow: auto;
+  padding: 0.5rem;
+  
   app-document-card {
     float: left;
     width:16.66666%;

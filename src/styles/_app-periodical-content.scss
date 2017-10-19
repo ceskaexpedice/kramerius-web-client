@@ -1,0 +1,24 @@
+// --- PERIODICAL CONTENT ---
+
+app-periodical-content {
+  flex: 1;
+  height: 100%;
+  
+  .periodical-content {
+    background: color("shades", "white");
+    height: 100%;
+
+    // common
+    app-periodical-grid-layout,
+    app-periodical-years-layout,
+    app-periodical-calendar-layout {
+      height: calc( 100% - 56px);
+      display: block;
+    }
+    
+    @import "styles/app-periodical-toolbar";
+    @import "styles/app-periodical-grid-layout";
+    @import "styles/app-periodical-calendar-layout";
+    @import "styles/app-periodical-years-layout";
+  }
+}

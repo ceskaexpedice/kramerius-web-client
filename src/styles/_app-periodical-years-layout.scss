@@ -1,0 +1,11 @@
+// --- PERIODICAL YEARS LAYOUT ---
+
+app-periodical-years-layout {
+  .periodical-years-layout {
+    height: 100%;
+    overflow: auto;
+    padding: 10px 10px;
+    
+    @import "styles/app-periodical-years-item";
+  }
+}

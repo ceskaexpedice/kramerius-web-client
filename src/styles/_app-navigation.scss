@@ -1,0 +1,14 @@
+// --- NAVIGATION ---
+
+app-navigation {
+  float: left;
+  @include set-border(right, 2, solid, $app-grey-l-2);
+  
+  .navigation {
+    height: 100%;
+    overflow: scroll;
+    padding: 10px 4px;
+    
+    @import "styles/app-navigation-item";
+  }
+}

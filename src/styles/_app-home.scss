@@ -1,32 +1,30 @@
 // --- HOME ---
 
-app-home {
-  section {
-    &.container {
-      margin-top: 80px;
-    }
-    &:first-child {
-      .row {
-        &:first-child,
-        &:nth-child(2) {
-          margin-bottom: 10px;
-        }
+section {
+  &.container {
+    margin-top: 80px;
+  }
+  &:first-child {
+    .row {
+      &:first-child,
+      &:nth-child(2) {
+        margin-bottom: 10px;
       }
     }
-    &:nth-child(2) {
-      .tabs {
-        @include set-border(bottom, 1, solid, $app-grey-c-2);
-      }
-      .app-tab-content {
-        .app-tab-wrapper {
-          padding: 10px 0;
-          // text-align: center;
-          background: #fff;
-          app-document-card {
-            width: 33.33%;
-            display: block;
-            float: left;
-          }
+  }
+  &:nth-child(2) {
+    .tabs {
+      @include set-border(bottom, 1, solid, $app-grey-c-2);
+    }
+    .app-tab-content {
+      .app-tab-wrapper {
+        padding: 10px 0;
+        // text-align: center;
+        background: #fff;
+        app-document-card {
+          width: 33.33%;
+          display: block;
+          float: left;
         }
       }
     }

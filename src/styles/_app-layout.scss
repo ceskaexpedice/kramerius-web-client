@@ -1,4 +1,5 @@
 // --- LAYOUT ---
+
 html,
 body, 
 app-root {
@@ -12,6 +13,7 @@ app-root {
     width: 100%;
     height: calc(100% - #{$navbar-height});
     
+    // common behavior
     app-search,
     app-periodical,
     app-book,
@@ -21,17 +23,6 @@ app-root {
       display: flex;
       flex-flow: row;
     }
-    
-    // home
-    app-home {
-      .app-content-wrapper {
-        flex: 1;
-        height: 100%;
-        overflow: auto;
-      }
-    }
-    
-    // common behavior
     app-search-filters,
     app-navigation,
     app-metadata {
@@ -42,84 +33,59 @@ app-root {
       @include set-border(right, 2, solid, $app-grey-l-2);
     }
     
-    /*app-search {
-      app-search-filters {
-        float: left;
-        //width: 260px;
-      }
-      app-search-results {
+    // home
+    app-home {
+      .app-content-wrapper {
         flex: 1;
         height: 100%;
-        background-color: color("shades", "white")
-        padding: 0.5rem;
+        overflow: auto;
+        
+        @import "styles/app-home";
       }
-    }*/
+    }
+    
+    // browse
+    app-browse {
+      @import "styles/app-browse";
+    }
+    
+    // collecntion
+    app-collections {
+      @import "styles/app-collections";
+    }
+    
+    // browse
+    app-help {
+      @import "styles/app-help";
+    }
     
     // search
     app-search {
-      app-search-filters {
-        float: left;
-      }
+      @import "styles/app-search-count";
+      @import "styles/app-search-filters-used";
+      @import "styles/app-search-filters";
       .app-search-wrapper {
         flex: 1;
         height: 100%;
         background-color: color("shades", "white");
-        
-        app-search-toolbar {
-          display: block;
-          height: 55px;
-          line-height: 55px;
-          margin: 0 1rem;
-          @include set-border(bottom, 1, solid, $app-grey-c-2);
-          
-          .col {
-            padding: 0;
-            
-            h5 {
-              line-height: 55px;
-            }
-          }
-        }
-        
-        app-search-results {
-          display: block;
-          height: calc(100% - 55px);
-          overflow: auto;
-          padding: 0.5rem;
-        }
+
+        @import "styles/app-search-toolbar";
+        @import "styles/app-search-results";
+        @import "styles/app-search-pagination";
       }
     }
     
     // book
     app-book {
-      app-viewer {
-        flex: 1;
-        height: 100%;
-      }
-      app-navigation {
-        float: left;
-        @include set-border(right, 2, solid, $app-grey-l-2);
-        //width: 230px;
-      }
-      app-metadata {
-        float: right;
-        @include set-border(left, 2, solid, $app-grey-l-2);
-        //width: 300px;
-      }
+      @import "styles/app-viewer";
+      @import "styles/app-navigation";
+      @import "styles/app-metadata";
     }
     
     // periodical
     app-periodical  {
-      app-periodical-content {
-        flex: 1;
-        height: 100%;
-      }
-      app-metadata {
-        float: right;
-        margin-left: auto;
-        @include set-border(left, 2, solid, $app-grey-l-2);
-        //width: 300px;
-      }
+      @import "styles/app-periodical-content";
+      @import "styles/app-metadata";
     }
   }
 }

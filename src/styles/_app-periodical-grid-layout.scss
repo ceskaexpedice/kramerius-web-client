@@ -1,0 +1,11 @@
+// --- PERIODICAL GRID LAYOUT ---
+
+app-periodical-grid-layout {
+ .periodical-grid-layout {
+    height: 100%;
+    overflow: auto;
+    padding: 10px 10px;
+   
+    @import "styles/app-periodical-grid-item";
+  } 
+}
