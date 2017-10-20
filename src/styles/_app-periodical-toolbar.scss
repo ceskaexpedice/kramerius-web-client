@@ -3,7 +3,7 @@
 app-periodical-toolbar {
   display: block;
   height: $app-toolbar-height;
-  line-height: $app-toolbar-height;
+  /*line-height: $app-toolbar-height;*/
   margin: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-c-2);
           
@@ -30,13 +30,21 @@ app-periodical-toolbar {
     
     // col left
     &.app-col-left {
+      width: 90%;
       h5 {
+        @extend .app-clean-mg;
         color: $app-grey-d-1;
+        height: $app-toolbar-height;
+        line-height: $app-toolbar-height;
+        overflow: hidden;
+        font-size: 1.4rem;
       }
     }
     
     // col right
     &.app-col-right {
+      float: right;
+      line-height: $app-toolbar-height;
       ul {
         li {
           &.active {

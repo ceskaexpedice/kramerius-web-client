@@ -1,8 +1,8 @@
 <div class="row app-clean-mg">
-  <div *ngIf="metadata" class="col s8 app-col-left">
+  <div *ngIf="metadata" class="col app-col-left">
     <h5>{{metadata.getTitle()}}</h5>
   </div><!--/.col -->
-  <div class="col s4 app-col-right">
+  <div class="col app-col-right">
     <ul class="right">
       <li *ngIf="gridLayoutEnabled" (click)="selectLayout('grid')" [class.active]="activeLayout == 'grid'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_grid' | translate" [position]="'top'" class="app-cursor-pointer">

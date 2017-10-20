@@ -1,13 +1,7 @@
 // --- NG DATEPICKER ---
 
-$background: #ffffff;
-$border: #DFE3E9;
-$shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.08);
-$radius: 4px;
-
 .ngx-datepicker-container {
   position: relative;
-  // max-width: 340px;
   margin: 0 auto;
 
   .ngx-datepicker-input {
@@ -15,33 +9,39 @@ $radius: 4px;
     font-size: 14px;
     width: 200px;
     outline: none;
-    border: 1px solid $border;
+    @include set-border(all, 1, solid, $app-grey-c-1);
   }
 
   .ngx-datepicker-calendar-container {
-    background: $background;
-    // box-shadow: $shadow;
-    border: 1px solid $border;
-    border-radius: $radius;
-
+    @include set-border(all, 1, solid, $app-grey-l-2);
+    box-shadow: 0 2px 2px 0 rgba(38, 50, 56, 0), 0 1px 5px 0 rgba(38, 50, 56, 0.1), 0 3px 1px -20px rgba(38, 50, 56, 0.1);
+    background-color: color("shades", "white");
+    border-radius: $app-border-radius;
+    
+    &:hover {
+      @include set-border(all, 1, solid, $app-grey-c-1);
+      box-shadow: 0 8px 17px 0 rgba(38, 50, 56, 0.1), 0 6px 20px 0 rgba(38, 50, 56, 0.19);
+    }
+    
+    // header
     .topbar-container {
       width: 100%;
       height: 50px;
       padding: 15px;
-      border-bottom: 1px solid $border;
+      @include set-border(bottom, 1, solid, $app-grey-l-2);
+      background-color: $app-grey-l-5;
       display: flex;
       justify-content: space-between;
       align-items: center;
       user-select: none;
 
       .topbar-title {
-        color: #777;
-        font-size: 14px;
-        font-weight: 600;
+        font-size: $app-card-title-font-size;
         margin: 0 auto;
       }
     }
 
+    // content
     .main-calendar-container {
       width: 100%;
       height: 100%;
@@ -50,7 +50,7 @@ $radius: 4px;
       font-weight: 500;
 
       .main-calendar-day-names {
-        color: #A4A9B1;
+        color: $app-grey-d-4;
         width: 100%;
         display: flex;
         align-items: center;
@@ -84,18 +84,19 @@ $radius: 4px;
             line-height: 36px;
             text-align: center;
             border-radius: 50%;
-            color: #c8c8c8;
+            color: $app-grey;
             cursor: default;
             &.previous-month {
-              color: #e7e7e7;
+              color: $app-grey-l-2;
             }
           }
           a.day-unit-inner {
-            color: #039be5;
-            cursor: pointer;
+            @extend .app-font-bold;
+            @entend .app-cursor-pointer;
+            color: $primary-color;
             &:hover {
-              background: #039be5;
-              color: #fff;
+              background: $primary-color;
+              color: color("shades", "white");
             }  
           }
         }

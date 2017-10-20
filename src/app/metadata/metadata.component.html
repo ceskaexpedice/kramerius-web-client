@@ -1,73 +1,69 @@
-<div class="metadata" *ngIf="metadata">
-  <div class="title" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].title}}</div>
-  <div class="subtitle" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].subTitle}}</div>
+<div class="app-metadata-wrapper" *ngIf="metadata">
+  <h5 *ngIf="metadata.titles.length > 0">{{metadata.titles[0].title}}</h5>
+  <div class="app-subtitle" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].subTitle}}</div>
   
   <div class="divider"></div>
 
   <div *ngIf="metadata.authors.length > 0">
-    <div class="label">{{ 'metadata.author' | translate }}</div>
-    <div *ngFor="let author of metadata.authors; first as first" [class.space]="!first" class="value" >{{ author.name }}</div>
+    <label>{{ 'metadata.author' | translate }}</label>
+    <div *ngFor="let author of metadata.authors; first as first" [class.space]="!first" class="app-value" >{{ author.name }}</div>
     <div class="divider"></div>
   </div>
   
   <div *ngIf="metadata.publishers.length > 0">
-    <div class="label">{{ 'metadata.publisher' | translate }}</div>
-    <div *ngFor="let publisher of metadata.publishers; first as first" [class.space]="!first" class="value" >{{ publisher.fullDetail() }}</div>
+    <label>{{ 'metadata.publisher' | translate }}</label>
+    <div *ngFor="let publisher of metadata.publishers; first as first" [class.space]="!first" class="app-value" >{{ publisher.fullDetail() }}</div>
     <div class="divider"></div>
   </div>
 
   <div *ngIf="metadata.doctype">
-    <div class="label">{{ 'metadata.doctype' | translate }}</div>
-    <div class="value" >{{ 'model.' + metadata.doctype | translate }}</div>
+    <label>{{ 'metadata.doctype' | translate }}</label>
+    <div class="app-value" >{{ 'model.' + metadata.doctype | translate }}</div>
     <div class="divider"></div>
   </div>
 
   <div *ngIf="metadata.keywords.length > 0">
-    <div class="label">{{ 'metadata.keywords' | translate }}</div>
-    <div *ngFor="let keyword of metadata.keywords" class="value" >{{ keyword }}</div>
+    <label>{{ 'metadata.keywords' | translate }}</label>
+    <div *ngFor="let keyword of metadata.keywords" class="app-value" >{{ keyword }}</div>
     <div class="divider"></div>
   </div>
 
   <div *ngIf="metadata.genres.length > 0">
-    <div class="label">{{ 'metadata.genres' | translate }}</div>
-    <div *ngFor="let genre of metadata.genres" class="value" >{{ genre }}</div>
+    <label>{{ 'metadata.genres' | translate }}</label>
+    <div *ngFor="let genre of metadata.genres" class="app-value" >{{ genre }}</div>
     <div class="divider"></div>
   </div>
 
   <div *ngIf="metadata.geonames.length > 0">
-    <div class="label">{{ 'metadata.geonames' | translate }}</div>
-    <div *ngFor="let geoname of metadata.geonames" class="value" >{{ geoname }}</div>
+    <label>{{ 'metadata.geonames' | translate }}</label>
+    <div *ngFor="let geoname of metadata.geonames" class="app-value" >{{ geoname }}</div>
     <div class="divider"></div>
   </div>
 
   <div *ngIf="metadata.languages.length > 0">
-    <div class="label">{{ 'metadata.languages' | translate }}</div>
-    <div *ngFor="let language of metadata.languages" class="value" >{{ 'language.' + language | translate }}</div>
+    <label>{{ 'metadata.languages' | translate }}</label>
+    <div *ngFor="let language of metadata.languages" class="app-value" >{{ 'language.' + language | translate }}</div>
     <div class="divider"></div>
   </div>
   
   <div *ngIf="metadata.locations.length > 0">
-    <div class="label">{{ 'metadata.location' | translate }}</div>
+    <label>{{ 'metadata.location' | translate }}</label>
     <div *ngFor="let location of metadata.locations">
-      <div class="value" *ngIf="location.physicalLocation">{{ 'sigla.' + location.physicalLocation | translate }}</div>
-      <div class="value" *ngIf="location.shelfLocator">{{ 'metadata.shelf_locator' | translate: { shelf_locator: location.shelfLocator } }}</div>
+      <div class="app-value" *ngIf="location.physicalLocation">{{ 'sigla.' + location.physicalLocation | translate }}</div>
+      <div class="app-value" *ngIf="location.shelfLocator">{{ 'metadata.shelf_locator' | translate: { shelf_locator: location.shelfLocator } }}</div>
     </div>
     <div class="divider"></div>
   </div>
 
   <div *ngIf="metadata.abstracts.length > 0">
-    <div class="label">{{ 'metadata.abstract' | translate }}</div>
-    <div *ngFor="let abstract of metadata.abstracts" class="value" >{{ abstract }}</div>
+    <label>{{ 'metadata.abstract' | translate }}</label>
+    <div *ngFor="let abstract of metadata.abstracts" class="app-value" >{{ abstract }}</div>
     <div class="divider"></div>
   </div>
   
-
   <div *ngIf="metadata.notes.length > 0">
-    <div class="label">{{ 'metadata.notes' | translate }}</div>
-    <div *ngFor="let note of metadata.notes" class="value" >{{ note }}</div>
+    <label>{{ 'metadata.notes' | translate }}</label>
+    <div *ngFor="let note of metadata.notes" class="app-value" >{{ note }}</div>
     <div class="divider"></div>
   </div>
-  
-
-
-</div>
+</div><!--/.app-metadata-wrapper -->
