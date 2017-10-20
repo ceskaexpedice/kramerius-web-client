@@ -4,10 +4,11 @@ app-navigation {
   float: left;
   @include set-border(right, 2, solid, $app-grey-l-2);
   
-  .navigation {
+  .app-navigation-wrapper {
     height: 100%;
     overflow: scroll;
-    padding: 10px 4px;
+    //padding: 10px 4px;
+    padding: 0.5rem;
     
     @import "styles/app-navigation-item";
   }

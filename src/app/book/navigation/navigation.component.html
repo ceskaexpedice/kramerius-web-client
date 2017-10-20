@@ -1,5 +1,3 @@
-<div class="navigation">
-    <app-navigation-item [item]="item" *ngFor="let item of children"
-      (itemClicked)="onItemClicked(item)">
-    </app-navigation-item>
+<div class="app-navigation-wrapper">
+  <app-navigation-item [item]="item" *ngFor="let item of children" (itemClicked)="onItemClicked(item)"></app-navigation-item>
 </div>
