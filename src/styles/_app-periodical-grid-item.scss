@@ -1,78 +1,81 @@
 // --- PERIODICAL GRID ITEM ---
 
-.periodical-grid-item {
-    overflow: hidden;
-    float: left;
-    width:10%;
-    @media (max-width: 1460px) {
+app-periodical-grid-item {
+  float: left;
+  width:10%;
+  
+  @media (max-width: 1460px) {
     width:11.11110%;
-    }
-
-    @media (max-width: 1350px) {
+  }
+  @media (max-width: 1350px) {
     width:12.5%;
-    }
-
-    @media (max-width: 1240px) {
+  }
+  @media (max-width: 1240px) {
     width:14.2857%;
+  }
+  @media (max-width: 1130px) {
+    width:16.66666%;
+  }
+  @media (max-width: 1020px) {
+    width:20%;
+  }
+  @media (max-width: 910px) {
+    width:25%;
+  }
+  @media (max-width: 800px) {
+    width:33.33333%;
+  }
+  @media (max-width: 690px) {
+    width:50%;
+  }
+  @media (max-width: 580px) {
+    width:100%;
+  }
+  
+  .card {
+    @include set-border(all, 1, solid, $app-grey-l-2);
+    @extend .app-cursor-pointer;
+    box-shadow: 0 2px 2px 0 rgba(38, 50, 56, 0), 0 1px 5px 0 rgba(38, 50, 56, 0.1), 0 3px 1px -20px rgba(38, 50, 56, 0.1);
+    margin: 0.5rem;
+
+    &.hoverable {
+      &:hover {
+        @include set-border(all, 1, solid, $app-grey-c-1);
+        box-shadow: 0 8px 17px 0 rgba(38, 50, 56, 0.1), 0 6px 20px 0 rgba(38, 50, 56, 0.19);
+      }
     }
 
-    @media (max-width: 1130px) {
-    width:16.66666%;
-    }
-    @media (max-width: 1020px) {
-    width:20%;
-    }
-    @media (max-width: 910px) {
-    width:25%;
-    }
-    @media (max-width: 800px) {
-    width:33.33333%;
-    }
-    @media (max-width: 690px) {
-    width:50%;
-    }
-    @media (max-width: 580px) {
-    width:100%;
-    }
-    padding: 6px;
-    .periodical-grid-item-content {
-        box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.26);
-        height: 200px;
-        padding: 5px;
-        cursor: pointer;
-        .periodical-grid-item-title {
-            height: 20px;
-            line-height: 20px;
-            color: #337CBD;
-            font-size: 16px;
-            margin-bottom: 5px;
-            text-align: center;
-            overflow: hidden;
+    .card-content {
+      @extend .app-clean-pd;
+      overflow: hidden;
+
+      .app-card-content {
+        font-size: 0.9rem;
+        color: $app-grey-d-1;
+        padding: 10px 0;
+
+        .app-card-title {
+          font-weight: 500;
+          font-size: $app-card-title-font-size;
+          margin-bottom: 5px;
+          color: $primary-color;
         }
-        .periodical-grid-item-thumb {
-            background-repeat: no-repeat;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-            width: 95px;
-            height: 140px;
-            background-position-y: top;
-            background-position-x: center;
-            margin-left: auto;
-            margin-right: auto;
+
+        .app-card-thumb {
+          background-repeat: no-repeat;
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;
+          width: 95px;
+          height: 140px;
+          background-position-y: top;
+          background-position-x: center;
+          margin-left: auto;
+          margin-right: auto;
+          margin-bottom: 5px;
         }
-        .periodical-grid-item-subtitle {
-            height: 20px;
-            line-height: 20px;
-            color: #666666;
-            font-size: 15px;
-            margin-top: 5px;
-            text-align: center;
-            overflow: hidden;
-        }
-        &:hover {
-            background: #f0f0f0;
-        }
+      }
     }
+  }
 }

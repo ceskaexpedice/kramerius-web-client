@@ -76,7 +76,7 @@ app-document-card {
             
             .app-card-title {
               font-weight: 500;
-              font-size: 1.1rem;
+              font-size: $app-card-title-font-size;
               margin-bottom: 5px;
               color: $primary-color;
               overflow: hidden;

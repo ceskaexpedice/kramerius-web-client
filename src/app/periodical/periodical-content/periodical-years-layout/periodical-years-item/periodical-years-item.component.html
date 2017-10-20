@@ -1,9 +1,8 @@
-
-<a *ngIf="item.uuid; else missing" class="periodical-years-item" routerLink="{{item.getUrl()}}">
-  <div class="periodical-years-item-title">{{ item.title }}</div>
-</a>
+<div *ngIf="item.uuid; else missing" class="app-item app-cursor-pointer" routerLink="{{item.getUrl()}}">
+  <div class="center-align">{{item.title}}</div>
+</div>
 <ng-template #missing>
-  <div class="periodical-years-item">
-    <div class="periodical-years-item-title missing">{{ item.title }}</div>
+  <div class="app-item">
+    <div class="center-align missing">{{item.title}}</div>
   </div>
 </ng-template>
