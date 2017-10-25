@@ -1,7 +1,6 @@
 import { LibrarySearchService } from './../services/library-search.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
-import { Translator } from 'angular-translator'
 
 @Component({
   selector: 'app-search-bar',
@@ -12,15 +11,31 @@ export class SearchBarComponent implements OnInit {
 
   @Input() autocomplete;
   @Input() input;
+  accessibilityFilter: boolean;
 
-  searchStr;
+  searchStr: string;
 
-  constructor(public translator: Translator,
+  constructor(
     public router: Router,
+    private route: ActivatedRoute,
     public service: LibrarySearchService) {
   }
 
   ngOnInit() {
+    this.accessibilityFilter = false;
+    this.searchStr = '';
+    this.route.queryParams.subscribe(params => {
+      const accessibility = params['accessibility'];
+      if (accessibility === 'public') {
+        this.accessibilityFilter = true;
+      }
+      const q = params['q'];
+      if (q) {
+        this.searchStr = q;
+      } else {
+        this.searchStr = '';
+      }
+    });
   }
 
   onSelected(event) {
@@ -35,11 +50,6 @@ export class SearchBarComponent implements OnInit {
     this.searchStr = '';
   }
 
-  onLanguageChanged(lang: string) {
-    localStorage.setItem('lang', lang);
-    this.translator.language = lang;
-  }
-
   onKeyUp(event) {
     if (event.keyCode === 13) {
       this.search();
@@ -51,7 +61,11 @@ export class SearchBarComponent implements OnInit {
     if (q == null) {
       q = '';
     }
-    this.router.navigate(['/search'], { queryParams: { q: q } });
+    const params = { q: q };
+    if (this.accessibilityFilter) {
+      params['accessibility'] = 'public';
+    }
+    this.router.navigate(['/search'], { queryParams: params });
   }
 
 }

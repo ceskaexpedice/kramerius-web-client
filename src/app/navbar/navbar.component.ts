@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
    onLanguageChanged(lang: string) {
     localStorage.setItem('lang', lang);
     this.translator.language = lang;

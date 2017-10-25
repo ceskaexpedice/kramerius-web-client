@@ -6,7 +6,7 @@
   </div>
   <i mz-icon-mdi [icon]="'magnify'" (click)="search()" class="app-cursor-pointer"></i>
   <i mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer"></i><!-- objevi se pouze pokud bude :focus a pokud bude query, po kliknuti na close by se melo vymazat query --> 
-</div>
+</div>{{test}}
 <mz-checkbox-container>
-  <input mz-checkbox [label]="'navbar.checkbox_label' | translate" id="checkbox-id" type="checkbox">
+  <input mz-checkbox [(ngModel)]="accessibilityFilter" [label]="'navbar.checkbox_label' | translate" id="checkbox-id" type="checkbox">
 </mz-checkbox-container> 

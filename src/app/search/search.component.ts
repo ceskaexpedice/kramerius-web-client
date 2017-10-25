@@ -1,3 +1,4 @@
+import { SearchQuery } from './search_query.model';
 import { SolrService } from './../services/solr.service';
 import { DocumentItem } from './../model/document_item.model';
 import { ActivatedRoute } from '@angular/router';
@@ -19,13 +20,15 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      const query = params['q'];
+      // const query = params['q'];
+      // const accessibility = params['accessibility'];
+      const query = SearchQuery.fromParams(params);
       this.makeSearch(query);
     });
   }
 
 
-  makeSearch(query: string) {
+  makeSearch(query: SearchQuery) {
     this.krameriusApiService.getSearchResults(query).subscribe(response => {
       const numFound = this.solrService.numberOfResults(response);
       console.log('numberOfResults', numFound);
