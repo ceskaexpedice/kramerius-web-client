@@ -27,6 +27,15 @@
     "tooltip_display_years": "Display years",
     "tooltip_display_calendar": "Display calendar"
   },
+  "search": {
+    "sort": {
+      "relevance": "Relevance",
+      "alphabetical": "Alphabetical",
+      "newest": "Recently added",
+      "latest": "Newest first",
+      "earliest": "Oldest first"
+    }
+  },
   "home": {
     "desc": "Searching in digital documents",
     "btn_enter": "Enter",

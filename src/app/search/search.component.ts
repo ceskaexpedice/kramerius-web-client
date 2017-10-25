@@ -1,7 +1,7 @@
 import { SearchQuery } from './search_query.model';
 import { SolrService } from './../services/solr.service';
 import { DocumentItem } from './../model/document_item.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { KrameriusApiService } from '../services/kramerius-api.service';
 
@@ -13,8 +13,10 @@ import { KrameriusApiService } from '../services/kramerius-api.service';
 export class SearchComponent implements OnInit {
 
   results: DocumentItem[] = [];
+  query: SearchQuery;
 
   constructor(private route: ActivatedRoute,
+    public router: Router,
     private solrService: SolrService,
     private krameriusApiService: KrameriusApiService) { }
 
@@ -22,17 +24,31 @@ export class SearchComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       // const query = params['q'];
       // const accessibility = params['accessibility'];
-      const query = SearchQuery.fromParams(params);
-      this.makeSearch(query);
+      this.query = SearchQuery.fromParams(params);
+      this.makeSearch();
     });
   }
 
 
-  makeSearch(query: SearchQuery) {
-    this.krameriusApiService.getSearchResults(query).subscribe(response => {
+  makeSearch() {
+    this.krameriusApiService.getSearchResults(this.query).subscribe(response => {
       const numFound = this.solrService.numberOfResults(response);
       console.log('numberOfResults', numFound);
       this.results = this.solrService.documentItems(response);
     });
+  }
+
+
+  onSortChanged(sort) {
+     this.query.setSort(sort);
+    // this.makeSearch();
+
+    // let navigationExtras;
+    // navigationExtras = {
+    //   preserveFragment: true,
+    //   // preserveQueryParams: true,
+    //   queryParams: {sort: sort}
+    // };
+    this.router.navigate(['search'],  { queryParams: this.query.toUrlParams() });
   }
 }

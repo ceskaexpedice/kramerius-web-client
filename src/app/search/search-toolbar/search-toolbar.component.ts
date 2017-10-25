@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-search-toolbar',
@@ -6,7 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-toolbar.component.scss']
 })
 export class SearchToolbarComponent implements OnInit {
-  
+
+  @Output() sort = new EventEmitter<string>();
+  @Input() query;
+
   // --- PRO TESTOVANI, POTOM VYMAZAT --- !!!!
  doctype = [
    {id: 1, title: "Knihy", type: "monograph", count: "117614", "active": true},
@@ -17,12 +20,18 @@ export class SearchToolbarComponent implements OnInit {
    {id: 6, title: "Hudebniny", type: "sheetmusic", count: "549", "active": true},
    {id: 7, title: "Archiválie", type: "archive", count: "297"},
    {id: 8, title: "Rukopisy", type: "manuscript", count: "103"}
- ]
+ ];
  // --- PRO TESTOVANI, POTOM VYMAZAT --- !!!!
 
   constructor() { }
 
   ngOnInit() {
   }
+
+
+  changeSort(type) {
+    this.sort.emit(type);
+  }
+
 
 }

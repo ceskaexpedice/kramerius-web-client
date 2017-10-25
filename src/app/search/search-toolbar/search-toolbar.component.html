@@ -13,10 +13,13 @@
       <li>
         <span class="app-cursor-pointer">
           <label>Řazení:</label>
-          <a id="app-btn-sort" href="#">dle relevance <i class="app-mdi-menu-down"></i></a>
+          <a id="app-btn-sort" href="#">{{ 'search.sort.' + query.sort | translate }} <i class="app-mdi-menu-down"></i></a>
           <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-            <mz-dropdown-item><a href="#!">Dle abecedy</a></mz-dropdown-item>
-            <mz-dropdown-item><a href="#!">Dle data</a></mz-dropdown-item>
+            <mz-dropdown-item *ngIf="query.query"><a (click)="changeSort('relevance')">{{ 'search.sort.relevance' | translate }}</a></mz-dropdown-item>              
+            <mz-dropdown-item><a (click)="changeSort('alphabetical')">{{ 'search.sort.alphabetical' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="changeSort('newest')">{{ 'search.sort.newest' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="changeSort('latest')">{{ 'search.sort.latest' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="changeSort('earliest')">{{ 'search.sort.earliest' | translate }}</a></mz-dropdown-item>            
           </mz-dropdown>
         </span>
       </li>

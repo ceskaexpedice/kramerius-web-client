@@ -27,6 +27,15 @@
     "tooltip_display_years": "Zobraz roky",
     "tooltip_display_calendar": "Zobraz kalendář"
   },
+  "search": {
+    "sort": {
+      "relevance": "Podle Relevance",
+      "alphabetical": "Abecedně",
+      "newest": "Novinky",
+      "latest": "Od nejnovějších",
+      "earliest": "Od nejstarších"
+    }
+  },
   "home": {
     "desc": "Vyhledávání v digitalizovaných dokumentech",
     "btn_enter": "Vstupte",
