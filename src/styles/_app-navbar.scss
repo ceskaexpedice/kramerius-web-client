@@ -26,6 +26,11 @@ app-navbar {
           padding-left: 20px;
         }
       }
+      mz-navbar-item-container {
+        @media (max-width: 1330px) {
+          display: none;
+        }
+      }
     }
   }
 }

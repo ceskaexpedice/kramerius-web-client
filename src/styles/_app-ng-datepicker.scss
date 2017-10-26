@@ -92,7 +92,6 @@
           }
           a.day-unit-inner {
             @extend .app-font-bold;
-            @entend .app-cursor-pointer;
             color: $primary-color;
             &:hover {
               background: $primary-color;

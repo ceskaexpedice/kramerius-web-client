@@ -20,7 +20,7 @@ export class SearchQuery {
         if (accessibility === 'private') {
             this.accessibility = 'private';
         } else if (accessibility === 'public') {
-            this.accessibility = 'private';
+            this.accessibility = 'public';
         } else {
             this.accessibility = 'all';
         }

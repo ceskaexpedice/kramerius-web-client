@@ -2,6 +2,7 @@
 
 app-search-toolbar {
   display: block;
+  overflow: hidden;
   height: $app-toolbar-height;
   line-height: $app-toolbar-height;
   margin: 0 1rem;
