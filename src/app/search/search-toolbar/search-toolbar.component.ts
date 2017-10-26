@@ -15,10 +15,5 @@ export class SearchToolbarComponent implements OnInit {
   }
 
 
-  changeSort(type) {
-    this.searchService.query.setSort(type);
-    this.searchService.reload();
-  }
-
 
 }

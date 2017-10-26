@@ -41,7 +41,10 @@ export class SearchService {
     }
 
 
-    public reload() {
+    public reload(preservePage: boolean) {
+        if (!preservePage) {
+            this.query.setPage(1);
+        }
         this.router.navigate(['search'],  { queryParams: this.query.toUrlParams() });
     }
 
@@ -52,35 +55,55 @@ export class SearchService {
         } else {
             values.push(value);
         }
-        this.reload();
+        this.reload(false);
     }
 
     public removeFilter(values: string[], value: string) {
         const index = values.indexOf(value);
         if (index >= 0) {
             values.splice(index, 1);
-            this.reload();
+            this.reload(false);
         }
+    }
+
+    public changeOrdering(ordering: string) {
+        this.query.setOrdering(ordering);
+        this.reload(false);
     }
 
     public setAccessibility(accessibility: string) {
         this.query.setAccessibility(accessibility);
-        this.reload();
+        this.reload(false);
+    }
+
+    public setPage(page: number) {
+        this.query.setPage(page);
+        this.reload(true);
+    }
+
+    public nextPage() {
+        this.query.setPage(this.query.page + 1);
+        this.reload(true);
+    }
+
+    public previousPage() {
+        this.query.setPage(this.query.page - 1);
+        this.reload(true);
     }
 
     public removeAllFilters() {
         this.query.removeAllFilters();
-        this.reload();
+        this.reload(false);
     }
 
     public removeAccessibilityFilter() {
         this.query.accessibility = 'all';
-        this.reload();
+        this.reload(false);
     }
 
     public removeQueryString() {
         this.query.query = null;
-        this.reload();
+        this.reload(false);
     }
 
     public getNumberOfResults(): number {

@@ -1,9 +1,12 @@
-<ul class="pagination">
-  <li class="disabled app-arrow"><a href="#!"><i mz-icon-mdi [icon]="'chevron-left'"></i></a></li>
-  <li class="active"><a href="#!">1</a></li>
-  <li class="waves-effect"><a href="#!">2</a></li>
-  <li class="waves-effect"><a href="#!">3</a></li>
-  <li class="waves-effect"><a href="#!">4</a></li>
-  <li class="waves-effect"><a href="#!">5</a></li>
-  <li class="waves-effect app-arrow"><a href="#!"><i mz-icon-mdi [icon]="'chevron-right'"></i></a></li>
+<ul class="pagination" *ngIf="numberOfPages() > 1">
+  <li *ngIf="hasPrevious()" class="waves-effect app-arrow">
+    <a (click)="searchService.previousPage()"><i mz-icon-mdi [icon]="'chevron-left'"></i></a>
+  </li>
+  <li *ngFor="let page of pages()" [class.active]="page === searchService.query.page" class="waves-effect" >
+    <a (click)="searchService.setPage(page)">{{page}}</a>
+  </li>
+  <li *ngIf="hasNext()" class="waves-effect app-arrow">
+    <a (click)="searchService.nextPage()"><i mz-icon-mdi [icon]="'chevron-right'"></i></a>
+  </li>
 </ul>
+

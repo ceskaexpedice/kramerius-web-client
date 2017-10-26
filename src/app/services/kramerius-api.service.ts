@@ -48,9 +48,9 @@ export class KrameriusApiService {
         let url = this.BASE_URL + '/search/api/v5.0/search?'
             + query.buildQuery(null);
 
-        const sortValue = query.getSortValue();
-        if (sortValue) {
-            url += '&sort=' + sortValue;
+        const ordering = query.getOrderingValue();
+        if (ordering) {
+            url += '&sort=' + ordering;
         }
         url += '&rows=' + query.getRows();
         url += '&start=' + query.getStart();

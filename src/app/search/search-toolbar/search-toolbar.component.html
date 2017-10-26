@@ -13,13 +13,13 @@
       <li>
         <span class="app-cursor-pointer">
           <label>{{ 'search.ordering.label' | translate }}:</label>
-          <a id="app-btn-sort" href="#">{{ 'search.ordering.' + searchService.query.sort | translate }} <i class="app-mdi-menu-down"></i></a>
+          <a id="app-btn-sort" href="#">{{ 'search.ordering.' + searchService.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
           <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-            <mz-dropdown-item *ngIf="searchService.query.hasQueryString()"><a (click)="changeSort('relevance')">{{ 'search.sort.relevance' | translate }}</a></mz-dropdown-item>              
-            <mz-dropdown-item><a (click)="changeSort('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="changeSort('newest')">{{ 'search.ordering.newest' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="changeSort('latest')">{{ 'search.ordering.latest' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="changeSort('earliest')">{{ 'search.ordering.earliest' | translate }}</a></mz-dropdown-item>            
+            <mz-dropdown-item *ngIf="searchService.query.hasQueryString()"><a (click)="searchService.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item>              
+            <mz-dropdown-item><a (click)="searchService.changeOrdering('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="searchService.changeOrdering('newest')">{{ 'search.ordering.newest' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="searchService.changeOrdering('latest')">{{ 'search.ordering.latest' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="searchService.changeOrdering('earliest')">{{ 'search.ordering.earliest' | translate }}</a></mz-dropdown-item>            
           </mz-dropdown>
         </span>
       </li>

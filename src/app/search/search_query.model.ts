@@ -2,7 +2,7 @@ export class SearchQuery {
     accessibility: string;
     query: string;
     page: number;
-    sort: string;
+    ordering: string;
 
     keywords: string[] = [];
     authors: string[] = [];
@@ -16,7 +16,7 @@ export class SearchQuery {
     public static fromParams(params): SearchQuery {
         const query = new SearchQuery();
         query.query = params['q'];
-        query.setSort(params['sort']);
+        query.setOrdering(params['ordering']);
         query.setPage(params['page']);
         query.setFiled(query.keywords, params['keywords']);
         query.setFiled(query.doctypes, params['doctypes']);
@@ -64,21 +64,21 @@ export class SearchQuery {
         }
     }
 
-    public setSort(sort: string) {
-        if (sort) {
-            if (sort === 'relevance' && !this.hasQueryString()) {
-                this.sort = 'newest';
+    public setOrdering(ordering: string) {
+        if (ordering) {
+            if (ordering === 'relevance' && !this.hasQueryString()) {
+                this.ordering = 'newest';
             } else {
-                this.sort = sort;
+                this.ordering = ordering;
             }
         } else if (this.query) {
-            this.sort = 'relevance';
+            this.ordering = 'relevance';
         } else {
-            this.sort = 'newest';
+            this.ordering = 'newest';
         }
     }
 
-    private setPage(page: string) {
+    public setPage(page) {
         let p = parseInt(page, 10);
         if (!p) {
             p = 1;
@@ -113,7 +113,7 @@ export class SearchQuery {
         let q = 'q=';
         let rel = false;
         if (qString) {
-          if (this.sort === 'relevance' && !skip) {
+          if (this.ordering === 'relevance' && !skip) {
             q += '_query_:"{!dismax qf=\'dc.title^1000 text^0.0001\' v=$q1}\"';
             rel = true;
           } else {
@@ -135,7 +135,7 @@ export class SearchQuery {
         q += this.addToQuery('authors', this.authors, skip);
         q += this.addToQuery('languages', this.languages, skip);
         q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
-        q += this.getDateSortRestriction();
+        q += this.getDateOrderingRestriction();
         if (rel) {
             q += '&q1=' + qString;
         }
@@ -153,8 +153,8 @@ export class SearchQuery {
         if (this.query) {
             params['q'] = this.query;
         }
-        if (this.sort) {
-            params['sort'] = this.sort;
+        if (this.ordering) {
+            params['ordering'] = this.ordering;
         }
         if (this.keywords.length > 0) {
             params['keywords'] = this.keywords.join(',,');
@@ -172,24 +172,24 @@ export class SearchQuery {
     }
 
 
-    private getDateSortRestriction() {
-        if (this.sort === 'latest') {
+    private getDateOrderingRestriction() {
+        if (this.ordering === 'latest') {
             return ' AND datum_begin: [1 TO 3000]';
-        } else if (this.sort === 'earliest') {
+        } else if (this.ordering === 'earliest') {
             return ' AND datum_end: [1 TO 3000]';
         }
         return '';
     }
 
 
-    public getSortValue(): string {
-        if (this.sort === 'newest') {
+    public getOrderingValue(): string {
+        if (this.ordering === 'newest') {
             return 'created_date%20desc';
-        } else if (this.sort === 'latest') {
+        } else if (this.ordering === 'latest') {
            return 'datum_end%20desc';
-        } else if (this.sort === 'earliest') {
+        } else if (this.ordering === 'earliest') {
            return 'datum_begin%20asc';
-        } else if (this.sort === 'alphabetical') {
+        } else if (this.ordering === 'alphabetical') {
            return 'title_sort%20asc';
         }
         return null;

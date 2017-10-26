@@ -9,12 +9,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SearchResultsComponent implements OnInit {
 
-
-  constructor(
-    public searchService: SearchService
-  ) {
-
+  constructor(public searchService: SearchService) {
   }
+
   ngOnInit() {
   }
 
