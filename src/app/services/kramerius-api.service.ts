@@ -46,14 +46,39 @@ export class KrameriusApiService {
 
     getSearchResults(query: SearchQuery) {
         let url = this.BASE_URL + '/search/api/v5.0/search?'
-            + query.buildQuery();
+            + query.buildQuery(null);
 
+        const sortValue = query.getSortValue();
+        if (sortValue) {
+            url += '&sort=' + sortValue;
+        }
         url += '&rows=' + query.getRows();
         url += '&start=' + query.getStart();
         return this.http.get(url)
             .map(response => response.json())
             .catch(this.handleError);
     }
+
+    getFacetList(query: SearchQuery, field: string) {
+        let url = this.BASE_URL + '/search/api/v5.0/search?'
+                + query.buildQuery(field);
+        url += '&facet=true&facet.field=' + SearchQuery.getSolrField(field)
+            + '&facet.limit=50'
+            + '&rows=0&facet.mincount=1';
+
+        return this.http.get(url)
+            .map(response => {
+                if (field === 'accessibility') {
+                    return this.solrService.facetAccessibilityList(response.json());
+                // } else if (field === 'keywords') {
+                    // return this.solrService.facetList(response.json(), field, query.keywords);
+                } else {
+                    return this.solrService.facetList(response.json(), SearchQuery.getSolrField(field), query[field]);
+                }
+            })
+            .catch(this.handleError);
+    }
+
 
     getNewest() {
         const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph%20OR%20fedora.model:periodical%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=9&start=0';

@@ -1,13 +1,56 @@
 <mz-collection>
   <mz-collection-header>
     {{'filters.used_header' | translate}}
-    <i mz-icon-mdi [icon]="'close-circle'" [class]="'app-clean-mg app-cursor-pointer'" mz-tooltip [tooltip]="'filters.tooltip_remove_filter_all' | translate" [position]="'top'"></i>
+    <i mz-icon-mdi (click)="searchService.removeAllFilters()" [icon]="'close-circle'" [class]="'app-clean-mg app-cursor-pointer'" mz-tooltip [tooltip]="'filters.tooltip_remove_filter_all' | translate" [position]="'top'"></i>
   </mz-collection-header>
-  <mz-collection-item *ngFor="let facetUsed of facetsUsed">
-    <span class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+
+  <mz-collection-item *ngIf="searchService.query.hasQueryString()">
+      <span (click)="searchService.removeQueryString()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+        <i mz-icon-mdi [icon]="'check'" [class]="'app-clean-mg light-blue-text text-darken-3'"></i>
+        <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+        {{ searchService.query.query }}
+      </span>
+    </mz-collection-item>
+
+  <mz-collection-item *ngIf="searchService.query.accessibility === 'public'">
+    <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'check'" [class]="'app-clean-mg light-blue-text text-darken-3'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{facetUsed.title}}
+      {{ 'search.accessibility.public' | translate }}
     </span>
   </mz-collection-item>
+
+  <mz-collection-item *ngIf="searchService.query.accessibility === 'private'">
+    <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'check'" [class]="'app-clean-mg light-blue-text text-darken-3'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ 'search.accessibility.private' | translate }}
+    </span>
+  </mz-collection-item>
+
+  <mz-collection-item *ngFor="let keyword of searchService.query.keywords">
+    <span (click)="searchService.removeFilter(searchService.query.keywords, keyword)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'check'" [class]="'app-clean-mg light-blue-text text-darken-3'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{keyword}}
+    </span>
+  </mz-collection-item>
+
+  <mz-collection-item *ngFor="let author of searchService.query.authors">
+    <span (click)="searchService.removeFilter(searchService.query.authors, author)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'check'" [class]="'app-clean-mg light-blue-text text-darken-3'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{author}}
+    </span>
+  </mz-collection-item>
+
+  <mz-collection-item *ngFor="let language of searchService.query.languages">
+    <span (click)="searchService.removeFilter(searchService.query.languages, language)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'check'" [class]="'app-clean-mg light-blue-text text-darken-3'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{language}}
+    </span>
+  </mz-collection-item>
+
+
 </mz-collection>

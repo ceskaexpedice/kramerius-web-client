@@ -66,5 +66,40 @@ export class SolrService {
     }
 
 
+    facetList(solr, field, usedFiltes: any[]) {
+        const list = [];
+        const facetFields = solr['facet_counts']['facet_fields'][field];
+        for (let i = 0; i < facetFields.length; i += 2) {
+            const value = facetFields[i];
+            if (!value) {
+                continue;
+            }
+            const count = facetFields[i + 1];
+            const selected = usedFiltes && usedFiltes.indexOf(value) >= 0;
+            list.push({'value' : value, 'count': count, 'selected': selected});
+        }
+        return list;
+    }
+
+    facetAccessibilityList(solr) {
+        const list = [];
+        let allDocs = 0;
+        let privateDocs = 0;
+        let publicDocs = 0;
+        const facetFields = solr['facet_counts']['facet_fields']['dostupnost'];
+        for (let i = 0; i < facetFields.length; i += 2) {
+            if (facetFields[i] === 'public') {
+                publicDocs = facetFields[i + 1];
+            } else if (facetFields[i] === 'private') {
+                privateDocs = facetFields[i + 1];
+            }
+            allDocs += facetFields[i + 1];
+        }
+        list.push({'value' : 'public', 'count': publicDocs});
+        list.push({'value' : 'private', 'count': privateDocs});
+        list.push({'value' : 'all', 'count': allDocs});
+        return list;
+    }
+
 
 }

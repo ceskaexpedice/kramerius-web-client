@@ -1,3 +1,4 @@
+import { SearchService } from './../../services/search.service';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
@@ -6,9 +7,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
   styleUrls: ['./search-toolbar.component.scss']
 })
 export class SearchToolbarComponent implements OnInit {
-
-  @Output() sort = new EventEmitter<string>();
-  @Input() query;
+  // @Output() filtersChanged = new EventEmitter<any>();
+  // @Input() query;
 
   // --- PRO TESTOVANI, POTOM VYMAZAT --- !!!!
  doctype = [
@@ -23,14 +23,19 @@ export class SearchToolbarComponent implements OnInit {
  ];
  // --- PRO TESTOVANI, POTOM VYMAZAT --- !!!!
 
-  constructor() { }
+  constructor(
+    public searchService: SearchService
+  ) {
+
+  }
 
   ngOnInit() {
   }
 
 
   changeSort(type) {
-    this.sort.emit(type);
+    this.searchService.query.setSort(type);
+    this.searchService.reload();
   }
 
 

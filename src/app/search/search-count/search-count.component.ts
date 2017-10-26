@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { SearchService } from './../../services/search.service';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-search-count',
@@ -6,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-count.component.scss']
 })
 export class SearchCountComponent implements OnInit {
+  @Input() resultsAll: number;
 
-  constructor() { }
+  constructor(public searchService: SearchService) {
+  }
 
   ngOnInit() {
   }

@@ -28,12 +28,23 @@
     "tooltip_display_calendar": "Zobraz kalendář"
   },
   "search": {
-    "sort": {
+    "results": "Výsledky",
+    "keywords": "Klíčové slovo",
+    "languages": "Jazyk",
+    "authors": "Autor",
+    "ordering": {
+      "label": "Řazení",
       "relevance": "Podle Relevance",
       "alphabetical": "Abecedně",
       "newest": "Novinky",
       "latest": "Od nejnovějších",
       "earliest": "Od nejstarších"
+    },
+    "accessibility": {
+      "label": "Dostupnost",
+      "public": "pouze veřejné",
+      "private": "pouze neveřejné",
+      "all": "Vše"
     }
   },
   "home": {

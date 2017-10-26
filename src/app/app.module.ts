@@ -1,3 +1,4 @@
+import { SearchService } from './services/search.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { DocumentCardComponent } from './shared/document-card/document-card.component';
 import { PeriodicalCalendarLayoutComponent } from './periodical/periodical-content/periodical-calendar-layout/periodical-calendar-layout.component';
@@ -114,7 +115,8 @@ const ROUTES: Routes = [
     SolrService,
     ModsParserService,
     LibrarySearchService,
-    LocalStorageService
+    LocalStorageService,
+    SearchService
   ],
   bootstrap: [AppComponent]
 })

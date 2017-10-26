@@ -28,12 +28,23 @@
     "tooltip_display_calendar": "Display calendar"
   },
   "search": {
-    "sort": {
+    "results": "Results",
+    "keywords": "Keyword",
+    "languages": "Language",
+    "authors": "Author",
+    "ordering": {
+      "label": "Ordering",
       "relevance": "Relevance",
       "alphabetical": "Alphabetical",
       "newest": "Recently added",
       "latest": "Newest first",
       "earliest": "Oldest first"
+    },
+    "accessibility": {
+      "label": "Accessibility",
+      "public": "Public",
+      "private": "Private",
+      "all": "All"
     }
   },
   "home": {

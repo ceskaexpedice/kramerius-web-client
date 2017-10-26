@@ -1,3 +1,4 @@
+import { SearchService } from './../services/search.service';
 import { SearchQuery } from './search_query.model';
 import { SolrService } from './../services/solr.service';
 import { DocumentItem } from './../model/document_item.model';
@@ -12,43 +13,55 @@ import { KrameriusApiService } from '../services/kramerius-api.service';
 })
 export class SearchComponent implements OnInit {
 
-  results: DocumentItem[] = [];
-  query: SearchQuery;
+  // results: DocumentItem[] = [];
+  // keywords: any[] = [];
+  // query: SearchQuery;
 
-  constructor(private route: ActivatedRoute,
-    public router: Router,
-    private solrService: SolrService,
-    private krameriusApiService: KrameriusApiService) { }
+  // resultsAll: number;
+
+  // constructor(private route: ActivatedRoute,
+  //   public router: Router,
+  //   public searchService: SearchService,
+  //   private solrService: SolrService,
+  //   private krameriusApiService: KrameriusApiService) { }
+
+  constructor(
+    private route: ActivatedRoute,
+    public searchService: SearchService) {
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      // const query = params['q'];
-      // const accessibility = params['accessibility'];
-      this.query = SearchQuery.fromParams(params);
-      this.makeSearch();
+      this.searchService.init(params);
+       // this.query = SearchQuery.fromParams(params);
+      // this.makeSearch();
     });
   }
 
 
-  makeSearch() {
-    this.krameriusApiService.getSearchResults(this.query).subscribe(response => {
-      const numFound = this.solrService.numberOfResults(response);
-      console.log('numberOfResults', numFound);
-      this.results = this.solrService.documentItems(response);
-    });
-  }
+  // makeSearch() {
+  //   this.krameriusApiService.getSearchResults(this.query).subscribe(response => {
+  //     this.resultsAll = this.solrService.numberOfResults(response);
+  //     // console.log('numberOfResults', numFound);
+  //     this.results = this.solrService.documentItems(response);
+  //   });
+  //   this.krameriusApiService.getFacetList(this.query, 'keywords').subscribe(response => {
+  //     // const numFound = this.solrService.numberOfResults(response);
+  //     // console.log('numberOfResults', numFound);
+  //     this.keywords = response;
+  //     console.log('response', response);
+  //     // this.results = this.solrService.documentItems(response);
+  //   });
+  // }
+
+  // onFiltersChanged() {
+  //   this.router.navigate(['search'],  { queryParams: this.query.toUrlParams() });
+  // }
 
 
-  onSortChanged(sort) {
-     this.query.setSort(sort);
-    // this.makeSearch();
 
-    // let navigationExtras;
-    // navigationExtras = {
-    //   preserveFragment: true,
-    //   // preserveQueryParams: true,
-    //   queryParams: {sort: sort}
-    // };
-    this.router.navigate(['search'],  { queryParams: this.query.toUrlParams() });
-  }
+
+
+
+
 }

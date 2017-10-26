@@ -4,6 +4,11 @@ export class SearchQuery {
     page: number;
     sort: string;
 
+    keywords: string[] = [];
+    authors: string[] = [];
+    languages: string[] = [];
+
+
     constructor() {
     }
 
@@ -12,11 +17,34 @@ export class SearchQuery {
         query.query = params['q'];
         query.setSort(params['sort']);
         query.setPage(params['page']);
+        query.setFiled(query.keywords, params['keywords']);
+        query.setFiled(query.authors, params['authors']);
+        query.setFiled(query.languages, params['languages']);
         query.setAccessibility(params['accessibility']);
         return query;
     }
 
-    private setAccessibility(accessibility: string) {
+    public static getSolrField(field): string {
+        if (field === 'keywords') {
+            return 'keywords';
+        } else if (field === 'authors') {
+            return 'facet_autor';
+        } else if (field === 'doctypes') {
+            return 'fedora.model';
+        } else if (field === 'categories') {
+            return 'document_type';
+        } else if (field === 'languages') {
+            return 'language';
+        } else if (field === 'collections') {
+            return 'collection';
+        } else if (field === 'accessibility') {
+            return 'dostupnost';
+        }
+        return '';
+    }
+
+
+    public setAccessibility(accessibility: string) {
         if (accessibility === 'private') {
             this.accessibility = 'private';
         } else if (accessibility === 'public') {
@@ -26,9 +54,21 @@ export class SearchQuery {
         }
     }
 
+    private setFiled(fieldValues: string[], input: string) {
+        if (input) {
+            input.split(',,').forEach(function(a) {
+                fieldValues.push(a);
+            });
+        }
+    }
+
     public setSort(sort: string) {
         if (sort) {
-            this.sort = sort;
+            if (sort === 'relevance' && !this.hasQueryString()) {
+                this.sort = 'newest';
+            } else {
+                this.sort = sort;
+            }
         } else if (this.query) {
             this.sort = 'relevance';
         } else {
@@ -66,35 +106,38 @@ export class SearchQuery {
 
 
 
-    buildQuery(): string {
+    buildQuery(skip: string): string {
         const qString = this.getQ();
         let q = 'q=';
         let rel = false;
         if (qString) {
-          if (this.sort === 'relevance') {
+          if (this.sort === 'relevance' && !skip) {
             q += '_query_:"{!dismax qf=\'dc.title^1000 text^0.0001\' v=$q1}\"';
             rel = true;
           } else {
-            q += qString;
+            q += '_query_:"{!dismax qf=\'dc.title text\' v=$q1}\"';
+            rel = true;
           }
         } else {
           q += '*:*';
         }
-        if (this.accessibility === 'public') {
-            q += ' AND dostupnost:public';
-        } else if (this.accessibility === 'private') {
-            q += ' AND dostupnost:private';
+        if (skip !== 'accessibility') {
+            if (this.accessibility === 'public') {
+                q += ' AND dostupnost:public';
+            } else if (this.accessibility === 'private') {
+                q += ' AND dostupnost:private';
+            }
         }
+        q += this.addToQuery('keywords', this.keywords, skip);
+        q += this.addToQuery('authors', this.authors, skip);
+        q += this.addToQuery('languages', this.languages, skip);
         q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
         q += this.getDateSortRestriction();
         if (rel) {
             q += '&q1=' + qString;
         }
-        q += this.getSortParam();
         return q;
     }
-
-
 
     toUrlParams() {
         const params = {};
@@ -110,6 +153,15 @@ export class SearchQuery {
         if (this.sort) {
             params['sort'] = this.sort;
         }
+        if (this.keywords.length > 0) {
+            params['keywords'] = this.keywords.join(',,');
+        }
+        if (this.authors.length > 0) {
+            params['authors'] = this.authors.join(',,');
+        }
+        if (this.languages.length > 0) {
+            params['languages'] = this.languages.join(',,');
+        }
         return params;
     }
 
@@ -124,16 +176,65 @@ export class SearchQuery {
     }
 
 
-    private getSortParam(): string {
+    public getSortValue(): string {
         if (this.sort === 'newest') {
-            return '&sort=created_date%20desc';
+            return 'created_date%20desc';
         } else if (this.sort === 'latest') {
-           return '&sort=datum_end%20desc';
+           return 'datum_end%20desc';
         } else if (this.sort === 'earliest') {
-           return '&sort=datum_begin%20asc';
+           return 'datum_begin%20asc';
         } else if (this.sort === 'alphabetical') {
-           return '&sort=title_sort%20asc';
+           return 'title_sort%20asc';
         }
-        return '';
+        return null;
     }
+
+
+    private addToQuery(field, values, skip) {
+        let q = '';
+        if (skip !== field) {
+            if (values.length > 0) {
+                q = ' AND (' + SearchQuery.getSolrField(field) + ':"' + values.join('" OR ' + SearchQuery.getSolrField(field) + ':"') + '")';
+            }
+        }
+        return q;
+    }
+
+    public removeAllFilters() {
+        this.accessibility = 'all';
+        this.query = null;
+        this.page = 1;
+        this.keywords = [];
+        this.authors = [];
+        this.languages = [];
+    }
+
+    public hasQueryString() {
+        if (this.query) {
+            return true;
+        }
+        return false;
+    }
+
+    public anyFilter() {
+        if (this.hasQueryString()) {
+            return true;
+        }
+        if (this.accessibility && this.accessibility !== 'all') {
+            return true;
+        }
+        if (this.keywords && this.keywords.length > 0) {
+            return true;
+        }
+        if (this.authors && this.authors.length > 0) {
+            return true;
+        }
+        if (this.languages && this.languages.length > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+
 }

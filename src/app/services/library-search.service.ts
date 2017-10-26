@@ -13,17 +13,7 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
         super();
     }
     public search(term: string): void {
-    //   const url = 'https://kramerius.mzk.cz/search/api/v5.0/search/?fl=PID,dc.title,dc.creator&q=dc.title:'
-    //                 + term
-    //                 + '*+AND+(fedora.model:monograph%5E4+OR+fedora.model:periodical%5E4+OR+fedora.model:map+OR+fedora.model:soundrecording+'
-    //                 + 'OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)'
-    //                 + '+AND+(dostupnost:public%5E3+OR+dostupnost:private)&rows=30';
-    // const url = 'https://kramerius.mzk.cz/search/api/v5.0/search/?fl=PID,dc.title,dc.creator&q=dc.title:'
-    // + term
-    // + '*+AND+(fedora.model:monograph%5E4+OR+fedora.model:map+'
-    // + 'OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)'
-    // + '+AND+dostupnost:public&rows=30';
-    const url = this.krameriusApiService.getSearchAutocompleteUrl(term);
+        const url = this.krameriusApiService.getSearchAutocompleteUrl(term);
         this.http.get(url)
             .map((res: Response) => {
                 const json = res.json();

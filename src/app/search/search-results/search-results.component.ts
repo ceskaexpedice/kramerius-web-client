@@ -1,3 +1,4 @@
+import { SearchService } from './../../services/search.service';
 import { DocumentItem } from './../../model/document_item.model';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -8,10 +9,12 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SearchResultsComponent implements OnInit {
 
-  @Input() results: DocumentItem[];
 
-  constructor() { }
+  constructor(
+    public searchService: SearchService
+  ) {
 
+  }
   ngOnInit() {
   }
 
