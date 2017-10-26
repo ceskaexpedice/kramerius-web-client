@@ -36,6 +36,14 @@
     </span>
   </mz-collection-item>
 
+  <mz-collection-item *ngFor="let doctype of searchService.query.doctypes">
+    <span (click)="searchService.removeFilter(searchService.query.doctypes, doctype)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'check'" [class]="'app-clean-mg light-blue-text text-darken-3'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ 'model.' + doctype | translate }}
+    </span>
+  </mz-collection-item>
+
   <mz-collection-item *ngFor="let author of searchService.query.authors">
     <span (click)="searchService.removeFilter(searchService.query.authors, author)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'check'" [class]="'app-clean-mg light-blue-text text-darken-3'"></i>
