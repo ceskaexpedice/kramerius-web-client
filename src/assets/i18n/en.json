@@ -32,6 +32,7 @@
     "keywords": "Keyword",
     "languages": "Language",
     "authors": "Author",
+    "inaccessible_document": "The document is not publicly accessible",    
     "ordering": {
       "label": "Ordering",
       "relevance": "Relevance",

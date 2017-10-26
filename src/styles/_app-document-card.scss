@@ -61,8 +61,23 @@ app-document-card {
               height: 100%;
               width: 100%;
               background-repeat: no-repeat;
-              background-position: top left;
+              background-position: top center;
               background-size: contain;
+              .app-lock {
+                background: #fff;
+                height: 36px;
+                width: 36px;
+                display: block;
+                border-radius: 50%;
+                border: 1px solid #777;
+                text-align: center;
+                margin: 0 auto;
+                top: 57px;
+                position: absolute;
+                color: #333;
+                opacity: 0.8;
+                left: 42px;
+              }
             }
           }
           

@@ -2,7 +2,10 @@
   <mz-card-content>
     <div class="app-card-mark {{item.doctype}}"></div>
     <div class="app-card-media">
-      <div class="app-card-thumb" [style.background-image]="getThumb()"></div>
+      <div class="app-card-thumb" [style.background-image]="getThumb()">
+          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+      </div>
+      
     </div><!--/.app-card-media -->
     <div class="app-card-content">
       <div *ngIf="item.title" class="app-card-title" mz-tooltip [tooltip]="item.title" [position]="'top'">

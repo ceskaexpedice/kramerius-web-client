@@ -32,6 +32,7 @@
     "keywords": "Klíčové slovo",
     "languages": "Jazyk",
     "authors": "Autor",
+    "inaccessible_document": "Dokument není veřejně přístupný",
     "ordering": {
       "label": "Řazení",
       "relevance": "Podle Relevance",
