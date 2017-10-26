@@ -1,3 +1,5 @@
+import { SearchService } from './../services/search.service';
+import { AppState } from './../app.state';
 import { LibrarySearchService } from './../services/library-search.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
@@ -17,12 +19,14 @@ export class SearchBarComponent implements OnInit {
 
   constructor(
     public router: Router,
+    private state: AppState,
     private route: ActivatedRoute,
+    private searchService: SearchService,
     public service: LibrarySearchService) {
   }
 
   ngOnInit() {
-    this.accessibilityFilter = false;
+    this.accessibilityFilter = true;
     this.searchStr = '';
     this.route.queryParams.subscribe(params => {
       const accessibility = params['accessibility'];
@@ -42,7 +46,9 @@ export class SearchBarComponent implements OnInit {
     if (event) {
       const uuid = event['originalObject']['PID'];
       const title = event['title'];
-      this.router.navigate(['/search'], { queryParams: { q: title } });
+      this.searchStr = title;
+      this.search();
+      // this.router.navigate(['/search'], { queryParams: { q: title } });
     }
   }
 
@@ -61,11 +67,21 @@ export class SearchBarComponent implements OnInit {
     if (q == null) {
       q = '';
     }
-    const params = { q: q };
-    if (this.accessibilityFilter) {
-      params['accessibility'] = 'public';
+    if (this.onSearchScreen()) {
+      this.searchService.changeQueryString(q);
+    } else {
+      const params = { q: q };
+      if (this.accessibilityFilter) {
+        params['accessibility'] = 'public';
+      }
+      this.router.navigate(['/search'], { queryParams: params });
     }
-    this.router.navigate(['/search'], { queryParams: params });
   }
+
+  onSearchScreen() {
+    return this.state.activePage.startsWith('/search');
+  }
+
+
 
 }

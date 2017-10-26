@@ -2,6 +2,7 @@
 
 app-metadata {
   float: right;
+  margin-left: auto;
   @include set-border(left, 2, solid, $app-grey-l-2);
   
   .app-metadata-wrapper {

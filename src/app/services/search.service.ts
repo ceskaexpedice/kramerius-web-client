@@ -71,6 +71,11 @@ export class SearchService {
         this.reload(false);
     }
 
+    public changeQueryString(query: string) {
+        this.query.query = query;
+        this.reload(false);
+    }
+
     public setAccessibility(accessibility: string) {
         this.query.setAccessibility(accessibility);
         this.reload(false);
