@@ -15,6 +15,7 @@ export class SearchService {
     query: SearchQuery;
 
     keywords: any[] = [];
+    doctypes: any[] = [];
     accessibility: any[] = [];
     authors: any[] = [];
     languages: any[] = [];
@@ -32,6 +33,7 @@ export class SearchService {
     public init(params) {
         this.results = [];
         this.keywords = [];
+        this.doctypes = [];
         this.accessibility = [];
         this.numberOfResults = 0;
         this.query = SearchQuery.fromParams(params);
@@ -101,6 +103,9 @@ export class SearchService {
         });
         this.krameriusApiService.getFacetList(this.query, 'keywords').subscribe(response => {
             this.keywords = response;
+        });
+        this.krameriusApiService.getFacetList(this.query, 'doctypes').subscribe(response => {
+            this.doctypes = response;
         });
         this.krameriusApiService.getFacetList(this.query, 'accessibility').subscribe(response => {
             this.accessibility = response;

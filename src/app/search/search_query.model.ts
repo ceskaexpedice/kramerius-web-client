@@ -7,6 +7,7 @@ export class SearchQuery {
     keywords: string[] = [];
     authors: string[] = [];
     languages: string[] = [];
+    doctypes: string[] = [];
 
 
     constructor() {
@@ -18,6 +19,7 @@ export class SearchQuery {
         query.setSort(params['sort']);
         query.setPage(params['page']);
         query.setFiled(query.keywords, params['keywords']);
+        query.setFiled(query.doctypes, params['doctypes']);
         query.setFiled(query.authors, params['authors']);
         query.setFiled(query.languages, params['languages']);
         query.setAccessibility(params['accessibility']);
@@ -129,6 +131,7 @@ export class SearchQuery {
             }
         }
         q += this.addToQuery('keywords', this.keywords, skip);
+        q += this.addToQuery('doctypes', this.doctypes, skip);
         q += this.addToQuery('authors', this.authors, skip);
         q += this.addToQuery('languages', this.languages, skip);
         q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
@@ -161,6 +164,9 @@ export class SearchQuery {
         }
         if (this.languages.length > 0) {
             params['languages'] = this.languages.join(',,');
+        }
+        if (this.doctypes.length > 0) {
+            params['doctypes'] = this.doctypes.join(',,');
         }
         return params;
     }
@@ -205,6 +211,7 @@ export class SearchQuery {
         this.query = null;
         this.page = 1;
         this.keywords = [];
+        this.doctypes = [];
         this.authors = [];
         this.languages = [];
     }
@@ -224,6 +231,9 @@ export class SearchQuery {
             return true;
         }
         if (this.keywords && this.keywords.length > 0) {
+            return true;
+        }
+        if (this.doctypes && this.doctypes.length > 0) {
             return true;
         }
         if (this.authors && this.authors.length > 0) {

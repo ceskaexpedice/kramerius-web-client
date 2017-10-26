@@ -1,9 +1,9 @@
 <div class="row app-clean-mg">
   <div class="col s8 app-col-left">
     <ul>
-      <li *ngFor="let docTypeItem of doctype" [ngClass]="{'active' : docTypeItem.active === true}" class="{{docTypeItem.type}}">
-        <span mz-tooltip [tooltip]="docTypeItem.title" [position]="'top'" class="app-cursor-pointer">
-          <i [class]="'app-mdi-' + docTypeItem.type"></i> {{docTypeItem.count}}
+      <li *ngFor="let doctype of searchService.doctypes" [ngClass]="{'active' : doctype.selected}" class="{{doctype.value}}">
+        <span (click)="searchService.toggleFilter(searchService.query.doctypes, doctype.value)" mz-tooltip [tooltip]="'model.' + doctype.value | translate" [position]="'top'" class="app-cursor-pointer">
+          <i [class]="'app-mdi-' + doctype.value"></i> {{doctype.count}}
         </span>
       </li>
     </ul>
