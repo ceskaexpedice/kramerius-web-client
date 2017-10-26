@@ -56,7 +56,7 @@
     <span (click)="searchService.removeFilter(searchService.query.languages, language)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'check'" [class]="'app-clean-mg light-blue-text text-darken-3'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{language}}
+      {{ 'language.' + language | translate }}
     </span>
   </mz-collection-item>
 
