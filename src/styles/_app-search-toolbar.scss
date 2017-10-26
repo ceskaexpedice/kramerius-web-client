@@ -5,7 +5,7 @@ app-search-toolbar {
   overflow: hidden;
   height: $app-toolbar-height;
   line-height: $app-toolbar-height;
-  margin: 0 1rem;
+  padding: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-c-2);
           
   .col {
