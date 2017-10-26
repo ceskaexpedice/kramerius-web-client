@@ -1,6 +1,5 @@
 import { PeriodicalItem } from './../../../model/periodicalItem.model';
 import { Component, OnInit, Input } from '@angular/core';
-import { DatepickerOptions } from 'ng2-datepicker';
 
 @Component({
   selector: 'app-periodical-calendar-layout',
