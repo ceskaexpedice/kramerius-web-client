@@ -79,9 +79,9 @@ app-search-filters {
             color: $app-grey-d-1;
           }
           &.selected {
-            font-weight: 800;
+            @extend .app-font-bold;
             span, a {
-              color: black !important;
+              //color: $primary-color !important;
             }
           }
         }
