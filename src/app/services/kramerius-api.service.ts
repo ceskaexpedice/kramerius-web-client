@@ -73,7 +73,7 @@ export class KrameriusApiService {
                 // } else if (field === 'keywords') {
                     // return this.solrService.facetList(response.json(), field, query.keywords);
                 } else {
-                    return this.solrService.facetList(response.json(), SearchQuery.getSolrField(field), query[field]);
+                    return this.solrService.facetList(response.json(), SearchQuery.getSolrField(field), query[field], field !== 'doctypes');
                 }
             })
             .catch(this.handleError);

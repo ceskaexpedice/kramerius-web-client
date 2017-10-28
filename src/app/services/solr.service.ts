@@ -66,7 +66,7 @@ export class SolrService {
     }
 
 
-    facetList(solr, field, usedFiltes: any[]) {
+    facetList(solr, field, usedFiltes: any[], skipSelected: boolean) {
         const list = [];
         const facetFields = solr['facet_counts']['facet_fields'][field];
         for (let i = 0; i < facetFields.length; i += 2) {
@@ -77,7 +77,9 @@ export class SolrService {
             const count = facetFields[i + 1];
             const selected = usedFiltes && usedFiltes.indexOf(value) >= 0;
             if (!selected) {
-                list.push({'value' : value, 'count': count});
+                list.push({'value' : value, 'count': count, 'selected': false});
+            } else if (!skipSelected) {
+                list.push({'value' : value, 'count': count, 'selected': true});
             }
         }
         return list;
