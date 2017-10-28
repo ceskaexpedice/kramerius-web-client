@@ -42,7 +42,7 @@
       <mz-collection *ngIf="searchService.keywords">
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.keywords; let i = index;">
-            <span [class.selected]="item.selected" class="app-row" *ngIf="i < 6 || keywordsExpanded">
+            <span class="app-row" *ngIf="i < 6 || keywordsExpanded">
               <a (click)="searchService.toggleFilter(searchService.query.keywords, item.value)">{{item.value}}</a>
               <span>
                 {{item.count}}
@@ -73,7 +73,7 @@
       <mz-collection *ngIf="searchService.authors">
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.authors; let i = index;">
-            <span [class.selected]="item.selected" class="app-row" *ngIf="i < 6 || authorsExpanded">
+            <span class="app-row" *ngIf="i < 6 || authorsExpanded">
               <a (click)="searchService.toggleFilter(searchService.query.authors, item.value)">{{item.value}}</a>
               <span>
                 {{item.count}}
@@ -104,7 +104,7 @@
       <mz-collection *ngIf="searchService.languages">
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.languages; let i = index;">
-            <span [class.selected]="item.selected" class="app-row" *ngIf="i < 6 || languagesExpanded">
+            <span class="app-row" *ngIf="i < 6 || languagesExpanded">
               <a (click)="searchService.toggleFilter(searchService.query.languages, item.value)">{{'language.' + item.value | translate }}</a>
               <span>
                 {{item.count}}

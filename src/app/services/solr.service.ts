@@ -76,7 +76,9 @@ export class SolrService {
             }
             const count = facetFields[i + 1];
             const selected = usedFiltes && usedFiltes.indexOf(value) >= 0;
-            list.push({'value' : value, 'count': count, 'selected': selected});
+            if (!selected) {
+                list.push({'value' : value, 'count': count});
+            }
         }
         return list;
     }
