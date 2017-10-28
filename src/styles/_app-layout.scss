@@ -78,6 +78,7 @@ app-root {
     // book
     app-book {
       @import "styles/app-viewer";
+      @import "styles/app-viewer-controls";      
       @import "styles/app-navigation";
       @import "styles/app-metadata";
     }

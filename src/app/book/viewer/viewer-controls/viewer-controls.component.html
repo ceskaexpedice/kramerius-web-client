@@ -1,0 +1,24 @@
+<div class="view-controls">
+
+    <span (click)="controlsService.zoomIn()"
+            mz-tooltip [tooltip]="'view_controls.tooltip_zoom_in' | translate" [position]="'top'" class="app-cursor-pointer">
+        <i class="app-mdi-zoom-in"></i>
+    </span>
+    <span (click)="controlsService.zoomOut()"
+            mz-tooltip [tooltip]="'view_controls.tooltip_zoom_out' | translate" [position]="'top'" class="app-cursor-pointer">
+        <i class="app-mdi-zoom-out"></i>
+    </span>
+    <span (click)="controlsService.fitToScreen()"
+            mz-tooltip [tooltip]="'view_controls.tooltip_fit_to_screen' | translate" [position]="'top'" class="app-cursor-pointer">
+        <i class="app-mdi-fit-to-screen"></i>
+    </span>
+    <span (click)="controlsService.rotateLeft()"
+            mz-tooltip [tooltip]="'view_controls.tooltip_rotate_left' | translate" [position]="'top'" class="app-cursor-pointer">
+        <i class="app-mdi-rotate-left"></i>
+    </span>
+    <span (click)="controlsService.rotateRight()"
+            mz-tooltip [tooltip]="'view_controls.tooltip_rotate_right' | translate" [position]="'top'" class="app-cursor-pointer">
+        <i class="app-mdi-rotate-right"></i>
+    </span>
+
+</div>

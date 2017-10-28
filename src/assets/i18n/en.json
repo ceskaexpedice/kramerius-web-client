@@ -73,6 +73,13 @@
     "volume": "Volume: {{volume}}",
     "issue": "Issue: {{issue}}" 
   },
+  "view_controls": {
+    "tooltip_zoom_in": "Zoom in",
+    "tooltip_zoom_out": "Zoom out",
+    "tooltip_rotate_right": "Rotate right",
+    "tooltip_rotate_left": "Rotate left",
+    "tooltip_fit_to_screen": "Fit to screen"
+  },
   "model" : {
     "monograph" : "Book",
     "monographunit" : "Book",

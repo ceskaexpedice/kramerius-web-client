@@ -1,3 +1,5 @@
+import { ViewerControlsService } from './services/viewre-controls.service.';
+import { ViewerControlsComponent } from './book/viewer/viewer-controls/viewer-controls.component';
 import { SearchService } from './services/search.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { DocumentCardComponent } from './shared/document-card/document-card.component';
@@ -91,7 +93,8 @@ const ROUTES: Routes = [
     SearchFiltersUsedComponent,
     SearchCountComponent,
     SearchPaginationComponent,
-    SearchToolbarComponent
+    SearchToolbarComponent,
+    ViewerControlsComponent
   ],
   imports: [
     BrowserModule,
@@ -116,7 +119,8 @@ const ROUTES: Routes = [
     ModsParserService,
     LibrarySearchService,
     LocalStorageService,
-    SearchService
+    SearchService,
+    ViewerControlsService
   ],
   bootstrap: [AppComponent]
 })

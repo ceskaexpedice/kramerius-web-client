@@ -73,6 +73,13 @@
     "volume": "Ročník: {{volume}}",
     "issue": "Číslo: {{issue}}"   
   },
+  "view_controls": {
+    "tooltip_zoom_in": "Přiblížit",
+    "tooltip_zoom_out": "Oddálit",
+    "tooltip_rotate_right": "Otočit doprava",
+    "tooltip_rotate_left": "Otočit doleva",
+    "tooltip_fit_to_screen": "Přizpůsobit obrazovce"
+  },
   "model" : {
     "monograph" : "Kniha",
     "monographunit" : "Kniha",

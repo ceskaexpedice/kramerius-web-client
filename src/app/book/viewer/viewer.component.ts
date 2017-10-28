@@ -1,8 +1,10 @@
+import { ViewerControlsService, ViewerActions } from './../../services/viewre-controls.service.';
 import { Page } from './../../model/page.model';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { BookService } from './../../services/book.service';
 import { Component, OnInit, Input,
-  OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+  OnChanges, SimpleChanges, SimpleChange, OnDestroy } from '@angular/core';
+import { ISubscription } from 'rxjs/Subscription';
 
 declare var ol: any;
 
@@ -11,7 +13,7 @@ declare var ol: any;
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss']
 })
-export class ViewerComponent implements OnInit, OnChanges {
+export class ViewerComponent implements OnInit, OnChanges, OnDestroy {
 
   // private url1 = 'https://kramerius.mzk.cz/search/zoomify/uuid:0e859fd0-9a32-11e7-920d-005056827e51/';
   // private width1 = 1688;
@@ -54,13 +56,23 @@ export class ViewerComponent implements OnInit, OnChanges {
 
   private zoomFactor = 1.5;
 
-  constructor(public bookService: BookService) { }
+  private lastRotateTime = 0;
+
+  private viewerActionsSubscription: ISubscription;
+
 
   @Input() page: Page;
 
   ngOnInit() {
     this.init();
   }
+
+  constructor(public bookService: BookService, private controlsService: ViewerControlsService) {
+    this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
+        this.onActionPerformed(action);
+    });
+}
+
 
   init() {
      this.view = new ol.Map({
@@ -106,8 +118,73 @@ export class ViewerComponent implements OnInit, OnChanges {
     }
   }
 
+  private onActionPerformed(action: ViewerActions) {
+    switch (action) {
+      case ViewerActions.zoomIn:
+        this.zoomIn();
+        break;
+      case ViewerActions.zoomOut:
+        this.zoomOut();
+        break;
+      case ViewerActions.rotateRight:
+        this.rotateRight();
+        break;
+      case ViewerActions.rotateLeft:
+        this.rotateLeft();
+        break;
+      case ViewerActions.fitToScreen:
+        this.fitToScreen();
+        break;
+    }
+  }
 
-  refresh() {
+  private zoomIn() {
+    const currentZoom = this.view.getView().getResolution();
+    let newZoom = currentZoom / 1.5;
+    if (newZoom < this.minResolution) {
+      newZoom = this.minResolution;
+    }
+    this.view.getView().animate({
+      resolution: newZoom,
+      duration: 300
+    });
+  }
+
+  private zoomOut() {
+    const currentZoom = this.view.getView().getResolution();
+    let newZoom = currentZoom * 1.5;
+    if (newZoom > this.maxResolution) {
+      newZoom = this.maxResolution;
+    }
+    this.view.getView().animate({
+      resolution: newZoom,
+      duration: 300
+    });
+  }
+
+  private rotateRight() {
+    this.rotate(Math.PI / 2);
+  }
+
+  private rotateLeft() {
+    this.rotate(- Math.PI / 2);
+  }
+
+  private rotate(angle: number) {
+    const timestamp = new Date().getTime();
+    const currentRotation = this.view.getView().getRotation();
+    if (timestamp - this.lastRotateTime < 550) {
+      return;
+    }
+    this.view.getView().animate({
+      rotation: currentRotation + angle,
+      duration: 500
+    });
+    this.lastRotateTime = timestamp;
+  }
+
+
+  private fitToScreen() {
     this.view.updateSize();
     this.view.getView().setRotation(0);
     this.bestFit();
@@ -171,7 +248,7 @@ export class ViewerComponent implements OnInit, OnChanges {
         // addStaticImage(image1.url, image1.width, image1.height, 0);
       }
     }
-    this.refresh();
+    this.fitToScreen();
   }
 
 
@@ -258,7 +335,7 @@ export class ViewerComponent implements OnInit, OnChanges {
 
 
   getBestFitResolution() {
-    const rx = this.imageWidth / (this.view.getSize()[0] - 10)
+    const rx = this.imageWidth / (this.view.getSize()[0] - 10);
     const ry = this.imageHeight / (this.view.getSize()[1] - 10);
     return Math.max(rx, ry);
   }
@@ -268,5 +345,8 @@ export class ViewerComponent implements OnInit, OnChanges {
   }
 
 
+  ngOnDestroy() {
+    this.viewerActionsSubscription.unsubscribe();
+  }
 
 }

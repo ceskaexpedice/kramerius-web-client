@@ -1,0 +1,35 @@
+// --- Viwer Controls ---
+
+app-viewer-controls {
+  position: absolute;
+  left: 50%;
+  z-index: 1000;
+  bottom: 24px;
+  // margin-top: 16px;
+  .view-controls {
+    background: rgba(0, 0, 0, 0.2);
+    position: relative;
+    transition: opacity .4s ease 0s;
+    opacity: 1;
+    margin-right: -50%;
+    background: #3D464D;
+    display: inline-block;
+    -webkit-transform: translate(-50%, 0%);    
+    transform: translate(-50%, 0%);
+    height: 36px;
+    padding-top: 6px;
+    border-radius: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    user-select: none;
+    // border: 1px solid #adadad;
+  }
+  span i {
+    opacity: 0.7;
+    padding: 10px;
+    color: #fff;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
