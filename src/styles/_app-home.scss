@@ -13,20 +13,29 @@ section {
     }
   }
   &:nth-child(2) {
-    .tabs {
-      @include set-border(bottom, 1, solid, $app-grey-c-2);
-    }
-    .app-tab-content {
-      .app-tab-wrapper {
-        padding: 10px 0;
-        // text-align: center;
-        background: #fff;
-        app-document-card {
-          width: 33.33%;
-          display: block;
-          float: left;
+    mz-tab {
+      .tabs {
+        @include set-border(bottom, 1, solid, $app-grey-c-2);
+        
+        .tab {
+          width: 33.33333333%; 
         }
       }
+      & > div {
+        padding: 10px 0;
+        
+        mz-tab-item {
+          & > div {
+            @extend .clearfix;
+            
+            app-document-card {
+              width: 33.33%;
+              display: block;
+              float: left;
+            }
+          } 
+        }
+      } 
     }
   }
 }

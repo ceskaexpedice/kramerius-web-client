@@ -32,31 +32,19 @@
     </div><!--/.row -->
   </section>
 
-  <!-- Musi se otestovat jestli existuje obsah alespon jednoho tabu + kolik tabu je a podle toho priradit class - s1 - s4 -->
+  <!-- Musi se otestovat jestli existuje obsah alespon jednoho tabu + kolik tabu je a podle toho do elementu section priradit dohodnutou class a tim zmenit chovani vnitrnich elementu -->
   <section class="container">
-    <ul id="app-tabs-card" class="tabs row app-clean-mg">
-      <li class="tab col s4"><a href="#app-tab-1" class="active">{{'home.tab_visited' | translate}}</a></li>
-      <li class="tab col s4"><a href="#app-tab-2">{{'home.tab_latest' | translate}}</a></li>
-      <li class="tab col s4"><a href="#app-tab-3">{{'home.tab_recommended' | translate}}</a></li>
-    </ul>
-
-    <div id="app-tab-1" class="col s12 grey lighten-5 app-tab-content">
-      <div class="app-tab-wrapper">
-        <app-document-card *ngFor="let item of visited" [item]="item"></app-document-card>         
-      </div>
-    </div>
-
-    <div id="app-tab-2" class="col s12 grey lighten-5 app-tab-content">
-      <div class="app-tab-wrapper">
+    <mz-tab [swipeable]="'true'">
+      <mz-tab-item [class]="'app-item-visited'" [label]="'home.tab_visited' | translate" [active]="'true'">
+        <app-document-card *ngFor="let item of visited" [item]="item"></app-document-card>   
+      </mz-tab-item>
+      <mz-tab-item [class]="'app-item-newest'" [label]="'home.tab_latest' | translate">
         <app-document-card *ngFor="let item of newest" [item]="item"></app-document-card> 
-      </div>
-    </div>
-
-    <div id="app-tab-3" class="col s12 grey lighten-5 app-tab-content">
-      <div class="app-tab-wrapper">
+      </mz-tab-item>
+      <mz-tab-item [class]="'app-item-recommended'" [label]="'home.tab_recommended' | translate">
         <app-document-card *ngFor="let item of recommended" [item]="item"></app-document-card> 
-      </div>
-    </div>
+      </mz-tab-item>
+    </mz-tab>
   </section>
 </div><!--/.app-content-wrapper -->
 
