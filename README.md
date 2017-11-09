@@ -8,6 +8,7 @@
 - PETR -> dodelat casovou osu + kalendar - collapse z toolbaru
 - PETR -> zakomentovat pocet zaznamu z toolbaru
 - PETR -> aktivni filtry - pridat ikony
+- PETR -> loga knihoven - otestovat a vymyslet reseni viz. email od Pavla
 - PETR -> DONE -> opravit toolbar -> border + active bootom line
 - PETR -> responsivni chovani -> pri zmensenem okne horni casti doctype facety zmizi a zobrazi se standardne v levem facetovem sloupci
 - PETR -> dodelat doctype bar (mozna rozdelit na 2 komponenty)
