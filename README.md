@@ -1,6 +1,6 @@
 # KrameriusClient
 
-## poznamky
+## the latest tasks
 - PETR | DONE -> predelat taby na ng2-materialize
 - PETR | DONE tlacitko vstupte -> 2 stavy: neni dotaz = sipka + vstupte, je dotaz = lupa + hledej (stejne ho prekryva naseptavani)
 - PETR | DONE udelat 2 komponenty search baru pro home page a pro result+dalsi
@@ -12,5 +12,5 @@
 - PETR -> upravit zamecek na nahledech
 - PETR | DONE -> opravit toolbar -> border + active bootom line
 
-## az na zaver
+## to the end
 - PETR -> responsivni chovani -> pri zmensenem okne horni casti doctype facety zmizi a zobrazi se standardne v levem facetovem sloupci
