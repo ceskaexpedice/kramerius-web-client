@@ -20,9 +20,9 @@
   },
   "toolbar": {
     "tooltip_show_chartbar": "Zobrazit časovou osu",
-    "tooltip_hidde_chartbar": "Skrýt časovou osu",
+    "tooltip_hide_chartbar": "Skrýt časovou osu",
     "tooltip_show_date": "Zobrazit časové rozmezí od - do",
-    "tooltip_hidde_date": "Skrýt časové rozmezí od - do",
+    "tooltip_hide_date": "Skrýt časové rozmezí od - do",
     "tooltip_display_grid": "Zobraz mřížku",
     "tooltip_display_years": "Zobraz roky",
     "tooltip_display_calendar": "Zobraz kalendář"
@@ -46,11 +46,17 @@
       "public": "pouze veřejné",
       "private": "pouze neveřejné",
       "all": "Vše"
+    },
+    "datepicker": {
+      "label_start_date": "Počáteční datum",
+      "label_end_date": "Konečné datum",
+      "btn_use_this_settings": "Použít toto nastavení"
     }
   },
   "home": {
     "desc": "Vyhledávání v digitalizovaných dokumentech",
     "btn_enter": "Vstupte",
+    "btn_search": "Hledej",
     "tab_visited": "Moje navštívené",
     "tab_recommended": "Doporučené",    
     "tab_requested": "Nejžádanějsí",

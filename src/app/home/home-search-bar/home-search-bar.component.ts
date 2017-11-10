@@ -1,15 +1,15 @@
-import { SearchService } from './../services/search.service';
-import { AppState } from './../app.state';
-import { LibrarySearchService } from './../services/library-search.service';
+import { SearchService } from './../../services/search.service';
+import { AppState } from './../../app.state';
+import { LibrarySearchService } from './../../services/library-search.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-search-bar',
-  templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.scss']
+  selector: 'app-home-search-bar',
+  templateUrl: './home-search-bar.component.html',
+  styleUrls: ['./home-search-bar.component.scss']
 })
-export class SearchBarComponent implements OnInit {
+export class HomeSearchBarComponent implements OnInit {
 
   @Input() autocomplete;
   @Input() input;

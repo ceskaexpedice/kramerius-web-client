@@ -20,9 +20,9 @@
   },
   "toolbar": {
     "tooltip_show_chartbar": "Show chart bar",
-    "tooltip_hidde_chartbar": "Hidde chart bar",
+    "tooltip_hide_chartbar": "Hidde chart bar",
     "tooltip_show_date": "Show date from - to",
-    "tooltip_hidde_date": "Hidde date from - to",
+    "tooltip_hide_date": "Hidde date from - to",
     "tooltip_display_grid": "Display grid",
     "tooltip_display_years": "Display years",
     "tooltip_display_calendar": "Display calendar"
@@ -46,11 +46,17 @@
       "public": "Public",
       "private": "Private",
       "all": "All"
+    },
+    "datepicker": {
+      "label_start_date": "Start date",
+      "label_end_date": "End date",
+      "btn_use_this_settings": "Use this settings"
     }
   },
   "home": {
     "desc": "Searching in digital documents",
     "btn_enter": "Enter",
+    "btn_search": "Search",
     "tab_visited": "My visited",
     "tab_recommended": "Recommended",        
     "tab_requested": "The most requested",

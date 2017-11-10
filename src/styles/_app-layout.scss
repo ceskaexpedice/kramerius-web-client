@@ -70,6 +70,8 @@ app-root {
         background-color: color("shades", "white");
 
         @import "styles/app-search-toolbar";
+        @import "styles/app-search-chart-bar";
+        @import "styles/app-search-calendar";
         @import "styles/app-search-results";
         @import "styles/app-search-pagination";
       }

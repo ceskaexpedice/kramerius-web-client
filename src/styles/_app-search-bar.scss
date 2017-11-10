@@ -1,6 +1,7 @@
-// --- SEARCH BAR ---
+// --- SEARCH BAR CSS FOR NAVBAR & HOME ---
 
-app-search-bar {
+app-navbar-search-bar,
+app-home-search-bar {
   .app-search-bar-wrapper {
     position: relative;
     display: inline-block;
@@ -43,10 +44,12 @@ app-search-bar {
         height: $app-search-bar-height;
         line-height: $app-search-bar-height;
         padding-left: 3rem;
-        border: none;
+        border: none !important;
+        width: calc(100% - 4rem);
 
         &:focus {
           background-color: transparent;
+          box-shadow: none !important;
         }
         &::-ms-clear {
           display: none; // for IE - not display his display button

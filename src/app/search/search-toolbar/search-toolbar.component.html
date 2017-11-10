@@ -15,15 +15,15 @@
           <label>{{ 'search.ordering.label' | translate }}:</label>
           <a id="app-btn-sort" href="#">{{ 'search.ordering.' + searchService.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
           <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-            <mz-dropdown-item *ngIf="searchService.query.hasQueryString()"><a (click)="searchService.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item>              
-            <mz-dropdown-item><a (click)="searchService.changeOrdering('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item *ngIf="searchService.query.hasQueryString()"><a (click)="searchService.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item> <mz-dropdown-item><a (click)="searchService.changeOrdering('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('newest')">{{ 'search.ordering.newest' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('latest')">{{ 'search.ordering.latest' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('earliest')">{{ 'search.ordering.earliest' | translate }}</a></mz-dropdown-item>            
           </mz-dropdown>
         </span>
       </li>
-      <li>
+      <!-- for the time being commented
+        <li>
         <span class="app-cursor-pointer">
           <a id="app-btn-count-row" href="#">10 <i class="app-mdi-menu-down"></i></a>
           <mz-dropdown [id]="'app-count-row'" [dropdownButtonId]="'app-btn-count-row'" [constrainWidth]="false">
@@ -32,14 +32,17 @@
           </mz-dropdown>
         </span>
       </li>
-      <li>
-        <span mz-tooltip [tooltip]="'toolbar.tooltip_show_chartbar' | translate" [position]="'top'" class="app-cursor-pointer">
-          <i class="app-mdi-chart-bar"></i>
+      -->
+      <li [class.active]="state.showingChartBar">
+        <span (click)="toggleElement('app-chart-bar')">
+          <i *ngIf="!state.showingChartBar" mz-tooltip [tooltip]="'toolbar.tooltip_show_chartbar' | translate" [position]="'top'" class="app-mdi-chart-bar app-cursor-pointer"></i>
+          <i *ngIf="state.showingChartBar" mz-tooltip [tooltip]="'toolbar.tooltip_hide_chartbar' | translate" [position]="'top'" class="app-mdi-chart-bar app-cursor-pointer"></i>
         </span>
       </li>
-      <li class="active">
-        <span mz-tooltip [tooltip]="'toolbar.tooltip_show_date' | translate" [position]="'top'" class="app-cursor-pointer">
-          <i class="app-mdi-calendar-range"></i>
+      <li [class.active]="state.showingCalendar">
+        <span (click)="toggleElement('app-calendar')">
+          <i *ngIf="!state.showingCalendar" mz-tooltip [tooltip]="'toolbar.tooltip_show_date' | translate" [position]="'top'" class="app-mdi-calendar-range app-cursor-pointer"></i>
+          <i *ngIf="state.showingCalendar" mz-tooltip [tooltip]="'toolbar.tooltip_hide_date' | translate" [position]="'top'" class="app-mdi-calendar-range app-cursor-pointer"></i>
         </span>
       </li>
     </ul>

@@ -9,7 +9,7 @@
   </div><!--/.app-col-left -->
   
   <div *ngIf="state.activePage != '/'" class="col app-col-right">
-    <app-search-bar></app-search-bar>
+    <app-navbar-search-bar></app-navbar-search-bar>
   </div><!--/.app-col-right -->
   <mz-navbar-item-container [align]="'right'">
     <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive" [active]="collections.isActive">
