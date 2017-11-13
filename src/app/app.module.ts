@@ -54,6 +54,7 @@ import { HomeSearchBarComponent } from './home/home-search-bar/home-search-bar.c
 import { NavbarSearchBarComponent } from './navbar/navbar-search-bar/navbar-search-bar.component';
 import { SearchChartBarComponent } from './search/search-chart-bar/search-chart-bar.component';
 import { SearchCalendarComponent } from './search/search-calendar/search-calendar.component';
+import { AlertComponent } from './alert/alert.component';
 
 
 const ROUTES: Routes = [
@@ -100,7 +101,8 @@ const ROUTES: Routes = [
     HomeSearchBarComponent,
     NavbarSearchBarComponent,
     SearchChartBarComponent,
-    SearchCalendarComponent
+    SearchCalendarComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

@@ -53,6 +53,12 @@
       "btn_use_this_settings": "Použít toto nastavení"
     }
   },
+  "alerts": {
+    "warning": {
+      "title": "Upozornění",
+      "text": "Nalezeno 0 záznamů. Prosím, zkuste jiný dotaz."
+    }
+  },
   "home": {
     "desc": "Vyhledávání v digitalizovaných dokumentech",
     "btn_enter": "Vstupte",

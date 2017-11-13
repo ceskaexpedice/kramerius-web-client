@@ -2,9 +2,6 @@
   <app-search-count></app-search-count>
   <app-search-filters-used *ngIf="searchService.query.anyFilter()"></app-search-filters-used>
   
-
-
-
   <mz-collapsible [mode]="'expandable'">
     <mz-collapsible-item [active]="true">
       <mz-collapsible-item-header>
@@ -29,9 +26,7 @@
     </mz-collapsible-item>
   </mz-collapsible>
 
-
-
-  <mz-collapsible [mode]="'expandable'">
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.keywords?.length">
     <mz-collapsible-item [active]="true">
       <mz-collapsible-item-header>
         {{ 'search.keywords' | translate }}            
@@ -61,8 +56,7 @@
     </mz-collapsible-item>
   </mz-collapsible>
 
-
-  <mz-collapsible [mode]="'expandable'">
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.authors?.length">
     <mz-collapsible-item [active]="true">
       <mz-collapsible-item-header>
         {{ 'search.authors' | translate }}   
@@ -92,9 +86,8 @@
     </mz-collapsible-item>
   </mz-collapsible>
 
-
-  <mz-collapsible [mode]="'expandable'">
-    <mz-collapsible-item [active]="true">
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.languages?.length">
+    <mz-collapsible-item [active]="false">
       <mz-collapsible-item-header>
         {{ 'search.languages' | translate }}   
         <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
@@ -123,8 +116,4 @@
     </mz-collapsible-item>
   </mz-collapsible>    
 
-
-
-
-
-</div>
+</div><!--/.app-search-filters-wrapper -->

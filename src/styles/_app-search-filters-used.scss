@@ -49,7 +49,7 @@ app-search-filters-used {
         &:hover {
           color: $app-red;
           
-          .mdi-check {
+          i[class*="mdi-"]:not(.mdi-close) {
             display: none;
           }
           .mdi-close {

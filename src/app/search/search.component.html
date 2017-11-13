@@ -1,6 +1,6 @@
 <app-search-filters></app-search-filters>
 
 <div class="app-search-wrapper">
-  <app-search-toolbar></app-search-toolbar>
+  <app-search-toolbar *ngIf="searchService.getNumberOfResults()"></app-search-toolbar>
   <app-search-results></app-search-results>
 </div><!--/.app-search-wrapper -->

@@ -53,6 +53,12 @@
       "btn_use_this_settings": "Use this settings"
     }
   },
+  "alerts": {
+    "warning": {
+      "title": "Attention",
+      "text": "Found 0 records. Please, try another query."
+    }
+  },
   "home": {
     "desc": "Searching in digital documents",
     "btn_enter": "Enter",

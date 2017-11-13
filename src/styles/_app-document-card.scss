@@ -63,20 +63,20 @@ app-document-card {
               background-repeat: no-repeat;
               background-position: top center;
               background-size: contain;
+              position: relative;
               .app-lock {
-                background: #fff;
+                @extend .z-depth-2;
+                background: color("shades", "white");
                 height: 36px;
                 width: 36px;
                 display: block;
                 border-radius: 50%;
-                border: 1px solid #777;
                 text-align: center;
-                margin: 0 auto;
-                top: 57px;
                 position: absolute;
-                color: #333;
+                color: $app-grey-d-2;
                 opacity: 0.8;
-                left: 37px;
+                margin: auto;
+                top: 0; left: 0; bottom: 0; right: 0;
               }
             }
           }
