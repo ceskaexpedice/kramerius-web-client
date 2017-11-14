@@ -18,6 +18,7 @@
 - HONZA -> u filtru "dostupnost" mi nevraci searchService.accessibility?.length nulu, pokud nejsou zadne vysledky, cili ho v              pripade 0 vysledku nemuzu skryt
 - HONZA -> filtr "dostupnost" by se dle meho mel chovat jako ostatni, cili zvoleny by mel zmizet, polozku "all" bych zrusil,              protoze pokud nebude zadane zadne omezeni u dostupnosti, tak ze bude zobrazovat vse stejne jako v pripade ostatnich            filtru
 - HONZA -> alerts - definovat a pripadne zakomponovat, jake vsechny stavy mohou behem hledani nastat (napr. vypadek API) +                upravit podminku, kdy se zobrazuje alert na vysledek 0 - zde by to chtelo zobrazit alert box az na konci cyklu pokud            to pujde -> http://localhost:4200/search?q=sdfsadfasdf&ordering=newest
+- HONZA -> home page - dodelat funkcionalitu slideru - 2 radky + sipky, vzhled doladim, staci jen udelat funkcionalitu
 
 
 ## to the end
