@@ -18,6 +18,7 @@
 - HONZA -> alerts - definovat a pripadne zakomponovat, jake vsechny stavy mohou behem hledani nastat (napr. vypadek API) +                upravit podminku, kdy se zobrazuje alert na vysledek 0 - zde by to chtelo zobrazit alert box az na konci cyklu pokud            to pujde, aby neproblikaval pred vykraslenim vysledku -> http://localhost:4200/search?q=sdfsadfasdf&ordering=newest
 - HONZA -> home page - dodelat funkcionalitu slideru - 2 radky + sipky, vzhled doladim, staci jen udelat funkcionalitu
 - HONZA -> v prohlizecce zobrazit dvojstranu - (pavluv koment) + sipky na listovani po jednotlivych strankach pravo/vlevo
+- HONZA -> sipka zpet v navbaru, stejne jako to mas u sveho soucasneho klienta
 - HONZA -> dodelat collections, browse a o cem dalsim vi
 
 ## to the end
