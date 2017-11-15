@@ -11,10 +11,41 @@ app-navbar {
     .nav-wrapper {
       .app-arrow-left {
         color: $app-grey;
+        
+        .mdi-arrow-left {
+          margin-right: 7px;
+        }
       }
+      
       .brand-logo {
+        /* behavior for library logo
+        font-size: inherit;
+        position: inherit;
+        display: table;
+        line-height: normal;
+        height: $navbar-height;
+        */
+        
+        .app-brand-img {
+          display: table-cell;
+          vertical-align: middle;
+          
+          img {
+            height: 30px;
+          }
+        }
+        
+        .app-brand-text {
+          display: table-cell;
+          vertical-align: middle;
+          padding: 0 10px;
+          font-size: 0.8rem;
+          line-height: 1.1rem;
+          color: $app-grey;
+        }
+        
         .app-pipe {
-          padding-left: 20px;
+          padding-left: 13px; // 20
           @include set-border(left, 1, solid, $app-grey-l-2);
         }
       }
@@ -26,6 +57,7 @@ app-navbar {
           padding-left: 20px;
         }
       }
+      
       mz-navbar-item-container {
         @media (max-width: 1365px) {
           display: none;

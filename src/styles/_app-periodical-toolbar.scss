@@ -54,8 +54,8 @@ app-periodical-toolbar {
           span {
             padding: 0 0.8rem;
 
-            .app-mdi-menu-down {
-              margin-right: -4px;
+            &.app-mdi-in {
+              padding-right: 0.4rem;
             }
 
             label {
