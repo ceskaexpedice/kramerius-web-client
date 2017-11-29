@@ -13,7 +13,7 @@ declare var ol: any;
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss']
 })
-export class ViewerComponent implements OnInit, OnChanges, OnDestroy {
+export class ViewerComponent implements OnInit, OnDestroy {
 
   // private url1 = 'https://kramerius.mzk.cz/search/zoomify/uuid:0e859fd0-9a32-11e7-920d-005056827e51/';
   // private width1 = 1688;
@@ -65,6 +65,11 @@ export class ViewerComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.init();
+    this.bookService.watchPage().subscribe(
+      page => {
+        this.updateView(page);
+      }
+    );
   }
 
   constructor(public bookService: BookService, private controlsService: ViewerControlsService) {
@@ -89,17 +94,19 @@ export class ViewerComponent implements OnInit, OnChanges, OnDestroy {
     if (keyboardPan) {
       this.view.removeInteraction(keyboardPan);
     }
-    this.updateView();
+    // this.updateView();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.view) {
-      this.bookService.rightPage = null;
-      this.updateView();
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (this.view) {
+  //     // this.bookService.rightPage = null;
+  //     this.updateView();
+  //   }
+  // }
 
-  updateView() {
+
+
+  updateView(page: Page) {
     // const image1 = {
     //   url: this.url1,
     //   width: this.width1,
@@ -110,12 +117,19 @@ export class ViewerComponent implements OnInit, OnChanges, OnDestroy {
     //   width: this.width2,
     //   height: this.height2
     // };
-    const image1 = this.bookService.leftPage;
-    const image2 = this.bookService.rightPage;
+    // const image1 = this.bookService.leftPage;
+    // const image2 = this.bookService.rightPage;
 
-    if (image1 != null) {
-      this.updateImage(image1, image2, true);
-    }
+    // const image1 = this.bookService.getPage();
+    // const image2 = null;
+
+
+    // if (page != null) {
+    //   this.updateImage(image1, image2, true);
+    // }
+
+    this.updateImage(page, null, true);
+
   }
 
   private onActionPerformed(action: ViewerActions) {

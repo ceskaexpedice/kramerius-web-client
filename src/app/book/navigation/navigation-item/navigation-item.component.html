@@ -1,4 +1,4 @@
-<div (click)="onItemClick()" class="app-item">
-  <div class="app-item-thumb" [scrollTarget]="container" [lazyLoad]="getThumb()"></div>
-  <div class="app-item-title">{{ item.title }}</div>
+<div (click)="onPageClicked()" class="app-item">
+  <div class="app-item-thumb" [scrollTarget]="container" [lazyLoad]="page.thumb"></div>
+  <div class="app-item-title">{{ page.number }}</div>
 </div>
