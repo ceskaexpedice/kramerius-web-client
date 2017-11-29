@@ -1,31 +1,40 @@
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { KrameriusApiService } from './kramerius-api.service';
 import { Page } from './../model/page.model';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 
 @Injectable()
 export class BookService {
 
+    private uuid;
     private subject = new Subject<Page>();
 
     private activePageIndex = 0;
     public pages: Page[] = [];
 
-    constructor(private krameriusApiService: KrameriusApiService) {
+    constructor(private location: Location, private krameriusApiService: KrameriusApiService, private router: Router, private route: ActivatedRoute) {
 
     }
 
     // public leftPage: Page;
     // public rightPage: Page;
 
-    init(data: any[]) {
+    init(uuid: string, data: any[], pageUuid: string) {
+        this.uuid = uuid;
         let index = 0;
+        let currentPage = 0;
         data.forEach(p => {
             if (p['model'] === 'page') {
                 const page = new Page();
                 page.uuid = p['pid'];
+                if (pageUuid === page.uuid) {
+                    currentPage = index;
+                }
                 page.policy = p['policy'];
                 const details = p['details'];
                 if (details) {
@@ -41,7 +50,7 @@ export class BookService {
                 this.pages.push(page);
             }
         });
-        this.goToPageOnIndex(0);
+        this.goToPageOnIndex(currentPage);
     }
 
     getPage() {
@@ -59,7 +68,11 @@ export class BookService {
 
     goToPageOnIndex(index: number) {
         this.activePageIndex = index;
+
         const page = this.getPage();
+
+        this.location.go('/view/' + this.uuid, 'page=' + page.uuid);
+
         if (!page.hasImageData()) {
             const url = this.krameriusApiService.getZoomifyRootUrl(page.uuid);
             this.krameriusApiService.getZoomifyProperties(page.uuid).subscribe(response => {
@@ -73,7 +86,7 @@ export class BookService {
               this.subject.next(page);
             });
         } else {
-            this.subject.next(page);
+            this.subject.next(page  );
         }
     }
 

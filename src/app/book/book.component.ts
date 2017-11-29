@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { LocalStorageService } from './../services/local-storage.service';
 import { DocumentItem } from './../model/document_item.model';
 import { Metadata } from './../model/metadata.model';
@@ -8,6 +9,7 @@ import { KrameriusApiService } from './../services/kramerius-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
   selector: 'app-book',
@@ -29,11 +31,24 @@ export class BookComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => {
       const uuid = params.get('uuid');
       if (uuid) {
-        this.loadDocument(uuid);
+        this.route.queryParamMap.subscribe(queryParams => {
+          const page = queryParams.get('page');
+          this.loadDocument(uuid, page);
+          // console.log('page', );
+        });
       } else {
         // TODO: Show warning message
       }
     });
+
+    // Observable.forkJoin(this.route.params, this.route.queryParams.).subscribe(bothParams => {
+    //   const book = bothParams[0].get('uud');
+    //   const page = bothParams[1].get('page');
+    //   console.log('book', book);
+    //   console.log('page', page);
+
+  //  });
+
   }
 
   ngOnDestroy(): void {
@@ -41,10 +56,11 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
 
-  private loadDocument(uuid: string) {
+  private loadDocument(uuid: string, page: string) {
+    console.log('page', page);
     this.krameriusApiService.getChildren(uuid).subscribe(response => {
       if (response && response.length > 0) {
-        this.bookSerrvice.init(response);
+        this.bookSerrvice.init(uuid, response, page);
       } else {
         // TODO: Empty document
       }
