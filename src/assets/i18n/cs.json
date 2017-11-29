@@ -90,7 +90,9 @@
     "tooltip_zoom_out": "Oddálit",
     "tooltip_rotate_right": "Otočit doprava",
     "tooltip_rotate_left": "Otočit doleva",
-    "tooltip_fit_to_screen": "Přizpůsobit obrazovce"
+    "tooltip_fit_to_screen": "Přizpůsobit obrazovce",
+    "tooltip_page_left": "Přejít na předchozí stránku",
+    "tooltip_page_right": "Přejít na další stránku"    
   },
   "model" : {
     "monograph" : "Kniha",

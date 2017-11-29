@@ -90,7 +90,9 @@
     "tooltip_zoom_out": "Zoom out",
     "tooltip_rotate_right": "Rotate right",
     "tooltip_rotate_left": "Rotate left",
-    "tooltip_fit_to_screen": "Fit to screen"
+    "tooltip_fit_to_screen": "Fit to screen",
+    "tooltip_page_left": "Go to previous page",
+    "tooltip_page_right": "Go to next page"  
   },
   "model" : {
     "monograph" : "Book",

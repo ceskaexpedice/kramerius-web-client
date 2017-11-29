@@ -24,12 +24,23 @@ app-viewer-controls {
     user-select: none;
     // border: 1px solid #adadad;
   }
-  span i {
-    opacity: 0.7;
-    padding: 10px;
-    color: #fff;
-    &:hover {
-      opacity: 1;
+  span {
+    cursor: pointer;
+    i {
+      opacity: 0.7;
+      padding: 10px;
+      color: #fff;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    &.inactive {
+      i {
+        opacity: 0.2;
+        &:hover {
+          opacity: 0.2;
+        }
+      }
     }
   }
 }

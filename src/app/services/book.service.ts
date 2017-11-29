@@ -66,6 +66,28 @@ export class BookService {
         this.goToPageOnIndex(page.index);
     }
 
+    goToNext() {
+        if (this.hasNext()) {
+            this.goToPageOnIndex(this.activePageIndex + 1);
+        }
+    }
+
+    goToPrevious() {
+        if (this.hasPrevious()) {
+            this.goToPageOnIndex(this.activePageIndex - 1);
+        }
+    }
+
+    hasNext() {
+        return this.activePageIndex < this.pages.length - 1;
+    }
+
+    hasPrevious() {
+        return this.activePageIndex > 0;
+    }
+
+
+
     goToPageOnIndex(index: number) {
         this.activePageIndex = index;
 

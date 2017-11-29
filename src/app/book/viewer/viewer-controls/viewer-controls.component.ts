@@ -1,3 +1,4 @@
+import { BookService } from './../../../services/book.service';
 import { ViewerControlsService } from './../../../services/viewre-controls.service.';
 import { Component, OnInit, Input} from '@angular/core';
 
@@ -7,7 +8,7 @@ import { Component, OnInit, Input} from '@angular/core';
 export class ViewerControlsComponent implements OnInit {
 
 
-  constructor(public controlsService: ViewerControlsService) {
+  constructor(public controlsService: ViewerControlsService, public bookService: BookService) {
   }
 
   ngOnInit() {
