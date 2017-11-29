@@ -48,8 +48,11 @@ export class BookComponent implements OnInit {
         ctx.onItemSelected(response[0]);
         // ctx.children = response;
         ctx.children = [];
-        const limit = Math.min(response.length, 30);
-        for (let i = 0; i < limit; i++) {
+        // const limit = Math.min(response.length, 30);
+        // for (let i = 0; i < limit; i++) {
+        //   ctx.children.push(response[i]);
+        // }
+        for (let i = 0; i < response.length; i++) {
           ctx.children.push(response[i]);
         }
       }

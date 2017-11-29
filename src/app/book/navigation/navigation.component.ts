@@ -8,10 +8,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class NavigationComponent implements OnInit {
   @Input() children;
   @Output() itemSelected = new EventEmitter();
+  container;
 
   constructor() { }
 
   ngOnInit() {
+    this.container = document.getElementById('app-navigation-container');
   }
 
   public onItemClicked(item) {

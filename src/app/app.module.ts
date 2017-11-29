@@ -55,6 +55,7 @@ import { NavbarSearchBarComponent } from './navbar/navbar-search-bar/navbar-sear
 import { SearchChartBarComponent } from './search/search-chart-bar/search-chart-bar.component';
 import { SearchCalendarComponent } from './search/search-calendar/search-calendar.component';
 import { AlertComponent } from './alert/alert.component';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 
 const ROUTES: Routes = [
@@ -111,6 +112,7 @@ const ROUTES: Routes = [
     FormsModule,
     NgDatepickerModule,
     Ng2CompleterModule,
+    LazyLoadImageModule,
     MaterializeModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     TranslatorModule.forRoot({

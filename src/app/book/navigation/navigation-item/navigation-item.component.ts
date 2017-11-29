@@ -1,6 +1,7 @@
 import { KrameriusApiService } from './../../../services/kramerius-api.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Element } from '@angular/compiler';
 
 @Component({
   selector: 'app-navigation-item',
@@ -9,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class NavigationItemComponent implements OnInit {
   @Input() item;
+  @Input() container;
   @Output() itemClicked = new EventEmitter();
 
   constructor(
@@ -21,7 +23,7 @@ export class NavigationItemComponent implements OnInit {
 
   getThumb() {
     const url = this.krameriusApiService.getThumbUrl(this.item.pid);
-    return this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
+    return url;
   }
 
   onItemClick() {
