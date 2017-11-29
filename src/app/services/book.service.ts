@@ -57,7 +57,6 @@ export class BookService {
         return this.pages[this.activePageIndex];
     }
 
-
     watchPage(): Observable<Page> {
         return this.subject.asObservable();
     }
@@ -87,12 +86,11 @@ export class BookService {
     }
 
 
-
     goToPageOnIndex(index: number) {
+        this.getPage().selected = false;
         this.activePageIndex = index;
-
         const page = this.getPage();
-
+        page.selected = true;
         this.location.go('/view/' + this.uuid, 'page=' + page.uuid);
 
         if (!page.hasImageData()) {

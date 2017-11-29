@@ -7,6 +7,7 @@ export class Page {
     number: string;
     index: number;
     thumb: string;
+    selected = false;
 
     // Image Properties
     width: number;
