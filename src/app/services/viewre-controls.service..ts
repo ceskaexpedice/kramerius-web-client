@@ -2,18 +2,33 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Injectable } from '@angular/core';
 
+declare global {
+    interface Document {
+        msExitFullscreen: any;
+        mozCancelFullScreen: any;
+        mozFullScreenElement: any;
+        msFullscreenElement: any;
+    }
+
+    interface Element {
+        msRequestFullscreen(): void;
+        mozRequestFullScreen(): void;
+    }
+}
 
 @Injectable()
 export class ViewerControlsService {
 
     private listners = new Subject<any>();
     public fullscreenAvailable = false;
+    public leftPanelVisible = true;
+    public rightPanelVisible = true;
 
     constructor() {
         this.fullscreenAvailable = document.fullscreenEnabled
                 || document.webkitFullscreenEnabled
-                || document.mozFullScreenEnabled
-                || document.msFullscreenEnabled;
+                || document['mozFullScreenEnabled']
+                || document['msFullscreenEnabled'];
 
         // document.addEventListener('fullscreenchange', this.onFullscreenChanged);
         const ctx = this;
@@ -78,7 +93,7 @@ export class ViewerControlsService {
     fullscreenEnabled() {
         return document.fullscreenElement
         || document.webkitFullscreenElement
-        || document.mozFullScreenElement 
+        || document.mozFullScreenElement
         || document.msFullscreenElement
     }
 
@@ -88,6 +103,36 @@ export class ViewerControlsService {
         setTimeout(() => {
             this.fitToScreen();
         }, 200);
+    }
+
+
+
+    hideLeftPanel() {
+        this.leftPanelVisible = false;
+        setTimeout(() => {
+            this.fitToScreen();
+        }, 600);
+    }
+
+    showLeftPanel() {
+        this.leftPanelVisible = true;
+        setTimeout(() => {
+            this.fitToScreen();
+        }, 600);
+    }
+
+    hideRightPanel() {
+        this.rightPanelVisible = false;
+        setTimeout(() => {
+            this.fitToScreen();
+        }, 600);
+    }
+
+    showRightPanel() {
+        this.rightPanelVisible = true;
+        setTimeout(() => {
+            this.fitToScreen();
+        }, 600);
     }
 
 

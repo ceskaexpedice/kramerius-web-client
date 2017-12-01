@@ -97,7 +97,11 @@
     "tooltip_enter_fullscreen": "Enter Fullscreen",
     "tooltip_exit_fullscreen": "Exit fullscreen",
     "tooltip_page_left": "Go to previous page",
-    "tooltip_page_right": "Go to next page"  
+    "tooltip_page_right": "Go to next page",
+    "tooltip_page_hide_left": "Hide pages",
+    "tooltip_page_show_left": "Show pages",
+    "tooltip_page_hide_right": "Hide details",
+    "tooltip_page_show_right": "Show details"
   },
   "model" : {
     "monograph" : "Book",

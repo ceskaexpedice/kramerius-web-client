@@ -97,7 +97,11 @@
     "tooltip_enter_fullscreen": "Zapnout fullscreen",
     "tooltip_exit_fullscreen": "Vypnout fullscreen",
     "tooltip_page_left": "Přejít na předchozí stránku",
-    "tooltip_page_right": "Přejít na další stránku"
+    "tooltip_page_right": "Přejít na další stránku",
+    "tooltip_hide_left": "Schovat náhledy",
+    "tooltip_show_left": "Zobrazit náhledy",
+    "tooltip_hide_right": "Schovat podrobnosti",
+    "tooltip_show_right": "Zobrazit podrobnosti"
   },
   "model" : {
     "monograph" : "Kniha",

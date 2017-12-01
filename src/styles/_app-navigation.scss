@@ -1,7 +1,11 @@
 // --- NAVIGATION ---
 
 app-navigation {
-  float: left;
+  transition: margin-left 0.5s;
+  &.panel-hidden {
+    margin-left: -$app-side-col-width;
+    overflow: hidden;
+  }
   @include set-border(right, 2, solid, $app-grey-l-2);
   
   .app-navigation-header {

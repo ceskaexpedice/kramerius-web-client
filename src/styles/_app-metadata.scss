@@ -1,8 +1,12 @@
 // --- METADATA ---
 
 app-metadata {
-  float: right;
   margin-left: auto;
+  transition: margin-right 0.5s;
+  &.panel-hidden {
+    margin-right: -$app-side-col-width;
+    overflow: hidden;
+  }
   @include set-border(left, 2, solid, $app-grey-l-2);
   
   .app-metadata-wrapper {

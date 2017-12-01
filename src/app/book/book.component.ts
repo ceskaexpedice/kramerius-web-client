@@ -1,3 +1,4 @@
+import { ViewerControlsService } from './../services/viewre-controls.service.';
 import { Observable } from 'rxjs/Observable';
 import { LocalStorageService } from './../services/local-storage.service';
 import { DocumentItem } from './../model/document_item.model';
@@ -22,7 +23,8 @@ export class BookComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               public bookSerrvice: BookService,
-              private localStorageService: LocalStorageService,
+              public viewerControls: ViewerControlsService,
+              public localStorageService: LocalStorageService,
               private modsParserService: ModsParserService,
               private krameriusApiService: KrameriusApiService) {
   }

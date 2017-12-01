@@ -1,3 +1,3 @@
-<app-navigation></app-navigation>
+<app-navigation [class.panel-hidden]="!viewerControls.leftPanelVisible"></app-navigation>
 <app-viewer [page]="bookSerrvice.leftPage"></app-viewer>
-<app-metadata [metadata]="metadata"></app-metadata>
+<app-metadata [class.panel-hidden]="!viewerControls.rightPanelVisible" [metadata]="metadata"></app-metadata>
