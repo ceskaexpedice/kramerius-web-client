@@ -1,5 +1,8 @@
 {
   "app-title": "Kramerius - client for searching in digitized documents",
+  "common": {
+    "of": "of"
+  },
   "navbar": {
     "collections": "Collections",
     "browse": "Browse",

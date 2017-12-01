@@ -34,21 +34,11 @@ export class BookComponent implements OnInit, OnDestroy {
         this.route.queryParamMap.subscribe(queryParams => {
           const page = queryParams.get('page');
           this.loadDocument(uuid, page);
-          // console.log('page', );
         });
       } else {
         // TODO: Show warning message
       }
     });
-
-    // Observable.forkJoin(this.route.params, this.route.queryParams.).subscribe(bothParams => {
-    //   const book = bothParams[0].get('uud');
-    //   const page = bothParams[1].get('page');
-    //   console.log('book', book);
-    //   console.log('page', page);
-
-  //  });
-
   }
 
   ngOnDestroy(): void {
@@ -57,7 +47,6 @@ export class BookComponent implements OnInit, OnDestroy {
 
 
   private loadDocument(uuid: string, page: string) {
-    console.log('page', page);
     this.krameriusApiService.getChildren(uuid).subscribe(response => {
       if (response && response.length > 0) {
         this.bookSerrvice.init(uuid, response, page);
@@ -73,20 +62,5 @@ export class BookComponent implements OnInit, OnDestroy {
       });
     });
   }
-
-  // public onItemSelected(item) {
-  //   const ctx = this;
-  //   const url = this.krameriusApiService.getZoomifyRootUrl(item.pid);
-  //   this.krameriusApiService.getZoomifyProperties(item.pid).subscribe(response => {
-  //     if (!response) {
-  //       return;
-  //     }
-  //     const a = response.toLowerCase().split('"');
-  //     const width = parseInt(a[1], 10);
-  //     const height = parseInt(a[3], 10);
-  //     const page = new Page(width, height, url);
-  //     this.bookSerrvice.leftPage = page;
-  //   });
-  // }
 
 }

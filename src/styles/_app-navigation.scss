@@ -4,12 +4,33 @@ app-navigation {
   float: left;
   @include set-border(right, 2, solid, $app-grey-l-2);
   
-  .app-navigation-wrapper {
-    height: 100%;
+  .app-navigation-header {
+    height: 50px;
+    overflow: hidden;
+    text-align: center;
+    color: #767c82;
+
+    input.current-page {
+      height: 45px;
+      margin: 0;
+      width: 30px;
+      text-align: right;
+      margin-right: 3px;
+      border-bottom: none;
+      font-size: 21px;
+      color: #333;
+    }
+  }
+    
+  .app-navigation-pages {
+    height: calc(100% - 50px);
     overflow: scroll;
     //padding: 10px 4px;
     padding: 0.5rem;
+    padding-top: 0;
     
     @import "styles/app-navigation-item";
   }
+
+
 }

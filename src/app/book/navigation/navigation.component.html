@@ -1,3 +1,16 @@
-<div class="app-navigation-wrapper" id="app-navigation-container">
+
+<div class="app-navigation-header">
+
+
+  <input class="current-page" (change)="onPageIndexChanged()" type="text" value="23" [(ngModel)]="pageIndex"/>
+
+  <span>{{ 'common.of' | translate }}</span>
+  
+  <span>{{bookService.getPageCount()}}</span>
+
+
+</div>
+
+<div class="app-navigation-pages" id="app-navigation-container">
   <app-navigation-item [page]="page" [container]="container" *ngFor="let page of bookService.pages" (pageSelected)="onPageSelected(page)"></app-navigation-item>
 </div>

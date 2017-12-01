@@ -1,5 +1,8 @@
 {
   "app-title": "Kramerius - klient pro vyhledávání v digitalizovaných dokumentech",
+  "common": {
+    "of": "z"
+  },
   "navbar": {
     "collections": "Sbírky",
     "browse": "Procházet",

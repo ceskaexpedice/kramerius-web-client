@@ -77,6 +77,22 @@ export class BookService {
         }
     }
 
+    // goToFirst() {
+    //     if (!this.isEmpty) {
+    //         this.goToPageOnIndex(0);
+    //     }
+    // }
+
+    // goToLast() {
+    //     if (!this.isEmpty) {
+    //         this.goToPageOnIndex(this.getPageCount() - 1);
+    //     }
+    // }
+
+    isEmpty(): boolean {
+        return this.pages === null || this.pages.length === 0;
+    }
+
     hasNext() {
         return this.activePageIndex < this.pages.length - 1;
     }
@@ -85,6 +101,14 @@ export class BookService {
         return this.activePageIndex > 0;
     }
 
+    getPageIndex(): number {
+        return this.activePageIndex;
+    }
+
+
+    getPageCount(): number {
+        return this.pages ? this.pages.length : 0;
+    }
 
     goToPageOnIndex(index: number) {
         const lastPage = this.getPage();

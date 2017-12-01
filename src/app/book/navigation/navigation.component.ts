@@ -16,6 +16,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   container;
   pageSubscription: Subscription;
   scrollOptions = {};
+  pageIndex;
 
   constructor(public bookService: BookService) {
 
@@ -29,9 +30,28 @@ export class NavigationComponent implements OnInit, OnDestroy {
         if (el) {
             el.scrollIntoView(this.scrollOptions);
         }
+        this.pageIndex = page.index + 1;
         this.scrollOptions = {behavior: 'smooth'};
       }
     );
+  }
+
+  onPageIndexChanged() {
+    if (isNaN(this.pageIndex)) {
+      this.pageIndex = this.bookService.getPageIndex() + 1;
+      return;
+    }
+    let index = parseInt(this.pageIndex, 10) - 1;
+    if (index === this.bookService.getPageIndex()) {
+      return;
+    }
+    if (index >= this.bookService.getPageCount()) {
+      index = this.bookService.getPageCount() - 1;
+    } else if (index < 0) {
+      index = 0;
+    }
+    this.pageIndex = index + 1;
+    this.bookService.goToPageOnIndex(index);
   }
 
   ngOnDestroy(): void {

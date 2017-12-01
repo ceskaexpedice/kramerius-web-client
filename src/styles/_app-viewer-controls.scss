@@ -7,12 +7,11 @@ app-viewer-controls {
   bottom: 24px;
   // margin-top: 16px;
   .view-controls {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(60, 70, 80, 0.7);
     position: relative;
     transition: opacity .4s ease 0s;
     opacity: 1;
     margin-right: -50%;
-    background: #3D464D;
     display: inline-block;
     -webkit-transform: translate(-50%, 0%);    
     transform: translate(-50%, 0%);
