@@ -4,7 +4,7 @@ import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { BookService } from './../../services/book.service';
 import { Component, OnInit, Input,
   OnChanges, SimpleChanges, SimpleChange, OnDestroy } from '@angular/core';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 
 declare var ol: any;
 
@@ -58,14 +58,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   private lastRotateTime = 0;
 
-  private viewerActionsSubscription: ISubscription;
-
+  private viewerActionsSubscription: Subscription;
+  private pageSubscription: Subscription;
 
   @Input() page: Page;
 
   ngOnInit() {
     this.init();
-    this.bookService.watchPage().subscribe(
+    this.pageSubscription = this.bookService.watchPage().subscribe(
       page => {
         this.updateView(page);
       }
@@ -361,6 +361,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.viewerActionsSubscription.unsubscribe();
+    this.pageSubscription.unsubscribe();
   }
 
 }

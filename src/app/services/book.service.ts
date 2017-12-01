@@ -87,9 +87,13 @@ export class BookService {
 
 
     goToPageOnIndex(index: number) {
-        this.getPage().selected = false;
+        const lastPage = this.getPage();
+        if (lastPage) {
+            lastPage.selected = false;
+        }
         this.activePageIndex = index;
         const page = this.getPage();
+
         page.selected = true;
         this.location.go('/view/' + this.uuid, 'page=' + page.uuid);
 
