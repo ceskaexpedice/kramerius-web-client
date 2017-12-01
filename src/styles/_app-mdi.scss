@@ -18,10 +18,12 @@
 .app-mdi-manuscript {@include set-mdi-icon(before, F478, 24, text-bottom);}
 
 // viewer controls
-.app-mdi-zoom-in {@include set-mdi-icon(before, f417, 24, middle);}
-.app-mdi-zoom-out {@include set-mdi-icon(before, f376, 24, middle);}
-.app-mdi-rotate-right {@include set-mdi-icon(before, f467, 25, middle);}
-.app-mdi-rotate-left {@include set-mdi-icon(before, f465, 25, middle);}
-.app-mdi-fit-to-screen {@include set-mdi-icon(before, f2f1, 24, middle);}
+.app-mdi-zoom-in {@include set-mdi-icon(before, f415, 24, middle);}
+.app-mdi-zoom-out {@include set-mdi-icon(before, f374, 24, middle);}
+.app-mdi-rotate-right {@include set-mdi-icon(before, f467, 24, middle);}
+.app-mdi-rotate-left {@include set-mdi-icon(before, f465, 24, middle);}
+.app-mdi-fit-to-screen {@include set-mdi-icon(before, f1a2, 24, middle);}
+.app-mdi-fullscreen {@include set-mdi-icon(before, f293, 24, middle);}
+.app-mdi-fullscreen-exit {@include set-mdi-icon(before, f294, 24, middle);}
 .app-mdi-page-left {@include set-mdi-icon(before, f141, 24, middle);}
 .app-mdi-page-right {@include set-mdi-icon(before, f142, 24, middle);}

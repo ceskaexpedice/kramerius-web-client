@@ -17,6 +17,17 @@
             mz-tooltip [tooltip]="'view_controls.tooltip_fit_to_screen' | translate" [position]="'top'">
         <i class="app-mdi-fit-to-screen"></i>
     </span>
+
+    <span *ngIf="controlsService.fullscreenAvailable && !controlsService.fullscreenEnabled()" (click)="controlsService.enterFullscreen()"
+            mz-tooltip [tooltip]="'view_controls.tooltip_enter_fullscreen' | translate" [position]="'top'">
+        <i class="app-mdi-fullscreen"></i>
+    </span>
+
+    <span *ngIf="controlsService.fullscreenAvailable && controlsService.fullscreenEnabled()" (click)="controlsService.exitFullscreen()"
+            mz-tooltip [tooltip]="'view_controls.tooltip_exit_fullscreen' | translate" [position]="'top'">
+        <i class="app-mdi-fullscreen-exit"></i>
+    </span>
+
     <span (click)="controlsService.rotateLeft()"
             mz-tooltip [tooltip]="'view_controls.tooltip_rotate_left' | translate" [position]="'top'">
         <i class="app-mdi-rotate-left"></i>

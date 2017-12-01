@@ -15,32 +15,6 @@ declare var ol: any;
 })
 export class ViewerComponent implements OnInit, OnDestroy {
 
-  // private url1 = 'https://kramerius.mzk.cz/search/zoomify/uuid:0e859fd0-9a32-11e7-920d-005056827e51/';
-  // private width1 = 1688;
-  // private height1 = 2581;
-
-  // private url2 = 'https://kramerius.mzk.cz/search/zoomify/uuid:0e8f3cc0-9a32-11e7-920d-005056827e51/';
-  // private width2 = 1695;
-  // private height2 = 2587;
-
-  // private url1 = 'https://kramerius.mzk.cz/search/zoomify/uuid:b30d95e7-6e43-4f09-ad48-3974f55173a2/';
-  // private width1 = 1302;
-  // private height1 = 1813;
-
-  // private url2 = 'https://kramerius.mzk.cz/search/zoomify/uuid:e8248ecb-c322-4fd4-af8d-0f5a6a3200e6/';
-  // // private width2 = 1310;
-  // // private height2 = 1877;
-  // private width2 = 1265.33;
-  // private height2 = 1813;
-
-  // private url1 = 'https://kramerius.mzk.cz/search/zoomify/uuid:5de8741e-3f83-49f8-b7a6-274e1f49603b/';
-  // private width1 = 2056;
-  // private height1 = 2775;
-
-  // private url2 = 'https://kramerius.mzk.cz/search/zoomify/uuid:ce36d3a4-fd97-4439-9bff-8524a6010be7/';
-  // private width2 = 2149;
-  // private height2 = 2774;
-
   private view;
   private imageLayer;
   private zoomifyLayer;
@@ -81,7 +55,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   init() {
      this.view = new ol.Map({
-      target: 'olzv-map',
+      target: 'app-viewer',
       controls: [],
       loadTilesWhileAnimating: true
     });
