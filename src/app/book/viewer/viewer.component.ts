@@ -40,8 +40,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.init();
     this.pageSubscription = this.bookService.watchPage().subscribe(
-      page => {
-        this.updateView(page);
+      pages => {
+        this.updateView(pages[0], pages[1]);
       }
     );
   }
@@ -80,30 +80,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
 
-  updateView(page: Page) {
-    // const image1 = {
-    //   url: this.url1,
-    //   width: this.width1,
-    //   height: this.height1
-    // };
-    // const image2 = {
-    //   url: this.url2,
-    //   width: this.width2,
-    //   height: this.height2
-    // };
-    // const image1 = this.bookService.leftPage;
-    // const image2 = this.bookService.rightPage;
-
-    // const image1 = this.bookService.getPage();
-    // const image2 = null;
-
-
-    // if (page != null) {
-    //   this.updateImage(image1, image2, true);
-    // }
-
-    this.updateImage(page, null, true);
-
+  updateView(leftPage: Page, rightPage: Page) {
+    this.updateImage(leftPage, rightPage, true);
   }
 
   private onActionPerformed(action: ViewerActions) {
@@ -183,6 +161,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateImage(image1, image2, zoomify) {
+    console.log('update image2');
     this.imageWidth1 = 0;
     this.imageWidth = image1.width;
     this.imageHeight = image1.height;

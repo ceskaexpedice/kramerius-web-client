@@ -8,6 +8,7 @@ export class Page {
     index: number;
     thumb: string;
     selected = false;
+    position = PagePosition.None;
 
     // Image Properties
     width: number;
@@ -28,4 +29,9 @@ export class Page {
         return this.width && this.height && this.url;
     }
 
+}
+
+
+export enum PagePosition {
+    Single, None, Left, Right
 }
