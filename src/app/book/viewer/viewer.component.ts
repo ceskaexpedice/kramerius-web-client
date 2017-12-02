@@ -2,8 +2,7 @@ import { ViewerControlsService, ViewerActions } from './../../services/viewre-co
 import { Page } from './../../model/page.model';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { BookService } from './../../services/book.service';
-import { Component, OnInit, Input,
-  OnChanges, SimpleChanges, SimpleChange, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 declare var ol: any;
@@ -70,13 +69,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
     // this.updateView();
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if (this.view) {
-  //     // this.bookService.rightPage = null;
-  //     this.updateView();
-  //   }
-  // }
 
 
 
@@ -315,6 +307,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.viewerActionsSubscription.unsubscribe();
     this.pageSubscription.unsubscribe();
+    this.view.removeLayer(this.imageLayer);
+    this.view.removeLayer(this.zoomifyLayer);
+    this.view.removeLayer(this.imageLayer2);
+    this.view.removeLayer(this.zoomifyLayer2);
   }
 
 }
