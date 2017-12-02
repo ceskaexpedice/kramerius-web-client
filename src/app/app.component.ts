@@ -20,8 +20,8 @@ export class AppComponent implements OnInit {
 
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
-          (<any>window).ga('set', 'page', event.urlAfterRedirects);
-          (<any>window).ga('send', 'pageview');
+          (<any>window).gaaa('set', 'page', event.urlAfterRedirects);
+          (<any>window).gaaa('send', 'pageview');
         }
       });
 
