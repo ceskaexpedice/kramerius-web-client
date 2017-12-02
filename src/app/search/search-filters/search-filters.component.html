@@ -26,6 +26,32 @@
     </mz-collapsible-item>
   </mz-collapsible>
 
+<!--   
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.doctypes?.length">
+    <mz-collapsible-item [active]="true">
+      <mz-collapsible-item-header>
+        {{ 'search.doctypes' | translate }}   
+        <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
+        <i mz-icon-mdi [icon]="'chevron-left'" [class]="'app-clean-mg'"></i>
+      </mz-collapsible-item-header>
+      <mz-collapsible-item-body>
+      <mz-collection *ngIf="searchService.doctypes">
+        <ng-container>
+          <mz-collection-item *ngFor="let item of searchService.doctypes;">
+            <span class="app-row">
+              <a (click)="searchService.toggleFilter(searchService.query.doctypes, item.value)">{{'model.' + item.value | translate }}</a>
+              <span>
+                {{item.count}}
+              </span>
+            </span>
+          </mz-collection-item>
+        </ng-container>
+      </mz-collection>
+      </mz-collapsible-item-body>
+    </mz-collapsible-item>
+  </mz-collapsible>     -->
+
+
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.keywords?.length">
     <mz-collapsible-item [active]="true">
       <mz-collapsible-item-header>
@@ -55,6 +81,7 @@
       </mz-collapsible-item-body>
     </mz-collapsible-item>
   </mz-collapsible>
+
 
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.authors?.length">
     <mz-collapsible-item [active]="true">

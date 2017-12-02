@@ -33,6 +33,7 @@
   "search": {
     "results": "Results",
     "keywords": "Keyword",
+    "doctypes": "Document Type",    
     "languages": "Language",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",    

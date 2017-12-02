@@ -33,6 +33,7 @@
   "search": {
     "results": "Výsledky",
     "keywords": "Klíčové slovo",
+    "doctypes": "Typ dokumentu",
     "languages": "Jazyk",
     "authors": "Autor",
     "inaccessible_document": "Dokument není veřejně přístupný",
