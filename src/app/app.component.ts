@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Translator } from 'angular-translator';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AppState } from './app.state';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +14,17 @@ export class AppComponent implements OnInit {
   constructor(
     private translator: Translator,
     private route: ActivatedRoute,
-    angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
     private router: Router,
     public state: AppState) {
+
+
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          (<any>window).ga('set', 'page', event.urlAfterRedirects);
+          (<any>window).ga('send', 'pageview');
+        }
+      });
+
 
       const lang = localStorage.getItem('lang');
       if (lang) {

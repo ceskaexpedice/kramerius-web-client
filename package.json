@@ -22,7 +22,6 @@
     "@angular/platform-browser-dynamic": "5.0.4",
     "@angular/router": "5.0.4",
     "angular-translator": "^2.3.0",
-    "angulartics2": "^4.2.0",
     "core-js": "^2.4.1",
     "mdi": "^2.0.46",
     "ng-lazyload-image": "^3.3.5",

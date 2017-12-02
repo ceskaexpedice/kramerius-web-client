@@ -57,9 +57,6 @@ import { SearchCalendarComponent } from './search/search-calendar/search-calenda
 import { AlertComponent } from './alert/alert.component';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
-import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -121,8 +118,7 @@ const ROUTES: Routes = [
     TranslatorModule.forRoot({
       providedLanguages: ['en', 'cs'],
       defaultLanguage: 'cs'
-    }),
-    Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
+    })
   ],
   providers: [
     AppState,
