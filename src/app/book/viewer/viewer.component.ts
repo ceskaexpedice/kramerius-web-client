@@ -46,7 +46,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     );
   }
 
-  constructor(public bookService: BookService, private controlsService: ViewerControlsService) {
+  constructor(public bookService: BookService, public controlsService: ViewerControlsService) {
     this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
         this.onActionPerformed(action);
     });
