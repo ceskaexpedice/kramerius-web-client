@@ -44,6 +44,11 @@
       <mz-collection>
         <ng-container>
           <mz-collection-item>
+              <span class="app-row" [class.selected]="browseService.query.category == 'doctypes'">
+                <a (click)="browseService.setCategory('doctypes')">{{'browse.category.doctype' | translate }}</a>
+              </span>
+          </mz-collection-item>
+          <mz-collection-item>
             <span class="app-row" [class.selected]="browseService.query.category == 'authors'">
               <a (click)="browseService.setCategory('authors')">{{'browse.category.author' | translate }}</a>
             </span>
@@ -52,6 +57,11 @@
             <span class="app-row" [class.selected]="browseService.query.category == 'keywords'">
               <a (click)="browseService.setCategory('keywords')">{{'browse.category.keyword' | translate }}</a>
             </span>
+          </mz-collection-item>
+          <mz-collection-item>
+              <span class="app-row" [class.selected]="browseService.query.category == 'languages'">
+                <a (click)="browseService.setCategory('languages')">{{'browse.category.language' | translate }}</a>
+              </span>
           </mz-collection-item>
         </ng-container>
       </mz-collection>

@@ -68,11 +68,15 @@ export class BrowseQuery {
     }
 
     getRows(): number {
-        return 60;
+        if (this.category === 'languages') {
+            return 1000;
+        } else {
+            return 100;
+        }
     }
 
     getStart(): number {
-        return 60 * (this.page - 1);
+        return this.getRows() * (this.page - 1);
     }
 
     buildQuery(): string {

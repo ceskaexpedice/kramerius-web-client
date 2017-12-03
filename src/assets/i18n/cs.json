@@ -66,6 +66,11 @@
       "keyword": "Klíčová slova",
       "language": "Jazyky"
     },
+    "ordering": {
+      "label": "Řazení",      
+      "occurrence": "Podle výskytů",
+      "alphabetical": "Abecedně"
+    },
     "count_suffix": "dokumentů"
   },
   "alert": {

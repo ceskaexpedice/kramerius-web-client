@@ -11,8 +11,11 @@ app-browse-results {
     font-size: 15px;
     color: #888;
     display: block;
-    &.odd {
+    &.even {
       background: #f3f3f3;
+    }
+    &.hidden {
+      display: none;
     }
     .browse-name {
 

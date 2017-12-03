@@ -116,7 +116,10 @@ export class SearchService {
     }
 
     public getResultIndexFrom(): number {
-        return this.query.getStart() + 1;
+        if (this.results.length === 0 || this.getNumberOfResults() === 0) {
+            return 0;
+        }
+        return Math.min(this.results.length, this.query.getStart() + 1);
     }
 
 

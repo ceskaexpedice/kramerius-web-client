@@ -1,0 +1,20 @@
+<div class="row app-clean-mg">
+  <div class="col s8 app-col-left">
+
+  </div>
+  <div class="col s4 app-col-right">
+    <ul class="right">
+      <li>
+        <span class="app-cursor-pointer app-mdi-in">
+          <label>{{ 'browse.ordering.label' | translate }}:</label>
+          <a id="app-btn-sort" href="#">{{ 'browse.ordering.' + browseService.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
+          <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
+            <mz-dropdown-item><a (click)="browseService.changeOrdering('occurrence')">{{ 'browse.ordering.occurrence' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="browseService.changeOrdering('alphabetical')">{{ 'browse.ordering.alphabetical' | translate }}</a></mz-dropdown-item>            
+          </mz-dropdown>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+

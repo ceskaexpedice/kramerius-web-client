@@ -109,5 +109,20 @@ export class SolrService {
         return list;
     }
 
+    browseFacetList(solr, field) {
+        const list = [];
+        const facetFields = solr['facet_counts']['facet_fields'][field];
+        for (let i = 0; i < facetFields.length; i += 2) {
+            const value = facetFields[i];
+            const count = facetFields[i + 1];
+            const item = {'value' : value, 'count': count, name: value};
+            if (field === 'language' || field === 'fedora.model') {
+                item['name'] = '';
+            }
+            list.push(item);
+        }
+        return list;
+    }
+
 
 }

@@ -66,6 +66,11 @@
       "keyword": "Keywords",
       "language": "Languages"
     },
+    "ordering": {
+      "label": "Ordering",      
+      "occurrence": "Occurrence",
+      "alphabetical": "Alphabetical"
+    },
     "count_suffix": "documents"
   },
   "alerts": {
@@ -73,6 +78,13 @@
       "title": "Attention",
       "text": "Found 0 records. Please, try another query."
     }
+  },
+  "alert": {
+    "warning": "Attention",
+    "error": "Error",
+    "no_results_found": "No result found. Please, try a different query.",
+    "inaccessible_document": "The document is not publically accessible",
+    "failed_to_load_image": "Failed to load the image."
   },
   "home": {
     "desc": "Searching in digital documents",

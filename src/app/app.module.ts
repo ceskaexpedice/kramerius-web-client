@@ -1,3 +1,4 @@
+import { BrowseToolbarComponent } from './browse/browse-toolbar/browse-toolbar.component';
 import { AlertComponent } from './shared/alert/alert.component';
 import { PaginatorComponent } from './shared/paginator/paginator.component';
 import { BrowseResultsComponent } from './browse/browse-results/browse-results.component';
@@ -109,6 +110,7 @@ const ROUTES: Routes = [
     BrowseFiltersComponent,
     BrowseCountComponent,
     BrowseResultsComponent,
+    BrowseToolbarComponent,
     PaginatorComponent,
     AlertComponent
   ],
