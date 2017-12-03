@@ -110,6 +110,14 @@ export class BookService {
         }
     }
 
+    isPageInaccessible() {
+        return this.pageState === BookPageState.Inaccessible;
+    }
+
+    isPageFailure() {
+        return this.pageState === BookPageState.Failure;
+    }
+
     goToPrevious() {
         if (this.hasPrevious()) {
             this.goToPageOnIndex(this.activePageIndex - 1);
@@ -192,17 +200,15 @@ export class BookService {
                 if (first && rightPage) {
                     this.fetchImageProperties(leftPage, rightPage, false);
                 } else {
-                    this.subject.next([leftPage, rightPage]);
+                    this.publishNewPages(BookPageState.Success);
                 }
             },
             (error: AppError)  => {
                 if (error instanceof UnauthorizedError) {
                     // Private document
-                    console.log('Private document');
-                    this.pageState = BookPageState.Inaccessible;
-                    this.subject.next([null, null]);
+                    this.publishNewPages(BookPageState.Inaccessible);
                 } else if (error instanceof NotFoundError) {
-                    console.log('Not zoomify');
+                    // Not zoomify
                     const jepgUrl = this.krameriusApiService.getFullImageStreamUrl(page.uuid, 3000);
                     const image = new Image();
                     const subject = this.subject;
@@ -211,28 +217,40 @@ export class BookService {
                         if (first && rightPage) {
                             this.fetchImageProperties(leftPage, rightPage, false);
                         } else {
-                            this.subject.next([leftPage, rightPage]);
+                            this.publishNewPages(BookPageState.Success);
                         }
                     });
                     image.onerror = (() => {
-                        console.log('Jpeg failed');
+                        // JPEF failure
                         image.onerror = null;
-                        this.pageState = BookPageState.Failure;
-                        this.subject.next([null, null]);
+                        this.publishNewPages(BookPageState.Failure);
                     });
                     image.src = jepgUrl;
                 } else {
-                    console.log('Image failed');
-                    this.pageState = BookPageState.Failure;
-                    this.subject.next([null, null]);
+                    // Zoomify failure
+                    this.publishNewPages(BookPageState.Failure);
                 }
             }
         );
     }
 
 
+    private publishNewPages(state: BookPageState) {
+        const leftPage = this.getPage();
+        const rightPage = this.getRightPage();
+        if (state === BookPageState.Failure || state === BookPageState.Inaccessible) {
+            leftPage.setImageProperties(-1, -1, null, true);
+            if (rightPage) {
+                rightPage.setImageProperties(-1, -1, null, true);
+            }
+        }
+        this.pageState = state;
+        this.subject.next([leftPage, rightPage]);
+    }
+
 
     clear() {
+        this.pageState = BookPageState.None;
         this.pages = [];
     }
 
@@ -301,5 +319,5 @@ export class BookService {
 
 
 export enum BookPageState {
-    Success, Loading, Inaccessible, Failure
+    Success, Loading, Inaccessible, Failure, None
 }

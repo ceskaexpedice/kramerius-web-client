@@ -32,7 +32,7 @@
     color: color("shades", "black");
   }
   &.active {
-    background: #aaa;
+    background: $primary-color;
   }
 
 }

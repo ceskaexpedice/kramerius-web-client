@@ -73,7 +73,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateView(leftPage: Page, rightPage: Page) {
-    this.updateImage(leftPage, rightPage);
+    const left = (leftPage && leftPage.url) ? leftPage : null;
+    const right = (rightPage && rightPage.url) ? rightPage : null;
+    this.updateImage(left, right);
   }
 
   private onActionPerformed(action: ViewerActions) {

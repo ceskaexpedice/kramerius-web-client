@@ -37,6 +37,16 @@
   <i class="app-mdi-menu-left"></i>
 </span>
 
+<app-alert *ngIf="bookService.isPageInaccessible()"
+           type="warning"
+           title="alert.warning"
+           message="alert.inaccessible_document">
+</app-alert>
 
+<app-alert *ngIf="bookService.isPageFailure()"
+            type="danger"
+            title="alert.error"
+            message="alert.failed_to_load_image">
+</app-alert>
 
 </div>

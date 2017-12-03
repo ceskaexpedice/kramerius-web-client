@@ -32,5 +32,11 @@ app-viewer {
         background: #f9f9f9;
       }
     }
+    app-alert {
+      position: absolute;
+      top: 60px;
+      width: 100%;
+    }
+
   }
 }

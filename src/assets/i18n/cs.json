@@ -68,11 +68,12 @@
     },
     "count_suffix": "dokumentů"
   },
-  "alerts": {
-    "warning": {
-      "title": "Upozornění",
-      "text": "Nalezeno 0 záznamů. Prosím, zkuste jiný dotaz."
-    }
+  "alert": {
+    "warning": "Upozornění",
+    "error": "Chyba",
+    "no_results_found": "Nebyly nalezeny žádné výsledky. Prosím, zkuste jiný dotaz.",
+    "inaccessible_document": "Dokument není veřejně přístupný",
+    "failed_to_load_image": "Obrázek se nepodařilo načíst"
   },
   "home": {
     "desc": "Vyhledávání v digitalizovaných dokumentech",
