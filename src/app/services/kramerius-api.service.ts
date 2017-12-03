@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import { UnauthorizedError } from '../common/errors/unauthorized-error';
 
 @Injectable()
 export class KrameriusApiService {
@@ -17,7 +18,8 @@ export class KrameriusApiService {
     private static STREAM_DC = 'DC';
     private static STREAM_MODS = 'BIBLIO_MODS';
 
-    private BASE_URL = 'https://kramerius.mzk.cz';
+    // private BASE_URL = 'https://kramerius.mzk.cz';
+    private BASE_URL = 'https://kramerius.lib.cas.cz';
     // private BASE_URL = 'http://kramerius4.nkp.cz';
     // private BASE_URL = 'http://kramerius4.mlp.cz';
 
@@ -31,7 +33,9 @@ export class KrameriusApiService {
 
     private handleError(error: Response) {
         if (error.status === 404) {
-          return Observable.throw(new NotFoundError());
+            return Observable.throw(new NotFoundError());
+        } else if (error.status === 401 || error.status === 403) {
+            return Observable.throw(new UnauthorizedError());
         }
         return Observable.throw(new AppError(error));
     }
@@ -42,6 +46,14 @@ export class KrameriusApiService {
 
     private getItemUrl(uuid: string) {
         return this.BASE_URL + '/search/api/v5.0/item/' + uuid;
+    }
+
+    getFullImageStreamUrl(uuid: string, height: number = null): string {
+        let url = this.BASE_URL + '/search/img?pid=' + uuid + '&stream=IMG_FULL';
+        if (height) {
+            url += '&action=SCALE&scaledHeight=' + height;
+        }
+        return url;
     }
 
 

@@ -73,7 +73,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateView(leftPage: Page, rightPage: Page) {
-    this.updateImage(leftPage, rightPage, true);
+    this.updateImage(leftPage, rightPage);
   }
 
   private onActionPerformed(action: ViewerActions) {
@@ -152,8 +152,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
 
-  updateImage(image1, image2, zoomify) {
-    console.log('update image2');
+  updateImage(image1: Page, image2: Page) {
+    this.view.removeLayer(this.imageLayer);
+    this.view.removeLayer(this.zoomifyLayer);
+    this.view.removeLayer(this.imageLayer2);
+    this.view.removeLayer(this.zoomifyLayer2);
+    if (!image1) {
+      return;
+    }
     this.imageWidth1 = 0;
     this.imageWidth = image1.width;
     this.imageHeight = image1.height;
@@ -166,11 +172,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else {
       extent = [0, -this.imageHeight, this.imageWidth, 0];
     }
-    this.view.removeLayer(this.imageLayer);
-    this.view.removeLayer(this.zoomifyLayer);
-    this.view.removeLayer(this.imageLayer2);
-    this.view.removeLayer(this.zoomifyLayer2);
-
 
     const projection = new ol.proj.Projection({
       code: 'ZOOMIFY',
@@ -193,18 +194,21 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.setView(view);
 
     if (image2 != null) {
-      if (zoomify) {
+      if (image1.zoomify) {
         this.addZoomifyImage(image1.url, image1.width, image1.height, 1);
+      } else {
+         this.addStaticImage(image1.url, image1.width, image1.height, 1);
+      }
+      if (image2.zoomify) {
         this.addZoomifyImage(image2.url, image2.width, image2.height, 2);
       } else {
-        // addStaticImage(image1.url, image1.width, image1.height, 1);
-        // addStaticImage(image2.url, image2.width, image2.height, 2);
+         this.addStaticImage(image2.url, image2.width, image2.height, 2);
       }
     } else {
-      if (zoomify) {
+      if (image1.zoomify) {
         this.addZoomifyImage(image1.url, image1.width, image1.height, 0);
       } else {
-        // addStaticImage(image1.url, image1.width, image1.height, 0);
+        this.addStaticImage(image1.url, image1.width, image1.height, 0);
       }
     }
     this.fitToScreen();
@@ -280,7 +284,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       source: new ol.source.ImageStatic({
         url: url,
         imageSize: [width, height],
-        projection: projection,
+        // projection: projection,
         imageExtent: extent
       })
     });

@@ -14,15 +14,17 @@ export class Page {
     width: number;
     height: number;
     url: string;
+    zoomify: boolean;
 
     constructor() {
 
     }
 
-    public setImageProperties(width: number, height: number, url: string) {
+    public setImageProperties(width: number, height: number, url: string, zoomify: boolean) {
         this.width = width;
         this.height = height;
         this.url = url;
+        this.zoomify = zoomify;
     }
 
     public hasImageData() {

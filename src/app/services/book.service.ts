@@ -1,3 +1,6 @@
+import { NotFoundError } from './../common/errors/not-found-error';
+import { UnauthorizedError } from './../common/errors/unauthorized-error';
+import { AppError } from './../common/errors/app-error';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -18,12 +21,11 @@ export class BookService {
     public pages: Page[] = [];
     public doublePage = false;
 
+    public pageState: BookPageState;
+
     constructor(private location: Location, private krameriusApiService: KrameriusApiService, private router: Router, private route: ActivatedRoute) {
 
     }
-
-    // public leftPage: Page;
-    // public rightPage: Page;
 
     init(uuid: string, data: any[], pageUuid: string) {
         this.uuid = uuid;
@@ -70,14 +72,14 @@ export class BookService {
                 this.pages.push(page);
                 index += 1;
             }
-            const bounds = this.computeDoublePageBounds(this.pages.length, titlePage, lastSingle, firstBackSingle);
-            if (bounds !== null) {
-                for (let i = bounds[0]; i < bounds[1]; i += 2) {
-                    this.pages[i].position = PagePosition.Left;
-                    this.pages[i + 1].position = PagePosition.Right;
-                }
-            }
         });
+        const bounds = this.computeDoublePageBounds(this.pages.length, titlePage, lastSingle, firstBackSingle);
+        if (bounds !== null) {
+            for (let i = bounds[0]; i < bounds[1]; i += 2) {
+                this.pages[i].position = PagePosition.Left;
+                this.pages[i + 1].position = PagePosition.Right;
+            }
+        }
         this.goToPageOnIndex(currentPage);
     }
 
@@ -137,6 +139,7 @@ export class BookService {
     }
 
     goToPageOnIndex(index: number) {
+        this.pageState = BookPageState.Loading;
         const lastLeftPage = this.getPage();
         if (lastLeftPage) {
             lastLeftPage.selected = false;
@@ -168,44 +171,70 @@ export class BookService {
         }
         this.location.go('/view/' + this.uuid, 'page=' + page.uuid);
         if (!cached) {
-            const url = this.krameriusApiService.getZoomifyRootUrl(page.uuid);
-            this.krameriusApiService.getZoomifyProperties(page.uuid).subscribe(response => {
-                if (!response) {
-                    return;
-                }
-                const a = response.toLowerCase().split('"');
-                const width = parseInt(a[1], 10);
-                const height = parseInt(a[3], 10);
-                page.setImageProperties(width, height, url);
-                if (this.doublePage) {
-                    const url2 = this.krameriusApiService.getZoomifyRootUrl(rightPage.uuid);
-                    this.krameriusApiService.getZoomifyProperties(rightPage.uuid).subscribe(response2 => {
-                        if (!response2) {
-                            return;
-                        }
-                        const a2 = response2.toLowerCase().split('"');
-                        const width2 = parseInt(a2[1], 10);
-                        const height2 = parseInt(a2[3], 10);
-                        rightPage.setImageProperties(width2, height2, url2);
-                        this.subject.next([page, rightPage]);
-                    });
-                } else {
-                    this.subject.next([page, null]);
-                }
-            });
+            this.fetchImageProperties(page, rightPage, true);
         } else {
             this.subject.next([page, rightPage]);
         }
     }
 
-    clear() {
-        // this.leftPage = null;
-        // this.rightPage = null;
-        this.pages = [];
+
+
+
+    private fetchImageProperties(leftPage: Page, rightPage: Page, first: boolean) {
+        const page = first ? leftPage : rightPage;
+        const url = this.krameriusApiService.getZoomifyRootUrl(page.uuid);
+        this.krameriusApiService.getZoomifyProperties(page.uuid).subscribe(
+            response => {
+                const a = response.toLowerCase().split('"');
+                const width = parseInt(a[1], 10);
+                const height = parseInt(a[3], 10);
+                page.setImageProperties(width, height, url, true);
+                if (first && rightPage) {
+                    this.fetchImageProperties(leftPage, rightPage, false);
+                } else {
+                    this.subject.next([leftPage, rightPage]);
+                }
+            },
+            (error: AppError)  => {
+                if (error instanceof UnauthorizedError) {
+                    // Private document
+                    console.log('Private document');
+                    this.pageState = BookPageState.Inaccessible;
+                    this.subject.next([null, null]);
+                } else if (error instanceof NotFoundError) {
+                    console.log('Not zoomify');
+                    const jepgUrl = this.krameriusApiService.getFullImageStreamUrl(page.uuid, 3000);
+                    const image = new Image();
+                    const subject = this.subject;
+                    image.onload = (() => {
+                        page.setImageProperties(image.width, image.height, jepgUrl, false);
+                        if (first && rightPage) {
+                            this.fetchImageProperties(leftPage, rightPage, false);
+                        } else {
+                            this.subject.next([leftPage, rightPage]);
+                        }
+                    });
+                    image.onerror = (() => {
+                        console.log('Jpeg failed');
+                        image.onerror = null;
+                        this.pageState = BookPageState.Failure;
+                        this.subject.next([null, null]);
+                    });
+                    image.src = jepgUrl;
+                } else {
+                    console.log('Image failed');
+                    this.pageState = BookPageState.Failure;
+                    this.subject.next([null, null]);
+                }
+            }
+        );
     }
 
 
 
+    clear() {
+        this.pages = [];
+    }
 
 
 
@@ -268,4 +297,9 @@ export class BookService {
     }
 
 
+}
+
+
+export enum BookPageState {
+    Success, Loading, Inaccessible, Failure
 }
