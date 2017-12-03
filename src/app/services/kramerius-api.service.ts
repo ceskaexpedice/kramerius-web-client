@@ -1,3 +1,4 @@
+import { BrowseQuery } from './../browse/browse_query.model';
 import { SearchQuery } from './../search/search_query.model';
 import { SolrService } from './solr.service';
 import { Utils } from './utils.service';
@@ -54,6 +55,14 @@ export class KrameriusApiService {
         }
         url += '&rows=' + query.getRows();
         url += '&start=' + query.getStart();
+        return this.http.get(url)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    getBrowseResults(query: BrowseQuery) {
+        const url = this.BASE_URL + '/search/api/v5.0/search?'
+            + query.buildQuery();
         return this.http.get(url)
             .map(response => response.json())
             .catch(this.handleError);

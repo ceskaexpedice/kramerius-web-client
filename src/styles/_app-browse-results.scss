@@ -1,0 +1,27 @@
+// --- SEARCH RESULTS --
+
+app-browse-results {
+  display: block;
+  height: calc(100% - #{$app-toolbar-height});
+  overflow: auto;
+  padding: 8px 0; 
+
+  .browse-item {
+    padding: 5px 15px;
+    font-size: 15px;
+    color: #888;
+    display: block;
+    &.odd {
+      background: #f3f3f3;
+    }
+    .browse-name {
+
+    }
+    .browse-count {
+      float: right;
+    }
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}

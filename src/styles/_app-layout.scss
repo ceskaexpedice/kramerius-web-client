@@ -15,6 +15,7 @@ app-root {
     
     // common behavior
     app-search,
+    app-browse,    
     app-periodical,
     app-book,
     app-home {
@@ -24,6 +25,7 @@ app-root {
       flex-flow: row;
     }
     app-search-filters,
+    app-browse-filters,    
     app-navigation,
     app-metadata {
       width: $app-side-col-width;
@@ -42,11 +44,6 @@ app-root {
         
         @import "styles/app-home";
       }
-    }
-    
-    // browse
-    app-browse {
-      @import "styles/app-browse";
     }
     
     // collecntion
@@ -76,6 +73,21 @@ app-root {
         @import "styles/app-search-pagination";
       }
     }
+
+    // browse
+    app-browse {
+      @import "styles/app-search-count";
+      @import "styles/app-search-filters";
+      .app-browse-wrapper {
+        flex: 1;
+        height: 100%;
+        background-color: color("shades", "white");
+
+        @import "styles/app-search-toolbar";
+        @import "styles/app-browse-results";
+        @import "styles/app-search-pagination";
+      }
+        }
     
     // book
     app-book {

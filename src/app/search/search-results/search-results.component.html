@@ -3,4 +3,15 @@
 <app-alert *ngIf="!searchService.getNumberOfResults()"></app-alert>
 <app-document-card *ngFor="let item of searchService.results" [item]="item"></app-document-card>
 <div class="clearfix"></div>
-<app-search-pagination></app-search-pagination>
+
+<app-paginator [activeIndex]="searchService.query.page"
+        [overallCount]="searchService.getNumberOfResults()"
+        [step]="searchService.query.getRows()"
+        (next)="searchService.nextPage()"
+        (previous)="searchService.previousPage()"
+        (change)="searchService.setPage($event)">
+</app-paginator> 
+
+
+
+  

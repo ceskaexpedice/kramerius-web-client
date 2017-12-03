@@ -57,6 +57,17 @@
       "btn_use_this_settings": "Use this settings"
     }
   },
+  "browse": {
+    "category": {
+      "label": "Browse",
+      "doctype": "Document Types",
+      "author": "Authors",
+      "collection": "Collections",
+      "keyword": "Keywords",
+      "language": "Languages"
+    },
+    "count_suffix": "documents"
+  },
   "alerts": {
     "warning": {
       "title": "Attention",

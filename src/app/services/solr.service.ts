@@ -49,6 +49,10 @@ export class SolrService {
         return solr['response']['numFound'];
     }
 
+    numberOfFacets(solr): number {
+        return solr['facets']['x'];
+    }
+
     documentItems(solr): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const doc of solr['response']['docs']) {

@@ -57,6 +57,17 @@
       "btn_use_this_settings": "Použít toto nastavení"
     }
   },
+  "browse": {
+    "category": {
+      "label": "Procházet",
+      "doctype": "Typy dokumentů",
+      "author": "Autoři",
+      "collection": "Sbírky",
+      "keyword": "Klíčová slova",
+      "language": "Jazyky"
+    },
+    "count_suffix": "dokumentů"
+  },
   "alerts": {
     "warning": {
       "title": "Upozornění",

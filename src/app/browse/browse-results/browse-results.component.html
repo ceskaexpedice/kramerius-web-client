@@ -1,0 +1,18 @@
+<a *ngFor="let item of browseService.results; let odd=odd; let even=even;" 
+      class="browse-item" 
+      [ngClass]="{ odd: odd, even: even }"
+      [routerLink]="['/search']" [queryParams]="getParams(item.value)"
+      >
+  <div class="browse-count">{{item.count}}x</div>
+  <div class="browse-name">{{item.value}}</div>
+</a>
+
+<div class="clearfix"></div>
+
+<app-paginator [activeIndex]="browseService.query.page"
+               [overallCount]="browseService.getNumberOfResults()"
+               [step]="browseService.query.getRows()"
+               (next)="browseService.nextPage()"
+               (previous)="browseService.previousPage()"
+               (change)="browseService.setPage($event)">
+</app-paginator> 

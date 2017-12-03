@@ -1,3 +1,7 @@
+import { PaginatorComponent } from './shared/paginator/paginator.component';
+import { BrowseResultsComponent } from './browse/browse-results/browse-results.component';
+import { BrowseCountComponent } from './browse/browse-count/browse-count.component';
+import { BrowseService } from './services/browse.service';
 import { ViewerControlsService } from './services/viewre-controls.service.';
 import { ViewerControlsComponent } from './book/viewer/viewer-controls/viewer-controls.component';
 import { SearchService } from './services/search.service';
@@ -48,7 +52,6 @@ import { SearchFiltersComponent } from './search/search-filters/search-filters.c
 import { PeriodicalComponent } from './periodical/periodical.component';
 import { SearchFiltersUsedComponent } from './search/search-filters-used/search-filters-used.component';
 import { SearchCountComponent } from './search/search-count/search-count.component';
-import { SearchPaginationComponent } from './search/search-pagination/search-pagination.component';
 import { SearchToolbarComponent } from './search/search-toolbar/search-toolbar.component';
 import { HomeSearchBarComponent } from './home/home-search-bar/home-search-bar.component';
 import { NavbarSearchBarComponent } from './navbar/navbar-search-bar/navbar-search-bar.component';
@@ -56,6 +59,7 @@ import { SearchChartBarComponent } from './search/search-chart-bar/search-chart-
 import { SearchCalendarComponent } from './search/search-calendar/search-calendar.component';
 import { AlertComponent } from './alert/alert.component';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.component';
 
 
 const ROUTES: Routes = [
@@ -96,14 +100,17 @@ const ROUTES: Routes = [
     PeriodicalYearsItemComponent,
     SearchFiltersUsedComponent,
     SearchCountComponent,
-    SearchPaginationComponent,
     SearchToolbarComponent,
     ViewerControlsComponent,
     HomeSearchBarComponent,
     NavbarSearchBarComponent,
     SearchChartBarComponent,
     SearchCalendarComponent,
-    AlertComponent
+    AlertComponent,
+    BrowseFiltersComponent,
+    BrowseCountComponent,
+    BrowseResultsComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,
@@ -130,6 +137,7 @@ const ROUTES: Routes = [
     LibrarySearchService,
     LocalStorageService,
     SearchService,
+    BrowseService,
     ViewerControlsService
   ],
   bootstrap: [AppComponent]

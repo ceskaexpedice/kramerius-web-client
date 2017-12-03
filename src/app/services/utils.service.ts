@@ -11,7 +11,6 @@ export class Utils {
 
 
     parseRecommended(json): DocumentItem[] {
-        console.log('data', json);
         const items: DocumentItem[] = [];
         for (const doc of json['data']) {
             items.push(this.parseItem(doc));
