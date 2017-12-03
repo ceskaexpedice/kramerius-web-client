@@ -116,7 +116,7 @@ export class SolrService {
             const value = facetFields[i];
             const count = facetFields[i + 1];
             const item = {'value' : value, 'count': count, name: value};
-            if (field === 'language' || field === 'fedora.model') {
+            if (field === 'language' || field === 'fedora.model' || field === 'collection') {
                 item['name'] = '';
             }
             list.push(item);

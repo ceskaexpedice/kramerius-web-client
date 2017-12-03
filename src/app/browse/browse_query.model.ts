@@ -63,7 +63,7 @@ export class BrowseQuery {
         if (category) {
             this.category = category;
         } else {
-            this.category = 'authors';
+            this.category = 'doctypes';
         }
     }
 

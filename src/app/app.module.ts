@@ -41,7 +41,6 @@ import { BookComponent } from './book/book.component';
 import { HelpComponent } from './help/help.component';
 import { HomeComponent } from './home/home.component';
 import { BrowseComponent } from './browse/browse.component';
-import { CollectionsComponent } from './collections/collections.component';
 import { NavigationComponent } from './book/navigation/navigation.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
@@ -65,11 +64,10 @@ import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.c
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'collections', component: CollectionsComponent },
   { path: 'browse', component: BrowseComponent },
   { path: 'search', component: SearchComponent },
   { path: 'periodical/:uuid', component: PeriodicalComponent },
-  { path: 'help', component: HelpComponent },
+  // { path: 'help', component: HelpComponent },
   { path: 'view/:uuid', component: BookComponent },
   { path: 'view', component: BookComponent }
 ];
@@ -83,7 +81,6 @@ const ROUTES: Routes = [
     HelpComponent,
     HomeComponent,
     BrowseComponent,
-    CollectionsComponent,
     NavigationComponent,
     MetadataComponent,
     NavigationItemComponent,

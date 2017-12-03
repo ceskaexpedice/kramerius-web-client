@@ -24,12 +24,12 @@ export class KrameriusApiService {
     // private BASE_URL = 'http://kramerius4.mlp.cz';
 
 
+    private API_URL = this.BASE_URL + '/search/api/v5.0';
 
     constructor(private http: Http,
         private utils: Utils,
         private solrService: SolrService) {
     }
-
 
     private handleError(error: Response) {
         if (error.status === 404) {
@@ -45,7 +45,7 @@ export class KrameriusApiService {
     }
 
     private getItemUrl(uuid: string) {
-        return this.BASE_URL + '/search/api/v5.0/item/' + uuid;
+        return this.API_URL + '/item/' + uuid;
     }
 
     getFullImageStreamUrl(uuid: string, height: number = null): string {
@@ -58,7 +58,7 @@ export class KrameriusApiService {
 
 
     getSearchResults(query: SearchQuery) {
-        let url = this.BASE_URL + '/search/api/v5.0/search?'
+        let url = this.API_URL + '/search?'
             + query.buildQuery(null);
 
         const ordering = query.getOrderingValue();
@@ -73,7 +73,7 @@ export class KrameriusApiService {
     }
 
     getBrowseResults(query: BrowseQuery) {
-        const url = this.BASE_URL + '/search/api/v5.0/search?'
+        const url = this.API_URL + '/search?'
             + query.buildQuery();
         return this.http.get(url)
             .map(response => response.json())
@@ -81,7 +81,7 @@ export class KrameriusApiService {
     }
 
     getFacetList(query: SearchQuery, field: string) {
-        let url = this.BASE_URL + '/search/api/v5.0/search?'
+        let url = this.API_URL + '/search?'
                 + query.buildQuery(field);
         url += '&facet=true&facet.field=' + SearchQuery.getSolrField(field)
             + '&facet.limit=50'
@@ -102,29 +102,36 @@ export class KrameriusApiService {
 
 
     getNewest() {
-        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph%20OR%20fedora.model:periodical%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=9&start=0';
+        const url = this.API_URL + '/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph%20OR%20fedora.model:periodical%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=9&start=0';
         return this.http.get(url)
             .map(response => this.solrService.documentItems(response.json()))
             .catch(this.handleError);
     }
 
     getRecommended() {
-        const url = this.BASE_URL + '/search/api/v5.0/feed/custom';
+        const url = this.API_URL + '/feed/custom';
         return this.http.get(url)
             .map(response => this.utils.parseRecommended(response.json()))
             .catch(this.handleError);
     }
 
+    getCollections() {
+        const url = this.API_URL + '/vc';
+        return this.http.get(url)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
 
     getPeriodicalVolumes(uuid: string) {
-        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/*%20AND%20level:1%20AND%20(fedora.model:periodicalvolume)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=1500&start=0';
+        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/*%20AND%20level:1%20AND%20(fedora.model:periodicalvolume)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=1500&start=0';
         return this.http.get(url)
             .map(response => response.json())
             .catch(this.handleError);
     }
 
     getPeriodicalIssues(periodicalUuid: string, volumeUuid: string) {
-        const url = this.BASE_URL + '/search/api/v5.0/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*%20AND%20level:2%20AND%20(fedora.model:periodicalitem%20OR%20fedora.model:supplement)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=1000&start=0';
+        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*%20AND%20level:2%20AND%20(fedora.model:periodicalitem%20OR%20fedora.model:supplement)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=1000&start=0';
         return this.http.get(url)
             .map(response => response.json())
             .catch(this.handleError);
@@ -133,7 +140,7 @@ export class KrameriusApiService {
 
 
     getSearchAutocompleteUrl(term: string) {
-        return this.BASE_URL + '/search/api/v5.0/search/?fl=PID,dc.title,dc.creator&q=dc.title:'
+        return this.API_URL + '/search/?fl=PID,dc.title,dc.creator&q=dc.title:'
         + term.toLowerCase()
         + '*+AND+(fedora.model:monograph%5E5+OR+fedora.model:periodical%5E4+OR+fedora.model:map+'
         + 'OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)'

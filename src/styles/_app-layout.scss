@@ -46,11 +46,6 @@ app-root {
       }
     }
     
-    // collecntion
-    app-collections {
-      @import "styles/app-collections";
-    }
-    
     // browse
     app-help {
       @import "styles/app-help";

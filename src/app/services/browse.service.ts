@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BrowseQuery } from './../browse/browse_query.model';
 import { Injectable } from '@angular/core';
 import { filter } from 'rxjs/operator/filter';
+import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
 
 
 @Injectable()
@@ -14,6 +15,8 @@ export class BrowseService {
     query: BrowseQuery;
 
     numberOfResults: number;
+    collections;
+
 
     constructor(
         private router: Router,
@@ -106,11 +109,7 @@ export class BrowseService {
                 }
                 this.results = filteredResults;
                 this.numberOfResults = this.results.length;
-                if (this.query.ordering === 'alphabetical') {
-                    this.results.sort(function (a, b) {
-                        return a.name.localeCompare(b.name);
-                    });
-                }
+                this.sortResult();
             });
         }
         if (this.query.category === 'doctypes') {
@@ -118,15 +117,44 @@ export class BrowseService {
                 for (const item of this.results) {
                     item['name'] = this.translator.instant('model_plural.' + item['value']);
                 }
-                if (this.query.ordering === 'alphabetical') {
-                    this.results.sort(function (a, b) {
-                        return a.name.localeCompare(b.name);
-                    });
-                }
+                this.sortResult();
             });
+        }
+        if (this.query.category === 'collections') {
+            if (!this.collections) {
+                this.krameriusApiService.getCollections().subscribe(
+                    results => {
+                        this.collections = results;
+                        this.translateResults();
+                    }
+                );
+            } else {
+                for (const item of this.results) {
+                    for (const coll of this.collections) {
+                        if (item.value === coll.pid) {
+                            if (coll.descs) {
+                                if (this.translator.language === 'cs') {
+                                    item.name = coll.descs.cs;
+                                } else {
+                                    item.name = coll.descs.en;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                this.sortResult();
+            }
         }
     }
 
+    private sortResult() {
+        if (this.query.ordering === 'alphabetical') {
+            this.results.sort(function (a, b) {
+                return a.name.localeCompare(b.name);
+            });
+        }
+    }
 
 
 }

@@ -59,6 +59,11 @@
             </span>
           </mz-collection-item>
           <mz-collection-item>
+              <span class="app-row" [class.selected]="browseService.query.category == 'collections'">
+                <a (click)="browseService.setCategory('collections')">{{'browse.category.collection' | translate }}</a>
+              </span>
+          </mz-collection-item>
+          <mz-collection-item>
               <span class="app-row" [class.selected]="browseService.query.category == 'languages'">
                 <a (click)="browseService.setCategory('languages')">{{'browse.category.language' | translate }}</a>
               </span>

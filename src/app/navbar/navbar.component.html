@@ -36,15 +36,15 @@
     <app-navbar-search-bar></app-navbar-search-bar>
   </div><!--/.app-col-right -->
   <mz-navbar-item-container [align]="'right'">
-    <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive" [active]="collections.isActive">
-      <a routerLink='collections'>{{ 'navbar.collections' | translate }}</a>
+    <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
+      <a routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
     </mz-navbar-item>
-    <mz-navbar-item routerLinkActive="active" #browse="routerLinkActive" [active]="browse.isActive">
+    <mz-navbar-item routerLinkActive="active" #browse="routerLinkActive">
       <a routerLink='browse'>{{ 'navbar.browse' | translate }}</a>
     </mz-navbar-item>
-    <mz-navbar-item routerLinkActive="active" #help="routerLinkActive" [active]="help.isActive">
+    <!-- <mz-navbar-item routerLinkActive="active" #help="routerLinkActive">
       <a routerLink='help'>{{ 'navbar.help' | translate }}</a>
-    </mz-navbar-item>
+    </mz-navbar-item> -->
     <mz-navbar-item><a *ngIf="translator.language == 'cs'" (click)='onLanguageChanged("en")'>English</a></mz-navbar-item>
     <mz-navbar-item><a *ngIf="translator.language == 'en'" (click)='onLanguageChanged("cs")'>Česky</a></mz-navbar-item>
   </mz-navbar-item-container>
