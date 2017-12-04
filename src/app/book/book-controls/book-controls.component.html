@@ -1,26 +1,26 @@
 <div>
 
-    <span class="book-control" (click)="bookService.goToPrevious()"
+    <span class="book-control" (click)="bookService.prepareToPrint()"
          mz-tooltip [tooltip]="'book_controls.tooltip_print' | translate" [position]="'bottom'">
         <i class="app-mdi-book-print"></i>
     </span>
 
-    <span class="book-control" (click)="bookService.goToPrevious()"
+    <span class="book-control" (click)="bookService.generatePdf()"
         mz-tooltip [tooltip]="'book_controls.tooltip_pdf' | translate" [position]="'bottom'">
         <i class="app-mdi-book-pdf"></i>
     </span>
 
-    <span class="book-control" (click)="bookService.goToPrevious()"
+    <span class="book-control" (click)="bookService.showJpeg()"
         mz-tooltip [tooltip]="'book_controls.tooltip_jpg' | translate" [position]="'bottom'">
         <i class="app-mdi-book-jpg"></i>
     </span>
 
-    <span class="book-control" (click)="bookService.goToPrevious()"
+    <span class="book-control" (click)="bookService.showOcr()"
         mz-tooltip [tooltip]="'book_controls.tooltip_ocr' | translate" [position]="'bottom'">
         <i class="app-mdi-book-ocr"></i>
     </span>
 
-    <span class="book-control" (click)="bookService.goToPrevious()"
+    <span class="book-control" (click)="bookService.showQuotation()"
         mz-tooltip [tooltip]="'book_controls.tooltip_quote' | translate" [position]="'bottom'">
         <i class="app-mdi-book-quote"></i>
     </span>

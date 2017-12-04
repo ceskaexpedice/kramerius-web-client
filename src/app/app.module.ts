@@ -61,6 +61,7 @@ import { SearchChartBarComponent } from './search/search-chart-bar/search-chart-
 import { SearchCalendarComponent } from './search/search-calendar/search-calendar.component';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.component';
+import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
 
 
 const ROUTES: Routes = [
@@ -111,7 +112,11 @@ const ROUTES: Routes = [
     BrowseToolbarComponent,
     PaginatorComponent,
     AlertComponent,
-    BookControlsComponent
+    BookControlsComponent,
+    DialogOcrComponent
+  ],
+  entryComponents: [
+    DialogOcrComponent
   ],
   imports: [
     BrowserModule,

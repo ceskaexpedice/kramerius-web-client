@@ -108,6 +108,7 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
+
     getRecommended() {
         const url = this.API_URL + '/feed/custom';
         return this.http.get(url)
@@ -150,6 +151,13 @@ export class KrameriusApiService {
 
     getThumbUrl(uuid: string) {
         return this.getItemUrl(uuid) + '/thumb';
+    }
+
+    getOcr(uuid: string) {
+        const url = this.getItemUrl(uuid) + '/streams/TEXT_OCR';
+        return this.http.get(url)
+            .map(response => response['_body'])
+            .catch(this.handleError);
     }
 
     getDc(uuid: string) {

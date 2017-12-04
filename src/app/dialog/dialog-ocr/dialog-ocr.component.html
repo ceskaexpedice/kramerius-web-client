@@ -1,0 +1,14 @@
+<mz-modal [fixedFooter]="true" [bottomSheet]="true">
+    <!-- <mz-modal-header>
+     Textový přepis
+    </mz-modal-header> -->
+    <mz-modal-content>
+      {{ocr}}
+      <div *ngIf="ocr2" style="margin-top:15px;">
+        {{ocr2}}
+      </div>
+    </mz-modal-content>
+    <mz-modal-footer>
+      <button mz-button [flat]="true" mz-modal-close>Zavřít</button>
+    </mz-modal-footer>
+  </mz-modal>

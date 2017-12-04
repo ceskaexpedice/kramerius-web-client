@@ -9,6 +9,9 @@ import { Page, PagePosition } from './../model/page.model';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { MzModalService } from 'ng2-materialize';
+import { DialogOcrComponent } from '../dialog/dialog-ocr/dialog-ocr.component';
+import { request } from 'https';
 
 
 @Injectable()
@@ -23,7 +26,11 @@ export class BookService {
 
     public pageState: BookPageState;
 
-    constructor(private location: Location, private krameriusApiService: KrameriusApiService, private router: Router, private route: ActivatedRoute) {
+    constructor(private location: Location,
+        private krameriusApiService: KrameriusApiService,
+        private modalService: MzModalService,
+        private router: Router,
+        private route: ActivatedRoute) {
 
     }
 
@@ -151,6 +158,21 @@ export class BookService {
     }
 
     showOcr() {
+        console.log('show ocr');
+        const requests = [];
+        requests.push(this.krameriusApiService.getOcr(this.getPage().uuid));
+        if (this.getRightPage()) {
+            requests.push(this.krameriusApiService.getOcr(this.getRightPage().uuid));
+        }
+        Observable.forkJoin(requests).subscribe(result => {
+            const options = {
+                ocr: result[0]
+            };
+            if (result.length > 1) {
+                options['ocr2'] = result[1];
+            }
+            this.modalService.open(DialogOcrComponent, options);
+        });
     }
 
     showJpeg() {
