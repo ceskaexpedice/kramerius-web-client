@@ -11,6 +11,7 @@ import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
 @Injectable()
 export class BrowseService {
 
+    backupResults: any[] = [];
     results: any[] = [];
     query: BrowseQuery;
 
@@ -45,8 +46,13 @@ export class BrowseService {
     }
 
     public setCategory(category: string) {
+        this.query.setText(null);
         this.query.setCategory(category);
         this.reload(false);
+    }
+
+    public getCategory(): string {
+        return this.query.category;
     }
 
     public changeOrdering(ordering: string) {
@@ -57,6 +63,15 @@ export class BrowseService {
     public setAccessibility(accessibility: string) {
         this.query.setAccessibility(accessibility);
         this.reload(false);
+    }
+
+    public setText(text: string) {
+        this.query.setText(text);
+        this.reload(false);
+    }
+
+    public getText(): string {
+        return this.query.text;
     }
 
     public setPage(page: number) {
@@ -79,6 +94,9 @@ export class BrowseService {
     }
 
     public getResultIndexFrom(): number {
+        if (this.results.length === 0) {
+            return 0;
+        }
         return this.query.getStart() + 1;
     }
 
@@ -90,6 +108,7 @@ export class BrowseService {
         this.krameriusApiService.getBrowseResults(this.query).subscribe(response => {
             this.numberOfResults = this.solrService.numberOfFacets(response);
             this.results = this.solrService.browseFacetList(response, this.query.getSolrField());
+            this.backupResults = this.results;
             this.translateResults();
         });
     }
@@ -98,12 +117,32 @@ export class BrowseService {
         if (!this.results || !this.query) {
             return;
         }
-        if (this.query.category === 'languages') {
+        if (this.getCategory() === 'languages') {
             this.translator.waitForTranslation().then(() => {
                 const filteredResults = [];
-                for (const item of this.results) {
+                for (const item of this.backupResults) {
                     item['name'] = this.translator.instant('language.' + item['value']);
                     if (!item['name'].startsWith('language.')) {
+                        if (this.getText()) {
+                            if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
+                                filteredResults.push(item);
+                            }
+                        } else {
+                            filteredResults.push(item);
+                        }
+                    }
+                }
+                this.results = filteredResults;
+                this.numberOfResults = this.results.length;
+                this.sortResult();
+            });
+        }
+        if (this.getCategory() === 'doctypes') {
+            this.translator.waitForTranslation().then(() => {
+                const filteredResults = [];
+                for (const item of this.backupResults) {
+                    item['name'] = this.translator.instant('model_plural.' + item['value']);
+                    if (!this.getText() || item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
                         filteredResults.push(item);
                     }
                 }
@@ -112,15 +151,7 @@ export class BrowseService {
                 this.sortResult();
             });
         }
-        if (this.query.category === 'doctypes') {
-            this.translator.waitForTranslation().then(() => {
-                for (const item of this.results) {
-                    item['name'] = this.translator.instant('model_plural.' + item['value']);
-                }
-                this.sortResult();
-            });
-        }
-        if (this.query.category === 'collections') {
+        if (this.getCategory() === 'collections') {
             if (!this.collections) {
                 this.krameriusApiService.getCollections().subscribe(
                     results => {
@@ -129,7 +160,7 @@ export class BrowseService {
                     }
                 );
             } else {
-                for (const item of this.results) {
+                for (const item of this.backupResults) {
                     for (const coll of this.collections) {
                         if (item.value === coll.pid) {
                             if (coll.descs) {
@@ -143,6 +174,14 @@ export class BrowseService {
                         }
                     }
                 }
+                const filteredResults = [];
+                for (const item of this.backupResults) {
+                    if (!this.getText() || item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
+                        filteredResults.push(item);
+                    }
+                }
+                this.results = filteredResults;
+                this.numberOfResults = this.results.length;
                 this.sortResult();
             }
         }

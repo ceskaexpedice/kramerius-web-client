@@ -66,6 +66,13 @@
       "keyword": "Klíčová slova",
       "language": "Jazyky"
     },
+    "search": {
+      "doctypes": "Vyhledat typ dokumentu",
+      "authors": "Vyhledat autora",
+      "collections": "Vyhledat sbírku",
+      "keywords": "Vyhledat klíčové slovo", 
+      "languages": "Vyhledat jazyk"
+    },
     "ordering": {
       "label": "Řazení",      
       "occurrence": "Podle výskytů",

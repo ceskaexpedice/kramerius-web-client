@@ -66,6 +66,13 @@
       "keyword": "Keywords",
       "language": "Languages"
     },
+    "search": {
+      "doctypes": "Lookup Document type",
+      "authors": "Lookup Author",
+      "collections": "Lookup Collection",
+      "keywords": "Lookup Keyword", 
+      "languages": "Lookup Language"
+    },
     "ordering": {
       "label": "Ordering",      
       "occurrence": "Occurrence",

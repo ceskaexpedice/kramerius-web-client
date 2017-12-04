@@ -1,0 +1,70 @@
+// --- BROWSE TOOLBAR ---
+
+app-browse-toolbar {
+  display: block;
+  overflow: hidden;
+  height: $app-toolbar-height;
+  line-height: $app-toolbar-height;
+  margin: 0 1rem;
+  @include set-border(bottom, 1, solid, $app-grey-c-2);
+          
+  .col {
+    @extend .app-clean-pd;
+    
+    // common
+    ul {
+      @extend .app-clean-mg;
+
+      li {
+        float: left;
+        color: $app-grey-l-1;
+
+        &:not(.active) {
+          span {
+            &:hover {
+              color: $app-grey-d-1;
+            } 
+          }
+        }
+      }
+    }
+
+    // col left
+    &.app-col-left {
+      .search-bar {
+        margin: 0;
+        height: 52px;
+        border-bottom: 0px solid #9e9e9e;
+      }
+    }
+    
+    // col right
+    &.app-col-right {
+      ul {
+        li {
+          &.active {
+            color: $primary-color;
+          }
+
+          span {
+            padding: 0 0.8rem;
+
+            &.app-mdi-in {
+              padding-right: 0.4rem;
+            }
+
+            label {
+              font-size: inherit;
+            }
+          }
+
+          &:not(:first-child) {
+            & > span {
+              @include set-border(left, 1, solid, $app-grey-l-2);
+            } 
+          }
+        }
+      }  
+    }
+  }
+}

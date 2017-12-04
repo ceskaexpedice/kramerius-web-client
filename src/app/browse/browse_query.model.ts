@@ -3,6 +3,7 @@ export class BrowseQuery {
     ordering: string;
     category: string;
     page: number;
+    text: string;
 
     constructor() {
     }
@@ -13,6 +14,7 @@ export class BrowseQuery {
         query.setPage(params['page']);
         query.setCategory(params['category']);
         query.setAccessibility(params['accessibility']);
+        query.setText(params['bq']);
         return query;
     }
 
@@ -51,6 +53,10 @@ export class BrowseQuery {
         }
     }
 
+    public setText(text: string) {
+        this.text = text;
+    }
+
     public setPage(page) {
         let p = parseInt(page, 10);
         if (!p) {
@@ -79,6 +85,10 @@ export class BrowseQuery {
         return this.getRows() * (this.page - 1);
     }
 
+    getText(): string {
+        return this.text;
+    }
+
     buildQuery(): string {
         let q = 'q=(fedora.model:monograph%20OR%20fedora.model:periodical%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)';
         if (this.accessibility === 'public') {
@@ -86,13 +96,29 @@ export class BrowseQuery {
         } else if (this.accessibility === 'private') {
             q += ' AND dostupnost:private';
         }
+        if (this.text) {
+            if (this.category === 'keywords') {
+                q += ' AND keywords:*' + this.text.toLowerCase() + '*';
+            } else if (this.category === 'authors') {
+                q += ' AND dc.creator:*' + this.text.toLowerCase() + '*';
+            }
+        }
         q += '&facet=true&facet.field=' + this.getSolrField()
            + '&facet.mincount=1'
            + '&facet.sort=' + this.getOrderingValue()
            + '&facet.limit=' + this.getRows()
            + '&facet.offset=' + this.getStart()
-           + '&rows=0'
-           + '&json.facet={x:"unique(' + this.getSolrField() + ')"}';
+           + '&rows=0';
+
+        if (this.text) {
+            if (this.category === 'keywords') {
+                q += '&facet.contains=' + this.getText();
+            } else if (this.category === 'authors') {
+                const text = this.getText().substring(0, 1).toUpperCase() + this.getText().substring(1);
+                q += '&facet.contains=' + text;
+            }
+        }
+         q += '&json.facet={x:"unique(' + this.getSolrField() + ')"}';
 
         return q;
     }
@@ -110,6 +136,9 @@ export class BrowseQuery {
         }
         if (this.category) {
             params['category'] = this.category;
+        }
+        if (this.text) {
+            params['bq'] = this.text;
         }
         return params;
     }

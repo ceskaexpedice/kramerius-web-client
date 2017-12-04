@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { BrowseService } from './../../services/browse.service';
 
@@ -8,10 +9,20 @@ import { BrowseService } from './../../services/browse.service';
 })
 export class BrowseToolbarComponent implements OnInit {
 
-  constructor(public browseService: BrowseService) {
+  query: string;
+
+  constructor(public browseService: BrowseService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.route.queryParamMap.subscribe(queryParams => {
+      const text = queryParams.get('bq');
+      this.query = text;
+    });
+  }
+
+  onBrowseQueryChanged() {
+   this.browseService.setText(this.query);
   }
 
 }
