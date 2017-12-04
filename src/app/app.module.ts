@@ -1,3 +1,4 @@
+import { BookControlsComponent } from './book/book-controls/book-controls.component';
 import { BrowseToolbarComponent } from './browse/browse-toolbar/browse-toolbar.component';
 import { AlertComponent } from './shared/alert/alert.component';
 import { PaginatorComponent } from './shared/paginator/paginator.component';
@@ -109,7 +110,8 @@ const ROUTES: Routes = [
     BrowseResultsComponent,
     BrowseToolbarComponent,
     PaginatorComponent,
-    AlertComponent
+    AlertComponent,
+    BookControlsComponent
   ],
   imports: [
     BrowserModule,

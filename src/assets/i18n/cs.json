@@ -128,6 +128,13 @@
     "tooltip_hide_right": "Schovat podrobnosti",
     "tooltip_show_right": "Zobrazit podrobnosti"
   },
+  "book_controls": {
+    "tooltip_print": "Příprava k tisku",
+    "tooltip_pdf": "Vygenerovat PDF",
+    "tooltip_jpg": "JPEG stránky",
+    "tooltip_ocr": "Textový přepis stránky",
+    "tooltip_quote": "Zobrazit citaci"
+  },
   "model" : {
     "monograph" : "Kniha",
     "monographunit" : "Kniha",

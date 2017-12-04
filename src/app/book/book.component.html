@@ -1,3 +1,6 @@
 <app-navigation [class.panel-hidden]="!viewerControls.leftPanelVisible"></app-navigation>
 <app-viewer></app-viewer>
-<app-metadata [class.panel-hidden]="!viewerControls.rightPanelVisible" [metadata]="metadata"></app-metadata>
+<app-metadata [class.panel-hidden]="!viewerControls.rightPanelVisible" [metadata]="metadata">
+    <app-book-controls></app-book-controls>
+    
+</app-metadata>

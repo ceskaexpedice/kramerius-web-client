@@ -134,6 +134,13 @@
     "tooltip_page_hide_right": "Hide details",
     "tooltip_page_show_right": "Show details"
   },
+  "book_controls": {
+    "tooltip_print": "Prepare to print",
+    "tooltip_pdf": "Generate PDF",
+    "tooltip_jpg": "JPEG of the page",
+    "tooltip_ocr": "Text transcript of the page",
+    "tooltip_quote": "show quotation"
+  },
   "model" : {
     "monograph" : "Book",
     "monographunit" : "Book",

@@ -146,6 +146,28 @@ export class BookService {
         return this.pages ? this.pages.length : 0;
     }
 
+
+    showQuotation() {
+    }
+
+    showOcr() {
+    }
+
+    showJpeg() {
+    }
+
+    generatePdf() {
+    }
+
+    prepareToPrint() {
+    }
+
+
+
+
+
+
+
     goToPageOnIndex(index: number) {
         this.pageState = BookPageState.Loading;
         const lastLeftPage = this.getPage();
