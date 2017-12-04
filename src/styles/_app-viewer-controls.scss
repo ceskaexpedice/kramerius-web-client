@@ -8,7 +8,7 @@ app-viewer-controls {
   // margin-top: 16px;
   .view-controls {
     // background: rgba(60, 70, 80, 0.8);
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.96);
     border: 1px solid #d2d2d2;
     position: relative;
     transition: opacity .4s ease 0s;
@@ -18,7 +18,6 @@ app-viewer-controls {
     -webkit-transform: translate(-50%, 0%);    
     transform: translate(-50%, 0%);
     height: 36px;
-    padding-top: 6px;
     border-radius: 6px;
     padding-left: 10px;
     padding-right: 10px;
@@ -27,21 +26,18 @@ app-viewer-controls {
   }
   span {
     cursor: pointer;
-    i {
-      opacity: 0.5;
-      padding: 10px;
-      color: #000;
-      &:hover {
-        opacity: 1;
-      }
+    display: block;
+    float: left;
+    padding: 6px 8px;
+    opacity: 0.4;
+    &:hover {
+      opacity: 1;
     }
     &.inactive {
-      i {
+      opacity: 0.15;
+      cursor: default;
+      &:hover {
         opacity: 0.15;
-        cursor: default;
-        &:hover {
-          opacity: 0.15;
-        }
       }
     }
   }

@@ -27,15 +27,27 @@
             mz-tooltip [tooltip]="'view_controls.tooltip_exit_fullscreen' | translate" [position]="'top'">
         <i class="app-mdi-fullscreen-exit"></i>
     </span>
-
+<!-- 
     <span (click)="controlsService.rotateLeft()"
             mz-tooltip [tooltip]="'view_controls.tooltip_rotate_left' | translate" [position]="'top'">
         <i class="app-mdi-rotate-left"></i>
-    </span>
+    </span> -->
     <span (click)="controlsService.rotateRight()"
             mz-tooltip [tooltip]="'view_controls.tooltip_rotate_right' | translate" [position]="'top'">
         <i class="app-mdi-rotate-right"></i>
     </span>
+
+
+    <span *ngIf="bookService.doublePageSupported() && bookService.doublePageEnabled" (click)="bookService.toggleDoublePage()" style="padding-top:5px;"
+        mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_off' | translate" [position]="'top'">
+        <i class="app-mdi-double-page"></i>
+    </span>
+
+    <span *ngIf="bookService.doublePageSupported() && !bookService.doublePageEnabled" (click)="bookService.toggleDoublePage()" style="padding-top:5px;"
+        mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_on' | translate" [position]="'top'">
+        <i class="app-mdi-double-page"></i>
+    </span>
+
 
     <span style="margin-left: 25px;" (click)="bookService.goToNext()" [class.inactive]="!bookService.hasNext()"
         mz-tooltip [tooltip]="'view_controls.tooltip_page_right' | translate" [position]="'top'">

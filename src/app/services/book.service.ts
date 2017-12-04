@@ -23,6 +23,7 @@ export class BookService {
     private activePageIndex = 0;
     public pages: Page[] = [];
     public doublePage = false;
+    public doublePageEnabled = true;
 
     public pageState: BookPageState;
 
@@ -185,10 +186,14 @@ export class BookService {
     }
 
 
+    toggleDoublePage() {
+        this.doublePageEnabled = !this.doublePageEnabled;
+        this.goToPage(this.getPage());
+    }
 
-
-
-
+    doublePageSupported() {
+        return this.getPage() && (this.getPage().position === PagePosition.Left || this.getPage().position === PagePosition.Right);
+    }
 
     goToPageOnIndex(index: number) {
         this.pageState = BookPageState.Loading;
@@ -202,7 +207,7 @@ export class BookService {
         }
 
         const position = this.pages[index].position;
-        if (position === PagePosition.Single) {
+        if (position === PagePosition.Single || !this.doublePageEnabled) {
             this.activePageIndex = index;
             this.doublePage = false;
         } else if (position === PagePosition.Left) {

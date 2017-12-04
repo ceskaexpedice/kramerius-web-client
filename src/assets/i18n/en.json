@@ -127,6 +127,8 @@
     "tooltip_fit_to_screen": "Fit to screen",
     "tooltip_enter_fullscreen": "Enter Fullscreen",
     "tooltip_exit_fullscreen": "Exit fullscreen",
+    "tooltip_doublepage_on": "Double Page mode",
+    "tooltip_doublepage_off": "Leave Double Page mode",
     "tooltip_page_left": "Go to previous page",
     "tooltip_page_right": "Go to next page",
     "tooltip_page_hide_left": "Hide pages",
