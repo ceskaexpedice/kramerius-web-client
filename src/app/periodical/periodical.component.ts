@@ -57,14 +57,14 @@ export class PeriodicalComponent implements OnInit {
         ctx.metadata.volume.number = item.volumeNumber;
         ctx.metadata.volume.year = item.volumeYear;
         if (ctx.doctype === 'periodical') {
-          this.localStorageService.addToVisited(item);
-          this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(response => {
-            this.items = this.solrService.periodicalItems(response);
+          this.localStorageService.addToVisited(item, ctx.metadata);
+          this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(volumes => {
+            this.items = this.solrService.periodicalItems(volumes);
             this.calcYearsRange();
           });
         } else if (ctx.doctype === 'periodicalvolume') {
-          this.krameriusApiService.getPeriodicalIssues(item.root_uuid, uuid).subscribe(response => {
-            this.items = this.solrService.periodicalItems(response);
+          this.krameriusApiService.getPeriodicalIssues(item.root_uuid, uuid).subscribe(issues => {
+            this.items = this.solrService.periodicalItems(issues);
           });
         }
       });
