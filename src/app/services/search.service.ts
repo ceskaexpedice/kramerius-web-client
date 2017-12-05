@@ -20,6 +20,8 @@ export class SearchService {
     authors: any[] = [];
     languages: any[] = [];
 
+    loading = false;
+
 
     numberOfResults: number;
 
@@ -128,9 +130,11 @@ export class SearchService {
     }
 
     private search() {
+        this.loading = true;
         this.krameriusApiService.getSearchResults(this.query).subscribe(response => {
             this.numberOfResults = this.solrService.numberOfResults(response);
             this.results = this.solrService.documentItems(response);
+            this.loading = false;
         });
         this.krameriusApiService.getFacetList(this.query, 'keywords').subscribe(response => {
             this.keywords = response;

@@ -17,6 +17,7 @@ export class BrowseService {
 
     numberOfResults: number;
     collections;
+    loading = false;
 
 
     constructor(
@@ -105,6 +106,7 @@ export class BrowseService {
     }
 
     private search() {
+        this.loading = true;
         this.krameriusApiService.getBrowseResults(this.query).subscribe(response => {
             this.numberOfResults = this.solrService.numberOfFacets(response);
             this.results = this.solrService.browseFacetList(response, this.query.getSolrField());
@@ -115,6 +117,7 @@ export class BrowseService {
 
     private translateResults() {
         if (!this.results || !this.query) {
+            this.loading = false;
             return;
         }
         if (this.getCategory() === 'languages') {
@@ -135,9 +138,9 @@ export class BrowseService {
                 this.results = filteredResults;
                 this.numberOfResults = this.results.length;
                 this.sortResult();
+                this.loading = false;
             });
-        }
-        if (this.getCategory() === 'doctypes') {
+        } else if (this.getCategory() === 'doctypes') {
             this.translator.waitForTranslation().then(() => {
                 const filteredResults = [];
                 for (const item of this.backupResults) {
@@ -149,10 +152,11 @@ export class BrowseService {
                 this.results = filteredResults;
                 this.numberOfResults = this.results.length;
                 this.sortResult();
+                this.loading = false;
             });
-        }
-        if (this.getCategory() === 'collections') {
+        } else if (this.getCategory() === 'collections') {
             if (!this.collections) {
+                this.loading = true;
                 this.krameriusApiService.getCollections().subscribe(
                     results => {
                         this.collections = results;
@@ -183,7 +187,10 @@ export class BrowseService {
                 this.results = filteredResults;
                 this.numberOfResults = this.results.length;
                 this.sortResult();
+                this.loading = false;
             }
+        } else {
+            this.loading = false;
         }
     }
 

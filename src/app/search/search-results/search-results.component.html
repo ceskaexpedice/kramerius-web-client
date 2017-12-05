@@ -1,8 +1,7 @@
 <app-search-chart-bar *ngIf="searchService.getNumberOfResults()"></app-search-chart-bar>
 <app-search-calendar *ngIf="searchService.getNumberOfResults()"></app-search-calendar>
-<app-alert *ngIf="!searchService.getNumberOfResults()"></app-alert>
 
-<app-alert *ngIf="!searchService.getNumberOfResults()"
+<app-alert *ngIf="!searchService.loading && searchService.getNumberOfResults() === 0"
         type="warning"
         title="alert.warning"
         message="alert.no_results_found">
@@ -19,6 +18,11 @@
         (previous)="searchService.previousPage()"
         (change)="searchService.setPage($event)">
 </app-paginator> 
+<mz-spinner *ngIf="searchService.loading"
+        class="medium-centered-spinner" 
+        [color]="'blue'"
+        [size]="'medium'">
+</mz-spinner>
 
 
 
