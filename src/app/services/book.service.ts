@@ -127,6 +127,10 @@ export class BookService {
         return this.pageState === BookPageState.Failure;
     }
 
+    isPageLoading() {
+        return this.pageState === BookPageState.Loading;
+    }
+
     goToPrevious() {
         if (this.hasPrevious()) {
             this.goToPageOnIndex(this.activePageIndex - 1);
@@ -223,7 +227,6 @@ export class BookService {
     }
 
     goToPageOnIndex(index: number) {
-        this.pageState = BookPageState.Loading;
         const lastLeftPage = this.getPage();
         if (lastLeftPage) {
             lastLeftPage.selected = false;
@@ -232,7 +235,6 @@ export class BookService {
         if (lastRightPage) {
             lastRightPage.selected = false;
         }
-
         const position = this.pages[index].position;
         if (position === PagePosition.Single || !this.doublePageEnabled) {
             this.activePageIndex = index;
@@ -244,7 +246,6 @@ export class BookService {
             this.activePageIndex = index - 1;
             this.doublePage = true;
         }
-
         const page = this.getPage();
         page.selected = true;
         const rightPage = this.getRightPage();
@@ -255,9 +256,10 @@ export class BookService {
         }
         this.location.go('/view/' + this.uuid, 'page=' + page.uuid);
         if (!cached) {
+            this.publishNewPages(BookPageState.Loading);
             this.fetchImageProperties(page, rightPage, true);
         } else {
-            this.subject.next([page, rightPage]);
+            this.publishNewPages(BookPageState.Success);
         }
     }
 
@@ -314,7 +316,7 @@ export class BookService {
     private publishNewPages(state: BookPageState) {
         const leftPage = this.getPage();
         const rightPage = this.getRightPage();
-        if (state === BookPageState.Failure || state === BookPageState.Inaccessible) {
+        if (state !== BookPageState.Success) {
             leftPage.setImageProperties(-1, -1, null, true);
             if (rightPage) {
                 rightPage.setImageProperties(-1, -1, null, true);
