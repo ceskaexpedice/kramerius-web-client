@@ -177,6 +177,10 @@ export class BookService {
     }
 
     showJpeg() {
+        window.open(this.krameriusApiService.getFullJpegUrl(this.getPage().uuid), '_blank');
+        if (this.getRightPage()) {
+            window.open(this.krameriusApiService.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+        }
     }
 
     generatePdf() {
@@ -258,7 +262,7 @@ export class BookService {
                     this.publishNewPages(BookPageState.Inaccessible);
                 } else if (error instanceof NotFoundError) {
                     // Not zoomify
-                    const jepgUrl = this.krameriusApiService.getFullImageStreamUrl(page.uuid, 3000);
+                    const jepgUrl = this.krameriusApiService.getScaledJpegUrl(page.uuid, 3000);
                     const image = new Image();
                     const subject = this.subject;
                     image.onload = (() => {

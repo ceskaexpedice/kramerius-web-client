@@ -17,6 +17,8 @@ export class KrameriusApiService {
 
     private static STREAM_DC = 'DC';
     private static STREAM_MODS = 'BIBLIO_MODS';
+    private static STREAM_OCR = 'TEXT_OCR';
+    private static STREAM_JPEG = 'IMG_FULL';
 
     private BASE_URL = 'https://kramerius.mzk.cz';
     // private BASE_URL = 'https://kramerius.lib.cas.cz';
@@ -47,15 +49,6 @@ export class KrameriusApiService {
     private getItemUrl(uuid: string) {
         return this.API_URL + '/item/' + uuid;
     }
-
-    getFullImageStreamUrl(uuid: string, height: number = null): string {
-        let url = this.BASE_URL + '/search/img?pid=' + uuid + '&stream=IMG_FULL';
-        if (height) {
-            url += '&action=SCALE&scaledHeight=' + height;
-        }
-        return url;
-    }
-
 
     getSearchResults(query: SearchQuery) {
         let url = this.API_URL + '/search?'
@@ -153,8 +146,20 @@ export class KrameriusApiService {
         return this.getItemUrl(uuid) + '/thumb';
     }
 
+    getFullJpegUrl(uuid: string): string {
+        return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
+    }
+
+    getScaledJpegUrl(uuid: string, height: number): string {
+        let url = this.BASE_URL + '/search/img?pid=' + uuid + '&stream=IMG_FULL';
+        if (height) {
+            url += '&action=SCALE&scaledHeight=' + height;
+        }
+        return url;
+    }
+
     getOcr(uuid: string) {
-        const url = this.getItemUrl(uuid) + '/streams/TEXT_OCR';
+        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);
         return this.http.get(url)
             .map(response => response['_body'])
             .catch(this.handleError);
