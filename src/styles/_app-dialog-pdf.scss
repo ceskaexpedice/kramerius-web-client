@@ -1,0 +1,23 @@
+mz-modal.app-dialog-pdf {
+  .modal {
+    max-width: 600px;
+  }
+  input {
+    width: 100px;
+  }
+  p {
+    color: #666;
+    &.invalid-range {
+      color: #b44;
+    }
+    strong {
+      color: #000; 
+    }
+  }
+  mz-spinner {
+    float: left;
+    margin-left: 20px;
+  }
+  
+
+}

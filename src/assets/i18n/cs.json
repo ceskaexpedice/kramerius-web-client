@@ -1,7 +1,8 @@
 {
   "app-title": "Kramerius - klient pro vyhledávání v digitalizovaných dokumentech",
   "common": {
-    "of": "z"
+    "of": "z",
+    "cancel": "Zrušit"
   },
   "navbar": {
     "collections": "Sbírky",
@@ -137,6 +138,20 @@
     "tooltip_jpg": "JPEG stránky",
     "tooltip_ocr": "Textový přepis stránky",
     "tooltip_quote": "Zobrazit citaci"
+  },
+  "pdf-dialog": {
+    "title_generate": "Generování PDF",
+    "title_prepare": "Příprava k tisku",
+    "message_generate": "Vyberte stránky pro výsledný PDF dokument.",    
+    "message_prepare": "Vyberte stránky k tisku.",
+    "page_from": "Od stránky",
+    "page_to": "Po stránku",
+    "page_count": "Počet vybraných stran:",
+    "max_page_count": "Maximální počet stran:",
+    "warning_generate": "Vytváření PDF dokumentu může trvat několik minut v závislosti na počtu vybraných stránek.",
+    "warning_prepare": "Příprava k tisku může trvat několik minut v závislosti na počtu vybraných stránek.",
+    "action_generate": "Generovat",
+    "action_prepare": "Připravit k tisku"
   },
   "model" : {
     "monograph" : "Kniha",

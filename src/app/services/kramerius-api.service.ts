@@ -5,7 +5,7 @@ import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
@@ -157,6 +157,21 @@ export class KrameriusApiService {
         }
         return url;
     }
+
+    getLocalPrintUrl(uuids: string[]) {
+        return this.BASE_URL + '/search/localPrintPDF'
+            + '?pids=' + uuids.join(',')
+            + '&pagesize=A4&imgop=FULL';
+    }
+
+    downloadPdef(uuids: string[]) {
+        const url = this.API_URL + '/pdf/selection'
+                + '?pids=' + uuids.join(',');
+        return this.http.get(url, {
+            responseType: ResponseContentType.Blob
+        });
+    }
+
 
     getOcr(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);

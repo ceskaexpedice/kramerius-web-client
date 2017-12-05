@@ -1,3 +1,4 @@
+import { DialogPdfComponent } from './dialog/dialog-pdf/dialog-pdf.component';
 import { BookControlsComponent } from './book/book-controls/book-controls.component';
 import { BrowseToolbarComponent } from './browse/browse-toolbar/browse-toolbar.component';
 import { AlertComponent } from './shared/alert/alert.component';
@@ -113,10 +114,12 @@ const ROUTES: Routes = [
     PaginatorComponent,
     AlertComponent,
     BookControlsComponent,
-    DialogOcrComponent
+    DialogOcrComponent,
+    DialogPdfComponent
   ],
   entryComponents: [
-    DialogOcrComponent
+    DialogOcrComponent,
+    DialogPdfComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,4 @@
+import { DialogPdfComponent } from './../dialog/dialog-pdf/dialog-pdf.component';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { UnauthorizedError } from './../common/errors/unauthorized-error';
 import { AppError } from './../common/errors/app-error';
@@ -184,11 +185,33 @@ export class BookService {
     }
 
     generatePdf() {
+        this.showPdfDialog('generate');
     }
 
     prepareToPrint() {
+        this.showPdfDialog('prepare');
     }
 
+
+    private showPdfDialog(type: string) {
+        const options = {
+            pageCount: this.getPageCount(),
+            currentPage: this.getPage().index,
+            doublePage: this.doublePage,
+            maxPageCount: 150,
+            uuids: this.uuids(),
+            type: type
+        };
+        this.modalService.open(DialogPdfComponent, options);
+    }
+
+    private uuids(): string[] {
+        const uuids = [];
+        for (const page of this.pages) {
+            uuids.push(page.uuid);
+        }
+        return uuids;
+    }
 
     toggleDoublePage() {
         this.doublePageEnabled = !this.doublePageEnabled;
