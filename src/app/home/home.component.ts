@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   newest: DocumentItem[];
   recommended: DocumentItem[];
   visited: DocumentItem[];
+  selectedTab = 'none';
 
   constructor(
     public state: AppState,
@@ -24,9 +25,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getVisited();
     this.getNewest();
     this.getRecommended();
-    this.getVisited();
   }
 
   getNewest() {
@@ -43,14 +44,11 @@ export class HomeComponent implements OnInit {
 
   getVisited() {
     this.visited = this.localStorageService.getVisited().slice(0, 6);
-  }
-
-  onTabSelected(t) {
-    console.log('t', t);
-  }
-
-  callbackFunction() {
-    console.log('callback');
+    if (this.visited.length >= 3) {
+      this.selectedTab = 'visited';
+    } else {
+      this.selectedTab = 'newest';
+    }
   }
 
 }

@@ -21,11 +21,11 @@
   </section>
 
   <section class="container home-bottom">
-    <mz-tab [responsiveThreshold]="'true'" [onShow]="callbackFunction()">
-      <mz-tab-item [label]="'home.tab_visited' | translate" [active]="'true'">
+    <mz-tab [responsiveThreshold]="'true'">
+      <mz-tab-item [label]="'home.tab_visited' | translate" [active]="selectedTab === 'visited'">
         <app-document-card *ngFor="let item of visited" [item]="item"></app-document-card>   
       </mz-tab-item>
-      <mz-tab-item [label]="'home.tab_latest' | translate">
+      <mz-tab-item [label]="'home.tab_latest' | translate" [active]="selectedTab === 'newest'">
         <app-document-card *ngFor="let item of newest" [item]="item"></app-document-card> 
       </mz-tab-item>
       <mz-tab-item [label]="'home.tab_recommended' | translate">
