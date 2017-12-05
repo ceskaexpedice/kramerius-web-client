@@ -12,8 +12,8 @@
     <mz-checkbox-container *ngIf="!onSearchScreen()">
       <input mz-checkbox [(ngModel)]="accessibilityFilter" [label]="'navbar.checkbox_label' | translate" id="checkbox-id" type="checkbox">
     </mz-checkbox-container> 
-  </div><!--/.col -->
-</div><!--/.row -->
+  </div>
+</div>
 <div class="row">
   <div class="col s12">
     <a mz-button [routerLink]="['/search']" [queryParams]="{q: '', accessibility: 'public'}" class="light-blue darken-3 z-depth-0">
@@ -22,5 +22,5 @@
       <span *ngIf="!searchStr">{{'home.btn_enter' | translate}}</span>
       <span *ngIf="searchStr">{{'home.btn_search' | translate}}</span>
     </a>
-  </div><!--/.col -->
-</div><!--/.row -->
+  </div>
+</div>
