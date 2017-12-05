@@ -265,7 +265,6 @@ export class BookService {
 
 
 
-
     private fetchImageProperties(leftPage: Page, rightPage: Page, first: boolean) {
         const page = first ? leftPage : rightPage;
         const url = this.krameriusApiService.getZoomifyRootUrl(page.uuid);

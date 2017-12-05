@@ -24,12 +24,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    $(document).ready(function(){
-      $('ul.tabs').tabs();
-    });
-    $(document).ready(function(){
-      $('.carousel').carousel();
-    });
     this.getNewest();
     this.getRecommended();
     this.getVisited();
@@ -37,18 +31,26 @@ export class HomeComponent implements OnInit {
 
   getNewest() {
     this.krameriusApiService.getNewest().subscribe(response => {
-      this.newest = response;
+      this.newest = response.slice(0, 6);
     });
   }
 
   getRecommended() {
     this.krameriusApiService.getRecommended().subscribe(response => {
-      this.recommended = response;
+      this.recommended = response.slice(0, 6);
     });
   }
 
   getVisited() {
-    this.visited = this.localStorageService.getVisited();
+    this.visited = this.localStorageService.getVisited().slice(0, 6);
+  }
+
+  onTabSelected(t) {
+    console.log('t', t);
+  }
+
+  callbackFunction() {
+    console.log('callback');
   }
 
 }

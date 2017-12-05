@@ -1,38 +1,39 @@
 <div class="app-content-wrapper">
-  <section class="container center-align">
+  <section class="container center-align home-top">
     <div class="row">
       <div class="col s12">
         <a [routerLink]="['']" class="brand-logo" mz-tooltip [tooltip]="'navbar.home' | translate" [position]="'bottom'">
           <img src="/assets/img/logo-kramerius.png" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />
         </a>
-      </div><!--/.col -->
-    </div><!--/.row -->
+      </div>
+    </div>
     <div class="row">
       <div class="col offset-s4 s4 offset-s4">
         <div class="divider"></div>
-      </div><!--/.col -->
-    </div><!--/.row -->
+      </div>
+    </div>
     <div class="row">
       <div class="col s12 grey-text text-darken-5">
         {{'home.desc' | translate}}
-      </div><!--/.col -->
-    </div><!--/.row -->
+      </div>
+    </div>
     <app-home-search-bar></app-home-search-bar>
   </section>
 
-  <!-- Musi se otestovat jestli existuje obsah alespon jednoho tabu + kolik tabu je a podle toho do elementu section priradit dohodnutou class a tim zmenit chovani vnitrnich elementu -->
-  <section class="container">
-    <mz-tab [swipeable]="'true'">
-      <mz-tab-item [class]="'app-item-visited'" [label]="'home.tab_visited' | translate" [active]="'true'">
+  <section class="container home-bottom">
+    <mz-tab [responsiveThreshold]="'true'" [onShow]="callbackFunction()">
+      <mz-tab-item [label]="'home.tab_visited' | translate" [active]="'true'">
         <app-document-card *ngFor="let item of visited" [item]="item"></app-document-card>   
       </mz-tab-item>
-      <mz-tab-item [class]="'app-item-newest'" [label]="'home.tab_latest' | translate">
+      <mz-tab-item [label]="'home.tab_latest' | translate">
         <app-document-card *ngFor="let item of newest" [item]="item"></app-document-card> 
       </mz-tab-item>
-      <mz-tab-item [class]="'app-item-recommended'" [label]="'home.tab_recommended' | translate">
+      <mz-tab-item [label]="'home.tab_recommended' | translate">
         <app-document-card *ngFor="let item of recommended" [item]="item"></app-document-card> 
       </mz-tab-item>
     </mz-tab>
   </section>
-</div><!--/.app-content-wrapper -->
+
+
+</div>
 
