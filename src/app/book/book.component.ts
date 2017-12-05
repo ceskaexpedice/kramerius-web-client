@@ -57,10 +57,10 @@ export class BookComponent implements OnInit, OnDestroy {
       }
     });
     this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
-      this.localStorageService.addToVisited(item);
       this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response);
         this.metadata.doctype = item.doctype;
+        this.localStorageService.addToVisited(item, this.metadata);
       });
     });
   }

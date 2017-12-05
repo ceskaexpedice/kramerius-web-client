@@ -1,3 +1,4 @@
+import { Metadata } from './../model/metadata.model';
 import { DocumentItem } from './../model/document_item.model';
 import { Injectable } from '@angular/core';
 
@@ -7,7 +8,7 @@ export class LocalStorageService {
 
     private static VISITED_TYPES = ['monograph', 'periodical', 'soundrecording', 'map', 'graphic', 'sheetmusic', 'archive', 'manuscript'];
 
-    addToVisited(item: DocumentItem) {
+    addToVisited(item: DocumentItem, metadata: Metadata) {
         if (LocalStorageService.VISITED_TYPES.indexOf(item.doctype) < 0) {
             return;
         }
@@ -22,6 +23,17 @@ export class LocalStorageService {
         if (match > -1) {
             visited.splice(match, 1);
         }
+        if (metadata) {
+            if (metadata.publishers.length > 0) {
+                item.date = metadata.publishers[0].date;
+            }
+            const authors = [];
+            for (const author of metadata.authors) {
+                authors.push(author.name);
+            }
+            item.authors = authors;
+        }
+
         visited.unshift(item);
         if (visited.length > 9) {
             visited.pop();
