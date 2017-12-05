@@ -28,27 +28,13 @@ export class HomeSearchBarComponent implements OnInit {
   ngOnInit() {
     this.accessibilityFilter = true;
     this.searchStr = '';
-    this.route.queryParams.subscribe(params => {
-      const accessibility = params['accessibility'];
-      if (accessibility === 'public') {
-        this.accessibilityFilter = true;
-      }
-      const q = params['q'];
-      if (q) {
-        this.searchStr = q;
-      } else {
-        this.searchStr = '';
-      }
-    });
   }
 
   onSelected(event) {
     if (event) {
-      const uuid = event['originalObject']['PID'];
       const title = event['title'];
       this.searchStr = title;
       this.search();
-      // this.router.navigate(['/search'], { queryParams: { q: title } });
     }
   }
 
