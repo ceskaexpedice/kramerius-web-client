@@ -1,4 +1,5 @@
 {
+  "app-name": "client Kramerius",
   "app-title": "Kramerius - client for searching in digitized documents",
   "common": {
     "of": "of",
@@ -95,7 +96,7 @@
     "failed_to_load_image": "Failed to load the image."
   },
   "home": {
-    "desc": "Searching in digital documents",
+    "desc": "searching in digital documents",
     "btn_enter": "Enter",
     "btn_search": "Search",
     "tab_visited": "My visited",

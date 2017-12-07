@@ -1,4 +1,5 @@
 {
+  "app-name": "klient Kramerius",
   "app-title": "Kramerius - klient pro vyhledávání v digitalizovaných dokumentech",
   "common": {
     "of": "z",
@@ -89,7 +90,7 @@
     "failed_to_load_image": "Obrázek se nepodařilo načíst"
   },
   "home": {
-    "desc": "Vyhledávání v digitalizovaných dokumentech",
+    "desc": "vyhledávání v digitalizovaných dokumentech",
     "btn_enter": "Vstupte",
     "btn_search": "Hledej",
     "tab_visited": "Moje navštívené",

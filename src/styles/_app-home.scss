@@ -7,6 +7,56 @@
     &:nth-child(2) {
       margin-bottom: 10px;
     }
+    
+    .col {
+      .brand-logo {
+        //behavior for library logo
+        font-size: inherit;
+        position: inherit;
+        display: table;
+        line-height: normal;
+        height: 40px;
+        margin-right: auto;
+        margin-left: auto;
+        
+        
+        .app-brand-img {
+          display: table-cell;
+          vertical-align: middle;
+          
+          img {
+            height: 40px;
+          }
+        }
+        
+        .app-brand-text {
+          display: table-cell;
+          vertical-align: middle;
+          padding: 0 10px;
+          font-size: 1.1rem;
+          line-height: 1.1rem;
+          color: $app-grey;
+        }
+        
+        .app-pipe {
+          padding-left: 13px; // 20
+        }
+      }
+      
+      &.app-desc {
+        font-size: 0.8rem !important;
+        color: $app-grey-l-2;
+        
+        span {
+          &:first-child {
+            color: $app-grey-d-2;
+          }
+          &:last-child {
+            color: $app-grey;
+          }
+        }
+      }
+    }
   }
 }
 .home-bottom {
