@@ -32,7 +32,7 @@ app-root {
       height: 100%;
       z-index: 10;
       background-color: $app-grey-l-5;
-      @include set-border(right, 2, solid, $app-grey-l-2);
+      @include set-border(right, 1, solid, $app-grey-l-2);
     }
     
     // home
@@ -84,6 +84,7 @@ app-root {
     
     // book
     app-book {
+      @import "styles/app-search-count";
       @import "styles/app-viewer";
       @import "styles/app-viewer-controls";      
       @import "styles/app-navigation";

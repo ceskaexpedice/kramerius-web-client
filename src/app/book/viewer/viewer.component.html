@@ -1,58 +1,57 @@
-<div id="app-viewer" class="viewer">
+<div id="app-viewer" class="app-viewer-wrapper">
   <app-viewer-controls></app-viewer-controls>
   
   <span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
-        class="handle left-handle" 
+        class="app-handle app-left-handle valign-wrapper" 
         (click)="controlsService.hideLeftPanel()" 
         mz-tooltip 
         [tooltip]="'view_controls.tooltip_hide_left' | translate" 
         [position]="'right'">
-    <i class="app-mdi-menu-left"></i>
+        <i class="app-mdi-menu-left"></i>
   </span>
 
-<span *ngIf="!controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
-      class="handle left-handle" 
-      (click)="controlsService.showLeftPanel()" 
-      mz-tooltip 
-      [tooltip]="'view_controls.tooltip_show_left' | translate" 
-      [position]="'right'">
-  <i class="app-mdi-menu-right"></i>
-</span>
+  <span *ngIf="!controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
+        class="app-handle app-left-handle valign-wrapper" 
+        (click)="controlsService.showLeftPanel()" 
+        mz-tooltip 
+        [tooltip]="'view_controls.tooltip_show_left' | translate" 
+        [position]="'right'">
+        <i class="app-mdi-menu-right"></i>
+  </span>
 
-<span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
-      class="handle right-handle" 
-      (click)="controlsService.hideRightPanel()" 
-      mz-tooltip 
-      [tooltip]="'view_controls.tooltip_hide_right' | translate" 
-      [position]="'left'">
-  <i class="app-mdi-menu-right"></i>
-</span>
+  <span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
+        class="app-handle app-right-handle valign-wrapper" 
+        (click)="controlsService.hideRightPanel()" 
+        mz-tooltip 
+        [tooltip]="'view_controls.tooltip_hide_right' | translate" 
+        [position]="'left'">
+        <i class="app-mdi-menu-right"></i>
+  </span>
 
-<span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
-      class="handle right-handle" 
-      (click)="controlsService.showRightPanel()" 
-      mz-tooltip 
-      [tooltip]="'view_controls.tooltip_show_right' | translate" 
-      [position]="'left'">
-  <i class="app-mdi-menu-left"></i>
-</span>
+  <span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
+        class="app-handle app-right-handle valign-wrapper" 
+        (click)="controlsService.showRightPanel()" 
+        mz-tooltip 
+        [tooltip]="'view_controls.tooltip_show_right' | translate" 
+        [position]="'left'">
+        <i class="app-mdi-menu-left"></i>
+  </span>
 
-<app-alert *ngIf="bookService.isPageInaccessible()"
-           type="warning"
-           title="alert.warning"
-           message="alert.inaccessible_document">
-</app-alert>
+  <app-alert *ngIf="bookService.isPageInaccessible()"
+             type="warning"
+             title="alert.warning"
+             message="alert.inaccessible_document">
+  </app-alert>
 
-<app-alert *ngIf="bookService.isPageFailure()"
-            type="danger"
-            title="alert.error"
-            message="alert.failed_to_load_image">
-</app-alert>
+  <app-alert *ngIf="bookService.isPageFailure()"
+              type="danger"
+              title="alert.error"
+              message="alert.failed_to_load_image">
+  </app-alert>
 
-<mz-spinner *ngIf="bookService.isPageLoading()"
-            class="medium-centered-spinner"
-            [color]="'blue'"
-            [size]="'medium'">
-</mz-spinner>
-
-</div>
+  <mz-spinner *ngIf="bookService.isPageLoading()"
+              class="medium-centered-spinner"
+              [color]="'blue'"
+              [size]="'medium'">
+  </mz-spinner>
+</div><!--/.app-viewer -->

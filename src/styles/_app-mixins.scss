@@ -27,6 +27,16 @@
     border-style: solid;
     border-color: $color;	
   }
+  @else if ($position == "right-top-bottom") {
+    border-width: #{$height}px #{$height}px #{$height}px 0; 
+    border-style: solid;
+    border-color: $color;	
+  }
+  @else if ($position == "left-top-bottom") {
+    border-width: #{$height}px 0 #{$height}px #{$height}px; 
+    border-style: solid;
+    border-color: $color;	
+  }
   @else {
     border-width: #{$height}px #{$height}px #{$height}px #{$height}px; 
     border-style: solid;

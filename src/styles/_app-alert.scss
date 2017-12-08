@@ -6,16 +6,16 @@
   margin-top: 0.75rem;
   
   &.alert-success {
-    @extend .green, .green-text;
+    @extend .green-text;
   }
   &.alert-info {
-    @extend .blue, .blue-text;
+    @extend .blue-text;
   }
   &.alert-warning {
-    @extend .yellow.lighten-4, .yellow-text;
+    @extend .yellow-text;
   }
   &.alert-danger {
-    @extend .red, .red-text;
+    @extend .red-text;
   }
   .close {
     position: absolute;

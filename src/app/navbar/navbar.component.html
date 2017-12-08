@@ -3,31 +3,7 @@
     <a mz-tooltip [tooltip]="'navbar.back' | translate" [position]="'bottom'" class="app-arrow-left">
       <i mz-icon-mdi [icon]="'arrow-left'" [align]="'left'"></i>
     </a>
-    <a [routerLink]="['']" class="brand-logo" mz-tooltip [tooltip]="'navbar.home' | translate" [position]="'bottom'">
-      <!--<img src="/assets/img/logo-kramerius.png" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />-->
-      <!-- examaple 1
-      <span class="app-brand-img">
-        <img src="http://registr.digitalniknihovna.cz/system/libraries/logos/000/000/016/thumb/logo_cbvk.png?1477231153" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />
-      </span>
-      <span class="app-brand-text">
-        Jihočeská vědecká knihovna v Českých Budějovicích
-      </span>
-      -->
-      <!-- examaple 2
-      <span class="app-brand-img">
-        <img src="http://registr.digitalniknihovna.cz/system/libraries/logos/000/000/004/thumb/logo_svkul.png?1477230868" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />
-      </span>
-      <span class="app-brand-text">
-        Severočeská vědecká knihovna v Ústí nad Labem
-      </span>
-      -->
-      <span class="app-brand-img">
-        <img src="http://registr.digitalniknihovna.cz/system/libraries/logos/000/000/001/thumb/logo_mzk.png?1477230761" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />
-      </span>
-      <span class="app-brand-text">
-        Moravská zemská knihovna
-      </span>
-    </a>
+    <app-logo></app-logo>
   </div><!--/.app-col-left -->
   
   <div *ngIf="state.activePage != '/'" class="col app-col-right">

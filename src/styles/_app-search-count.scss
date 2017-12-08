@@ -1,6 +1,8 @@
 // --- SEARCH COUNT ---
 
-app-search-count, app-browse-count {
+app-search-count, 
+app-browse-count, 
+app-book-controls {
   .collection {
     border: none;
     @extend .app-clean-mg;

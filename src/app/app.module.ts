@@ -63,6 +63,7 @@ import { SearchCalendarComponent } from './search/search-calendar/search-calenda
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.component';
 import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
+import { LogoComponent } from './logo/logo.component';
 
 
 const ROUTES: Routes = [
@@ -115,7 +116,8 @@ const ROUTES: Routes = [
     AlertComponent,
     BookControlsComponent,
     DialogOcrComponent,
-    DialogPdfComponent
+    DialogPdfComponent,
+    LogoComponent
   ],
   entryComponents: [
     DialogOcrComponent,

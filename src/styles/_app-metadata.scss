@@ -3,32 +3,38 @@
 app-metadata {
   margin-left: auto;
   transition: margin-right 0.5s;
+  @include set-border(left, 1, solid, $app-grey-l-2);
+  
   &.panel-hidden {
     margin-right: -$app-side-col-width;
     overflow: hidden;
   }
-  @include set-border(left, 2, solid, $app-grey-l-2);
   
   .app-metadata-wrapper {
     padding: 1rem;
     font-weight: 300;
     height: 100%;
     overflow: auto;
+    
     h5 {
       font-size: 1.1rem;
       line-height: 1.6rem;
       @extend .app-clean-mg;
       color: $primary-color;
     }
+    
     label {
       font-size: 0.9rem;
     }
+    
     .app-subtitle {
       color: $app-grey-d-3;
     }
+    
     .divider {
       margin: 10px 0;
     }
+    
     .app-value {
       font-weight: 400;
       font-size: 15px;

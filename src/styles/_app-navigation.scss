@@ -2,59 +2,64 @@
 
 app-navigation {
   transition: margin-left 0.5s;
+  @include set-border(right, 1, solid, $app-grey-l-2);
+  
   &.panel-hidden {
     margin-left: -$app-side-col-width;
     overflow: hidden;
   }
-  @include set-border(right, 2, solid, $app-grey-l-2);
   
-  .app-navigation-controls {
-    display: block;
-    width:100%;
-    height: 40px;
-    border-bottom: 1px solid #e0e0e0;
-    padding-left: 30px;
-    .book-control {
-      cursor: pointer;
-      display: block;
-      float: left;
-      margin: 0 4px;
-      padding: 8px;
-      opacity: 0.3;
-      &:hover {
-        opacity: 1;
+  app-book-controls {
+    .collection {
+      .collection-item {
+        i[class*="app-mdi-"] {
+          &:not(last-child) {
+            margin-right: 24px; 
+          }
+          
+          color: $app-grey;
+          
+          &:hover {
+            color: color("shades", "black");
+          }
+        }
       }
     }
   }
 
   .app-navigation-header {
-    height: 50px;
-    overflow: hidden;
-    width: 100%;
-    text-align: center;
-    color: #767c82;
-
-    input.current-page {
-      height: 45px;
-      margin: 0;
+    padding: 5px 20px 8px 20px;
+    margin-bottom: 1rem;
+    @include set-border(bottom, 1, solid, $app-grey-l-2);
+    
+    .app-current-page {
+      @extend .app-font-bold;
+      @extend .app-clean-mg;
       width: 30px;
-      text-align: right;
-      margin-right: 3px;
-      border-bottom: none;
-      font-size: 21px;
-      color: #333;
+      text-align: center;
+      height: 2rem;
+      color: $primary-color;
+    }
+    
+    span {
+      &:nth-child(2) {
+        margin: 0 8px 0 2px;
+      }
+      &:nth-child(3) {
+        @extend .app-font-bold;
+      }
+      &:last-child {
+        margin-left: 5px;
+      }
     }
   }
     
   .app-navigation-pages {
     height: calc(100% - 100px);
     overflow: scroll;
-    //padding: 10px 4px;
     padding: 0.5rem;
     padding-top: 0;
     
     @import "styles/app-navigation-item";
   }
-
-
 }

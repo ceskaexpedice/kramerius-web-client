@@ -1,14 +1,10 @@
-<app-book-controls class="app-navigation-controls"></app-book-controls>
+<app-book-controls></app-book-controls>
 
 <div class="app-navigation-header">
-
-
-  <input class="current-page" (change)="onPageIndexChanged()" type="text" value="23" [(ngModel)]="pageIndex"/>
-
+  <input class="app-current-page" (change)="onPageIndexChanged()" type="text" value="23" [(ngModel)]="pageIndex" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
   <span>{{ 'common.of' | translate }}</span>
-  
   <span>{{bookService.getPageCount()}}</span>
-
+  <span>{{ 'common.pages' | translate }}</span>
 </div>
 
 <div class="app-navigation-pages" id="app-navigation-container">

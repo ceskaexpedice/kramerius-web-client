@@ -3,7 +3,9 @@
   "app-title": "Kramerius - klient pro vyhledávání v digitalizovaných dokumentech",
   "common": {
     "of": "z",
-    "cancel": "Zrušit"
+    "cancel": "Zrušit",
+    "pages": "stránek",
+    "set_page_number": "Zadejte číslo stránky"
   },
   "navbar": {
     "collections": "Sbírky",

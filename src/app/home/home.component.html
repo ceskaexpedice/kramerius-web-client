@@ -2,16 +2,7 @@
   <section class="container center-align home-top">
     <div class="row">
       <div class="col s12">
-        <a [routerLink]="['']" class="brand-logo" mz-tooltip [tooltip]="'navbar.home' | translate" [position]="'bottom'">
-          <!--<img src="/assets/img/logo-kramerius.png" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />-->
-          <span class="app-brand-img">
-            <img src="http://registr.digitalniknihovna.cz/system/libraries/logos/000/000/001/thumb/logo_mzk.png?1477230761" class="img-responsive app-pipe" alt="{{'app-title' | translate}}" />
-          </span>
-          <span class="app-brand-text">
-            Moravská zemská knihovna
-            <!--Jihočeská vědecká knihovna v Českých Budějovicích-->
-          </span>
-        </a>
+        <app-logo></app-logo>
       </div>
     </div>
     <div class="row">
@@ -40,7 +31,5 @@
       </mz-tab-item>
     </mz-tab>
   </section>
-
-
 </div>
 

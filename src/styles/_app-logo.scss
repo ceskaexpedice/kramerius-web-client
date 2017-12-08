@@ -1,0 +1,55 @@
+// --- LOGO ---
+
+app-logo {
+  .brand-logo {
+    font-size: inherit;
+    position: inherit;
+    display: table;
+    line-height: normal;
+    height: $navbar-height;
+
+    .app-brand-img {
+      display: table-cell;
+      vertical-align: middle;
+
+      img {
+        height: 30px;
+      }
+    }
+
+    .app-brand-text {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 0 10px;
+      font-size: 0.8rem;
+      line-height: 1.1rem;
+      color: $app-grey;
+    }
+
+    // only for navbar
+    .app-pipe {
+      app-navbar & {
+        padding-left: 13px;
+        @include set-border(left, 1, solid, $app-grey-l-2); 
+      }
+    }
+    
+    // only for home
+    .home-top & {
+      height: 40px;
+      margin-right: auto;
+      margin-left: auto;
+
+      .app-brand-img {
+        img {
+          height: 40px;
+        }
+      }
+
+      .app-brand-text {
+        font-size: 1.1rem;
+        line-height: 1.1rem;
+      } 
+    }
+  }
+}

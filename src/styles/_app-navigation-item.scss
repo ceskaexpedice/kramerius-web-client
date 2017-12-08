@@ -27,12 +27,11 @@
     right: 0.5rem;
     padding: 2px;
     text-align: center;
-    //background-color: $app-grey-l-5;
     background: rgba(255, 255, 255, 0.6);
     color: color("shades", "black");
   }
   &.active {
-    background: #777;
+    background: $app-grey-d-1;
   }
 
 }

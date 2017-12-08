@@ -3,7 +3,9 @@
   "app-title": "Kramerius - client for searching in digitized documents",
   "common": {
     "of": "of",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "pages": "pages",
+    "set_page_number": "Set page number"
   },
   "navbar": {
     "collections": "Collections",
@@ -136,7 +138,11 @@
     "tooltip_page_hide_left": "Hide pages",
     "tooltip_page_show_left": "Show pages",
     "tooltip_page_hide_right": "Hide details",
-    "tooltip_page_show_right": "Show details"
+    "tooltip_page_show_right": "Show details",
+    "tooltip_hide_left": "Hide thumbails",
+    "tooltip_show_left": "Show thumbails",
+    "tooltip_hide_right": "Hide details",
+    "tooltip_show_right": "Show details"
   },
   "book_controls": {
     "tooltip_print": "Prepare to print",
