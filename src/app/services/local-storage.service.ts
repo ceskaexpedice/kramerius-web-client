@@ -7,6 +7,9 @@ import { Injectable } from '@angular/core';
 export class LocalStorageService {
 
     private static VISITED_TYPES = ['monograph', 'periodical', 'soundrecording', 'map', 'graphic', 'sheetmusic', 'archive', 'manuscript'];
+    
+    
+    public static FEATURED_TAB = 'featured_tab';
 
     addToVisited(item: DocumentItem, metadata: Metadata) {
         if (LocalStorageService.VISITED_TYPES.indexOf(item.doctype) < 0) {
@@ -43,6 +46,14 @@ export class LocalStorageService {
 
     getVisited(): DocumentItem[] {
         return JSON.parse(localStorage.getItem('visited') || '[]');
+    }
+
+    getProperty(tab: string) {
+        return localStorage.getItem(tab);
+    }
+
+    setProperty(tab: string, property) {
+        return localStorage.setItem(tab, property);
     }
 
 

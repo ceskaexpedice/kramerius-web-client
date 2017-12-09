@@ -6,8 +6,7 @@ import { AppState } from '../app.state';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
 
@@ -30,6 +29,12 @@ export class HomeComponent implements OnInit {
     this.getRecommended();
   }
 
+
+  changeTab(tab: string) {
+    this.localStorageService.setProperty(LocalStorageService.FEATURED_TAB, tab);
+    this.selectedTab = tab;
+  }
+
   getNewest() {
     this.krameriusApiService.getNewest().subscribe(response => {
       this.newest = response.slice(0, 6);
@@ -44,10 +49,13 @@ export class HomeComponent implements OnInit {
 
   getVisited() {
     this.visited = this.localStorageService.getVisited().slice(0, 6);
-    if (this.visited.length >= 3) {
-      this.selectedTab = 'visited';
-    } else {
-      this.selectedTab = 'newest';
+    this.selectedTab = this.localStorageService.getProperty(LocalStorageService.FEATURED_TAB);
+    if (this.selectedTab !== 'visited' && this.selectedTab !== 'newest' && this.selectedTab !== 'recommended') {
+      if (this.visited.length >= 3) {
+        this.selectedTab = 'visited';
+      } else {
+        this.selectedTab = 'newest';
+      }
     }
   }
 
