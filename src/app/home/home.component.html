@@ -12,24 +12,44 @@
     </div>
     <div class="row">
       <div class="col s12 app-desc">
-        <span >{{'app-name' | translate}}</span> | <span>{{'home.desc' | translate}}</span>
+        <span>{{'app-name' | translate}}</span> |
+        <span>{{'home.desc' | translate}}</span>
       </div>
     </div>
     <app-home-search-bar></app-home-search-bar>
   </section>
 
-  <section class="container home-bottom">
-    <mz-tab [responsiveThreshold]="'true'">
-      <mz-tab-item [label]="'home.tab_visited' | translate" [active]="selectedTab === 'visited'">
-        <app-document-card *ngFor="let item of visited" [item]="item"></app-document-card>   
-      </mz-tab-item>
-      <mz-tab-item [label]="'home.tab_latest' | translate" [active]="selectedTab === 'newest'">
-        <app-document-card *ngFor="let item of newest" [item]="item"></app-document-card> 
-      </mz-tab-item>
-      <mz-tab-item [label]="'home.tab_recommended' | translate">
-        <app-document-card *ngFor="let item of recommended" [item]="item"></app-document-card> 
-      </mz-tab-item>
-    </mz-tab>
-  </section>
-</div>
 
+
+
+  <div class="container featured">
+    <div class="tabs">
+      <div class="tab" [class.active]="selectedTab === 'visited'" (click)="selectedTab = 'visited'">
+        {{ 'home.tab_visited' | translate }}
+      </div>
+      <div class="tab" [class.active]="selectedTab === 'newest'" (click)="selectedTab = 'newest'">
+        {{ 'home.tab_latest' | translate }}
+      </div>
+      <div class="tab" [class.active]="selectedTab === 'recommended'" (click)="selectedTab = 'recommended'">
+        {{ 'home.tab_recommended' | translate }}
+      </div>
+    </div>
+
+    <div class="items">
+      <div *ngIf="selectedTab === 'visited'">
+        <app-document-card *ngFor="let item of visited" [item]="item"></app-document-card>
+      </div>
+
+      <div *ngIf="selectedTab === 'newest'">
+        <app-document-card *ngFor="let item of newest" [item]="item"></app-document-card>
+      </div>
+
+      <div *ngIf="selectedTab === 'recommended'">
+        <app-document-card *ngFor="let item of recommended" [item]="item"></app-document-card>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>

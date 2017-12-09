@@ -29,30 +29,32 @@
   }
 }
 
-.home-bottom {
-  margin-top: 80px;  
-  mz-tab {
-    .tabs {
-      @include set-border(bottom, 1, solid, $app-grey-c-2);
-      
-      .tab {
-        width: 33.33333333%; 
+
+.featured {
+  margin-top: 80px;    
+  .tabs {
+    @extend .clearfix;
+    .tab {
+      width: 33.33333333%; 
+      float: left;
+      cursor: pointer;
+      color: $primary-color;
+      border-bottom: 2px solid transparent;
+      transition: border-bottom 0.4s ease-in-out;
+      &.active {
+        border-bottom: 2px solid $primary-color;
+      }
+      &:hover {
+        color: $primary-color-light;
       }
     }
-    & > div {
-      padding: 10px 0;
-      
-      mz-tab-item {
-        & > div {
-          @extend .clearfix;
-          
-          app-document-card {
-            width: 33.33%;
-            display: block;
-            float: left;
-          }
-        } 
-      }
-    } 
+  }
+  .items {
+    padding: 10px 0;
+    app-document-card {
+      width: 33.33%;
+      display: block;
+      float: left;
+    }
   }
 }
