@@ -1,0 +1,20 @@
+<mz-modal #modal [fixedFooter]="false" class="app-dialog-share">
+  <mz-modal-header>
+    {{ 'share-dialog.title' | translate }}
+  </mz-modal-header>
+  <mz-modal-content>
+    <mz-input-container>
+      <input disabled="true" mz-input label="{{ 'share-dialog.link' | translate }}" [(ngModel)]="link" type="text">
+    </mz-input-container>
+
+    <div class="social">
+      <div class="label">Sdílet na sociálních sítích</div>
+      <i class="app-mdi-share-facebook" (click)="share('facebook')"></i>
+      <i class="app-mdi-share-twitter" (click)="share('twitter')"></i>
+      <i class="app-mdi-share-gplus" (click)="share('gplus')"></i>      
+    </div>
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>{{ 'common.close' | translate }}</button>
+  </mz-modal-footer>
+</mz-modal>

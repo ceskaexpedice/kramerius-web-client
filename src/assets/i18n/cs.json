@@ -4,6 +4,7 @@
   "common": {
     "of": "z",
     "cancel": "Zrušit",
+    "close": "Zavřít",
     "pages": "stránek",
     "set_page_number": "Zadejte číslo stránky"
   },
@@ -140,7 +141,9 @@
     "tooltip_pdf": "Vygenerovat PDF",
     "tooltip_jpg": "JPEG stránky",
     "tooltip_ocr": "Textový přepis stránky",
-    "tooltip_quote": "Zobrazit citaci"
+    "tooltip_quote": "Zobrazit citaci",
+    "tooltip_share": "Sdílet"
+    
   },
   "pdf-dialog": {
     "title_generate": "Generování PDF",
@@ -155,6 +158,10 @@
     "warning_prepare": "Příprava k tisku může trvat několik minut v závislosti na počtu vybraných stránek.",
     "action_generate": "Generovat",
     "action_prepare": "Připravit k tisku"
+  },
+  "share-dialog": {
+    "title": "Sdílet dokument",
+    "link": "Odkaz pro sdílení"
   },
   "model" : {
     "monograph" : "Kniha",

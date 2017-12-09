@@ -14,8 +14,8 @@ app-navigation {
     .collection {
       .collection-item {
         i[class*="app-mdi-"] {
-          margin-left: 15px; 
-          margin-right: 9px;    
+          margin-left: 10px; 
+          margin-right: 10px;    
           color: $app-grey;
           &:hover {
             color: color("shades", "black");

@@ -1,3 +1,4 @@
+import { DialogShareComponent } from './../dialog/dialog-share/dialog-share.component';
 import { DialogPdfComponent } from './../dialog/dialog-pdf/dialog-pdf.component';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { UnauthorizedError } from './../common/errors/unauthorized-error';
@@ -196,6 +197,19 @@ export class BookService {
         this.showPdfDialog('prepare');
     }
 
+    showShareDialog() {
+        const options = {
+            link: this.getPagePersistentLink()
+        };
+        this.modalService.open(DialogShareComponent, options);
+    }
+
+
+    private getPagePersistentLink() {
+        const link = location.protocol + '//' + location.host + '/uuid/' + this.getPage().uuid;
+        console.log(link);
+        return link;
+    }
 
     private showPdfDialog(type: string) {
         const options = {

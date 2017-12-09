@@ -1,4 +1,4 @@
-import { DocumentItem } from './../model/document_item.model';
+import { DocumentItem, Context } from './../model/document_item.model';
 import { Injectable } from '@angular/core';
 
 
@@ -27,6 +27,11 @@ export class Utils {
         item.doctype = json['model'];
         item.date = json['datumstr'];
         item.authors = json['author'];
+        if (json['context'] && json['context'][0]) {
+            for (const context of json['context'][0]) {
+                item.context.push(new Context(context['pid'], context['model']));
+            }
+        }
 
         if (item.doctype === 'periodicalvolume' && json['details']) {
             item.volumeNumber = json['details']['volumeNumber'];

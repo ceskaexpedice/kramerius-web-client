@@ -1,3 +1,4 @@
+import { DialogShareComponent } from './dialog/dialog-share/dialog-share.component';
 import { DialogPdfComponent } from './dialog/dialog-pdf/dialog-pdf.component';
 import { BookControlsComponent } from './book/book-controls/book-controls.component';
 import { BrowseToolbarComponent } from './browse/browse-toolbar/browse-toolbar.component';
@@ -64,6 +65,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.component';
 import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
 import { LogoComponent } from './logo/logo.component';
+import { PersistentLinkComponent } from './persistent-link/persistent-link.component';
 
 
 const ROUTES: Routes = [
@@ -71,6 +73,7 @@ const ROUTES: Routes = [
   { path: 'browse', component: BrowseComponent },
   { path: 'search', component: SearchComponent },
   { path: 'periodical/:uuid', component: PeriodicalComponent },
+  { path: 'uuid/:uuid', component: PersistentLinkComponent },
   // { path: 'help', component: HelpComponent },
   { path: 'view/:uuid', component: BookComponent },
   { path: 'view', component: BookComponent }
@@ -117,11 +120,14 @@ const ROUTES: Routes = [
     BookControlsComponent,
     DialogOcrComponent,
     DialogPdfComponent,
-    LogoComponent
+    DialogShareComponent,
+    LogoComponent,
+    PersistentLinkComponent
   ],
   entryComponents: [
     DialogOcrComponent,
-    DialogPdfComponent
+    DialogPdfComponent,
+    DialogShareComponent
   ],
   imports: [
     BrowserModule,

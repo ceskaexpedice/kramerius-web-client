@@ -9,6 +9,7 @@ export class DocumentItem {
     url: string;
     volumeNumber: string;
     volumeYear: string;
+    context: Context[] = [];
 
     constructor() {
     }
@@ -21,4 +22,11 @@ export class DocumentItem {
         }
     }
 
+}
+
+export class Context {
+
+    constructor(public uuid: string, public doctype: string) {
+
+    }
 }

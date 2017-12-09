@@ -32,8 +32,14 @@
 .app-mdi-double-page {@include set-mdi-icon(before, f0be, 24, middle);}
 
 // book controls
-.app-mdi-book-print {@include set-mdi-icon(before, f42a, 24, middle);}
-.app-mdi-book-pdf {@include set-mdi-icon(before, f225, 24, middle);}
-.app-mdi-book-jpg {@include set-mdi-icon(before, f2e9, 24, middle);}
-.app-mdi-book-ocr {@include set-mdi-icon(before, f284, 24, middle);}
-.app-mdi-book-quote {@include set-mdi-icon(before, f27e, 24, middle);}
+.app-mdi-book-print {@include set-mdi-icon(before, f42a, 20, middle);}
+.app-mdi-book-pdf {@include set-mdi-icon(before, f225, 20, middle);}
+.app-mdi-book-jpg {@include set-mdi-icon(before, f2e9, 20, middle);}
+.app-mdi-book-ocr {@include set-mdi-icon(before, f284, 20, middle);}
+.app-mdi-book-quote {@include set-mdi-icon(before, f27e, 20, middle);}
+.app-mdi-book-share {@include set-mdi-icon(before, f497, 20, middle);}
+
+// share
+.app-mdi-share-facebook {@include set-mdi-icon(before, f20c, 30, middle);}
+.app-mdi-share-gplus {@include set-mdi-icon(before, f2bd, 30, middle);}
+.app-mdi-share-twitter {@include set-mdi-icon(before, f544, 30, middle);}
