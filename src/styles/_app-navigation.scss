@@ -1,6 +1,7 @@
 // --- NAVIGATION ---
 
 app-navigation {
+  overflow: hidden;
   transition: margin-left 0.5s;
   @include set-border(right, 1, solid, $app-grey-l-2);
   
@@ -13,12 +14,9 @@ app-navigation {
     .collection {
       .collection-item {
         i[class*="app-mdi-"] {
-          &:not(last-child) {
-            margin-right: 24px; 
-          }
-          
+          margin-left: 15px; 
+          margin-right: 9px;    
           color: $app-grey;
-          
           &:hover {
             color: color("shades", "black");
           }
@@ -55,7 +53,7 @@ app-navigation {
   }
     
   .app-navigation-pages {
-    height: calc(100% - 100px);
+    height: calc(100% - 114px);
     overflow: scroll;
     padding: 0.5rem;
     padding-top: 0;
