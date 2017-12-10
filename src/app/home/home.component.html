@@ -36,18 +36,19 @@
     </div>
 
     <div class="items">
-      <div *ngIf="selectedTab === 'visited'">
-        <app-document-card *ngFor="let item of visited" [item]="item"></app-document-card>
-      </div>
-
-      <div *ngIf="selectedTab === 'newest'">
-        <app-document-card *ngFor="let item of newest" [item]="item"></app-document-card>
-      </div>
-
-      <div *ngIf="selectedTab === 'recommended'">
-        <app-document-card *ngFor="let item of recommended" [item]="item"></app-document-card>
-      </div>
+      <app-document-card *ngFor="let item of getActiveItems()" [item]="item"></app-document-card>
     </div>
+
+    <app-paginator 
+        [activeIndex]="page"
+        [overallCount]="getNumberOfActiveItems()"
+        [step]="step"
+        (next)="page = page + 1"
+        (previous)="page = page - 1"
+        (change)="page = $event">
+    </app-paginator> 
+
+
 
   </div>
 

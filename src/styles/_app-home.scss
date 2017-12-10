@@ -51,6 +51,8 @@
   }
   .items {
     padding: 10px 0;
+    overflow: hidden;
+    display: block;
     app-document-card {
       width: 33.33%;
       display: block;

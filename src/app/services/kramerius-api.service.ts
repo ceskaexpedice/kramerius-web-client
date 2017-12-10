@@ -95,7 +95,7 @@ export class KrameriusApiService {
 
 
     getNewest() {
-        const url = this.API_URL + '/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph%20OR%20fedora.model:periodical%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=9&start=0';
+        const url = this.API_URL + '/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph%20OR%20fedora.model:periodical%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=24&start=0';
         return this.http.get(url)
             .map(response => this.solrService.documentItems(response.json()))
             .catch(this.handleError);

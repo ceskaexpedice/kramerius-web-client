@@ -1,11 +1,11 @@
 <ul class="pagination" *ngIf="numberOfPages() > 1">
-  <li *ngIf="hasPrevious()" class="waves-effect app-arrow">
+  <li [class.disabled]="!hasPrevious()" class="waves-effect app-arrow">
     <a (click)="onPrevious()"><i mz-icon-mdi [icon]="'chevron-left'"></i></a>
   </li>
   <li *ngFor="let page of pages()" [class.active]="isActive(page)" class="waves-effect" >
     <a (click)="onIndex(page)">{{page}}</a>
   </li>
-  <li *ngIf="hasNext()" class="waves-effect app-arrow">
+  <li [class.disabled]="!hasNext()" class="waves-effect app-arrow">
     <a (click)="onNext()"><i mz-icon-mdi [icon]="'chevron-right'"></i></a>
   </li>
 </ul>

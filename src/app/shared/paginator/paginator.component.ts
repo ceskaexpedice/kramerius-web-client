@@ -22,11 +22,15 @@ export class PaginatorComponent implements OnInit {
   }
 
   onNext() {
-    this.next.emit();
+    if (this.hasNext()) {
+      this.next.emit();
+    }
   }
 
   onPrevious() {
-    this.previous.emit();
+    if (this.hasPrevious()) {
+      this.previous.emit();
+    }
   }
 
   onIndex(index: number) {

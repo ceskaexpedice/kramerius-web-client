@@ -13,6 +13,12 @@ app-paginator {
       &:not(.app-arrow):not(.active):hover {
         background-color: $app-grey-l-2;
       }
+      &.disabled {
+        opacity: 0.3;
+        a {
+          cursor: default !important;
+        }
+      }
     }
   }
 }
