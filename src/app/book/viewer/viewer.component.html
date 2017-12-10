@@ -49,7 +49,7 @@
               message="alert.failed_to_load_image">
   </app-alert>
 
-  <mz-spinner *ngIf="bookService.isPageLoading()"
+  <mz-spinner *ngIf="bookService.isLoading()"
               class="medium-centered-spinner"
               [color]="'blue'"
               [size]="'medium'">

@@ -1,3 +1,4 @@
+import { BookState } from './book.service';
 import { LocalStorageService } from './local-storage.service';
 import { DialogShareComponent } from './../dialog/dialog-share/dialog-share.component';
 import { DialogPdfComponent } from './../dialog/dialog-pdf/dialog-pdf.component';
@@ -29,6 +30,8 @@ export class BookService {
     public doublePageEnabled = false;
 
     public pageState: BookPageState;
+    public bookState: BookState = BookState.Loading;
+
 
     constructor(private location: Location,
         private localStorageService: LocalStorageService,
@@ -93,6 +96,7 @@ export class BookService {
                 this.pages[i + 1].position = PagePosition.Right;
             }
         }
+        this.bookState = BookState.Success;
         this.goToPageOnIndex(currentPage);
     }
 
@@ -131,8 +135,8 @@ export class BookService {
         return this.pageState === BookPageState.Failure;
     }
 
-    isPageLoading() {
-        return this.pageState === BookPageState.Loading;
+    isLoading() {
+        return this.bookState === BookState.Loading || this.pageState === BookPageState.Loading;
     }
 
     goToPrevious() {
@@ -415,4 +419,8 @@ export class BookService {
 
 export enum BookPageState {
     Success, Loading, Inaccessible, Failure, None
+}
+
+export enum BookState {
+    Success, Loading, Failure, None
 }
