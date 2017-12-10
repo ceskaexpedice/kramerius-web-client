@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../services/local-storage.service';
 import { SearchService } from './../../services/search.service';
 import { AppState } from './../../app.state';
 import { LibrarySearchService } from './../../services/library-search.service';
@@ -6,14 +7,12 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-navbar-search-bar',
-  templateUrl: './navbar-search-bar.component.html',
-  styleUrls: ['./navbar-search-bar.component.scss']
+  templateUrl: './navbar-search-bar.component.html'
 })
 export class NavbarSearchBarComponent implements OnInit {
 
   @Input() autocomplete;
   @Input() input;
-  accessibilityFilter: boolean;
 
   searchStr: string;
 
@@ -21,18 +20,14 @@ export class NavbarSearchBarComponent implements OnInit {
     public router: Router,
     private state: AppState,
     private route: ActivatedRoute,
+    private localStorageService: LocalStorageService,
     private searchService: SearchService,
     public service: LibrarySearchService) {
   }
 
   ngOnInit() {
-    this.accessibilityFilter = true;
     this.searchStr = '';
     this.route.queryParams.subscribe(params => {
-      const accessibility = params['accessibility'];
-      if (accessibility === 'public') {
-        this.accessibilityFilter = true;
-      }
       const q = params['q'];
       if (q) {
         this.searchStr = q;
@@ -48,7 +43,6 @@ export class NavbarSearchBarComponent implements OnInit {
       const title = event['title'];
       this.searchStr = title;
       this.search();
-      // this.router.navigate(['/search'], { queryParams: { q: title } });
     }
   }
 
@@ -71,7 +65,7 @@ export class NavbarSearchBarComponent implements OnInit {
       this.searchService.changeQueryString(q);
     } else {
       const params = { q: q };
-      if (this.accessibilityFilter) {
+      if (this.localStorageService.getProperty(LocalStorageService.ACCESSIBILITY_FILTER) !== '0') {
         params['accessibility'] = 'public';
       }
       this.router.navigate(['/search'], { queryParams: params });

@@ -4,11 +4,11 @@
       <i mz-icon-mdi [icon]="'arrow-left'" [align]="'left'"></i>
     </a>
     <app-logo></app-logo>
-  </div><!--/.app-col-left -->
+  </div>
   
   <div *ngIf="state.activePage != '/'" class="col app-col-right">
     <app-navbar-search-bar></app-navbar-search-bar>
-  </div><!--/.app-col-right -->
+  </div>
   <mz-navbar-item-container [align]="'right'">
     <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
       <a routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
@@ -16,9 +16,6 @@
     <mz-navbar-item routerLinkActive="active" #browse="routerLinkActive">
       <a routerLink='browse'>{{ 'navbar.browse' | translate }}</a>
     </mz-navbar-item>
-    <!-- <mz-navbar-item routerLinkActive="active" #help="routerLinkActive">
-      <a routerLink='help'>{{ 'navbar.help' | translate }}</a>
-    </mz-navbar-item> -->
     <mz-navbar-item><a *ngIf="translator.language == 'cs'" (click)='onLanguageChanged("en")'>English</a></mz-navbar-item>
     <mz-navbar-item><a *ngIf="translator.language == 'en'" (click)='onLanguageChanged("cs")'>Česky</a></mz-navbar-item>
   </mz-navbar-item-container>

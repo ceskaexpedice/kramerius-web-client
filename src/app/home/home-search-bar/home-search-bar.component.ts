@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../services/local-storage.service';
 import { SearchService } from './../../services/search.service';
 import { AppState } from './../../app.state';
 import { LibrarySearchService } from './../../services/library-search.service';
@@ -6,8 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-home-search-bar',
-  templateUrl: './home-search-bar.component.html',
-  styleUrls: ['./home-search-bar.component.scss']
+  templateUrl: './home-search-bar.component.html'
 })
 export class HomeSearchBarComponent implements OnInit {
 
@@ -22,11 +22,12 @@ export class HomeSearchBarComponent implements OnInit {
     private state: AppState,
     private route: ActivatedRoute,
     private searchService: SearchService,
+    private localStorageService: LocalStorageService,
     public service: LibrarySearchService) {
   }
 
   ngOnInit() {
-    this.accessibilityFilter = true;
+    this.accessibilityFilter = this.localStorageService.getProperty(LocalStorageService.ACCESSIBILITY_FILTER) !== '0';
     this.searchStr = '';
   }
 
@@ -53,21 +54,13 @@ export class HomeSearchBarComponent implements OnInit {
     if (q == null) {
       q = '';
     }
-    if (this.onSearchScreen()) {
-      this.searchService.changeQueryString(q);
-    } else {
-      const params = { q: q };
-      if (this.accessibilityFilter) {
-        params['accessibility'] = 'public';
-      }
-      this.router.navigate(['/search'], { queryParams: params });
+    const params = { q: q };
+    this.localStorageService.setProperty(LocalStorageService.ACCESSIBILITY_FILTER, this.accessibilityFilter ? '1' : '0');
+    if (this.accessibilityFilter) {
+      params['accessibility'] = 'public';
     }
+    this.router.navigate(['/search'], { queryParams: params });
   }
-
-  onSearchScreen() {
-    return this.state.activePage.startsWith('/search');
-  }
-
 
 
 }

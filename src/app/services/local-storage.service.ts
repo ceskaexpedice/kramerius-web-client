@@ -9,6 +9,7 @@ export class LocalStorageService {
     private static VISITED_TYPES = ['monograph', 'periodical', 'soundrecording', 'map', 'graphic', 'sheetmusic', 'archive', 'manuscript'];
 
     public static FEATURED_TAB = 'featured_tab';
+    public static ACCESSIBILITY_FILTER = 'accessibility_filter';
     public static DOUBLE_PAGE = 'double_page';
 
     addToVisited(item: DocumentItem, metadata: Metadata) {
