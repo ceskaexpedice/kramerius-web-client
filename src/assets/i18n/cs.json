@@ -116,7 +116,9 @@
   },
   "periodical": {
     "volume": "Ročník: {{volume}}",
-    "issue": "Číslo: {{issue}}"   
+    "issue": "Číslo: {{issue}}",
+    "previous_volume": "Předchozi ročník",   
+    "next_volume": "Následující ročník"
   },
   "view_controls": {
     "tooltip_zoom_in": "Přiblížit",

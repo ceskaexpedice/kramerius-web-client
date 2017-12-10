@@ -7,6 +7,35 @@ app-periodical-toolbar {
   margin: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-c-2);
           
+
+  .volume-navigation {
+    position: absolute; 
+    left: calc(50% - 55px);
+    overflow: hidden;
+    .current-volume {
+      color: $app-grey-d-1;
+      font-size: 1.4rem;
+      display: block;
+      float: left;
+      margin: 0 10px;
+      height: $app-toolbar-height;
+      line-height: $app-toolbar-height;
+    }
+    a {
+      color: $app-grey;
+      display: block;
+      float: left;
+      margin-top: 15px;
+      &:not(.disabled):hover {
+        color: color("shades", "black");
+      }
+      &.disabled {
+        opacity: 0.3;
+        cursor: default !important;
+      }
+    }
+  }
+
   .col {
     @extend .app-clean-pd;
     
@@ -27,6 +56,7 @@ app-periodical-toolbar {
         }
       }
     }
+
     
     // col left
     &.app-col-left {
@@ -40,6 +70,8 @@ app-periodical-toolbar {
         font-size: 1.4rem;
       }
     }
+
+
     
     // col right
     &.app-col-right {

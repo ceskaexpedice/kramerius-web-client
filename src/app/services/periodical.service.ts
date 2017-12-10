@@ -26,6 +26,8 @@ export class PeriodicalService {
   daysOfMonths: any[];
   daysOfMonthsItems: any[];
 
+  volumeDetail;
+
   constructor(private solrService: SolrService,
     private modsParserService: ModsParserService,
     private localStorageService: LocalStorageService,
@@ -38,18 +40,18 @@ export class PeriodicalService {
     this.state = PeriodicalState.Loading;
     this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
       this.document = item;
-      this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
+      this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response);
-        this.metadata.volume.number = item.volumeNumber;
-        this.metadata.volume.year = item.volumeYear;
+        this.metadata.volume.number = this.document.volumeNumber;
+        this.metadata.volume.year = this.document.volumeYear;
         if (this.isPeriodical()) {
-          this.localStorageService.addToVisited(item, this.metadata);
+          this.localStorageService.addToVisited(this.document, this.metadata);
           this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(volumes => {
             this.assignItems(this.solrService.periodicalItems(volumes));
             this.initPeriodical();
           });
         } else if (this.isPeriodicalVolume()) {
-          this.krameriusApiService.getPeriodicalIssues(item.root_uuid, uuid).subscribe(issues => {
+          this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, uuid).subscribe(issues => {
             this.assignItems(this.solrService.periodicalItems(issues));
             this.initPeriodicalVolume();
           });
@@ -75,6 +77,7 @@ export class PeriodicalService {
     this.yearItems = null;
     this.items = null;
     this.yearItems = null;
+    this.volumeDetail = null;
     this.dates = [];
     this.daysOfMonths = [];
     this.daysOfMonthsItems = [];
@@ -102,6 +105,29 @@ export class PeriodicalService {
   }
 
 
+  private assignVolumeDetails(volumes: PeriodicalItem[]) {
+    if (!volumes || volumes.length < 1) {
+      return;
+    }
+    let index = -1;
+    for (let i = 0; i < volumes.length; i++) {
+      if (volumes[i].uuid === this.document.uuid) {
+        index = i;
+        break;
+      }
+    }
+    if (index < 0) {
+      return;
+    }
+    this.volumeDetail = {};
+    this.volumeDetail['current'] = volumes[index];
+    if (index > 0) {
+      this.volumeDetail['previous'] = volumes[index - 1];
+    }
+    if (index < volumes.length - 1) {
+      this.volumeDetail['next'] = volumes[index + 1];
+    }
+  }
 
   private assignItems(items: PeriodicalItem[]) {
     this.items = items;
@@ -111,7 +137,9 @@ export class PeriodicalService {
   }
 
   private initPeriodicalVolume() {
-    this.state = PeriodicalState.Success;
+    this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid).subscribe(volumes => {
+      this.assignVolumeDetails(this.solrService.periodicalItems(volumes));
+    });
     this.yearsLayoutEnabled = false;
     this.gridLayoutEnabled = true;
     const year = this.document.volumeYear;
@@ -126,6 +154,7 @@ export class PeriodicalService {
       this.activeLayout = 'grid';
       this.calendarLayoutEnabled = false;
     }
+    this.state = PeriodicalState.Success;
   }
 
 

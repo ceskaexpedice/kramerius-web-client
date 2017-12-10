@@ -2,6 +2,20 @@
   <div *ngIf="periodicalService.metadata" class="col app-col-left">
     <h5>{{periodicalService.metadata.getTitle()}}</h5>
   </div>
+
+  <div *ngIf="periodicalService.volumeDetail" class="volume-navigation">
+    <a *ngIf="periodicalService.volumeDetail.previous" [routerLink]="['/periodical', periodicalService.volumeDetail.previous.uuid]"
+      class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.previous_volume' | translate" [position]="'bottom'">
+    </a>
+    <a *ngIf="!periodicalService.volumeDetail.previous" class="app-mdi-periodical-previous disabled"></a>
+    <span class="current-volume">{{ periodicalService.volumeDetail.current.title }}</span>
+    <a *ngIf="periodicalService.volumeDetail.next" [routerLink]="['/periodical', periodicalService.volumeDetail.next.uuid]"
+      class="app-mdi-periodical-next" mz-tooltip [tooltip]="'periodical.next_volume' | translate" [position]="'bottom'">
+    </a>
+    <a *ngIf="!periodicalService.volumeDetail.next" class="app-mdi-periodical-next disabled"></a>
+  </div>
+
+
   <div class="col app-col-right">
     <ul class="right">
       <li *ngIf="periodicalService.gridLayoutEnabled" (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid'">
@@ -22,5 +36,3 @@
     </ul>
   </div>
 </div>
-
-

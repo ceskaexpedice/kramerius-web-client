@@ -122,7 +122,9 @@
   },
   "periodical": {
     "volume": "Volume: {{volume}}",
-    "issue": "Issue: {{issue}}" 
+    "issue": "Issue: {{issue}}",
+    "previous_volume": "Previous Volume",   
+    "next_volume": "Next Volume"
   },
   "view_controls": {
     "tooltip_zoom_in": "Zoom in",
