@@ -27,9 +27,6 @@ export class PeriodicalContentComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // this.route.paramMap.subscribe(params => {
-    //   this.init();
-    // });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -42,7 +39,6 @@ export class PeriodicalContentComponent implements OnInit, OnChanges {
     this.gridLayoutEnabled = true;
     this.calendarLayoutEnabled = false;
     this.yearsLayoutEnabled = false;
-    console.log("init", this.doctype);
     if (this.doctype === 'periodical') {
       this.activeLayout = 'years';
       this.yearsLayoutEnabled = true;

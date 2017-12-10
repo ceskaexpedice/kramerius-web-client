@@ -3,7 +3,7 @@
 app-periodical-content {
   flex: 1;
   height: 100%;
-  
+  position: relative;
   .periodical-content {
     background: color("shades", "white");
     height: 100%;
@@ -21,4 +21,10 @@ app-periodical-content {
     @import "styles/app-periodical-calendar-layout";
     @import "styles/app-periodical-years-layout";
   }
+}
+
+.spinner-wrapper {
+  flex: 1;
+  height: 100%;
+  position: relative;
 }

@@ -1,4 +1,3 @@
-import { BookState } from './book.service';
 import { LocalStorageService } from './local-storage.service';
 import { DialogShareComponent } from './../dialog/dialog-share/dialog-share.component';
 import { DialogPdfComponent } from './../dialog/dialog-pdf/dialog-pdf.component';

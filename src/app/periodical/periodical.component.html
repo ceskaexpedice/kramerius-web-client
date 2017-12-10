@@ -1,10 +1,19 @@
 <app-periodical-content
-  *ngIf="metadata && items"
+  *ngIf="isSuccess()"
   [metadata]="metadata" 
   [items]="items"
   [minYear]="minYear"
   [maxYear]="maxYear"      
   [doctype]="doctype">
 </app-periodical-content>
+
+<div *ngIf="isLoading()" class="spinner-wrapper">
+  <mz-spinner
+    class="medium-centered-spinner"
+    [color]="'blue'"
+    [size]="'medium'">
+  </mz-spinner>
+</div>
+
     
 <app-metadata [metadata]="metadata"></app-metadata>

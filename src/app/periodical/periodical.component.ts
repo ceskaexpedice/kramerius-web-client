@@ -23,6 +23,7 @@ export class PeriodicalComponent implements OnInit {
   volumeNumber;
   minYear: number;
   maxYear: number;
+  state: PeriodicalState = PeriodicalState.Loading;
   yearsLayoutEnabled = false;
 
   constructor(private route: ActivatedRoute,
@@ -32,10 +33,12 @@ export class PeriodicalComponent implements OnInit {
     private krameriusApiService: KrameriusApiService) { }
 
   ngOnInit() {
+    this.state = PeriodicalState.Loading;
     const ctx = this;
     this.route.paramMap.subscribe(params => {
       ctx.uuid = params.get('uuid');
       if (ctx.uuid) {
+        this.state = PeriodicalState.Loading;
         this.metadata = null;
         this.items = null;
         this.volumeYear = null;
@@ -45,6 +48,18 @@ export class PeriodicalComponent implements OnInit {
         this.loadDocument(ctx.uuid);
       }
     });
+  }
+
+  isSuccess(): boolean {
+    return this.state === PeriodicalState.Success;
+  }
+
+  isFailure(): boolean {
+    return this.state === PeriodicalState.Failure;
+  }
+
+  isLoading(): boolean {
+    return this.state === PeriodicalState.Loading;
   }
 
   private loadDocument(uuid: string) {
@@ -61,10 +76,12 @@ export class PeriodicalComponent implements OnInit {
           this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(volumes => {
             this.items = this.solrService.periodicalItems(volumes);
             this.calcYearsRange();
+            this.state = PeriodicalState.Success;
           });
         } else if (ctx.doctype === 'periodicalvolume') {
           this.krameriusApiService.getPeriodicalIssues(item.root_uuid, uuid).subscribe(issues => {
             this.items = this.solrService.periodicalItems(issues);
+            this.state = PeriodicalState.Success;
           });
         }
       });
@@ -95,4 +112,8 @@ export class PeriodicalComponent implements OnInit {
     this.yearsLayoutEnabled = true;
   }
 
+}
+
+export enum PeriodicalState {
+  Success, Loading, Failure
 }
