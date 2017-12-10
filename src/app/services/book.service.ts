@@ -1,3 +1,4 @@
+import { LocalStorageService } from './local-storage.service';
 import { DialogShareComponent } from './../dialog/dialog-share/dialog-share.component';
 import { DialogPdfComponent } from './../dialog/dialog-pdf/dialog-pdf.component';
 import { NotFoundError } from './../common/errors/not-found-error';
@@ -25,11 +26,12 @@ export class BookService {
     private activePageIndex = 0;
     public pages: Page[] = [];
     public doublePage = false;
-    public doublePageEnabled = true;
+    public doublePageEnabled = false;
 
     public pageState: BookPageState;
 
     constructor(private location: Location,
+        private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
         private modalService: MzModalService,
         private router: Router,
@@ -44,7 +46,8 @@ export class BookService {
         let firstBackSingle = -1;
         let titlePage = -1;
         let lastSingle = -1;
-
+        this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
+        console.log('dp', this.doublePageEnabled);
         data.forEach(p => {
             if (p['model'] === 'page') {
                 const page = new Page();
@@ -233,6 +236,7 @@ export class BookService {
 
     toggleDoublePage() {
         this.doublePageEnabled = !this.doublePageEnabled;
+        this.localStorageService.setProperty(LocalStorageService.DOUBLE_PAGE, this.doublePageEnabled ? '1' : '0');
         this.goToPage(this.getPage());
     }
 

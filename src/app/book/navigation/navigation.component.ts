@@ -30,9 +30,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
         const el = document.getElementById('page-id-' + page.uuid);
         if (el) {
             el.scrollIntoView(this.scrollOptions);
+            this.scrollOptions = {behavior: 'smooth'};
         }
         this.pageIndex = page.index + 1;
-        this.scrollOptions = {behavior: 'smooth'};
       }
     );
   }
