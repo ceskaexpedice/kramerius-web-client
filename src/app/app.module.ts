@@ -66,6 +66,7 @@ import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.c
 import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
 import { LogoComponent } from './logo/logo.component';
 import { PersistentLinkComponent } from './persistent-link/persistent-link.component';
+import { PeriodicalService } from './services/periodical.service';
 
 
 const ROUTES: Routes = [
@@ -155,7 +156,8 @@ const ROUTES: Routes = [
     LocalStorageService,
     SearchService,
     BrowseService,
-    ViewerControlsService
+    ViewerControlsService,
+    PeriodicalService
   ],
   bootstrap: [AppComponent]
 })

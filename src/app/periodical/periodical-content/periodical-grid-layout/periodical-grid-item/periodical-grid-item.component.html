@@ -3,7 +3,7 @@
     <div class="app-card-content center-align">
       <div *ngIf="item.title" class="app-card-title" mz-tooltip [tooltip]="item.title" [position]="'top'">
         {{item.title}}
-      </div><!--/.app-card-title -->
+      </div>
       <div class="app-card-thumb" [style.background-image]="getThumb()"></div>
       <div *ngIf="item.doctype === 'periodicalvolume'">
         {{ 'periodical.volume' | translate: { volume: item.subtitle } }}
@@ -11,7 +11,7 @@
       <div *ngIf="item.doctype === 'periodicalitem'">
         {{ 'periodical.issue' | translate: { issue: item.subtitle } }}
       </div>
-    </div><!--/.app-card-content -->
+    </div>
   </mz-card-content>
 </mz-card>
 

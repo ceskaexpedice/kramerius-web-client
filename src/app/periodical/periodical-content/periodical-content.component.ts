@@ -1,55 +1,16 @@
-import { ActivatedRoute } from '@angular/router';
-import { PeriodicalItem } from './../../model/periodicalItem.model';
-import { Metadata } from './../../model/metadata.model';
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { PeriodicalService } from './../../services/periodical.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-periodical-content',
-  templateUrl: './periodical-content.component.html',
-  styleUrls: ['./periodical-content.component.scss']
+  templateUrl: './periodical-content.component.html'
 })
-export class PeriodicalContentComponent implements OnInit, OnChanges {
+export class PeriodicalContentComponent implements OnInit {
 
-  @Input() metadata: Metadata;
-  @Input() items: PeriodicalItem[];
-  @Input() doctype: string;
-  @Input() minYear: string;
-  @Input() maxYear: string;
-
-
-  gridLayoutEnabled = false;
-  calendarLayoutEnabled = false;
-  yearsLayoutEnabled = false;
-
-  activeLayout = 'years';
-
-  constructor(private route: ActivatedRoute) {
+  constructor(public periodicalService: PeriodicalService) {
   }
 
   ngOnInit() {
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-   if (changes['doctype']) {
-     this.init();
-   }
-  }
-
-  init() {
-    this.gridLayoutEnabled = true;
-    this.calendarLayoutEnabled = false;
-    this.yearsLayoutEnabled = false;
-    if (this.doctype === 'periodical') {
-      this.activeLayout = 'years';
-      this.yearsLayoutEnabled = true;
-    } else {
-      this.activeLayout = 'calendar';
-      this.calendarLayoutEnabled = true;
-    }
-  }
-
-  onLayoutSelected(layout: string) {
-    this.activeLayout = layout;
   }
 
 }

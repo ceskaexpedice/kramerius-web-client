@@ -1,29 +1,20 @@
+import { PeriodicalService } from './../../../services/periodical.service';
 import { Metadata } from './../../../model/metadata.model';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-periodical-toolbar',
-  templateUrl: './periodical-toolbar.component.html',
-  styleUrls: ['./periodical-toolbar.component.scss']
+  templateUrl: './periodical-toolbar.component.html'
 })
 export class PeriodicalToolbarComponent implements OnInit {
 
-  @Input() metadata: Metadata;
-  @Input() activeLayout: string;
-
-  @Input() gridLayoutEnabled: boolean;
-  @Input() yearsLayoutEnabled: boolean;
-  @Input() calendarLayoutEnabled: boolean;
-  
-  @Output() layoutSelected = new EventEmitter<string>();
-
-  constructor() { }
+  constructor(public periodicalService: PeriodicalService) { }
 
   ngOnInit() {
   }
 
   selectLayout(layout: string) {
-    this.layoutSelected.emit(layout);
+    this.periodicalService.changeActiveLayout(layout);
   }
 
 }

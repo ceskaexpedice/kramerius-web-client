@@ -38,7 +38,6 @@ export class BookService {
         private modalService: MzModalService,
         private router: Router,
         private route: ActivatedRoute) {
-
     }
 
     init(uuid: string, data: any[], pageUuid: string) {

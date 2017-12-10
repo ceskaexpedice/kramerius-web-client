@@ -1,29 +1,17 @@
-<div class="periodical-content" *ngIf="metadata">
-  <app-periodical-toolbar 
-    (layoutSelected)="onLayoutSelected($event)" 
-    [activeLayout]="activeLayout" 
-    [yearsLayoutEnabled]="yearsLayoutEnabled"
-    [calendarLayoutEnabled]="calendarLayoutEnabled"
-    [gridLayoutEnabled]="gridLayoutEnabled"
-    [metadata]="metadata">
+<div class="periodical-content" *ngIf="periodicalService.isStateSuccess()">
+  <app-periodical-toolbar>
   </app-periodical-toolbar>
 
   <app-periodical-grid-layout
-    *ngIf="activeLayout=='grid'"
-    [items]="items">
+    *ngIf="periodicalService.activeLayout=='grid'">
   </app-periodical-grid-layout>  
 
   <app-periodical-years-layout
-    *ngIf="activeLayout=='years'"
-    [items]="items"
-    [min]="minYear"
-    [max]="maxYear">
+    *ngIf="periodicalService.activeLayout=='years'">
   </app-periodical-years-layout>    
 
   <app-periodical-calendar-layout
-    *ngIf="activeLayout=='calendar'"
-    [year]="metadata.volume.year"
-    [items]="items">
+    *ngIf="periodicalService.activeLayout=='calendar'">
   </app-periodical-calendar-layout> 
   
 </div>

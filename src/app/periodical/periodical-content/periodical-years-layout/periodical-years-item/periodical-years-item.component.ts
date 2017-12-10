@@ -5,8 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-periodical-years-item',
-  templateUrl: './periodical-years-item.component.html',
-  styleUrls: ['./periodical-years-item.component.scss']
+  templateUrl: './periodical-years-item.component.html'
 })
 export class PeriodicalYearsItemComponent implements OnInit {
   @Input() item: PeriodicalItem;

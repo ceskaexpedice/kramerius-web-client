@@ -5,8 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-periodical-grid-item',
-  templateUrl: './periodical-grid-item.component.html',
-  styleUrls: ['./periodical-grid-item.component.scss']
+  templateUrl: './periodical-grid-item.component.html'
 })
 export class PeriodicalGridItemComponent implements OnInit {
   @Input() item: PeriodicalItem;
