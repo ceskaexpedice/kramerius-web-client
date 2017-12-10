@@ -124,7 +124,8 @@
     "volume": "Volume: {{volume}}",
     "issue": "Issue: {{issue}}",
     "previous_volume": "Previous Volume",   
-    "next_volume": "Next Volume"
+    "next_volume": "Next Volume",
+    "volume_list": "Volume list"
   },
   "view_controls": {
     "tooltip_zoom_in": "Zoom in",

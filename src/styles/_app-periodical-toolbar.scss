@@ -8,11 +8,11 @@ app-periodical-toolbar {
   @include set-border(bottom, 1, solid, $app-grey-c-2);
           
 
-  .volume-navigation {
+  .volume-info {
     position: absolute; 
     left: calc(50% - 55px);
     overflow: hidden;
-    .current-volume {
+    .volume-title {
       color: $app-grey-d-1;
       font-size: 1.4rem;
       display: block;
@@ -32,6 +32,29 @@ app-periodical-toolbar {
       &.disabled {
         opacity: 0.3;
         cursor: default !important;
+      }
+    }
+  }
+
+  .periodical-info {
+    float: left;
+    display: block;
+    .periodical-title {
+      color: $app-grey-d-1;
+      height: $app-toolbar-height;
+      line-height: $app-toolbar-height;
+      overflow: hidden;
+      font-size: 1.4rem;
+    }
+    i {
+      color: $app-grey;
+      display: block;
+      float: left;
+      margin-top: 15px;
+    }
+    &:hover {
+      i, .periodical-title {
+        color: color("shades", "black");
       }
     }
   }
@@ -56,22 +79,6 @@ app-periodical-toolbar {
         }
       }
     }
-
-    
-    // col left
-    &.app-col-left {
-      // width: 90%;
-      h5 {
-        @extend .app-clean-mg;
-        color: $app-grey-d-1;
-        height: $app-toolbar-height;
-        line-height: $app-toolbar-height;
-        overflow: hidden;
-        font-size: 1.4rem;
-      }
-    }
-
-
     
     // col right
     &.app-col-right {

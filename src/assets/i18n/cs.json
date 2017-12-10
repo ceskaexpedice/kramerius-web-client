@@ -118,7 +118,8 @@
     "volume": "Ročník: {{volume}}",
     "issue": "Číslo: {{issue}}",
     "previous_volume": "Předchozi ročník",   
-    "next_volume": "Následující ročník"
+    "next_volume": "Následující ročník",
+    "volume_list": "Seznam ročníků"
   },
   "view_controls": {
     "tooltip_zoom_in": "Přiblížit",

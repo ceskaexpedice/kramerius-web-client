@@ -1,14 +1,22 @@
 <div class="row app-clean-mg">
-  <div *ngIf="periodicalService.metadata" class="col app-col-left">
-    <h5>{{periodicalService.metadata.getTitle()}}</h5>
+  
+  <div class="periodical-info">
+
+    <a *ngIf="periodicalService.isPeriodicalVolume()" [routerLink]="['/periodical', periodicalService.document.root_uuid]">
+      <i class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.volume_list' | translate" position="bottom"></i>
+       <div class="periodical-title">{{periodicalService.metadata.getTitle()}}</div>
+    </a>
+
+    <div *ngIf="periodicalService.isPeriodical()" class="periodical-title">{{periodicalService.metadata.getTitle()}}</div>
+    
   </div>
 
-  <div *ngIf="periodicalService.volumeDetail" class="volume-navigation">
+  <div *ngIf="periodicalService.volumeDetail" class="volume-info">
     <a *ngIf="periodicalService.volumeDetail.previous" [routerLink]="['/periodical', periodicalService.volumeDetail.previous.uuid]"
       class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.previous_volume' | translate" [position]="'bottom'">
     </a>
     <a *ngIf="!periodicalService.volumeDetail.previous" class="app-mdi-periodical-previous disabled"></a>
-    <span class="current-volume">{{ periodicalService.volumeDetail.current.title }}</span>
+    <div class="volume-title">{{ periodicalService.volumeDetail.current.title }}</div>
     <a *ngIf="periodicalService.volumeDetail.next" [routerLink]="['/periodical', periodicalService.volumeDetail.next.uuid]"
       class="app-mdi-periodical-next" mz-tooltip [tooltip]="'periodical.next_volume' | translate" [position]="'bottom'">
     </a>
