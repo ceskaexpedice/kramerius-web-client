@@ -1,3 +1,4 @@
+import { KrameriusApiService } from './kramerius-api.service';
 import { DocumentItem } from './../model/document_item.model';
 import { PeriodicalItem } from './../model/periodicalItem.model';
 import { Injectable } from '@angular/core';
@@ -5,6 +6,10 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SolrService {
+
+    constructor() {
+
+    }
 
     periodicalItems(solr): PeriodicalItem[] {
         const items: PeriodicalItem[] = [];

@@ -6,8 +6,7 @@ import { Element } from '@angular/compiler';
 
 @Component({
   selector: 'app-navigation-item',
-  templateUrl: './navigation-item.component.html',
-  styleUrls: ['./navigation-item.component.scss']
+  templateUrl: './navigation-item.component.html'
 })
 export class NavigationItemComponent implements OnInit {
   @Input() page: Page;

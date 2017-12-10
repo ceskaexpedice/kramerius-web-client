@@ -1,6 +1,4 @@
 import { PeriodicalItem } from './../../../../model/periodicalItem.model';
-import { DomSanitizer } from '@angular/platform-browser';
-import { KrameriusApiService } from './../../../../services/kramerius-api.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -9,17 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PeriodicalGridItemComponent implements OnInit {
   @Input() item: PeriodicalItem;
-
-  constructor(private krameriusApiService: KrameriusApiService,
-    private _sanitizer: DomSanitizer) { }
+  @Input() container;
+  constructor() { }
 
   ngOnInit() {
   }
-
-  getThumb() {
-    const url = this.krameriusApiService.getThumbUrl(this.item.uuid);
-    return this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
-  }
-
 
 }

@@ -1,6 +1,4 @@
 import { PeriodicalItem } from './../../../../model/periodicalItem.model';
-import { DomSanitizer } from '@angular/platform-browser';
-import { KrameriusApiService } from './../../../../services/kramerius-api.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

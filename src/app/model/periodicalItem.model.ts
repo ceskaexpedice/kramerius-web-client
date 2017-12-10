@@ -4,6 +4,7 @@ export class PeriodicalItem {
     doctype: string;
     policy: string;
     uuid: string;
+    thumb: string;
 
     constructor() {
     }

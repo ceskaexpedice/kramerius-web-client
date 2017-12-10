@@ -1,5 +1,4 @@
 import { PeriodicalService } from './../../../services/periodical.service';
-import { PeriodicalItem } from './../../../model/periodicalItem.model';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -8,9 +7,12 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PeriodicalGridLayoutComponent implements OnInit {
 
+  container;
+
   constructor(public periodicalService: PeriodicalService) { }
 
   ngOnInit() {
+    this.container = document.getElementById('app-periodical-grid-container');
   }
 
 }

@@ -45,18 +45,19 @@ export class PeriodicalService {
         if (this.isPeriodical()) {
           this.localStorageService.addToVisited(item, this.metadata);
           this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(volumes => {
-            this.items = this.solrService.periodicalItems(volumes);
+            this.assignItems(this.solrService.periodicalItems(volumes));
             this.initPeriodical();
           });
         } else if (this.isPeriodicalVolume()) {
           this.krameriusApiService.getPeriodicalIssues(item.root_uuid, uuid).subscribe(issues => {
-            this.items = this.solrService.periodicalItems(issues);
+            this.assignItems(this.solrService.periodicalItems(issues));
             this.initPeriodicalVolume();
           });
         }
       });
     });
   }
+
 
   changeActiveLayout(layout: string) {
     this.activeLayout = layout;
@@ -102,6 +103,12 @@ export class PeriodicalService {
 
 
 
+  private assignItems(items: PeriodicalItem[]) {
+    this.items = items;
+    for (const item of this.items) {
+      item.thumb = this.krameriusApiService.getThumbUrl(item.uuid);
+    }
+  }
 
   private initPeriodicalVolume() {
     this.state = PeriodicalState.Success;
