@@ -190,6 +190,7 @@ export class PeriodicalService {
 
   private calcYearItems() {
     if ((this.maxYear - this.minYear + 1) > this.items.length) {
+      this.yearItems = [];
       for (let i = this.minYear; i <= this.maxYear; i++) {
         let item: PeriodicalItem;
         for (let j = 0; j < this.items.length; j++) {
