@@ -6,7 +6,9 @@
 
   <div *ngIf="metadata.authors.length > 0">
     <label>{{ 'metadata.author' | translate }}</label>
-    <div *ngFor="let author of metadata.authors; first as first" [class.space]="!first" class="app-value" >{{ author.name }}</div>
+    <div *ngFor="let author of metadata.authors; first as first" [class.space]="!first" class="app-value">
+        <a routerLink='/search' [queryParams]="{authors: author.name }">{{ author.name }}</a>
+    </div>
     <div class="divider"></div>
   </div>
   
@@ -18,13 +20,17 @@
 
   <div *ngIf="metadata.doctype">
     <label>{{ 'metadata.doctype' | translate }}</label>
-    <div class="app-value" >{{ 'model.' + metadata.doctype | translate }}</div>
+    <div class="app-value" >
+        <a routerLink='/search' [queryParams]="{doctypes: metadata.doctype }">{{ 'model.' + metadata.doctype | translate }}</a>
+    </div>
     <div class="divider"></div>
   </div>
 
   <div *ngIf="metadata.keywords.length > 0">
     <label>{{ 'metadata.keywords' | translate }}</label>
-    <div *ngFor="let keyword of metadata.keywords" class="app-value" >{{ keyword }}</div>
+    <div *ngFor="let keyword of metadata.keywords" class="app-value" >
+        <a routerLink='/search' [queryParams]="{keywords: keyword }">{{ keyword }}</a>
+    </div>
     <div class="divider"></div>
   </div>
 
@@ -42,7 +48,9 @@
 
   <div *ngIf="metadata.languages.length > 0">
     <label>{{ 'metadata.languages' | translate }}</label>
-    <div *ngFor="let language of metadata.languages" class="app-value" >{{ 'language.' + language | translate }}</div>
+    <div *ngFor="let language of metadata.languages" class="app-value" >
+      <a routerLink='/search' [queryParams]="{languages: language }">{{ 'language.' + language | translate }}</a>
+    </div>
     <div class="divider"></div>
   </div>
   
