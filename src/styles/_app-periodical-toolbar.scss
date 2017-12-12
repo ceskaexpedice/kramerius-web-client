@@ -7,82 +7,64 @@ app-periodical-toolbar {
   margin: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-c-2);
           
-
-  .volume-info {
-    position: absolute; 
-    left: calc(50% - 55px);
-    overflow: hidden;
-    .volume-title {
-      color: $app-grey-d-1;
-      font-size: 1.4rem;
-      display: block;
-      float: left;
-      margin: 0 10px;
-      height: $app-toolbar-height;
-      line-height: $app-toolbar-height;
-    }
-    a {
-      color: $app-grey;
-      display: block;
-      float: left;
-      margin-top: 15px;
-      &:not(.disabled):hover {
-        color: color("shades", "black");
-      }
-      &.disabled {
-        opacity: 0.3;
-        cursor: default !important;
-      }
-    }
-  }
-
-  .periodical-info {
-    float: left;
-    display: block;
-    .periodical-title {
-      color: $app-grey-d-1;
-      height: $app-toolbar-height;
-      line-height: $app-toolbar-height;
-      overflow: hidden;
-      font-size: 1.4rem;
-    }
-    i {
-      color: $app-grey;
-      display: block;
-      float: left;
-      margin-top: 15px;
-    }
-    &:hover {
-      i, .periodical-title {
-        color: color("shades", "black");
-      }
-    }
-  }
-
   .col {
     @extend .app-clean-pd;
     
-    // common
-    ul {
-      @extend .app-clean-mg;
-
-      li {
+    &.app-periodical-info {
+      .app-periodical-title {
+        display: block;
+        color: $app-grey-d-1;
+        height: $app-toolbar-height;
+        line-height: $app-toolbar-height;
+        overflow: hidden;
+        font-size: 1.4rem;
+      }
+      
+      i {
+        color: $app-grey;
+        display: inline-block;
+        display: block;
         float: left;
-        color: $app-grey-l-1;
+        margin-top: 15px;
+      }
+      
+      &:hover {
+        i, .app-periodical-title {
+          color: color("shades", "black");
+        }
+      }
+    }
+    
+    &.app-volume-info {
+      .app-volume-title {
+        color: $app-grey-d-1;
+        font-size: 1.4rem;
+        margin: 0 10px;
+        height: $app-toolbar-height;
+        line-height: $app-toolbar-height;
+      }
 
-        &:not(.active) {
-          span {
-            &:hover {
-              color: $app-grey-d-1;
-            } 
-          }
+      a {
+        color: $app-grey;
+        display: inline-block;
+
+        &:before {
+          vertical-align: bottom !important;
+        }
+
+        &:not(.disabled):hover {
+          color: color("shades", "black");
+        }
+
+        &.disabled {
+          opacity: 0.3;
+          cursor: default !important;
         }
       }
     }
     
     // col right
-    &.app-col-right {
-      float: right;
+    &.app-nav-item {
       line-height: $app-toolbar-height;
       ul {
         li {
@@ -109,6 +91,24 @@ app-periodical-toolbar {
           }
         }
       }  
+    }
+    
+    // common
+    ul {
+      @extend .app-clean-mg;
+
+      li {
+        float: left;
+        color: $app-grey-l-1;
+
+        &:not(.active) {
+          span {
+            &:hover {
+              color: $app-grey-d-1;
+            } 
+          }
+        }
+      }
     }
   }
 }
