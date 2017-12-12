@@ -15,6 +15,8 @@ $link-color:                $primary-color !default;
 // custom
 $app-grey:                  color("grey", "base") !default; // 9e9e9e -> arrow back next to logo
 $app-grey-l-5:              color("grey", "lighten-5") !default; // fafafa -> bg navbar, bg facets, bg metadata
+$app-grey-l-4:              color("grey", "lighten-4") !default;
+$app-grey-l-3:              color("grey", "lighten-3") !default;
 $app-grey-l-2:              color("grey", "lighten-2") !default; // e0e0e0 -> item border, search box border, facet separator line
 $app-grey-l-1:              color("grey", "lighten-1") !default; // bdbdbd -> light mdi color
 

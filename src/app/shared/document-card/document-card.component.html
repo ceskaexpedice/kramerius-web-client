@@ -3,15 +3,15 @@
     <div class="app-card-mark {{item.doctype}}"></div>
     <div class="app-card-media">
       <div class="app-card-thumb" [style.background-image]="getThumb()">
-          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+        <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
       </div>
       
     </div><!--/.app-card-media -->
     <div class="app-card-content">
-      <div *ngIf="item.title" class="app-card-title" mz-tooltip [tooltip]="item.title" [position]="'top'">
+      <div *ngIf="item.title" class="app-card-title"><!--mz-tooltip [tooltip]="item.title" [position]="'top'"-->
         {{item.title}}
       </div><!--/.app-card-title -->
-      <div *ngIf="item.authors" class="app-card-authors" mz-tooltip [tooltip]="item.authors" [position]="'top'">
+      <div *ngIf="item.authors" class="app-card-authors"><!-- mz-tooltip [tooltip]="item.authors" [position]="'top'"-->
         <i mz-icon-mdi [icon]="'account'" [class]="'app-clean-mg'"></i>
         {{item.authors}}
       </div><!--/.app-card-authors -->

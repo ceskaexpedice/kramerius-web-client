@@ -30,10 +30,13 @@
 }
 
 
-.featured {
-  margin-top: 80px;    
+.app-featured {
+  margin-top: 80px;
+  
   .tabs {
     @extend .clearfix;
+    @include set-border(bottom, 1, solid, #{$app-grey-c-2});
+  
     .tab {
       width: 33.33333333%; 
       float: left;
@@ -41,9 +44,11 @@
       color: $primary-color;
       border-bottom: 2px solid transparent;
       transition: border-bottom 0.4s ease-in-out;
+      
       &.active {
-        border-bottom: 2px solid $primary-color;
+        border-bottom: 3px solid $primary-color;
       }
+      
       &:hover {
         color: $primary-color-light;
       }

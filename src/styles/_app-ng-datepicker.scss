@@ -20,7 +20,7 @@
     
     &:hover {
       @include set-border(all, 1, solid, $app-grey-c-1);
-      box-shadow: 0 8px 17px 0 rgba(38, 50, 56, 0.1), 0 6px 20px 0 rgba(38, 50, 56, 0.19);
+      box-shadow: 0 4px 13px 0 rgba(38, 50, 56, 0.1), 0 2px 16px 0 rgba(38, 50, 56, 0.1);
     }
     
     // header
@@ -93,6 +93,7 @@
           a.day-unit-inner {
             @extend .app-font-bold;
             color: $primary-color;
+            background-color: $app-grey-l-4;
             &:hover {
               background: $primary-color;
               color: color("shades", "white");

@@ -22,7 +22,7 @@
 
 
 
-  <div class="container featured">
+  <div class="container app-featured">
     <div class="tabs">
       <div class="tab" [class.active]="selectedTab === 'visited'" (click)="changeTab('visited')">
         {{ 'home.tab_visited' | translate }}
@@ -47,9 +47,6 @@
         (previous)="page = page - 1"
         (change)="page = $event">
     </app-paginator> 
-
-
-
   </div>
 
 

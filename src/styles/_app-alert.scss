@@ -1,31 +1,43 @@
 // --- ALERTS ---
 
-.alert {
-  @extend .card-panel, .lighten-4, .text-darken-4, .z-depth-0;
-  margin-bottom: 0;
-  margin-top: 0.75rem;
+app-alert {
+ .alert {   
+    @extend .text-darken-4, .z-depth-0;
+    margin-bottom: 0;
+    margin-top: 60px;
+
+    &.alert-success {
+      @extend .green-text;
+    }
+
+    &.alert-info {
+      @extend .blue-text;
+    }
+
+    &.alert-warning {
+      @extend .yellow-text;
+    }
+
+    &.alert-danger {
+      @extend .red-text;
+    }
+
+    .close {
+      position: absolute;
+      top: 50%;
+      right: 0.5rem;
+      color: inherit;
+      margin-top: -18px;
+    }
+
+    i {
+      margin-right: 5px;
+      vertical-align: sub;
+    }
+  }
   
-  &.alert-success {
-    @extend .green-text;
-  }
-  &.alert-info {
-    @extend .blue-text;
-  }
-  &.alert-warning {
-    @extend .yellow-text;
-  }
-  &.alert-danger {
-    @extend .red-text;
-  }
-  .close {
+  app-root main app-book app-viewer .app-viewer-wrapper & {
     position: absolute;
-    top: 50%;
-    right: 0.5rem;
-    color: inherit;
-    margin-top: -18px;
-  }
-  i {
-    margin-right: 5px;
-    vertical-align: sub;
+    width: 100%;
   }
 }

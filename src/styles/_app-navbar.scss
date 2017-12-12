@@ -3,7 +3,7 @@
 app-navbar {
   nav {
     position: relative;
-    z-index: 1024;
+    z-index: 995;
     background-color: $app-grey-l-5;
     @include set-border(bottom, 1, solid, $app-grey-c-1);
     box-shadow: 0 2px 2px 0 rgba(38, 50, 56, 0), 0 1px 5px 0 rgba(38, 50, 56, 0.12), 0 3px 1px -20px rgba(38, 50, 56, 0.1);
@@ -25,12 +25,25 @@ app-navbar {
           padding-left: 20px;
         }
       }
-      
-      mz-navbar-item-container {
-        @media (max-width: 1365px) {
-          display: none;
-        }
-      }
     }
   }
+  
+  // btn side nav
+  #app-btn-sidenav {
+    padding: 0 15px;
+  }
+  
+  // side nav
+  .side-nav {
+    z-index: 1026;
+
+    .subheader {
+      background-color: $primary-color;
+      color: color("shades", "white");
+      height: $navbar-height;
+      line-height: $navbar-height;
+      font-size: 1.4rem;
+    }
+  }
+
 }

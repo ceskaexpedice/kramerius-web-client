@@ -1,4 +1,4 @@
-<div class="app-search-bar-wrapper">
+<div class="app-search-bar-wrapper" [class.app-hover]="searchStr">
   <div class="input-field">
     <ng2-completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="searchStr" [matchClass]="'highlight'"
     [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="'searchbar.placeholder' | translate" [inputName]="'autocomplete-input'">
