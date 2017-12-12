@@ -1,7 +1,11 @@
 <div class="app-metadata-wrapper" *ngIf="metadata">
-  <h5 *ngIf="metadata.titles.length > 0">{{metadata.titles[0].title}}</h5>
-  <div class="app-subtitle" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].subTitle}}</div>
+  <h5 *ngIf="metadata.titles.length > 0" [class.app-cut]="metadata.titles[0].title.length > 75 && showingTitle == false">
+    {{metadata.titles[0].title}}
+  </h5>
+  <i *ngIf="metadata.titles[0].title.length > 75 && showingTitle == false" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.show_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
+  <i *ngIf="metadata.titles[0].title.length > 75 && showingTitle == true" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.hide_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
   
+  <div class="app-subtitle" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].subTitle}}</div>
   <div class="divider"></div>
 
   <div *ngIf="metadata.authors.length > 0">

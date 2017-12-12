@@ -6,7 +6,9 @@
     "cancel": "Zrušit",
     "close": "Zavřít",
     "pages": "stránek",
-    "set_page_number": "Zadejte číslo stránky"
+    "set_page_number": "Zadejte číslo stránky",
+    "show_whole_title": "Ukaž celý titulek",
+    "hide_whole_title": "Skryj celý titulek"
   },
   "navbar": {
     "collections": "Sbírky",

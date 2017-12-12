@@ -21,6 +21,23 @@ app-metadata {
       line-height: 1.6rem;
       @extend .app-clean-mg;
       color: $primary-color;
+      
+      &.app-cut {
+        line-height: 1.6rem;
+        height: 3.2rem;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+      }
+    }
+    
+    .app-more {
+      color: $app-grey;
+      
+      &:hover {
+        color: color("shades", "black");
+      }
     }
     
     label {

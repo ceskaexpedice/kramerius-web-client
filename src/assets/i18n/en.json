@@ -6,7 +6,9 @@
     "cancel": "Cancel",
     "close": "Close",    
     "pages": "pages",
-    "set_page_number": "Set page number"
+    "set_page_number": "Set page number",
+    "show_whole_title": "Show whole title",
+    "hide_whole_title": "Hide whole title"
   },
   "navbar": {
     "collections": "Collections",
