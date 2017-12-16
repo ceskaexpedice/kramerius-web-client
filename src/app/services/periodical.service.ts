@@ -42,6 +42,7 @@ export class PeriodicalService {
       this.document = item;
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response);
+        this.metadata.doctype = 'periodical';
         this.metadata.volume.number = this.document.volumeNumber;
         this.metadata.volume.year = this.document.volumeYear;
         if (this.isPeriodical()) {

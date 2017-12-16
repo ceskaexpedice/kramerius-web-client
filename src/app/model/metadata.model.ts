@@ -56,11 +56,9 @@ export class Metadata {
           }
         }
     }
-
-
-
-
 }
+
+
 
 
 export class TitleInfo {
