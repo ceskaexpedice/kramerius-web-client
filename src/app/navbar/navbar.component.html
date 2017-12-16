@@ -1,7 +1,7 @@
 <mz-navbar class="clearfix">
   <div *ngIf="state.activePage != '/'" class="col app-col-left">
-    <a mz-tooltip [tooltip]="'navbar.back' | translate" [position]="'bottom'" class="app-arrow-left">
-      <i mz-icon-mdi [icon]="'arrow-left'" [align]="'left'"></i>
+    <a class="app-arrow-left" (click)="goBack()">
+      <i mz-icon-mdi [icon]="'arrow-left'" [align]="'left'" mz-tooltip [tooltip]="'navbar.back' | translate" [position]="'right'" ></i>
     </a>
     <app-logo></app-logo>
   </div>

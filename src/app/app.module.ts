@@ -1,3 +1,4 @@
+import { HistoryService } from './services/history.service';
 import { DialogShareComponent } from './dialog/dialog-share/dialog-share.component';
 import { DialogPdfComponent } from './dialog/dialog-pdf/dialog-pdf.component';
 import { BookControlsComponent } from './book/book-controls/book-controls.component';
@@ -157,7 +158,8 @@ const ROUTES: Routes = [
     SearchService,
     BrowseService,
     ViewerControlsService,
-    PeriodicalService
+    PeriodicalService,
+    HistoryService
   ],
   bootstrap: [AppComponent]
 })

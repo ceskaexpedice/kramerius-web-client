@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Translator } from 'angular-translator';
 import { AppState } from '../app.state';
+import { HistoryService } from '../services/history.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     public translator: Translator,
     public router: Router,
+    private history: HistoryService,
     public service: LibrarySearchService,
     public state: AppState) {
   }
@@ -20,9 +22,17 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
 
-   onLanguageChanged(lang: string) {
+  onLanguageChanged(lang: string) {
     localStorage.setItem('lang', lang);
     this.translator.language = lang;
   }
+
+  goBack() {
+    // console.log('history', this.history.pages);
+    const page = this.history.pop();
+    this.router.navigateByUrl(page);
+  }
+
+
 
 }

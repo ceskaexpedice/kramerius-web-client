@@ -1,7 +1,9 @@
+import { HistoryService } from './services/history.service';
 import { Component, OnInit } from '@angular/core';
 import { Translator } from 'angular-translator';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AppState } from './app.state';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,8 @@ export class AppComponent implements OnInit {
   constructor(
     private translator: Translator,
     private route: ActivatedRoute,
+    private location: Location,
+    private history: HistoryService,
     private router: Router,
     public state: AppState) {
 
@@ -22,6 +26,7 @@ export class AppComponent implements OnInit {
         if (event instanceof NavigationEnd) {
           (<any>window).gaaa('set', 'page', event.urlAfterRedirects);
           (<any>window).gaaa('send', 'pageview');
+          history.push(location.path());
         }
       });
 
