@@ -22,18 +22,7 @@
           </mz-dropdown>
         </span>
       </li>
-      <!-- for the time being commented
-        <li>
-        <span class="app-cursor-pointer">
-          <a id="app-btn-count-row" href="#">10 <i class="app-mdi-menu-down"></i></a>
-          <mz-dropdown [id]="'app-count-row'" [dropdownButtonId]="'app-btn-count-row'" [constrainWidth]="false">
-            <mz-dropdown-item><a href="#!">20</a></mz-dropdown-item>
-            <mz-dropdown-item><a href="#!">30</a></mz-dropdown-item>
-          </mz-dropdown>
-        </span>
-      </li>
-      -->
-      <li [class.active]="state.showingChartBar">
+      <!-- <li [class.active]="state.showingChartBar">
         <span (click)="toggleElement('app-chart-bar')">
           <i *ngIf="!state.showingChartBar" mz-tooltip [tooltip]="'toolbar.tooltip_show_chartbar' | translate" [position]="'top'" class="app-mdi-chart-bar app-cursor-pointer"></i>
           <i *ngIf="state.showingChartBar" mz-tooltip [tooltip]="'toolbar.tooltip_hide_chartbar' | translate" [position]="'top'" class="app-mdi-chart-bar app-cursor-pointer"></i>
@@ -44,7 +33,7 @@
           <i *ngIf="!state.showingCalendar" mz-tooltip [tooltip]="'toolbar.tooltip_show_date' | translate" [position]="'top'" class="app-mdi-calendar-range app-cursor-pointer"></i>
           <i *ngIf="state.showingCalendar" mz-tooltip [tooltip]="'toolbar.tooltip_hide_date' | translate" [position]="'top'" class="app-mdi-calendar-range app-cursor-pointer"></i>
         </span>
-      </li>
+      </li> -->
     </ul>
   </div>
 </div>
