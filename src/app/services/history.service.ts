@@ -22,7 +22,14 @@ export class HistoryService {
     return this.pages.length < 2;
   }
 
-  push(page) {
+  push(page: string) {
+    if (this.pages.length > 0) {
+      const last = this.pages[this.pages.length - 1];
+      if ((last.startsWith('/search') && page.startsWith('/search')) ||
+           last.startsWith('/browse') && page.startsWith('/browse')) {
+        this.pages.pop();
+      }
+    }
     this.pages.push(page);
   }
 
