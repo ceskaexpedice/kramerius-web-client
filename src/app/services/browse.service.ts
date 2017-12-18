@@ -6,6 +6,7 @@ import { BrowseQuery } from './../browse/browse_query.model';
 import { Injectable } from '@angular/core';
 import { filter } from 'rxjs/operator/filter';
 import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
+import { CollectionService } from './collection.service';
 
 
 @Injectable()
@@ -16,13 +17,13 @@ export class BrowseService {
     query: BrowseQuery;
 
     numberOfResults: number;
-    collections;
     loading = false;
 
 
     constructor(
         private router: Router,
         private translator: Translator,
+       private collections: CollectionService,
         private solrService: SolrService,
         private krameriusApiService: KrameriusApiService) {
             translator.languageChanged.subscribe(() => {
@@ -155,28 +156,9 @@ export class BrowseService {
                 this.loading = false;
             });
         } else if (this.getCategory() === 'collections') {
-            if (!this.collections) {
-                this.loading = true;
-                this.krameriusApiService.getCollections().subscribe(
-                    results => {
-                        this.collections = results;
-                        this.translateResults();
-                    }
-                );
-            } else {
+            if (this.collections.ready()) {
                 for (const item of this.backupResults) {
-                    for (const coll of this.collections) {
-                        if (item.value === coll.pid) {
-                            if (coll.descs) {
-                                if (this.translator.language === 'cs') {
-                                    item.name = coll.descs.cs;
-                                } else {
-                                    item.name = coll.descs.en;
-                                }
-                                break;
-                            }
-                        }
-                    }
+                    item.name  = this.collections.getName(item.value);
                 }
                 const filteredResults = [];
                 for (const item of this.backupResults) {
@@ -188,6 +170,14 @@ export class BrowseService {
                 this.numberOfResults = this.results.length;
                 this.sortResult();
                 this.loading = false;
+            } else {
+                this.loading = true;
+                this.krameriusApiService.getCollections().subscribe(
+                    results => {
+                        this.collections.assign(results);
+                        this.translateResults();
+                    }
+                );
             }
         } else {
             this.loading = false;

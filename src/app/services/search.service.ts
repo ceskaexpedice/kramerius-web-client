@@ -1,3 +1,4 @@
+import { Translator } from 'angular-translator';
 import { Author } from './../model/metadata.model';
 import { Router } from '@angular/router';
 import { KrameriusApiService } from './kramerius-api.service';
@@ -6,6 +7,7 @@ import { DocumentItem } from './../model/document_item.model';
 import { SearchQuery } from './../search/search_query.model';
 import { Page } from './../model/page.model';
 import { Injectable } from '@angular/core';
+import { CollectionService } from './collection.service';
 
 
 @Injectable()
@@ -19,16 +21,21 @@ export class SearchService {
     accessibility: any[] = [];
     authors: any[] = [];
     languages: any[] = [];
+    collections: any[] = [];
 
     loading = false;
-
 
     numberOfResults: number;
 
     constructor(
         private router: Router,
+        private collectionService: CollectionService,
         private solrService: SolrService,
-        private krameriusApiService: KrameriusApiService) {
+        private krameriusApiService: KrameriusApiService,
+        private translator: Translator) {
+            translator.languageChanged.subscribe(() => {
+                this.translateCollections();
+            });
     }
 
 
@@ -36,6 +43,7 @@ export class SearchService {
         this.results = [];
         this.keywords = [];
         this.doctypes = [];
+        this.collections = [];
         this.accessibility = [];
         this.numberOfResults = 0;
         this.query = SearchQuery.fromParams(params);
@@ -151,9 +159,27 @@ export class SearchService {
         this.krameriusApiService.getFacetList(this.query, 'languages').subscribe(response => {
             this.languages = response;
         });
+        this.krameriusApiService.getFacetList(this.query, 'collections').subscribe(response => {
+            this.collections = response;
+            if (this.collectionService.ready()) {
+                this.translateCollections();
+            } else {
+                this.krameriusApiService.getCollections().subscribe(
+                    results => {
+                        this.collectionService.assign(results);
+                        this.translateCollections();
+                    }
+                );
+            }
+        });
     }
 
 
+    private translateCollections() {
+        for (const col of this.collections) {
+            col['name'] = this.collectionService.getName(col.value);
+        }
+    }
 
 
 }

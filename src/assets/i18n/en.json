@@ -40,7 +40,8 @@
   "search": {
     "results": "Results",
     "keywords": "Keyword",
-    "doctypes": "Document Type",    
+    "doctypes": "Document Type",   
+    "collections": "Collection", 
     "languages": "Language",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",    

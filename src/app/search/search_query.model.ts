@@ -8,6 +8,7 @@ export class SearchQuery {
     authors: string[] = [];
     languages: string[] = [];
     doctypes: string[] = [];
+    collections: string[] = [];
 
 
     constructor() {
@@ -22,6 +23,7 @@ export class SearchQuery {
         query.setFiled(query.doctypes, params['doctypes']);
         query.setFiled(query.authors, params['authors']);
         query.setFiled(query.languages, params['languages']);
+        query.setFiled(query.collections, params['collections']);
         query.setAccessibility(params['accessibility']);
         return query;
     }
@@ -134,6 +136,7 @@ export class SearchQuery {
         q += this.addToQuery('doctypes', this.doctypes, skip);
         q += this.addToQuery('authors', this.authors, skip);
         q += this.addToQuery('languages', this.languages, skip);
+        q += this.addToQuery('collections', this.collections, skip);
         q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
         q += this.getDateOrderingRestriction();
         if (rel) {
@@ -167,6 +170,9 @@ export class SearchQuery {
         }
         if (this.doctypes.length > 0) {
             params['doctypes'] = this.doctypes.join(',,');
+        }
+        if (this.collections.length > 0) {
+            params['collections'] = this.collections.join(',,');
         }
         return params;
     }
@@ -213,6 +219,7 @@ export class SearchQuery {
         this.keywords = [];
         this.doctypes = [];
         this.authors = [];
+        this.collections = [];
         this.languages = [];
     }
 
@@ -240,6 +247,9 @@ export class SearchQuery {
             return true;
         }
         if (this.languages && this.languages.length > 0) {
+            return true;
+        }
+        if (this.collections && this.collections.length > 0) {
             return true;
         }
         return false;

@@ -1,3 +1,4 @@
+import { CollectionService } from './services/collection.service';
 import { HistoryService } from './services/history.service';
 import { DialogShareComponent } from './dialog/dialog-share/dialog-share.component';
 import { DialogPdfComponent } from './dialog/dialog-pdf/dialog-pdf.component';
@@ -159,6 +160,7 @@ const ROUTES: Routes = [
     BrowseService,
     ViewerControlsService,
     PeriodicalService,
+    CollectionService,
     HistoryService
   ],
   bootstrap: [AppComponent]

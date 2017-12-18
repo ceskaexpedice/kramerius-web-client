@@ -4,8 +4,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-search-filters',
-  templateUrl: './search-filters.component.html',
-  styleUrls: ['./search-filters.component.scss']
+  templateUrl: './search-filters.component.html'
 })
 export class SearchFiltersComponent implements OnInit {
 
