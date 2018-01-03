@@ -1,5 +1,7 @@
 <app-book-controls></app-book-controls>
 
+<app-book-search></app-book-search>
+
 <div class="app-navigation-header" *ngIf="bookService.getPageCount() > 1">
   <input class="app-current-page" (change)="onPageIndexChanged()" type="text" value="23" [(ngModel)]="pageIndex" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
   <span>{{ 'common.of' | translate }}</span>

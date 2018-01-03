@@ -58,6 +58,14 @@ export class SolrService {
         return solr['facets']['x'];
     }
 
+    uuidList(solr): string[] {
+        const list = [];
+        for (const doc of solr['response']['docs']) {
+            list.push(doc['PID']);
+        }
+        return list;
+    }
+
     documentItems(solr): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const doc of solr['response']['docs']) {

@@ -19,6 +19,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private zoomifyLayer;
   private imageLayer2;
   private zoomifyLayer2;
+  private vectorLayer;
 
   private imageWidth = 0;
   private imageWidth1 = 0;
@@ -53,10 +54,25 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   init() {
-     this.view = new ol.Map({
+    const mainStyle = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: 'rgba(0, 188, 212, 0.20)'
+      }),
+      stroke: new ol.style.Stroke({
+        color: '#00B7E7',
+        width: 2
+      })
+    });
+    this.vectorLayer = new ol.layer.Vector({
+      name: 'vectorlayer',
+      source: new ol.source.Vector(),
+      style: mainStyle
+    });
+    this.view = new ol.Map({
       target: 'app-viewer',
       controls: [],
-      loadTilesWhileAnimating: true
+      loadTilesWhileAnimating: true,
+      layers: [this.vectorLayer]
     });
     let keyboardPan;
     this.view.getInteractions().forEach(function(interaction) {
@@ -153,12 +169,27 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.getView().setCenter(center);
   }
 
+  updateBoxes(data) {
+    console.log('update boxes', data);
+    this.vectorLayer.getSource().clear();
+    if (!data) {
+      return;
+    }
+    for (let i = 0; i < data.length; i++) {
+      const ring = data[i];
+      const polygon = new ol.geom.Polygon([ring]);
+      const feature = new ol.Feature(polygon);
+      this.vectorLayer.getSource().addFeature(feature);
+    }
+    this.view.addLayer(this.vectorLayer);
+  }
 
   updateImage(image1: Page, image2: Page) {
     this.view.removeLayer(this.imageLayer);
     this.view.removeLayer(this.zoomifyLayer);
     this.view.removeLayer(this.imageLayer2);
     this.view.removeLayer(this.zoomifyLayer2);
+    this.view.removeLayer(this.vectorLayer);
     if (!image1) {
       return;
     }
@@ -212,6 +243,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
       } else {
         this.addStaticImage(image1.url, image1.width, image1.height, 0);
       }
+    }
+    if (image1.altoBoxes) {
+      this.updateBoxes(image1.altoBoxes);
     }
     this.fitToScreen();
   }
@@ -317,6 +351,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.removeLayer(this.zoomifyLayer);
     this.view.removeLayer(this.imageLayer2);
     this.view.removeLayer(this.zoomifyLayer2);
+    this.view.removeLayer(this.vectorLayer);
+
   }
 
 }

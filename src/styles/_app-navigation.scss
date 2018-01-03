@@ -1,7 +1,7 @@
 // --- NAVIGATION ---
 
 app-navigation {
-  overflow: hidden;
+  // overflow: hidden;
   transition: margin-left 0.5s;
   @include set-border(right, 1, solid, $app-grey-l-2);
   
@@ -22,6 +22,19 @@ app-navigation {
           }
         }
       }
+    }
+  }
+
+  app-book-search {
+    display: block;
+    height: 50px;
+    width: 100%;
+    padding: 8px 20px 0;
+    @include set-border(bottom, 1, solid, $app-grey-l-2);
+    input {
+      // box-sizing: border-box !important;
+      height: 30px !important;
+      // padding-left: 20px !important;
     }
   }
 
@@ -53,7 +66,7 @@ app-navigation {
   }
     
   .app-navigation-pages {
-    height: calc(100% - 114px);
+    height: calc(100% - 164px);
     margin-top: 10px;
     overflow: scroll;
     padding: 0.5rem;

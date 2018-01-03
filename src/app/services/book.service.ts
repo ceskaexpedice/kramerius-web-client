@@ -1,3 +1,4 @@
+import { AltoService } from './alto-service';
 import { LocalStorageService } from './local-storage.service';
 import { DialogShareComponent } from './../dialog/dialog-share/dialog-share.component';
 import { DialogPdfComponent } from './../dialog/dialog-pdf/dialog-pdf.component';
@@ -20,10 +21,13 @@ import { request } from 'https';
 @Injectable()
 export class BookService {
 
+    private fulltextQuery = null;
+
     private uuid;
     private subject = new Subject<Page[]>();
 
     private activePageIndex = 0;
+    public allPages: Page[] = [];
     public pages: Page[] = [];
     public doublePage = false;
     public doublePageEnabled = false;
@@ -33,22 +37,21 @@ export class BookService {
 
 
     constructor(private location: Location,
+        private altoService: AltoService,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
-        private modalService: MzModalService,
-        private router: Router,
-        private route: ActivatedRoute) {
+        private modalService: MzModalService) {
     }
 
-    init(uuid: string, data: any[], pageUuid: string) {
+    init(uuid: string, data: any[], pageUuid: string, fulltext: string) {
         this.uuid = uuid;
+        this.fulltextQuery = fulltext;
         let index = 0;
         let currentPage = 0;
         let firstBackSingle = -1;
         let titlePage = -1;
         let lastSingle = -1;
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
-        console.log('dp', this.doublePageEnabled);
         data.forEach(p => {
             if (p['model'] === 'page') {
                 const page = new Page();
@@ -84,6 +87,7 @@ export class BookService {
                 }
                 page.position = PagePosition.Single;
                 this.pages.push(page);
+                this.allPages.push(page);
                 index += 1;
             }
         });
@@ -94,8 +98,17 @@ export class BookService {
                 this.pages[i + 1].position = PagePosition.Right;
             }
         }
+
         this.bookState = BookState.Success;
-        this.goToPageOnIndex(currentPage);
+        if (this.fulltextQuery) {
+            this.fulltextChanged(this.fulltextQuery);
+        } else {
+            this.goToPageOnIndex(currentPage);
+        }
+    }
+
+    getFulltextQuery(): string {
+        return this.fulltextQuery;
     }
 
     getPage() {
@@ -116,6 +129,15 @@ export class BookService {
 
     goToPage(page: Page) {
         this.goToPageOnIndex(page.index);
+    }
+
+    goToPageWithUuid(uuid: string) {
+        for (const page of this.allPages) {
+            if (page.uuid === uuid) {
+                this.goToPageOnIndex(page.index);
+                return;
+            }
+        }
     }
 
     goToNext() {
@@ -167,10 +189,13 @@ export class BookService {
 
 
     showQuotation() {
+        const page = this.getPage();
+        this.krameriusApiService.getAlto(page.uuid).subscribe(response => {
+            this.altoService.getBoxes(response, 'šachy', page.width, page.height);
+        });
     }
 
     showOcr() {
-        console.log('show ocr');
         const requests = [];
         requests.push(this.krameriusApiService.getOcr(this.getPage().uuid));
         if (this.getRightPage()) {
@@ -209,10 +234,50 @@ export class BookService {
         this.modalService.open(DialogShareComponent, options);
     }
 
+    cancelFulltext() {
+        const currentPage = this.getPage();
+        let index = 0;
+        this.pages = [];
+        for (const page of this.allPages) {
+            page.selected = false;
+            page.index = index;
+            index += 1;
+            this.pages.push(page);
+        }
+        if (currentPage) {
+            this.goToPageWithUuid(currentPage.uuid);
+        } else {
+            this.goToPageOnIndex(0);
+        }
+    }
+
+
+    fulltextChanged(query: string) {
+        this.fulltextQuery = query;
+        if (!query) {
+            this.cancelFulltext();
+            return;
+        }
+        this.krameriusApiService.getFulltextUuidList(this.uuid, query).subscribe(result => {
+            this.pages = [];
+            let index = 0;
+            for (const page of this.allPages) {
+                for (const uuid of result) {
+                    if (uuid === page.uuid) {
+                        page.selected = false;
+                        page.index = index;
+                        index += 1;
+                        this.pages.push(page);
+                        break;
+                    }
+                }
+            }
+            this.goToPageOnIndex(0);
+        });
+    }
 
     private getPagePersistentLink() {
         const link = location.protocol + '//' + location.host + '/uuid/' + this.getPage().uuid;
-        console.log(link);
         return link;
     }
 
@@ -243,7 +308,7 @@ export class BookService {
     }
 
     doublePageSupported() {
-        return this.getPage() && (this.getPage().position === PagePosition.Left || this.getPage().position === PagePosition.Right);
+        return !this.fulltextQuery && this.getPage() && (this.getPage().position === PagePosition.Left || this.getPage().position === PagePosition.Right);
     }
 
     goToPageOnIndex(index: number) {
@@ -256,7 +321,7 @@ export class BookService {
             lastRightPage.selected = false;
         }
         const position = this.pages[index].position;
-        if (position === PagePosition.Single || !this.doublePageEnabled) {
+        if (position === PagePosition.Single || !this.doublePageEnabled || this.fulltextQuery) {
             this.activePageIndex = index;
             this.doublePage = false;
         } else if (position === PagePosition.Left) {
@@ -274,7 +339,11 @@ export class BookService {
             rightPage.selected = true;
             cached = cached && rightPage.hasImageData();
         }
-        this.location.go('/view/' + this.uuid, 'page=' + page.uuid);
+        let urlQuery = 'page=' + page.uuid;
+        if (this.fulltextQuery) {
+            urlQuery += '&fulltext=' + this.fulltextQuery;
+        }
+        this.location.go('/view/' + this.uuid, urlQuery);
         if (!cached) {
             this.publishNewPages(BookPageState.Loading);
             this.fetchImageProperties(page, rightPage, true);
@@ -335,6 +404,10 @@ export class BookService {
     private publishNewPages(state: BookPageState) {
         const leftPage = this.getPage();
         const rightPage = this.getRightPage();
+        leftPage.altoBoxes = null;
+        if (rightPage) {
+            rightPage.altoBoxes = null;
+        }
         if (state !== BookPageState.Success) {
             leftPage.setImageProperties(-1, -1, null, true);
             if (rightPage) {
@@ -342,13 +415,22 @@ export class BookService {
             }
         }
         this.pageState = state;
-        this.subject.next([leftPage, rightPage]);
+        if (state === BookPageState.Success && this.fulltextQuery) {
+            this.krameriusApiService.getAlto(leftPage.uuid).subscribe(response => {
+                const boxes = this.altoService.getBoxes(response, this.fulltextQuery, leftPage.width, leftPage.height);
+                leftPage.altoBoxes = boxes;
+                this.subject.next([leftPage, rightPage]);
+            });
+        } else {
+            this.subject.next([leftPage, rightPage]);
+        }
     }
 
 
     clear() {
         this.pageState = BookPageState.None;
         this.pages = [];
+        this.allPages = [];
     }
 
 

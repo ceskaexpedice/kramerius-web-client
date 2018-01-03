@@ -35,7 +35,8 @@ export class BookComponent implements OnInit, OnDestroy {
       if (uuid) {
         this.route.queryParamMap.subscribe(queryParams => {
           const page = queryParams.get('page');
-          this.loadDocument(uuid, page);
+          const fulltext = queryParams.get('fulltext');
+          this.loadDocument(uuid, page, fulltext);
         });
       } else {
         // TODO: Show warning message
@@ -48,10 +49,10 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
 
-  private loadDocument(uuid: string, page: string) {
+  private loadDocument(uuid: string, page: string, fulltext: string) {
     this.krameriusApiService.getChildren(uuid).subscribe(response => {
       if (response && response.length > 0) {
-        this.bookSerrvice.init(uuid, response, page);
+        this.bookSerrvice.init(uuid, response, page, fulltext);
       } else {
         // TODO: Empty document
       }

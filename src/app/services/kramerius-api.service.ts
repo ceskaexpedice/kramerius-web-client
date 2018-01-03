@@ -19,6 +19,7 @@ export class KrameriusApiService {
     private static STREAM_MODS = 'BIBLIO_MODS';
     private static STREAM_OCR = 'TEXT_OCR';
     private static STREAM_JPEG = 'IMG_FULL';
+    private static STREAM_ALTO = 'ALTO';
 
     private BASE_URL = 'https://kramerius.mzk.cz';
     // private BASE_URL = 'https://kramerius.lib.cas.cz';
@@ -27,6 +28,8 @@ export class KrameriusApiService {
 
 
     private API_URL = this.BASE_URL + '/search/api/v5.0';
+
+    private cache = {};
 
     constructor(private http: Http,
         private utils: Utils,
@@ -101,6 +104,16 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
+    getFulltextUuidList(uuid, query) {
+        const url = this.API_URL + '/search/?fl=PID&q=parent_pid:%22'
+            + uuid
+            + '%22%20AND%20text_ocr:'
+            + query
+            + '&rows=200';
+        return this.http.get(url)
+            .map(response => this.solrService.uuidList(response.json()))
+            .catch(this.handleError);
+    }
 
     getRecommended() {
         const url = this.API_URL + '/feed/custom';
@@ -187,6 +200,13 @@ export class KrameriusApiService {
           .catch(this.handleError);
     }
 
+    getAlto(uuid: string) {
+        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO);
+        return this.http.get(url)
+          .map(response => response['_body'])
+          .catch(this.handleError);
+    }
+
     getMods(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
         return this.http.get(url)
@@ -218,6 +238,11 @@ export class KrameriusApiService {
             .map(response => response['_body'])
             .catch(this.handleError);
     }
+
+
+
+
+
 
 
 }

@@ -15,6 +15,7 @@ export class Page {
     height: number;
     url: string;
     zoomify: boolean;
+    altoBoxes: any[];
 
     constructor() {
 

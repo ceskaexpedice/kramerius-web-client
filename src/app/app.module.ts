@@ -1,3 +1,5 @@
+import { BookSearchComponent } from './book/book-search/book-search.component';
+import { AltoService } from './services/alto-service';
 import { CollectionService } from './services/collection.service';
 import { HistoryService } from './services/history.service';
 import { DialogShareComponent } from './dialog/dialog-share/dialog-share.component';
@@ -125,6 +127,7 @@ const ROUTES: Routes = [
     DialogPdfComponent,
     DialogShareComponent,
     LogoComponent,
+    BookSearchComponent,
     PersistentLinkComponent
   ],
   entryComponents: [
@@ -161,7 +164,8 @@ const ROUTES: Routes = [
     ViewerControlsService,
     PeriodicalService,
     CollectionService,
-    HistoryService
+    HistoryService,
+    AltoService
   ],
   bootstrap: [AppComponent]
 })
