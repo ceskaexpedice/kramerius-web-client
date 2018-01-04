@@ -63,6 +63,11 @@ export class PeriodicalService {
 
 
   changeActiveLayout(layout: string) {
+    if (this.isPeriodical()) {
+      this.localStorageService.setProperty(LocalStorageService.PERIODICAL_VOLUMES_LAYOUT, layout);
+    } else if (this.isPeriodicalVolume()) {
+      this.localStorageService.setProperty(LocalStorageService.PERIODICAL_ISSUES_LAYOUT, layout);
+    }
     this.activeLayout = layout;
   }
 
@@ -144,11 +149,11 @@ export class PeriodicalService {
     this.yearsLayoutEnabled = false;
     this.gridLayoutEnabled = true;
     const year = this.document.volumeYear;
+    const prefLayout = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_ISSUES_LAYOUT);
+    this.activeLayout = prefLayout ? prefLayout : 'calendar';
     if (year && !isNaN(year as any)) {
       this.calendarLayoutEnabled = true;
-      if (this.calcCalender(year)) {
-        this.activeLayout = 'calendar';
-      } else {
+      if (!this.calcCalender(year)) {
         this.activeLayout = 'grid';
       }
     } else {
@@ -184,7 +189,8 @@ export class PeriodicalService {
       }
     }
     this.yearsLayoutEnabled = true;
-    this.activeLayout = 'years';
+    const prefLayout = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_VOLUMES_LAYOUT);
+    this.activeLayout = prefLayout ? prefLayout : 'years';
     this.calcYearItems();
     this.state = PeriodicalState.Success;
   }

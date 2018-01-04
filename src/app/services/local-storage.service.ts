@@ -11,6 +11,8 @@ export class LocalStorageService {
     public static FEATURED_TAB = 'featured_tab';
     public static ACCESSIBILITY_FILTER = 'accessibility_filter';
     public static DOUBLE_PAGE = 'double_page';
+    public static PERIODICAL_VOLUMES_LAYOUT = 'periodical_volumes_layout';
+    public static PERIODICAL_ISSUES_LAYOUT = 'periodical_issues_layout';
 
     addToVisited(item: DocumentItem, metadata: Metadata) {
         if (LocalStorageService.VISITED_TYPES.indexOf(item.doctype) < 0) {
@@ -49,12 +51,12 @@ export class LocalStorageService {
         return JSON.parse(localStorage.getItem('visited') || '[]');
     }
 
-    getProperty(tab: string) {
-        return localStorage.getItem(tab);
+    getProperty(property: string) {
+        return localStorage.getItem(property);
     }
 
-    setProperty(tab: string, property) {
-        return localStorage.setItem(tab, property);
+    setProperty(property: string, value) {
+        return localStorage.setItem(property, value);
     }
 
 
