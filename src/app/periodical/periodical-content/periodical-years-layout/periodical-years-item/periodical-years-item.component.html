@@ -1,5 +1,7 @@
 <a *ngIf="item.uuid; else missing" class="app-item app-cursor-pointer" routerLink="{{item.getUrl()}}">
-  <div class="center-align">{{item.title}}</div>
+  <div class="center-align">{{item.title}}
+  </div>
+  <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
 </a>
 <ng-template #missing>
   <div class="app-item">

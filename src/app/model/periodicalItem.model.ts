@@ -2,7 +2,7 @@ export class PeriodicalItem {
     title: string;
     subtitle: string;
     doctype: string;
-    policy: string;
+    public: boolean;
     uuid: string;
     thumb: string;
 

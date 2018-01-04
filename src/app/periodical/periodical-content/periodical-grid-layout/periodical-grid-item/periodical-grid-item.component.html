@@ -5,11 +5,13 @@
         <div *ngIf="item.title" class="app-card-title" mz-tooltip [tooltip]="item.title" [position]="'top'">
           {{item.title}}
         </div>
-        <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" ></div>
-        <div *ngIf="item.doctype === 'periodicalvolume'">
+        <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
+          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+        </div>
+        <div *ngIf="item.doctype === 'periodicalvolume'" class="app-card-subtitle">
           {{ 'periodical.volume' | translate: { volume: item.subtitle } }}
         </div>
-        <div *ngIf="item.doctype === 'periodicalitem'">
+        <div *ngIf="item.doctype === 'periodicalitem'" class="app-card-subtitle">
           {{ 'periodical.issue' | translate: { issue: item.subtitle } }}
         </div>
       </div>

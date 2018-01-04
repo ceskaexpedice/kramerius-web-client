@@ -16,7 +16,7 @@ export class SolrService {
         for (const doc of solr['response']['docs']) {
             const item = new PeriodicalItem();
             item.uuid = doc['PID'];
-            item.policy = doc['dostupnost'];
+            item.public = doc['dostupnost'] === 'public';
             item.doctype = doc['fedora.model'];
             const details = doc['details'];
             if (item.doctype === 'periodicalvolume') {

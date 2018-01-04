@@ -11,6 +11,7 @@ export class PeriodicalYearsItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log('item', this.item);
   }
 
 

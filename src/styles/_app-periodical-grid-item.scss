@@ -59,6 +59,17 @@ app-periodical-grid-item {
           font-size: $app-card-title-font-size;
           margin-bottom: 5px;
           color: $primary-color;
+          line-height: 23px;
+          height: 23px;
+          padding: 0 4px;
+          overflow: hidden;
+        }
+
+        .app-card-subtitle {
+          line-height: 19px;
+          height: 19px;
+          padding: 0 4px;
+          overflow: hidden;
         }
 
         .app-card-thumb {
@@ -74,6 +85,22 @@ app-periodical-grid-item {
           margin-left: auto;
           margin-right: auto;
           margin-bottom: 5px;
+
+          .app-lock {
+            @extend .z-depth-2;
+            background: color("shades", "white");
+            height: 36px;
+            width: 36px;
+            display: block;
+            border-radius: 50%;
+            text-align: center;
+            position: absolute;
+            color: $app-grey-d-2;
+            opacity: 0.8;
+            margin: auto;
+            top: 0; left: 0; bottom: 0; right: 0;
+          }
+
         }
       }
     }

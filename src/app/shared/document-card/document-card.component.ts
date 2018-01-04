@@ -5,8 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-document-card',
-  templateUrl: './document-card.component.html',
-  styleUrls: ['./document-card.component.scss']
+  templateUrl: './document-card.component.html'
 })
 export class DocumentCardComponent implements OnInit {
   @Input() item: DocumentItem;

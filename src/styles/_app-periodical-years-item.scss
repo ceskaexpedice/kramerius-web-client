@@ -31,6 +31,7 @@ app-periodical-years-item {
 .app-item {
   margin: 0.5rem;
   display: block;
+  position: relative;
   div {
     height: 54px;
     line-height: 54px;
@@ -47,4 +48,14 @@ app-periodical-years-item {
       }
     }
   }
+  .app-lock {
+    height: 36px;
+    width: 36px;
+    color: $app-grey-d-2;
+    opacity: 0.8;
+    position: absolute;
+    top: 7px;
+    left: 3px;
+  }
+
 }
