@@ -1,1 +1,5 @@
-<input type="text" [placeholder]="'searchbar.document' | translate" (change)="onChange()" type="text"  [(ngModel)]="fulltextQuery" />
+<div class="book-search-wrapper">
+  <input type="text" [placeholder]="'searchbar.document' | translate" (change)="search()" type="text"  [(ngModel)]="fulltextQuery" /> 
+  <i mz-icon-mdi [icon]="'magnify'" (click)="search()" class="app-cursor-pointer"></i>
+  <i *ngIf="fulltextQuery" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer"></i>
+</div>

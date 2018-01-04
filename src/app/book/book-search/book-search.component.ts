@@ -22,12 +22,17 @@ export class BookSearchComponent implements OnInit, OnDestroy {
     );
   }
 
-  onChange() {
+  search() {
     this.bookService.fulltextChanged(this.fulltextQuery);
   }
 
   ngOnDestroy(): void {
     this.pageSubscription.unsubscribe();
+  }
+
+  cleanQuery() {
+    this.fulltextQuery = '';
+    this.bookService.fulltextChanged(this.fulltextQuery);
   }
 
 

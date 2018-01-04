@@ -25,16 +25,49 @@ app-navigation {
     }
   }
 
+
   app-book-search {
     display: block;
-    height: 50px;
+    height: 60px;
     width: 100%;
-    padding: 8px 20px 0;
-    @include set-border(bottom, 1, solid, $app-grey-l-2);
-    input {
-      // box-sizing: border-box !important;
-      height: 30px !important;
-      // padding-left: 20px !important;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    .book-search-wrapper {
+      position: relative;
+      background-color: #ffffff;
+      height: 42px;
+      border: 1px solid #e0e0e0;
+      input {
+        box-sizing: border-box !important;
+        height: 40px !important;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+        margin: 0px !important;
+        border: none !important;
+        &:focus {
+          background-color: transparent;
+          box-shadow: none !important;
+        }
+        &::-ms-clear {
+          display: none; // for IE - not display his display button
+        }
+      }
+      .mdi-magnify,
+      .mdi-close {
+        position: absolute;
+        line-height: normal;
+        height: auto;
+        font-size: inherit;
+        top: 0.6rem;
+        @extend .app-cursor-pointer;
+        color: $app-grey;
+      }
+      .mdi-magnify {
+        left: 0.5rem;
+      }
+      .mdi-close {
+        right: 0.5rem;
+      }
     }
   }
 
@@ -66,7 +99,7 @@ app-navigation {
   }
     
   .app-navigation-pages {
-    height: calc(100% - 164px);
+    height: calc(100% - 174px);
     margin-top: 10px;
     overflow: scroll;
     padding: 0.5rem;
