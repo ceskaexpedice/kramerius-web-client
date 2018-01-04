@@ -1,17 +1,18 @@
-<mz-card routerLink="{{item.getUrl()}}" [hoverable]="true">
-  <mz-card-content>
-    <div class="app-card-content center-align">
-      <div *ngIf="item.title" class="app-card-title" mz-tooltip [tooltip]="item.title" [position]="'top'">
-        {{item.title}}
+<a [routerLink]="item.getUrl()">
+  <mz-card  [hoverable]="true">
+    <mz-card-content>
+      <div class="app-card-content center-align">
+        <div *ngIf="item.title" class="app-card-title" mz-tooltip [tooltip]="item.title" [position]="'top'">
+          {{item.title}}
+        </div>
+        <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" ></div>
+        <div *ngIf="item.doctype === 'periodicalvolume'">
+          {{ 'periodical.volume' | translate: { volume: item.subtitle } }}
+        </div>
+        <div *ngIf="item.doctype === 'periodicalitem'">
+          {{ 'periodical.issue' | translate: { issue: item.subtitle } }}
+        </div>
       </div>
-      <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" ></div>
-      <div *ngIf="item.doctype === 'periodicalvolume'">
-        {{ 'periodical.volume' | translate: { volume: item.subtitle } }}
-      </div>
-      <div *ngIf="item.doctype === 'periodicalitem'">
-        {{ 'periodical.issue' | translate: { issue: item.subtitle } }}
-      </div>
-    </div>
-  </mz-card-content>
-</mz-card>
-
+    </mz-card-content>
+  </mz-card>
+</a>
