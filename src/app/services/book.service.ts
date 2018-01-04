@@ -238,8 +238,8 @@ export class BookService {
 
 
     fulltextChanged(query: string) {
-        this.publishNewPages(BookPageState.Loading);
         this.fulltextQuery = query;
+        this.publishNewPages(BookPageState.Loading);
         if (!query) {
             this.cancelFulltext();
             return;
