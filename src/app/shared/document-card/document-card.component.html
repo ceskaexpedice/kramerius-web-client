@@ -1,27 +1,28 @@
-<mz-card *ngIf="item" routerLink="{{item.url}}" [hoverable]="true">
-  <mz-card-content>
-    <div class="app-card-mark {{item.doctype}}"></div>
-    <div class="app-card-media">
-      <div class="app-card-thumb" [style.background-image]="getThumb()">
-        <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+<a *ngIf="item" routerLink="{{item.url}}">
+  <mz-card [hoverable]="true">
+    <mz-card-content>
+      <div class="app-card-mark {{item.doctype}}"></div>
+      <div class="app-card-media">
+        <div class="app-card-thumb" [style.background-image]="getThumb()">
+          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+        </div>
       </div>
-      
-    </div><!--/.app-card-media -->
-    <div class="app-card-content">
-      <div *ngIf="item.title" class="app-card-title"><!--mz-tooltip [tooltip]="item.title" [position]="'top'"-->
-        {{item.title}}
-      </div><!--/.app-card-title -->
-      <div *ngIf="item.authors" class="app-card-authors"><!-- mz-tooltip [tooltip]="item.authors" [position]="'top'"-->
-        <i mz-icon-mdi [icon]="'account'" [class]="'app-clean-mg'"></i>
-        {{item.authors}}
-      </div><!--/.app-card-authors -->
-      <div *ngIf="item.date" class="app-card-date">
-        <i mz-icon-mdi [icon]="'calendar-check'" [class]="'app-clean-mg'"></i>
-        {{item.date}}
-      </div><!--/.app-card-date -->
-      <div *ngIf="item.doctype" class="app-card-doctype {{item.doctype}}">
-        {{ 'model.' + item.doctype | translate }}
-      </div><!--/.app-card-doctype -->
-    </div><!--/.app-card-content -->
-  </mz-card-content>
-</mz-card>
+      <div class="app-card-content">
+        <div *ngIf="item.title" class="app-card-title">
+          {{item.title}}
+        </div>
+        <div *ngIf="item.authors" class="app-card-authors">
+          <i mz-icon-mdi [icon]="'account'" [class]="'app-clean-mg'"></i>
+          {{item.authors}}
+        </div>
+        <div *ngIf="item.date" class="app-card-date">
+          <i mz-icon-mdi [icon]="'calendar-check'" [class]="'app-clean-mg'"></i>
+          {{item.date}}
+        </div>
+        <div *ngIf="item.doctype" class="app-card-doctype {{item.doctype}}">
+          {{ 'model.' + item.doctype | translate }}
+        </div>
+      </div>
+    </mz-card-content>
+  </mz-card>
+</a>
