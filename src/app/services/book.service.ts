@@ -147,18 +147,6 @@ export class BookService {
         }
     }
 
-    isPageInaccessible() {
-        return this.pageState === BookPageState.Inaccessible;
-    }
-
-    isPageFailure() {
-        return this.pageState === BookPageState.Failure;
-    }
-
-    isLoading() {
-        return this.bookState === BookState.Loading || this.pageState === BookPageState.Loading;
-    }
-
     goToPrevious() {
         if (this.hasPrevious()) {
             this.goToPageOnIndex(this.activePageIndex - 1);
@@ -189,10 +177,7 @@ export class BookService {
 
 
     showQuotation() {
-        const page = this.getPage();
-        this.krameriusApiService.getAlto(page.uuid).subscribe(response => {
-            this.altoService.getBoxes(response, 'šachy', page.width, page.height);
-        });
+
     }
 
     showOcr() {
@@ -253,6 +238,7 @@ export class BookService {
 
 
     fulltextChanged(query: string) {
+        this.publishNewPages(BookPageState.Loading);
         this.fulltextQuery = query;
         if (!query) {
             this.cancelFulltext();
@@ -272,7 +258,12 @@ export class BookService {
                     }
                 }
             }
-            this.goToPageOnIndex(0);
+            if (this.pages.length > 0) {
+                this.goToPageOnIndex(0);
+            } else {
+                this.location.go('/view/' + this.uuid, 'fulltext=' + this.fulltextQuery);
+                this.publishNewPages(BookPageState.NoResults);
+            }
         });
     }
 
@@ -354,6 +345,28 @@ export class BookService {
 
 
 
+
+
+
+    isPageInaccessible() {
+        return this.pageState === BookPageState.Inaccessible;
+    }
+
+    isPageFailure() {
+        return this.pageState === BookPageState.Failure;
+    }
+
+    isLoading() {
+        return this.bookState === BookState.Loading || this.pageState === BookPageState.Loading;
+    }
+
+    noFulltextResults() {
+        return this.pageState === BookPageState.NoResults;
+    }
+
+
+
+
     private fetchImageProperties(leftPage: Page, rightPage: Page, first: boolean) {
         const page = first ? leftPage : rightPage;
         const url = this.krameriusApiService.getZoomifyRootUrl(page.uuid);
@@ -404,12 +417,16 @@ export class BookService {
     private publishNewPages(state: BookPageState) {
         const leftPage = this.getPage();
         const rightPage = this.getRightPage();
-        leftPage.altoBoxes = null;
+        if (leftPage) {
+            leftPage.altoBoxes = null;
+        }
         if (rightPage) {
             rightPage.altoBoxes = null;
         }
         if (state !== BookPageState.Success) {
-            leftPage.setImageProperties(-1, -1, null, true);
+            if (leftPage) {
+                leftPage.setImageProperties(-1, -1, null, true);
+            }
             if (rightPage) {
                 rightPage.setImageProperties(-1, -1, null, true);
             }
@@ -498,7 +515,7 @@ export class BookService {
 
 
 export enum BookPageState {
-    Success, Loading, Inaccessible, Failure, None
+    Success, Loading, Inaccessible, Failure, NoResults, None
 }
 
 export enum BookState {

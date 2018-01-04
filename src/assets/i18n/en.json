@@ -19,7 +19,8 @@
     "checkbox_label": "only public"
   },
   "searchbar": {
-    "placeholder": "Search in digital library ..."
+    "library": "Search in digital library ...",
+    "document": "Search in document  ..."
   },
   "filters": {
     "used_header": "Active filters",
@@ -97,9 +98,10 @@
   "alert": {
     "warning": "Attention",
     "error": "Error",
-    "no_results_found": "No result found. Please, try a different query.",
+    "no_results_found": "No results found. Please, try a different query.",
     "inaccessible_document": "The document is not publically accessible",
-    "failed_to_load_image": "Failed to load the image."
+    "failed_to_load_image": "Failed to load the image",
+    "book_no_results": "No results found"
   },
   "home": {
     "desc": "searching in digital documents",

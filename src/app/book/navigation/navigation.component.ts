@@ -26,6 +26,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.pageSubscription = this.bookService.watchPage().subscribe(
       pages => {
         const page = pages[0];
+        if (!page) {
+          return;
+        }
         const el = document.getElementById('page-id-' + page.uuid);
         if (el) {
             el.scrollIntoView(this.scrollOptions);

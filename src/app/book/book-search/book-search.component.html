@@ -1,1 +1,1 @@
-<input type="text" placeholder="Hledat v dokumentu" (change)="onChange()" type="text"  [(ngModel)]="fulltextQuery" />
+<input type="text" [placeholder]="'searchbar.document' | translate" (change)="onChange()" type="text"  [(ngModel)]="fulltextQuery" />

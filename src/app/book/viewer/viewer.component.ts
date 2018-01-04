@@ -56,10 +56,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
   init() {
     const mainStyle = new ol.style.Style({
       fill: new ol.style.Fill({
-        color: 'rgba(0, 188, 212, 0.20)'
+        color: 'rgba(0, 150, 136, 0.20)'
       }),
       stroke: new ol.style.Stroke({
-        color: '#00B7E7',
+        color: '#009688',
         width: 2
       })
     });

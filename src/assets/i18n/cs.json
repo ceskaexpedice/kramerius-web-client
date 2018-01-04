@@ -19,7 +19,8 @@
     "checkbox_label": "pouze veřejné"
   },
   "searchbar": {
-    "placeholder": "Hledat v digitální knihovně ..."
+    "library": "Hledat v digitální knihovně ...",
+    "document": "Hledat v dokumentu ..."
   },
   "filters": {
     "used_header": "Aktivní filtry",
@@ -93,7 +94,8 @@
     "error": "Chyba",
     "no_results_found": "Nebyly nalezeny žádné výsledky. Prosím, zkuste jiný dotaz.",
     "inaccessible_document": "Dokument není veřejně přístupný",
-    "failed_to_load_image": "Obrázek se nepodařilo načíst"
+    "failed_to_load_image": "Obrázek se nepodařilo načíst",
+    "book_no_results": "Nebyly nalezeny žádné výsledky"
   },
   "home": {
     "desc": "vyhledávání v digitalizovaných dokumentech",
@@ -149,7 +151,6 @@
     "tooltip_ocr": "Textový přepis stránky",
     "tooltip_quote": "Zobrazit citaci",
     "tooltip_share": "Sdílet"
-    
   },
   "pdf-dialog": {
     "title_generate": "Generování PDF",

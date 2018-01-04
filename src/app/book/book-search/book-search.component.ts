@@ -17,7 +17,6 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.pageSubscription = this.bookService.watchPage().subscribe(
       pages => {
-        console.log('page changed - fullt');
         this.fulltextQuery = this.bookService.getFulltextQuery();
       }
     );

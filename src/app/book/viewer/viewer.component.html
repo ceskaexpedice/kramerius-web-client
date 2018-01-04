@@ -49,6 +49,12 @@
               message="alert.failed_to_load_image">
   </app-alert>
 
+  <app-alert *ngIf="bookService.noFulltextResults()"
+             type="warning"
+             title="alert.warning"
+             message="alert.book_no_results">
+  </app-alert>
+
   <mz-spinner *ngIf="bookService.isLoading()"
               class="medium-centered-spinner"
               [color]="'blue'"
