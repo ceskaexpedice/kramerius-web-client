@@ -150,7 +150,8 @@
     "tooltip_jpg": "JPEG stránky",
     "tooltip_ocr": "Textový přepis stránky",
     "tooltip_quote": "Zobrazit citaci",
-    "tooltip_share": "Sdílet"
+    "tooltip_share": "Sdílet",
+    "all_pages": "Všechny stránky"
   },
   "pdf-dialog": {
     "title_generate": "Generování PDF",

@@ -19,6 +19,9 @@
     overflow: hidden;
     background-size: cover;
     background-position-x: center;    
+    &.hidden {
+      opacity: 0.1;
+    }
   }
   .app-item-title {
     position: absolute;

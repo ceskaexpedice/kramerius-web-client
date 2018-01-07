@@ -27,14 +27,16 @@ export class BookService {
     private subject = new Subject<Page[]>();
 
     private activePageIndex = 0;
-    public allPages: Page[] = [];
+    private allPages: Page[] = [];
     public pages: Page[] = [];
+    private ftPages: Page[] = [];
     public doublePage = false;
     public doublePageEnabled = false;
 
     public pageState: BookPageState;
     public bookState: BookState = BookState.Loading;
 
+    public fulltextAllPages = false;
 
     constructor(private location: Location,
         private altoService: AltoService,
@@ -101,7 +103,7 @@ export class BookService {
 
         this.bookState = BookState.Success;
         if (this.fulltextQuery) {
-            this.fulltextChanged(this.fulltextQuery);
+            this.fulltextChanged(this.fulltextQuery, pageUuid);
         } else {
             this.goToPageOnIndex(currentPage);
         }
@@ -132,7 +134,7 @@ export class BookService {
     }
 
     goToPageWithUuid(uuid: string) {
-        for (const page of this.allPages) {
+        for (const page of this.pages) {
             if (page.uuid === uuid) {
                 this.goToPageOnIndex(page.index);
                 return;
@@ -225,6 +227,7 @@ export class BookService {
         this.pages = [];
         for (const page of this.allPages) {
             page.selected = false;
+            page.hidden = false;
             page.index = index;
             index += 1;
             this.pages.push(page);
@@ -236,34 +239,63 @@ export class BookService {
         }
     }
 
+    fulltextAllPagesChanged(pageUuid: string = null) {
+        const currentPage = this.getPage();
+        let uuid;
+        if (pageUuid) {
+            uuid = pageUuid;
+        } else if (currentPage) {
+            uuid = currentPage.uuid;
+        }
+        if (this.fulltextAllPages) {
+            this.pages = this.allPages;
+        } else {
+            this.pages = this.ftPages;
+        }
+        if (this.pages.length < 1) {
+            this.location.go('/view/' + this.uuid, 'fulltext=' + this.fulltextQuery);
+            this.publishNewPages(BookPageState.NoResults);
+        } else {
+            let index = 0;
+            let pageIndex = 0;
 
-    fulltextChanged(query: string) {
+            for (const page of this.pages) {
+                page.selected = false;
+                page.index = index;
+                if (uuid && page.uuid === uuid) {
+                    pageIndex = index;
+                }
+                index += 1;
+            }
+            this.goToPageOnIndex(pageIndex);
+        }
+    }
+
+    fulltextChanged(query: string, pageUuid: string = null) {
         this.fulltextQuery = query;
+        this.fulltextAllPages = false;
         this.publishNewPages(BookPageState.Loading);
         if (!query) {
             this.cancelFulltext();
             return;
         }
         this.krameriusApiService.getFulltextUuidList(this.uuid, query).subscribe(result => {
-            this.pages = [];
+            this.ftPages = [];
             let index = 0;
             for (const page of this.allPages) {
+                page.hidden = true;
                 for (const uuid of result) {
                     if (uuid === page.uuid) {
                         page.selected = false;
                         page.index = index;
+                        page.hidden = false;
                         index += 1;
-                        this.pages.push(page);
+                        this.ftPages.push(page);
                         break;
                     }
                 }
             }
-            if (this.pages.length > 0) {
-                this.goToPageOnIndex(0);
-            } else {
-                this.location.go('/view/' + this.uuid, 'fulltext=' + this.fulltextQuery);
-                this.publishNewPages(BookPageState.NoResults);
-            }
+            this.fulltextAllPagesChanged(pageUuid);
         });
     }
 

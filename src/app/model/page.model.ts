@@ -7,6 +7,7 @@ export class Page {
     number: string;
     index: number;
     thumb: string;
+    hidden: boolean;
     selected = false;
     position = PagePosition.None;
 

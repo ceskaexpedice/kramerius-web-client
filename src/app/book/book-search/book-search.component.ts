@@ -9,6 +9,7 @@ import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 export class BookSearchComponent implements OnInit, OnDestroy {
 
   fulltextQuery: string;
+  // allPages: boolean;
   pageSubscription: Subscription;
 
   constructor(public bookService: BookService) {
@@ -35,7 +36,9 @@ export class BookSearchComponent implements OnInit, OnDestroy {
     this.bookService.fulltextChanged(this.fulltextQuery);
   }
 
-
+  checkboxChanged() {
+   this.bookService.fulltextAllPagesChanged();
+  }
 
 
 }

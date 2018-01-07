@@ -159,7 +159,9 @@
     "tooltip_jpg": "JPEG of the page",
     "tooltip_ocr": "Text transcript of the page",
     "tooltip_quote": "show quotation",
-    "tooltip_share": "Share"    
+    "tooltip_share": "Share",
+    "all_pages": "All Pages"
+   
   },
   "pdf-dialog": {
     "title_generate": "PDF generation",
