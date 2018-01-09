@@ -3,9 +3,8 @@
 app-periodical-toolbar {
   display: block;
   height: $app-toolbar-height;
-  /*line-height: $app-toolbar-height;*/
-  margin: 0 1rem;
-  @include set-border(bottom, 1, solid, $app-grey-c-2);
+  padding: 0 1rem;
+  @include set-border(bottom, 1, solid, $app-grey-l-2);
           
   .col {
     @extend .app-clean-pd;

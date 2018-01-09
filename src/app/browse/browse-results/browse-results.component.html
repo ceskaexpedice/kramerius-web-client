@@ -1,10 +1,10 @@
 <a *ngFor="let item of browseService.results; let odd=odd; let even=even;" 
-      class="browse-item" 
+      class="app-browse-item" 
       [ngClass]="{ odd: odd, even: even, hidden: !item.name}"
       [routerLink]="['/search']" [queryParams]="getParams(item.value)"
       >
-  <div class="browse-count">{{item.count}}x</div>
-  <div class="browse-name">{{item.name}}</div>
+  <div class="right">{{item.count}}x</div>
+  <div>{{item.name}}</div>
 </a>
 
 <div class="clearfix"></div>

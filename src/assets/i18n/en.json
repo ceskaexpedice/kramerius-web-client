@@ -20,7 +20,8 @@
   },
   "searchbar": {
     "library": "Search in digital library ...",
-    "document": "Search in document  ..."
+    "document": "Search in document  ...",
+    "delete_query": "Delete query"
   },
   "filters": {
     "used_header": "Active filters",

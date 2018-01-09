@@ -1,5 +1,7 @@
-<div class="app-search-filters-wrapper">
-  <app-search-count></app-search-count>
+<!--<div class="app-search-filters-wrapper">-->
+<app-search-count></app-search-count>
+
+<div class="app-filters-wrapper">
   <app-search-filters-used *ngIf="searchService.query.anyFilter()"></app-search-filters-used>
   
   <mz-collapsible [mode]="'expandable'">

@@ -33,6 +33,10 @@ a,
   padding: 0 !important;
 }
 
+.app-clean-border {
+  border: 0 !important;
+}
+
 // clearfix
 .clearfix {
   @include clearfix();

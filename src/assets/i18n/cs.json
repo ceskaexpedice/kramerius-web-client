@@ -20,7 +20,8 @@
   },
   "searchbar": {
     "library": "Hledat v digitální knihovně ...",
-    "document": "Hledat v dokumentu ..."
+    "document": "Hledat v dokumentu ...",
+    "delete_query": "Vymazat dotaz"
   },
   "filters": {
     "used_header": "Aktivní filtry",

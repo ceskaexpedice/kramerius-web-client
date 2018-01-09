@@ -4,27 +4,25 @@ app-browse-results {
   display: block;
   height: calc(100% - #{$app-toolbar-height});
   overflow: auto;
-  padding: 8px 0; 
+  padding: 1rem 0; 
 
-  .browse-item {
-    padding: 5px 15px;
+  .app-browse-item {
+    padding: 0.5rem 1rem;
     font-size: 15px;
-    color: #888;
+    color: $app-grey-d-1;
     display: block;
+    
     &.even {
-      background: #f3f3f3;
+      background: $app-grey-l-4;
     }
+    
     &.hidden {
       display: none;
     }
-    .browse-name {
 
-    }
-    .browse-count {
-      float: right;
-    }
     &:hover {
       color: $primary-color;
+      background-color: $app-grey-l-2;
     }
   }
 }

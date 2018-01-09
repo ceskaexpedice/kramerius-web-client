@@ -5,5 +5,5 @@
     </ng2-completer>
   </div>
   <i mz-icon-mdi [icon]="'magnify'" (click)="search()" class="app-cursor-pointer"></i>
-  <i *ngIf="searchStr" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer"></i>
+  <i *ngIf="searchStr" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate"></i>
 </div>

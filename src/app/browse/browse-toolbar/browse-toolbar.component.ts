@@ -24,5 +24,9 @@ export class BrowseToolbarComponent implements OnInit {
   onBrowseQueryChanged() {
    this.browseService.setText(this.query);
   }
-
+  
+  cleanQuery() {
+    this.query = '';
+    this.browseService.setText(this.query);
+  }
 }
