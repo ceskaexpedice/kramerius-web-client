@@ -11,86 +11,11 @@ app-navigation {
     overflow: hidden;
   }
   
-  app-book-controls {
-    .collection {
-      .collection-item {
-        i[class*="app-mdi-"] {
-          margin-left: 10px; 
-          margin-right: 10px;    
-          color: $app-grey;
-          &:hover {
-            color: color("shades", "black");
-          }
-        }
-      }
-    }
-  }
-
-
-  app-book-search {
-    .book-search-bar-wrapper {
-      display: block;
-      // height: 60px;
-      width: 100%;
-      padding: 10px;
-      border-bottom: 1px solid #e0e0e0;
-      .book-search-bar {
-        position: relative;
-        background-color: #ffffff;
-        height: 42px;
-        border: 1px solid #e0e0e0;
-        input {
-          box-sizing: border-box !important;
-          height: 40px !important;
-          padding-left: 40px !important;
-          padding-right: 40px !important;
-          margin: 0px !important;
-          border: none !important;
-          &:focus {
-            background-color: transparent;
-            box-shadow: none !important;
-          }
-          &::-ms-clear {
-            display: none; // for IE - not display his display button
-          }
-        }
-        .mdi-magnify,
-        .mdi-close {
-          position: absolute;
-          line-height: normal;
-          height: auto;
-          font-size: inherit;
-          top: 0.6rem;
-          @extend .app-cursor-pointer;
-          color: $app-grey;
-        }
-        .mdi-magnify {
-          left: 0.5rem;
-        }
-        .mdi-close {
-          right: 0.5rem;
-        }
-      }
-      .book-search-options {
-        display: block;
-        // height: 40px;
-        width: 100%;
-        padding-top: 10px;
-        // padding: 10px;
-        padding-left: 12px;
-        p {
-          margin: 0;
-        }
-        label {
-          padding-left: 30px;
-        }
-      }
-    }
-  }
-
+  @import "styles/app-book-controls";
+  @import "styles/app-book-search";
+  
   .app-navigation-header {
     padding: 5px 20px 8px 20px;
-    // margin-bottom: 1rem;
     @include set-border(bottom, 1, solid, $app-grey-l-2);
     
     .app-current-page {

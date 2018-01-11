@@ -1,9 +1,15 @@
-<a *ngIf="item.uuid; else missing" class="app-item app-cursor-pointer" routerLink="{{item.getUrl()}}">
-  <div class="center-align">{{item.title}}</div>
-  <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+<a *ngIf="item.uuid; else missing" routerLink="{{item.getUrl()}}">
+  <mz-card  [hoverable]="true">
+    <mz-card-content>
+      {{item.title}}
+      <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+    </mz-card-content>
+  </mz-card>
 </a>
 <ng-template #missing>
-  <div class="app-item">
-    <div class="center-align missing">{{item.title}}</div>
-  </div>
+  <mz-card  [hoverable]="true" class="app-missing">
+    <mz-card-content>
+      {{item.title}}
+    </mz-card-content>
+  </mz-card>
 </ng-template>

@@ -1,0 +1,30 @@
+// --- BOOK SEARCH ---
+
+app-book-search {
+  .app-book-search-bar-wrapper {
+    width: 100%;
+    padding: 0 20px 0 20px;
+    @include set-border(bottom, 1, solid, $app-grey-l-2);
+
+    .app-book-search-bar {
+      position: relative;
+
+      input {
+        @extend .app-clean-mg;
+        border-bottom-color: transparent;
+
+        &.app-is-query {
+          border-bottom: 1px solid $primary-color !important;
+          box-shadow: 0 1px 0 0 $primary-color;
+        }
+      }
+
+      .mdi-close {
+        position: absolute;
+        right: 0;
+        top: 5px;
+        color: $app-grey;
+      }
+    }
+  }
+}

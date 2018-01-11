@@ -33,17 +33,9 @@ app-periodical-grid-item {
   }
   
   .card {
-    @include set-border(all, 1, solid, $app-grey-l-2);
     @extend .app-cursor-pointer;
-    box-shadow: 0 2px 2px 0 rgba(38, 50, 56, 0), 0 1px 5px 0 rgba(38, 50, 56, 0.1), 0 3px 1px -20px rgba(38, 50, 56, 0.1);
     margin: 0.5rem;
-
-    &.hoverable {
-      &:hover {
-        @include set-border(all, 1, solid, $app-grey-c-1);
-        box-shadow: 0 8px 17px 0 rgba(38, 50, 56, 0.1), 0 6px 20px 0 rgba(38, 50, 56, 0.19);
-      }
-    }
+    @include setCardShadow(0, 0, 0, $app-grey-l-2);
 
     .card-content {
       @extend .app-clean-pd;

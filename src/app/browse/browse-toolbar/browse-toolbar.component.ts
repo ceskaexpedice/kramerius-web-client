@@ -18,6 +18,7 @@ export class BrowseToolbarComponent implements OnInit {
     this.route.queryParamMap.subscribe(queryParams => {
       const text = queryParams.get('bq');
       this.query = text;
+      this.browseService.getText(); // pedro
     });
   }
 
@@ -25,6 +26,7 @@ export class BrowseToolbarComponent implements OnInit {
    this.browseService.setText(this.query);
   }
   
+  // pedro
   cleanQuery() {
     this.query = '';
     this.browseService.setText(this.query);

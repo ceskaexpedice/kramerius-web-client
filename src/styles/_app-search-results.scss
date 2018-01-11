@@ -5,6 +5,7 @@ app-search-results {
   height: calc(100% - #{$app-toolbar-height});
   overflow: auto;
   padding: 0.5rem;
+  background-color: $app-grey-l-4;
   
   app-document-card {
     float: left;

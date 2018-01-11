@@ -54,6 +54,7 @@
   }
 }
 
+
 // clearfix
 @mixin clearfix() {
   &:before,
@@ -65,6 +66,30 @@
     clear: both;
   }
 }
+
+
+// set card shadow
+@mixin setCardShadow($r, $g, $b, $borderColor, $hover: true) {
+  @include set-border(all, 1, solid, $borderColor);
+  box-shadow: 0 2px 2px 0 rgba($r, $g, $b, 0), 0 1px 5px 0 rgba($r, $g, $b, 0.1), 0 3px 1px -20px rgba($r, $g, $b, 0.1);
+  
+  @if($hover == true) {
+    &.hoverable:not(.app-missing) {
+      &:hover {
+        @include set-border(all, 1, solid, darken($borderColor, 5%));
+        box-shadow: 0 8px 17px 0 rgba($r, $g, $b, 0.1), 0 6px 20px 0 rgba($r, $g, $b, 0.19);
+      }
+    } 
+  }
+  @else if($hover == false) {
+    &.hoverable {
+      &:hover {
+        box-shadow: 0 2px 2px 0 rgba($r, $g, $b, 0), 0 1px 5px 0 rgba($r, $g, $b, 0.1), 0 3px 1px -20px rgba($r, $g, $b, 0.1); 
+      }
+    }
+  }
+}
+
 
 // roboto fontface
 @mixin roboto-font($name, $variant, $type, $weight, $style) {

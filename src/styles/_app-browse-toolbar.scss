@@ -38,15 +38,19 @@ app-browse-toolbar {
         
         .app-search-bar {
           margin: 0;
-          height: calc(#{$app-toolbar-height} - 1px);
-          @extend .app-clean-border;
+          height: calc(#{$app-toolbar-height} - 4px);
           z-index: 1024px;
+        
+          &:not(:focus) {
+            border-bottom-color: transparent;
+          }
         }
         
         // if there is some query
         &.app-search-query {
           .app-search-bar {
             border-bottom: 1px solid $primary-color !important;
+            box-shadow: 0 1px 0 0 $primary-color;
           }
           
           .mdi-close {

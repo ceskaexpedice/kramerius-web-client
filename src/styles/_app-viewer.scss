@@ -7,7 +7,7 @@ app-viewer {
   .app-viewer-wrapper {
     width: 100%;
     height: 100%;
-    background: color("blue-grey", "lighten-5");    
+    background-color: $app-grey-l-4;    
     position: relative;
 
     .app-handle {
