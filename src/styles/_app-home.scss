@@ -27,6 +27,11 @@
       }
     }
   }
+  
+  // mq
+  @media #{$medium-and-down} {
+    margin-top: 30px;
+  }
 }
 
 
@@ -54,14 +59,19 @@
       }
     }
   }
-  .items {
-    padding: 10px 0;
+  
+  .app-tab-content {
+    padding: 0.5rem;
     overflow: hidden;
     display: block;
-    app-document-card {
-      width: 33.33%;
-      display: block;
-      float: left;
+    
+    .col {
+      padding: 0;
     }
+  }
+
+  // mq
+  @media #{$medium-and-down} {
+    margin-top: 30px;
   }
 }

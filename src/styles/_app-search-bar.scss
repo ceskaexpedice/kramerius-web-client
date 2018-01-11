@@ -59,15 +59,34 @@ app-home-search-bar {
     }
   }
   .checkbox-field {
-    display: inline-block;
-    //line-height: 68px;
-    @extend .app-clean-mg;
-    padding-left: 20px;
+    display: block;
     color: $app-grey;
+    margin-bottom: 0;
+    margin-top: 0.75rem;
   }
   [type="checkbox"] + label:before, 
   [type="checkbox"]:not(.filled-in) + label:after {
     border-color: $app-grey;
+  }
+}
+
+app-home-search-bar {
+  .app-search-bar-wrapper {
+    width: 100%; 
+  }
+  
+  // mq
+  @media #{$extra-large-and-up} {
+    .checkbox-field {
+      display: inline-block;
+      padding-left: 20px;
+      margin-top: 0;
+    }
+  }
+  @media #{$large-and-up} {
+    .app-search-bar-wrapper {
+      width: 600px;
+    }
   }
 }
 

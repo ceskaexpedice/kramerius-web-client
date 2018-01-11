@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col offset-s4 s4 offset-s4">
+      <div class="col offset-s1 s10 offset-s1 offset-m3 m6 offset-m3 offset-l3 l6 offset-l3 offset-xl4 xl4 offset-xl4">
         <div class="divider"></div>
       </div>
     </div>
@@ -18,9 +18,6 @@
     </div>
     <app-home-search-bar></app-home-search-bar>
   </section>
-
-
-
 
   <div class="container app-featured">
     <div class="tabs">
@@ -35,8 +32,8 @@
       </div>
     </div>
 
-    <div class="items">
-      <app-document-card *ngFor="let item of getActiveItems()" [item]="item"></app-document-card>
+    <div class="app-tab-content row">
+      <app-document-card *ngFor="let item of getActiveItems()" [item]="item" class="col s12 m6 l6 xl4"></app-document-card>
     </div>
 
     <app-paginator 
