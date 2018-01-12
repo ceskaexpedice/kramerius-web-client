@@ -28,4 +28,9 @@ export class SearchToolbarComponent implements OnInit {
   //   $('#' + id).toggleClass('active');
   //   $('#' + id).slideToggle('fast');
   // }
+  
+  // hide filters - pedro
+  hideFilters() {
+    this.state.filtersToggle();
+  }
 }

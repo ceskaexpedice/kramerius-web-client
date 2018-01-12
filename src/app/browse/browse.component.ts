@@ -1,4 +1,5 @@
 import { BrowseService } from './../services/browse.service';
+import { AppState } from './../app.state';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -10,7 +11,8 @@ import { Component, OnInit } from '@angular/core';
 export class BrowseComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
-    public browseService: BrowseService) { }
+    public browseService: BrowseService,
+    public state: AppState) { }
 
 
   ngOnInit() {

@@ -4,8 +4,28 @@ app-browse-toolbar {
   display: block;
   height: $app-toolbar-height;
   line-height: $app-toolbar-height;
-  padding: 0 1rem;
+  padding: 0 1rem 0 2.5rem;
   @include set-border(bottom, 1, solid, $app-grey-l-2);
+  position: relative;
+  
+  // mq
+  @media #{$medium-and-up} {
+    padding: 0 1rem;
+  }
+  
+  .app-handle {
+    position: absolute;
+    top: 7px;
+    height: 40px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    color: $app-grey;
+    cursor: pointer;
+    left: 0;
+    @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
+    border-top-right-radius: $app-border-radius-sidebar;
+    border-bottom-right-radius: $app-border-radius-sidebar;
+  }
   
   & > .row {
     overflow: hidden;

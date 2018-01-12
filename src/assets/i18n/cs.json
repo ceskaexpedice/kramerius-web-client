@@ -29,7 +29,9 @@
     "tooltip_remove_filter": "Zrušit tento filtr",
     "tooltip_remove_filter_all": "Zrušit všechny aktivní filtry",
     "btn_show_more": "Zobrazit více",
-    "btn_show_less": "Zobrazit méně"
+    "btn_show_less": "Zobrazit méně",
+    "btn_show_filters": "Zobraz filtry",
+    "btn_hide_filters": "Skýt filtry"
   },
   "toolbar": {
     "tooltip_show_chartbar": "Zobrazit časovou osu",

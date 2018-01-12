@@ -6,6 +6,21 @@ app-search-toolbar {
   line-height: $app-toolbar-height;
   padding: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-l-2);
+  position: relative;
+  
+  .app-handle {
+    position: absolute;
+    top: 7px;
+    height: 40px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    color: $app-grey;
+    cursor: pointer;
+    left: 0;
+    @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
+    border-top-right-radius: $app-border-radius-sidebar;
+    border-bottom-right-radius: $app-border-radius-sidebar;
+  }
   
   & > .row {
     height: $app-toolbar-height;
@@ -90,9 +105,19 @@ app-search-toolbar {
 
             span {
               padding: 0 1rem;
+              
+              // mq
+              @media #{$large-only} {
+                padding: 0 0.4rem;
+              }
 
               i {
                 margin-right: 3px;
+                
+                // mq
+                @media #{$large-only} {
+                  margin-right: 0;
+                }
               }
             }
           }
@@ -116,6 +141,11 @@ app-search-toolbar {
 
               label {
                 font-size: inherit;
+                
+                // mq
+                @media #{$large-only} {
+                  display: none;
+                }
               }
             }
 

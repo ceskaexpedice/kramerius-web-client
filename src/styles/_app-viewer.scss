@@ -24,7 +24,6 @@ app-viewer {
         @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
         border-top-right-radius: $app-border-radius-sidebar;
         border-bottom-right-radius: $app-border-radius-sidebar;
-        //box-shadow: 2px 1px 8px rgba(0, 0, 0, 0.1);
       }
       
       &.app-right-handle {
@@ -32,7 +31,6 @@ app-viewer {
         @include set-border(left-top-bottom, 1, solid, #{$app-grey-l-2});
         border-top-left-radius: $app-border-radius-sidebar;
         border-bottom-left-radius: $app-border-radius-sidebar;
-        //box-shadow: 2px 1px 8px rgba(0, 0, 0, 0.1);
       }
   
       &:hover {

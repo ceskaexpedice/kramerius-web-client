@@ -1,4 +1,5 @@
 import { SearchService } from './../services/search.service';
+import { AppState } from './../app.state';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -11,7 +12,8 @@ export class SearchComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public searchService: SearchService) {
+    public searchService: SearchService,
+    public state: AppState) {
   }
 
   ngOnInit() {

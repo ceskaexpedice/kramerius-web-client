@@ -1,5 +1,5 @@
 <div class="row app-clean-mg">
-  <div class="col s8 app-col-left">
+  <div class="col s10 app-col-left hide-on-med-only hide-on-med-and-down">
     <ul>
       <li *ngFor="let doctype of searchService.doctypes" [ngClass]="{'active' : doctype.selected}" class="{{doctype.value}}">
         <span (click)="searchService.toggleFilter(searchService.query.doctypes, doctype.value)" mz-tooltip [tooltip]="'model.' + doctype.value | translate" [position]="'top'" class="app-cursor-pointer">
@@ -8,14 +8,15 @@
       </li>
     </ul>
   </div>
-  <div class="col s4 app-col-right">
+  <div class="col s12 m12 l2 xl2 app-col-right">
     <ul class="right">
       <li>
         <span class="app-cursor-pointer app-mdi-in">
           <label>{{ 'search.ordering.label' | translate }}:</label>
           <a id="app-btn-sort" href="#">{{ 'search.ordering.' + searchService.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
           <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-            <mz-dropdown-item *ngIf="searchService.query.hasQueryString()"><a (click)="searchService.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item> <mz-dropdown-item><a (click)="searchService.changeOrdering('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item *ngIf="searchService.query.hasQueryString()"><a (click)="searchService.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="searchService.changeOrdering('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('newest')">{{ 'search.ordering.newest' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('latest')">{{ 'search.ordering.latest' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('earliest')">{{ 'search.ordering.earliest' | translate }}</a></mz-dropdown-item>            
@@ -37,4 +38,23 @@
     </ul>
   </div>
 </div>
+
+<!-- Show / hide buttons -->
+<span *ngIf="!state.showingFilters"
+      class="app-handle valign-wrapper hide-on-med-and-up"
+      (click)="hideFilters()"
+      mz-tooltip 
+      [tooltip]="'filters.btn_hide_filters' | translate" 
+      [position]="'right'">
+      <i class="app-mdi-menu-left"></i>
+</span>
+
+<span *ngIf="state.showingFilters"
+      class="app-handle valign-wrapper hide-on-med-and-up"
+      (click)="hideFilters()"
+      mz-tooltip 
+      [tooltip]="'filters.btn_show_filters' | translate" 
+      [position]="'right'">
+      <i class="app-mdi-menu-right"></i>
+</span>
 

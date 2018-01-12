@@ -3,6 +3,17 @@
 app-search-filters, 
 app-browse-filters {
   float: left;
+  transition: margin-left 0.5s;
+  
+  &.app-filters-hide {
+    margin-left: -$app-side-col-width;
+    overflow: hidden;
+  }
+  
+  @media #{$medium-and-up} {
+    margin-left: 0 !important;
+    overflow: inherit !important;
+  }
   
   .app-filters-wrapper {
     height: calc(100% - #{$app-toolbar-height});

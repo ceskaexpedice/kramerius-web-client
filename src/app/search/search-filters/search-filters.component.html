@@ -28,8 +28,8 @@
     </mz-collapsible-item>
   </mz-collapsible>
 
-<!--   
-  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.doctypes?.length">
+   
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.doctypes?.length" class="hide-on-large-only">
     <mz-collapsible-item [active]="true">
       <mz-collapsible-item-header>
         {{ 'search.doctypes' | translate }}   
@@ -51,7 +51,7 @@
       </mz-collection>
       </mz-collapsible-item-body>
     </mz-collapsible-item>
-  </mz-collapsible>     -->
+  </mz-collapsible>     
 
 
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.keywords?.length">

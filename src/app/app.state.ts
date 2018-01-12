@@ -6,6 +6,7 @@ export class AppState {
 
   showingChartBar: boolean = false;
   showingCalendar: boolean = false;
+  showingFilters: boolean = true;
   
   // state of chart bar
   chartBarToggle() {
@@ -15,5 +16,10 @@ export class AppState {
   // state of calendar
   calendarToggle() {
     this.showingCalendar = !this.showingCalendar;
+  }
+  
+  // state of facets
+  filtersToggle() {
+    this.showingFilters = !this.showingFilters;
   }
 }
