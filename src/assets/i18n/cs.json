@@ -16,7 +16,8 @@
     "help": "Nápověda",
     "back": "Zpět na předchozí stránku",
     "home": "Domovská stránka",
-    "checkbox_label": "pouze veřejné"
+    "checkbox_label": "pouze veřejné",
+    "main_navigation": "Hlavní navigace"
   },
   "searchbar": {
     "library": "Hledat v digitální knihovně ...",

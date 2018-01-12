@@ -16,7 +16,8 @@
     "help": "Help",
     "back": "Back for previous page",
     "home": "Home page",
-    "checkbox_label": "only public"
+    "checkbox_label": "only public",
+    "main_navigation": "Main navigation"
   },
   "searchbar": {
     "library": "Search in digital library ...",

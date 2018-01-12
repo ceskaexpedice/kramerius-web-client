@@ -5,7 +5,7 @@ app-home-search-bar {
   .app-search-bar-wrapper {
     position: relative;
     display: inline-block;
-    width: 600px;
+    width: calc(100% - 60px);
     height: $app-search-bar-height;
     vertical-align: middle;
     margin-bottom: 3px;
@@ -17,7 +17,6 @@ app-home-search-bar {
     &:focus, &:hover, &.app-hover {
       @include set-border(all, 1, solid, $app-grey-c-1);
       box-shadow:  0 3px 4px 0 rgba(0, 0, 0, 0.1), 0 1px 6px 0 rgba(0, 0, 0, 0.1), 0 3px 2px -1px rgba(0, 0, 0, 0.05);
-      //box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.03);
     }
     
     .mdi-magnify,
@@ -70,6 +69,7 @@ app-home-search-bar {
   }
 }
 
+// home
 app-home-search-bar {
   .app-search-bar-wrapper {
     width: 100%; 
@@ -90,4 +90,17 @@ app-home-search-bar {
   }
 }
 
+// navbar
+app-navbar-search-bar {
+  @media #{$extra-large-and-up} {
+    .app-search-bar-wrapper {
+      width: 600px;
+    }
+  }
+  @media #{$large-only} {
+    .app-search-bar-wrapper {
+      width: 450px;
+    }
+  }
+}
       

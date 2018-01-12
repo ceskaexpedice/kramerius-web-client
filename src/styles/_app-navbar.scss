@@ -23,6 +23,24 @@ app-navbar {
         &.app-col-left {
           width: $app-side-col-width;
           padding-left: 20px;
+          
+          //mq
+          @media #{$small-and-down} {
+            width: $app-mobile-logo-width;
+          }
+        }
+        
+        &.app-col-right {
+          width: calc(100% - #{$app-side-col-width});
+          
+          // mq
+          @media #{$small-and-down} {
+            width: calc(100% - #{$app-mobile-logo-width});
+          }
+        }
+        
+        &.app-col-right-home {
+          width: 100%;
         }
       }
     }

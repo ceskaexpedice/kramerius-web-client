@@ -51,6 +51,9 @@ $app-search-bar-height:     44px !default;
 // layout
 $app-side-col-width:        300px !default;
 
+// logo
+$app-mobile-logo-width:     120px !default;
+
 // toolbar
 $app-toolbar-height:        55px !default;
 
@@ -60,6 +63,7 @@ $app-card-title-font-size:  1.1rem !default;
 // materialize variables
 $navbar-font-color:         $app-grey-d-1 !default;
 $navbar-height:             68px !default;
+$navbar-height-mobile:      $navbar-height !default;
 
 $button-padding:            0 1rem !default;
 

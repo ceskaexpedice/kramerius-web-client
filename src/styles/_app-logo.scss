@@ -7,6 +7,11 @@ app-logo {
     display: table;
     line-height: normal;
     height: $navbar-height;
+    
+    // mq
+    @media #{$medium-and-down} {
+      transform: none;
+    }
 
     .app-brand-img {
       display: table-cell;
