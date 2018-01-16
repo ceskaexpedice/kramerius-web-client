@@ -26,7 +26,7 @@
 
 
 <!-- sidenav -->
-<mz-sidenav [id]="'app-side-nav'" [collapseButtonId]="'app-btn-sidenav'">
+<mz-sidenav [id]="'app-side-nav'" [collapseButtonId]="'app-btn-sidenav'" [closeOnClick]="true">
   <mz-sidenav-subheader>{{ 'navbar.main_navigation' | translate }}</mz-sidenav-subheader>
   <mz-sidenav-link routerLinkActive="active" #collections="routerLinkActive">
     <a routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>

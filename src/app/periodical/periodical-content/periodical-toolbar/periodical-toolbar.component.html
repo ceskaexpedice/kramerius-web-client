@@ -1,5 +1,5 @@
 <div class="row app-clean-mg">
-  <div class="col s5 app-periodical-info">
+  <div class="col app-periodical-info" [ngClass]="{'s6 m7 l10 xl10': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
     <a *ngIf="periodicalService.isPeriodicalVolume()" [routerLink]="['/periodical', periodicalService.document.root_uuid]">
       <i class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.volume_list' | translate" position="bottom"></i>
       <span class="app-periodical-title">{{periodicalService.metadata.getTitle()}}</span>
@@ -8,7 +8,7 @@
   </div><!--/.col -->
   
   
-  <div class="col s3 app-volume-info center-align">
+  <div class="col s4 m6 l4 xl2 app-volume-info center-align" *ngIf="periodicalService.volumeDetail">
     <span *ngIf="periodicalService.volumeDetail">
       <a *ngIf="periodicalService.volumeDetail.previous" [routerLink]="['/periodical', periodicalService.volumeDetail.previous.uuid]"
         class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.previous_volume' | translate" [position]="'bottom'">
@@ -23,7 +23,7 @@
   </div><!--/.col -->
 
 
-  <div class="col s4 app-nav-item">
+  <div class="col app-nav-item" [ngClass]="{'s6 m5 l2 xl2': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
     <ul class="right">
       <li *ngIf="periodicalService.gridLayoutEnabled" (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_grid' | translate" [position]="'top'" class="app-cursor-pointer">

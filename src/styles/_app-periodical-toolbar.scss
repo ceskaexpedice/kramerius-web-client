@@ -35,6 +35,9 @@ app-periodical-toolbar {
     }
     
     &.app-volume-info {
+      height: $app-toolbar-height;
+      overflow: hidden;
+      
       .app-volume-title {
         color: $app-grey-d-1;
         font-size: 1.4rem;
@@ -64,7 +67,10 @@ app-periodical-toolbar {
     
     // col right
     &.app-nav-item {
+      height: $app-toolbar-height;
+      overflow: hidden;
       line-height: $app-toolbar-height;
+      
       ul {
         li {
           &.active {
