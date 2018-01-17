@@ -1,8 +1,10 @@
 <app-browse-count></app-browse-count>
 
+<app-browse-search></app-browse-search>
+
 <div class="app-filters-wrapper">
   <mz-collapsible [mode]="'expandable'">
-      <mz-collapsible-item [active]="true">
+      <mz-collapsible-item [active]="collapsedFilter">
         <mz-collapsible-item-header>
           {{ 'search.accessibility.label' | translate }}   
           <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
@@ -34,7 +36,7 @@
 
 
   <mz-collapsible [mode]="'expandable'">
-    <mz-collapsible-item [active]="true">
+    <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'browse.category.label' | translate }}   
         <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>

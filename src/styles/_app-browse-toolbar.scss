@@ -4,16 +4,16 @@ app-browse-toolbar {
   display: block;
   height: $app-toolbar-height;
   line-height: $app-toolbar-height;
-  padding: 0 1rem 0 2.5rem;
+  padding: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-l-2);
   position: relative;
   
   // mq
-  @media #{$medium-and-up} {
+  /*@media #{$medium-and-up} {
     padding: 0 1rem;
-  }
+  }*/
   
-  .app-handle {
+  /*.app-handle {
     position: absolute;
     top: 7px;
     height: 40px;
@@ -25,7 +25,7 @@ app-browse-toolbar {
     @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
     border-top-right-radius: $app-border-radius-sidebar;
     border-bottom-right-radius: $app-border-radius-sidebar;
-  }
+  }*/
   
   & > .row {
     overflow: hidden;
@@ -56,7 +56,7 @@ app-browse-toolbar {
       &.app-col-left {
         position: relative;
         
-        .app-search-bar {
+       /* .app-search-bar {
           margin: 0;
           height: calc(#{$app-toolbar-height} - 4px);
           z-index: 1024px;
@@ -79,7 +79,7 @@ app-browse-toolbar {
             top:0;
             color: $app-grey;
           }
-        }
+        }*/
       }
 
       // col right

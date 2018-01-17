@@ -1,12 +1,12 @@
-// --- BOOK SEARCH ---
+// --- BROWSE SEARCH ---
 
-app-book-search {
-  .app-book-search-bar-wrapper {
+app-browse-search {
+  .app-browse-search-bar-wrapper {
     width: 100%;
     padding: 0 20px 0 20px;
     @include set-border(bottom, 1, solid, $app-grey-l-2);
 
-    .app-book-search-bar {
+    .app-browse-search-bar {
       position: relative;
 
       input {

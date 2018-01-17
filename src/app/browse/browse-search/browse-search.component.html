@@ -1,0 +1,7 @@
+<div class="app-browse-search-bar-wrapper">
+  <div class="app-browse-search-bar" [class.app-is-query]="query">
+    <input (change)="onBrowseQueryChanged()" type="text" placeholder="{{ 'browse.search.' + browseService.getCategory() | translate }} ..." [(ngModel)]="query" />
+    <i *ngIf="browseService.getText()" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
+    <i mz-icon-mdi [icon]="'magnify'"></i>
+  </div>
+</div>

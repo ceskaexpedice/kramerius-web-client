@@ -1,5 +1,5 @@
 import { BrowseService } from './../../services/browse.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-browse-filters',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./browse-filters.component.scss']
 })
 export class BrowseFiltersComponent implements OnInit {
+  @Input() collapsedFilter: boolean;
 
   constructor(public browseService: BrowseService) {
   }

@@ -7,8 +7,9 @@ app-search-toolbar {
   padding: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-l-2);
   position: relative;
+  z-index: 1024;
   
-  .app-handle {
+  /*.app-handle {
     position: absolute;
     top: 7px;
     height: 40px;
@@ -20,7 +21,7 @@ app-search-toolbar {
     @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
     border-top-right-radius: $app-border-radius-sidebar;
     border-bottom-right-radius: $app-border-radius-sidebar;
-  }
+  }*/
   
   & > .row {
     height: $app-toolbar-height;

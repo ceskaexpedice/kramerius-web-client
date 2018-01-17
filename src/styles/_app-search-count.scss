@@ -7,6 +7,7 @@ app-book-controls {
   height: $app-toolbar-height;
   line-height: $app-toolbar-height;
   @include set-border(bottom, 1, solid, $app-grey-l-2);
+  background-color: $app-white;
   
   .collection {
     border: none;

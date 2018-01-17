@@ -30,6 +30,7 @@ $app-grey-c-1:              color("custom", "grey-l-1") !default; // ebebeb -> t
 
 $app-red:                   color("red", "accent-4") !default; // d50000 -> remove color
 $app-orange:                color("orange", "accent-2") !default; // ffab40 -> count of periodica color
+$app-white:                 color("shades", "white") ! default;
 
 // type of document
 $app-type-monograph:        color("pink", "lighten-1") !default; // ec407a -> knihy

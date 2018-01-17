@@ -71,6 +71,7 @@ app-root {
     // browse
     app-browse {
       @import "styles/app-search-count";
+      @import "styles/app-browse-search";
       @import "styles/app-search-filters";
       .app-browse-wrapper {
         flex: 1;

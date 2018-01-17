@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   templateUrl: './search-filters.component.html'
 })
 export class SearchFiltersComponent implements OnInit {
+  @Input() collapsedFilter: boolean;
 
   constructor(public searchService: SearchService) {
   }

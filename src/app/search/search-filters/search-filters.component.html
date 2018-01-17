@@ -1,11 +1,10 @@
-<!--<div class="app-search-filters-wrapper">-->
 <app-search-count></app-search-count>
 
 <div class="app-filters-wrapper">
   <app-search-filters-used *ngIf="searchService.query.anyFilter()"></app-search-filters-used>
   
   <mz-collapsible [mode]="'expandable'">
-    <mz-collapsible-item [active]="true">
+    <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.accessibility.label' | translate }}
         <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
@@ -30,7 +29,7 @@
 
    
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.doctypes?.length" class="hide-on-large-only">
-    <mz-collapsible-item [active]="true">
+    <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.doctypes' | translate }}   
         <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
@@ -55,7 +54,7 @@
 
 
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.keywords?.length">
-    <mz-collapsible-item [active]="true">
+    <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.keywords' | translate }}            
         <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
@@ -86,7 +85,7 @@
 
 
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.authors?.length">
-    <mz-collapsible-item [active]="true">
+    <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.authors' | translate }}   
         <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
@@ -116,7 +115,7 @@
   </mz-collapsible>
 
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.languages?.length">
-    <mz-collapsible-item [active]="true">
+    <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.languages' | translate }}   
         <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
@@ -146,7 +145,7 @@
   </mz-collapsible>    
 
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.collections?.length">
-    <mz-collapsible-item [active]="true">
+    <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.collections' | translate }}   
         <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>

@@ -1,4 +1,5 @@
 <div class="row app-clean-mg">
+  <!-- Show just for medium devices and up -->
   <div class="col s10 app-col-left hide-on-med-only hide-on-med-and-down">
     <ul>
       <li *ngFor="let doctype of searchService.doctypes" [ngClass]="{'active' : doctype.selected}" class="{{doctype.value}}">
@@ -8,7 +9,14 @@
       </li>
     </ul>
   </div>
-  <div class="col s12 m12 l2 xl2 app-col-right">
+  <!-- Show just for small devices -->
+  <div class="col s2 app-col-left hide-on-med-and-up">
+    <a (click)="hideFilters()">
+      <i *ngIf="state.showingFilters" mz-icon-mdi [icon]="'filter'"></i>
+      <i *ngIf="!state.showingFilters" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
+    </a>
+  </div>
+  <div class="col s10 m12 l2 xl2 app-col-right">
     <ul class="right">
       <li>
         <span class="app-cursor-pointer app-mdi-in">
@@ -40,6 +48,7 @@
 </div>
 
 <!-- Show / hide buttons -->
+<!-- temporary commented -> original buttons for responsive behavior of filters - vertical collapsing
 <span *ngIf="!state.showingFilters"
       class="app-handle valign-wrapper hide-on-med-and-up"
       (click)="hideFilters()"
@@ -57,4 +66,5 @@
       [position]="'right'">
       <i class="app-mdi-menu-right"></i>
 </span>
+-->
 

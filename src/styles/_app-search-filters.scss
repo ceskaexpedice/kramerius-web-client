@@ -3,16 +3,45 @@
 app-search-filters, 
 app-browse-filters {
   float: left;
-  transition: margin-left 0.5s;
+  //transition: margin-left 0.5s;
   
-  &.app-filters-hide {
-    margin-left: -$app-side-col-width;
-    overflow: hidden;
+  &.app-filters-desktop {
+    display: none;
   }
   
+  &.app-filters-mobile {
+    display: block;
+    float: none;
+    width: 100%;
+    height: auto;
+
+    .app-filters-wrapper {
+      height: inherit;
+      overflow-x:inherit;
+    }
+  }
+  
+  &.app-filters-hide {
+    display: none;
+  }
+  
+  /*&.app-filters-hide {
+    margin-left: -$app-side-col-width;
+    overflow: hidden;
+  }*/
+  
+  // mq
   @media #{$medium-and-up} {
     margin-left: 0 !important;
     overflow: inherit !important;
+    
+    &.app-filters-desktop {
+      display: block;
+    }
+    
+    &.app-filters-mobile {
+      display: none;
+    }
   }
   
   .app-filters-wrapper {

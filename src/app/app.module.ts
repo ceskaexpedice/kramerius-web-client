@@ -71,6 +71,7 @@ import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
 import { LogoComponent } from './logo/logo.component';
 import { PersistentLinkComponent } from './persistent-link/persistent-link.component';
 import { PeriodicalService } from './services/periodical.service';
+import { BrowseSearchComponent } from './browse/browse-search/browse-search.component';
 
 
 const ROUTES: Routes = [
@@ -128,7 +129,8 @@ const ROUTES: Routes = [
     DialogShareComponent,
     LogoComponent,
     BookSearchComponent,
-    PersistentLinkComponent
+    PersistentLinkComponent,
+    BrowseSearchComponent
   ],
   entryComponents: [
     DialogOcrComponent,
