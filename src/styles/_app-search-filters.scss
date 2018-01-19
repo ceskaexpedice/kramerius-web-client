@@ -127,6 +127,7 @@ app-browse-filters {
   }
 }
 
+// just for browser filters
 app-browse-filters {
   .app-filters-wrapper {
     height: calc(100% - #{$app-toolbar-height} - 44px);
