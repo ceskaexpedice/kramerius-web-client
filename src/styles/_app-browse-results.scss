@@ -4,7 +4,13 @@ app-browse-results {
   display: block;
   height: calc(100% - #{$app-toolbar-height});
   overflow: auto;
-  padding: 1rem 0; 
+  padding: 1rem 0;
+  
+  @media #{$small-and-down} {
+    &.app-panel-mobile-open {
+      padding-top: calc(#{$app-mobile-panel-height} + 1rem);
+    }
+  }
 
   .app-browse-item {
     padding: 0.5rem 1rem;

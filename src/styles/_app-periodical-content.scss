@@ -4,8 +4,23 @@ app-periodical-content {
   flex: 1;
   height: 100%;
   position: relative;
+  
+  @media #{$small-and-down} {
+    &.app-panel-mobile-open {
+      .periodical-content {
+        app-periodical-grid-layout,
+        app-periodical-years-layout,
+        app-periodical-calendar-layout {
+          & > div[class*="-layout-wrapper"] {
+            padding-top: calc(#{$app-mobile-panel-height} + 0.5rem);
+          }
+        }
+      }
+    }
+  }
+  
   .periodical-content {
-    background: color("shades", "white");
+    background: $app-white;
     height: 100%;
 
     // common

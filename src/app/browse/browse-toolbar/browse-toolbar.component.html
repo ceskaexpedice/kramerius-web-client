@@ -1,13 +1,9 @@
 <div class="row app-clean-mg">
-  <!--<div class="col s6 app-col-left" [class.app-search-query]="query">
-    <input class="app-search-bar" (change)="onBrowseQueryChanged()" type="text" placeholder="{{ 'browse.search.' + browseService.getCategory() | translate }}" [(ngModel)]="query" />
-    <i *ngIf="browseService.getText()" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
-  </div>-->
   <!-- Show just for small devices -->
   <div class="col s2 app-col-left hide-on-med-and-up">
-    <a (click)="hideFilters()">
-      <i *ngIf="state.showingFilters" mz-icon-mdi [icon]="'filter'"></i>
-      <i *ngIf="!state.showingFilters" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
+    <a (click)="hidePanel()">
+      <i *ngIf="state.showingPanel" mz-icon-mdi [icon]="'filter'"></i>
+      <i *ngIf="!state.showingPanel" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
     </a>
   </div>
   <div class="col s10 m12 l12 xl12 app-col-right">
@@ -25,24 +21,4 @@
     </ul>
   </div>
 </div>
-
-<!-- Show / hide buttons -->
-<!-- temporary commented -> original buttons for responsive behavior of filters - vertical collapsing
-<span *ngIf="!state.showingFilters"
-      class="app-handle valign-wrapper hide-on-med-and-up"
-      (click)="hideFilters()"
-      mz-tooltip 
-      [tooltip]="'filters.btn_hide_filters' | translate" 
-      [position]="'right'">
-      <i class="app-mdi-menu-left"></i>
-</span>
-
-<span *ngIf="state.showingFilters"
-      class="app-handle valign-wrapper hide-on-med-and-up"
-      (click)="hideFilters()"
-      mz-tooltip 
-      [tooltip]="'filters.btn_show_filters' | translate" 
-      [position]="'right'">
-      <i class="app-mdi-menu-right"></i>
-</span>-->
 

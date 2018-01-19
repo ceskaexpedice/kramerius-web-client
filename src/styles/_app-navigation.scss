@@ -6,7 +6,7 @@ app-navigation {
   transition: margin-left 0.5s;
   @include set-border(right, 1, solid, $app-grey-l-2);
   
-  &.panel-hidden {
+  &.app-panel-hidden {
     margin-left: -$app-side-col-width;
     overflow: hidden;
   }

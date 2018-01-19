@@ -121,7 +121,9 @@
     "doctype": "Typ dokumentu",        
     "notes": "Poznámky",
     "genres": "Žánr",
-    "shelf_locator": "Signatura: {{shelf_locator}}"
+    "shelf_locator": "Signatura: {{shelf_locator}}",
+    "btn_show_metadata": "Zobrazit metadata",
+    "btn_hide_metadata": "Skrýt metadata"
   },
   "periodical": {
     "volume": "Ročník: {{volume}}",

@@ -1,6 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PeriodicalService } from '../services/periodical.service';
+import { AppState } from './../app.state';
 
 @Component({
   selector: 'app-periodical',
@@ -9,7 +10,7 @@ import { PeriodicalService } from '../services/periodical.service';
 export class PeriodicalComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
-    public periodicalService: PeriodicalService) { }
+    public periodicalService: PeriodicalService, public state: AppState) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {

@@ -7,7 +7,7 @@ app-search-toolbar {
   padding: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-l-2);
   position: relative;
-  z-index: 1024;
+  z-index: 990;
   
   /*.app-handle {
     position: absolute;

@@ -58,6 +58,9 @@ $app-mobile-logo-width:     120px !default;
 // toolbar
 $app-toolbar-height:        55px !default;
 
+// mobile panel - facets, metadata
+$app-mobile-panel-height:   250px !default;
+
 // card
 $app-card-title-font-size:  1.1rem !default;
 
@@ -78,6 +81,8 @@ $small-screen: 600px !default;
 $medium-screen: 992px !default;
 $large-screen: 1200px !default;
 
+$small-1-screen: 400px !default;
+
 $medium-and-up: "only screen and (min-width : #{$small-screen-up})" !default;
 $large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
 $extra-large-and-up: "only screen and (min-width : #{$large-screen-up})" !default;
@@ -85,3 +90,5 @@ $small-and-down: "only screen and (max-width : #{$small-screen})" !default;
 $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
 $medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})" !default;
 $large-only: "only screen and (max-width : #{$large-screen}) and (min-width : #{$medium-screen})" !default;
+
+$small-1-and-down: "only screen and (max-width : #{$small-1-screen})" !default;

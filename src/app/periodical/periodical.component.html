@@ -1,6 +1,4 @@
-<app-periodical-content
-  *ngIf="periodicalService.isStateSuccess()">
-</app-periodical-content>
+<app-periodical-content *ngIf="periodicalService.isStateSuccess()" [class.app-panel-mobile-open]="!state.showingPanel"></app-periodical-content>
 
 <div *ngIf="periodicalService.isStateLoading()" class="spinner-wrapper">
   <mz-spinner
@@ -10,5 +8,4 @@
   </mz-spinner>
 </div>
 
-    
-<app-metadata [metadata]="periodicalService.metadata"></app-metadata>
+<app-metadata [metadata]="periodicalService.metadata" [class.app-panel-mobile-hidden]="state.showingPanel"></app-metadata>

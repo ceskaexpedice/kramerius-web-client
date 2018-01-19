@@ -1,10 +1,10 @@
 <!-- Show just for medium and up devices -->
-<app-browse-filters [class.app-filters-hide]="state.showingFilters" class="app-filters-desktop" [collapsedFilter]="true"></app-browse-filters>
+<app-browse-filters class="app-filters-desktop" [collapsedFilter]="true"></app-browse-filters>
+<!-- Show just for small devices -->
+<app-browse-filters [class.app-panel-mobile-hidden]="state.showingPanel" class="app-filters-mobile" [collapsedFilter]="false"></app-browse-filters>
 
 <div class="app-browse-wrapper">
   <app-browse-toolbar></app-browse-toolbar>
-  <!-- Show just for small devices -->
-  <app-browse-filters [class.app-filters-hide]="state.showingFilters" class="app-filters-mobile" [collapsedFilter]="false"></app-browse-filters>
   <div class="clearfix"></div>  
-  <app-browse-results></app-browse-results> 
+  <app-browse-results [class.app-panel-mobile-open]="!state.showingPanel"></app-browse-results> 
 </div>

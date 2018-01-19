@@ -5,6 +5,7 @@ app-periodical-toolbar {
   height: $app-toolbar-height;
   padding: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-l-2);
+  position: relative;
           
   .col {
     @extend .app-clean-pd;
@@ -31,6 +32,11 @@ app-periodical-toolbar {
         i, .app-periodical-title {
           color: color("shades", "black");
         }
+      }
+      
+      //mq
+      @media #{$small-1-and-down} {
+        display: none;
       }
     }
     
@@ -63,6 +69,12 @@ app-periodical-toolbar {
           cursor: default !important;
         }
       }
+      
+      //mq
+      @media #{$small-1-and-down} {
+        width: 50%;
+        text-align: left;
+      }
     }
     
     // col right
@@ -78,7 +90,7 @@ app-periodical-toolbar {
           }
 
           span {
-            padding: 0 0.8rem;
+            padding: 0 0.5rem;
 
             &.app-mdi-in {
               padding-right: 0.4rem;
@@ -94,8 +106,41 @@ app-periodical-toolbar {
               @include set-border(left, 1, solid, $app-grey-l-2);
             } 
           }
+          
+          &.app-nav-item-info {
+            display: none;
+          }
+          
+          @media #{$small-and-down} {
+            &.app-nav-item-info {
+              display: block;
+            }
+            
+            &:last-child {
+              & > span {
+                padding-right: 0;
+              }
+            }
+          }
+          
+          @media #{$medium-and-up} {
+            &:nth-last-child(2) {
+              & > span {
+                padding-right: 0;
+              }
+            }
+          }
         }
-      }  
+      }
+      
+      //mq
+      @media #{$small-1-and-down} {
+        width: 50%;
+        
+        &.app-mq-small-1 {
+          width: 100%;
+        }
+      }
     }
     
     // common

@@ -5,9 +5,24 @@ app-metadata {
   transition: margin-right 0.5s;
   @include set-border(left, 1, solid, $app-grey-l-2);
   
-  &.panel-hidden {
+  &.app-panel-hidden {
     margin-right: -$app-side-col-width;
     overflow: hidden;
+  }
+  
+  @media #{$small-and-down} {
+    position: absolute;
+    width: 100%;
+    top: calc(#{$navbar-height} + #{$app-toolbar-height});
+    left: 0;
+    border: 0;
+    height: $app-mobile-panel-height;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+    display: block;
+    
+    &.app-panel-mobile-hidden {
+      display: none;
+    }
   }
   
   .app-metadata-wrapper {

@@ -127,7 +127,9 @@
     "doctype": "Document type",    
     "notes": "Notes",
     "genres": "Genre",        
-    "shelf_locator": "Shelf number: {{shelf_locator}}"
+    "shelf_locator": "Shelf number: {{shelf_locator}}",
+    "btn_show_metadata": "Show metadata",
+    "btn_hide_metadata": "Hide metadata"
   },
   "periodical": {
     "volume": "Volume: {{volume}}",

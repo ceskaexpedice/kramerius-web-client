@@ -8,25 +8,6 @@ app-browse-toolbar {
   @include set-border(bottom, 1, solid, $app-grey-l-2);
   position: relative;
   
-  // mq
-  /*@media #{$medium-and-up} {
-    padding: 0 1rem;
-  }*/
-  
-  /*.app-handle {
-    position: absolute;
-    top: 7px;
-    height: 40px;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.9);
-    color: $app-grey;
-    cursor: pointer;
-    left: 0;
-    @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
-    border-top-right-radius: $app-border-radius-sidebar;
-    border-bottom-right-radius: $app-border-radius-sidebar;
-  }*/
-  
   & > .row {
     overflow: hidden;
     height: $app-toolbar-height;
@@ -55,31 +36,6 @@ app-browse-toolbar {
       // col left
       &.app-col-left {
         position: relative;
-        
-       /* .app-search-bar {
-          margin: 0;
-          height: calc(#{$app-toolbar-height} - 4px);
-          z-index: 1024px;
-        
-          &:not(:focus) {
-            border-bottom-color: transparent;
-          }
-        }
-        
-        // if there is some query
-        &.app-search-query {
-          .app-search-bar {
-            border-bottom: 1px solid $primary-color !important;
-            box-shadow: 0 1px 0 0 $primary-color;
-          }
-          
-          .mdi-close {
-            position: absolute;
-            right: 0;
-            top:0;
-            color: $app-grey;
-          }
-        }*/
       }
 
       // col right

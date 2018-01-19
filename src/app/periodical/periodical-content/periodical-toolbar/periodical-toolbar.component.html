@@ -23,7 +23,7 @@
   </div><!--/.col -->
 
 
-  <div class="col app-nav-item" [ngClass]="{'s6 m5 l2 xl2': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
+  <div class="col app-nav-item" [ngClass]="{'s6 m5 l2 xl2 app-mq-small-1': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
     <ul class="right">
       <li *ngIf="periodicalService.gridLayoutEnabled" (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_grid' | translate" [position]="'top'" class="app-cursor-pointer">
@@ -38,6 +38,11 @@
       <li *ngIf="periodicalService.calendarLayoutEnabled" (click)="selectLayout('calendar')" class="layout-button" [class.active]="periodicalService.activeLayout == 'calendar'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_calendar' | translate" [position]="'top'" class="app-cursor-pointer">
           <i class="app-mdi-calendar-range"></i>
+        </span>
+      </li>
+      <li class="app-nav-item-info" [class.active]="!state.showingPanel">
+        <span (click)="hidePanel()"  mz-tooltip [tooltip]="'metadata.btn_show_metadata' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-information"></i>
         </span>
       </li>
     </ul>
