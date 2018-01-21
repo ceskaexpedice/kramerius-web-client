@@ -3,73 +3,84 @@
 app-music-playlist {
   padding: 16px;
   display: block;
-  flex: 1;
+  height: calc(100% - 254px);
+  overflow: hidden;
   .music-playlist {
-    .music-track-header {
+    height: 100%;
+    .music-playlist-header {
       overflow: hidden;
       border-bottom: 1px solid #e8e8e8;
       padding: 0 5px; 
-      .music-track-header-item {
+      .music-playlist-header-item {
         float: left;
         height: 30px;
         line-height: 30px;
         font-weight: 600;
         color: #aaaaaa;
-        &.music-track-header-icon {
+        &.music-playlist-header-icon {
           width: 26px;
         }
-        &.music-track-header-name {
+        &.music-playlist-header-name {
           width: 50%;
         }
       }
-
     }
-    .music-track {
-      overflow: hidden;
-      padding: 5px;
-      border-bottom: 1px solid #e8e8e8;
-      cursor: pointer;
-      .music-track-icon {
-        margin-right: 8px;
-        float: left;
-        height: 27px;
-        .music-track-lock {
-          color: #aaaaaa;
-          display: block;
-        }
-        .music-track-play {
-          color: #666666;
-          display: none;
-        }
-      }
-      .music-track-name {
-        float: left;
-        width: 50%;
-        height: 27px;
-        line-height: 27px;
-        color: #444444;
-      }
-      .music-track-unit {
-        float: left;
-        height: 27px;
-        line-height: 27px;
-        color: #666666;
-      }
-      &:hover {
-        background: #fbfbfb;
+    .music-track-list {
+      overflow: scroll;
+      height: calc(100% - 31px);
+      .music-track {
+        overflow: hidden;
+        padding: 5px;
+        border-bottom: 1px solid #e8e8e8;
+        cursor: pointer;
         .music-track-icon {
+          margin-right: 8px;
+          float: left;
+          height: 27px;
+          width: 18px;
           .music-track-lock {
-            display: none
+            color: #aaaaaa;
+            display: block;
           }
           .music-track-play {
-            display: block
+            color: #666666;
+            display: none;
           }
         }
         .music-track-name {
-          color: #000000;
-        }     
+          float: left;
+          width: 50%;
+          height: 27px;
+          line-height: 27px;
+          color: #666666;
+        }
         .music-track-unit {
-          color: #000000;
+          float: left;
+          height: 27px;
+          line-height: 27px;
+          color: #777777;
+        }
+        &:hover, &.active {
+          .music-track-icon {
+            .music-track-lock {
+              display: none
+            }
+            .music-track-play {
+              display: block
+            }
+          }
+          .music-track-name {
+            color: #000000;
+          }     
+          .music-track-unit {
+            color: #000000;
+          }
+        }
+        &:hover {
+          background: #fbfbfb;
+        }
+        &.active {
+          font-weight: 600;
         }
       }
     }

@@ -1,11 +1,12 @@
+import { SoundUnit } from './soundunit.model';
 export class Track {
 
     uuid: string;
     isPublic: boolean;
     name: string;
-    unit: string;
+    unit: SoundUnit;
 
-    constructor(uuid: string, name: string, unit: string, isPublic: boolean) {
+    constructor(uuid: string, name: string, unit: SoundUnit, isPublic: boolean) {
         this.uuid = uuid;
         this.name = name;
         this.unit = unit;

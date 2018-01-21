@@ -6,11 +6,10 @@ app-music-player {
   position: relative;
   .music-player {
     background: $app-white;
-    display: flex;
-    flex-direction: column;
-    
+    height: 100%;
     @import "styles/app-music-header";
     @import "styles/app-music-playlist";
+    @import "styles/app-music-controls";
 
   }
 }

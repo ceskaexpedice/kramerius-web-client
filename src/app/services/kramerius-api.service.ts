@@ -20,8 +20,11 @@ export class KrameriusApiService {
     private static STREAM_OCR = 'TEXT_OCR';
     private static STREAM_JPEG = 'IMG_FULL';
     private static STREAM_ALTO = 'ALTO';
+    private static STREAM_MP3 = 'MP3';
 
-    private BASE_URL = 'https://kramerius.mzk.cz';
+    // private BASE_URL = 'https://kramerius.mzk.cz';
+
+    private BASE_URL = 'http://zvuk.nm.cz';
     // private BASE_URL = 'https://kramerius.lib.cas.cz';
     // private BASE_URL = 'http://kramerius4.nkp.cz';
     // private BASE_URL = 'http://kramerius4.mlp.cz';
@@ -161,6 +164,10 @@ export class KrameriusApiService {
 
     getFullJpegUrl(uuid: string): string {
         return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
+    }
+
+    getMp3Url(uuid: string): string {
+        return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
     }
 
     getScaledJpegUrl(uuid: string, height: number): string {

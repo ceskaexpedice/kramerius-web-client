@@ -12,6 +12,8 @@ import { Metadata } from '../model/metadata.model';
 @Injectable()
 export class MusicService {
 
+  audio;
+  activeTrack: Track;
   coverImageUuid: string;
   soundUnitIndex = 0;
   uuid: string;
@@ -20,6 +22,7 @@ export class MusicService {
   state: MusicState = MusicState.None;
   tracks: Track[] = [];
   soundUnits: SoundUnit[] = [];
+  playing = false;
 
   constructor(private solrService: SolrService,
     private modsParserService: ModsParserService,
@@ -67,7 +70,7 @@ export class MusicService {
       this.krameriusApiService.getChildren(unit['uuid']).subscribe((tracks) => {
         for (const track of tracks) {
           if (track['model'] === 'track') {
-            this.tracks.push(new Track(track['pid'], track['title'], unit['name'], track['policy'] === 'public'));
+            this.tracks.push(new Track(track['pid'], track['title'], unit, track['policy'] === 'public'));
           }
         }
         this.soundUnitIndex += 1;
@@ -75,11 +78,59 @@ export class MusicService {
       });
     } else {
       this.state = MusicState.Success;
+      if (this.tracks.length > 0) {
+        this.selectTrack(this.tracks[0]);
+        console.log(this.tracks[0]);
+      }
+    }
+  }
+
+  isActiveTrack(track: Track): boolean {
+    return this.activeTrack === track;
+  }
+
+  selectTrack(track: Track) {
+    console.log('track', track);
+    this.activeTrack = track;
+    const url = this.krameriusApiService.getMp3Url(this.activeTrack.uuid);
+    if (this.audio) {
+      this.audio.setAttribute('src', url);
+    } else {
+      this.audio = new Audio(url);
+    }
+    console.log('audio', this.audio);
+  }
+
+  isPlaying(): boolean {
+    return this.playing;
+  }
+
+  playTrack() {
+    if (this.audio) {
+      this.playing = true;
+      this.audio.play();
+    }
+  }
+
+  pauseTrack() {
+    if (this.audio) {
+      this.playing = false;
+      this.audio.pause();
+      console.log("audio.currentSrc", this.audio.currentSrc );
+      console.log("audio.currentTime", this.formatTime(this.audio.currentTime);
+      console.log("audio.duration", this.formatTime(this.audio.duration));
+
     }
   }
 
   getCoverImageUrl(): string {
     return this.krameriusApiService.getThumbUrl(this.coverImageUuid);
+  }
+
+  getSoundUnitImageUrl(): string {
+    if (this.activeTrack) {
+      return this.krameriusApiService.getThumbUrl(this.activeTrack.unit.uuid);
+    }
   }
 
   hasCoverImage(): boolean {
@@ -106,6 +157,8 @@ export class MusicService {
     this.soundUnits = [];
     this.soundUnitIndex = 0;
     this.coverImageUuid = null;
+    this.activeTrack = null;
+    this.audio = null;
   }
 
   isStateSuccess(): boolean {
@@ -120,6 +173,17 @@ export class MusicService {
     return this.state === MusicState.Loading;
   }
 
+
+
+  private formatTime(secs: number) {
+    const hr  = Math.floor(secs / 3600);
+    const min = Math.floor((secs - (hr * 3600)) / 60);
+    const sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+    const m = min < 10 ? '0' + min : '' + min;
+    const s = sec < 10 ? '0' + sec : '' + sec;
+    const h = hr > 0 ? hr + ':' : '';
+    return h + m + ':' + s;
+  }
 
 }
 

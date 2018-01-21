@@ -1,0 +1,26 @@
+<div class="music-controls">
+  <div class="controls-buttons">
+      <i *ngIf="musicService.activeTrack && !musicService.isPlaying()" 
+          mz-icon-mdi 
+          (click)="musicService.playTrack()"
+          [size]="'48px'" 
+          [icon]="'play'"  
+          class="controls-button controls-button-play">
+      </i>
+      <i *ngIf="musicService.activeTrack && musicService.isPlaying()" 
+          mz-icon-mdi 
+          (click)="musicService.pauseTrack()"
+          [size]="'48px'" 
+          [icon]="'pause'" 
+          class="controls-button controls-button-pause">
+      </i>
+  </div>
+  <div class="soundunit-info-wrapper">
+      <div class="soundunit-info" *ngIf="musicService.activeTrack">
+        <div class="soundunit-image" [style.background-image]="soundUnitImage()"></div>
+        <div class="track-title">{{ musicService.activeTrack.name }}</div>
+        <div class="soundunit-title">{{ musicService.activeTrack.unit.name }}</div>
+      </div>
+  </div>
+
+</div>

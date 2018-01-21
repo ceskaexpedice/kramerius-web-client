@@ -77,6 +77,7 @@ import { MusicComponent } from './music/music.component';
 import { MusicPlayerComponent } from './music/music-player/music-player.component';
 import { MusicPlaylistComponent } from './music/music-player/music-playlist/music-playlist.component';
 import { MusicHeaderComponent } from './music/music-player/music-header/music-header.component';
+import { MusicControlsComponent } from './music/music-player/music-controls/music-controls.component';
 
 
 const ROUTES: Routes = [
@@ -140,7 +141,8 @@ const ROUTES: Routes = [
     MusicComponent,
     MusicPlayerComponent,
     MusicPlaylistComponent,
-    MusicHeaderComponent
+    MusicHeaderComponent,
+    MusicControlsComponent
   ],
   entryComponents: [
     DialogOcrComponent,
