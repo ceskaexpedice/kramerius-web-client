@@ -17,6 +17,7 @@ app-root {
     app-search,
     app-browse,    
     app-periodical,
+    app-music,
     app-book,
     app-home {
       width: 100%;
@@ -95,6 +96,12 @@ app-root {
     // periodical
     app-periodical  {
       @import "styles/app-periodical-content";
+      @import "styles/app-metadata";
+    }
+
+    // music
+    app-music  {
+      @import "styles/app-music-player";
       @import "styles/app-metadata";
     }
   }

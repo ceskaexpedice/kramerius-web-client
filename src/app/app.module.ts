@@ -1,3 +1,4 @@
+import { MusicService } from './services/music.service';
 import { BookSearchComponent } from './book/book-search/book-search.component';
 import { AltoService } from './services/alto-service';
 import { CollectionService } from './services/collection.service';
@@ -72,6 +73,9 @@ import { LogoComponent } from './logo/logo.component';
 import { PersistentLinkComponent } from './persistent-link/persistent-link.component';
 import { PeriodicalService } from './services/periodical.service';
 import { BrowseSearchComponent } from './browse/browse-search/browse-search.component';
+import { MusicComponent } from './music/music.component';
+import { MusicPlayerComponent } from './music/music-player/music-player.component';
+import { MusicPlaylistComponent } from './music/music-player/music-playlist/music-playlist.component';
 
 
 const ROUTES: Routes = [
@@ -79,6 +83,7 @@ const ROUTES: Routes = [
   { path: 'browse', component: BrowseComponent },
   { path: 'search', component: SearchComponent },
   { path: 'periodical/:uuid', component: PeriodicalComponent },
+  { path: 'music/:uuid', component: MusicComponent },
   { path: 'uuid/:uuid', component: PersistentLinkComponent },
   // { path: 'help', component: HelpComponent },
   { path: 'view/:uuid', component: BookComponent },
@@ -130,7 +135,10 @@ const ROUTES: Routes = [
     LogoComponent,
     BookSearchComponent,
     PersistentLinkComponent,
-    BrowseSearchComponent
+    BrowseSearchComponent,
+    MusicComponent,
+    MusicPlayerComponent,
+    MusicPlaylistComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -167,7 +175,8 @@ const ROUTES: Routes = [
     PeriodicalService,
     CollectionService,
     HistoryService,
-    AltoService
+    AltoService,
+    MusicService
   ],
   bootstrap: [AppComponent]
 })

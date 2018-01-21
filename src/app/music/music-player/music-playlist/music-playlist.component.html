@@ -1,0 +1,16 @@
+<div class="music-playlist">
+  <div class="music-track-header">
+    <div class="music-track-header-item music-track-header-name">SKLADBA</div>
+    <div class="music-track-header-item">ČÁST ALBA</div>
+  </div>
+  <div *ngFor="let track of musicService.tracks" class="music-track">
+    <div class="music-track-icon">
+      <i *ngIf="!track.public" mz-icon-mdi [size]="'18px'" [icon]="'lock'" class="music-track-lock"></i>
+      <i mz-icon-mdi [size]="'18px'" [icon]="'play'" class="music-track-play"></i>
+    </div>
+    <div class="music-track-name">{{ track.name }}</div>
+    <div class="music-track-unit">{{ track.unit }}</div>
+
+  </div>
+
+</div>

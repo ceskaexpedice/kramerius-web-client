@@ -1,0 +1,66 @@
+// --- MUSIC PLAYLIST ---
+
+app-music-playlist {
+  padding: 16px;
+  display: block;
+  .music-playlist {
+    .music-track-header {
+      overflow: hidden;
+      border-bottom: 1px solid #e8e8e8;
+
+      .music-track-header-item {
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        font-weight: 600;
+        color: #aaaaaa;
+        &.music-track-header-name {
+          width: 50%;
+          margin-left: 31px;
+        }
+      }
+
+    }
+    .music-track {
+      overflow: hidden;
+      padding: 5px;
+      border-bottom: 1px solid #e8e8e8;
+      cursor: pointer;
+      .music-track-icon {
+        margin-right: 8px;
+        float: left;
+        height: 27px;
+        .music-track-lock {
+          color: #aaaaaa;
+          display: block;
+        }
+        .music-track-play {
+          color: #444444;
+          display: none;
+        }
+      }
+      .music-track-name {
+        float: left;
+        width: 50%;
+        height: 27px;
+        line-height: 27px;
+      }
+      .music-track-unit {
+        float: left;
+        height: 27px;
+        line-height: 27px;
+      }
+      &:hover {
+        background: #f4f4f4;
+        .music-track-icon {
+          .music-track-lock {
+            display: none
+          }
+          .music-track-play {
+            display: block
+          }
+        }
+      }
+    }
+  }
+}
