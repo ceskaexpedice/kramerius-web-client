@@ -3,20 +3,23 @@
 app-music-playlist {
   padding: 16px;
   display: block;
+  flex: 1;
   .music-playlist {
     .music-track-header {
       overflow: hidden;
       border-bottom: 1px solid #e8e8e8;
-
+      padding: 0 5px; 
       .music-track-header-item {
         float: left;
         height: 30px;
         line-height: 30px;
         font-weight: 600;
         color: #aaaaaa;
+        &.music-track-header-icon {
+          width: 26px;
+        }
         &.music-track-header-name {
           width: 50%;
-          margin-left: 31px;
         }
       }
 
@@ -35,7 +38,7 @@ app-music-playlist {
           display: block;
         }
         .music-track-play {
-          color: #444444;
+          color: #666666;
           display: none;
         }
       }
@@ -44,14 +47,16 @@ app-music-playlist {
         width: 50%;
         height: 27px;
         line-height: 27px;
+        color: #444444;
       }
       .music-track-unit {
         float: left;
         height: 27px;
         line-height: 27px;
+        color: #666666;
       }
       &:hover {
-        background: #f4f4f4;
+        background: #fbfbfb;
         .music-track-icon {
           .music-track-lock {
             display: none
@@ -59,6 +64,12 @@ app-music-playlist {
           .music-track-play {
             display: block
           }
+        }
+        .music-track-name {
+          color: #000000;
+        }     
+        .music-track-unit {
+          color: #000000;
         }
       }
     }

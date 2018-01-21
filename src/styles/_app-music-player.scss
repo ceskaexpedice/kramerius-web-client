@@ -1,14 +1,15 @@
 // --- MUSIC PLAYER ---
 
 app-music-player {
-  flex: 1;
   height: 100%;
+  flex: 1;
   position: relative;
-  
   .music-player {
     background: $app-white;
-    height: 100%;
-
+    display: flex;
+    flex-direction: column;
+    
+    @import "styles/app-music-header";
     @import "styles/app-music-playlist";
 
   }

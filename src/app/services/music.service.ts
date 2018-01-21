@@ -12,6 +12,7 @@ import { Metadata } from '../model/metadata.model';
 @Injectable()
 export class MusicService {
 
+  coverImageUuid: string;
   soundUnitIndex = 0;
   uuid: string;
   metadata: Metadata;
@@ -47,9 +48,14 @@ export class MusicService {
       for (const unit of units) {
         if (unit['model'] === 'soundunit') {
           this.soundUnits.push(new SoundUnit(unit['pid'], unit['title']));
+        } else if (!this.coverImageUuid && unit['model'] === 'page') {
+          this.coverImageUuid = unit['pid'];
         }
       }
       this.soundUnitIndex = 0;
+      if (!this.coverImageUuid && this.soundUnits.length > 0) {
+        this.coverImageUuid = this.soundUnits[0].uuid;
+      }
       this.loadTrack();
     });
   }
@@ -72,36 +78,24 @@ export class MusicService {
     }
   }
 
-    // KrameriusApi.getChildren(parentPid).then(function(response) {
-    //     var children = response.data;
-    //     children.forEach(function(child) {
-    //         if(child.model === 'track') {
-    //             child.parentTitle = parentTitle;
+  getCoverImageUrl(): string {
+    return this.krameriusApiService.getThumbUrl(this.coverImageUuid);
+  }
 
-    //             $scope.tracks.push(child);
-    //             if($scope.tracks.length == 1) {
-    //                 $scope.selectTrack(0);
-    //             }
-    //         } else if(child.model === 'soundunit') {
-    //             loadTracks(child.pid, child.title);
-    //          } else if(child.model === 'page' && root) {
-    //             if($scope.pages.length < 15) {
-    //                 $scope.pages.push(child);
-    //             }
-    //         }
-    //     });
-    //     Loading.stop();
-    // },
-    // function(response, status) {
-    //     Loading.stop();
-    //     //DialogService.dataError();
-    // });
+  hasCoverImage(): boolean {
+    return this.coverImageUuid !== null;
+  }
 
+  getAlbumTitle(): string {
+    return this.metadata.getTitle();
+  }
 
-
-
-
-
+  getAlbumAuthor(): string {
+    if (this.metadata.authors.length > 0) {
+      return this.metadata.authors[0].name;
+    }
+    return '';
+  }
 
   clear() {
     this.state = MusicState.None;
@@ -111,6 +105,7 @@ export class MusicService {
     this.tracks = [];
     this.soundUnits = [];
     this.soundUnitIndex = 0;
+    this.coverImageUuid = null;
   }
 
   isStateSuccess(): boolean {

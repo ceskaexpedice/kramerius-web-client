@@ -76,6 +76,7 @@ import { BrowseSearchComponent } from './browse/browse-search/browse-search.comp
 import { MusicComponent } from './music/music.component';
 import { MusicPlayerComponent } from './music/music-player/music-player.component';
 import { MusicPlaylistComponent } from './music/music-player/music-playlist/music-playlist.component';
+import { MusicHeaderComponent } from './music/music-player/music-header/music-header.component';
 
 
 const ROUTES: Routes = [
@@ -138,7 +139,8 @@ const ROUTES: Routes = [
     BrowseSearchComponent,
     MusicComponent,
     MusicPlayerComponent,
-    MusicPlaylistComponent
+    MusicPlaylistComponent,
+    MusicHeaderComponent
   ],
   entryComponents: [
     DialogOcrComponent,
