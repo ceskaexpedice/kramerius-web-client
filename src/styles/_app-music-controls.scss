@@ -1,0 +1,58 @@
+// --- MUSIC CONTROLS ---
+
+app-music-controls {
+  height: 72px;
+  display: block;
+  .music-controls {
+    background: #fafafa;
+    height: 100%;
+    border-top: 1px solid #e0e0e0;
+
+
+    .controls-buttons {
+      height: 100%;
+      text-align: center;
+      float: left;
+      width: 70px;
+      border-right: 1px solid #e0e0e0;
+      .controls-button {
+        color: #555;
+        cursor: pointer;
+        &:hover {
+          color: #000;
+        }
+      }
+    }
+
+    .soundunit-info-wrapper {
+      width: 30%;
+      height: 100%;
+      float: left;
+      padding: 5px; 
+      .soundunit-info {
+        .soundunit-image {
+          background-size: cover;
+          width: 60px;
+          height: 60px;
+          background-position: center center;
+          float: left;
+          margin-right: 8px;
+        }
+        .track-title {
+          font-size: 17px;
+          color: #444444;
+          line-height: 30px;
+          height: 30px;
+          overflow: hidden;
+        }
+        .soundunit-title {
+          font-size: 15px;
+          color: #666666;
+          line-height: 20px;
+          height: 20px;
+          overflow: hidden; 
+        }
+      }
+    }
+  } 
+}

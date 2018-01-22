@@ -4,8 +4,7 @@ import { BrowseService } from './../../services/browse.service';
 
 @Component({
   selector: 'app-browse-search',
-  templateUrl: './browse-search.component.html',
-  styleUrls: ['./browse-search.component.scss']
+  templateUrl: './browse-search.component.html'
 })
 export class BrowseSearchComponent implements OnInit {
 
@@ -26,10 +25,17 @@ export class BrowseSearchComponent implements OnInit {
   onBrowseQueryChanged() {
    this.browseService.setText(this.query);
   }
-  
+
   // pedro
   cleanQuery() {
     this.query = '';
     this.browseService.setText(this.query);
   }
+
+  // // hide filters - pedro
+  // hideFilters() {
+  //   // this.state.filtersToggle();
+  //   this.state.panelToggle();
+  // }
+
 }

@@ -13,4 +13,10 @@ export class SearchResultsComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  // // hide filters - pedro
+  // hideFilters() {
+  //   // this.state.filtersToggle();
+  //   this.state.panelToggle();
+  // }
 }

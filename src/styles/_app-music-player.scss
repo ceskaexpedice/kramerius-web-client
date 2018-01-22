@@ -1,0 +1,21 @@
+// --- MUSIC PLAYER ---
+
+app-music-player {
+  height: 100%;
+  flex: 1;
+  position: relative;
+  .music-player {
+    background: $app-white;
+    height: 100%;
+    @import "styles/app-music-header";
+    @import "styles/app-music-playlist";
+    @import "styles/app-music-controls";
+
+  }
+}
+
+.spinner-wrapper {
+  flex: 1;
+  height: 100%;
+  position: relative;
+}

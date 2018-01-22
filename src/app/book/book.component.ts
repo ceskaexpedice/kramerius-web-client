@@ -14,8 +14,7 @@ import 'rxjs/add/observable/forkJoin';
 
 @Component({
   selector: 'app-book',
-  templateUrl: './book.component.html',
-  styleUrls: ['./book.component.css']
+  templateUrl: './book.component.html'
 })
 export class BookComponent implements OnInit, OnDestroy {
 

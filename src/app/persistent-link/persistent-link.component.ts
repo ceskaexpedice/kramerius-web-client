@@ -27,7 +27,7 @@ export class PersistentLinkComponent implements OnInit {
     } else if (item.doctype === 'periodical' || item.doctype === 'periodicalvolume') {
       this.router.navigate(['/periodical', item.uuid]);
     } else if (item.doctype === 'soundunit' || item.doctype === 'soundrecording') {
-      // TODO: music player
+      this.router.navigate(['/music', item.uuid]);
     } else {
       this.router.navigate(['/view', item.uuid]);
     }

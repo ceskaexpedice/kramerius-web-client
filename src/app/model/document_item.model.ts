@@ -17,6 +17,8 @@ export class DocumentItem {
     resolveUrl() {
         if (this.doctype === 'periodical') {
             this.url =  '/periodical/' + this.uuid;
+        } else if (this.doctype === 'soundrecording') {
+            this.url = '/music/' + this.uuid;
         } else {
             this.url = '/view/' + this.uuid;
         }
