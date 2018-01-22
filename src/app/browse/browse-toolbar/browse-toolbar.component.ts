@@ -37,6 +37,6 @@ export class BrowseToolbarComponent implements OnInit {
   
   // hide filters - pedro
   hidePanel() {
-    this.state.panelToggle();
+    this.state.panelToggleBrowse();
   }
 }

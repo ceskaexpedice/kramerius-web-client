@@ -1,9 +1,9 @@
 <!-- Show just for medium and up devices -->
 <app-search-filters class="app-filters-desktop" [collapsedFilter]="true"></app-search-filters>
 <!-- Show just for small devices -->
-<app-search-filters [class.app-panel-mobile-hidden]="state.showingPanel" class="app-filters-mobile" [collapsedFilter]="false"></app-search-filters>
+<app-search-filters [class.app-panel-mobile-hidden]="state.showingPanelResult" class="app-filters-mobile" [collapsedFilter]="false"></app-search-filters>
 
 <div class="app-search-wrapper">
   <app-search-toolbar *ngIf="searchService.getNumberOfResults()"></app-search-toolbar>
-  <app-search-results [class.app-panel-mobile-open]="!state.showingPanel"></app-search-results>
+  <app-search-results [class.app-panel-mobile-open]="!state.showingPanelResult"></app-search-results>
 </div>

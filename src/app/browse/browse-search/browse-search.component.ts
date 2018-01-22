@@ -31,11 +31,4 @@ export class BrowseSearchComponent implements OnInit {
     this.query = '';
     this.browseService.setText(this.query);
   }
-
-  // // hide filters - pedro
-  // hideFilters() {
-  //   // this.state.filtersToggle();
-  //   this.state.panelToggle();
-  // }
-
 }

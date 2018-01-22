@@ -31,6 +31,6 @@ export class SearchToolbarComponent implements OnInit {
   
   // hide panel - pedro
   hidePanel() {
-    this.state.panelToggle();
+    this.state.panelToggleResult();
   }
 }
