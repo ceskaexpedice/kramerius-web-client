@@ -23,12 +23,14 @@ app-music-header {
       color: #333333;
       line-height: 30px;
       height: 30px;
+      overflow: hidden;
     }
     .album-author {
       font-size: 15px;
       color: #888888;
       line-height: 20px;
       height: 20px;
+      overflow: hidden;
     }
   } 
 }
