@@ -18,7 +18,8 @@ app-root {
     app-browse,    
     app-periodical,
     app-music,
-    app-book,
+    //app-book,
+    .app-book-wrapper,
     app-home {
       width: 100%;
       height: 100%;
@@ -86,6 +87,22 @@ app-root {
     
     // book
     app-book {
+      display: block;
+      height: 100%;
+      width: 100%;
+      position: relative;
+      
+      .app-book-wrapper {
+        @media #{$small-and-down} {
+          height: calc(100% - #{$app-toolbar-height});
+          
+          &.app-panel-mobile-open {
+            padding-top: $app-mobile-panel-height; 
+          }
+        }
+      }
+      
+      @import "styles/app-book-toolbar";
       @import "styles/app-search-count";
       @import "styles/app-viewer";
       @import "styles/app-viewer-controls";      

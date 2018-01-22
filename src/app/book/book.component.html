@@ -1,5 +1,9 @@
-<app-navigation [class.app-panel-hidden]="!viewerControls.leftPanelVisible"></app-navigation>
-<app-viewer></app-viewer>
-<app-metadata [class.app-panel-hidden]="!viewerControls.rightPanelVisible" [metadata]="metadata">
-  <app-book-controls></app-book-controls>
-</app-metadata>
+<app-book-toolbar class="hide-on-med-and-up"></app-book-toolbar>
+
+<div class="app-book-wrapper" [class.app-panel-mobile-open]="!state.showingPanelViewerNavigation" [class.app-panel-mobile-open]="!state.showingPanelViewerMetadata">
+  <app-navigation [class.app-panel-hidden]="!viewerControls.leftPanelVisible" [class.app-panel-mobile-hidden]="state.showingPanelViewerNavigation"></app-navigation>
+  <app-viewer></app-viewer>
+  <app-metadata [class.app-panel-hidden]="!viewerControls.rightPanelVisible" [class.app-panel-mobile-hidden]="state.showingPanelViewerMetadata" class="app-book-metadata" [metadata]="metadata">
+    <app-book-controls></app-book-controls>
+  </app-metadata>
+</div>

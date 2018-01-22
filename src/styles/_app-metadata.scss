@@ -23,6 +23,10 @@ app-metadata {
     &.app-panel-mobile-hidden {
       display: none;
     }
+    
+    &.app-book-metadata {
+      top: $app-toolbar-height;
+    }
   }
   
   .app-metadata-wrapper {

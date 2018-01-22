@@ -2,7 +2,7 @@
   <app-viewer-controls></app-viewer-controls>
   
   <span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
-        class="app-handle app-left-handle valign-wrapper" 
+        class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
         (click)="controlsService.hideLeftPanel()" 
         mz-tooltip 
         [tooltip]="'view_controls.tooltip_hide_left' | translate" 
@@ -11,7 +11,7 @@
   </span>
 
   <span *ngIf="!controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
-        class="app-handle app-left-handle valign-wrapper" 
+        class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
         (click)="controlsService.showLeftPanel()" 
         mz-tooltip 
         [tooltip]="'view_controls.tooltip_show_left' | translate" 
@@ -20,7 +20,7 @@
   </span>
 
   <span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
-        class="app-handle app-right-handle valign-wrapper" 
+        class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
         (click)="controlsService.hideRightPanel()" 
         mz-tooltip 
         [tooltip]="'view_controls.tooltip_hide_right' | translate" 
@@ -29,7 +29,7 @@
   </span>
 
   <span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
-        class="app-handle app-right-handle valign-wrapper" 
+        class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
         (click)="controlsService.showRightPanel()" 
         mz-tooltip 
         [tooltip]="'view_controls.tooltip_show_right' | translate" 

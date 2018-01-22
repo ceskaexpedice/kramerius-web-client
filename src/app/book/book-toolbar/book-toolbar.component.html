@@ -1,0 +1,16 @@
+<div class="row app-clean-mg">
+  <div class="col s12 app-nav-item">
+    <ul class="right">
+      <li class="app-nav-item-info" [class.active]="!state.showingPanelViewerNavigation">
+        <span (click)="hidePanelNavigation()"  mz-tooltip [tooltip]="'metadata.btn_show_metadata' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-google-controller"></i>
+        </span>
+      </li>
+      <li class="app-nav-item-info" [class.active]="!state.showingPanelViewerMetadata">
+        <span (click)="hidePanelMetadata()"  mz-tooltip [tooltip]="'metadata.btn_show_metadata' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-information"></i>
+        </span>
+      </li>
+    </ul>
+  </div><!--/.col -->
+</div><!--/.row -->

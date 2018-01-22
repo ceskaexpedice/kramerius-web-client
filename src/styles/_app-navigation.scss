@@ -11,6 +11,28 @@ app-navigation {
     overflow: hidden;
   }
   
+  // mq
+  /*@media #{$extra-large-and-up} {
+    margin-left: 0 !important;
+    overflow: inherit !important; 
+  }*/
+  
+  @media #{$small-and-down} {
+    display: block;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: $app-toolbar-height;
+    margin-left: 0 !important;
+    border: none;
+    height: $app-mobile-panel-height;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+    
+    &.app-panel-mobile-hidden {
+      display: none;
+    }
+  }
+  
   @import "styles/app-book-controls";
   @import "styles/app-book-search";
   
@@ -46,6 +68,11 @@ app-navigation {
     overflow: scroll;
     padding: 0.5rem;
     padding-top: 0;
+    
+    // mq
+    @media #{$small-and-down} {
+      height: calc(#{$app-mobile-panel-height} - 44px - 43px - 20px);
+    }
     
     @import "styles/app-navigation-item";
   }

@@ -1,0 +1,164 @@
+// --- BOOK TOOLBAR ---
+
+app-book-toolbar {
+  display: block;
+  height: $app-toolbar-height;
+  padding: 0 1rem;
+  @include set-border(bottom, 1, solid, $app-grey-l-2);
+  position: relative;
+          
+  .col {
+    @extend .app-clean-pd;
+    
+    &.app-periodical-info {
+      .app-periodical-title {
+        display: block;
+        color: $app-grey-d-1;
+        height: $app-toolbar-height;
+        line-height: $app-toolbar-height;
+        overflow: hidden;
+        font-size: 1.4rem;
+      }
+      
+      i {
+        color: $app-grey;
+        display: inline-block;
+        display: block;
+        float: left;
+        margin-top: 15px;
+      }
+      
+      &:hover {
+        i, .app-periodical-title {
+          color: color("shades", "black");
+        }
+      }
+      
+      //mq
+      @media #{$small-1-and-down} {
+        display: none;
+      }
+    }
+    
+    &.app-volume-info {
+      height: $app-toolbar-height;
+      overflow: hidden;
+      
+      .app-volume-title {
+        color: $app-grey-d-1;
+        font-size: 1.4rem;
+        margin: 0 10px;
+        height: $app-toolbar-height;
+        line-height: $app-toolbar-height;
+      }
+
+      a {
+        color: $app-grey;
+        display: inline-block;
+
+        &:before {
+          vertical-align: bottom !important;
+        }
+
+        &:not(.disabled):hover {
+          color: color("shades", "black");
+        }
+
+        &.disabled {
+          opacity: 0.3;
+          cursor: default !important;
+        }
+      }
+      
+      //mq
+      @media #{$small-1-and-down} {
+        width: 50%;
+        text-align: left;
+      }
+    }
+    
+    // col right
+    &.app-nav-item {
+      height: $app-toolbar-height;
+      overflow: hidden;
+      line-height: $app-toolbar-height;
+      
+      ul {
+        li {
+          &.active {
+            color: $primary-color;
+          }
+
+          span {
+            padding: 0 0.5rem;
+
+            &.app-mdi-in {
+              padding-right: 0.4rem;
+            }
+
+            label {
+              font-size: inherit;
+            }
+          }
+
+          &:not(:first-child) {
+            & > span {
+              @include set-border(left, 1, solid, $app-grey-l-2);
+            } 
+          }
+          
+          &.app-nav-item-info {
+            display: none;
+          }
+          
+          @media #{$small-and-down} {
+            &.app-nav-item-info {
+              display: block;
+            }
+            
+            &:last-child {
+              & > span {
+                padding-right: 0;
+              }
+            }
+          }
+          
+          @media #{$medium-and-up} {
+            &:nth-last-child(2) {
+              & > span {
+                padding-right: 0;
+              }
+            }
+          }
+        }
+      }
+      
+      //mq
+      @media #{$small-1-and-down} {
+        width: 50%;
+        
+        &.app-mq-small-1 {
+          width: 100%;
+        }
+      }
+    }
+    
+    // common
+    ul {
+      @extend .app-clean-mg;
+
+      li {
+        float: left;
+        color: $app-grey-l-1;
+
+        &:not(.active) {
+          span {
+            &:hover {
+              color: $app-grey-d-1;
+            } 
+          }
+        }
+      }
+    }
+  }
+}

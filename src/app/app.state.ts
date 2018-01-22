@@ -9,6 +9,8 @@ export class AppState {
   showingPanelResult: boolean = true;
   showingPanelBrowse: boolean = true;
   showingPanelPeriodical: boolean = true;
+  showingPanelViewerNavigation: boolean = true;
+  showingPanelViewerMetadata: boolean = true;
   
   // state of chart bar
   chartBarToggle() {
@@ -33,5 +35,15 @@ export class AppState {
   // periodical metadata state
   panelTogglePeriodical() {
     this.showingPanelPeriodical = !this.showingPanelPeriodical;
+  }
+  
+  // viewer navigation state
+  panelToggleViewerNavigation() {
+    this.showingPanelViewerNavigation = !this.showingPanelViewerNavigation;
+  }
+  
+  // viewer metadata state
+  panelToggleViewerMetadata() {
+    this.showingPanelViewerMetadata = !this.showingPanelViewerMetadata;
   }
 }
