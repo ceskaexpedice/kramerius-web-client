@@ -22,9 +22,8 @@ export class KrameriusApiService {
     private static STREAM_ALTO = 'ALTO';
     private static STREAM_MP3 = 'MP3';
 
-    // private BASE_URL = 'https://kramerius.mzk.cz';
-
-    private BASE_URL = 'http://zvuk.nm.cz';
+    private BASE_URL = 'https://kramerius.mzk.cz';
+    // private BASE_URL = 'http://zvuk.nm.cz';
     // private BASE_URL = 'https://kramerius.lib.cas.cz';
     // private BASE_URL = 'http://kramerius4.nkp.cz';
     // private BASE_URL = 'http://kramerius4.mlp.cz';
