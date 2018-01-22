@@ -103,6 +103,7 @@ export class MusicService {
         }
         index += 1;
       }
+      index += 1;
       if (index >= this.tracks.length) {
         index = 0;
       }
