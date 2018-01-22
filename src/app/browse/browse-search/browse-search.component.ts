@@ -1,7 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { BrowseService } from './../../services/browse.service';
-import { AppState } from './../../app.state';
 
 @Component({
   selector: 'app-browse-search',
@@ -13,8 +12,7 @@ export class BrowseSearchComponent implements OnInit {
   query: string;
 
   constructor(public browseService: BrowseService, 
-              private route: ActivatedRoute,
-              public state: AppState) {
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -34,10 +32,4 @@ export class BrowseSearchComponent implements OnInit {
     this.query = '';
     this.browseService.setText(this.query);
   }
-  
-  // hide filters - pedro
-  hideFilters() {
-    this.state.filtersToggle();
-  }
-
 }
