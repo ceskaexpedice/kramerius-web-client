@@ -65,3 +65,10 @@ mz-spinner.medium-centered-spinner {
   top: calc(50% - 20px);
   left: calc(50% - 20px);
 }
+
+// mq
+@media #{$medium-and-down} {
+  .material-tooltip {
+    display: none !important;
+  }
+}

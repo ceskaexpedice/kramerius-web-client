@@ -7,11 +7,11 @@ app-search-results {
   padding: 0.5rem;
   background-color: $app-grey-l-4;
   
-  @media #{$small-and-down} {
+  /*@media #{$small-and-down} {
     &.app-panel-mobile-open {
       padding-top: calc(#{$app-mobile-panel-height} + 0.5rem);
     }
-  }
+  }*/
   
   app-document-card {
     float: left;

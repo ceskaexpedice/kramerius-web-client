@@ -17,10 +17,12 @@ export class PeriodicalToolbarComponent implements OnInit {
 
   selectLayout(layout: string) {
     this.periodicalService.changeActiveLayout(layout);
+    this.state.showingPanelPeriodical = true;
   }
 
   // hide panel - pedro
   hidePanel() {
-    this.state.panelTogglePeriodical();
+    //this.state.panelTogglePeriodical();
+    this.state.showingPanelPeriodical = false;
   }
 }

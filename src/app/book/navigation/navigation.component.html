@@ -9,6 +9,6 @@
   <span>{{ 'common.pages' | translate }}</span>
 </div>
 
-<div class="app-navigation-pages" id="app-navigation-container">
+<div class="app-navigation-pages" id="app-navigation-container" [class.app-is-query]="bookService.getFulltextQuery()">
   <app-navigation-item [page]="page" [container]="container" *ngFor="let page of bookService.pages" (pageSelected)="onPageSelected(page)"></app-navigation-item>
 </div>

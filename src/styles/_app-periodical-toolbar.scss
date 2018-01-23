@@ -87,6 +87,16 @@ app-periodical-toolbar {
         li {
           &.active {
             color: $primary-color;
+            
+            @media #{$small-and-down} {
+              &.active-mobile-dismiss {
+                color: $app-grey-l-1;
+                
+                &:hover {
+                  color: $app-grey-d-1;
+                }
+              }
+            }
           }
 
           span {
@@ -111,6 +121,7 @@ app-periodical-toolbar {
             display: none;
           }
           
+          // mq
           @media #{$small-and-down} {
             &.app-nav-item-info {
               display: block;

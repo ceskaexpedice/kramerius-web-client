@@ -63,5 +63,8 @@ app-navbar {
       font-size: 1.4rem;
     }
   }
+}
 
+#sidenav-overlay {
+  z-index: 1005;
 }

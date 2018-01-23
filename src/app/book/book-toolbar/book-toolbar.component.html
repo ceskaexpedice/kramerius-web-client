@@ -1,13 +1,24 @@
 <div class="row app-clean-mg">
   <div class="col s12 app-nav-item">
     <ul class="right">
-      <li class="app-nav-item-info" [class.active]="!state.showingPanelViewerNavigation">
-        <span (click)="hidePanelNavigation()"  mz-tooltip [tooltip]="'metadata.btn_show_metadata' | translate" [position]="'top'" class="app-cursor-pointer">
+      <li [class.active]="state.showingPanelViewerNavigation && state.showingPanelViewerMetadata">
+        <span (click)="hidePanelAll()"  mz-tooltip [tooltip]="'book_toolbar.tooltip_show_viewer' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-book-open"></i>
+        </span>
+      </li>
+      <li [class.active]="!state.showingPanelViewerNavigation">
+        <span *ngIf="state.showingPanelViewerNavigation" (click)="hidePanelNavigation()"  mz-tooltip [tooltip]="'book_toolbar.tooltip_show_navigation' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-google-controller"></i>
+        </span>
+        <span *ngIf="!state.showingPanelViewerNavigation" (click)="hidePanelNavigation()"  mz-tooltip [tooltip]="'book_toolbar.tooltip_hide_navigation' | translate" [position]="'top'" class="app-cursor-pointer">
           <i class="app-mdi-google-controller"></i>
         </span>
       </li>
-      <li class="app-nav-item-info" [class.active]="!state.showingPanelViewerMetadata">
-        <span (click)="hidePanelMetadata()"  mz-tooltip [tooltip]="'metadata.btn_show_metadata' | translate" [position]="'top'" class="app-cursor-pointer">
+      <li [class.active]="!state.showingPanelViewerMetadata">
+        <span *ngIf="state.showingPanelViewerMetadata" (click)="hidePanelMetadata()"  mz-tooltip [tooltip]="'book_toolbar.tooltip_show_metadata' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-information"></i>
+        </span>
+        <span *ngIf="!state.showingPanelViewerMetadata" (click)="hidePanelMetadata()"  mz-tooltip [tooltip]="'book_toolbar.tooltip_hide_metadata' | translate" [position]="'top'" class="app-cursor-pointer">
           <i class="app-mdi-information"></i>
         </span>
       </li>

@@ -59,7 +59,9 @@ $app-mobile-logo-width:     120px !default;
 $app-toolbar-height:        55px !default;
 
 // mobile panel - facets, metadata
-$app-mobile-panel-height:   250px !default;
+$app-mobile-panel-height:   100% !default;
+
+$app-mobile-panelv-height:  100% !default;
 
 // card
 $app-card-title-font-size:  1.1rem !default;

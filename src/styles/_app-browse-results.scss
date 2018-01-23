@@ -6,11 +6,11 @@ app-browse-results {
   overflow: auto;
   padding: 1rem 0;
   
-  @media #{$small-and-down} {
+  /*@media #{$small-and-down} {
     &.app-panel-mobile-open {
       padding-top: calc(#{$app-mobile-panel-height} + 1rem);
     }
-  }
+  }*/
 
   .app-browse-item {
     padding: 0.5rem 1rem;

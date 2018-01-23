@@ -10,15 +10,28 @@ app-metadata {
     overflow: hidden;
   }
   
+  // mq
+  @media #{$medium-and-down} {
+    &.app-panel-mobile-hidden {
+      margin-right: -$app-side-col-width;
+      overflow: hidden;
+    }
+    &.app-panel-hidden {
+      margin-right: 0;
+      overflow: inherit;
+    }
+  }
+  
   @media #{$small-and-down} {
     position: absolute;
     width: 100%;
     top: calc(#{$navbar-height} + #{$app-toolbar-height});
     left: 0;
     border: 0;
-    height: $app-mobile-panel-height;
+    height: calc(#{$app-mobile-panel-height} - #{$navbar-height} - #{$app-toolbar-height});
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
     display: block;
+    z-index: 1001;
     
     &.app-panel-mobile-hidden {
       display: none;
@@ -26,6 +39,7 @@ app-metadata {
     
     &.app-book-metadata {
       top: $app-toolbar-height;
+      height: calc(#{$app-mobile-panel-height} - #{$app-toolbar-height});
     }
   }
   

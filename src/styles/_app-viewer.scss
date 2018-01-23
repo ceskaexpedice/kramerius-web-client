@@ -24,6 +24,19 @@ app-viewer {
         @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
         border-top-right-radius: $app-border-radius-sidebar;
         border-bottom-right-radius: $app-border-radius-sidebar;
+      
+        @media #{$medium-and-down} {
+          .app-mdi-tablet {
+            &:before {
+              content: "\F35F";
+            }
+          }
+          .app-mdi-menu-right {
+            &:before {
+              content: "\F35E";
+            }
+          }
+        }
       }
       
       &.app-right-handle {
@@ -31,6 +44,19 @@ app-viewer {
         @include set-border(left-top-bottom, 1, solid, #{$app-grey-l-2});
         border-top-left-radius: $app-border-radius-sidebar;
         border-bottom-left-radius: $app-border-radius-sidebar;
+    
+        @media #{$medium-and-down} {
+          .app-mdi-tablet {
+            &:before {
+              content: "\F35E";
+            }
+          }
+          .app-mdi-menu-left {
+            &:before {
+              content: "\F35F";
+            }
+          }
+        }
       }
   
       &:hover {

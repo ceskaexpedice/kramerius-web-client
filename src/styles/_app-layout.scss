@@ -95,10 +95,6 @@ app-root {
       .app-book-wrapper {
         @media #{$small-and-down} {
           height: calc(100% - #{$app-toolbar-height});
-          
-          &.app-panel-mobile-open {
-            padding-top: $app-mobile-panel-height; 
-          }
         }
       }
       

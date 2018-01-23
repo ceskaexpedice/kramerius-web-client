@@ -7,7 +7,7 @@
         mz-tooltip 
         [tooltip]="'view_controls.tooltip_hide_left' | translate" 
         [position]="'right'">
-        <i class="app-mdi-menu-left"></i>
+        <i class="app-mdi-menu-left" [class.app-mdi-tablet]="controlsService.leftPanelVisible"></i>
   </span>
 
   <span *ngIf="!controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
@@ -25,7 +25,7 @@
         mz-tooltip 
         [tooltip]="'view_controls.tooltip_hide_right' | translate" 
         [position]="'left'">
-        <i class="app-mdi-menu-right"></i>
+        <i class="app-mdi-menu-right" [class.app-mdi-tablet]="controlsService.rightPanelVisible"></i>
   </span>
 
   <span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"

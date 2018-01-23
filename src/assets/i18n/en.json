@@ -169,6 +169,14 @@
     "all_pages": "All Pages"
    
   },
+  "book_toolbar": {
+    "tooltip_show_metadata": "Show metadata",
+    "tooltip_hide_metadata": "Hide metadata",
+    "tooltip_show_navigation": "Show navigation",
+    "tooltip_hide_navigation": "Hide navigation",
+    "tooltip_show_viewer": "Show viewer",
+    "tooltip_hide_viewer": "Hide viewer"
+  },
   "pdf-dialog": {
     "title_generate": "PDF generation",
     "title_prepare": "Prepare to print",

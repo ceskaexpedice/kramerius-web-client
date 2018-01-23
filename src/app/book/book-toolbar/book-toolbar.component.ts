@@ -15,13 +15,21 @@ export class BookToolbarComponent implements OnInit {
   
   // hide panel - pedro
   hidePanelNavigation() {
-    this.state.panelToggleViewerNavigation();
+    //this.state.panelToggleViewerNavigation();
     this.state.showingPanelViewerMetadata = true;
+    this.state.showingPanelViewerNavigation = false;
   }
   
   // hide panel - pedro
   hidePanelMetadata() {
-    this.state.panelToggleViewerMetadata();
+    //this.state.panelToggleViewerMetadata();
     this.state.showingPanelViewerNavigation = true;
+    this.state.showingPanelViewerMetadata = false;
+  }
+  
+  // hide panel - pedro
+  hidePanelAll() {
+    this.state.showingPanelViewerNavigation = true;
+    this.state.showingPanelViewerMetadata = true;
   }
 }
