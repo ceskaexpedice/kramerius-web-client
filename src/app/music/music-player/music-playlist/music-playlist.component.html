@@ -1,8 +1,8 @@
 <div class="music-playlist">
   <div class="music-playlist-header">
     <div class="music-playlist-header-item music-playlist-header-icon"></div>
-    <div class="music-playlist-header-item music-playlist-header-name">SKLADBA</div>
-    <div class="music-playlist-header-item">ČÁST ALBA</div>
+    <div class="music-playlist-header-item music-playlist-header-name">{{ 'music.playlist.track' | translate }}</div>
+    <div class="music-playlist-header-item">{{ 'music.playlist.soundunit' | translate }}</div>
   </div>
   <div class="music-track-list">
     <div *ngFor="let track of musicService.tracks">

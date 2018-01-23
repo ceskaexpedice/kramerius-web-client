@@ -93,6 +93,12 @@
     },
     "count_suffix": "dokumentů"
   },
+  "music": {
+    "playlist": {
+      "soundunit": "ČÁST ALBA",
+      "track": "SKLADBA"
+    }
+  },
   "alert": {
     "warning": "Upozornění",
     "error": "Chyba",

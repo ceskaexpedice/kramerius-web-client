@@ -93,6 +93,12 @@
     },
     "count_suffix": "documents"
   },
+  "music": {
+    "playlist": {
+      "soundunit": "ALBUM PART",
+      "track": "TRACK"
+    }
+  },
   "alerts": {
     "warning": {
       "title": "Attention",
