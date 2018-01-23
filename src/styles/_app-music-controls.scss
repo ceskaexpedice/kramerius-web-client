@@ -54,5 +54,34 @@ app-music-controls {
         }
       }
     }
+    .track-progress {
+      height: 100%;
+      float: left;
+      width: calc(70% - 80px);
+      padding: 20px 10px;
+      .track-position {
+        float: left;
+        width: 40px;
+        text-align: left;
+        line-height: 35px;
+        height: 35px;
+        overflow: hidden;
+      }
+      .track-duration {
+        float: left;
+        width: 40px;
+        text-align: right;
+        line-height: 35px;
+        height: 35px;
+        overflow: hidden;
+      }
+      .track-slider {
+        float: left;
+        width: calc(100% - 80px);
+        .thumb {
+          display: none;
+        }
+      }
+    }
   } 
 }

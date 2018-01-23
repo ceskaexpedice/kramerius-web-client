@@ -42,7 +42,7 @@ app-music-playlist {
             color: #aaaaaa;
             display: block;
           }
-          .music-track-play {
+          .music-track-play, .music-track-pause {
             color: #666666;
             display: none;
           }
@@ -60,13 +60,21 @@ app-music-playlist {
           line-height: 27px;
           color: #777777;
         }
+        &:hover {
+          background: #fbfbfb;
+          .music-track-icon {
+            .music-track-play {
+              display: block;
+            }
+          }
+        }
+        &.active {
+          font-weight: 600;
+        }
         &:hover, &.active {
           .music-track-icon {
             .music-track-lock {
-              display: none
-            }
-            .music-track-play {
-              display: block
+              display: none;
             }
           }
           .music-track-name {
@@ -76,11 +84,45 @@ app-music-playlist {
             color: #000000;
           }
         }
-        &:hover {
-          background: #fbfbfb;
-        }
         &.active {
-          font-weight: 600;
+          .music-track-icon {
+            .music-track-play {
+              display: none;
+            }
+            .music-track-pause {
+              display: block;
+            }
+          }
+          &.playing {
+            .music-track-icon {
+              .music-track-play {
+                display: block;
+              }
+              .music-track-pause {
+                display: none;
+              }
+            }
+          }
+        }
+        &:hover.active {
+          .music-track-icon {
+            .music-track-play {
+              display: block;
+            }
+            .music-track-pause {
+              display: none;
+            }
+          }
+          &.playing {
+            .music-track-icon {
+              .music-track-play {
+                display: none;
+              }
+              .music-track-pause {
+                display: block;
+              }
+            }
+          }
         }
       }
     }

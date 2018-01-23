@@ -6,10 +6,11 @@
   </div>
   <div class="music-track-list">
     <div *ngFor="let track of musicService.tracks">
-      <div class="music-track" (click)="musicService.selectTrack(track)" [class.active]="musicService.isActiveTrack(track)">
+      <div class="music-track" (click)="musicService.selectTrack(track)" [class.playing]="musicService.isPlaying()" [class.active]="musicService.isActiveTrack(track)">
         <div class="music-track-icon">
           <i *ngIf="!track.isPublic" mz-icon-mdi [size]="'18px'" [icon]="'lock'" class="music-track-lock"></i>
           <i mz-icon-mdi [size]="'18px'" [icon]="'play'" class="music-track-play"></i>
+          <i mz-icon-mdi [size]="'18px'" [icon]="'pause'" class="music-track-pause"></i>
         </div>
         <div class="music-track-name">{{ track.name }}</div>
         <div class="music-track-unit">{{ track.unit.name }}</div>

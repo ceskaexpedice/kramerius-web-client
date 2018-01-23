@@ -22,10 +22,12 @@ export class MusicService {
   state: MusicState = MusicState.None;
   tracks: Track[] = [];
   soundUnits: SoundUnit[] = [];
-  playing = false;
-  trackTime = '';
-  trackDuration = '';
-  canPlay = false;
+  playing: boolean;
+  canPlay: boolean;
+  trackPosition: number;
+  trackDuration: number;
+  trackPositionText: string;
+  trackDurationText: string;
 
   constructor(private solrService: SolrService,
     private modsParserService: ModsParserService,
@@ -94,7 +96,7 @@ export class MusicService {
       return;
     }
     if (!this.activeTrack) {
-      this.selectTrack(this.tracks[0]);
+      this.changeTrack(this.tracks[0]);
     } else {
       let index = 0;
       for (const track of this.tracks) {
@@ -107,11 +109,30 @@ export class MusicService {
       if (index >= this.tracks.length) {
         index = 0;
       }
-      return this.selectTrack(this.tracks[index]);
+      return this.changeTrack(this.tracks[index]);
     }
   }
 
+
   selectTrack(track: Track) {
+    if (track === this.activeTrack) {
+      if (this.isPlaying()) {
+        this.pauseTrack();
+      } else {
+        this.playTrack();
+      }
+    } else {
+      this.changeTrack(track);
+    }
+  }
+
+
+
+  changeTrack(track: Track) {
+    this.trackPosition = -1;
+    this.trackDuration = -1;
+    this.trackPositionText = '';
+    this.trackDurationText = '';
     this.canPlay = false;
     if (!track) {
       return;
@@ -123,19 +144,20 @@ export class MusicService {
     } else {
       this.audio = new Audio(url);
     }
-    const ctx = this;
-    this.audio.ontimeupdate = function() {
-      ctx.trackTime = ctx.formatTime(ctx.audio.currentTime);
+    this.audio.ontimeupdate = () => {
+      this.trackPosition = Math.round(this.audio.currentTime);
+      this.trackPositionText = this.formatTime(this.trackPosition);
     };
-    this.audio.onloadedmetadata = function() {
-      ctx.trackDuration = ctx.formatTime(ctx.audio.duration);
+    this.audio.onloadedmetadata = () => {
+      this.trackDuration = Math.round(this.audio.duration);
+      this.trackDurationText = this.formatTime(this.trackDuration);
     };
-    this.audio.onended = function() {
-      ctx.nextTrack();
+    this.audio.onended = () => {
+      this.nextTrack();
     };
-    this.audio.oncanplay = function() {
-      ctx.canPlay = true;
-      ctx.playTrack();
+    this.audio.oncanplay = () => {
+      this.canPlay = true;
+      this.playTrack();
     };
   }
 
@@ -155,6 +177,10 @@ export class MusicService {
       this.playing = false;
       this.audio.pause();
     }
+  }
+
+  changeTrackPosition(value: number) {
+    this.audio.currentTime = value;
   }
 
 
@@ -195,8 +221,11 @@ export class MusicService {
     this.activeTrack = null;
     this.pauseTrack();
     this.audio = null;
-    this.trackTime = '';
-    this.trackDuration = '';
+    this.trackPosition = -1;
+    this.trackDuration = -1;
+    this.trackPositionText = '';
+    this.trackDurationText = '';
+    this.playing = false;
     this.canPlay = false;
   }
 

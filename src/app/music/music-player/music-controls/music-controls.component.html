@@ -22,7 +22,13 @@
         <div class="soundunit-title">{{ musicService.activeTrack.unit.name }}</div>
       </div>
   </div>
-  <span style="height:72px;line-height:72px;">
-    {{ musicService.trackTime }} - {{ musicService.trackDuration }}
-  </span>
+  <div class="track-progress">
+      <div class="track-position">{{ musicService.trackPositionText }}</div>
+      <div class="track-slider">
+        <input #trackSlider (change)="trackSliderChanged()" type="range" value="{{ musicService.trackPosition }}" step="1" min="0" max="{{ musicService.trackDuration }}"/>
+      </div>
+      <div class="track-duration">{{ musicService.trackDurationText }}</div>
+  </div>
+
+
 </div>
