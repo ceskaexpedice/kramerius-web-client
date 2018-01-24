@@ -1,4 +1,4 @@
-<app-periodical-content *ngIf="periodicalService.isStateSuccess()" [class.app-panel-mobile-open]="!state.showingPanelPeriodical"></app-periodical-content>
+<app-periodical-content *ngIf="periodicalService.isStateSuccess()"></app-periodical-content>
 
 <div *ngIf="periodicalService.isStateLoading()" class="spinner-wrapper">
   <mz-spinner
