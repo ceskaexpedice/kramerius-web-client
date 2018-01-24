@@ -181,7 +181,10 @@
     "tooltip_show_navigation": "Show navigation",
     "tooltip_hide_navigation": "Hide navigation",
     "tooltip_show_viewer": "Show viewer",
-    "tooltip_hide_viewer": "Hide viewer"
+    "tooltip_hide_viewer": "Hide viewer",
+    "desc_reading": "Reading",
+    "desc_navigation": "Navigation",
+    "desc_information": "Information"
   },
   "pdf-dialog": {
     "title_generate": "PDF generation",

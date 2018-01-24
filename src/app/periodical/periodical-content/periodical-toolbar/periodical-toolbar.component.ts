@@ -20,8 +20,8 @@ export class PeriodicalToolbarComponent implements OnInit {
     this.state.showingPanelPeriodical = true;
   }
 
-  // hide panel - pedro
-  hidePanel() {
+  // hide panel periodical
+  hidePanelPeriodical() {
     //this.state.panelTogglePeriodical();
     this.state.showingPanelPeriodical = false;
   }

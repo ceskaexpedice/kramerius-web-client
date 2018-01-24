@@ -83,7 +83,7 @@ app-root {
         @import "styles/app-browse-toolbar";
         @import "styles/app-browse-results";
       }
-        }
+    }
     
     // book
     app-book {
@@ -92,18 +92,19 @@ app-root {
       width: 100%;
       position: relative;
       
+      @import "styles/app-book-toolbar";
       .app-book-wrapper {
         @media #{$small-and-down} {
           height: calc(100% - #{$app-toolbar-height});
         }
+        
+        @import "styles/app-book-toolbar";
+        @import "styles/app-search-count";
+        @import "styles/app-viewer";
+        @import "styles/app-viewer-controls";      
+        @import "styles/app-navigation";
+        @import "styles/app-metadata";
       }
-      
-      @import "styles/app-book-toolbar";
-      @import "styles/app-search-count";
-      @import "styles/app-viewer";
-      @import "styles/app-viewer-controls";      
-      @import "styles/app-navigation";
-      @import "styles/app-metadata";
     }
     
     // periodical

@@ -13,21 +13,21 @@ export class BookToolbarComponent implements OnInit {
   ngOnInit() {
   }
   
-  // hide panel - pedro
+  // hide panel navigation
   hidePanelNavigation() {
     //this.state.panelToggleViewerNavigation();
     this.state.showingPanelViewerMetadata = true;
     this.state.showingPanelViewerNavigation = false;
   }
   
-  // hide panel - pedro
+  // hide panel metadata
   hidePanelMetadata() {
     //this.state.panelToggleViewerMetadata();
     this.state.showingPanelViewerNavigation = true;
     this.state.showingPanelViewerMetadata = false;
   }
   
-  // hide panel - pedro
+  // hide panel all
   hidePanelAll() {
     this.state.showingPanelViewerNavigation = true;
     this.state.showingPanelViewerMetadata = true;

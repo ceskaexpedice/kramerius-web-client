@@ -171,7 +171,10 @@
     "tooltip_show_navigation": "Zobrazit navigaci",
     "tooltip_hide_navigation": "Skrýt navigaci",
     "tooltip_show_viewer": "Zobrazit čtečku",
-    "tooltip_hide_viewer": "Skrýt čtečku"
+    "tooltip_hide_viewer": "Skrýt čtečku",
+    "desc_reading": "Čtení",
+    "desc_navigation": "Navigace",
+    "desc_information": "Informace"
   },
   "pdf-dialog": {
     "title_generate": "Generování PDF",

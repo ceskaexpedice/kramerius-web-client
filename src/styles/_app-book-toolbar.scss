@@ -3,13 +3,47 @@
 app-book-toolbar {
   display: block;
   height: $app-toolbar-height;
-  padding: 0 1rem;
+  //padding: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-l-2);
   position: relative;
           
   .col {
     @extend .app-clean-pd;
     
+    .tabs {
+      height: inherit;
+      
+      .tab {
+        line-height: calc(#{$app-toolbar-height} - 1px);
+        height: calc(#{$app-toolbar-height} - 1px);
+    
+        a {
+          &:not(.active) {
+            color: $app-grey-l-1; 
+          }
+          
+          i {
+            display: none;
+            
+            // mq
+            @media #{$small-2-and-down} {
+              display: block;
+            }
+          }
+          
+          span {
+            padding-left: 0.5rem;
+            
+            // mq
+            @media #{$small-2-and-down} {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+    
+    /* old 
     &.app-nav-item {
       height: $app-toolbar-height;
       overflow: hidden;
@@ -21,7 +55,7 @@ app-book-toolbar {
             color: $primary-color;
           }
 
-          span {
+          & > span {
             padding: 0 0.5rem;
 
             &.app-mdi-in {
@@ -31,16 +65,21 @@ app-book-toolbar {
             label {
               font-size: inherit;
             }
+            
+            .app-desc {
+              padding-left: 0.5rem;
+              
+              // mq
+              @media #{$small-2-and-down} {
+                display: none;
+              }
+            }
           }
 
           &:not(:first-child) {
             & > span {
               @include set-border(left, 1, solid, $app-grey-l-2);
             } 
-          }
-          
-          &.app-nav-item-info {
-            display: none;
           }
           
           @media #{$small-and-down} {
@@ -73,10 +112,10 @@ app-book-toolbar {
           width: 100%;
         }
       }
-    }
+    }*/
     
     // common
-    ul {
+    /*ul {
       @extend .app-clean-mg;
 
       li {
@@ -91,6 +130,6 @@ app-book-toolbar {
           }
         }
       }
-    }
+    }*/
   }
 }

@@ -1,27 +1,44 @@
+<!-- old version
 <div class="row app-clean-mg">
   <div class="col s12 app-nav-item">
     <ul class="right">
       <li [class.active]="state.showingPanelViewerNavigation && state.showingPanelViewerMetadata">
-        <span (click)="hidePanelAll()"  mz-tooltip [tooltip]="'book_toolbar.tooltip_show_viewer' | translate" [position]="'top'" class="app-cursor-pointer">
-          <i class="app-mdi-book-open"></i>
+        <span (click)="hidePanelAll()" class="app-cursor-pointer">
+          <i class="app-mdi-book-open"></i><span class="app-desc">{{'book_toolbar.desc_reading' | translate}}</span>
         </span>
       </li>
       <li [class.active]="!state.showingPanelViewerNavigation">
-        <span *ngIf="state.showingPanelViewerNavigation" (click)="hidePanelNavigation()"  mz-tooltip [tooltip]="'book_toolbar.tooltip_show_navigation' | translate" [position]="'top'" class="app-cursor-pointer">
-          <i class="app-mdi-google-controller"></i>
-        </span>
-        <span *ngIf="!state.showingPanelViewerNavigation" (click)="hidePanelNavigation()"  mz-tooltip [tooltip]="'book_toolbar.tooltip_hide_navigation' | translate" [position]="'top'" class="app-cursor-pointer">
-          <i class="app-mdi-google-controller"></i>
+        <span (click)="hidePanelNavigation()" class="app-cursor-pointer">
+          <i class="app-mdi-google-controller"></i><span class="app-desc">{{'book_toolbar.desc_navigation' | translate}}</span>
         </span>
       </li>
       <li [class.active]="!state.showingPanelViewerMetadata">
-        <span *ngIf="state.showingPanelViewerMetadata" (click)="hidePanelMetadata()"  mz-tooltip [tooltip]="'book_toolbar.tooltip_show_metadata' | translate" [position]="'top'" class="app-cursor-pointer">
-          <i class="app-mdi-information"></i>
-        </span>
-        <span *ngIf="!state.showingPanelViewerMetadata" (click)="hidePanelMetadata()"  mz-tooltip [tooltip]="'book_toolbar.tooltip_hide_metadata' | translate" [position]="'top'" class="app-cursor-pointer">
-          <i class="app-mdi-information"></i>
+        <span (click)="hidePanelMetadata()" class="app-cursor-pointer">
+          <i class="app-mdi-information"></i><span class="app-desc">{{'book_toolbar.desc_information' | translate}}</span>
         </span>
       </li>
     </ul>
-  </div><!--/.col -->
-</div><!--/.row -->
+  </div>
+</div>-->
+
+<div class="row app-clean-mg">
+  <div class="col s12">
+    <ul class="tabs">
+      <li class="tab col s3">
+        <a (click)="hidePanelAll()" [class.active]="state.showingPanelViewerNavigation && state.showingPanelViewerMetadata">
+          <i class="app-mdi-book-open"></i><span class="app-desc">{{'book_toolbar.desc_reading' | translate}}</span>
+        </a>
+      </li>
+      <li class="tab col s3">
+        <a (click)="hidePanelNavigation()" [class.active]="!state.showingPanelViewerNavigation">
+           <i class="app-mdi-google-controller"></i><span class="app-desc">{{'book_toolbar.desc_navigation' | translate}}</span>
+        </a>
+      </li>
+      <li class="tab col s3">
+        <a (click)="hidePanelMetadata()" [class.active]="!state.showingPanelViewerMetadata">
+         <i class="app-mdi-information"></i><span class="app-desc">{{'book_toolbar.desc_information' | translate}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

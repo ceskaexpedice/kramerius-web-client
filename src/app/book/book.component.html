@@ -1,9 +1,20 @@
 <app-book-toolbar class="hide-on-med-and-up"></app-book-toolbar>
 
 <div class="app-book-wrapper">
-  <app-navigation [class.app-panel-hidden]="!viewerControls.leftPanelVisible" [class.app-panel-mobile-hidden]="state.showingPanelViewerNavigation"></app-navigation>
+  <app-navigation 
+    [class.app-panel-hidden]="!viewerControls.leftPanelVisible"
+    [class.app-panel-tablet-visible-right]="!viewerControls.rightPanelVisible"
+    [class.app-panel-mobile-hidden]="state.showingPanelViewerNavigation">
+  </app-navigation>
+  
   <app-viewer></app-viewer>
-  <app-metadata [class.app-panel-hidden]="!viewerControls.rightPanelVisible" [class.app-panel-mobile-hidden]="state.showingPanelViewerMetadata" class="app-book-metadata" [metadata]="metadata">
-    <app-book-controls></app-book-controls>
+  
+  <app-metadata 
+    [class.app-panel-hidden]="!viewerControls.rightPanelVisible" 
+    [class.app-panel-tablet-visible-left]="!viewerControls.leftPanelVisible"
+    [class.app-panel-mobile-hidden]="state.showingPanelViewerMetadata" 
+    class="app-book-metadata" 
+    [metadata]="metadata">
+      <app-book-controls></app-book-controls>
   </app-metadata>
-</div>
+</div><!--/.app-book-wrapper -->
