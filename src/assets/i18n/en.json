@@ -97,6 +97,9 @@
     "playlist": {
       "soundunit": "ALBUM PART",
       "track": "TRACK"
+    },
+    "toolbar": {
+      "playing": "Playing"
     }
   },
   "alerts": {

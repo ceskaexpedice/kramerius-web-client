@@ -1,16 +1,31 @@
 // --- MUSIC PLAYER ---
 
 app-music-player {
-  height: 100%;
   flex: 1;
+  height: 100%;
   position: relative;
-  .music-player {
+  
+  .app-music-player-wrapper {
     background: $app-white;
     height: 100%;
-    @import "styles/app-music-header";
-    @import "styles/app-music-playlist";
+    background-color: $app-grey-l-4;
+    
+    // mq
+    @media #{$small-and-down} {
+      height: calc( 100% - #{$app-toolbar-height});
+    }
+    
+    @import "styles/app-music-toolbar";
+    
+    .app-music-content-wrapper {
+      height: calc(100% - 72px);
+      overflow: auto;
+      
+      @import "styles/app-music-header";
+      @import "styles/app-music-playlist";
+    }
+    
     @import "styles/app-music-controls";
-
   }
 }
 

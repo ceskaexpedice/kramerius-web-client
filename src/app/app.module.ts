@@ -79,6 +79,7 @@ import { MusicPlaylistComponent } from './music/music-player/music-playlist/musi
 import { MusicHeaderComponent } from './music/music-player/music-header/music-header.component';
 import { MusicControlsComponent } from './music/music-player/music-controls/music-controls.component';
 import { BookToolbarComponent } from './book/book-toolbar/book-toolbar.component';
+import { MusicToolbarComponent } from './music/music-player/music-toolbar/music-toolbar.component';
 
 
 const ROUTES: Routes = [
@@ -144,7 +145,8 @@ const ROUTES: Routes = [
     MusicPlaylistComponent,
     MusicHeaderComponent,
     MusicControlsComponent,
-    BookToolbarComponent
+    BookToolbarComponent,
+    MusicToolbarComponent
   ],
   entryComponents: [
     DialogOcrComponent,

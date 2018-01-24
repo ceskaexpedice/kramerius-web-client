@@ -22,6 +22,20 @@ app-book-toolbar {
             color: $app-grey-l-1; 
           }
           
+          &.active {
+            position: relative;
+
+            &:after {
+              content: "";
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              height: 2px;
+              background-color: $primary-color;
+              width: 100%;
+            }
+          }
+          
           i {
             display: none;
             
@@ -41,6 +55,10 @@ app-book-toolbar {
           }
         }
       }
+    }
+
+    .indicator {
+      display: none;
     }
     
     /* old 

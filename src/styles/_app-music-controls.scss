@@ -3,34 +3,38 @@
 app-music-controls {
   height: 72px;
   display: block;
-  .music-controls {
-    background: #fafafa;
+  
+  .app-music-controls-wrapper {
+    background: $app-grey-l-5;
     height: 100%;
-    border-top: 1px solid #e0e0e0;
+    @include set-border(top, 1, solid, $app-grey-l-2);
 
 
-    .controls-buttons {
+    .app-controls-buttons-wrapper {
       height: 100%;
       text-align: center;
       float: left;
       width: 70px;
-      border-right: 1px solid #e0e0e0;
-      .controls-button {
-        color: #555;
+      @include set-border(right, 1, solid, $app-grey-l-2);
+      
+      .app-controls-button {
+        color: $app-grey-d-2;
         cursor: pointer;
+        
         &:hover {
-          color: #000;
+          color: $app-black;
         }
       }
     }
 
-    .soundunit-info-wrapper {
+    .app-soundunit-info-wrapper {
       width: 30%;
       height: 100%;
       float: left;
       padding: 5px; 
-      .soundunit-info {
-        .soundunit-image {
+      
+      .app-soundunit-info {
+        .app-soundunit-image {
           background-size: cover;
           width: 60px;
           height: 60px;
@@ -38,28 +42,37 @@ app-music-controls {
           float: left;
           margin-right: 8px;
         }
-        .track-title {
+        
+        .app-track-title {
           font-size: 17px;
-          color: #444444;
+          color: $app-grey-d-3;
           line-height: 30px;
           height: 30px;
           overflow: hidden;
         }
-        .soundunit-title {
+        
+        .app-soundunit-title {
           font-size: 15px;
-          color: #666666;
+          color: $app-grey;
           line-height: 20px;
           height: 20px;
           overflow: hidden; 
         }
       }
     }
-    .track-progress {
+    
+    .app-track-progress-wrapper {
       height: 100%;
       float: left;
       width: calc(70% - 80px);
       padding: 20px 10px;
-      .track-position {
+      
+      // mq
+      @media #{$medium-and-down} {
+        width: calc(100% - 70px);
+      }
+      
+      .app-track-position {
         float: left;
         width: 40px;
         text-align: left;
@@ -67,7 +80,8 @@ app-music-controls {
         height: 35px;
         overflow: hidden;
       }
-      .track-duration {
+      
+      .app-track-duration {
         float: left;
         width: 40px;
         text-align: right;
@@ -75,9 +89,11 @@ app-music-controls {
         height: 35px;
         overflow: hidden;
       }
-      .track-slider {
+      
+      .app-track-slider {
         float: left;
         width: calc(100% - 80px);
+        
         .thumb {
           display: none;
         }

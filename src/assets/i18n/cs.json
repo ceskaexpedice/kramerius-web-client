@@ -97,6 +97,9 @@
     "playlist": {
       "soundunit": "ČÁST ALBA",
       "track": "SKLADBA"
+    },
+    "toolbar": {
+      "playing": "Přehrávání"
     }
   },
   "alert": {
