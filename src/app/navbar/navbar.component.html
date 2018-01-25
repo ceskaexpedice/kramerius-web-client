@@ -21,7 +21,7 @@
     <a [id]="'app-btn-sidenav'" class="right hide-on-large-only">
       <i mz-icon-mdi [icon]="'menu'"></i>
     </a>
-    <a class="right app-btn-search-bar" (click)="showSearchBar()">
+    <a class="right app-btn-search-bar" (click)="showSearchBar()" *ngIf="state.activePage != '/'">
       <i *ngIf="!state.showingSearchBar" mz-icon-mdi [icon]="'magnify'"></i>
       <i *ngIf="state.showingSearchBar" mz-icon-mdi [icon]="'close'"></i>
     </a>
