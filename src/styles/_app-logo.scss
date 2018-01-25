@@ -36,6 +36,11 @@ app-logo {
       app-navbar & {
         padding-left: 13px;
         @include set-border(left, 1, solid, $app-grey-l-2); 
+        
+        @media #{$small-and-down} {
+          padding-left: 0;
+          border: none;
+        }
       }
     }
     

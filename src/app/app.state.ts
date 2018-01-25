@@ -12,6 +12,7 @@ export class AppState {
   showingPanelViewerNavigation: boolean = true;
   showingPanelViewerMetadata: boolean = true;
   showingPanelMusic: boolean = true;
+  showingSearchBar: boolean = false;
   
   // state of chart bar
   chartBarToggle() {
@@ -51,5 +52,10 @@ export class AppState {
   // music metadata state
   panelToggleMusic() {
     this.showingPanelMusic = !this.showingPanelMusic;
+  }
+  
+  // search bar state for mobile version
+  searchBarToggle() {
+    this.showingSearchBar = !this.showingSearchBar;
   }
 }

@@ -102,5 +102,16 @@ app-navbar-search-bar {
       width: 450px;
     }
   }
+  @media #{$small-400-and-down} {
+    display: none;
+    
+    &.app-search-bar-show {
+      display: initial;
+      
+      .app-search-bar-wrapper {
+        width: calc(100% - 87px);
+      }
+    }
+  }
 }
       

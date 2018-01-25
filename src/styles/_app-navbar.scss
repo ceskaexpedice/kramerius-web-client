@@ -12,6 +12,10 @@ app-navbar {
       .app-arrow-left {
         color: $app-grey;
         
+        @media #{$small-and-down} {
+          display: none;
+        }
+        
         .mdi-arrow-left {
           margin-right: 7px;
         }
@@ -28,15 +32,34 @@ app-navbar {
           @media #{$small-and-down} {
             width: $app-mobile-logo-width;
           }
+          @media #{$small-and-down} {
+            &.app-col-hidden {
+              display: none;
+            }
+          }
         }
         
         &.app-col-right {
           width: calc(100% - #{$app-side-col-width});
           
+          .app-btn-search-bar {
+            display: none;
+          }
+          
           // mq
           @media #{$small-and-down} {
             width: calc(100% - #{$app-mobile-logo-width});
           }
+          @media #{$small-400-and-down} {
+            &.app-search-bar-displayed {
+              padding-left: 1rem;
+              width: 100%;
+            }
+            .app-btn-search-bar {
+              display: block; 
+            }
+          }
+          
         }
         
         &.app-col-right-home {
@@ -48,7 +71,11 @@ app-navbar {
   
   // btn side nav
   #app-btn-sidenav {
-    padding: 0 15px;
+    padding: 0 1rem;
+    
+    @media #{$small-400-and-down} {
+      padding-left: 10px;
+    }
   }
   
   // side nav

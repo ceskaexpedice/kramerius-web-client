@@ -33,6 +33,8 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl(page);
   }
 
-
+  showSearchBar() {
+    this.state.searchBarToggle();
+  }
 
 }
