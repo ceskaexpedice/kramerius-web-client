@@ -42,7 +42,7 @@ app-music-toolbar {
             }
             
             // mq
-            @media #{$small-2-and-down} {
+            @media #{$small-350-and-down} {
               display: block;
             }
           }
@@ -51,7 +51,7 @@ app-music-toolbar {
             padding-left: 0.5rem;
             
             // mq
-            @media #{$small-2-and-down} {
+            @media #{$small-350-and-down} {
               display: none;
             }
           }

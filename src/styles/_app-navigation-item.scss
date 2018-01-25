@@ -36,5 +36,21 @@
   &.active {
     background: $app-grey-d-1;
   }
-
+  
+  // mq
+  @media #{$small-and-down} {
+    width: 16.66666%;
+  }
+  @media #{$small-500-and-down} {
+    width: 20%;
+  }
+  @media #{$small-400-and-down} {
+    width: 25%;
+  }
+  @media #{$small-300-and-down} {
+    width: 33.33333%;
+  }
+  @media #{$small-200-and-down} {
+    width: 50%;
+  }
 }

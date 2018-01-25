@@ -35,7 +35,7 @@ app-periodical-toolbar {
       }
       
       //mq
-      @media #{$small-1-and-down} {
+      @media #{$small-400-and-down} {
         display: none;
       }
     }
@@ -71,7 +71,7 @@ app-periodical-toolbar {
       }
       
       //mq
-      @media #{$small-1-and-down} {
+      @media #{$small-400-and-down} {
         width: 50%;
         text-align: left;
       }
@@ -145,7 +145,7 @@ app-periodical-toolbar {
       }
       
       //mq
-      @media #{$small-1-and-down} {
+      @media #{$small-400-and-down} {
         width: 50%;
         
         &.app-mq-small-1 {
