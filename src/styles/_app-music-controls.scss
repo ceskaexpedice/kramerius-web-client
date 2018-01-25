@@ -5,7 +5,7 @@ app-music-controls {
   display: block;
   
   .app-music-controls-wrapper {
-    background: $app-grey-l-5;
+    background: $app-white;
     height: 100%;
     @include set-border(top, 1, solid, $app-grey-l-2);
 
