@@ -55,6 +55,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
     this.pageIndex = index + 1;
     this.bookService.goToPageOnIndex(index);
+    this.bookService.activeMobilePanel = 'viewer';
   }
 
   ngOnDestroy(): void {
@@ -63,6 +64,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   public onPageSelected(page: Page) {
     this.bookService.goToPage(page);
+    this.bookService.activeMobilePanel = 'viewer';
   }
 
 }

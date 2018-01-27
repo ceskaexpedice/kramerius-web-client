@@ -1,35 +1,16 @@
+import { BookService } from './../../services/book.service';
 import { Component, OnInit } from '@angular/core';
 import { AppState } from './../../app.state';
 
 @Component({
   selector: 'app-book-toolbar',
-  templateUrl: './book-toolbar.component.html',
-  styleUrls: ['./book-toolbar.component.scss']
+  templateUrl: './book-toolbar.component.html'
 })
 export class BookToolbarComponent implements OnInit {
 
-  constructor(public state: AppState) { }
+  constructor(public bookService: BookService) { }
 
   ngOnInit() {
   }
-  
-  // hide panel navigation
-  hidePanelNavigation() {
-    //this.state.panelToggleViewerNavigation();
-    this.state.showingPanelViewerMetadata = true;
-    this.state.showingPanelViewerNavigation = false;
-  }
-  
-  // hide panel metadata
-  hidePanelMetadata() {
-    //this.state.panelToggleViewerMetadata();
-    this.state.showingPanelViewerNavigation = true;
-    this.state.showingPanelViewerMetadata = false;
-  }
-  
-  // hide panel all
-  hidePanelAll() {
-    this.state.showingPanelViewerNavigation = true;
-    this.state.showingPanelViewerMetadata = true;
-  }
+
 }

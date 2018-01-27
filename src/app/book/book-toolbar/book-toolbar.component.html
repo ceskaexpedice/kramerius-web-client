@@ -2,20 +2,17 @@
   <div class="col s12">
     <ul class="tabs">
       <li class="tab col s3">
-        <a (click)="hidePanelAll()" [class.active]="state.showingPanelViewerNavigation && state.showingPanelViewerMetadata">
-          <!--<i class="app-mdi-book-open"></i>-->
+        <a (click)="bookService.activeMobilePanel = 'viewer'" [class.active]="bookService.activeMobilePanel == 'viewer'">
           <i mz-icon-mdi [icon]="'book-open-page-variant'"></i><span class="app-desc">{{'book_toolbar.desc_reading' | translate}}</span>
         </a>
       </li>
       <li class="tab col s3">
-        <a (click)="hidePanelNavigation()" [class.active]="!state.showingPanelViewerNavigation">
-           <!--<i class="app-mdi-google-controller"></i>-->
+        <a (click)="bookService.activeMobilePanel = 'navigation'" [class.active]="bookService.activeMobilePanel == 'navigation'">
           <i mz-icon-mdi [icon]="'view-grid'"></i><span class="app-desc">{{'book_toolbar.desc_navigation' | translate}}</span>
         </a>
       </li>
       <li class="tab col s3">
-        <a (click)="hidePanelMetadata()" [class.active]="!state.showingPanelViewerMetadata">
-         <!--<i class="app-mdi-information"></i>-->
+        <a (click)="bookService.activeMobilePanel = 'metadata'" [class.active]="bookService.activeMobilePanel == 'metadata'">
           <i mz-icon-mdi [icon]="'information'"></i><span class="app-desc">{{'book_toolbar.desc_information' | translate}}</span>
         </a>
       </li>

@@ -4,7 +4,7 @@
   <app-navigation 
     [class.app-panel-hidden]="!viewerControls.leftPanelVisible"
     [class.app-panel-tablet-visible-right]="!viewerControls.rightPanelVisible"
-    [class.app-panel-mobile-hidden]="state.showingPanelViewerNavigation">
+    [class.app-panel-mobile-hidden]="bookService.activeMobilePanel != 'navigation'">
   </app-navigation>
   
   <app-viewer></app-viewer>
@@ -12,9 +12,9 @@
   <app-metadata 
     [class.app-panel-hidden]="!viewerControls.rightPanelVisible" 
     [class.app-panel-tablet-visible-left]="!viewerControls.leftPanelVisible"
-    [class.app-panel-mobile-hidden]="state.showingPanelViewerMetadata" 
+    [class.app-panel-mobile-hidden]="bookService.activeMobilePanel != 'metadata'" 
     class="app-book-metadata" 
     [metadata]="metadata">
       <app-book-controls></app-book-controls>
   </app-metadata>
-</div><!--/.app-book-wrapper -->
+</div>

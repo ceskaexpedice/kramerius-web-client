@@ -38,6 +38,8 @@ export class BookService {
 
     public fulltextAllPages = false;
 
+    public activeMobilePanel: String = 'viewer';
+
     constructor(private location: Location,
         private altoService: AltoService,
         private localStorageService: LocalStorageService,
@@ -53,6 +55,7 @@ export class BookService {
         let firstBackSingle = -1;
         let titlePage = -1;
         let lastSingle = -1;
+        this.activeMobilePanel = 'viewer';
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         data.forEach(p => {
             if (p['model'] === 'page') {
@@ -478,12 +481,10 @@ export class BookService {
 
     clear() {
         this.pageState = BookPageState.None;
+        this.activeMobilePanel = 'viewer';
         this.pages = [];
         this.allPages = [];
     }
-
-
-
 
 
     private computeDoublePageBounds(pageCount: number, titlePage: number, lastSingle: number, firstBackSingle: number) {

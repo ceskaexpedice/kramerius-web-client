@@ -22,7 +22,7 @@ export class BookComponent implements OnInit, OnDestroy {
   metadata: Metadata;
 
   constructor(private route: ActivatedRoute,
-              public bookSerrvice: BookService,
+              public bookService: BookService,
               public viewerControls: ViewerControlsService,
               public localStorageService: LocalStorageService,
               private modsParserService: ModsParserService,
@@ -46,14 +46,14 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.bookSerrvice.clear();
+    this.bookService.clear();
   }
 
 
   private loadDocument(uuid: string, page: string, fulltext: string) {
     this.krameriusApiService.getChildren(uuid).subscribe(response => {
       if (response && response.length > 0) {
-        this.bookSerrvice.init(uuid, response, page, fulltext);
+        this.bookService.init(uuid, response, page, fulltext);
       } else {
         // TODO: Empty document
       }
