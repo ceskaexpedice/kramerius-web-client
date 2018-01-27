@@ -3,7 +3,7 @@
 <app-book-search></app-book-search>
 
 <div class="app-navigation-header" *ngIf="bookService.getPageCount() > 1">
-  <input class="app-current-page" (change)="onPageIndexChanged()" type="text" value="23" [(ngModel)]="pageIndex" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
+  <input class="app-current-page" (change)="onPageIndexChanged()" type="text" pattern="[0-9]*" value="23" [(ngModel)]="pageIndex" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
   <span>{{ 'common.of' | translate }}</span>
   <span>{{bookService.getPageCount()}}</span>
   <span>{{ 'common.pages' | translate }}</span>
