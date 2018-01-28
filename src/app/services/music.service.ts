@@ -154,13 +154,15 @@ export class MusicService {
     this.audio.onloadedmetadata = () => {
       this.trackDuration = Math.round(this.audio.duration);
       this.trackDurationText = this.formatTime(this.trackDuration);
+      this.trackPosition = Math.round(this.audio.currentTime);
+      this.trackPositionText = this.formatTime(this.trackPosition);
     };
     this.audio.onended = () => {
       this.nextTrack();
     };
     this.audio.oncanplay = () => {
       this.canPlay = true;
-      this.playTrack();
+      // this.playTrack();
     };
   }
 
