@@ -29,6 +29,9 @@ export class MusicService {
   trackPositionText: string;
   trackDurationText: string;
 
+  public activeMobilePanel: String;
+
+
   constructor(private solrService: SolrService,
     private modsParserService: ModsParserService,
     private localStorageService: LocalStorageService,
@@ -227,6 +230,7 @@ export class MusicService {
     this.trackDurationText = '';
     this.playing = false;
     this.canPlay = false;
+    this.activeMobilePanel = 'player';
   }
 
   isStateSuccess(): boolean {

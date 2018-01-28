@@ -2,12 +2,12 @@
   <div class="col s12">
     <ul class="tabs">
       <li class="tab col s3">
-        <a (click)="hidePanelAll()" [class.active]="state.showingPanelMusic">
+        <a (click)="musicService.activeMobilePanel = 'player'" [class.active]="musicService.activeMobilePanel == 'player'">
           <i class="app-mdi-soundrecording"></i><span class="app-desc">{{'music.toolbar.playing' | translate}}</span>
         </a>
       </li>
       <li class="tab col s3">
-        <a (click)="hidePanelMetadata()" [class.active]="!state.showingPanelMusic">
+        <a (click)="musicService.activeMobilePanel = 'metadata'" [class.active]="musicService.activeMobilePanel == 'metadata'">
          <i class="app-mdi-information"></i><span class="app-desc">{{'book_toolbar.desc_information' | translate}}</span>
         </a>
       </li>

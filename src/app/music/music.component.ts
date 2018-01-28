@@ -11,8 +11,7 @@ import { AppState } from './../app.state';
 export class MusicComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
-      public musicService: MusicService,
-      public state: AppState) {
+      public musicService: MusicService) {
   }
 
   ngOnInit() {

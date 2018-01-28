@@ -1,26 +1,16 @@
+import { MusicService } from './../../../services/music.service';
 import { Component, OnInit } from '@angular/core';
 import { AppState } from './../../../app.state';
 
 @Component({
   selector: 'app-music-toolbar',
-  templateUrl: './music-toolbar.component.html',
-  styleUrls: ['./music-toolbar.component.scss']
+  templateUrl: './music-toolbar.component.html'
 })
 export class MusicToolbarComponent implements OnInit {
 
-  constructor(public state: AppState) { }
+  constructor(public musicService: MusicService) { }
 
   ngOnInit() {
   }
 
-  // hide panel metadata
-  hidePanelMetadata() {
-    this.state.showingPanelMusic = false;
-  }
-  
-  // hide panel all
-  hidePanelAll() {
-    this.state.showingPanelMusic = true;
-  }
-  
 }

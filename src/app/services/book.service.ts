@@ -38,7 +38,7 @@ export class BookService {
 
     public fulltextAllPages = false;
 
-    public activeMobilePanel: String = 'viewer';
+    public activeMobilePanel: String;
 
     constructor(private location: Location,
         private altoService: AltoService,
