@@ -24,8 +24,4 @@ export class AppState {
     this.showingPanelResult = !this.showingPanelResult;
   }
 
-  // search bar state for mobile version
-  searchBarToggle() {
-    this.showingSearchBar = !this.showingSearchBar;
-  }
 }

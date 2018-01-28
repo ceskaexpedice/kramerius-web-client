@@ -11,9 +11,9 @@
   </div>
   <!-- Show just for small devices -->
   <div class="col s2 app-col-left hide-on-med-and-up">
-    <a (click)="hidePanel()">
-      <i *ngIf="state.showingPanelResult" mz-icon-mdi [icon]="'filter'"></i>
-      <i *ngIf="!state.showingPanelResult" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
+    <a (click)="toggleFilters()">
+      <i *ngIf="searchService.activeMobilePanel == 'results'" mz-icon-mdi [icon]="'filter'"></i>
+      <i *ngIf="searchService.activeMobilePanel == 'filters'" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
     </a>
   </div>
   <div class="col s10 m12 l2 xl2 app-col-right">

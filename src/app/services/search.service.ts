@@ -27,6 +27,8 @@ export class SearchService {
 
     numberOfResults: number;
 
+    activeMobilePanel: String;
+
     constructor(
         private router: Router,
         private collectionService: CollectionService,
@@ -46,6 +48,7 @@ export class SearchService {
         this.collections = [];
         this.accessibility = [];
         this.numberOfResults = 0;
+        this.activeMobilePanel = 'results';
         this.query = SearchQuery.fromParams(params);
         this.search();
     }

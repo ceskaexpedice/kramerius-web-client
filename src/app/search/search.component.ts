@@ -1,19 +1,16 @@
 import { SearchService } from './../services/search.service';
-import { AppState } from './../app.state';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  templateUrl: './search.component.html'
 })
 export class SearchComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public searchService: SearchService,
-    public state: AppState) {
+    public searchService: SearchService) {
   }
 
   ngOnInit() {

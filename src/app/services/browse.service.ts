@@ -21,7 +21,6 @@ export class BrowseService {
 
     activeMobilePanel: String;
 
-
     constructor(
         private router: Router,
         private translator: Translator,

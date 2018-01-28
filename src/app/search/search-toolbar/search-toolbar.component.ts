@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SearchService } from './../../services/search.service';
-import { AppState } from './../../app.state';
 
 @Component({
   selector: 'app-search-toolbar',
@@ -8,7 +7,7 @@ import { AppState } from './../../app.state';
 })
 export class SearchToolbarComponent implements OnInit {
 
-  constructor(public searchService: SearchService, public state: AppState) {
+  constructor(public searchService: SearchService) {
   }
 
   ngOnInit() {
@@ -28,9 +27,12 @@ export class SearchToolbarComponent implements OnInit {
   //   $('#' + id).toggleClass('active');
   //   $('#' + id).slideToggle('fast');
   // }
-  
-  // hide panel - pedro
-  hidePanel() {
-    this.state.panelToggleResult();
+
+  toggleFilters() {
+    if (this.searchService.activeMobilePanel === 'results') {
+      this.searchService.activeMobilePanel = 'filters';
+    } else {
+      this.searchService.activeMobilePanel = 'results';
+    }
   }
 }
