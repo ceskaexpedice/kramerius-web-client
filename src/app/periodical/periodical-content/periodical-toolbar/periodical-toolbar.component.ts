@@ -1,8 +1,6 @@
 import { PeriodicalService } from './../../../services/periodical.service';
 import { Metadata } from './../../../model/metadata.model';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AppState } from './../../../app.state';
-
 
 @Component({
   selector: 'app-periodical-toolbar',
@@ -10,19 +8,14 @@ import { AppState } from './../../../app.state';
 })
 export class PeriodicalToolbarComponent implements OnInit {
 
-  constructor(public periodicalService: PeriodicalService, public state: AppState) { }
+  constructor(public periodicalService: PeriodicalService) { }
 
   ngOnInit() {
   }
 
   selectLayout(layout: string) {
     this.periodicalService.changeActiveLayout(layout);
-    this.state.showingPanelPeriodical = true;
+    this.periodicalService.activeMobilePanel = 'content';
   }
 
-  // hide panel periodical
-  hidePanelPeriodical() {
-    //this.state.panelTogglePeriodical();
-    this.state.showingPanelPeriodical = false;
-  }
 }

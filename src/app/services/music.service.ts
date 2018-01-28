@@ -29,7 +29,7 @@ export class MusicService {
   trackPositionText: string;
   trackDurationText: string;
 
-  public activeMobilePanel: String;
+  activeMobilePanel: String;
 
 
   constructor(private solrService: SolrService,

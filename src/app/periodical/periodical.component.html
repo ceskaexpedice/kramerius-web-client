@@ -8,4 +8,4 @@
   </mz-spinner>
 </div>
 
-<app-metadata [metadata]="periodicalService.metadata" [class.app-panel-mobile-hidden]="state.showingPanelPeriodical"></app-metadata>
+<app-metadata [metadata]="periodicalService.metadata" [class.app-panel-mobile-hidden]="periodicalService.activeMobilePanel != 'metadata'"></app-metadata>

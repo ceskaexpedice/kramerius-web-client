@@ -25,6 +25,7 @@ export class PeriodicalService {
   dates: Date[];
   daysOfMonths: any[];
   daysOfMonthsItems: any[];
+  activeMobilePanel: String;
 
   volumeDetail;
 
@@ -87,6 +88,7 @@ export class PeriodicalService {
     this.dates = [];
     this.daysOfMonths = [];
     this.daysOfMonthsItems = [];
+    this.activeMobilePanel = 'content';
   }
 
 

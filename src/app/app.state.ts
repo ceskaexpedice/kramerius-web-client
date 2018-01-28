@@ -8,7 +8,6 @@ export class AppState {
   showingCalendar: boolean = false;
   showingPanelResult: boolean = true;
   showingPanelBrowse: boolean = true;
-  showingPanelPeriodical: boolean = true;
   showingSearchBar: boolean = false;
 
   // state of chart bar
@@ -29,11 +28,6 @@ export class AppState {
   // browse facet state
   panelToggleBrowse() {
     this.showingPanelBrowse = !this.showingPanelBrowse;
-  }
-
-  // periodical metadata state
-  panelTogglePeriodical() {
-    this.showingPanelPeriodical = !this.showingPanelPeriodical;
   }
 
   // search bar state for mobile version

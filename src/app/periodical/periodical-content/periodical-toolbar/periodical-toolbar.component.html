@@ -5,7 +5,7 @@
       <span class="app-periodical-title">{{periodicalService.metadata.getTitle()}}</span>
     </a>
     <span *ngIf="periodicalService.isPeriodical()" class="app-periodical-title">{{periodicalService.metadata.getTitle()}}</span>
-  </div><!--/.col -->
+  </div>
   
   
   <div class="col s4 m6 l4 xl2 app-volume-info center-align" *ngIf="periodicalService.volumeDetail">
@@ -20,31 +20,31 @@
       </a>
       <a *ngIf="!periodicalService.volumeDetail.next" class="app-mdi-periodical-next disabled"></a>
     </span>
-  </div><!--/.col -->
+  </div>
 
 
   <div class="col app-nav-item" [ngClass]="{'s6 m5 l2 xl2 app-mq-small-1': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
     <ul class="right">
-      <li *ngIf="periodicalService.gridLayoutEnabled" (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid'" [class.active-mobile-dismiss]="!state.showingPanelPeriodical">
+      <li *ngIf="periodicalService.gridLayoutEnabled" (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_grid' | translate" [position]="'top'" class="app-cursor-pointer">
           <i class="app-mdi-view-grid"></i>
         </span>
       </li>
-      <li *ngIf="periodicalService.yearsLayoutEnabled" (click)="selectLayout('years')" class="layout-button" [class.active]="periodicalService.activeLayout == 'years'" [class.active-mobile-dismiss]="!state.showingPanelPeriodical">
+      <li *ngIf="periodicalService.yearsLayoutEnabled" (click)="selectLayout('years')" class="layout-button" [class.active]="periodicalService.activeLayout == 'years'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_years' | translate" [position]="'top'" class="app-cursor-pointer">
           <i class="app-mdi-calendar-blank"></i>
         </span>
       </li>
-      <li *ngIf="periodicalService.calendarLayoutEnabled" (click)="selectLayout('calendar')" class="layout-button" [class.active]="periodicalService.activeLayout == 'calendar'" [class.active-mobile-dismiss]="!state.showingPanelPeriodical">
+      <li *ngIf="periodicalService.calendarLayoutEnabled" (click)="selectLayout('calendar')" class="layout-button" [class.active]="periodicalService.activeLayout == 'calendar'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_calendar' | translate" [position]="'top'" class="app-cursor-pointer">
           <i class="app-mdi-calendar-range"></i>
         </span>
       </li>
-      <li class="app-nav-item-info" [class.active]="!state.showingPanelPeriodical">
-        <span (click)="hidePanelPeriodical()" class="app-cursor-pointer">
+      <li class="app-nav-item-info" [class.active]="periodicalService.activeMobilePanel == 'metadata'">
+        <span (click)="periodicalService.activeMobilePanel = 'metadata'" class="app-cursor-pointer">
           <i class="app-mdi-information"></i>
         </span>
       </li>
     </ul>
-  </div><!--/.col -->
-</div><!--/.row -->
+  </div>
+</div>
