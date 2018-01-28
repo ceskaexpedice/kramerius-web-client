@@ -5,7 +5,7 @@
         <a (click)="bookService.activeMobilePanel = 'navigation'" [class.active]="bookService.activeMobilePanel == 'navigation'">
           <i mz-icon-mdi [icon]="'view-grid'"></i><span class="app-desc">{{'book_toolbar.desc_navigation' | translate}}</span>
         </a>
-      </li>
+      </li> 
       <li class="tab col s3">
         <a (click)="bookService.activeMobilePanel = 'viewer'" [class.active]="bookService.activeMobilePanel == 'viewer'">
           <i mz-icon-mdi [icon]="'book-open-page-variant'"></i><span class="app-desc">{{'book_toolbar.desc_reading' | translate}}</span>

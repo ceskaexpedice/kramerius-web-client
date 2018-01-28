@@ -6,8 +6,6 @@ export class AppState {
 
   showingChartBar: boolean = false;
   showingCalendar: boolean = false;
-  showingPanelResult: boolean = true;
-  showingSearchBar: boolean = false;
 
   // state of chart bar
   chartBarToggle() {
@@ -17,11 +15,6 @@ export class AppState {
   // state of calendar
   calendarToggle() {
     this.showingCalendar = !this.showingCalendar;
-  }
-
-  // result facet state
-  panelToggleResult() {
-    this.showingPanelResult = !this.showingPanelResult;
   }
 
 }

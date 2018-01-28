@@ -1,15 +1,19 @@
 import { LibrarySearchService } from './../services/library-search.service';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Translator } from 'angular-translator';
 import { AppState } from '../app.state';
 import { HistoryService } from '../services/history.service';
+import { MzSidenavComponent } from 'ng2-materialize';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
+
+  mobileSearchBarExpanded = false;
+  @ViewChild('sidenav') sidenav: MzSidenavComponent;
 
   constructor(
     public translator: Translator,
@@ -25,6 +29,7 @@ export class NavbarComponent implements OnInit {
   onLanguageChanged(lang: string) {
     localStorage.setItem('lang', lang);
     this.translator.language = lang;
+    this.sidenav.opened = false;
   }
 
   goBack() {
@@ -33,8 +38,8 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl(page);
   }
 
-  showSearchBar() {
-    this.state.searchBarToggle();
+  toggleMobileSearchBar() {
+    this.mobileSearchBarExpanded = !this.mobileSearchBarExpanded;
   }
 
 }

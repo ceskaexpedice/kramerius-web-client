@@ -1,13 +1,13 @@
-<mz-navbar class="clearfix">
-  <div *ngIf="state.activePage != '/'" class="col app-col-left" [class.app-col-hidden]="state.showingSearchBar">
+<mz-navb  ar class="clearfix">
+  <div *ngIf="state.activePage != '/'" class="col app-col-left" [class.app-col-hidden]="mobileSearchBarExpanded">
     <a class="app-arrow-left" (click)="goBack()">
       <i mz-icon-mdi [icon]="'arrow-left'" [align]="'left'" mz-tooltip [tooltip]="'navbar.back' | translate" [position]="'right'" ></i>
     </a>
     <app-logo></app-logo>
   </div>
   
-  <div class="col app-col-right" [class.app-col-right-home]="state.activePage == '/'" [class.app-search-bar-displayed]="state.showingSearchBar">
-    <app-navbar-search-bar *ngIf="state.activePage != '/'" [class.app-search-bar-show]="state.showingSearchBar"></app-navbar-search-bar>
+  <div class="col app-col-right" [class.app-col-right-home]="state.activePage == '/'" [class.app-search-bar-displayed]="mobileSearchBarExpanded">
+    <app-navbar-search-bar *ngIf="state.activePage != '/'" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
     <mz-navbar-item-container [align]="'right'">
       <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
         <a routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
@@ -21,16 +21,16 @@
     <a [id]="'app-btn-sidenav'" class="right hide-on-large-only">
       <i mz-icon-mdi [icon]="'menu'"></i>
     </a>
-    <a class="right app-btn-search-bar" (click)="showSearchBar()" *ngIf="state.activePage != '/'">
-      <i *ngIf="!state.showingSearchBar" mz-icon-mdi [icon]="'magnify'"></i>
-      <i *ngIf="state.showingSearchBar" mz-icon-mdi [icon]="'close'"></i>
+    <a class="right app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="state.activePage != '/'">
+      <i *ngIf="!mobileSearchBarExpanded" mz-icon-mdi [icon]="'magnify'"></i>
+      <i *ngIf="mobileSearchBarExpanded" mz-icon-mdi [icon]="'close'"></i>
     </a>
   </div>
 </mz-navbar>
 
 
 <!-- sidenav -->
-<mz-sidenav [id]="'app-side-nav'" [collapseButtonId]="'app-btn-sidenav'" [closeOnClick]="true">
+<mz-sidenav #sidenav [id]="'app-side-nav'" [collapseButtonId]="'app-btn-sidenav'" [closeOnClick]="true">
   <mz-sidenav-subheader>{{ 'navbar.main_navigation' | translate }}</mz-sidenav-subheader>
   <mz-sidenav-link routerLinkActive="active" #collections="routerLinkActive">
     <a routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
