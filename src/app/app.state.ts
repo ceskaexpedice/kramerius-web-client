@@ -9,7 +9,6 @@ export class AppState {
   showingPanelResult: boolean = true;
   showingPanelBrowse: boolean = true;
   showingPanelPeriodical: boolean = true;
-  showingPanelMusic: boolean = true;
   showingSearchBar: boolean = false;
 
   // state of chart bar
@@ -35,11 +34,6 @@ export class AppState {
   // periodical metadata state
   panelTogglePeriodical() {
     this.showingPanelPeriodical = !this.showingPanelPeriodical;
-  }
-
-  // music metadata state
-  panelToggleMusic() {
-    this.showingPanelMusic = !this.showingPanelMusic;
   }
 
   // search bar state for mobile version

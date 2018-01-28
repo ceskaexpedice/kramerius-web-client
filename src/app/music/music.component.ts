@@ -17,7 +17,8 @@ export class MusicComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const uuid = params.get('uuid');
-      this.musicService.init(uuid);    });
+      this.musicService.init(uuid);
+    });
   }
 
   ngOnDestroy(): void {

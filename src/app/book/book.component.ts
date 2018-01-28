@@ -11,7 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import 'rxjs/add/observable/forkJoin';
-import { AppState } from './../app.state';
 
 @Component({
   selector: 'app-book',
@@ -26,8 +25,7 @@ export class BookComponent implements OnInit, OnDestroy {
               public viewerControls: ViewerControlsService,
               public localStorageService: LocalStorageService,
               private modsParserService: ModsParserService,
-              private krameriusApiService: KrameriusApiService,
-              public state: AppState) {
+              private krameriusApiService: KrameriusApiService) {
   }
 
   ngOnInit() {
