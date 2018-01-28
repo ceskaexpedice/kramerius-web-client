@@ -1,20 +1,17 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { BrowseService } from './../../services/browse.service';
-import { AppState } from './../../app.state';
 
 @Component({
   selector: 'app-browse-toolbar',
-  templateUrl: './browse-toolbar.component.html',
-  styleUrls: ['./browse-toolbar.component.scss']
+  templateUrl: './browse-toolbar.component.html'
 })
 export class BrowseToolbarComponent implements OnInit {
 
   query: string;
 
-  constructor(public browseService: BrowseService, 
-              private route: ActivatedRoute,
-              public state: AppState) {
+  constructor(public browseService: BrowseService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -28,15 +25,18 @@ export class BrowseToolbarComponent implements OnInit {
   onBrowseQueryChanged() {
    this.browseService.setText(this.query);
   }
-  
+
   // pedro
   cleanQuery() {
     this.query = '';
     this.browseService.setText(this.query);
   }
-  
-  // hide filters - pedro
-  hidePanel() {
-    this.state.panelToggleBrowse();
+
+  toggleFilters() {
+    if (this.browseService.activeMobilePanel === 'results') {
+      this.browseService.activeMobilePanel = 'filters';
+    } else {
+      this.browseService.activeMobilePanel = 'results';
+    }
   }
 }

@@ -1,10 +1,10 @@
 <!-- Show just for medium and up devices -->
 <app-browse-filters class="app-filters-desktop" [collapsedFilter]="true"></app-browse-filters>
 <!-- Show just for small devices -->
-<app-browse-filters [class.app-panel-mobile-hidden]="state.showingPanelBrowse" class="app-filters-mobile" [collapsedFilter]="false"></app-browse-filters>
+<app-browse-filters [class.app-panel-mobile-hidden]="browseService.activeMobilePanel != 'filters'" class="app-filters-mobile" [collapsedFilter]="false"></app-browse-filters>
 
 <div class="app-browse-wrapper">
   <app-browse-toolbar></app-browse-toolbar>
   <div class="clearfix"></div>  
-  <app-browse-results [class.app-panel-mobile-open]="!state.showingPanelBrowse"></app-browse-results> 
+  <app-browse-results [class.app-panel-mobile-open]="browseService.activeMobilePanel != 'results'"></app-browse-results> 
 </div>

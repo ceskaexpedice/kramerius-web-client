@@ -7,7 +7,6 @@ export class AppState {
   showingChartBar: boolean = false;
   showingCalendar: boolean = false;
   showingPanelResult: boolean = true;
-  showingPanelBrowse: boolean = true;
   showingSearchBar: boolean = false;
 
   // state of chart bar
@@ -23,11 +22,6 @@ export class AppState {
   // result facet state
   panelToggleResult() {
     this.showingPanelResult = !this.showingPanelResult;
-  }
-
-  // browse facet state
-  panelToggleBrowse() {
-    this.showingPanelBrowse = !this.showingPanelBrowse;
   }
 
   // search bar state for mobile version

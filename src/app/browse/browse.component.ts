@@ -1,19 +1,16 @@
 import { BrowseService } from './../services/browse.service';
-import { AppState } from './../app.state';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-browse',
-  templateUrl: './browse.component.html',
-  styleUrls: ['./browse.component.scss']
+  templateUrl: './browse.component.html'
 })
 export class BrowseComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
-    public browseService: BrowseService,
-    public state: AppState) { }
-
+    public browseService: BrowseService) {
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {

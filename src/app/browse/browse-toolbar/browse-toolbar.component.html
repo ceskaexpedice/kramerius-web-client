@@ -1,9 +1,9 @@
 <div class="row app-clean-mg">
   <!-- Show just for small devices -->
   <div class="col s2 app-col-left hide-on-med-and-up">
-    <a (click)="hidePanel()">
-      <i *ngIf="state.showingPanelBrowse" mz-icon-mdi [icon]="'filter'"></i>
-      <i *ngIf="!state.showingPanelBrowse" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
+    <a (click)="toggleFilters()">
+      <i *ngIf="browseService.activeMobilePanel == 'results'" mz-icon-mdi [icon]="'filter'"></i>
+      <i *ngIf="browseService.activeMobilePanel == 'filters'" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
     </a>
   </div>
   <div class="col s10 m12 l12 xl12 app-col-right">

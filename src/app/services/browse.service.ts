@@ -19,6 +19,8 @@ export class BrowseService {
     numberOfResults: number;
     loading = false;
 
+    activeMobilePanel: String;
+
 
     constructor(
         private router: Router,
@@ -35,6 +37,7 @@ export class BrowseService {
     public init(params) {
         this.results = [];
         this.numberOfResults = 0;
+        this.activeMobilePanel = 'results';
         this.query = BrowseQuery.fromParams(params);
         this.search();
     }
