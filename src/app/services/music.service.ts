@@ -86,7 +86,7 @@ export class MusicService {
       });
     } else {
       this.state = MusicState.Success;
-      this.nextTrack();
+      this.nextTrack(false);
     }
   }
 
@@ -94,12 +94,12 @@ export class MusicService {
     return this.activeTrack === track;
   }
 
-  nextTrack() {
+  nextTrack(autoplay: boolean) {
     if (this.tracks.length === 0) {
       return;
     }
     if (!this.activeTrack) {
-      this.changeTrack(this.tracks[0]);
+      this.changeTrack(this.tracks[0], autoplay);
     } else {
       let index = 0;
       for (const track of this.tracks) {
@@ -110,9 +110,10 @@ export class MusicService {
       }
       index += 1;
       if (index >= this.tracks.length) {
-        index = 0;
+        this.changeTrack(this.tracks[0], false);
+      } else {
+        this.changeTrack(this.tracks[index], autoplay);
       }
-      return this.changeTrack(this.tracks[index]);
     }
   }
 
@@ -125,18 +126,19 @@ export class MusicService {
         this.playTrack();
       }
     } else {
-      this.changeTrack(track);
+      this.changeTrack(track, true);
     }
   }
 
 
 
-  changeTrack(track: Track) {
+  changeTrack(track: Track, autoplay: boolean) {
     this.trackPosition = -1;
     this.trackDuration = -1;
     this.trackPositionText = '';
     this.trackDurationText = '';
     this.canPlay = false;
+    this.playing = false;
     if (!track) {
       return;
     }
@@ -158,11 +160,13 @@ export class MusicService {
       this.trackPositionText = this.formatTime(this.trackPosition);
     };
     this.audio.onended = () => {
-      this.nextTrack();
+      this.nextTrack(true);
     };
     this.audio.oncanplay = () => {
       this.canPlay = true;
-      // this.playTrack();
+      if (autoplay) {
+        this.playTrack();
+      }
     };
   }
 
