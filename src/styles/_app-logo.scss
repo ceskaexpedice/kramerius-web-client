@@ -37,10 +37,12 @@ app-logo {
         padding-left: 13px;
         @include set-border(left, 1, solid, $app-grey-l-2); 
         
+        /* if arrow left is hidden
         @media #{$small-and-down} {
           padding-left: 0;
           border: none;
         }
+        */
       }
     }
     

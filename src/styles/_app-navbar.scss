@@ -12,9 +12,11 @@ app-navbar {
       .app-arrow-left {
         color: $app-grey;
         
+        /* if arrow left is hidden
         @media #{$small-and-down} {
           display: none;
         }
+        */
         
         .mdi-arrow-left {
           margin-right: 7px;
@@ -26,7 +28,7 @@ app-navbar {
         
         &.app-col-left {
           width: $app-side-col-width;
-          padding-left: 20px;
+          padding-left: 15px;
           
           //mq
           @media #{$small-and-down} {
