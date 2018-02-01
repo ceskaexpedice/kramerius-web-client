@@ -14,7 +14,7 @@
     [class.app-panel-tablet-visible-left]="!viewerControls.leftPanelVisible"
     [class.app-panel-mobile-hidden]="bookService.activeMobilePanel != 'metadata'" 
     class="app-book-metadata" 
-    [metadata]="metadata">
+    [metadata]="bookService.metadata">
       <app-book-controls></app-book-controls>
   </app-metadata>
 </div>

@@ -22,10 +22,7 @@ export class BookComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               public bookService: BookService,
-              public viewerControls: ViewerControlsService,
-              public localStorageService: LocalStorageService,
-              private modsParserService: ModsParserService,
-              private krameriusApiService: KrameriusApiService) {
+              public viewerControls: ViewerControlsService) {
   }
 
   ngOnInit() {
@@ -35,7 +32,7 @@ export class BookComponent implements OnInit, OnDestroy {
         this.route.queryParamMap.subscribe(queryParams => {
           const page = queryParams.get('page');
           const fulltext = queryParams.get('fulltext');
-          this.loadDocument(uuid, page, fulltext);
+          this.bookService.init(uuid, page, fulltext);
         });
       } else {
         // TODO: Show warning message
@@ -48,21 +45,21 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
 
-  private loadDocument(uuid: string, page: string, fulltext: string) {
-    this.krameriusApiService.getChildren(uuid).subscribe(response => {
-      if (response && response.length > 0) {
-        this.bookService.init(uuid, response, page, fulltext);
-      } else {
-        // TODO: Empty document
-      }
-    });
-    this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
-      this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
-        this.metadata = this.modsParserService.parse(response);
-        this.metadata.doctype = (item.doctype && item.doctype.startsWith('periodical')) ? 'periodical' : item.doctype;
-        this.localStorageService.addToVisited(item, this.metadata);
-      });
-    });
-  }
+  // private loadDocument(uuid: string, page: string, fulltext: string) {
+  //   this.krameriusApiService.getChildren(uuid).subscribe(response => {
+  //     if (response && response.length > 0) {
+  //       this.bookService.init(uuid, response, page, fulltext);
+  //     } else {
+  //       // TODO: Empty document
+  //     }
+  //   });
+  //   this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+  //     this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
+  //       this.metadata = this.modsParserService.parse(response);
+  //       this.metadata.doctype = (item.doctype && item.doctype.startsWith('periodical')) ? 'periodical' : item.doctype;
+  //       this.localStorageService.addToVisited(item, this.metadata);
+  //     });
+  //   });
+  // }
 
 }

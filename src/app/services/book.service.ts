@@ -1,3 +1,6 @@
+import { ModsParserService } from './mods-parser.service';
+import { DocumentItem } from './../model/document_item.model';
+import { Metadata } from './../model/metadata.model';
 import { AltoService } from './alto-service';
 import { LocalStorageService } from './local-storage.service';
 import { DialogShareComponent } from './../dialog/dialog-share/dialog-share.component';
@@ -40,28 +43,62 @@ export class BookService {
 
     public activeMobilePanel: String;
 
+    public metadata: Metadata;
+
     constructor(private location: Location,
         private altoService: AltoService,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
+        private modsParserService: ModsParserService,
         private modalService: MzModalService) {
     }
 
-    init(uuid: string, data: any[], pageUuid: string, fulltext: string) {
+    init(uuid: string, pageUuid: string, fulltext: string) {
+        this.clear();
         this.uuid = uuid;
         this.fulltextQuery = fulltext;
+        this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+            this.krameriusApiService.getChildren(uuid).subscribe(response => {
+                if (response && response.length > 0) {
+                    this.onDataLoaded(response, pageUuid);
+                } else {
+                    // TODO: Empty document
+                }
+            });
+            this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
+                this.metadata = this.modsParserService.parse(response);
+                this.metadata.doctype = (item.doctype && item.doctype.startsWith('periodical')) ? 'periodical' : item.doctype;
+                this.localStorageService.addToVisited(item, this.metadata);
+            });
+        });
+
+    }
+
+
+    private onDataLoaded(pages: any[], uuid: string) {
+        const pageIndex = this.arrangePages(pages, uuid);
+        this.bookState = BookState.Success;
+        if (this.fulltextQuery) {
+            this.fulltextChanged(this.fulltextQuery, uuid);
+        } else {
+            this.goToPageOnIndex(pageIndex);
+        }
+    }
+
+
+    private arrangePages(pages: any[], uuid: string): number {
         let index = 0;
-        let currentPage = 0;
         let firstBackSingle = -1;
         let titlePage = -1;
         let lastSingle = -1;
+        let currentPage = 0;
         this.activeMobilePanel = 'viewer';
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
-        data.forEach(p => {
+        for (const p of pages) {
             if (p['model'] === 'page') {
                 const page = new Page();
                 page.uuid = p['pid'];
-                if (pageUuid === page.uuid) {
+                if (uuid === page.uuid) {
                     currentPage = index;
                 }
                 page.policy = p['policy'];
@@ -95,7 +132,7 @@ export class BookService {
                 this.allPages.push(page);
                 index += 1;
             }
-        });
+        }
         const bounds = this.computeDoublePageBounds(this.pages.length, titlePage, lastSingle, firstBackSingle);
         if (bounds !== null) {
             for (let i = bounds[0]; i < bounds[1]; i += 2) {
@@ -103,14 +140,9 @@ export class BookService {
                 this.pages[i + 1].position = PagePosition.Right;
             }
         }
-
-        this.bookState = BookState.Success;
-        if (this.fulltextQuery) {
-            this.fulltextChanged(this.fulltextQuery, pageUuid);
-        } else {
-            this.goToPageOnIndex(currentPage);
-        }
+        return currentPage;
     }
+
 
     getFulltextQuery(): string {
         return this.fulltextQuery;
