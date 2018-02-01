@@ -513,6 +513,7 @@ export class BookService {
 
     clear() {
         this.pageState = BookPageState.None;
+        this.doublePage = false;
         this.activeMobilePanel = 'viewer';
         this.pages = [];
         this.allPages = [];

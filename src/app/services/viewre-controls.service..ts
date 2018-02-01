@@ -38,6 +38,10 @@ export class ViewerControlsService {
         document.addEventListener('MSFullscreenChange', () => ctx.onFullscreenChanged());
     }
 
+    clear() {
+        this.leftPanelVisible = true;
+        this.rightPanelVisible = true;
+    }
 
 
     viewerActions(): Observable<ViewerActions> {
@@ -94,7 +98,7 @@ export class ViewerControlsService {
         return document.fullscreenElement
         || document.webkitFullscreenElement
         || document.mozFullScreenElement
-        || document.msFullscreenElement
+        || document.msFullscreenElement;
     }
 
     onFullscreenChanged() {
