@@ -37,13 +37,15 @@ export class BookService {
     public doublePageEnabled = false;
 
     public pageState: BookPageState;
-    public bookState: BookState = BookState.Loading;
+    public bookState: BookState;
 
     public fulltextAllPages = false;
 
     public activeMobilePanel: String;
 
     public metadata: Metadata;
+
+    public pdf: string;
 
     constructor(private location: Location,
         private altoService: AltoService,
@@ -57,14 +59,19 @@ export class BookService {
         this.clear();
         this.uuid = uuid;
         this.fulltextQuery = fulltext;
+        this.bookState = BookState.Loading;
         this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
-            this.krameriusApiService.getChildren(uuid).subscribe(response => {
-                if (response && response.length > 0) {
-                    this.onDataLoaded(response, pageUuid);
-                } else {
-                    // TODO: Empty document
-                }
-            });
+            if (item.pdf) {
+                this.pdf = this.krameriusApiService.getPdfUrl(uuid);
+            } else {
+                this.krameriusApiService.getChildren(uuid).subscribe(response => {
+                    if (response && response.length > 0) {
+                        this.onDataLoaded(response, pageUuid);
+                    } else {
+                        // TODO: Empty document
+                    }
+                });
+            }
             this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response);
                 this.metadata.doctype = (item.doctype && item.doctype.startsWith('periodical')) ? 'periodical' : item.doctype;
@@ -512,6 +519,8 @@ export class BookService {
 
 
     clear() {
+        this.pdf = null;
+        this.bookState = BookState.None;
         this.pageState = BookPageState.None;
         this.doublePage = false;
         this.activeMobilePanel = 'viewer';

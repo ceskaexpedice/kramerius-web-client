@@ -81,6 +81,9 @@ import { MusicControlsComponent } from './music/music-player/music-controls/musi
 import { BookToolbarComponent } from './book/book-toolbar/book-toolbar.component';
 import { MusicToolbarComponent } from './music/music-player/music-toolbar/music-toolbar.component';
 
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { PdfViewerComponent } from './book/pdf-viewer/pdf-viewer.component';
+
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -146,7 +149,8 @@ const ROUTES: Routes = [
     MusicHeaderComponent,
     MusicControlsComponent,
     BookToolbarComponent,
-    MusicToolbarComponent
+    MusicToolbarComponent,
+    PdfViewerComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -160,6 +164,7 @@ const ROUTES: Routes = [
     FormsModule,
     NgDatepickerModule,
     Ng2CompleterModule,
+    PdfViewerModule,
     LazyLoadImageModule,
     MaterializeModule.forRoot(),
     RouterModule.forRoot(ROUTES),

@@ -9,8 +9,7 @@ declare var ol: any;
 
 @Component({
   selector: 'app-viewer',
-  templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss']
+  templateUrl: './viewer.component.html'
 })
 export class ViewerComponent implements OnInit, OnDestroy {
 
@@ -34,8 +33,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   private viewerActionsSubscription: Subscription;
   private pageSubscription: Subscription;
-
-  @Input() page: Page;
 
   ngOnInit() {
     this.init();

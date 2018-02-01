@@ -165,6 +165,10 @@ export class KrameriusApiService {
         return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
     }
 
+    getPdfUrl(uuid: string): string {
+        return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
+    }
+
     getMp3Url(uuid: string): string {
         return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
     }

@@ -1,14 +1,16 @@
 <app-book-toolbar class="hide-on-med-and-up"></app-book-toolbar>
 
 <div class="app-book-wrapper">
-  <app-navigation 
+  <app-navigation *ngIf="!bookService.pdf"
     [class.app-panel-hidden]="!viewerControls.leftPanelVisible"
     [class.app-panel-tablet-visible-right]="!viewerControls.rightPanelVisible"
     [class.app-panel-mobile-hidden]="bookService.activeMobilePanel != 'navigation'">
   </app-navigation>
   
-  <app-viewer></app-viewer>
+  <app-viewer *ngIf="!bookService.pdf"></app-viewer>
   
+  <app-pdf-viewer *ngIf="bookService.pdf"></app-pdf-viewer>
+
   <app-metadata 
     [class.app-panel-hidden]="!viewerControls.rightPanelVisible" 
     [class.app-panel-tablet-visible-left]="!viewerControls.leftPanelVisible"

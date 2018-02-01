@@ -9,6 +9,7 @@ export class DocumentItem {
     url: string;
     volumeNumber: string;
     volumeYear: string;
+    pdf = false;
     context: Context[] = [];
 
     constructor() {

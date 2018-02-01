@@ -1,0 +1,19 @@
+<pdf-viewer 
+  *ngIf="bookService.pdf"
+  [show-all]="true"
+  [original-size]="true"
+  [fit-to-page]="true"
+  (after-load-complete)="onSuccess($event)"
+  (error)="onError($event)"
+  [src]="{
+    url: bookService.pdf,
+    withCredentials: false
+  }" 
+  [render-text]="true">
+</pdf-viewer>
+
+<mz-spinner *ngIf="bookService.isLoading()"
+  class="medium-centered-spinner"
+  [color]="'blue'"
+  [size]="'medium'">
+</mz-spinner>

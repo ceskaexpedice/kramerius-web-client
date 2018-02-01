@@ -32,10 +32,12 @@ export class Utils {
                 item.context.push(new Context(context['pid'], context['model']));
             }
         }
-
         if (item.doctype === 'periodicalvolume' && json['details']) {
             item.volumeNumber = json['details']['volumeNumber'];
             item.volumeYear = json['details']['year'];
+        }
+        if (json['pdf'] && json['pdf']['url']) {
+            item.pdf = true;
         }
 
         item.resolveUrl();
