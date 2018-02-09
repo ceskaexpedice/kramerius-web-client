@@ -11,9 +11,16 @@ export class SolrService {
 
     }
 
-    periodicalItems(solr): PeriodicalItem[] {
+    periodicalItems(solr, uuid: string = null): PeriodicalItem[] {
+        let hasVirtualIssue = false;
+        let virtualIssuePublic: boolean;
         const items: PeriodicalItem[] = [];
         for (const doc of solr['response']['docs']) {
+            if (doc['fedora.model'] === 'page') {
+                hasVirtualIssue = true;
+                virtualIssuePublic = doc['dostupnost'] === 'public';
+                continue;
+            }
             const item = new PeriodicalItem();
             item.uuid = doc['PID'];
             item.public = doc['dostupnost'] === 'public';
@@ -45,6 +52,14 @@ export class SolrService {
             if (!item.subtitle) {
                 item.subtitle = doc['title'];
             }
+            items.push(item);
+        }
+        if (hasVirtualIssue) {
+            const item = new PeriodicalItem();
+            item.uuid = uuid;
+            item.public = virtualIssuePublic;
+            item.doctype = 'periodicalitem';
+            item.virtual = true;
             items.push(item);
         }
         return items;

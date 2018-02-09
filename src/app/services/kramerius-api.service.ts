@@ -146,7 +146,7 @@ export class KrameriusApiService {
     }
 
     getPeriodicalIssues(periodicalUuid: string, volumeUuid: string) {
-        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/* AND level:2 AND (fedora.model:periodicalitem OR fedora.model:supplement)&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
+        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/* AND level:2 AND (fedora.model:periodicalitem OR fedora.model:supplement OR fedora.model:page)&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
         return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);

@@ -54,7 +54,7 @@ export class PeriodicalService {
           });
         } else if (this.isPeriodicalVolume()) {
           this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, uuid).subscribe(issues => {
-            this.assignItems(this.solrService.periodicalItems(issues));
+            this.assignItems(this.solrService.periodicalItems(issues, uuid));
             this.initPeriodicalVolume();
           });
         }
@@ -227,9 +227,12 @@ export class PeriodicalService {
       this.daysOfMonthsItems[i] = {};
     }
     for (const item of this.items) {
-      const c = item.title.split('.');
+      let c = null;
+      if (item.title) {
+        c = item.title.split('.');
+      }
       let ok = false;
-      if (c.length === 3) {
+      if (c && c.length === 3) {
         const d = c[0] + '';
         const m = c[1];
         let month = parseInt(m, 0);

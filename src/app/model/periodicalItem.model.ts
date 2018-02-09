@@ -5,6 +5,7 @@ export class PeriodicalItem {
     public: boolean;
     uuid: string;
     thumb: string;
+    virtual = false;
 
     constructor() {
     }

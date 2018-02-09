@@ -137,6 +137,10 @@
   "periodical": {
     "volume": "Ročník: {{volume}}",
     "issue": "Číslo: {{issue}}",
+    "volume_unknown": "-",
+    "issue_unknown": "-",
+    "date_unknown": "-",
+    "year_unknown": "-",
     "previous_volume": "Předchozi ročník",   
     "next_volume": "Následující ročník",
     "volume_list": "Seznam ročníků"
