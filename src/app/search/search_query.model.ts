@@ -130,6 +130,8 @@ export class SearchQuery {
                 q += ' AND dostupnost:public';
             } else if (this.accessibility === 'private') {
                 q += ' AND dostupnost:private';
+            } else if (!skip) {
+                q += 'AND (dostupnost:public^5000 OR dostupnost:private)';
             }
         }
         q += this.addToQuery('keywords', this.keywords, skip);
@@ -137,7 +139,7 @@ export class SearchQuery {
         q += this.addToQuery('authors', this.authors, skip);
         q += this.addToQuery('languages', this.languages, skip);
         q += this.addToQuery('collections', this.collections, skip);
-        q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
+        // q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
         q += this.getDateOrderingRestriction();
         if (rel) {
             q += '&q1=' + qString;

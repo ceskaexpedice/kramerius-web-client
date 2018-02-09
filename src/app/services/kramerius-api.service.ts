@@ -63,6 +63,7 @@ export class KrameriusApiService {
         if (ordering) {
             url += '&sort=' + ordering;
         }
+        url += '&group=true&group.field=root_pid&group.ngroups=true';
         url += '&rows=' + query.getRows();
         url += '&start=' + query.getStart();
         return this.http.get(url)

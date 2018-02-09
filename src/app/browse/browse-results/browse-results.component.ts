@@ -3,8 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-browse-results',
-  templateUrl: './browse-results.component.html',
-  styleUrls: ['./browse-results.component.scss']
+  templateUrl: './browse-results.component.html'
 })
 export class BrowseResultsComponent implements OnInit {
 

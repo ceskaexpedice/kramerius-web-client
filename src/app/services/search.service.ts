@@ -143,10 +143,13 @@ export class SearchService {
     private search() {
         this.loading = true;
         this.krameriusApiService.getSearchResults(this.query).subscribe(response => {
-            this.numberOfResults = this.solrService.numberOfResults(response);
-            this.results = this.solrService.documentItems(response);
+            this.numberOfResults = this.solrService.numberOfSearchResults(response);
+            this.results = this.solrService.searchResultItems(response, this.query.getQ());
             this.loading = false;
         });
+
+
+
         this.krameriusApiService.getFacetList(this.query, 'keywords').subscribe(response => {
             this.keywords = response;
         });

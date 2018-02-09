@@ -83,6 +83,36 @@ export class SolrService {
     }
 
 
+    numberOfSearchResults(solr): number {
+        return solr['grouped']['root_pid']['ngroups'];
+    }
+
+    searchResultItems(solr, query): DocumentItem[] {
+        const items: DocumentItem[] = [];
+        for (const group of solr['grouped']['root_pid']['groups']) {
+            const doc = group['doclist']['docs'][0];
+            const item = new DocumentItem();
+            item.title = doc['root_title'];
+            item.uuid = doc['root_pid'];
+            item.public = doc['dostupnost'] === 'public';
+
+            const dp = doc['model_path'][0];
+            if (dp.indexOf('/') > 0) {
+                item.doctype = dp.substring(0, dp.indexOf('/'));
+                // TODO - fulltext
+                item.query = query;
+            } else {
+                item.doctype = doc['fedora.model'];
+            }
+            item.date = doc['datum_str'];
+            item.authors = doc['dc.creator'];
+            item.resolveUrl();
+            items.push(item);
+        }
+        return items;
+    }
+
+
     facetList(solr, field, usedFiltes: any[], skipSelected: boolean) {
         const list = [];
         const facetFields = solr['facet_counts']['facet_fields'][field];

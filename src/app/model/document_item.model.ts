@@ -10,6 +10,7 @@ export class DocumentItem {
     volumeNumber: string;
     volumeYear: string;
     pdf = false;
+    query: string;
     context: Context[] = [];
 
     constructor() {
@@ -23,6 +24,9 @@ export class DocumentItem {
         } else {
             this.url = '/view/' + this.uuid;
         }
+        // if (this.query) {
+        //     this.url += '?q=' + this.query;
+        // }
     }
 
 }
