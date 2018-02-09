@@ -11,6 +11,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
+import { Response } from '@angular/http/src/static_response';
 
 @Injectable()
 export class KrameriusApiService {
@@ -22,9 +23,9 @@ export class KrameriusApiService {
     private static STREAM_ALTO = 'ALTO';
     private static STREAM_MP3 = 'MP3';
 
-    private BASE_URL = 'https://kramerius.mzk.cz';
+    // private BASE_URL = 'https://kramerius.mzk.cz';
     // private BASE_URL = 'http://zvuk.nm.cz';
-    // private BASE_URL = 'https://kramerius.lib.cas.cz';
+    private BASE_URL = 'https://kramerius.lib.cas.cz';
     // private BASE_URL = 'http://kramerius4.nkp.cz';
     // private BASE_URL = 'http://kramerius4.mlp.cz';
 
@@ -55,6 +56,10 @@ export class KrameriusApiService {
         return this.API_URL + '/item/' + uuid;
     }
 
+    private doGet(url: string): Observable<Response> {
+        return this.http.get(encodeURI(url));
+    }
+
     getSearchResults(query: SearchQuery) {
         let url = this.API_URL + '/search?'
             + query.buildQuery(null);
@@ -66,7 +71,7 @@ export class KrameriusApiService {
         url += '&group=true&group.field=root_pid&group.ngroups=true';
         url += '&rows=' + query.getRows();
         url += '&start=' + query.getStart();
-        return this.http.get(url)
+        return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -74,7 +79,7 @@ export class KrameriusApiService {
     getBrowseResults(query: BrowseQuery) {
         const url = this.API_URL + '/search?'
             + query.buildQuery();
-        return this.http.get(url)
+        return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -86,7 +91,7 @@ export class KrameriusApiService {
             + '&facet.limit=50'
             + '&rows=0&facet.mincount=1';
 
-        return this.http.get(url)
+        return this.doGet(url)
             .map(response => {
                 if (field === 'accessibility') {
                     return this.solrService.facetAccessibilityList(response.json());
@@ -101,48 +106,48 @@ export class KrameriusApiService {
 
 
     getNewest() {
-        const url = this.API_URL + '/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph%20OR%20fedora.model:periodical%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=24&start=0';
-        return this.http.get(url)
+        const url = this.API_URL + '/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=24&start=0';
+        return this.doGet(url)
             .map(response => this.solrService.documentItems(response.json()))
             .catch(this.handleError);
     }
 
     getFulltextUuidList(uuid, query) {
-        const url = this.API_URL + '/search/?fl=PID&q=parent_pid:%22'
+        const url = this.API_URL + '/search/?fl=PID&q=parent_pid:"'
             + uuid
-            + '%22%20AND%20text_ocr:'
+            + '" AND text_ocr:'
             + query
             + '&rows=200';
-        return this.http.get(url)
+        return this.doGet(url)
             .map(response => this.solrService.uuidList(response.json()))
             .catch(this.handleError);
     }
 
     getRecommended() {
         const url = this.API_URL + '/feed/custom';
-        return this.http.get(url)
+        return this.doGet(url)
             .map(response => this.utils.parseRecommended(response.json()))
             .catch(this.handleError);
     }
 
     getCollections() {
         const url = this.API_URL + '/vc';
-        return this.http.get(url)
+        return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
     }
 
 
     getPeriodicalVolumes(uuid: string) {
-        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/*%20AND%20level:1%20AND%20(fedora.model:periodicalvolume)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=1500&start=0';
-        return this.http.get(url)
+        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/* AND level:1 AND (fedora.model:periodicalvolume)&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
+        return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
     }
 
     getPeriodicalIssues(periodicalUuid: string, volumeUuid: string) {
-        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*%20AND%20level:2%20AND%20(fedora.model:periodicalitem%20OR%20fedora.model:supplement)&sort=datum%20asc,datum_str%20asc,fedora.model%20asc&rows=1500&start=0';
-        return this.http.get(url)
+        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/* AND level:2 AND (fedora.model:periodicalitem OR fedora.model:supplement)&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
+        return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -152,9 +157,9 @@ export class KrameriusApiService {
     getSearchAutocompleteUrl(term: string) {
         return this.API_URL + '/search/?fl=PID,dc.title,dc.creator&q=dc.title:'
         + term.toLowerCase()
-        + '*+AND+(fedora.model:monograph%5E5+OR+fedora.model:periodical%5E4+OR+fedora.model:map+'
-        + 'OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)'
-        + '+AND+dostupnost:public&rows=30';
+        + '* AND (fedora.model:monograph^5 OR fedora.model:periodical^4 OR fedora.model:map '
+        + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript) '
+        + 'AND dostupnost:public&rows=30';
     }
 
 
@@ -199,42 +204,42 @@ export class KrameriusApiService {
 
     getOcr(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);
-        return this.http.get(url)
+        return this.doGet(url)
             .map(response => response['_body'])
             .catch(this.handleError);
     }
 
     getDc(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
-        return this.http.get(url)
+        return this.doGet(url)
           .map(response => response['_body'])
           .catch(this.handleError);
     }
 
     getAlto(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO);
-        return this.http.get(url)
+        return this.doGet(url)
           .map(response => response['_body'])
           .catch(this.handleError);
     }
 
     getMods(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
-        return this.http.get(url)
+        return this.doGet(url)
           .map(response => response['_body'])
           .catch(this.handleError);
     }
 
     getChildren(uuid: string) {
         const url = this.getItemUrl(uuid) + '/children';
-        return this.http.get(url)
+        return this.doGet(url)
           .map(response => response.json())
           .catch(this.handleError);
     }
 
     getItem(uuid: string) {
         const url = this.getItemUrl(uuid);
-        return this.http.get(url)
+        return this.doGet(url)
           .map(response => this.utils.parseItem(response.json()))
           .catch(this.handleError);
     }
@@ -245,7 +250,7 @@ export class KrameriusApiService {
 
     getZoomifyProperties(uuid: string) {
         const url = `${this.getZoomifyRootUrl(uuid)}ImageProperties.xml`;
-        return this.http.get(url)
+        return this.doGet(url)
             .map(response => response['_body'])
             .catch(this.handleError);
     }

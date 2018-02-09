@@ -192,13 +192,13 @@ export class SearchQuery {
 
     public getOrderingValue(): string {
         if (this.ordering === 'newest') {
-            return 'created_date%20desc';
+            return 'created_date desc';
         } else if (this.ordering === 'latest') {
-           return 'datum_end%20desc';
+           return 'datum_end desc';
         } else if (this.ordering === 'earliest') {
-           return 'datum_begin%20asc';
+           return 'datum_begin asc';
         } else if (this.ordering === 'alphabetical') {
-           return 'title_sort%20asc';
+           return 'title_sort asc';
         }
         return null;
     }
