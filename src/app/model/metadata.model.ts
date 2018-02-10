@@ -1,3 +1,6 @@
+import { DocumentItem } from './document_item.model';
+import { PeriodicalItem } from './periodicalItem.model';
+
 export class Metadata {
 
     public titles: TitleInfo[] = [];
@@ -11,8 +14,13 @@ export class Metadata {
     public abstracts: string[] = [];
     public genres: string[] = [];
 
+    public model: string;
     public doctype: string;
-    public volume: Volume = new Volume();
+    public volume: Volume;
+
+    public currentIssue: PeriodicalItem;
+    public nextIssue: PeriodicalItem;
+    public previousIssue: PeriodicalItem;
 
 
     constructor() {
@@ -56,9 +64,11 @@ export class Metadata {
           }
         }
     }
+
+    public assignVolume(item: DocumentItem) {
+        this.volume = new Volume(item.uuid, item.volumeYear, item.volumeNumber);
+    }
 }
-
-
 
 
 export class TitleInfo {
@@ -67,8 +77,8 @@ export class TitleInfo {
 }
 
 export class Volume {
-    public year;
-    public number;
+    constructor(public uuid: string, public year: string, public number: string) {
+    }
 }
 
 export class Author {
@@ -115,3 +125,4 @@ export class Publisher {
         return !(this.name || this. date || this.place);
     }
 }
+

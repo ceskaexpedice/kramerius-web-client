@@ -1,3 +1,4 @@
+import { SolrService } from './solr.service';
 import { ModsParserService } from './mods-parser.service';
 import { DocumentItem } from './../model/document_item.model';
 import { Metadata } from './../model/metadata.model';
@@ -52,6 +53,7 @@ export class BookService {
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
         private modsParserService: ModsParserService,
+        private solrService: SolrService,
         private modalService: MzModalService) {
     }
 
@@ -74,11 +76,50 @@ export class BookService {
             }
             this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response);
+                this.metadata.model = item.doctype;
                 this.metadata.doctype = (item.doctype && item.doctype.startsWith('periodical')) ? 'periodical' : item.doctype;
+                if (item.doctype === 'periodicalitem') {
+                    const volumeUuid = item.getUuidFromContext('periodicalvolume');
+                    this.loadVolume(volumeUuid);
+                    this.loadIssues(item.root_uuid, volumeUuid, this.uuid);
+                }
                 this.localStorageService.addToVisited(item, this.metadata);
             });
         });
 
+    }
+
+    private loadVolume(uuid: string) {
+        this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+            this.metadata.assignVolume(item);
+        });
+    }
+
+
+    private loadIssues(periodicalUuid: string, volumeUuid: string, issueUuid: string) {
+        this.krameriusApiService.getPeriodicalIssues(periodicalUuid, volumeUuid).subscribe(response => {
+            const issues = this.solrService.periodicalItems(response);
+            if (!issues || issues.length < 1) {
+                return;
+            }
+            let index = -1;
+            for (let i = 0; i < issues.length; i++) {
+            if (issues[i].uuid === issueUuid) {
+                index = i;
+                break;
+            }
+            }
+            if (index < 0) {
+            return;
+            }
+            this.metadata.currentIssue = issues[index];
+            if (index > 0) {
+            this.metadata.previousIssue = issues[index - 1];
+            }
+            if (index < issues.length - 1) {
+            this.metadata.nextIssue = issues[index + 1];
+            }
+        });
     }
 
 

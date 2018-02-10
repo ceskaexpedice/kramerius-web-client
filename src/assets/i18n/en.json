@@ -102,12 +102,6 @@
       "playing": "Playing"
     }
   },
-  "alerts": {
-    "warning": {
-      "title": "Attention",
-      "text": "Found 0 records. Please, try another query."
-    }
-  },
   "alert": {
     "warning": "Attention",
     "error": "Error",
@@ -135,14 +129,21 @@
     "abstract": "Abstract",
     "doctype": "Document type",    
     "notes": "Notes",
-    "genres": "Genre",        
+    "genres": "Genre", 
+    "volume": "Volume",
+    "volume_year": "Year of publication",
+    "issue": "Issue",
+    "issue_date": "Date of publication",
+    "previous_issue": "Previous issue",   
+    "issue_list": "Issue list",
+    "next_issue": "Next issue",       
     "shelf_locator": "Shelf number: {{shelf_locator}}",
     "btn_show_metadata": "Show metadata",
     "btn_hide_metadata": "Hide metadata"
   },
   "periodical": {
-    "volume": "Volume: {{volume}}",
-    "issue": "Issue: {{issue}}",
+    "volume": "Volume {{volume}}",
+    "issue": "Issue {{issue}}",
     "volume_unknown": "-",
     "issue_unknown": "-",
     "date_unknown": "-",

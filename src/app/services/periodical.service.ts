@@ -44,8 +44,7 @@ export class PeriodicalService {
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response);
         this.metadata.doctype = 'periodical';
-        this.metadata.volume.number = this.document.volumeNumber;
-        this.metadata.volume.year = this.document.volumeYear;
+        this.metadata.model = item.doctype;
         if (this.isPeriodical()) {
           this.localStorageService.addToVisited(this.document, this.metadata);
           this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(volumes => {
@@ -53,6 +52,7 @@ export class PeriodicalService {
             this.initPeriodical();
           });
         } else if (this.isPeriodicalVolume()) {
+          this.metadata.assignVolume(this.document);
           this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, uuid).subscribe(issues => {
             this.assignItems(this.solrService.periodicalItems(issues, uuid));
             this.initPeriodicalVolume();

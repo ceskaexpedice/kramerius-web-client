@@ -1,6 +1,10 @@
 // --- METADATA ---
 
 app-metadata {
+  strong {
+    font-weight: 600;
+    color: #222222;
+  }
   margin-left: auto;
   transition: margin-right 0.5s;
   @include set-border(left, 1, solid, $app-grey-l-2);

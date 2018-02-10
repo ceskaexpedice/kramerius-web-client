@@ -17,6 +17,38 @@
     <div class="divider"></div>
   </div>
   
+  <div *ngIf="metadata.volume">
+    <label>{{ 'metadata.volume' | translate }}</label>
+    <div class="app-value">{{ 'metadata.volume_year' | translate }} <strong>{{ metadata.volume.year }}</strong></div>
+    <div class="app-value">{{ 'metadata.volume' | translate }} <strong>{{ metadata.volume.number }}</strong></div>
+    <div *ngIf="metadata.currentIssue">
+      <a [routerLink]="['/periodical', metadata.volume.uuid]">
+        {{ 'metadata.issue_list' | translate }}
+      </a>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <div *ngIf="metadata.currentIssue">
+    <label>{{ 'metadata.issue' | translate }}</label>
+    <div class="app-value">{{ 'metadata.issue_date' | translate }} <strong>{{ metadata.currentIssue.title }}</strong></div>
+    <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.subtitle }}</strong></div>
+    
+    <div *ngIf="metadata.previousIssue">
+      <a [routerLink]="['/view', metadata.previousIssue.uuid]">
+        {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.title }}
+      </a>
+    </div>
+
+    <div *ngIf="metadata.nextIssue">
+      <a [routerLink]="['/view', metadata.nextIssue.uuid]">
+        {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.title }}
+      </a>
+    </div>
+
+    <div class="divider"></div>
+  </div>
+
   <div *ngIf="metadata.publishers.length > 0">
     <label>{{ 'metadata.publisher' | translate }}</label>
     <div *ngFor="let publisher of metadata.publishers; first as first" [class.space]="!first" class="app-value" >{{ publisher.fullDetail() }}</div>

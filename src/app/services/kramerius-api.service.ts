@@ -23,9 +23,9 @@ export class KrameriusApiService {
     private static STREAM_ALTO = 'ALTO';
     private static STREAM_MP3 = 'MP3';
 
-    // private BASE_URL = 'https://kramerius.mzk.cz';
+    private BASE_URL = 'https://kramerius.mzk.cz';
     // private BASE_URL = 'http://zvuk.nm.cz';
-    private BASE_URL = 'https://kramerius.lib.cas.cz';
+    // private BASE_URL = 'https://kramerius.lib.cas.cz';
     // private BASE_URL = 'http://kramerius4.nkp.cz';
     // private BASE_URL = 'http://kramerius4.mlp.cz';
 
@@ -232,6 +232,13 @@ export class KrameriusApiService {
 
     getChildren(uuid: string) {
         const url = this.getItemUrl(uuid) + '/children';
+        return this.doGet(url)
+          .map(response => response.json())
+          .catch(this.handleError);
+    }
+
+    getSiblings(uuid: string) {
+        const url = this.getItemUrl(uuid) + '/siblings';
         return this.doGet(url)
           .map(response => response.json())
           .catch(this.handleError);

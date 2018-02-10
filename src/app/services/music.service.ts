@@ -47,6 +47,7 @@ export class MusicService {
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response);
         this.metadata.doctype = 'soundrecording';
+        this.metadata.model = item.doctype;
         this.localStorageService.addToVisited(this.document, this.metadata);
         this.loadSoundUnits();
       });
