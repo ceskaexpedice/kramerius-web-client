@@ -38,7 +38,8 @@
 
   <mz-collection-item *ngFor="let doctype of searchService.query.doctypes">
     <span (click)="searchService.removeFilter(searchService.query.doctypes, doctype)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'file-document'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'file-document'" [class]="'app-clean-mg'" [class]="'app-mdi-' + doctype"></i>
+      <!--<i [class]="'app-mdi-' + doctype"></i>-->
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
       {{ 'model.' + doctype | translate }}
     </span>

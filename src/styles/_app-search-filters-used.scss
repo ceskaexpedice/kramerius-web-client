@@ -46,6 +46,12 @@ app-search-filters-used {
             }
           }
         }
+        i[class*='app-mdi'] {
+          &:before {
+            vertical-align: inherit;
+            line-height: inherit;
+          }
+        }
         &:hover {
           color: $app-red;
           

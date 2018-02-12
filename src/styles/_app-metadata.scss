@@ -2,8 +2,8 @@
 
 app-metadata {
   strong {
-    font-weight: 600;
-    color: #222222;
+    @extend .app-font-bold;
+    color: $app-grey-d-4;
   }
   margin-left: auto;
   transition: margin-right 0.5s;
@@ -59,7 +59,7 @@ app-metadata {
       font-size: 1.1rem;
       line-height: 1.6rem;
       @extend .app-clean-mg;
-      color: $primary-color;
+      color: $app-grey-d-2;
       
       &.app-cut {
         line-height: 1.6rem;
