@@ -90,7 +90,7 @@ export class BrowseQuery {
     }
 
     buildQuery(): string {
-        let q = 'q=(fedora.model:monograph%20OR%20fedora.model:periodical%20OR%20fedora.model:soundrecording%20OR%20fedora.model:map%20OR%20fedora.model:graphic%20OR%20fedora.model:sheetmusic%20OR%20fedora.model:archive%20OR%20fedora.model:manuscript)';
+        let q = 'q=(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
         if (this.accessibility === 'public') {
             q += ' AND dostupnost:public';
         } else if (this.accessibility === 'private') {
