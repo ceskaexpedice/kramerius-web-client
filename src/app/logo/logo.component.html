@@ -1,7 +1,12 @@
 <a [routerLink]="['']" class="brand-logo" title="{{'navbar.home' | translate}}">
   <span class="app-brand-img">
+    <!-- This element should be visible only if the logo is setup in conf file -->
     <img src="http://registr.digitalniknihovna.cz/libraries/mzk/logo" class="img-responsive app-pipe" alt="{{'navbar.home' | translate}}" />
+    <!-- // Default logo -> visible only if the logo is NOT setup in conf file
+    <img src="../../assets/img/logo-kramerius-blue.png" class="img-responsive app-logo-default app-pipe" alt="{{'navbar.home' | translate}}"/>
+    -->
   </span>
+  <!-- This element should be visible only if the logo is setup in conf file -->
   <span class="app-brand-text hide-on-small-only">
     Moravská zemská knihovna
   </span>

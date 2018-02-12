@@ -53,7 +53,7 @@ app-logo {
       margin-left: auto;
 
       .app-brand-img {
-        img {
+        img:not(.app-logo-default) {
           height: 40px;
         }
       }

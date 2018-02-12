@@ -24,6 +24,15 @@
             color: $app-grey;
           }
         }
+        
+        span {
+          &.badge {
+            float: none;
+            display: inline-block;
+            background-color: $app-grey-d-4;
+            color: $app-white;
+          }
+        }
       }
     }
   }
