@@ -69,6 +69,12 @@
       "label_start_date": "Start date",
       "label_end_date": "End date",
       "btn_use_this_settings": "Use this settings"
+    },
+    "year-range": {
+      "label": "Publishing Year",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply"
     }
   },
   "browse": {

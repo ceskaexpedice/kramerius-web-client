@@ -69,5 +69,13 @@
     </span>
   </mz-collection-item>
 
+  <mz-collection-item *ngIf=searchService.query.isYearRangeSet()>
+    <span (click)="searchService.setYearRange()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'calendar-range'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      <span>{{ searchService.query.from }} - {{ searchService.query.to }}</span>
+    </span>
+  </mz-collection-item>
+
 
 </mz-collection>

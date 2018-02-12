@@ -126,7 +126,23 @@ app-browse-filters {
       }
     }
   }
+  .year-range-wrapper {
+    padding: 10px 20px;
+    .year-range {
+      span {
+        color: #888;
+      }
+      input {
+        width: 70px !important;
+        margin: 0 10px !important;
+      }
+    }
+    a.btn {
+      margin-top: 20px;
+    }
+  }
 }
+
 
 // just for browser filters
 app-browse-filters {

@@ -94,6 +94,11 @@ export class SearchService {
         this.reload(false);
     }
 
+    public setYearRange(from: number, to: number) {
+        this.query.setYearRange(from, to);
+        this.reload(false);
+    }
+
     public setPage(page: number) {
         this.query.setPage(page);
         this.reload(true);

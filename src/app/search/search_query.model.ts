@@ -10,6 +10,9 @@ export class SearchQuery {
     doctypes: string[] = [];
     collections: string[] = [];
 
+    from = -1;
+    to = -1;
+
 
     constructor() {
     }
@@ -25,6 +28,7 @@ export class SearchQuery {
         query.setFiled(query.languages, params['languages']);
         query.setFiled(query.collections, params['collections']);
         query.setAccessibility(params['accessibility']);
+        query.setYearRange(params['from'], params['to']);
         return query;
     }
 
@@ -56,6 +60,21 @@ export class SearchQuery {
         } else {
             this.accessibility = 'all';
         }
+    }
+
+    public setYearRange(from: number, to: number) {
+        if (from && to) {
+            this.from = from;
+            this.to = to;
+        } else {
+            this.clearYearRange();
+        }
+    }
+
+
+    private clearYearRange() {
+        this.from = 0;
+        this.to = (new Date()).getFullYear();
     }
 
     private setFiled(fieldValues: string[], input: string) {
@@ -109,6 +128,10 @@ export class SearchQuery {
     }
 
 
+    isYearRangeSet(): boolean {
+        return (this.from && this.from > 0) || (this.to && this.to !== (new Date()).getFullYear());
+    }
+
 
     buildQuery(skip: string): string {
         const qString = this.getQ();
@@ -131,8 +154,11 @@ export class SearchQuery {
             } else if (this.accessibility === 'private') {
                 q += ' AND dostupnost:private';
             } else if (!skip) {
-                q += 'AND (dostupnost:public^5000 OR dostupnost:private)';
+                q += ' AND (dostupnost:public^5000 OR dostupnost:private)';
             }
+        }
+        if (this.isYearRangeSet()) {
+            q += ' AND (rok:[' + this.from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + this.from + ' TO *]))';
         }
         q += this.addToQuery('keywords', this.keywords, skip);
         q += this.addToQuery('doctypes', this.doctypes, skip);
@@ -174,7 +200,11 @@ export class SearchQuery {
             params['doctypes'] = this.doctypes.join(',,');
         }
         if (this.collections.length > 0) {
-            params['collections'] = this.collections.join(',,');
+            params['collectiions'] = this.collections.join(',,');
+        }
+        if (this.isYearRangeSet()) {
+            params['from'] = this.from;
+            params['to'] = this.to;
         }
         return params;
     }
@@ -223,6 +253,7 @@ export class SearchQuery {
         this.authors = [];
         this.collections = [];
         this.languages = [];
+        this.clearYearRange();
     }
 
     public hasQueryString() {
@@ -252,6 +283,9 @@ export class SearchQuery {
             return true;
         }
         if (this.collections && this.collections.length > 0) {
+            return true;
+        }
+        if (this.isYearRangeSet()) {
             return true;
         }
         return false;

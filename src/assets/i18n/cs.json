@@ -69,6 +69,12 @@
       "label_start_date": "Počáteční datum",
       "label_end_date": "Konečné datum",
       "btn_use_this_settings": "Použít toto nastavení"
+    },
+    "year-range": {
+      "label": "Rok vydání",
+      "from": "Od",
+      "to": "Do",
+      "apply": "Použít"
     }
   },
   "browse": {
