@@ -1,3 +1,4 @@
+import { query } from '@angular/core/src/animation/dsl';
 import { Router } from '@angular/router';
 import { PeriodicalFtItem } from './../model/periodicalftItem.model';
 import { KrameriusApiService } from './kramerius-api.service';
@@ -52,7 +53,7 @@ export class PeriodicalService {
         if (this.isPeriodical()) {
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (fulltextQuery) {
-            this.initFulltext(fulltextQuery, fulltextPage);
+            this.initFulltext(uuid, null, fulltextQuery, fulltextPage);
           } else {
             this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(volumes => {
               this.assignItems(this.solrService.periodicalItems(volumes));
@@ -61,8 +62,11 @@ export class PeriodicalService {
           }
         } else if (this.isPeriodicalVolume()) {
           this.metadata.assignVolume(this.document);
+          this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid).subscribe(volumes => {
+            this.assignVolumeDetails(this.solrService.periodicalItems(volumes));
+          });
           if (fulltextQuery) {
-
+            this.initFulltext(this.document.root_uuid, uuid, fulltextQuery, fulltextPage);
           } else {
             this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, uuid).subscribe(issues => {
               this.assignItems(this.solrService.periodicalItems(issues, uuid));
@@ -158,9 +162,6 @@ export class PeriodicalService {
   }
 
   private initPeriodicalVolume() {
-    this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid).subscribe(volumes => {
-      this.assignVolumeDetails(this.solrService.periodicalItems(volumes));
-    });
     this.yearsLayoutEnabled = false;
     this.gridLayoutEnabled = true;
     const year = this.document.volumeYear;
@@ -179,12 +180,12 @@ export class PeriodicalService {
   }
 
 
-  private initFulltext(fulltextQuery: string, fulltextPage: number) {
+  private initFulltext(periodicalUuid: string, volumeUuid: string, fulltextQuery: string, fulltextPage: number) {
     this.fulltext = new PeriodicalFulltext();
     this.fulltext.limit = 40;
     this.fulltext.query = fulltextQuery;
     this.fulltext.page = fulltextPage || 1;
-    this.krameriusApiService.getPeriodicalFulltextPages(this.uuid, this.fulltext.query, this.fulltext.getOffset(), this.fulltext.limit).subscribe(response => {
+    this.krameriusApiService.getPeriodicalFulltextPages(periodicalUuid, volumeUuid, this.fulltext.query, this.fulltext.getOffset(), this.fulltext.limit).subscribe(response => {
       this.fulltext.pages = this.solrService.periodicalFtItems(response, this.fulltext.query);
       this.fulltext.results = this.solrService.numberOfResults(response);
       const issuePids = [];
@@ -240,6 +241,10 @@ export class PeriodicalService {
 
   public previousFtPage() {
     this.setFtPage(this.fulltext.page - 1);
+  }
+
+  public getFulltextQuery() {
+    return this.fulltext ? this.fulltext.query : null;
   }
 
 

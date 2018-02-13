@@ -10,18 +10,17 @@
   
   <div class="col s4 m6 l4 xl2 app-volume-info center-align" *ngIf="periodicalService.volumeDetail">
     <span *ngIf="periodicalService.volumeDetail">
-      <a *ngIf="periodicalService.volumeDetail.previous" [routerLink]="['/periodical', periodicalService.volumeDetail.previous.uuid]"
+      <a *ngIf="periodicalService.volumeDetail.previous" [routerLink]="['/periodical', periodicalService.volumeDetail.previous.uuid]" [queryParams]="{fulltext: periodicalService.getFulltextQuery() }"
         class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.previous_volume' | translate" [position]="'bottom'">
       </a>
       <a *ngIf="!periodicalService.volumeDetail.previous" class="app-mdi-periodical-previous disabled"></a>
       <span class="app-volume-title">{{ periodicalService.volumeDetail.current.title }}</span>
-      <a *ngIf="periodicalService.volumeDetail.next" [routerLink]="['/periodical', periodicalService.volumeDetail.next.uuid]"
+      <a *ngIf="periodicalService.volumeDetail.next" [routerLink]="['/periodical', periodicalService.volumeDetail.next.uuid]" [queryParams]="{fulltext: periodicalService.getFulltextQuery() }"
         class="app-mdi-periodical-next" mz-tooltip [tooltip]="'periodical.next_volume' | translate" [position]="'bottom'">
       </a>
       <a *ngIf="!periodicalService.volumeDetail.next" class="app-mdi-periodical-next disabled"></a>
     </span>
   </div>
-
 
   <div class="col app-nav-item" [ngClass]="{'s6 m5 l2 xl2 app-mq-small-1': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
     <ul class="right">
