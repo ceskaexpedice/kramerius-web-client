@@ -1,0 +1,27 @@
+<a [routerLink]="item.getUrl()" [queryParams]="{page: item.uuid, fulltext: item.query}">
+  <mz-card  [hoverable]="true">
+    <mz-card-content>
+      <div class="app-card-media">
+        <div class="app-card-thumb" [style.background-image]="getThumb()">
+          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+        </div>
+      </div>
+      <div class="app-card-content">
+        <div class="app-card-row">
+          <div class="app-card-row-right">{{item.year}}</div>
+          <div class="app-card-row-left">{{ 'metadata.volume' | translate }} {{item.volume}}</div>
+        </div>
+        <div class="app-card-row">
+          <div class="app-card-row-right">{{item.date}}</div>
+          <div class="app-card-row-left">{{ 'metadata.issue' | translate }} {{item.issue}}</div>
+        </div>
+        <div class="app-card-row">
+          <div class="app-card-row-right"></div>
+          <div class="app-card-row-left">{{ 'metadata.page' | translate }} {{item.page}}</div>
+        </div>
+        <div class="app-card-ocr" [innerHTML]="item.text">
+        </div>
+      </div>
+    </mz-card-content>
+  </mz-card>
+</a>

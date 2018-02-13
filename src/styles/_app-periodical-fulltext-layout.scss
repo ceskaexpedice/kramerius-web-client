@@ -1,0 +1,11 @@
+// --- PERIODICAL FULLTEXT LAYOUT ---
+
+app-periodical-fulltext-layout {
+ .app-periodical-fulltext-layout-wrapper {
+    height: 100%;
+    overflow: auto;
+    padding: 0.5rem;
+   
+    @import "styles/app-periodical-fulltext-item";
+  } 
+}

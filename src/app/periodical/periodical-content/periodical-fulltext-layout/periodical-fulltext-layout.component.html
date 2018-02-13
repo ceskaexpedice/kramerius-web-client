@@ -1,0 +1,14 @@
+<div id="app-periodical-fulltext-container" class="app-periodical-fulltext-layout-wrapper">
+  <app-periodical-fulltext-item [item]="item" *ngFor="let item of periodicalService.fulltext.pages"></app-periodical-fulltext-item>
+
+  <div class="clearfix"></div>
+
+  <app-paginator [activeIndex]="periodicalService.fulltext.page"
+          [overallCount]="periodicalService.fulltext.results"
+          [step]="periodicalService.fulltext.limit"
+          (next)="periodicalService.nextFtPage()"
+          (previous)="periodicalService.previousFtPage()"
+          (change)="periodicalService.setFtPage($event)">
+  </app-paginator> 
+
+</div>

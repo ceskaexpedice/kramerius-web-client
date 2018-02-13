@@ -1,3 +1,5 @@
+import { PeriodicalFulltextItemComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-item/periodical-fulltext-item.component';
+import { PeriodicalFulltextLayoutComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-layout.component';
 import { MusicService } from './services/music.service';
 import { BookSearchComponent } from './book/book-search/book-search.component';
 import { AltoService } from './services/alto-service';
@@ -117,9 +119,11 @@ const ROUTES: Routes = [
     PeriodicalContentComponent,
     PeriodicalToolbarComponent,
     PeriodicalGridLayoutComponent,
+    PeriodicalFulltextLayoutComponent,
     PeriodicalYearsLayoutComponent,
     PeriodicalCalendarLayoutComponent,
     PeriodicalGridItemComponent,
+    PeriodicalFulltextItemComponent,
     PeriodicalYearsItemComponent,
     SearchFiltersUsedComponent,
     SearchCountComponent,

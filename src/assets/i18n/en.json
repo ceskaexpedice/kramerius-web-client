@@ -140,6 +140,7 @@
     "volume": "Volume",
     "volume_year": "Year of publication",
     "issue": "Issue",
+    "page": "Page",
     "issue_date": "Date of publication",
     "previous_issue": "Previous issue",   
     "issue_list": "Issue list",

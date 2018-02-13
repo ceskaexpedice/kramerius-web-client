@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { PeriodicalFtItem } from './../model/periodicalftItem.model';
 import { KrameriusApiService } from './kramerius-api.service';
 import { LocalStorageService } from './local-storage.service';
 import { ModsParserService } from './mods-parser.service';
@@ -25,17 +27,19 @@ export class PeriodicalService {
   dates: Date[];
   daysOfMonths: any[];
   daysOfMonthsItems: any[];
-  activeMobilePanel: String;
+  activeMobilePanel: string;
+  fulltext: PeriodicalFulltext;
 
   volumeDetail;
 
   constructor(private solrService: SolrService,
+    private router: Router,
     private modsParserService: ModsParserService,
     private localStorageService: LocalStorageService,
     private krameriusApiService: KrameriusApiService) {
   }
 
-  init(uuid: string) {
+  init(uuid: string, fulltextQuery: string, fulltextPage: number, ) {
     this.clear();
     this.uuid = uuid;
     this.state = PeriodicalState.Loading;
@@ -47,16 +51,24 @@ export class PeriodicalService {
         this.metadata.model = item.doctype;
         if (this.isPeriodical()) {
           this.localStorageService.addToVisited(this.document, this.metadata);
-          this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(volumes => {
-            this.assignItems(this.solrService.periodicalItems(volumes));
-            this.initPeriodical();
-          });
+          if (fulltextQuery) {
+            this.initFulltext(fulltextQuery, fulltextPage);
+          } else {
+            this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(volumes => {
+              this.assignItems(this.solrService.periodicalItems(volumes));
+              this.initPeriodical();
+            });
+          }
         } else if (this.isPeriodicalVolume()) {
           this.metadata.assignVolume(this.document);
-          this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, uuid).subscribe(issues => {
-            this.assignItems(this.solrService.periodicalItems(issues, uuid));
-            this.initPeriodicalVolume();
-          });
+          if (fulltextQuery) {
+
+          } else {
+            this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, uuid).subscribe(issues => {
+              this.assignItems(this.solrService.periodicalItems(issues, uuid));
+              this.initPeriodicalVolume();
+            });
+          }
         }
       });
     });
@@ -80,11 +92,12 @@ export class PeriodicalService {
     this.state = PeriodicalState.None;
     this.metadata = null;
     this.document = null;
-    this.items = null;
+    this.fulltext = null;
     this.yearItems = null;
     this.items = null;
     this.yearItems = null;
     this.volumeDetail = null;
+    this.fulltext = null;
     this.dates = [];
     this.daysOfMonths = [];
     this.daysOfMonthsItems = [];
@@ -164,6 +177,71 @@ export class PeriodicalService {
     }
     this.state = PeriodicalState.Success;
   }
+
+
+  private initFulltext(fulltextQuery: string, fulltextPage: number) {
+    this.fulltext = new PeriodicalFulltext();
+    this.fulltext.limit = 40;
+    this.fulltext.query = fulltextQuery;
+    this.fulltext.page = fulltextPage || 1;
+    this.krameriusApiService.getPeriodicalFulltextPages(this.uuid, this.fulltext.query, this.fulltext.getOffset(), this.fulltext.limit).subscribe(response => {
+      this.fulltext.pages = this.solrService.periodicalFtItems(response, this.fulltext.query);
+      this.fulltext.results = this.solrService.numberOfResults(response);
+      const issuePids = [];
+      const volumePids = [];
+      for (const item of this.fulltext.pages) {
+        item.thumb = this.krameriusApiService.getThumbUrl(item.uuid);
+        if (issuePids.indexOf(item.issueUuid) < 0) {
+          issuePids.push(item.issueUuid);
+        }
+        if (volumePids.indexOf(item.volumeUuid) < 0) {
+          volumePids.push(item.volumeUuid);
+        }
+      }
+      this.krameriusApiService.getPeriodicalItemDetails(issuePids).subscribe(items => {
+        for (const item of items['response']['docs']) {
+          const detail = this.solrService.periodicalItem(item);
+          for (const page of this.fulltext.pages) {
+            if (detail.uuid === page.issueUuid) {
+              page.date = detail.title;
+              page.issue = detail.subtitle;
+            } else if (detail.uuid === page.volumeUuid) {
+              page.year = detail.title;
+              page.volume = detail.subtitle;
+            }
+          }
+        }
+      });
+      this.krameriusApiService.getPeriodicalItemDetails(volumePids).subscribe(items => {
+        for (const item of items['response']['docs']) {
+          const detail = this.solrService.periodicalItem(item);
+          for (const page of this.fulltext.pages) {
+            if (detail.uuid === page.issueUuid) {
+              page.date = detail.title;
+              page.issue = detail.subtitle;
+            } else if (detail.uuid === page.volumeUuid) {
+              page.year = detail.title;
+              page.volume = detail.subtitle;
+            }
+          }
+        }
+      });
+      this.state = PeriodicalState.Success;
+    });
+  }
+
+  public setFtPage(page: number) {
+    this.router.navigate(['periodical', this.uuid],  { queryParams: { fulltext: this.fulltext.query, page: page} });
+  }
+
+  public nextFtPage() {
+    this.setFtPage(this.fulltext.page + 1);
+  }
+
+  public previousFtPage() {
+    this.setFtPage(this.fulltext.page - 1);
+  }
+
 
 
   private initPeriodical() {
@@ -269,4 +347,20 @@ export class PeriodicalService {
 
 export enum PeriodicalState {
   Success, Loading, Failure, None
+}
+
+export class PeriodicalFulltext {
+  query: string;
+  results: number;
+  page: number;
+  limit: number;
+  next: string;
+  previous: string;
+  pages: PeriodicalFtItem[];
+
+
+  getOffset() {
+    return this.limit * (this.page - 1);
+  }
+
 }

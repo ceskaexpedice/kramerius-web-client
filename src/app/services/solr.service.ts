@@ -1,3 +1,4 @@
+import { PeriodicalFtItem } from './../model/periodicalftItem.model';
 import { KrameriusApiService } from './kramerius-api.service';
 import { DocumentItem } from './../model/document_item.model';
 import { PeriodicalItem } from './../model/periodicalItem.model';
@@ -11,6 +12,42 @@ export class SolrService {
 
     }
 
+
+    periodicalItem(doc): PeriodicalItem {
+        const item = new PeriodicalItem();
+        item.uuid = doc['PID'];
+        item.public = doc['dostupnost'] === 'public';
+        item.doctype = doc['fedora.model'];
+        const details = doc['details'];
+        if (item.doctype === 'periodicalvolume') {
+            if (details && details[0]) {
+                const parts = details[0].split('##');
+                if (parts.length === 2) {
+                    item.title = parts[0];
+                    item.subtitle = parts[1];
+                }
+            }
+        } else if (item.doctype === 'periodicalitem') {
+            if (details && details[0]) {
+                const parts = details[0].split('##');
+                if (parts.length === 4) {
+                    item.title = parts[2];
+                    item.subtitle = parts[1];
+                    if (!item.subtitle) {
+                        item.subtitle = parts[3];
+                    }
+                }
+            }
+        }
+        if (!item.title) {
+            item.title = doc['datum_str'];
+        }
+        if (!item.subtitle) {
+            item.subtitle = doc['dc.title'];
+        }
+        return item;
+    }
+
     periodicalItems(solr, uuid: string = null): PeriodicalItem[] {
         let hasVirtualIssue = false;
         let virtualIssuePublic: boolean;
@@ -21,38 +58,7 @@ export class SolrService {
                 virtualIssuePublic = doc['dostupnost'] === 'public';
                 continue;
             }
-            const item = new PeriodicalItem();
-            item.uuid = doc['PID'];
-            item.public = doc['dostupnost'] === 'public';
-            item.doctype = doc['fedora.model'];
-            const details = doc['details'];
-            if (item.doctype === 'periodicalvolume') {
-                if (details && details[0]) {
-                    const parts = details[0].split('##');
-                    if (parts.length === 2) {
-                        item.title = parts[0];
-                        item.subtitle = parts[1];
-                    }
-                }
-            } else if (item.doctype === 'periodicalitem') {
-                if (details && details[0]) {
-                    const parts = details[0].split('##');
-                    if (parts.length === 4) {
-                        item.title = parts[2];
-                        item.subtitle = parts[1];
-                        if (!item.subtitle) {
-                            item.subtitle = parts[3];
-                        }
-                    }
-                }
-            }
-            if (!item.title) {
-                item.title = doc['datum_str'];
-            }
-            if (!item.subtitle) {
-                item.subtitle = doc['title'];
-            }
-            items.push(item);
+            items.push(this.periodicalItem(doc));
         }
         if (hasVirtualIssue) {
             const item = new PeriodicalItem();
@@ -64,6 +70,35 @@ export class SolrService {
         }
         return items;
     }
+
+
+    periodicalFtItems(solr, query: string): PeriodicalFtItem[] {
+        const items: PeriodicalFtItem[] = [];
+        for (const doc of solr['response']['docs']) {
+            const item = new PeriodicalFtItem();
+            item.uuid = doc['PID'];
+            item.public = doc['dostupnost'] === 'public';
+            item.page = doc['dc.title'];
+            item.query = query;
+            let pidPath = doc['pid_path'];
+            if (pidPath.length > 0) {
+                pidPath = pidPath[0].split('/');
+                if (pidPath.length > 1) {
+                    item.issueUuid = pidPath[pidPath.length - 2];
+                }
+                if (pidPath.length > 2) {
+                    item.volumeUuid = pidPath[pidPath.length - 3];
+                }
+                if (solr['highlighting'][item.uuid]) {
+                    item.text = solr['highlighting'][item.uuid]['text_ocr'][0];
+                }
+            }
+            items.push(item);
+        }
+
+        return items;
+    }
+
 
     numberOfResults(solr): number {
         return solr['response']['numFound'];

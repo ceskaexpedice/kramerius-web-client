@@ -14,7 +14,11 @@ export class PeriodicalComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const uuid = params.get('uuid');
-      this.periodicalService.init(uuid);
+      this.route.queryParamMap.subscribe(queryParams => {
+        const fulltext = queryParams.get('fulltext');
+        const page = queryParams.get('page');
+        this.periodicalService.init(uuid, fulltext, parseInt(page, 10));
+      });
     });
   }
 

@@ -137,7 +137,6 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-
     getPeriodicalVolumes(uuid: string) {
         const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/* AND level:1 AND (fedora.model:periodicalvolume)&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
         return this.doGet(url)
@@ -151,6 +150,22 @@ export class KrameriusApiService {
             .map(response => response.json())
             .catch(this.handleError);
     }
+
+    getPeriodicalFulltextPages(uuid: string, query: string, offset: number, limit: number) {
+        const url = this.API_URL + '/search?fl=PID,root_pid,pid_path,dostupnost,dc.title,parent_pid&q=root_pid:"' + uuid + '" AND text_ocr:' + query + '&sort=datum asc&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text_ocr&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
+        return this.doGet(url)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    getPeriodicalItemDetails(uuids: string[]) {
+        const url = this.API_URL + '/search?fl=PID,details,dostupnost,fedora.model,dc.title,datum_str&q=PID:"' + uuids.join('" OR PID:"') + '"&rows=50';
+        return this.doGet(url)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+
 
 
 
