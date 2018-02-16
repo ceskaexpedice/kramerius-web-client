@@ -175,12 +175,19 @@ export class KrameriusApiService {
 
 
 
-    getSearchAutocompleteUrl(term: string) {
-        return this.API_URL + '/search/?fl=PID,dc.title,dc.creator&q=dc.title:'
-        + term.toLowerCase()
-        + '* AND (fedora.model:monograph^5 OR fedora.model:periodical^4 OR fedora.model:map '
-        + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript) '
-        + 'AND dostupnost:public&rows=30';
+    getSearchAutocompleteUrl(term: string, onlyPublic: boolean = false): string {
+        let query = term.toLowerCase().trim().replace(/:/g, '\\:').split(' ').join(' AND dc.title:');
+        if (!term.endsWith(' ') && !term.endsWith(':')) {
+            query += '*';
+        }
+        let result = this.API_URL + '/search/?fl=PID,dc.title,dc.creator&q='
+        + '(fedora.model:monograph^5 OR fedora.model:periodical^4 OR fedora.model:map '
+        + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript)';
+        if (onlyPublic) {
+            result += ' AND dostupnost:public';
+        }
+        result += ' AND dc.title:'  + query + '&rows=30';
+        return result;
     }
 
 
