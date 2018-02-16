@@ -47,7 +47,7 @@ export class PeriodicalService {
     this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
       this.document = item;
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
-        this.metadata = this.modsParserService.parse(response);
+        this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
         this.metadata.doctype = 'periodical';
         this.metadata.model = item.doctype;
         if (this.isMonograph()) {

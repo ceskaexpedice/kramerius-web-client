@@ -76,13 +76,15 @@ export class BookService {
                 });
             }
             this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
-                this.metadata = this.modsParserService.parse(response);
+                this.metadata = this.modsParserService.parse(response, item.root_uuid);
                 this.metadata.model = item.doctype;
                 this.metadata.doctype = (item.doctype && item.doctype.startsWith('periodical')) ? 'periodical' : item.doctype;
                 if (item.doctype === 'periodicalitem') {
                     const volumeUuid = item.getUuidFromContext('periodicalvolume');
                     this.loadVolume(volumeUuid);
                     this.loadIssues(item.root_uuid, volumeUuid, this.uuid);
+                } else if (item.doctype === 'monographunit') {
+                    this.loadMonographUnits(item.root_uuid, this.uuid);
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
             });
@@ -119,6 +121,32 @@ export class BookService {
             }
             if (index < issues.length - 1) {
             this.metadata.nextIssue = issues[index + 1];
+            }
+        });
+    }
+
+    private loadMonographUnits(monographUuid: string, unitUud: string) {
+        this.krameriusApiService.getMonographUnits(monographUuid).subscribe(response => {
+            const units = this.solrService.periodicalItems(response, 'monographunit');
+            if (!units || units.length < 1) {
+                return;
+            }
+            let index = -1;
+            for (let i = 0; i < units.length; i++) {
+                if (units[i].uuid === unitUud) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index < 0) {
+                return;
+            }
+            this.metadata.currentUnit = units[index];
+            if (index > 0) {
+                this.metadata.previousUnit = units[index - 1];
+            }
+            if (index < units.length - 1) {
+                this.metadata.nextUnit = units[index + 1];
             }
         });
     }

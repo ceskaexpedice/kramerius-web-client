@@ -49,6 +49,31 @@
     <div class="divider"></div>
   </div>
 
+  <div *ngIf="metadata.currentUnit">
+    <label>{{ 'metadata.unit' | translate }}</label>
+    <div class="app-value"><strong>{{ metadata.currentUnit.title }}</strong></div>
+    <div class="app-value" >{{ 'metadata.unit_number' | translate }} <strong>{{ metadata.currentUnit.subtitle }}</strong></div>
+    
+    <div *ngIf="metadata.previousUnit">
+      <a [routerLink]="['/view', metadata.previousUnit.uuid]">
+        {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.title }}
+      </a>
+    </div>
+    <div *ngIf="metadata.nextUnit">
+      <a [routerLink]="['/view', metadata.nextUnit.uuid]">
+        {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.title }}
+      </a>
+    </div>
+
+    <div>
+      <a [routerLink]="['/periodical', metadata.uuid]">
+        {{ 'metadata.unit_list' | translate }}
+      </a>
+    </div>
+
+    <div class="divider"></div>
+  </div>
+
   <div *ngIf="metadata.publishers.length > 0">
     <label>{{ 'metadata.publisher' | translate }}</label>
     <div *ngFor="let publisher of metadata.publishers; first as first" [class.space]="!first" class="app-value" >{{ publisher.fullDetail() }}</div>

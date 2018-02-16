@@ -3,6 +3,7 @@ import { PeriodicalItem } from './periodicalItem.model';
 
 export class Metadata {
 
+    public uuid: string;
     public titles: TitleInfo[] = [];
     public authors: Author[] = [];
     public publishers: Publisher[] = [];
@@ -22,6 +23,9 @@ export class Metadata {
     public nextIssue: PeriodicalItem;
     public previousIssue: PeriodicalItem;
 
+    public currentUnit: PeriodicalItem;
+    public nextUnit: PeriodicalItem;
+    public previousUnit: PeriodicalItem;
 
     constructor() {
     }

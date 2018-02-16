@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MetadataComponent implements OnInit {
   @Input() metadata: Metadata;
-  showingTitle: boolean = false;
+  showingTitle = false;
 
   constructor() { }
 

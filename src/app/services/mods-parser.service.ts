@@ -8,20 +8,21 @@ import { parseString, processors, Builder } from 'xml2js';
 @Injectable()
 export class ModsParserService {
 
-    parse(mods): Metadata {
+    parse(mods, uuid: string): Metadata {
         const xml = mods.replace(/xmlns.*=".*"/g, '');
         const data = {tagNameProcessors: [processors.stripPrefix], explicitCharkey: true};
         const ctx = this;
         let metadata: Metadata;
         parseString(xml, data, function (err, result) {
             // TODO: Handle parsing error
-            metadata = ctx.createMetadata(result);
+            metadata = ctx.createMetadata(result, uuid);
         });
         return metadata;
     }
 
-    private createMetadata(mods): Metadata {
+    private createMetadata(mods, uuid: string): Metadata {
         const metadata = new Metadata();
+        metadata.uuid = uuid;
         const root = mods['modsCollection']['mods'][0];
         this.processTitles(root['titleInfo'], metadata);
         this.processAuthors(root['name'], metadata);
