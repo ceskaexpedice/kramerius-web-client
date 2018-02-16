@@ -5,6 +5,8 @@ export class PeriodicalFtItem {
     page: string;
     date: string;
     year: string;
+    part: string;
+    title: string;
     issueUuid: string;
     volumeUuid: string;
     uuid: string;
@@ -12,6 +14,7 @@ export class PeriodicalFtItem {
     thumb: string;
     text: string;
     query: string;
+    isMonographUnit = false;
 
     constructor() {
     }

@@ -7,13 +7,23 @@
         </div>
       </div>
       <div class="app-card-content">
-        <div class="app-card-row">
-          <div class="app-card-row-right">{{item.year}}</div>
-          <div class="app-card-row-left">{{ 'metadata.volume' | translate }} {{item.volume}}</div>
+        <div *ngIf="!item.isMonographUnit">
+          <div class="app-card-row">
+            <div class="app-card-row-right">{{item.year}}</div>
+            <div class="app-card-row-left">{{ 'metadata.volume' | translate }} {{item.volume}}</div>
+          </div>
+          <div class="app-card-row">
+            <div class="app-card-row-right">{{item.date}}</div>
+            <div class="app-card-row-left">{{ 'metadata.issue' | translate }} {{item.issue}}</div>
+          </div>
         </div>
-        <div class="app-card-row">
-          <div class="app-card-row-right">{{item.date}}</div>
-          <div class="app-card-row-left">{{ 'metadata.issue' | translate }} {{item.issue}}</div>
+        <div *ngIf="item.isMonographUnit">
+          <div class="app-card-row">
+            <div class="app-card-row-left">{{item.title}}</div>
+          </div>
+          <div class="app-card-row">
+            <div class="app-card-row-left">{{ 'metadata.unit' | translate }} {{item.part}}</div>
+          </div>
         </div>
         <div class="app-card-row">
           <div class="app-card-row-right"></div>

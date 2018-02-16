@@ -54,7 +54,7 @@ export class PeriodicalService {
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (fulltextQuery) {
             // TODO
-            // this.initFulltext(uuid, null, fulltextQuery, fulltextPage);
+            this.initFulltext(uuid, null, fulltextQuery, fulltextPage);
           } else {
             this.krameriusApiService.getMonographUnits(uuid).subscribe(units => {
               this.assignItems(this.solrService.periodicalItems(units, 'monographunit'));
@@ -218,9 +218,17 @@ export class PeriodicalService {
         for (const item of items['response']['docs']) {
           const detail = this.solrService.periodicalItem(item);
           for (const page of this.fulltext.pages) {
+            if (this.isMonograph()) {
+              page.isMonographUnit = true;
+            }
             if (detail.uuid === page.issueUuid) {
-              page.date = detail.title;
-              page.issue = detail.subtitle;
+              if (this.isMonograph()) {
+                page.title = detail.title;
+                page.part = detail.subtitle;
+              } else {
+                page.date = detail.title;
+                page.issue = detail.subtitle;
+              }
             } else if (detail.uuid === page.volumeUuid) {
               page.year = detail.title;
               page.volume = detail.subtitle;
@@ -228,20 +236,23 @@ export class PeriodicalService {
           }
         }
       });
-      this.krameriusApiService.getPeriodicalItemDetails(volumePids).subscribe(items => {
-        for (const item of items['response']['docs']) {
-          const detail = this.solrService.periodicalItem(item);
-          for (const page of this.fulltext.pages) {
-            if (detail.uuid === page.issueUuid) {
-              page.date = detail.title;
-              page.issue = detail.subtitle;
-            } else if (detail.uuid === page.volumeUuid) {
-              page.year = detail.title;
-              page.volume = detail.subtitle;
+
+      if (!this.isMonograph()) {
+        this.krameriusApiService.getPeriodicalItemDetails(volumePids).subscribe(items => {
+          for (const item of items['response']['docs']) {
+            const detail = this.solrService.periodicalItem(item);
+            for (const page of this.fulltext.pages) {
+              if (detail.uuid === page.issueUuid) {
+                page.date = detail.title;
+                page.issue = detail.subtitle;
+              } else if (detail.uuid === page.volumeUuid) {
+                page.year = detail.title;
+                page.volume = detail.subtitle;
+              }
             }
           }
-        }
-      });
+        });
+      }
       this.state = PeriodicalState.Success;
     });
   }
