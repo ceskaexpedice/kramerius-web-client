@@ -21,6 +21,7 @@ export class PersistentLinkComponent implements OnInit {
   }
 
   private resolveLink(item: DocumentItem) {
+    console.log('item', item);
     if (item.doctype === 'page') {
       const parentUuid = item.context[item.context.length - 2].uuid;
       this.router.navigate(['/view', parentUuid], { queryParams: { page: item.uuid } });

@@ -4,7 +4,7 @@
       <i class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.volume_list' | translate" position="bottom"></i>
       <span class="app-periodical-title">{{periodicalService.metadata.getTitle()}}</span>
     </a>
-    <span *ngIf="periodicalService.isPeriodical()" class="app-periodical-title">{{periodicalService.metadata.getTitle()}}</span>
+    <span *ngIf="periodicalService.isPeriodical() || periodicalService.isMonograph()" class="app-periodical-title">{{periodicalService.metadata.getTitle()}}</span>
   </div>
   
   

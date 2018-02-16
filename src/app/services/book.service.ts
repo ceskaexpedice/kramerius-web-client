@@ -54,6 +54,7 @@ export class BookService {
         private krameriusApiService: KrameriusApiService,
         private modsParserService: ModsParserService,
         private solrService: SolrService,
+        private router: Router,
         private modalService: MzModalService) {
     }
 
@@ -98,7 +99,7 @@ export class BookService {
 
     private loadIssues(periodicalUuid: string, volumeUuid: string, issueUuid: string) {
         this.krameriusApiService.getPeriodicalIssues(periodicalUuid, volumeUuid).subscribe(response => {
-            const issues = this.solrService.periodicalItems(response);
+            const issues = this.solrService.periodicalItems(response, 'periodicalitem');
             if (!issues || issues.length < 1) {
                 return;
             }
@@ -143,7 +144,10 @@ export class BookService {
         this.activeMobilePanel = 'viewer';
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         for (const p of pages) {
-            if (p['model'] === 'page') {
+            if (p['model'] === 'monographunit') {
+                this.router.navigate(['/periodical', this.uuid], { queryParams: { fulltext: this.fulltextQuery } });
+                return;
+            } else if (p['model'] === 'page') {
                 const page = new Page();
                 page.uuid = p['pid'];
                 if (uuid === page.uuid) {

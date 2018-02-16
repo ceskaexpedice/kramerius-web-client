@@ -38,6 +38,14 @@ export class SolrService {
                     }
                 }
             }
+        } else if (item.doctype === 'monographunit') {
+            if (details && details[0]) {
+                const parts = details[0].split('##');
+                if (parts.length === 2) {
+                    item.title = parts[1];
+                    item.subtitle = parts[0];
+                }
+            }
         }
         if (!item.title) {
             item.title = doc['datum_str'];
@@ -48,7 +56,7 @@ export class SolrService {
         return item;
     }
 
-    periodicalItems(solr, uuid: string = null): PeriodicalItem[] {
+    periodicalItems(solr, doctype: string, uuid: string = null): PeriodicalItem[] {
         let hasVirtualIssue = false;
         let virtualIssuePublic: boolean;
         const items: PeriodicalItem[] = [];
@@ -64,7 +72,7 @@ export class SolrService {
             const item = new PeriodicalItem();
             item.uuid = uuid;
             item.public = virtualIssuePublic;
-            item.doctype = 'periodicalitem';
+            item.doctype = doctype;
             item.virtual = true;
             items.push(item);
         }

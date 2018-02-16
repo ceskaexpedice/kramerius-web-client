@@ -137,6 +137,13 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
+    getMonographUnits(uuid: string) {
+        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/* AND level:1 AND (fedora.model:monographunit OR fedora.model:page)&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
+        return this.doGet(url)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
     getPeriodicalVolumes(uuid: string) {
         const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/* AND level:1 AND (fedora.model:periodicalvolume)&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
         return this.doGet(url)
@@ -170,9 +177,6 @@ export class KrameriusApiService {
             .map(response => response.json())
             .catch(this.handleError);
     }
-
-
-
 
 
     getSearchAutocompleteUrl(term: string, onlyPublic: boolean = false): string {

@@ -50,20 +50,31 @@ export class PeriodicalService {
         this.metadata = this.modsParserService.parse(response);
         this.metadata.doctype = 'periodical';
         this.metadata.model = item.doctype;
-        if (this.isPeriodical()) {
+        if (this.isMonograph()) {
+          this.localStorageService.addToVisited(this.document, this.metadata);
+          if (fulltextQuery) {
+            // TODO
+            // this.initFulltext(uuid, null, fulltextQuery, fulltextPage);
+          } else {
+            this.krameriusApiService.getMonographUnits(uuid).subscribe(units => {
+              this.assignItems(this.solrService.periodicalItems(units, 'monographunit'));
+              this.initMonographUnit();
+            });
+          }
+        } else if (this.isPeriodical()) {
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (fulltextQuery) {
             this.initFulltext(uuid, null, fulltextQuery, fulltextPage);
           } else {
             this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(volumes => {
-              this.assignItems(this.solrService.periodicalItems(volumes));
+              this.assignItems(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
               this.initPeriodical();
             });
           }
         } else if (this.isPeriodicalVolume()) {
           this.metadata.assignVolume(this.document);
           this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid).subscribe(volumes => {
-            this.assignVolumeDetails(this.solrService.periodicalItems(volumes));
+            this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalitem'));
           });
           if (fulltextQuery) {
             this.initFulltext(this.document.root_uuid, uuid, fulltextQuery, fulltextPage);
@@ -115,6 +126,10 @@ export class PeriodicalService {
 
   isPeriodical(): boolean {
     return this.document && this.document.doctype === 'periodical';
+  }
+
+  isMonograph(): boolean {
+    return this.document && this.document.doctype === 'monograph';
   }
 
   isStateSuccess(): boolean {
@@ -245,6 +260,14 @@ export class PeriodicalService {
 
   public getFulltextQuery() {
     return this.fulltext ? this.fulltext.query : null;
+  }
+
+  private initMonographUnit() {
+    this.gridLayoutEnabled = true;
+    this.calendarLayoutEnabled = false;
+    this.yearsLayoutEnabled = false;
+    this.activeLayout = 'grid';
+    this.state = PeriodicalState.Success;
   }
 
 

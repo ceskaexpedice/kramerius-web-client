@@ -152,10 +152,13 @@
   "periodical": {
     "volume": "Ročník {{volume}}",
     "issue": "Číslo {{issue}}",
+    "unit": "Část {{unit}}",
     "volume_unknown": "-",
     "issue_unknown": "-",
     "date_unknown": "-",
     "year_unknown": "-",
+    "unit_title_unknown": "-",
+    "unit_number_unknown": "-",
     "previous_volume": "Předchozi ročník",   
     "next_volume": "Následující ročník",
     "volume_list": "Seznam ročníků"

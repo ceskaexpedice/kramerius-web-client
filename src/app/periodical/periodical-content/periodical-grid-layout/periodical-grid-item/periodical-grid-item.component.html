@@ -1,32 +1,61 @@
 <a [routerLink]="item.getUrl()">
   <mz-card  [hoverable]="true">
     <mz-card-content>
-      <div class="app-card-content center-align">
+      <div class="app-card-content center-align" *ngIf="item.doctype === 'periodicalvolume'" >
         <div *ngIf="item.title" class="app-card-title" mz-tooltip [tooltip]="item.title" [position]="'top'">
           {{item.title}}
         </div>
-        <div *ngIf="!item.title && item.doctype === 'periodicalvolume'" class="app-card-title">
+        <div *ngIf="!item.title" class="app-card-title">
           {{ 'periodical.year_unknown' | translate }}
         </div>
-        <div *ngIf="!item.title && item.doctype === 'periodicalitem'" class="app-card-title">
+        <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
+          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+        </div>
+        <div *ngIf="item.subtitle" class="app-card-subtitle">
+          {{ 'periodical.volume' | translate: { volume: item.subtitle } }}
+        </div>
+        <div *ngIf="!item.subtitle" class="app-card-subtitle">
+          {{ 'periodical.volume_unknown' | translate }}
+        </div>
+      </div>
+
+      <div class="app-card-content center-align" *ngIf="item.doctype === 'periodicalitem'" >
+        <div *ngIf="item.title" class="app-card-title" mz-tooltip [tooltip]="item.title" [position]="'top'">
+          {{item.title}}
+        </div>
+        <div *ngIf="!item.title" class="app-card-title">
           {{ 'periodical.date_unknown' | translate }}
         </div>
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
           <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
         </div>
-        <div *ngIf="!item.subtitle && item.doctype === 'periodicalvolume'" class="app-card-subtitle">
-          {{ 'periodical.volume' | translate: { volume: item.subtitle } }}
-        </div>
-        <div *ngIf="item.subtitle && item.doctype === 'periodicalitem'" class="app-card-subtitle">
+        <div *ngIf="item.subtitle" class="app-card-subtitle">
           {{ 'periodical.issue' | translate: { issue: item.subtitle } }}
         </div>
-        <div *ngIf="!item.subtitle && item.doctype === 'periodicalvolume'" class="app-card-subtitle">
-          {{ 'periodical.volume_unknown' | translate }}
-        </div>
-        <div *ngIf="!item.subtitle && item.doctype === 'periodicalitem'" class="app-card-subtitle">
+        <div *ngIf="!item.subtitle" class="app-card-subtitle">
           {{ 'periodical.issue_unknown' | translate }}
         </div>
       </div>
+
+      <div class="app-card-content center-align" *ngIf="item.doctype === 'monographunit'" >
+        <div *ngIf="item.title" class="app-card-title" mz-tooltip [tooltip]="item.title" [position]="'top'">
+          {{item.title}}
+        </div>
+        <div *ngIf="!item.title" class="app-card-title">
+          {{ 'periodical.unit_title_unknown' | translate }}
+        </div>
+        <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
+          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+        </div>
+        <div *ngIf="item.subtitle" class="app-card-subtitle">
+          {{ 'periodical.unit' | translate: { unit: item.subtitle } }}
+        </div>
+        <div *ngIf="!item.subtitle" class="app-card-subtitle">
+          {{ 'periodical.unit_number_unknown' | translate }}
+        </div>
+      </div>
+
+      
     </mz-card-content>
   </mz-card>
 </a>

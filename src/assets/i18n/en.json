@@ -152,10 +152,13 @@
   "periodical": {
     "volume": "Volume {{volume}}",
     "issue": "Issue {{issue}}",
+    "unit": "Unit {{unit}}",
     "volume_unknown": "-",
     "issue_unknown": "-",
     "date_unknown": "-",
     "year_unknown": "-",
+    "unit_title_unknown": "-",
+    "unit_number_unknown": "-",
     "previous_volume": "Previous Volume",   
     "next_volume": "Next Volume",
     "volume_list": "Volume list"
