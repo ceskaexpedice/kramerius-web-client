@@ -75,7 +75,8 @@
       "from": "From",
       "to": "To",
       "apply": "Apply"
-    }
+    },
+    "hits": "{{ hits }} {{ hits == 1 ? 'page' : 'pages' }}"
   },
   "browse": {
     "category": {

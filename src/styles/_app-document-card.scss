@@ -104,7 +104,7 @@ app-document-card {
               display: -webkit-box;
               text-overflow: ellipsis;
             }
-            
+
             .app-card-doctype {
               position: absolute;
               bottom: 0;
@@ -112,6 +112,12 @@ app-document-card {
               color: color("shades", "white");
               padding: 0 6px;
               border-radius: $app-border-radius;
+            } 
+            
+            .app-card-hits {
+              position: absolute;
+              bottom: 0;
+              left: 14px;
             }
             
             .mdi:before {

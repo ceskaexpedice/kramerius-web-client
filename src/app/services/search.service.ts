@@ -1,3 +1,4 @@
+import { query } from '@angular/core/src/animation/dsl';
 import { Translator } from 'angular-translator';
 import { Author } from './../model/metadata.model';
 import { Router } from '@angular/router';
@@ -8,6 +9,7 @@ import { SearchQuery } from './../search/search_query.model';
 import { Page } from './../model/page.model';
 import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
@@ -29,6 +31,8 @@ export class SearchService {
 
     activeMobilePanel: String;
 
+    solrConfig;
+
     constructor(
         private router: Router,
         private collectionService: CollectionService,
@@ -38,6 +42,7 @@ export class SearchService {
             translator.languageChanged.subscribe(() => {
                 this.translateCollections();
             });
+            this.solrConfig = environment.solr;
     }
 
 
@@ -86,6 +91,9 @@ export class SearchService {
 
     public changeQueryString(query: string) {
         this.query.query = query;
+        if (query) {
+            this.query.setOrdering('relevance');
+        }
         this.reload(false);
     }
 
@@ -147,44 +155,83 @@ export class SearchService {
 
     private search() {
         this.loading = true;
-        this.krameriusApiService.getSearchResults(this.query).subscribe(response => {
-            this.numberOfResults = this.solrService.numberOfSearchResults(response);
-            this.results = this.solrService.searchResultItems(response, this.query.getQ());
+        this.krameriusApiService.getSearchResults(this.query.buildQuery(null)).subscribe(response => {
+            this.handleResponse(response);
             this.loading = false;
         });
 
+    }
 
 
-        this.krameriusApiService.getFacetList(this.query, 'keywords').subscribe(response => {
-            this.keywords = response;
-        });
-        this.krameriusApiService.getFacetList(this.query, 'doctypes').subscribe(response => {
-            this.doctypes = response;
-        });
-        this.krameriusApiService.getFacetList(this.query, 'accessibility').subscribe(response => {
-            this.accessibility = response;
-        });
-        this.krameriusApiService.getFacetList(this.query, 'authors').subscribe(response => {
-            this.authors = response;
-        });
-        this.krameriusApiService.getFacetList(this.query, 'languages').subscribe(response => {
-            this.languages = response;
-        });
-        this.krameriusApiService.getFacetList(this.query, 'collections').subscribe(response => {
-            this.collections = response;
-            if (this.collectionService.ready()) {
-                this.translateCollections();
-            } else {
-                this.krameriusApiService.getCollections().subscribe(
-                    results => {
-                        this.collectionService.assign(results);
-                        this.translateCollections();
-                    }
-                );
+    private handleFacetResponse(response, facet) {
+        switch (facet) {
+            case 'accessibility': {
+                this.accessibility = this.solrService.facetAccessibilityList(response);
+                break;
             }
+            case 'doctypes': {
+                this.doctypes = this.solrService.facetDoctypeList(response, this.solrConfig.joinedDoctypes, this.solrConfig.doctypes);
+                break;
+            }
+            case 'authors': {
+                this.authors = this.solrService.facetList(response, SearchQuery.getSolrField('authors'), this.query['authors'], true);
+                break;
+            }
+            case 'keywords': {
+                this.keywords = this.solrService.facetList(response, SearchQuery.getSolrField('keywords'), this.query['keywords'], true);
+                break;
+            }
+            case 'languages': {
+                this.languages = this.solrService.facetList(response, SearchQuery.getSolrField('languages'), this.query['languages'], true);
+                break;
+            }
+            case 'collections': {
+                this.collections = this.solrService.facetList(response, SearchQuery.getSolrField('collections'), this.query['collections'], true);
+                if (this.collectionService.ready()) {
+                    this.translateCollections();
+                } else {
+                    this.krameriusApiService.getCollections().subscribe(
+                        results => {
+                            this.collectionService.assign(results);
+                            this.translateCollections();
+                        }
+                    );
+                }
+                break;
+            }
+
+        }
+    }
+
+    private makeFacetRequest(facet: string) {
+        this.krameriusApiService.getSearchResults(this.query.buildQuery(facet)).subscribe(response => {
+            this.handleFacetResponse(response, facet);
         });
     }
 
+    private checkFacet(condition: boolean, response, facet: string) {
+        if (condition) {
+            this.handleFacetResponse(response, facet);
+        } else {
+            this.makeFacetRequest(facet);
+        }
+    }
+
+    private handleResponse(response) {
+        if (this.query.getQ()) {
+            this.numberOfResults = this.solrService.numberOfSearchResults(response);
+            this.results = this.solrService.searchResultItems(response, this.query.getQ());
+        } else {
+            this.numberOfResults = this.solrService.numberOfResults(response);
+            this.results = this.solrService.documentItems(response);
+        }
+        this.checkFacet(this.query.accessibility === 'all', response, 'accessibility');
+        this.checkFacet(this.query.doctypes.length === 0, response, 'doctypes');
+        this.checkFacet(this.query.authors.length === 0, response, 'authors');
+        this.checkFacet(this.query.keywords.length === 0, response, 'keywords');
+        this.checkFacet(this.query.languages.length === 0, response, 'languages');
+        this.checkFacet(this.query.collections.length === 0, response, 'collections');
+    }
 
     private translateCollections() {
         for (const col of this.collections) {

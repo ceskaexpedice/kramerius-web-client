@@ -12,6 +12,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { Response } from '@angular/http/src/static_response';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class KrameriusApiService {
@@ -23,20 +24,21 @@ export class KrameriusApiService {
     private static STREAM_ALTO = 'ALTO';
     private static STREAM_MP3 = 'MP3';
 
-    private BASE_URL = 'https://kramerius.mzk.cz';
+    // private BASE_URL = 'https://kramerius.mzk.cz';
     // private BASE_URL = 'http://zvuk.nm.cz';
     // private BASE_URL = 'https://kramerius.lib.cas.cz';
     // private BASE_URL = 'http://kramerius4.nkp.cz';
     // private BASE_URL = 'http://kramerius4.mlp.cz';
 
-
-    private API_URL = this.BASE_URL + '/search/api/v5.0';
-
+    private BASE_URL: string;
+    private API_URL: string;
     private cache = {};
 
     constructor(private http: Http,
         private utils: Utils,
         private solrService: SolrService) {
+        this.BASE_URL = environment.url;
+        this.API_URL = this.BASE_URL + '/search/api/v5.0';
     }
 
     private handleError(error: Response) {
@@ -60,21 +62,34 @@ export class KrameriusApiService {
         return this.http.get(encodeURI(url));
     }
 
-    getSearchResults(query: SearchQuery) {
-        let url = this.API_URL + '/search?'
-            + query.buildQuery(null);
 
-        const ordering = query.getOrderingValue();
-        if (ordering) {
-            url += '&sort=' + ordering;
-        }
-        url += '&group=true&group.field=root_pid&group.ngroups=true';
-        url += '&rows=' + query.getRows();
-        url += '&start=' + query.getStart();
+    getSearchResults(query: string) {
+        const url = this.API_URL + '/search?'
+            + query;
         return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
     }
+
+
+    // getSearchResults(query: SearchQuery) {
+    //     let url = this.API_URL + '/search?'
+    //         + query.buildQuery(null);
+
+    //     const ordering = query.getOrderingValue();
+    //     if (ordering) {
+    //         url += '&sort=' + ordering;
+    //     }
+    //     url += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,datum_str,img_full_mime';
+    //     url += '&group=true&group.field=root_pid&group.ngroups=true&group.truncate=true&group.facet=true';
+    //     url += '&facet=true&facet.mincount=1';
+    //     url += '&facet.field=model_path&facet.field=dostupnost&facet.field=collection&facet.field=facet_autor&facet.field=keywords&facet.field=language';
+    //     url += '&rows=' + query.getRows();
+    //     url += '&start=' + query.getStart();
+    //     return this.doGet(url)
+    //         .map(response => response.json())
+    //         .catch(this.handleError);
+    // }
 
     getBrowseResults(query: BrowseQuery) {
         const url = this.API_URL + '/search?'
@@ -84,25 +99,25 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-    getFacetList(query: SearchQuery, field: string) {
-        let url = this.API_URL + '/search?'
-                + query.buildQuery(field);
-        url += '&facet=true&facet.field=' + SearchQuery.getSolrField(field)
-            + '&facet.limit=50'
-            + '&rows=0&facet.mincount=1';
+    // getFacetList(query: SearchQuery, field: string) {
+    //     let url = this.API_URL + '/search?'
+    //             + query.buildQuery(field);
+    //     url += '&facet=true&facet.field=' + SearchQuery.getSolrField(field)
+    //         + '&facet.limit=50'
+    //         + '&rows=0&facet.mincount=1';
 
-        return this.doGet(url)
-            .map(response => {
-                if (field === 'accessibility') {
-                    return this.solrService.facetAccessibilityList(response.json());
-                // } else if (field === 'keywords') {
-                    // return this.solrService.facetList(response.json(), field, query.keywords);
-                } else {
-                    return this.solrService.facetList(response.json(), SearchQuery.getSolrField(field), query[field], field !== 'doctypes');
-                }
-            })
-            .catch(this.handleError);
-    }
+    //     return this.doGet(url)
+    //         .map(response => {
+    //             if (field === 'accessibility') {
+    //                 return this.solrService.facetAccessibilityList(response.json());
+    //             // } else if (field === 'keywords') {
+    //                 // return this.solrService.facetList(response.json(), field, query.keywords);
+    //             } else {
+    //                 return this.solrService.facetList(response.json(), SearchQuery.getSolrField(field), query[field], field !== 'doctypes');
+    //             }
+    //         })
+    //         .catch(this.handleError);
+    // }
 
 
     getNewest() {

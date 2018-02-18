@@ -1,3 +1,5 @@
+import { environment } from '../../environments/environment';
+
 export class SearchQuery {
     accessibility: string;
     query: string;
@@ -13,6 +15,7 @@ export class SearchQuery {
     from = -1;
     to = -1;
 
+    solrConfig;
 
     constructor() {
     }
@@ -133,44 +136,74 @@ export class SearchQuery {
     }
 
 
-    buildQuery(skip: string): string {
+    buildQuery(facet: string): string {
         const qString = this.getQ();
         let q = 'q=';
-        let rel = false;
         if (qString) {
-          if (this.ordering === 'relevance' && !skip) {
-            q += '_query_:"{!dismax qf=\'dc.title^1000 text^0.0001\' v=$q1}\"';
-            rel = true;
-          } else {
-            q += '_query_:"{!dismax qf=\'dc.title text\' v=$q1}\"';
-            rel = true;
-          }
+            // if (this.ordering === 'relevance' && !facet) {
+            //     q += '_query_:"{!dismax qf=\'dc.title^1000 dc.creator^1 keywords^1 text^0.0001\' v=$q1}\"';
+            // } else {
+            //     q += '_query_:"{!dismax qf=\'text\' v=$q1}\"';
+            // }
+            q += '_query_:"{!dismax qf=\'dc.title^1000 dc.creator^1 keywords^1 text^0.0001\' v=$q1}\"';
+            q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page)';
         } else {
-          q += '*:*';
+          q += '(fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
         }
-        if (skip !== 'accessibility') {
+        if (facet !== 'accessibility') {
             if (this.accessibility === 'public') {
                 q += ' AND dostupnost:public';
             } else if (this.accessibility === 'private') {
                 q += ' AND dostupnost:private';
-            } else if (!skip) {
-                q += ' AND (dostupnost:public^5000 OR dostupnost:private)';
+            } else if (!facet) {
+                // q += ' AND (dostupnost:public^999 OR dostupnost:private)';
             }
         }
         if (this.isYearRangeSet()) {
             q += ' AND (rok:[' + this.from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + this.from + ' TO *]))';
         }
-        q += this.addToQuery('keywords', this.keywords, skip);
-        q += this.addToQuery('doctypes', this.doctypes, skip);
-        q += this.addToQuery('authors', this.authors, skip);
-        q += this.addToQuery('languages', this.languages, skip);
-        q += this.addToQuery('collections', this.collections, skip);
-        // q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
-        q += this.getDateOrderingRestriction();
-        if (rel) {
-            q += '&q1=' + qString;
+        q += this.addToQuery('keywords', this.keywords, facet)
+           + this.addToQuery('doctypes', this.doctypes, facet)
+           + this.addToQuery('authors', this.authors, facet)
+           + this.addToQuery('languages', this.languages, facet)
+           + this.addToQuery('collections', this.collections, facet)
+           + this.getDateOrderingRestriction();
+        if (qString) {
+            q += '&q1=' + qString
+               + '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,datum_str,img_full_mime,score'
+               + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
+           if (environment.solr.facetTruncate) {
+                q += '&group.truncate=true';
+           } else {
+               q += '&group.facet=true';
+           }
+        } else {
+            q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
+        }
+        q += '&facet=true&facet.mincount=1'
+           + this.addFacetToQuery(facet, 'keywords', 'keywords', this.keywords.length === 0)
+           + this.addFacetToQuery(facet, 'languages', 'language', this.languages.length === 0)
+           + this.addFacetToQuery(facet, 'authors', 'facet_autor', this.authors.length === 0)
+           + this.addFacetToQuery(facet, 'collections', 'collection', this.collections.length === 0)
+           + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
+           + this.addFacetToQuery(facet, 'accessibility', 'dostupnost', this.accessibility === 'all');
+        if (facet) {
+            q += '&rows=0';
+        } else {
+            const ordering = this.getOrderingValue();
+            if (ordering) {
+                q += '&sort=' + ordering;
+            }
+            q += '&rows=' + this.getRows() + '&start=' + this.getStart();
         }
         return q;
+    }
+
+    private addFacetToQuery(facet: string, currentFacet: string, field: string, apply: boolean): string {
+        if ((!facet && apply) || currentFacet === facet) {
+            return '&facet.field=' + field;
+        }
+        return '';
     }
 
     toUrlParams() {
@@ -200,7 +233,7 @@ export class SearchQuery {
             params['doctypes'] = this.doctypes.join(',,');
         }
         if (this.collections.length > 0) {
-            params['collectiions'] = this.collections.join(',,');
+            params['collections'] = this.collections.join(',,');
         }
         if (this.isYearRangeSet()) {
             params['from'] = this.from;
@@ -228,7 +261,7 @@ export class SearchQuery {
         } else if (this.ordering === 'earliest') {
            return 'datum_begin asc';
         } else if (this.ordering === 'alphabetical') {
-           return 'title_sort asc';
+           return 'root_title asc';
         }
         return null;
     }

@@ -148,19 +148,19 @@ export class SolrService {
     searchResultItems(solr, query): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const group of solr['grouped']['root_pid']['groups']) {
-            const doc = group['doclist']['docs'][0];
+            const doclist = group['doclist'];
+            const doc = doclist['docs'][0];
             const item = new DocumentItem();
             item.title = doc['root_title'];
             item.uuid = doc['root_pid'];
             item.public = doc['dostupnost'] === 'public';
-
             const dp = doc['model_path'][0];
             if (dp.indexOf('/') > 0) {
                 item.doctype = dp.substring(0, dp.indexOf('/'));
-                // TODO - fulltext
                 item.query = query;
+                item.hits = doclist['numFound'];
             } else {
-                item.doctype = doc['fedora.model'];
+                item.doctype = dp;
             }
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
@@ -170,10 +170,12 @@ export class SolrService {
         return items;
     }
 
-
     facetList(solr, field, usedFiltes: any[], skipSelected: boolean) {
         const list = [];
         const facetFields = solr['facet_counts']['facet_fields'][field];
+        if (!facetFields) {
+            return list;
+        }
         for (let i = 0; i < facetFields.length; i += 2) {
             const value = facetFields[i];
             if (!value) {
@@ -186,6 +188,33 @@ export class SolrService {
             } else if (!skipSelected) {
                 list.push({'value' : value, 'count': count, 'selected': true});
             }
+        }
+        return list;
+    }
+
+    facetDoctypeList(solr, joinedDocytypes: boolean, doctypes: string[]) {
+        const map = {};
+        for (const doctype of doctypes) {
+            map[doctype] = 0;
+        }
+        const list = [];
+        const facetFields = solr['facet_counts']['facet_fields']['model_path'];
+        for (let i = 0; i < facetFields.length; i += 2) {
+            const f = facetFields[i];
+            if (f.indexOf('/') < 0) {
+                if (map[f] !== undefined) {
+                    map[f] += facetFields[i + 1];
+                }
+            } else if (!joinedDocytypes) {
+                console.log('f', f);
+                const ff = f.split('/')[0];
+                if (map[ff] !== undefined) {
+                    map[ff] += facetFields[i + 1];
+                }
+            }
+        }
+        for (const doctype of doctypes) {
+            list.push({'value' : doctype, 'count': map[doctype]});
         }
         return list;
     }

@@ -11,6 +11,7 @@ export class DocumentItem {
     volumeYear: string;
     pdf = false;
     query: string;
+    hits: number;
     context: Context[] = [];
 
     constructor() {

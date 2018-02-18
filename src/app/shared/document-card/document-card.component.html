@@ -19,6 +19,9 @@
           <i mz-icon-mdi [icon]="'calendar-check'" [class]="'app-clean-mg'"></i>
           {{item.date}}
         </div>
+        <div *ngIf="item.query" class="app-card-hits">
+          {{ 'search.hits' | translate: { hits: item.hits } }}
+        </div>
         <div *ngIf="item.doctype" class="app-card-doctype {{item.doctype}}">
           {{ 'model.' + item.doctype | translate }}
         </div>

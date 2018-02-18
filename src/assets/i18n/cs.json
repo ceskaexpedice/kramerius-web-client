@@ -75,7 +75,8 @@
       "from": "Od",
       "to": "Do",
       "apply": "Použít"
-    }
+    },
+    "hits": "{{ hits }} {{ hits == 1 ? 'stránka' : hits < 5 ? 'stránky' : 'stránek' }}"
   },
   "browse": {
     "category": {
