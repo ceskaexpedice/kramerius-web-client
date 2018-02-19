@@ -116,7 +116,10 @@ export class SolrService {
     }
 
     numberOfFacets(solr): number {
-        return solr['facets']['x'];
+        if (solr['facets']) {
+            return solr['facets']['x'];
+        }
+        return 100;
     }
 
     uuidList(solr): string[] {
