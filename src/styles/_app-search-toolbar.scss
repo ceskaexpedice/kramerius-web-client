@@ -103,6 +103,11 @@ app-search-toolbar {
               //   @include set-border(bottom, 2, solid, $app-grey);
               // }
             }
+            
+            &.disable {
+              color: $app-grey-l-2;
+              pointer-events: none; 
+            }
 
             span {
               padding: 0 1rem;
