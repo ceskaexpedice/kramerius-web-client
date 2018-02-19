@@ -134,8 +134,8 @@ export class SearchQuery {
         if (!Utils.inQuotes(q)) {
             q = q.replace(/-/g, '\\-').replace(/:/g, '\\:').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
             // q = '("' + q + '" OR ' + q2 + ')';
+            q = q.split(' ').join(' AND ');
         }
-        q = q.split(' ').join(' AND ');
         // q = q.replace(/"/g, '').replace(/-/g, '\\-');
 
         // if (q.indexOf(':') > -1 || q.indexOf('[') > -1 || q.indexOf(']') > -1 || q.indexOf('!') > -1) {

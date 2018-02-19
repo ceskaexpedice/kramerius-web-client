@@ -186,7 +186,7 @@ export class KrameriusApiService {
         }
         url += ' AND fedora.model:page AND text:' + query
             // + '&sort=datum asc'
-            + '&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text_ocr&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
+            + '&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
         return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
@@ -202,6 +202,7 @@ export class KrameriusApiService {
 
     getSearchAutocompleteUrl(term: string, onlyPublic: boolean = false): string {
         let query = term.toLowerCase().trim()
+                        .replace(/"/g, '\\"')
                         .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!')
                         .split(' ').join(' AND dc.title:');
         if (!term.endsWith(' ') && !term.endsWith(':')) {

@@ -7,7 +7,7 @@ export class AltoService {
     getBoxes(alto, query, width: number, height: number): any[] {
       // console.log(alto);
       const boxes = [];
-      const wordArray = query.split(' ');
+      const wordArray = query.replace(/"/g, '').split(' ');
       const xmlString = alto.replace(/xmlns.*=".*"/g, '');
       const xml = $($.parseXML(xmlString));
       const printSpace = xml.find('Page');
