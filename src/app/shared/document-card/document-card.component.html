@@ -1,4 +1,4 @@
-<a *ngIf="item" routerLink="{{item.url}}" [queryParams]="{fulltext: item.query}">
+<a *ngIf="item" routerLink="{{item.url}}" [queryParams]="{fulltext: item.query, accessibility:  item.childrenAccessibility}">
   <mz-card [hoverable]="true">
     <mz-card-content>
       <div class="app-card-mark {{item.doctype}}"></div>

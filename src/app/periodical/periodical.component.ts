@@ -17,7 +17,8 @@ export class PeriodicalComponent implements OnInit, OnDestroy {
       this.route.queryParamMap.subscribe(queryParams => {
         const fulltext = queryParams.get('fulltext');
         const page = queryParams.get('page');
-        this.periodicalService.init(uuid, fulltext, parseInt(page, 10));
+        const accessibility = queryParams.get('accessibility');
+        this.periodicalService.init(uuid, fulltext, parseInt(page, 10), accessibility);
       });
     });
   }

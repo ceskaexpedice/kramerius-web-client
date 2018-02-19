@@ -148,7 +148,7 @@ export class SolrService {
         return solr['grouped']['root_pid']['ngroups'];
     }
 
-    searchResultItems(solr, query): DocumentItem[] {
+    searchResultItems(solr, query: string, accessibility: string): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const group of solr['grouped']['root_pid']['groups']) {
             const doclist = group['doclist'];
@@ -161,6 +161,9 @@ export class SolrService {
             if (dp.indexOf('/') > 0) {
                 item.doctype = dp.substring(0, dp.indexOf('/'));
                 item.query = query;
+                if (item.doctype === 'periodical') {
+                    item.childrenAccessibility = accessibility;
+                }
                 item.hits = doclist['numFound'];
             } else {
                 item.doctype = dp;

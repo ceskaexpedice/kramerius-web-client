@@ -174,12 +174,15 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-    getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, query: string, offset: number, limit: number) {
+    getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, query: string, offset: number, limit: number, accessibility: string) {
         let url = this.API_URL + '/search?fl=PID,root_pid,pid_path,dostupnost,dc.title,parent_pid&q=';
         if (volumeUuid) {
             url += 'pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*';
         } else {
             url += 'root_pid:"' + periodicalUuid + '"';
+        }
+        if (accessibility === 'public' || accessibility === 'private') {
+            url += ' AND dostupnost:' + accessibility;
         }
         url += ' AND fedora.model:page AND text:' + query
             // + '&sort=datum asc'

@@ -30,7 +30,7 @@ export class PeriodicalService {
   daysOfMonthsItems: any[];
   activeMobilePanel: string;
   fulltext: PeriodicalFulltext;
-
+  accessibility: string;
   volumeDetail;
 
   constructor(private solrService: SolrService,
@@ -40,9 +40,10 @@ export class PeriodicalService {
     private krameriusApiService: KrameriusApiService) {
   }
 
-  init(uuid: string, fulltextQuery: string, fulltextPage: number, ) {
+  init(uuid: string, fulltextQuery: string, fulltextPage: number, accessibility: string) {
     this.clear();
     this.uuid = uuid;
+    this.accessibility = accessibility;
     this.state = PeriodicalState.Loading;
     this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
       this.document = item;
@@ -101,6 +102,7 @@ export class PeriodicalService {
 
 
   clear() {
+    this.accessibility = 'all';
     this.yearsLayoutEnabled = false;
     this.gridLayoutEnabled = false;
     this.calendarLayoutEnabled = false;
@@ -200,7 +202,7 @@ export class PeriodicalService {
     this.fulltext.limit = 40;
     this.fulltext.query = fulltextQuery;
     this.fulltext.page = fulltextPage || 1;
-    this.krameriusApiService.getPeriodicalFulltextPages(periodicalUuid, volumeUuid, this.fulltext.query, this.fulltext.getOffset(), this.fulltext.limit).subscribe(response => {
+    this.krameriusApiService.getPeriodicalFulltextPages(periodicalUuid, volumeUuid, this.fulltext.query, this.fulltext.getOffset(), this.fulltext.limit, this.accessibility).subscribe(response => {
       this.fulltext.pages = this.solrService.periodicalFtItems(response, this.fulltext.query);
       this.fulltext.results = this.solrService.numberOfResults(response);
       const issuePids = [];

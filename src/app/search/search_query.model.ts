@@ -119,6 +119,13 @@ export class SearchQuery {
         return 60 * (this.page - 1);
     }
 
+    getRawQ() {
+        if (!this.query || this.query === '*') {
+            return null;
+        }
+        return  this.query;
+    }
+
     getQ(): string {
         if (!this.query || this.query === '*') {
             return null;

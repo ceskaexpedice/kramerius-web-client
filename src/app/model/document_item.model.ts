@@ -10,6 +10,7 @@ export class DocumentItem {
     volumeNumber: string;
     volumeYear: string;
     pdf = false;
+    childrenAccessibility: string;
     query: string;
     hits: number;
     context: Context[] = [];
