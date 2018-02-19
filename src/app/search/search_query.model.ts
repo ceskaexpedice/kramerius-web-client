@@ -132,9 +132,12 @@ export class SearchQuery {
         }
         let q = this.query;
         if (!Utils.inQuotes(q)) {
-            q = q.replace(/-/g, '\\-').replace(/:/g, '\\:').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
+            q = q.trim().replace(/-|:|;|{|}|&|\[|\]|!|/g, '');
+            while (q.indexOf('  ') > 0) {
+                q = q.replace(/  /g, ' ');
+            }
             // q = '("' + q + '" OR ' + q2 + ')';
-            q = q.split(' ').join(' AND ');
+            // q = q.split(' ').join(' AND ');
         }
         // q = q.replace(/"/g, '').replace(/-/g, '\\-');
 
@@ -165,9 +168,16 @@ export class SearchQuery {
             //     q += '_query_:"{!dismax qf=\'text\' v=$q1}\"';
             // }
             // q += '_query_:"{!edismax v=$q1}\"';
-            // q += '_query_:"{!dismax qf=\'dc.title^1000 dc.creator^1 keywords^1 text^0.0001\' v=$q1}\"';
+            q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 keywords text^0.1\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
 
-            q += qString + ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page)';
+
+            // q += '&defType=edismax'
+            // + '&qf=dc.title^10 dc.creator^2 keywords text^0.1'
+            // + '&bq=(level:0)^10&bq=(dostupnost:public)^2';
+
+
+            // q += qString;
+            q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page)';
         } else {
           q += '(fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
         }
@@ -190,8 +200,10 @@ export class SearchQuery {
            + this.addToQuery('collections', this.collections, facet)
            + this.getDateOrderingRestriction();
         if (qString) {
-            q += '&defType=edismax&qf=text&bq=(level:0)^10&bq=(dostupnost:public)^2'
-            // q += '&q1=' + qString
+            // q += '&defType=edismax'
+            //    + '&qf=dc.title^10 dc.creator^2 keywords text^0.1'
+            //    + '&bq=(level:0)^10&bq=(dostupnost:public)^2'
+            q += '&q1=' + qString
                + '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,datum_str,img_full_mime,score'
                + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
            if (environment.solr.facetTruncate) {

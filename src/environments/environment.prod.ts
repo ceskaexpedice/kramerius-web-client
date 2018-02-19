@@ -6,7 +6,7 @@ export const environment = {
   url: 'https://kramerius.mzk.cz',
   solr: {
     joinedDoctypes: true,
-    facetTruncate: false,
+    facetTruncate: true,
     doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic']
   }
 
@@ -36,7 +36,7 @@ export const environment = {
   // url: 'http://kramerius4.mlp.cz',
   // solr: {
   //   joinedDoctypes: true,
-  //   facetTruncate: false,
+  //   facetTruncate: true,
   //   doctypes: ['monograph', 'periodical', 'soundrecording', 'sheetmusic']
   // }
 };

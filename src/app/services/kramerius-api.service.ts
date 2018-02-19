@@ -202,7 +202,7 @@ export class KrameriusApiService {
 
     getSearchAutocompleteUrl(term: string, onlyPublic: boolean = false): string {
         let query = term.toLowerCase().trim()
-                        .replace(/"/g, '\\"')
+                        .replace(/"/g, '\\"').replace(/~/g, '\\~')
                         .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!')
                         .split(' ').join(' AND dc.title:');
         if (!term.endsWith(' ') && !term.endsWith(':')) {
@@ -213,6 +213,9 @@ export class KrameriusApiService {
         + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript)';
         if (onlyPublic) {
             result += ' AND dostupnost:public';
+        } else {
+            result += ' AND (dostupnost:public^5 OR dostupnost:private)';
+
         }
         result += ' AND dc.title:'  + query + '&rows=30';
         return result;

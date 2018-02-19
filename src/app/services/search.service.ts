@@ -1,3 +1,4 @@
+import { LocalStorageService } from './local-storage.service';
 import { query } from '@angular/core/src/animation/dsl';
 import { Translator } from 'angular-translator';
 import { Author } from './../model/metadata.model';
@@ -37,6 +38,7 @@ export class SearchService {
         private router: Router,
         private collectionService: CollectionService,
         private solrService: SolrService,
+        private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
         private translator: Translator) {
             translator.languageChanged.subscribe(() => {
@@ -97,7 +99,12 @@ export class SearchService {
         this.reload(false);
     }
 
+    public removeAccessibilityFilter() {
+        this.setAccessibility('all');
+    }
+
     public setAccessibility(accessibility: string) {
+        this.localStorageService.setProperty(LocalStorageService.ACCESSIBILITY_FILTER, accessibility === 'public' ? '1' : '0');
         this.query.setAccessibility(accessibility);
         this.reload(false);
     }
@@ -124,11 +131,6 @@ export class SearchService {
 
     public removeAllFilters() {
         this.query.removeAllFilters();
-        this.reload(false);
-    }
-
-    public removeAccessibilityFilter() {
-        this.query.accessibility = 'all';
         this.reload(false);
     }
 
