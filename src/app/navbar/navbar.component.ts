@@ -6,6 +6,7 @@ import { AppState } from '../app.state';
 import { HistoryService } from '../services/history.service';
 import { MzSidenavComponent } from 'ng2-materialize';
 
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html'

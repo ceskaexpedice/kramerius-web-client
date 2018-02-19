@@ -63,45 +63,45 @@ app-search-toolbar {
 
               &.monograph {
                 color: $app-type-monograph;
-                &:after {border-color: $app-type-monograph;}
+                // &:after {border-color: $app-type-monograph;}
               }
               &.periodical {
                 color: $app-type-periodical;
-                &:after {border-color: $app-type-periodical;}
+                // &:after {border-color: $app-type-periodical;}
               }
               &.soundrecording {
                 color: $app-type-soundrecording;
-                &:after {border-color: $app-type-soundrecording;}
+                // &:after {border-color: $app-type-soundrecording;}
               }
               &.map {
                 color: $app-type-map;
-                &:after {border-color: $app-type-map;}
+                // &:after {border-color: $app-type-map;}
               }
               &.graphic {
                 color: $app-type-graphic;
-                &:after {border-color: $app-type-graphic;}
+                // &:after {border-color: $app-type-graphic;}
               }
               &.sheetmusic {
                 color: $app-type-sheetmusic;
-                &:after {border-color: $app-type-sheetmusic;}
+                // &:after {border-color: $app-type-sheetmusic;}
               }
               &.archive {
                 color: $app-type-archive;
-                &:after {border-color: $app-type-archive;}
+                // &:after {border-color: $app-type-archive;}
               }
               &.manuscript {
                 color: $app-type-manuscript;
-                &:after {border-color: $app-type-manuscript;}
+                // &:after {border-color: $app-type-manuscript;}
               }
 
-              &:after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                @include set-border(bottom, 2, solid, $app-grey);
-              }
+              // &:after {
+              //   content: '';
+              //   position: absolute;
+              //   bottom: 0;
+              //   left: 0;
+              //   width: 100%;
+              //   @include set-border(bottom, 2, solid, $app-grey);
+              // }
             }
 
             span {

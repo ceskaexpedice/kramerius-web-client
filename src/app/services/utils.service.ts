@@ -5,6 +5,10 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class Utils {
 
+    static inQuotes(text: string): boolean {
+        return text && text.startsWith('"') && text.endsWith('"');
+    }
+
     escapeUuid(uuid: string): string {
         return uuid.replace(':', '\\:');
     }

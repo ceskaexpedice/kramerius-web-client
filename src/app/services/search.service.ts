@@ -162,6 +162,9 @@ export class SearchService {
 
     }
 
+    public highlightDoctype(doctype: string) {
+        return this.query.doctypes.length === 0 || this.query.doctypes.indexOf(doctype) >= 0;
+    }
 
     private handleFacetResponse(response, facet) {
         switch (facet) {

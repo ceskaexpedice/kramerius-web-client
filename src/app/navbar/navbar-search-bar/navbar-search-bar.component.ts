@@ -3,6 +3,7 @@ import { SearchService } from './../../services/search.service';
 import { LibrarySearchService } from './../../services/library-search.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
+import { AppState } from './../../app.state';
 
 @Component({
   selector: 'app-navbar-search-bar',
@@ -18,6 +19,7 @@ export class NavbarSearchBarComponent implements OnInit {
   constructor(
     public router: Router,
     private route: ActivatedRoute,
+    private state: AppState,
     private localStorageService: LocalStorageService,
     private searchService: SearchService,
     public service: LibrarySearchService) {
@@ -59,8 +61,19 @@ export class NavbarSearchBarComponent implements OnInit {
     if (q == null) {
       q = '';
     }
-    this.searchService.changeQueryString(q);
+    if (this.onSearchScreen()) {
+      this.searchService.changeQueryString(q);
+    } else {
+      const params = { q: q };
+      if (this.localStorageService.getProperty(LocalStorageService.ACCESSIBILITY_FILTER) !== '0') {
+        params['accessibility'] = 'public';
+      }
+      this.router.navigate(['/search'], { queryParams: params });
+    }
   }
 
+  onSearchScreen() {
+    return this.state.activePage.startsWith('/search');
+  }
 
 }

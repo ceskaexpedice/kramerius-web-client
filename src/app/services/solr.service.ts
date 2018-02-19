@@ -98,7 +98,10 @@ export class SolrService {
                     item.volumeUuid = pidPath[pidPath.length - 3];
                 }
                 if (solr['highlighting'][item.uuid]) {
-                    item.text = solr['highlighting'][item.uuid]['text_ocr'][0];
+                    const ocr = solr['highlighting'][item.uuid]['text_ocr'];
+                    if (ocr) {
+                        item.text = ocr[0];
+                    }
                 }
             }
             items.push(item);
