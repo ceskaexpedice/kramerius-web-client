@@ -584,6 +584,8 @@ export class BookService {
                 const boxes = this.altoService.getBoxes(response, this.fulltextQuery, leftPage.width, leftPage.height);
                 leftPage.altoBoxes = boxes;
                 this.subject.next([leftPage, rightPage]);
+            }, error => {
+                this.subject.next([leftPage, rightPage]);
             });
         } else {
             this.subject.next([leftPage, rightPage]);
