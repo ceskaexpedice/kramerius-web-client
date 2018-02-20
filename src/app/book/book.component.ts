@@ -7,7 +7,7 @@ import { Page } from './../model/page.model';
 import { BookService } from './../services/book.service';
 import { KrameriusApiService } from './../services/kramerius-api.service';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import 'rxjs/add/observable/forkJoin';
 
 @Component({
@@ -20,6 +20,15 @@ export class BookComponent implements OnInit, OnDestroy {
               public bookService: BookService,
               public viewerControls: ViewerControlsService) {
 
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event && event.keyCode === 37) {
+      this.bookService.goToPrevious();
+    } else if (event && event.keyCode === 39) {
+      this.bookService.goToNext();
+    }
   }
 
   ngOnInit() {

@@ -6,14 +6,14 @@
 export const environment = {
   production: false,
   // MZK
-  // title: 'Moravská zemská knihovna',
-  // logo: 'http://registr.digitalniknihovna.cz/libraries/mzk/logo',
-  // url: 'https://kramerius.mzk.cz',
-  // solr: {
-  //   joinedDoctypes: true,
-  //   facetTruncate: true,
-  //   doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic']
-  // }
+  title: 'Moravská zemská knihovna',
+  logo: 'http://registr.digitalniknihovna.cz/libraries/mzk/logo',
+  url: 'https://kramerius.mzk.cz',
+  solr: {
+    joinedDoctypes: true,
+    facetTruncate: true,
+    doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic']
+  }
 
   // KNAV
   // title: 'Knihovna Akademie věd ČR',
@@ -46,12 +46,12 @@ export const environment = {
   // }
 
   // NM - zvuk
-  title: 'Národní muzeum - Zvuk',
-  logo: 'http://registr.digitalniknihovna.cz/libraries/nmzv/logo',
-  url: 'http://zvuk.nm.cz',
-  solr: {
-    joinedDoctypes: true,
-    facetTruncate: false,
-    doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic']
-  }
+  // title: 'Národní muzeum - Zvuk',
+  // logo: 'http://registr.digitalniknihovna.cz/libraries/nmzv/logo',
+  // url: 'http://zvuk.nm.cz',
+  // solr: {
+  //   joinedDoctypes: true,
+  //   facetTruncate: false,
+  //   doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic']
+  // }
 };

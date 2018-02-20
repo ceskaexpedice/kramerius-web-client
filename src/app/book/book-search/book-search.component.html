@@ -1,6 +1,6 @@
 <div class="app-book-search-bar-wrapper">
   <div class="app-book-search-bar" [class.app-is-query]="bookService.getFulltextQuery()">
-    <input type="text" [placeholder]="'searchbar.document' | translate" (change)="search()" type="text"  [(ngModel)]="fulltextQuery" /> 
+    <input type="text" (keyup)="$event.stopPropagation()" [placeholder]="'searchbar.document' | translate" (change)="search()" type="text"  [(ngModel)]="fulltextQuery" /> 
     <i *ngIf="bookService.getFulltextQuery()" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer"></i>
     <i mz-icon-mdi [icon]="'magnify'"></i>
   </div>
