@@ -210,7 +210,7 @@ export class KrameriusApiService {
         }
         let result = this.API_URL + '/search/?fl=PID,dc.title,dc.creator&q='
         + '(fedora.model:monograph^5 OR fedora.model:periodical^4 OR fedora.model:map '
-        + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript)';
+        + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic OR fedora.model:soundrecording)';
         if (onlyPublic) {
             result += ' AND dostupnost:public';
         } else {
