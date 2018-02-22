@@ -20,7 +20,7 @@
           {{item.date}}
         </div>
         <div *ngIf="item.query" class="app-card-hits">
-          {{ 'search.hits' | translate: { hits: item.hits } }}
+          <strong>{{item.hits}}</strong> {{ 'search.hits' | translate: { hits: item.hits } }}
         </div>
         <div *ngIf="item.doctype" class="app-card-doctype {{item.doctype}}">
           {{ 'model.' + item.doctype | translate }}
