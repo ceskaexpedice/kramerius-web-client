@@ -47,12 +47,22 @@ export class SolrService {
                 }
             }
         }
+
         if (!item.title) {
             item.title = doc['datum_str'];
         }
         if (!item.subtitle) {
             item.subtitle = doc['dc.title'];
         }
+        if (item.doctype === 'supplement') {
+            if (item.subtitle && item.subtitle.indexOf('.')) {
+                item.subtitle = item.subtitle.substring(item.subtitle.indexOf('.') + 1);
+          } else {
+                item.subtitle = '';
+          }
+    }
+
+
         return item;
     }
 

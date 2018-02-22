@@ -159,6 +159,8 @@
     "volume": "Ročník {{volume}}",
     "issue": "Číslo {{issue}}",
     "unit": "Část {{unit}}",
+    "supplement": "Příloha {{supplement}}",
+    "virtual_issue": "Nezařazené",
     "volume_unknown": "-",
     "issue_unknown": "-",
     "date_unknown": "-",

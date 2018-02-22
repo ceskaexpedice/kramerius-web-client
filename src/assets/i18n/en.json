@@ -159,6 +159,8 @@
     "volume": "Volume {{volume}}",
     "issue": "Issue {{issue}}",
     "unit": "Unit {{unit}}",
+    "supplement": "Supplement {{supplement}}",
+    "virtual_issue": "Uncategorized",
     "volume_unknown": "-",
     "issue_unknown": "-",
     "date_unknown": "-",

@@ -75,13 +75,13 @@ export class PeriodicalService {
         } else if (this.isPeriodicalVolume()) {
           this.metadata.assignVolume(this.document);
           this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid).subscribe(volumes => {
-            this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalitem'));
+            this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
           });
           if (fulltextQuery) {
             this.initFulltext(this.document.root_uuid, uuid, fulltextQuery, fulltextPage);
           } else {
             this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, uuid).subscribe(issues => {
-              this.assignItems(this.solrService.periodicalItems(issues, uuid));
+              this.assignItems(this.solrService.periodicalItems(issues, 'periodicalitem', uuid));
               this.initPeriodicalVolume();
             });
           }
