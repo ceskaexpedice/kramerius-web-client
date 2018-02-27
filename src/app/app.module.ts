@@ -85,6 +85,9 @@ import { MusicToolbarComponent } from './music/music-player/music-toolbar/music-
 
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { PdfViewerComponent } from './book/pdf-viewer/pdf-viewer.component';
+import { PeriodicalCountComponent } from './periodical/periodical-filters/periodical-count/periodical-count.component';
+import { PeriodicalSearchComponent } from './periodical/periodical-filters/periodical-search/periodical-search.component';
+import { PeriodicalFiltersComponent } from './periodical/periodical-filters/periodical-filters.component';
 
 
 const ROUTES: Routes = [
@@ -154,7 +157,10 @@ const ROUTES: Routes = [
     MusicControlsComponent,
     BookToolbarComponent,
     MusicToolbarComponent,
-    PdfViewerComponent
+    PdfViewerComponent,
+    PeriodicalCountComponent,
+    PeriodicalSearchComponent,
+    PeriodicalFiltersComponent
   ],
   entryComponents: [
     DialogOcrComponent,

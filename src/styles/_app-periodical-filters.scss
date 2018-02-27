@@ -1,0 +1,10 @@
+// --- PERIODICAL LEFT COL ---
+
+app-periodical-filters {
+  @import "styles/app-search-count";
+  @import "styles/app-periodical-search";
+  
+  /*@media #{$medium-and-down} {
+    display: none;
+  }*/
+}

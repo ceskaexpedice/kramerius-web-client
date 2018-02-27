@@ -1,0 +1,36 @@
+<app-periodical-count></app-periodical-count>
+<app-periodical-search></app-periodical-search>
+
+
+<div class="app-filters-wrapper">
+  <mz-collapsible [mode]="'expandable'">
+      <mz-collapsible-item [active]="true ">
+        <mz-collapsible-item-header>
+          {{ 'search.accessibility.label' | translate }}   
+          <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
+          <i mz-icon-mdi [icon]="'chevron-left'" [class]="'app-clean-mg'"></i>
+        </mz-collapsible-item-header>
+        <mz-collapsible-item-body>
+        <mz-collection>
+          <ng-container>
+            <mz-collection-item>
+              <span class="app-row">
+                <a>{{'search.accessibility.public' | translate }}</a>
+              </span>
+            </mz-collection-item>
+            <mz-collection-item>
+              <span class="app-row">
+                <a>{{'search.accessibility.private' | translate }}</a>
+              </span>
+            </mz-collection-item>
+            <mz-collection-item>
+                <span class="app-row">
+                  <a>{{'search.accessibility.all' | translate }}</a>
+                </span>
+              </mz-collection-item>
+          </ng-container>
+        </mz-collection>
+        </mz-collapsible-item-body>
+      </mz-collapsible-item>
+    </mz-collapsible> 
+</div>

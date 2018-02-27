@@ -29,7 +29,8 @@ app-root {
     app-search-filters,
     app-browse-filters,    
     app-navigation,
-    app-metadata {
+    app-metadata,
+    app-periodical-filters {
       width: $app-side-col-width;
       height: 100%;
       z-index: 10;
@@ -110,6 +111,8 @@ app-root {
     
     // periodical
     app-periodical  {
+      @import "styles/app-periodical-filters";
+      @import "styles/app-search-filters";
       @import "styles/app-periodical-content";
       @import "styles/app-metadata";
     }

@@ -117,13 +117,13 @@ app-periodical-toolbar {
             } 
           }
           
-          &.app-nav-item-info {
+          &.app-nav-item-mobile {
             display: none;
           }
           
           // mq
           @media #{$small-and-down} {
-            &.app-nav-item-info {
+            &.app-nav-item-mobile {
               display: block;
             }
             

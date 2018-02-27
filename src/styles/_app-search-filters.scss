@@ -1,7 +1,8 @@
 // --- SEARCH FILTERS ---
 
 app-search-filters, 
-app-browse-filters {
+app-browse-filters,
+app-periodical-filters {
   float: left;
   
   &.app-filters-mobile {
@@ -145,8 +146,9 @@ app-browse-filters {
 
 
 // just for browser filters
-app-browse-filters {
+app-browse-filters,
+app-periodical-filters {
   .app-filters-wrapper {
-    height: calc(100% - #{$app-toolbar-height} - 47px);
+    height: calc(100% - #{$app-toolbar-height} - #{$app-fulltext-search-bar-height});
   }
 }

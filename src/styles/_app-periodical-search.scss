@@ -1,15 +1,15 @@
-// --- BROWSE SEARCH ---
+// --- PERIODICAL SEARCH ---
 
-app-browse-search {
+app-periodical-search {
   display: block;
   height: $app-fulltext-search-bar-height;
   
-  .app-browse-search-bar-wrapper {
+  .app-periodical-search-bar-wrapper {
     width: 100%;
     padding: 0 20px 0 20px;
     @include set-border(bottom, 1, solid, $app-grey-l-2);
 
-    .app-browse-search-bar {
+    .app-periodical-search-bar {
       position: relative;
 
       input {
