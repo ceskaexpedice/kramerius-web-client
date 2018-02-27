@@ -13,11 +13,10 @@ app-periodical-filters {
     &.app-filters-mobile {
       float: none;
       position: absolute;
-      width: 100%;
+      width: 100% !important;
       top: calc(#{$navbar-height} + #{$app-toolbar-height});
       left: 0;
       border: 0;
-      //height: $app-mobile-panel-height;
       height: calc(#{$app-mobile-panel-height} - #{$navbar-height} - #{$app-toolbar-height});
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
       display: block;

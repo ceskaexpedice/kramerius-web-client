@@ -39,12 +39,12 @@
           <i class="app-mdi-calendar-range"></i>
         </span>
       </li>
-      <li *ngIf="periodicalService.fulltext" class="app-nav-item-mobile" [class.active]="periodicalService.activeMobilePanel == 'filters'">
+      <li *ngIf="periodicalService.fulltext" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'filters'">
         <span (click)="periodicalService.activeMobilePanel = 'filters'" class="app-cursor-pointer">
           <i class="app-mdi-filter"></i>
         </span>
       </li>
-      <li *ngIf="periodicalService.fulltext" class="app-nav-item-mobile" [class.active]="periodicalService.activeMobilePanel == 'content'">
+      <li *ngIf="periodicalService.fulltext" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'content'">
         <span (click)="periodicalService.activeMobilePanel = 'content'" class="app-cursor-pointer">
           <i class="app-mdi-view-grid"></i>
         </span>

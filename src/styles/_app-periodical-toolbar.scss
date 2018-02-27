@@ -134,6 +134,12 @@ app-periodical-toolbar {
             }
           }
           
+          @media #{$medium-and-down} {
+            &.app-nav-item-tablet {
+              display: block;
+            }
+          }
+          
           @media #{$medium-and-up} {
             &:nth-last-child(2) {
               & > span {
