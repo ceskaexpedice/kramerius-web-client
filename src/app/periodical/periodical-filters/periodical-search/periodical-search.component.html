@@ -1,6 +1,6 @@
 <div class="app-periodical-search-bar-wrapper">
   <div class="app-periodical-search-bar" [class.app-is-query]="query">
-    <input type="text" placeholder="Hledej ..." [(ngModel)]="query" /><!--(change)="onPeriodicalQueryChanged()"-->
+    <input (change)="search()" type="text" placeholder="Hledej ..." [(ngModel)]="query" />
     <i mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i><!--*ngIf="browseService.getText()"-->
     <i mz-icon-mdi [icon]="'magnify'"></i>
   </div>

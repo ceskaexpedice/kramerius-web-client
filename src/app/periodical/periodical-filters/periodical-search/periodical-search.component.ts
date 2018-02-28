@@ -21,5 +21,9 @@ export class PeriodicalSearchComponent implements OnInit {
       this.query = text;
     });
   }
+  
+  search() {
+    console.log(this.query + " - " + this.periodicalService.getFulltextQuery());
+  }
 
 }
