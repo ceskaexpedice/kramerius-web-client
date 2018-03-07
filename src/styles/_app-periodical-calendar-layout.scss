@@ -11,16 +11,16 @@ app-periodical-calendar-layout {
       width: 100%;
       padding: 0.5rem;
       
-      @media (min-width: 920px) {
+      @media (min-width: 1220px) {
         width: 50%;
       }
-      @media (min-width: 1250px) {
+      @media (min-width: 1550px) {
         width: 33.333%;
       }
-      @media (min-width: 1500px) {
+      @media (min-width: 1800px) {
         width: 25%;
       }
-      @media (min-width: 2150px) {
+      @media (min-width: 2450px) {
         width: 16.666%;
       }
     }
