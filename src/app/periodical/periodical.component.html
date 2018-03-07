@@ -1,7 +1,7 @@
 <!-- Show just for medium and up devices -->
-<app-periodical-filters  *ngIf="periodicalService.fulltext" class="app-filters-desktop"></app-periodical-filters>
+<app-periodical-filters class="app-filters-desktop"></app-periodical-filters>
 <!-- Show just for small devices -->
-<app-periodical-filters *ngIf="periodicalService.fulltext" class="app-filters-mobile" [class.app-panel-mobile-hidden]="periodicalService.activeMobilePanel != 'filters'"></app-periodical-filters>
+<app-periodical-filters class="app-filters-mobile" [class.app-panel-mobile-hidden]="periodicalService.activeMobilePanel != 'filters'"></app-periodical-filters>
 
 
 <app-periodical-content *ngIf="periodicalService.isStateSuccess()"></app-periodical-content>

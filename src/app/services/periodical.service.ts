@@ -91,6 +91,15 @@ export class PeriodicalService {
   }
 
 
+  getNumberOfResults(): number {
+    if (this.fulltext) {
+      return this.fulltext.results;
+    } else if (this.items) {
+      return this.items.length;
+    }
+  }
+
+
   changeActiveLayout(layout: string) {
     if (this.isPeriodical()) {
       this.localStorageService.setProperty(LocalStorageService.PERIODICAL_VOLUMES_LAYOUT, layout);
@@ -400,8 +409,17 @@ export class PeriodicalFulltext {
   pages: PeriodicalFtItem[];
 
 
-  getOffset() {
+  getOffset(): number {
     return this.limit * (this.page - 1);
+  }
+
+  public getResultIndexFrom(): number {
+    return this.getOffset() + 1;
+  }
+
+
+  public getResultIndexTo(): number {
+    return this.getOffset() + (this.pages ? this.pages.length : 0);
   }
 
 }

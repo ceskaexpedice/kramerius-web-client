@@ -3,11 +3,9 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-search-count',
-  templateUrl: './search-count.component.html',
-  styleUrls: ['./search-count.component.scss']
+  templateUrl: './search-count.component.html'
 })
 export class SearchCountComponent implements OnInit {
-  @Input() resultsAll: number;
 
   constructor(public searchService: SearchService) {
   }
