@@ -1,3 +1,4 @@
+import { PeriodicalQuery } from './../periodical/periodical_query.model';
 import { query } from '@angular/core/src/animation/dsl';
 import { Router } from '@angular/router';
 import { PeriodicalFtItem } from './../model/periodicalftItem.model';
@@ -13,7 +14,7 @@ import { Metadata } from '../model/metadata.model';
 @Injectable()
 export class PeriodicalService {
 
-  uuid: string;
+  query: PeriodicalQuery;
   items: PeriodicalItem[];
   yearItems: PeriodicalItem[];
   minYear: number;
@@ -30,7 +31,6 @@ export class PeriodicalService {
   daysOfMonthsItems: any[];
   activeMobilePanel: string;
   fulltext: PeriodicalFulltext;
-  accessibility: string;
   volumeDetail;
 
   constructor(private solrService: SolrService,
@@ -40,12 +40,12 @@ export class PeriodicalService {
     private krameriusApiService: KrameriusApiService) {
   }
 
-  init(uuid: string, fulltextQuery: string, fulltextPage: number, accessibility: string) {
+  init(query: PeriodicalQuery) {
     this.clear();
-    this.uuid = uuid;
-    this.accessibility = accessibility;
+    this.query = query;
+    console.log("query", query);
     this.state = PeriodicalState.Loading;
-    this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+    this.krameriusApiService.getItem(query.uuid).subscribe((item: DocumentItem) => {
       this.document = item;
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
@@ -53,21 +53,20 @@ export class PeriodicalService {
         this.metadata.model = item.doctype;
         if (this.isMonograph()) {
           this.localStorageService.addToVisited(this.document, this.metadata);
-          if (fulltextQuery) {
-            // TODO
-            this.initFulltext(uuid, null, fulltextQuery, fulltextPage);
+          if (query.fulltext) {
+            this.initFulltext();
           } else {
-            this.krameriusApiService.getMonographUnits(uuid).subscribe(units => {
+            this.krameriusApiService.getMonographUnits(query.uuid).subscribe(units => {
               this.assignItems(this.solrService.periodicalItems(units, 'monographunit'));
               this.initMonographUnit();
             });
           }
         } else if (this.isPeriodical()) {
           this.localStorageService.addToVisited(this.document, this.metadata);
-          if (fulltextQuery) {
-            this.initFulltext(uuid, null, fulltextQuery, fulltextPage);
+          if (query.fulltext) {
+            this.initFulltext();
           } else {
-            this.krameriusApiService.getPeriodicalVolumes(uuid).subscribe(volumes => {
+            this.krameriusApiService.getPeriodicalVolumes(query.uuid).subscribe(volumes => {
               this.assignItems(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
               this.initPeriodical();
             });
@@ -77,11 +76,11 @@ export class PeriodicalService {
           this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid).subscribe(volumes => {
             this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
           });
-          if (fulltextQuery) {
-            this.initFulltext(this.document.root_uuid, uuid, fulltextQuery, fulltextPage);
+          if (query.fulltext) {
+            this.initFulltext();
           } else {
-            this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, uuid).subscribe(issues => {
-              this.assignItems(this.solrService.periodicalItems(issues, 'periodicalitem', uuid));
+            this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, query.uuid).subscribe(issues => {
+              this.assignItems(this.solrService.periodicalItems(issues, 'periodicalitem', query.uuid));
               this.initPeriodicalVolume();
             });
           }
@@ -111,7 +110,7 @@ export class PeriodicalService {
 
 
   clear() {
-    this.accessibility = 'all';
+    this.query = null;
     this.yearsLayoutEnabled = false;
     this.gridLayoutEnabled = false;
     this.calendarLayoutEnabled = false;
@@ -206,12 +205,14 @@ export class PeriodicalService {
   }
 
 
-  private initFulltext(periodicalUuid: string, volumeUuid: string, fulltextQuery: string, fulltextPage: number) {
+  private initFulltext() {
     this.fulltext = new PeriodicalFulltext();
     this.fulltext.limit = 40;
-    this.fulltext.query = fulltextQuery;
-    this.fulltext.page = fulltextPage || 1;
-    this.krameriusApiService.getPeriodicalFulltextPages(periodicalUuid, volumeUuid, this.fulltext.query, this.fulltext.getOffset(), this.fulltext.limit, this.accessibility).subscribe(response => {
+    this.fulltext.query = this.query.fulltext;
+    this.fulltext.page = this.query.page || 1;
+    const uuid1 = this.isPeriodicalVolume() ? this.document.root_uuid : this.query.uuid;
+    const uuid2 = this.isPeriodicalVolume() ? this.query.uuid : null;
+    this.krameriusApiService.getPeriodicalFulltextPages(uuid1, uuid2, this.fulltext.query, this.fulltext.getOffset(), this.fulltext.limit, this.query.accessibility).subscribe(response => {
       this.fulltext.pages = this.solrService.periodicalFtItems(response, this.fulltext.query);
       this.fulltext.results = this.solrService.numberOfResults(response);
       const issuePids = [];
@@ -268,18 +269,26 @@ export class PeriodicalService {
     });
   }
 
-  public changeSearchQuery(query: string) {
-    if (query) {
-      this.router.navigate(['periodical', this.uuid],  { queryParams: { fulltext: query, page: 1} });
-    } else {
-      this.router.navigate(['periodical', this.uuid],  { queryParams: { }});
 
-    }
+  public reload() {
+    this.router.navigate(['periodical', this.query.uuid],  { queryParams: this.query.toUrlParams() });
+  }
+
+  public changeSearchQuery(query: string) {
+    this.query.fulltext = query;
+    this.reload();
   }
 
   public setFtPage(page: number) {
-    this.router.navigate(['periodical', this.uuid],  { queryParams: { fulltext: this.fulltext.query, page: page} });
+    this.query.page = page;
+    this.reload();
   }
+
+  public setAccessibility(accessibility: string) {
+    this.query.accessibility = accessibility;
+    this.reload();
+  }
+
 
   public nextFtPage() {
     this.setFtPage(this.fulltext.page + 1);
