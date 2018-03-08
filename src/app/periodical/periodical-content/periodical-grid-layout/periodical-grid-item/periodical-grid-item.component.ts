@@ -1,3 +1,4 @@
+import { PeriodicalService } from './../../../../services/periodical.service';
 import { PeriodicalItem } from './../../../../model/periodicalItem.model';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -8,7 +9,8 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PeriodicalGridItemComponent implements OnInit {
   @Input() item: PeriodicalItem;
   @Input() container;
-  constructor() { }
+
+  constructor(public periodicalService: PeriodicalService) { }
 
   ngOnInit() {
   }

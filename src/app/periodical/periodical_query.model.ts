@@ -41,12 +41,12 @@ export class PeriodicalQuery {
         this.page = p;
     }
 
-    toUrlParams() {
+    toUrlParams(preservePage: boolean = false) {
         const params = {};
         if (this.fulltext) {
             params['fulltext'] = this.fulltext;
         }
-        if (this.fulltext && this.page && this.page > 1) {
+        if (preservePage && this.fulltext && this.page && this.page > 1) {
             params['page'] = this.page;
         }
         if (this.accessibility === 'public' || this.accessibility === 'private') {
@@ -54,5 +54,7 @@ export class PeriodicalQuery {
         }
         return params;
     }
+
+
 
 }

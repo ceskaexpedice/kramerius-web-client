@@ -8,7 +8,7 @@ import { BookService } from './../services/book.service';
 import { KrameriusApiService } from './../services/kramerius-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/observable/combineLatest';
 
 @Component({
   selector: 'app-book',
@@ -33,17 +33,16 @@ export class BookComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.viewerControls.clear();
-    this.route.paramMap.subscribe(params => {
-      const uuid = params.get('uuid');
-      if (uuid) {
-        this.route.queryParamMap.subscribe(queryParams => {
-          const page = queryParams.get('page');
-          const fulltext = queryParams.get('fulltext');
+    Observable.combineLatest([this.route.paramMap, this.route.queryParamMap]).subscribe(
+      results => {
+        const p = results[0];
+        const q = results[1];
+        const uuid = p.get('uuid');
+        if (uuid) {
+          const page = q.get('page');
+          const fulltext = q.get('fulltext');
           this.bookService.init(uuid, page, fulltext);
-        });
-      } else {
-        // TODO: Show warning message
-      }
+        }
     });
   }
 

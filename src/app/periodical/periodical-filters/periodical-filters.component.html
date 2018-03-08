@@ -14,17 +14,17 @@
         <mz-collection>
           <ng-container>
             <mz-collection-item>
-              <span [class.selected]="periodicalService.query.accessibility === 'public'" class="app-row">
+              <span [class.selected]="periodicalService.query && periodicalService.query.accessibility === 'public'" class="app-row">
                 <a (click)="periodicalService.setAccessibility('public')">{{ 'search.accessibility.public' | translate}}</a>
               </span>
             </mz-collection-item>
             <mz-collection-item>
-              <span [class.selected]="periodicalService.query.accessibility === 'private'" class="app-row">
+              <span [class.selected]="periodicalService.query && periodicalService.query.accessibility === 'private'" class="app-row">
                 <a (click)="periodicalService.setAccessibility('private')">{{ 'search.accessibility.private' | translate}}</a>
               </span>
             </mz-collection-item>
             <mz-collection-item>
-              <span [class.selected]="periodicalService.query.accessibility === 'all'" class="app-row">
+              <span [class.selected]="periodicalService.query && periodicalService.query.accessibility === 'all'" class="app-row">
                 <a (click)="periodicalService.setAccessibility('all')">{{ 'search.accessibility.all' | translate}}</a>
               </span>
             </mz-collection-item>

@@ -153,25 +153,31 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-    getMonographUnits(uuid: string) {
-        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/* AND level:1 AND (fedora.model:monographunit OR fedora.model:page)&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
+
+    private getPeriodicalItems(pidPath: string, level: number, models: string[], accessibility: string) {
+        const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
+        let url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:'
+                + pidPath + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
+        if (accessibility === 'private' || accessibility === 'public') {
+            url += ' AND dostupnost:' + accessibility;
+        }
+        url += '&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
         return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
     }
 
-    getPeriodicalVolumes(uuid: string) {
-        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(uuid) + '/* AND level:1 AND (fedora.model:periodicalvolume)&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
-        return this.doGet(url)
-            .map(response => response.json())
-            .catch(this.handleError);
+    getMonographUnits(uuid: string, accessibility: string) {
+        return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['monographunit', 'page'], accessibility);
     }
 
-    getPeriodicalIssues(periodicalUuid: string, volumeUuid: string) {
-        const url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/* AND level:2 AND (fedora.model:periodicalitem OR fedora.model:supplement OR fedora.model:page)&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
-        return this.doGet(url)
-            .map(response => response.json())
-            .catch(this.handleError);
+    getPeriodicalVolumes(uuid: string, accessibility: string) {
+        return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['periodicalvolume'], accessibility);
+    }
+
+    getPeriodicalIssues(periodicalUuid: string, volumeUuid: string, accessibility: string) {
+        const pidPath = this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid);
+        return this.getPeriodicalItems(pidPath, 2, ['periodicalitem', 'supplement', 'page'], accessibility);
     }
 
     getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, query: string, offset: number, limit: number, accessibility: string) {

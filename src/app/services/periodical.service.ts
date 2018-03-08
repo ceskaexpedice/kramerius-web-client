@@ -21,7 +21,7 @@ export class PeriodicalService {
   maxYear: number;
   metadata: Metadata;
   document: DocumentItem;
-  state: PeriodicalState = PeriodicalState.None;
+  state: PeriodicalState;
   yearsLayoutEnabled: boolean;
   gridLayoutEnabled: boolean;
   calendarLayoutEnabled: boolean;
@@ -55,7 +55,7 @@ export class PeriodicalService {
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.krameriusApiService.getMonographUnits(query.uuid).subscribe(units => {
+            this.krameriusApiService.getMonographUnits(query.uuid, query.accessibility).subscribe(units => {
               this.assignItems(this.solrService.periodicalItems(units, 'monographunit'));
               this.initMonographUnit();
             });
@@ -65,20 +65,20 @@ export class PeriodicalService {
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.krameriusApiService.getPeriodicalVolumes(query.uuid).subscribe(volumes => {
+            this.krameriusApiService.getPeriodicalVolumes(query.uuid, query.accessibility).subscribe(volumes => {
               this.assignItems(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
               this.initPeriodical();
             });
           }
         } else if (this.isPeriodicalVolume()) {
           this.metadata.assignVolume(this.document);
-          this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid).subscribe(volumes => {
+          this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid, query.accessibility).subscribe(volumes => {
             this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
           });
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, query.uuid).subscribe(issues => {
+            this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, query.uuid, query.accessibility).subscribe(issues => {
               this.assignItems(this.solrService.periodicalItems(issues, 'periodicalitem', query.uuid));
               this.initPeriodicalVolume();
             });
@@ -109,17 +109,16 @@ export class PeriodicalService {
 
 
   clear() {
+    this.state = PeriodicalState.None;
     this.query = null;
     this.yearsLayoutEnabled = false;
     this.gridLayoutEnabled = false;
     this.calendarLayoutEnabled = false;
-    this.state = PeriodicalState.None;
     this.metadata = null;
     this.document = null;
     this.fulltext = null;
     this.yearItems = null;
     this.items = null;
-    this.yearItems = null;
     this.volumeDetail = null;
     this.fulltext = null;
     this.dates = [];
@@ -127,7 +126,6 @@ export class PeriodicalService {
     this.daysOfMonthsItems = [];
     this.activeMobilePanel = 'content';
   }
-
 
   isPeriodicalVolume(): boolean {
     return this.document && this.document.doctype === 'periodicalvolume';
@@ -268,9 +266,14 @@ export class PeriodicalService {
     });
   }
 
+  public getUrlParams() {
+    if (this.query) {
+      return this.query.toUrlParams(false);
+    }
+  }
 
   public reload() {
-    this.router.navigate(['periodical', this.query.uuid],  { queryParams: this.query.toUrlParams() });
+    this.router.navigate(['periodical', this.query.uuid],  { queryParams: this.query.toUrlParams(true) });
   }
 
   public changeSearchQuery(query: string) {
@@ -343,8 +346,9 @@ export class PeriodicalService {
   }
 
   private calcYearItems() {
-    if ((this.maxYear - this.minYear + 1) > this.items.length) {
-      this.yearItems = [];
+    // if ((this.maxYear - this.minYear + 1) > this.items.length) {
+    this.yearItems = [];
+    if (this.query.accessibility === 'all') {
       for (let i = this.minYear; i <= this.maxYear; i++) {
         let item: PeriodicalItem;
         for (let j = 0; j < this.items.length; j++) {
@@ -363,6 +367,9 @@ export class PeriodicalService {
     } else {
       this.yearItems = this.items;
     }
+    // } else {
+    //   this.yearItems = this.items;
+    // }
   }
 
   private calcCalender(year): boolean {

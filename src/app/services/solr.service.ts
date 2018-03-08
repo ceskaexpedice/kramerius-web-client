@@ -225,7 +225,6 @@ export class SolrService {
                     map[f] += facetFields[i + 1];
                 }
             } else if (!joinedDocytypes) {
-                console.log('f', f);
                 const ff = f.split('/')[0];
                 if (map[ff] !== undefined) {
                     map[ff] += facetFields[i + 1];

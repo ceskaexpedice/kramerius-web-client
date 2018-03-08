@@ -94,7 +94,7 @@ const ROUTES: Routes = [
   { path: '', component: HomeComponent },
   { path: 'browse', component: BrowseComponent },
   { path: 'search', component: SearchComponent },
-  { path: 'periodical/:uuid', component: PeriodicalComponent },
+  { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true } },
   { path: 'music/:uuid', component: MusicComponent },
   { path: 'uuid/:uuid', component: PersistentLinkComponent },
   // { path: 'help', component: HelpComponent },

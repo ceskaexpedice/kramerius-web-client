@@ -8,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
 export class PeriodicalCalendarLayoutComponent implements OnInit {
 
   constructor(public periodicalService: PeriodicalService) {
-
   }
 
 

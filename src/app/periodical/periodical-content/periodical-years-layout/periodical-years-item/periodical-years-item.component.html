@@ -1,4 +1,4 @@
-<a *ngIf="item.uuid; else missing" routerLink="{{item.getUrl()}}">
+<a *ngIf="item.uuid; else missing" routerLink="{{item.getUrl()}}" [queryParams]="periodicalService.getUrlParams()">
   <mz-card  [hoverable]="true">
     <mz-card-content>
       {{item.title}}

@@ -59,7 +59,6 @@ export class NgDatepickerComponent implements OnInit {
   init(): void {
     const start = startOfMonth(this.date);
     const end = endOfMonth(this.date);
-
     this.days = eachDay(start, end).map(date => {
       return {
         date: date,
