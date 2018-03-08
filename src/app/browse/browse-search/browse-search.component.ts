@@ -10,7 +10,7 @@ export class BrowseSearchComponent implements OnInit {
 
   query: string;
 
-  constructor(public browseService: BrowseService, 
+  constructor(public browseService: BrowseService,
               private route: ActivatedRoute) {
   }
 
@@ -20,6 +20,13 @@ export class BrowseSearchComponent implements OnInit {
       this.query = text;
       this.browseService.getText(); // pedro
     });
+  }
+
+  onKeyUp(event) {
+    if (event.keyCode === 13) {
+      this.onBrowseQueryChanged();
+    }
+    event.stopPropagation();
   }
 
   onBrowseQueryChanged() {

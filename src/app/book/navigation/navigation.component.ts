@@ -39,6 +39,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
     );
   }
 
+  onKeyUp(event) {
+    if (event.keyCode === 13) {
+      this.onPageIndexChanged();
+    }
+    event.stopPropagation();
+  }
+
+
   onPageIndexChanged() {
     if (isNaN(this.pageIndex)) {
       this.pageIndex = this.bookService.getPageIndex() + 1;
