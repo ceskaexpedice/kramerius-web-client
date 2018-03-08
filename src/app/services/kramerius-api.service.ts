@@ -1,3 +1,4 @@
+import { PeriodicalQuery } from './../periodical/periodical_query.model';
 import { BrowseQuery } from './../browse/browse_query.model';
 import { SearchQuery } from './../search/search_query.model';
 import { SolrService } from './solr.service';
@@ -154,12 +155,15 @@ export class KrameriusApiService {
     }
 
 
-    private getPeriodicalItems(pidPath: string, level: number, models: string[], accessibility: string) {
+    private getPeriodicalItems(pidPath: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean) {
         const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
         let url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:'
                 + pidPath + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
-        if (accessibility === 'private' || accessibility === 'public') {
-            url += ' AND dostupnost:' + accessibility;
+        if (query.accessibility === 'private' || query.accessibility === 'public') {
+            url += ' AND dostupnost:' + query.accessibility;
+        }
+        if (applyYear && query.isYearRangeSet()) {
+            url += ' AND (rok:[' + query.from + ' TO ' + query.to + '] OR (datum_begin:[* TO ' + query.to + '] AND datum_end:[' + query.from + ' TO *]))';
         }
         url += '&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
         return this.doGet(url)
@@ -167,30 +171,33 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-    getMonographUnits(uuid: string, accessibility: string) {
-        return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['monographunit', 'page'], accessibility);
+    getMonographUnits(uuid: string, query: PeriodicalQuery) {
+        return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['monographunit', 'page'], query, false);
     }
 
-    getPeriodicalVolumes(uuid: string, accessibility: string) {
-        return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['periodicalvolume'], accessibility);
+    getPeriodicalVolumes(uuid: string, query: PeriodicalQuery) {
+        return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['periodicalvolume'], query, true);
     }
 
-    getPeriodicalIssues(periodicalUuid: string, volumeUuid: string, accessibility: string) {
+    getPeriodicalIssues(periodicalUuid: string, volumeUuid: string, query: PeriodicalQuery) {
         const pidPath = this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid);
-        return this.getPeriodicalItems(pidPath, 2, ['periodicalitem', 'supplement', 'page'], accessibility);
+        return this.getPeriodicalItems(pidPath, 2, ['periodicalitem', 'supplement', 'page'], query, false);
     }
 
-    getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, query: string, offset: number, limit: number, accessibility: string) {
+    getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery) {
         let url = this.API_URL + '/search?fl=PID,root_pid,pid_path,dostupnost,dc.title,parent_pid&q=';
         if (volumeUuid) {
             url += 'pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*';
         } else {
             url += 'root_pid:"' + periodicalUuid + '"';
         }
-        if (accessibility === 'public' || accessibility === 'private') {
-            url += ' AND dostupnost:' + accessibility;
+        if (query.accessibility === 'public' || query.accessibility === 'private') {
+            url += ' AND dostupnost:' + query.accessibility;
         }
-        url += ' AND fedora.model:page AND text:' + query
+        if (query.isYearRangeSet()) {
+            url += ' AND (rok:[' + query.from + ' TO ' + query.to + '])';
+        }
+        url += ' AND fedora.model:page AND text:' + query.fulltext
             // + '&sort=datum asc'
             + '&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
         return this.doGet(url)

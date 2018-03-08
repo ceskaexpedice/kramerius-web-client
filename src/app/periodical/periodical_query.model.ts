@@ -1,9 +1,14 @@
 import { query } from '@angular/core/src/animation/dsl';
 export class PeriodicalQuery {
+
+    static THIS_YEAR = (new Date()).getFullYear();
+
     uuid: string;
     accessibility: string;
     fulltext: string;
     page: number;
+    from: number;
+    to: number;
 
     constructor() {
     }
@@ -13,8 +18,28 @@ export class PeriodicalQuery {
         query.uuid = uuid;
         query.setAccessibility(params.get('accessibility'));
         query.setFulltext(params.get('fulltext'));
+        query.setYearRange(params.get('from'), params.get('to'));
         query.setPage(params.get('page'));
         return query;
+    }
+
+    public setYearRange(from: number, to: number) {
+        this.page = 1;
+        if ((from || from === 0) && to) {
+            this.from = from;
+            this.to = to;
+        } else {
+            this.clearYearRange();
+        }
+    }
+
+    public isYearRangeSet(): boolean {
+        return (this.from && this.from > 0) || (this.to && this.to !== PeriodicalQuery.THIS_YEAR);
+    }
+
+    private clearYearRange() {
+        this.from = 0;
+        this.to = (new Date()).getFullYear();
     }
 
     public setAccessibility(accessibility: string) {
@@ -48,6 +73,10 @@ export class PeriodicalQuery {
         }
         if (preservePage && this.fulltext && this.page && this.page > 1) {
             params['page'] = this.page;
+        }
+        if (this.isYearRangeSet()) {
+            params['from'] = this.from;
+            params['to'] = this.to;
         }
         if (this.accessibility === 'public' || this.accessibility === 'private') {
             params['accessibility'] = this.accessibility;

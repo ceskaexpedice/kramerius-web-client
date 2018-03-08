@@ -225,7 +225,7 @@ export class SearchService {
     private handleResponse(response) {
         if (this.query.getRawQ()) {
             this.numberOfResults = this.solrService.numberOfSearchResults(response);
-            this.results = this.solrService.searchResultItems(response, this.query.getRawQ(), this.query.accessibility);
+            this.results = this.solrService.searchResultItems(response, this.query);
         } else {
             this.numberOfResults = this.solrService.numberOfResults(response);
             this.results = this.solrService.documentItems(response);

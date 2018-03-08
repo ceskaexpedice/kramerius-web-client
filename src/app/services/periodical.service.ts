@@ -55,7 +55,7 @@ export class PeriodicalService {
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.krameriusApiService.getMonographUnits(query.uuid, query.accessibility).subscribe(units => {
+            this.krameriusApiService.getMonographUnits(query.uuid, query).subscribe(units => {
               this.assignItems(this.solrService.periodicalItems(units, 'monographunit'));
               this.initMonographUnit();
             });
@@ -65,20 +65,20 @@ export class PeriodicalService {
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.krameriusApiService.getPeriodicalVolumes(query.uuid, query.accessibility).subscribe(volumes => {
+            this.krameriusApiService.getPeriodicalVolumes(query.uuid, query).subscribe(volumes => {
               this.assignItems(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
               this.initPeriodical();
             });
           }
         } else if (this.isPeriodicalVolume()) {
           this.metadata.assignVolume(this.document);
-          this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid, query.accessibility).subscribe(volumes => {
+          this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid, query).subscribe(volumes => {
             this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
           });
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, query.uuid, query.accessibility).subscribe(issues => {
+            this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, query.uuid, query).subscribe(issues => {
               this.assignItems(this.solrService.periodicalItems(issues, 'periodicalitem', query.uuid));
               this.initPeriodicalVolume();
             });
@@ -111,12 +111,14 @@ export class PeriodicalService {
   clear() {
     this.state = PeriodicalState.None;
     this.query = null;
+    this.minYear = null;
+    this.maxYear = null;
     this.yearsLayoutEnabled = false;
     this.gridLayoutEnabled = false;
     this.calendarLayoutEnabled = false;
+    this.activeLayout = null;
     this.metadata = null;
     this.document = null;
-    this.fulltext = null;
     this.yearItems = null;
     this.items = null;
     this.volumeDetail = null;
@@ -209,7 +211,7 @@ export class PeriodicalService {
     this.fulltext.page = this.query.page || 1;
     const uuid1 = this.isPeriodicalVolume() ? this.document.root_uuid : this.query.uuid;
     const uuid2 = this.isPeriodicalVolume() ? this.query.uuid : null;
-    this.krameriusApiService.getPeriodicalFulltextPages(uuid1, uuid2, this.fulltext.query, this.fulltext.getOffset(), this.fulltext.limit, this.query.accessibility).subscribe(response => {
+    this.krameriusApiService.getPeriodicalFulltextPages(uuid1, uuid2, this.fulltext.getOffset(), this.fulltext.limit, this.query).subscribe(response => {
       this.fulltext.pages = this.solrService.periodicalFtItems(response, this.fulltext.query);
       this.fulltext.results = this.solrService.numberOfResults(response);
       const issuePids = [];
@@ -272,6 +274,11 @@ export class PeriodicalService {
     }
   }
 
+  public setYearRange(from: number, to: number) {
+    this.query.setYearRange(from, to);
+    this.reload();
+  }
+
   public reload() {
     this.router.navigate(['periodical', this.query.uuid],  { queryParams: this.query.toUrlParams(true) });
   }
@@ -319,6 +326,14 @@ export class PeriodicalService {
     if (range && range.length === 2) {
       this.minYear = range[0];
       this.maxYear = range[1];
+      if (this.query.isYearRangeSet()) {
+        if (this.minYear < this.query.from) {
+          this.minYear = this.query.from;
+        }
+        if (this.maxYear > this.query.to) {
+          this.maxYear = this.query.to;
+        }
+      }
     }
     this.gridLayoutEnabled = true;
     this.calendarLayoutEnabled = false;

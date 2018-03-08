@@ -1,4 +1,4 @@
-<a *ngIf="item" routerLink="{{item.url}}" [queryParams]="{fulltext: item.query, accessibility:  item.childrenAccessibility}">
+<a *ngIf="item" routerLink="{{item.url}}" [queryParams]="item.params">
   <mz-card [hoverable]="true">
     <mz-card-content>
       <div class="app-card-mark {{item.doctype}}"></div>
@@ -19,7 +19,7 @@
           <i mz-icon-mdi [icon]="'calendar-check'" [class]="'app-clean-mg'"></i>
           {{item.date}}
         </div>
-        <div *ngIf="item.query" class="app-card-hits">
+        <div *ngIf="item.hits" class="app-card-hits">
           <strong>{{item.hits}}</strong> {{ 'search.hits' | translate: { hits: item.hits } }}
         </div>
         <div *ngIf="item.doctype" class="app-card-doctype {{item.doctype}}">

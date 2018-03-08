@@ -1,3 +1,4 @@
+import { query } from '@angular/core/src/animation/dsl';
 export class DocumentItem {
     title: string;
     authors: string[];
@@ -10,10 +11,9 @@ export class DocumentItem {
     volumeNumber: string;
     volumeYear: string;
     pdf = false;
-    childrenAccessibility: string;
-    query: string;
     hits: number;
     context: Context[] = [];
+    params;
 
     constructor() {
     }
@@ -30,6 +30,7 @@ export class DocumentItem {
         //     this.url += '?q=' + this.query;
         // }
     }
+
 
     public getUuidFromContext(doctype: string): string|null {
         for (const context of this.context) {

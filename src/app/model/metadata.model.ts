@@ -39,7 +39,7 @@ export class Metadata {
     }
 
     public getYearRange() {
-        if (this.publishers && this.volume) {
+        if (this.publishers) {
           let min: number;
           let max: number;
           this.publishers.forEach(function(publisher) {

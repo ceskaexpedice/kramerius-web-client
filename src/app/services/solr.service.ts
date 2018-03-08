@@ -1,3 +1,5 @@
+import { query } from '@angular/core/src/animation/dsl';
+import { SearchQuery } from './../search/search_query.model';
 import { PeriodicalFtItem } from './../model/periodicalftItem.model';
 import { KrameriusApiService } from './kramerius-api.service';
 import { DocumentItem } from './../model/document_item.model';
@@ -161,7 +163,7 @@ export class SolrService {
         return solr['grouped']['root_pid']['ngroups'];
     }
 
-    searchResultItems(solr, query: string, accessibility: string): DocumentItem[] {
+    searchResultItems(solr, query: SearchQuery): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const group of solr['grouped']['root_pid']['groups']) {
             const doclist = group['doclist'];
@@ -171,19 +173,29 @@ export class SolrService {
             item.uuid = doc['root_pid'];
             item.public = doc['dostupnost'] === 'public';
             const dp = doc['model_path'][0];
+            const params = {};
             if (dp.indexOf('/') > 0) {
                 item.doctype = dp.substring(0, dp.indexOf('/'));
-                item.query = query;
-                if (item.doctype === 'periodical') {
-                    item.childrenAccessibility = accessibility;
-                }
+                params['fulltext'] = query.getRawQ();
                 item.hits = doclist['numFound'];
             } else {
                 item.doctype = dp;
             }
+            console.log('qqqqqq', query);
+            if (item.doctype === 'periodical') {
+                if (query.accessibility !== 'all') {
+                    params['accessibility'] = query.accessibility;
+                }
+                if (query.isYearRangeSet()) {
+                    params['from'] = query.from;
+                    params['to'] = query.to;
+                }
+            }
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
             item.resolveUrl();
+            item.params = params;
+            console.log(item);
             items.push(item);
         }
         return items;
