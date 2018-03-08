@@ -43,7 +43,6 @@ export class PeriodicalService {
   init(query: PeriodicalQuery) {
     this.clear();
     this.query = query;
-    console.log("query", query);
     this.state = PeriodicalState.Loading;
     this.krameriusApiService.getItem(query.uuid).subscribe((item: DocumentItem) => {
       this.document = item;
@@ -275,17 +274,17 @@ export class PeriodicalService {
   }
 
   public changeSearchQuery(query: string) {
-    this.query.fulltext = query;
+    this.query.setFulltext(query);
     this.reload();
   }
 
   public setFtPage(page: number) {
-    this.query.page = page;
+    this.query.setPage(page);
     this.reload();
   }
 
   public setAccessibility(accessibility: string) {
-    this.query.accessibility = accessibility;
+    this.query.setAccessibility(accessibility);
     this.reload();
   }
 
@@ -431,13 +430,26 @@ export class PeriodicalFulltext {
     return this.limit * (this.page - 1);
   }
 
-  public getResultIndexFrom(): number {
-    return this.getOffset() + 1;
+  private getResultIndexFrom(): number {
+    return Math.min(this.results, this.getOffset() + 1);
   }
 
 
-  public getResultIndexTo(): number {
-    return this.getOffset() + (this.pages ? this.pages.length : 0);
+  private getResultIndexTo(): number {
+    return Math.min(this.results, this.getOffset() + (this.pages ? this.pages.length : 0));
+  }
+
+
+  public getResultsRange(): string {
+    const from = this.getResultIndexFrom();
+    const to = this.getResultIndexTo();
+    if (isNaN(from) || isNaN(to)) {
+      return '-';
+    } else if (to === 0) {
+      return '0';
+    } else {
+      return from + ' - ' + to;
+    }
   }
 
 }

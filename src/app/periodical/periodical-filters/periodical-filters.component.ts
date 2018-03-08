@@ -1,3 +1,4 @@
+import { PeriodicalService } from './../../services/periodical.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PeriodicalFiltersComponent implements OnInit {
 
-  constructor() { }
+  constructor(public periodicalService: PeriodicalService) { }
 
   ngOnInit() {
   }
