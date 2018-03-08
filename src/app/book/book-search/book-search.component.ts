@@ -23,7 +23,15 @@ export class BookSearchComponent implements OnInit, OnDestroy {
     );
   }
 
-  search() {
+
+  onKeyUp(event) {
+    if (event.keyCode === 13) {
+      this.changeQuery();
+    }
+    event.stopPropagation();
+  }
+
+  changeQuery() {
     this.bookService.fulltextChanged(this.fulltextQuery);
   }
 

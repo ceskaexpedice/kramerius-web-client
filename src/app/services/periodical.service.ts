@@ -268,6 +268,15 @@ export class PeriodicalService {
     });
   }
 
+  public changeSearchQuery(query: string) {
+    if (query) {
+      this.router.navigate(['periodical', this.uuid],  { queryParams: { fulltext: query, page: 1} });
+    } else {
+      this.router.navigate(['periodical', this.uuid],  { queryParams: { }});
+
+    }
+  }
+
   public setFtPage(page: number) {
     this.router.navigate(['periodical', this.uuid],  { queryParams: { fulltext: this.fulltext.query, page: page} });
   }
