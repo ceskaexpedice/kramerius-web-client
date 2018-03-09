@@ -20,6 +20,8 @@ import { Location } from '@angular/common';
 import { MzModalService } from 'ng2-materialize';
 import { DialogOcrComponent } from '../dialog/dialog-ocr/dialog-ocr.component';
 import { request } from 'https';
+import 'rxjs/add/observable/forkJoin';
+
 
 
 @Injectable()
@@ -100,7 +102,7 @@ export class BookService {
 
 
     private loadIssues(periodicalUuid: string, volumeUuid: string, issueUuid: string) {
-        this.krameriusApiService.getPeriodicalIssues(periodicalUuid, volumeUuid).subscribe(response => {
+        this.krameriusApiService.getPeriodicalIssues(periodicalUuid, volumeUuid, null).subscribe(response => {
             const issues = this.solrService.periodicalItems(response, 'periodicalitem');
             if (!issues || issues.length < 1) {
                 return;
@@ -126,7 +128,7 @@ export class BookService {
     }
 
     private loadMonographUnits(monographUuid: string, unitUud: string) {
-        this.krameriusApiService.getMonographUnits(monographUuid).subscribe(response => {
+        this.krameriusApiService.getMonographUnits(monographUuid, null).subscribe(response => {
             const units = this.solrService.periodicalItems(response, 'monographunit');
             if (!units || units.length < 1) {
                 return;

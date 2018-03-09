@@ -159,10 +159,10 @@ export class KrameriusApiService {
         const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
         let url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:'
                 + pidPath + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
-        if (query.accessibility === 'private' || query.accessibility === 'public') {
+        if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
             url += ' AND dostupnost:' + query.accessibility;
         }
-        if (applyYear && query.isYearRangeSet()) {
+        if (query && applyYear && query.isYearRangeSet()) {
             url += ' AND (rok:[' + query.from + ' TO ' + query.to + '] OR (datum_begin:[* TO ' + query.to + '] AND datum_end:[' + query.from + ' TO *]))';
         }
         url += '&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
