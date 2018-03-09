@@ -1,5 +1,5 @@
-import { environment } from '../../environments/environment';
 import { Utils } from '../services/utils.service';
+import { AppSettings } from '../services/app-settings';
 
 export class SearchQuery {
     accessibility: string;
@@ -206,11 +206,11 @@ export class SearchQuery {
             q += '&q1=' + qString
                + '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,datum_str,img_full_mime,score'
                + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
-           if (environment.solr.facetTruncate) {
-                q += '&group.truncate=true';
-           } else {
-               q += '&group.facet=true';
-           }
+            // if (environment.solr.facetTruncate) {
+            q += '&group.truncate=true';
+            //  } else {
+            //    q += '&group.facet=true';
+            //    }
         } else {
             q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
         }

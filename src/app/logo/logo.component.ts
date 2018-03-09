@@ -1,5 +1,5 @@
+import { AppSettings } from './../services/app-settings';
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-logo',
@@ -10,9 +10,9 @@ export class LogoComponent implements OnInit {
   logo;
   title;
 
-  constructor() {
-    this.title = environment.title;
-    this.logo = environment.logo;
+  constructor(private appSettings: AppSettings) {
+    this.title = appSettings.title;
+    this.logo = appSettings.logo;
   }
 
   ngOnInit() {

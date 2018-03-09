@@ -13,7 +13,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { Response } from '@angular/http/src/static_response';
-import { environment } from '../../environments/environment';
+import { AppSettings } from './app-settings';
 
 @Injectable()
 export class KrameriusApiService {
@@ -37,8 +37,9 @@ export class KrameriusApiService {
 
     constructor(private http: Http,
         private utils: Utils,
+        private appSettings: AppSettings,
         private solrService: SolrService) {
-        this.BASE_URL = environment.url;
+        this.BASE_URL = appSettings.url;
         this.API_URL = this.BASE_URL + '/search/api/v5.0';
     }
 

@@ -1,3 +1,4 @@
+import { AppSettings } from './services/app-settings';
 import { PeriodicalFulltextItemComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-item/periodical-fulltext-item.component';
 import { PeriodicalFulltextLayoutComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-layout.component';
 import { MusicService } from './services/music.service';
@@ -199,7 +200,8 @@ const ROUTES: Routes = [
     CollectionService,
     HistoryService,
     AltoService,
-    MusicService
+    MusicService,
+    AppSettings
   ],
   bootstrap: [AppComponent]
 })

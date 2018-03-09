@@ -10,7 +10,7 @@ import { SearchQuery } from './../search/search_query.model';
 import { Page } from './../model/page.model';
 import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
-import { environment } from '../../environments/environment';
+import { AppSettings } from './app-settings';
 
 
 @Injectable()
@@ -32,19 +32,17 @@ export class SearchService {
 
     activeMobilePanel: String;
 
-    solrConfig;
-
     constructor(
         private router: Router,
         private collectionService: CollectionService,
         private solrService: SolrService,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
+        private appSettings: AppSettings,
         private translator: Translator) {
             translator.languageChanged.subscribe(() => {
                 this.translateCollections();
             });
-            this.solrConfig = environment.solr;
     }
 
 
@@ -175,7 +173,7 @@ export class SearchService {
                 break;
             }
             case 'doctypes': {
-                this.doctypes = this.solrService.facetDoctypeList(response, this.solrConfig.joinedDoctypes, this.solrConfig.doctypes);
+                this.doctypes = this.solrService.facetDoctypeList(response, this.appSettings.joinedDoctypes, this.appSettings.doctypes);
                 break;
             }
             case 'authors': {

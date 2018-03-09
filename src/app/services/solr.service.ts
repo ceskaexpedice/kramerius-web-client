@@ -181,7 +181,6 @@ export class SolrService {
             } else {
                 item.doctype = dp;
             }
-            console.log('qqqqqq', query);
             if (item.doctype === 'periodical') {
                 if (query.accessibility !== 'all') {
                     params['accessibility'] = query.accessibility;
@@ -195,7 +194,6 @@ export class SolrService {
             item.authors = doc['dc.creator'];
             item.resolveUrl();
             item.params = params;
-            console.log(item);
             items.push(item);
         }
         return items;
