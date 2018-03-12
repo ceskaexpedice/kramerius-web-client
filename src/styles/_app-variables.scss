@@ -87,6 +87,7 @@ $small-screen: 600px !default;
 $medium-screen: 992px !default;
 $large-screen: 1200px !default;
 
+$small-800-screen: 800px !default;
 $small-500-screen: 500px !default;
 $small-400-screen: 400px !default;
 $small-350-screen: 350px !default;
@@ -102,6 +103,7 @@ $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
 $medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})" !default;
 $large-only: "only screen and (max-width : #{$large-screen}) and (min-width : #{$medium-screen})" !default;
 
+$small-800-and-down: "only screen and (max-width : #{$small-800-screen})" !default;
 $small-500-and-down: "only screen and (max-width : #{$small-500-screen})" !default;
 $small-400-and-down: "only screen and (max-width : #{$small-400-screen})" !default;
 $small-350-and-down: "only screen and (max-width : #{$small-350-screen})" !default;

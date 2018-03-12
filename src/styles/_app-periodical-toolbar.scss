@@ -35,8 +35,20 @@ app-periodical-toolbar {
       }
       
       //mq
-      @media #{$small-400-and-down} {
+      //@media #{$small-400-and-down} {
+      @media #{$small-800-and-down} {
         display: none;
+        
+        &.app-no-volume-detail {
+          width: 45%;
+          display: block;
+        }
+      }
+      
+      @media #{$small-400-and-down} {
+        &.app-no-volume-detail {
+          display: none;
+        }
       }
     }
     
@@ -50,6 +62,10 @@ app-periodical-toolbar {
         margin: 0 10px;
         height: $app-toolbar-height;
         line-height: $app-toolbar-height;
+        
+        @media #{$small-400-and-down} {
+          margin: 0;
+        }
       }
 
       a {
@@ -71,9 +87,17 @@ app-periodical-toolbar {
       }
       
       //mq
-      @media #{$small-400-and-down} {
-        width: 50%;
+      @media #{$small-800-and-down} {
+        width: 45%;
         text-align: left;
+      }
+      
+      @media #{$small-400-and-down} {
+        width: 40%;
+      }
+      
+      @media #{$small-300-and-down} {
+        display: none;
       }
     }
     
@@ -117,6 +141,23 @@ app-periodical-toolbar {
             } 
           }
           
+          &.app-nav-item-sort {
+            #app-sort {
+              z-index: 1060;
+            }
+            
+            &.app-fulltext-active {
+              & > span {
+                border-left: none;
+              }
+            }
+            
+            // mq
+            @media #{$small-400-and-down} {
+              display: none;
+            }
+          }
+          
           &.app-nav-item-mobile {
             display: none;
           }
@@ -141,7 +182,7 @@ app-periodical-toolbar {
           }
           
           @media #{$medium-and-up} {
-            &:nth-last-child(2) {
+            &:nth-last-child(1) {
               & > span {
                 padding-right: 0;
               }
@@ -159,12 +200,30 @@ app-periodical-toolbar {
       }
       
       //mq
+      @media #{$small-800-and-down} {
+        width: 55%;
+        
+        &.app-no-volume-detail {
+          width: 55%;
+        }
+      }
+      
       @media #{$small-400-and-down} {
-        width: 50%;
+        width: 60%;
         
         &.app-mq-small-1 {
           width: 100%;
         }
+        
+        &.app-no-volume-detail {
+          .app-nav-item-sort {
+            display: block;
+          }
+        }
+      }
+      
+      @media #{$small-300-and-down} {
+        width: 100%;
       }
     }
     

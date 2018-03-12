@@ -1,5 +1,5 @@
 <div class="row app-clean-mg">
-  <div class="col app-periodical-info" [ngClass]="{'s6 m7 l9 xl10': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
+  <div class="col app-periodical-info" [ngClass]="{'s6 m5 l7 xl9 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <a *ngIf="periodicalService.isPeriodicalVolume()" [routerLink]="['/periodical', periodicalService.document.root_uuid]" [queryParams]="periodicalService.getUrlParams()">
       <i class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.volume_list' | translate" position="bottom"></i>
       <span class="app-periodical-title">{{periodicalService.metadata.getTitle()}}</span>
@@ -8,7 +8,7 @@
   </div>
   
   
-  <div class="col s4 m6 l4 xl2 app-volume-info center-align" *ngIf="periodicalService.volumeDetail">
+  <div class="col s4 m4 l4 xl2 app-volume-info center-align" *ngIf="periodicalService.volumeDetail">
     <span *ngIf="periodicalService.volumeDetail">
       <a *ngIf="periodicalService.volumeDetail.previous" [routerLink]="['/periodical', periodicalService.volumeDetail.previous.uuid]" [queryParams]="periodicalService.getUrlParams()"
         class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.previous_volume' | translate" [position]="'bottom'">
@@ -22,7 +22,7 @@
     </span>
   </div>
 
-  <div class="col app-nav-item" [ngClass]="{'s6 m5 l3 xl2 app-mq-small-1': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
+  <div class="col app-nav-item" [ngClass]="{'s6 m7 l5 xl3 app-mq-small-1 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <ul class="right">
       <!--*ngIf="periodicalService.fulltext" removed-->
       <li class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'filters'">
@@ -54,6 +54,17 @@
         <span (click)="periodicalService.activeMobilePanel = 'metadata'" class="app-cursor-pointer">
           <i class="app-mdi-information"></i>
         </span>
+      </li>
+      <!-- Sort item ready for Honza -->
+      <li *ngIf="periodicalService.getNumberOfResults() !== 0 && periodicalService.activeLayout == 'grid' || periodicalService.getNumberOfResults() !== 0 && periodicalService.fulltext" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+        <span id="app-btn-sort" class="app-cursor-pointer" mz-tooltip [tooltip]="'search.ordering.label' | translate" [position]="'top'">
+          <i class="app-mdi-sort"></i>
+        </span>
+        <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
+          <mz-dropdown-item><a href="#">sort item 1</a></mz-dropdown-item>
+          <mz-dropdown-item><a href="#">sort item 2</a></mz-dropdown-item>
+          <mz-dropdown-item><a href="#">sort item 3</a></mz-dropdown-item>
+        </mz-dropdown>
       </li>
     </ul>
   </div>
