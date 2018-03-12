@@ -5,5 +5,5 @@
 
 <div class="app-search-wrapper">
   <app-search-toolbar *ngIf="searchService.getNumberOfResults()"></app-search-toolbar>
-  <app-search-results></app-search-results>
+  <app-search-results [class.app-search-results-no-toolbar]="!searchService.getNumberOfResults()"></app-search-results>
 </div>
