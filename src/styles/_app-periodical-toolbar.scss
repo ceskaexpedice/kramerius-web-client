@@ -147,6 +147,14 @@ app-periodical-toolbar {
               }
             }
           }
+          
+          @media #{$large-and-up} {
+            &:nth-child(2) {
+              & > span {
+                border-left: none; 
+              }
+            }
+          }
         }
       }
       

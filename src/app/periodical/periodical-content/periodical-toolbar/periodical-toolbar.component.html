@@ -1,5 +1,5 @@
 <div class="row app-clean-mg">
-  <div class="col app-periodical-info" [ngClass]="{'s6 m7 l10 xl10': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
+  <div class="col app-periodical-info" [ngClass]="{'s6 m7 l9 xl10': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
     <a *ngIf="periodicalService.isPeriodicalVolume()" [routerLink]="['/periodical', periodicalService.document.root_uuid]" [queryParams]="periodicalService.getUrlParams()">
       <i class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.volume_list' | translate" position="bottom"></i>
       <span class="app-periodical-title">{{periodicalService.metadata.getTitle()}}</span>
@@ -22,9 +22,15 @@
     </span>
   </div>
 
-  <div class="col app-nav-item" [ngClass]="{'s6 m5 l2 xl2 app-mq-small-1': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
+  <div class="col app-nav-item" [ngClass]="{'s6 m5 l3 xl2 app-mq-small-1': !periodicalService.volumeDetail, 's4 m3 l4 xl5': periodicalService.volumeDetail}">
     <ul class="right">
-      <li *ngIf="!periodicalService.fulltext && periodicalService.gridLayoutEnabled" (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
+      <!--*ngIf="periodicalService.fulltext" removed-->
+      <li class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'filters'">
+        <span (click)="periodicalService.activeMobilePanel = 'filters'" class="app-cursor-pointer">
+          <i class="app-mdi-filter"></i>
+        </span>
+      </li>
+      <li *ngIf="!periodicalService.fulltext && periodicalService.gridLayoutEnabled" (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid' && periodicalService.activeMobilePanel != 'filters'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_grid' | translate" [position]="'top'" class="app-cursor-pointer">
           <i class="app-mdi-view-grid"></i>
         </span>
@@ -37,11 +43,6 @@
       <li *ngIf="!periodicalService.fulltext && periodicalService.calendarLayoutEnabled" (click)="selectLayout('calendar')" class="layout-button" [class.active]="periodicalService.activeLayout == 'calendar'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_calendar' | translate" [position]="'top'" class="app-cursor-pointer">
           <i class="app-mdi-calendar-range"></i>
-        </span>
-      </li>
-      <li *ngIf="periodicalService.fulltext" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'filters'">
-        <span (click)="periodicalService.activeMobilePanel = 'filters'" class="app-cursor-pointer">
-          <i class="app-mdi-filter"></i>
         </span>
       </li>
       <li *ngIf="periodicalService.fulltext" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'content'">
