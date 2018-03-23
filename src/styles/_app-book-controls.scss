@@ -4,8 +4,8 @@ app-book-controls {
   .collection {
     .collection-item {
       i[class*="app-mdi-"] {
-        margin-left: 10px; 
-        margin-right: 10px;    
+        margin-left: 14px; 
+        margin-right: 14px;    
         color: $app-grey;
         &:hover {
           color: color("shades", "black");
