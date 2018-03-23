@@ -132,7 +132,7 @@ export class SearchQuery {
         }
         let q = this.query;
         if (!Utils.inQuotes(q)) {
-            q = q.trim().replace(/-|:|;|{|}|&|\[|\]|!|/g, '');
+            q = q.trim().replace(/:|;|{|}|&|\[|\]|!|/g, '').replace(/-/g, '//-');
             while (q.indexOf('  ') > 0) {
                 q = q.replace(/  /g, ' ');
             }
