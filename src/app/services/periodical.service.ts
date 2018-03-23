@@ -48,9 +48,9 @@ export class PeriodicalService {
       this.document = item;
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
-        this.metadata.doctype = 'periodical';
         this.metadata.model = item.doctype;
         if (this.isMonograph()) {
+          this.metadata.doctype = 'monograph';
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (query.fulltext) {
             this.initFulltext();
@@ -61,6 +61,7 @@ export class PeriodicalService {
             });
           }
         } else if (this.isPeriodical()) {
+          this.metadata.doctype = 'periodical';
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (query.fulltext) {
             this.initFulltext();
@@ -71,6 +72,7 @@ export class PeriodicalService {
             });
           }
         } else if (this.isPeriodicalVolume()) {
+          this.metadata.doctype = 'periodical';
           this.metadata.assignVolume(this.document);
           this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid, query).subscribe(volumes => {
             this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
