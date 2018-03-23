@@ -156,6 +156,9 @@ export class BookService {
 
     private onDataLoaded(pages: any[], uuid: string) {
         const pageIndex = this.arrangePages(pages, uuid);
+        if (pageIndex === -1) {
+            return;
+        }
         this.bookState = BookState.Success;
         if (this.fulltextQuery) {
             this.fulltextChanged(this.fulltextQuery, uuid);
@@ -176,7 +179,7 @@ export class BookService {
         for (const p of pages) {
             if (p['model'] === 'monographunit') {
                 this.router.navigate(['/periodical', this.uuid], { queryParams: { fulltext: this.fulltextQuery } });
-                return;
+                return -1;
             } else if (p['model'] === 'page') {
                 const page = new Page();
                 page.uuid = p['pid'];
