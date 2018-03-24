@@ -1,3 +1,4 @@
+import { AppSettings } from './app-settings';
 import { PeriodicalQuery } from './../periodical/periodical_query.model';
 import { query } from '@angular/core/src/animation/dsl';
 import { Router } from '@angular/router';
@@ -35,6 +36,7 @@ export class PeriodicalService {
 
   constructor(private solrService: SolrService,
     private router: Router,
+    private appSettings: AppSettings,
     private modsParserService: ModsParserService,
     private localStorageService: LocalStorageService,
     private krameriusApiService: KrameriusApiService) {
@@ -192,8 +194,8 @@ export class PeriodicalService {
     this.gridLayoutEnabled = true;
     const year = this.document.volumeYear;
     const prefLayout = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_ISSUES_LAYOUT);
-    this.activeLayout = prefLayout ? prefLayout : 'calendar';
-    if (year && !isNaN(year as any)) {
+    this.activeLayout = prefLayout ? prefLayout : this.appSettings.defaultPeriodicalIsssuesLayout;
+    if (this.appSettings.enablePeriodicalIsssuesCalendarLayout && year && !isNaN(year as any)) {
       this.calendarLayoutEnabled = true;
       if (!this.calcCalender(year)) {
         this.activeLayout = 'grid';
@@ -339,6 +341,12 @@ export class PeriodicalService {
     }
     this.gridLayoutEnabled = true;
     this.calendarLayoutEnabled = false;
+    if (!this.appSettings.enablePeriodicalVolumesYearsLayout) {
+      this.yearsLayoutEnabled = false;
+      this.activeLayout = 'grid';
+      this.state = PeriodicalState.Success;
+      return;
+    }
     for (const item of this.items) {
       if (item.title && !isNaN(item.title as any)) {
         const year = parseInt(item.title, 10);
@@ -357,7 +365,7 @@ export class PeriodicalService {
     }
     this.yearsLayoutEnabled = true;
     const prefLayout = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_VOLUMES_LAYOUT);
-    this.activeLayout = prefLayout ? prefLayout : 'years';
+    this.activeLayout = prefLayout ? prefLayout : this.appSettings.defaultPeriodicalVolumesLayout;
     this.calcYearItems();
     this.state = PeriodicalState.Success;
   }

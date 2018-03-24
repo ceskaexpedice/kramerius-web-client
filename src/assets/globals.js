@@ -4,5 +4,9 @@ var APP_GLOBAL = {
   url: 'https://kramerius.mzk.cz',
   ga: 'UA-65303593-14',
   joinedDoctypes: true,
-  doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic']
+  doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+  enablePeriodicalVolumesYearsLayout: true, 
+  enablePeriodicalIsssuesCalendarLayout: true,
+  defaultPeriodicalVolumesLayout: "years", // grid | years
+  defaultPeriodicalIssuesLayout: "calendar" // grid | calendar
 };

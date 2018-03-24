@@ -11,4 +11,14 @@ export class AppSettings {
   public url = APP_GLOBAL.url;
   public joinedDoctypes = APP_GLOBAL.joinedDoctypes;
   public doctypes = APP_GLOBAL.doctypes;
+  public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
+  public enablePeriodicalIsssuesCalendarLayout = APP_GLOBAL.enablePeriodicalIsssuesCalendarLayout;
+  public defaultPeriodicalVolumesLayout = APP_GLOBAL.defaultPeriodicalVolumesLayout;
+  public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
+
+
+
+
 }
+
+
