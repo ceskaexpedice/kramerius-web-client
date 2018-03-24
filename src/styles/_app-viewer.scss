@@ -10,6 +10,13 @@ app-viewer {
     background-color: $app-grey-l-4;    
     position: relative;
 
+    .hide-on-inactivity {
+      opacity: 0;
+      transition-property: opacity;
+      transition-duration: 0.5s;
+      transition-timing-function: linear;
+    }
+
     .app-handle {
       position: absolute;
       top: 10px;

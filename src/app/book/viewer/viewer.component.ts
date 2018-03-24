@@ -4,6 +4,7 @@ import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { BookService } from './../../services/book.service';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 declare var ol: any;
 
@@ -33,6 +34,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   private viewerActionsSubscription: Subscription;
   private pageSubscription: Subscription;
+  private intervalSubscription: Subscription;
+
+  public hideOnInactivity = false;
+  public lastMouseMove = 0;
+
 
   ngOnInit() {
     this.init();
@@ -41,6 +47,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.updateView(pages[0], pages[1]);
       }
     );
+
+    this.intervalSubscription = Observable.interval(4000).subscribe( () => {
+      const lastMouseDist = new Date().getTime() - this.lastMouseMove;
+      if (lastMouseDist >= 4000) {
+        this.hideOnInactivity = true;
+      }
+    });
   }
 
   constructor(public bookService: BookService, public controlsService: ViewerControlsService) {
@@ -81,6 +94,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.view.removeInteraction(keyboardPan);
     }
     // this.updateView();
+  }
+
+
+  onMouseMove() {
+    this.lastMouseMove = new Date().getTime();
+    this.hideOnInactivity = false;
   }
 
 
@@ -343,6 +362,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.viewerActionsSubscription.unsubscribe();
     this.pageSubscription.unsubscribe();
+    this.intervalSubscription.unsubscribe();
     this.view.removeLayer(this.imageLayer);
     this.view.removeLayer(this.zoomifyLayer);
     this.view.removeLayer(this.imageLayer2);
