@@ -19,10 +19,12 @@ export class DocumentItem {
     }
 
     resolveUrl() {
-        if (this.doctype === 'periodical') {
+        if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume') {
             this.url =  '/periodical/' + this.uuid;
         } else if (this.doctype === 'soundrecording') {
             this.url = '/music/' + this.uuid;
+        } else if (this.doctype === 'page') {
+            this.url = '/uuid/' + this.uuid;
         } else {
             this.url = '/view/' + this.uuid;
         }
