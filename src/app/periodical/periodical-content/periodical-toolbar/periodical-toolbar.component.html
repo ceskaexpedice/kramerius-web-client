@@ -24,7 +24,17 @@
 
   <div class="col app-nav-item" [ngClass]="{'s6 m7 l5 xl3 app-mq-small-1 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <ul class="right">
-      <!--*ngIf="periodicalService.fulltext" removed-->
+
+      <li *ngIf="periodicalService.orderType === 'periodical' && periodicalService.activeLayout === 'grid'" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+        <span disabled id="app-btn-sort" class="app-cursor-pointer" mz-tooltip [tooltip]="'search.ordering.label' | translate" [position]="'top'">
+          <i class="app-mdi-sort"></i>
+        </span>
+        <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
+          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(false)">Od nejstarších</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(true)">Od nejnovějších</a></mz-dropdown-item>
+        </mz-dropdown>
+      </li>
+
       <li class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'filters'">
         <span (click)="periodicalService.activeMobilePanel = 'filters'" class="app-cursor-pointer">
           <i class="app-mdi-filter"></i>
@@ -54,16 +64,6 @@
         <span (click)="periodicalService.activeMobilePanel = 'metadata'" class="app-cursor-pointer">
           <i class="app-mdi-information"></i>
         </span>
-      </li>
-      <!-- Sort item ready for Honza -->
-      <li *ngIf="periodicalService.getNumberOfResults() !== 0 && periodicalService.activeLayout == 'grid' || periodicalService.getNumberOfResults() !== 0 && periodicalService.fulltext" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
-        <span disabled id="app-btn-sort" class="app-cursor-pointer" mz-tooltip [tooltip]="'search.ordering.label' | translate" [position]="'top'">
-          <i class="app-mdi-sort"></i>
-        </span>
-        <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(false)">Od nejstarších</a></mz-dropdown-item>
-          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(true)">Od nejnovějších</a></mz-dropdown-item>
-        </mz-dropdown>
       </li>
     </ul>
   </div>

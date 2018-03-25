@@ -13,7 +13,8 @@ export class LocalStorageService {
     public static DOUBLE_PAGE = 'double_page';
     public static PERIODICAL_VOLUMES_LAYOUT = 'periodical_volumes_layout';
     public static PERIODICAL_ISSUES_LAYOUT = 'periodical_issues_layout';
-    public static PERIODICAL_REVERSE_ORDER = 'periodical_reverse_order';
+    public static PERIODICAL_VOLUMES_REVERSE_ORDER = 'periodical_volumes_reverse_order';
+    public static PERIODICAL_ISSUES_REVERSE_ORDER = 'periodical_issues_reverse_order';
     public static PERIODICAL_FULLTEXT_SORT = 'periodical_fulltext_sort';
 
 

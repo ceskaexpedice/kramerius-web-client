@@ -34,7 +34,10 @@ export class PeriodicalService {
   activeMobilePanel: string;
   fulltext: PeriodicalFulltext;
   volumeDetail;
-  reverseOrder: boolean;
+  volumesReverseOrder: boolean;
+  issuesReverseOrder: boolean;
+
+  orderType = 'none'; // none | periodical | fulltext
 
   constructor(private solrService: SolrService,
     private router: Router,
@@ -115,14 +118,22 @@ export class PeriodicalService {
 
 
   setReverseOrder(enabled: boolean) {
-    if (this.reverseOrder !== enabled) {
-      this.localStorageService.setProperty(LocalStorageService.PERIODICAL_REVERSE_ORDER, enabled ? 'true' : 'false');
-      const container = document.getElementById('app-periodical-grid-container');
-      this.reverseOrder = enabled;
-      this.reverseItems();
-      container.scrollTop = 1;
-      container.scrollTop = 0;
+    if (this.fulltext || !this.items || this.items.length < 1) {
+      return;
     }
+    if (this.isPeriodical() && this.volumesReverseOrder !== enabled) {
+      this.localStorageService.setProperty(LocalStorageService.PERIODICAL_VOLUMES_REVERSE_ORDER, enabled ? 'true' : 'false');
+      this.volumesReverseOrder = enabled;
+    } else if (this.isPeriodicalVolume() && this.issuesReverseOrder !== enabled) {
+      this.localStorageService.setProperty(LocalStorageService.PERIODICAL_ISSUES_REVERSE_ORDER, enabled ? 'true' : 'false');
+      this.issuesReverseOrder = enabled;
+    } else {
+      return;
+    }
+    const container = document.getElementById('app-periodical-grid-container');
+    this.reverseItems();
+    container.scrollTop = 1;
+    container.scrollTop = 0;
   }
 
   private reverseItems() {
@@ -148,7 +159,9 @@ export class PeriodicalService {
     this.daysOfMonths = [];
     this.daysOfMonthsItems = [];
     this.activeMobilePanel = 'content';
-    this.reverseOrder = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_REVERSE_ORDER) === 'true';
+    this.orderType = 'none';
+    this.volumesReverseOrder = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_VOLUMES_REVERSE_ORDER) === 'true';
+    this.issuesReverseOrder = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_ISSUES_REVERSE_ORDER) === 'true';
   }
 
   isPeriodicalVolume(): boolean {
@@ -202,8 +215,18 @@ export class PeriodicalService {
 
   private assignItems(items: PeriodicalItem[]) {
     this.items = items;
-    if (this.reverseOrder) {
-      this.reverseItems();
+    if (this.isPeriodical()) {
+      this.orderType = 'periodical';
+      if (this.volumesReverseOrder) {
+        this.reverseItems();
+      }
+    } else if (this.isPeriodicalVolume()) {
+      this.orderType = 'periodical';
+      if (this.issuesReverseOrder) {
+        this.reverseItems();
+      }
+    } else {
+      this.orderType = 'none';
     }
     for (const item of this.items) {
       item.thumb = this.krameriusApiService.getThumbUrl(item.uuid);
