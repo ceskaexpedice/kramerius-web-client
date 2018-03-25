@@ -5,7 +5,6 @@ import { DocumentItem } from './../model/document_item.model';
 import { Metadata } from './../model/metadata.model';
 import { AltoService } from './alto-service';
 import { LocalStorageService } from './local-storage.service';
-import { DialogShareComponent } from './../dialog/dialog-share/dialog-share.component';
 import { DialogPdfComponent } from './../dialog/dialog-pdf/dialog-pdf.component';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { UnauthorizedError } from './../common/errors/unauthorized-error';
@@ -82,6 +81,7 @@ export class BookService {
             }
             this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response, item.root_uuid);
+                const page = this.getPage();
                 this.metadata.model = item.doctype;
                 this.metadata.model = item.doctype;
                 this.metadata.doctype = (item.doctype && item.doctype.startsWith('periodical')) ? 'periodical' : item.doctype;
@@ -238,7 +238,9 @@ export class BookService {
     }
 
     getPage() {
-        return this.pages[this.activePageIndex];
+        if (this.pages && this.pages.length > this.activePageIndex) {
+            return this.pages[this.activePageIndex];
+        }
     }
 
     getRightPage() {
@@ -338,13 +340,6 @@ export class BookService {
         this.showPdfDialog('prepare');
     }
 
-    showShareDialog() {
-        const options = {
-            link: this.getPagePersistentLink()
-        };
-        this.modalService.open(DialogShareComponent, options);
-    }
-
     cancelFulltext() {
         const currentPage = this.getPage();
         let index = 0;
@@ -421,11 +416,6 @@ export class BookService {
             }
             this.fulltextAllPagesChanged(pageUuid);
         });
-    }
-
-    private getPagePersistentLink() {
-        const link = location.protocol + '//' + location.host + '/uuid/' + this.getPage().uuid;
-        return link;
     }
 
     private showPdfDialog(type: string) {

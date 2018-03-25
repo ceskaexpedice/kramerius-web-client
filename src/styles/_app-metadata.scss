@@ -1,6 +1,7 @@
 // --- METADATA ---
 
 app-metadata {
+
   strong {
     @extend .app-font-bold;
     color: $app-grey-d-4;
@@ -13,7 +14,7 @@ app-metadata {
     margin-right: -$app-side-col-width;
     overflow: hidden;
   }
-  
+
   // mq
   @media #{$medium-and-down} {
     &.app-book-metadata {
@@ -50,53 +51,74 @@ app-metadata {
   }
   
   .app-metadata-wrapper {
-    padding: 1rem;
-    font-weight: 300;
     height: 100%;
     overflow: auto;
-    
-    h5 {
-      font-size: 1.1rem;
-      line-height: 1.6rem;
-      @extend .app-clean-mg;
-      color: $app-grey-d-2;
-      
-      &.app-cut {
+
+    .app-metadata-controls {
+      display: block;
+      height: 55px;
+      line-height: 55px;
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: #e0e0e0;
+      background-color: #FFFFFF;
+      i[class*="app-mdi-"] {
+        margin-left: 21px; 
+        margin-right: 21px;  
+        float: right;  
+        color: $app-grey;
+        &:hover {
+          color: color("shades", "black");
+        }
+      }
+    }
+
+    .app-metadata-content {
+      padding: 1rem;
+      font-weight: 300;
+      h5 {
+        font-size: 1.1rem;
         line-height: 1.6rem;
-        height: 3.2rem;
-        overflow: hidden;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        display: -webkit-box;
+        @extend .app-clean-mg;
+        color: $app-grey-d-2;
+        
+        &.app-cut {
+          line-height: 1.6rem;
+          height: 3.2rem;
+          overflow: hidden;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          display: -webkit-box;
+        }
       }
-    }
-    
-    .app-more {
-      color: $app-grey;
       
-      &:hover {
-        color: color("shades", "black");
+      .app-more {
+        color: $app-grey;
+        
+        &:hover {
+          color: color("shades", "black");
+        }
       }
-    }
-    
-    label {
-      font-size: 0.9rem;
-    }
-    
-    .app-subtitle {
-      color: $app-grey-d-3;
-    }
-    
-    .divider {
-      margin: 10px 0;
-    }
-    
-    .app-value {
-      font-weight: 400;
-      font-size: 15px;
-      color: $app-grey-d-2;
-      &.space {
-        //margin-top: 5px;
+      
+      label {
+        font-size: 0.9rem;
+      }
+      
+      .app-subtitle {
+        color: $app-grey-d-3;
+      }
+      
+      .divider {
+        margin: 10px 0;
+      }
+      
+      .app-value {
+        font-weight: 400;
+        font-size: 15px;
+        color: $app-grey-d-2;
+        &.space {
+          //margin-top: 5px;
+        }
       }
     }
   }

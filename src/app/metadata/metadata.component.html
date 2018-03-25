@@ -1,139 +1,148 @@
 <div class="app-metadata-wrapper" *ngIf="metadata">
-  <div *ngIf="metadata.getTitle()"> 
-    <h5 [class.app-cut]="metadata.getTitle().length > 75 && showingTitle == false">
-      {{metadata.getTitle()}}
-    </h5>
-    <i *ngIf="metadata.getTitle().length > 75 && showingTitle == false" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.show_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
-    <i *ngIf="metadata.getTitle().length > 75 && showingTitle == true" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.hide_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
-  </div>
-  <div class="app-subtitle" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].subTitle}}</div>
-  <div class="divider"></div>
 
-  <div *ngIf="metadata.authors.length > 0">
-    <label>{{ 'metadata.author' | translate }}</label>
-    <div *ngFor="let author of metadata.authors; first as first" [class.space]="!first" class="app-value">
-        <a routerLink='/search' [queryParams]="{authors: author.name }">{{ author.name }}</a>
-    </div>
-    <div class="divider"></div>
+  <div class="app-metadata-controls">
+        <i class="app-mdi-book-share app-cursor-pointer" (click)="onShare()"
+            mz-tooltip [tooltip]="'book_controls.tooltip_share' | translate" [position]="'bottom'"></i>
   </div>
-  
-  <div *ngIf="metadata.volume">
-    <label>{{ 'metadata.volume' | translate }}</label>
-    <div class="app-value">{{ 'metadata.volume_year' | translate }} <strong>{{ metadata.volume.year }}</strong></div>
-    <div class="app-value">{{ 'metadata.volume' | translate }} <strong>{{ metadata.volume.number }}</strong></div>
+
+  <div class="app-metadata-content">
+
+    <div *ngIf="metadata.getTitle()"> 
+      <h5 [class.app-cut]="metadata.getTitle().length > 75 && showingTitle == false">
+        {{metadata.getTitle()}}
+      </h5>
+      <i *ngIf="metadata.getTitle().length > 75 && showingTitle == false" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.show_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
+      <i *ngIf="metadata.getTitle().length > 75 && showingTitle == true" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.hide_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
+    </div>
+    <div class="app-subtitle" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].subTitle}}</div>
+    <div class="divider"></div>
+
+    <div *ngIf="metadata.authors.length > 0">
+      <label>{{ 'metadata.author' | translate }}</label>
+      <div *ngFor="let author of metadata.authors; first as first" [class.space]="!first" class="app-value">
+          <a routerLink='/search' [queryParams]="{authors: author.name }">{{ author.name }}</a>
+      </div>
+      <div class="divider"></div>
+    </div>
+    
+    <div *ngIf="metadata.volume">
+      <label>{{ 'metadata.volume' | translate }}</label>
+      <div class="app-value">{{ 'metadata.volume_year' | translate }} <strong>{{ metadata.volume.year }}</strong></div>
+      <div class="app-value">{{ 'metadata.volume' | translate }} <strong>{{ metadata.volume.number }}</strong></div>
+      <div *ngIf="metadata.currentIssue">
+        <a [routerLink]="['/periodical', metadata.volume.uuid]">
+          {{ 'metadata.issue_list' | translate }}
+        </a>
+      </div>
+      <div class="divider"></div>
+    </div>
+
     <div *ngIf="metadata.currentIssue">
-      <a [routerLink]="['/periodical', metadata.volume.uuid]">
-        {{ 'metadata.issue_list' | translate }}
-      </a>
-    </div>
-    <div class="divider"></div>
-  </div>
+      <label>{{ 'metadata.issue' | translate }}</label>
+      <div class="app-value">{{ 'metadata.issue_date' | translate }} <strong>{{ metadata.currentIssue.title }}</strong></div>
+      <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.subtitle }}</strong></div>
+      
+      <div *ngIf="metadata.previousIssue">
+        <a [routerLink]="['/view', metadata.previousIssue.uuid]">
+          {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.title }}
+        </a>
+      </div>
 
-  <div *ngIf="metadata.currentIssue">
-    <label>{{ 'metadata.issue' | translate }}</label>
-    <div class="app-value">{{ 'metadata.issue_date' | translate }} <strong>{{ metadata.currentIssue.title }}</strong></div>
-    <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.subtitle }}</strong></div>
+      <div *ngIf="metadata.nextIssue">
+        <a [routerLink]="['/view', metadata.nextIssue.uuid]">
+          {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.title }}
+        </a>
+      </div>
+
+      <div class="divider"></div>
+    </div>
+
+    <div *ngIf="metadata.currentUnit">
+      <label>{{ 'metadata.unit' | translate }}</label>
+      <div class="app-value"><strong>{{ metadata.currentUnit.title }}</strong></div>
+      <div class="app-value" >{{ 'metadata.unit_number' | translate }} <strong>{{ metadata.currentUnit.subtitle }}</strong></div>
+      
+      <div *ngIf="metadata.previousUnit">
+        <a [routerLink]="['/view', metadata.previousUnit.uuid]">
+          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.title }}
+        </a>
+      </div>
+      <div *ngIf="metadata.nextUnit">
+        <a [routerLink]="['/view', metadata.nextUnit.uuid]">
+          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.title }}
+        </a>
+      </div>
+
+      <div>
+        <a [routerLink]="['/periodical', metadata.uuid]">
+          {{ 'metadata.unit_list' | translate }}
+        </a>
+      </div>
+
+      <div class="divider"></div>
+    </div>
+
+    <div *ngIf="metadata.publishers.length > 0">
+      <label>{{ 'metadata.publisher' | translate }}</label>
+      <div *ngFor="let publisher of metadata.publishers; first as first" [class.space]="!first" class="app-value" >{{ publisher.fullDetail() }}</div>
+      <div class="divider"></div>
+    </div>
+
+    <div *ngIf="metadata.doctype">
+      <label>{{ 'metadata.doctype' | translate }}</label>
+      <div class="app-value" >
+          <a routerLink='/search' [queryParams]="{doctypes: metadata.doctype }">{{ 'model.' + metadata.doctype | translate }}</a>
+      </div>
+      <div class="divider"></div>
+    </div>
+
+    <div *ngIf="metadata.keywords.length > 0">
+      <label>{{ 'metadata.keywords' | translate }}</label>
+      <div *ngFor="let keyword of metadata.keywords" class="app-value" >
+          <a routerLink='/search' [queryParams]="{keywords: keyword }">{{ keyword }}</a>
+      </div>
+      <div class="divider"></div>
+    </div>
+
+    <div *ngIf="metadata.genres.length > 0">
+      <label>{{ 'metadata.genres' | translate }}</label>
+      <div *ngFor="let genre of metadata.genres" class="app-value" >{{ genre }}</div>
+      <div class="divider"></div>
+    </div>
+
+    <div *ngIf="metadata.geonames.length > 0">
+      <label>{{ 'metadata.geonames' | translate }}</label>
+      <div *ngFor="let geoname of metadata.geonames" class="app-value" >{{ geoname }}</div>
+      <div class="divider"></div>
+    </div>
+
+    <div *ngIf="metadata.languages.length > 0">
+      <label>{{ 'metadata.languages' | translate }}</label>
+      <div *ngFor="let language of metadata.languages" class="app-value" >
+        <a routerLink='/search' [queryParams]="{languages: language }">{{ 'language.' + language | translate }}</a>
+      </div>
+      <div class="divider"></div>
+    </div>
     
-    <div *ngIf="metadata.previousIssue">
-      <a [routerLink]="['/view', metadata.previousIssue.uuid]">
-        {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.title }}
-      </a>
+    <div *ngIf="metadata.locations.length > 0">
+      <label>{{ 'metadata.location' | translate }}</label>
+      <div *ngFor="let location of metadata.locations">
+        <div class="app-value" *ngIf="location.physicalLocation">{{ 'sigla.' + location.physicalLocation | translate }}</div>
+        <div class="app-value" *ngIf="location.shelfLocator">{{ 'metadata.shelf_locator' | translate: { shelf_locator: location.shelfLocator } }}</div>
+      </div>
+      <div class="divider"></div>
     </div>
 
-    <div *ngIf="metadata.nextIssue">
-      <a [routerLink]="['/view', metadata.nextIssue.uuid]">
-        {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.title }}
-      </a>
+    <div *ngIf="metadata.abstracts.length > 0">
+      <label>{{ 'metadata.abstract' | translate }}</label>
+      <div *ngFor="let abstract of metadata.abstracts" class="app-value" >{{ abstract }}</div>
+      <div class="divider"></div>
     </div>
-
-    <div class="divider"></div>
-  </div>
-
-  <div *ngIf="metadata.currentUnit">
-    <label>{{ 'metadata.unit' | translate }}</label>
-    <div class="app-value"><strong>{{ metadata.currentUnit.title }}</strong></div>
-    <div class="app-value" >{{ 'metadata.unit_number' | translate }} <strong>{{ metadata.currentUnit.subtitle }}</strong></div>
     
-    <div *ngIf="metadata.previousUnit">
-      <a [routerLink]="['/view', metadata.previousUnit.uuid]">
-        {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.title }}
-      </a>
-    </div>
-    <div *ngIf="metadata.nextUnit">
-      <a [routerLink]="['/view', metadata.nextUnit.uuid]">
-        {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.title }}
-      </a>
-    </div>
-
-    <div>
-      <a [routerLink]="['/periodical', metadata.uuid]">
-        {{ 'metadata.unit_list' | translate }}
-      </a>
-    </div>
-
-    <div class="divider"></div>
+    <div *ngIf="metadata.notes.length > 0">
+      <label>{{ 'metadata.notes' | translate }}</label>
+      <div *ngFor="let note of metadata.notes" class="app-value" >{{ note }}</div>
+      <div class="divider"></div>
   </div>
-
-  <div *ngIf="metadata.publishers.length > 0">
-    <label>{{ 'metadata.publisher' | translate }}</label>
-    <div *ngFor="let publisher of metadata.publishers; first as first" [class.space]="!first" class="app-value" >{{ publisher.fullDetail() }}</div>
-    <div class="divider"></div>
   </div>
-
-  <div *ngIf="metadata.doctype">
-    <label>{{ 'metadata.doctype' | translate }}</label>
-    <div class="app-value" >
-        <a routerLink='/search' [queryParams]="{doctypes: metadata.doctype }">{{ 'model.' + metadata.doctype | translate }}</a>
-    </div>
-    <div class="divider"></div>
-  </div>
-
-  <div *ngIf="metadata.keywords.length > 0">
-    <label>{{ 'metadata.keywords' | translate }}</label>
-    <div *ngFor="let keyword of metadata.keywords" class="app-value" >
-        <a routerLink='/search' [queryParams]="{keywords: keyword }">{{ keyword }}</a>
-    </div>
-    <div class="divider"></div>
-  </div>
-
-  <div *ngIf="metadata.genres.length > 0">
-    <label>{{ 'metadata.genres' | translate }}</label>
-    <div *ngFor="let genre of metadata.genres" class="app-value" >{{ genre }}</div>
-    <div class="divider"></div>
-  </div>
-
-  <div *ngIf="metadata.geonames.length > 0">
-    <label>{{ 'metadata.geonames' | translate }}</label>
-    <div *ngFor="let geoname of metadata.geonames" class="app-value" >{{ geoname }}</div>
-    <div class="divider"></div>
-  </div>
-
-  <div *ngIf="metadata.languages.length > 0">
-    <label>{{ 'metadata.languages' | translate }}</label>
-    <div *ngFor="let language of metadata.languages" class="app-value" >
-      <a routerLink='/search' [queryParams]="{languages: language }">{{ 'language.' + language | translate }}</a>
-    </div>
-    <div class="divider"></div>
-  </div>
-  
-  <div *ngIf="metadata.locations.length > 0">
-    <label>{{ 'metadata.location' | translate }}</label>
-    <div *ngFor="let location of metadata.locations">
-      <div class="app-value" *ngIf="location.physicalLocation">{{ 'sigla.' + location.physicalLocation | translate }}</div>
-      <div class="app-value" *ngIf="location.shelfLocator">{{ 'metadata.shelf_locator' | translate: { shelf_locator: location.shelfLocator } }}</div>
-    </div>
-    <div class="divider"></div>
-  </div>
-
-  <div *ngIf="metadata.abstracts.length > 0">
-    <label>{{ 'metadata.abstract' | translate }}</label>
-    <div *ngFor="let abstract of metadata.abstracts" class="app-value" >{{ abstract }}</div>
-    <div class="divider"></div>
-  </div>
-  
-  <div *ngIf="metadata.notes.length > 0">
-    <label>{{ 'metadata.notes' | translate }}</label>
-    <div *ngFor="let note of metadata.notes" class="app-value" >{{ note }}</div>
-    <div class="divider"></div>
-  </div>
-</div><!--/.app-metadata-wrapper -->
+</div>
