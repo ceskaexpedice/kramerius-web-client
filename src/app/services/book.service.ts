@@ -22,6 +22,7 @@ import { DialogOcrComponent } from '../dialog/dialog-ocr/dialog-ocr.component';
 import { request } from 'https';
 import 'rxjs/add/observable/forkJoin';
 import { Article } from '../model/article.model';
+import { HistoryService } from './history.service';
 
 
 
@@ -68,6 +69,7 @@ export class BookService {
         private krameriusApiService: KrameriusApiService,
         private modsParserService: ModsParserService,
         private solrService: SolrService,
+        private history: HistoryService,
         private router: Router,
         private modalService: MzModalService) {
     }
@@ -81,6 +83,7 @@ export class BookService {
             if (item.doctype === 'article') {
                 const issueUuid = item.getUuidFromContext('periodicalitem');
                 if (issueUuid) {
+                    const page = this.history.pop();
                     this.router.navigate(['/view', issueUuid], { queryParams: { article: uuid, fulltext: this.fulltextQuery } });
                     return;
                 }
@@ -222,6 +225,7 @@ export class BookService {
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         for (const p of pages) {
             if (p['model'] === 'monographunit') {
+                const page = this.history.pop();
                 this.router.navigate(['/periodical', this.uuid], { queryParams: { fulltext: this.fulltextQuery } });
                 return -1;
             } else if (p['model'] === 'supplement') {
