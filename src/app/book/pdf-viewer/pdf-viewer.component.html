@@ -1,7 +1,7 @@
 <pdf-viewer 
   *ngIf="bookService.pdf"
   [show-all]="true"
-  [original-size]="true"
+  [original-size]="false"
   [fit-to-page]="true"
   (after-load-complete)="onSuccess($event)"
   (error)="onError($event)"

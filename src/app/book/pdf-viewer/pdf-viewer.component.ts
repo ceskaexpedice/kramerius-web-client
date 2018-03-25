@@ -19,11 +19,9 @@ export class PdfViewerComponent implements  OnInit {
 
 
   onError(error: any) {
-    console.log('pdf - error');
   }
 
   onSuccess(pdf: PDFDocumentProxy) {
-    console.log('pdf - success');
     this.bookService.bookState = BookState.Success;
   }
 

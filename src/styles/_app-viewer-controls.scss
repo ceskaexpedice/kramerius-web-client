@@ -40,11 +40,11 @@ app-viewer-controls {
     }
     
     &.app-inactive {
-      opacity: 0.3;
+      opacity: 0.2;
       cursor: default;
       
       &:hover {
-        opacity: 0.3;
+        color: $app-grey;
       }
     }
   }

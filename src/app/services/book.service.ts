@@ -181,25 +181,24 @@ export class BookService {
     }
 
 
-    private onDataLoaded(pages: any[], uuid: string, articleUuid: string) {
-        const pageIndex = this.arrangePages(pages, uuid);
+    private onDataLoaded(pages: any[], pageUuid: string, articleUuid: string) {
+        const pageIndex = this.arrangePages(pages, pageUuid);
         this.bookState = BookState.Success;
         if (pageIndex === -1 || (this.pages.length === 0 && this.articles.length === 0)) {
             return;
         }
         this.showNavigationPanel = true;
-        if (this.pages.length > 0) {
+        if (this.pages.length > 0 && this.articles.length > 0) {
+            this.showNavigationTabs = true;
+        }
+        if (!articleUuid) {
             this.activeNavigationTab = 'pages';
-            this.viewer = 'image';
-            if (this.articles.length > 0) {
-                this.showNavigationTabs = true;
-            }
             if (this.fulltextQuery) {
-                this.fulltextChanged(this.fulltextQuery, uuid);
+                this.fulltextChanged(this.fulltextQuery, pageUuid);
             } else {
                 this.goToPageOnIndex(pageIndex);
             }
-        } else { // only articles
+        } else {
             this.activeNavigationTab = 'articles';
             let articleForSelection = this.articles[0];
             if (articleUuid) {
@@ -231,12 +230,7 @@ export class BookService {
             } else if (p['model'] === 'supplement') {
                 // TODO:
             } else if (p['model'] === 'article') {
-                console.log('article', p);
-                const article = {
-                    uuid: p['pid'],
-                    title: p['title'],
-                    policy: p['policy']
-                };
+                const article = new Article(p['pid'], p['title'], p['policy']);
                 this.articles.push(article);
             } else if (p['model'] === 'page') {
                 const page = new Page();
@@ -396,6 +390,15 @@ export class BookService {
 
     cancelFulltext() {
         const currentPage = this.getPage();
+        this.refreshPages();
+        if (currentPage) {
+            this.goToPageWithUuid(currentPage.uuid);
+        } else {
+            this.goToPageOnIndex(0);
+        }
+    }
+
+    refreshPages() {
         let index = 0;
         this.pages = [];
         for (const page of this.allPages) {
@@ -404,11 +407,6 @@ export class BookService {
             page.index = index;
             index += 1;
             this.pages.push(page);
-        }
-        if (currentPage) {
-            this.goToPageWithUuid(currentPage.uuid);
-        } else {
-            this.goToPageOnIndex(0);
         }
     }
 
@@ -507,6 +505,10 @@ export class BookService {
     }
 
     goToPageOnIndex(index: number) {
+        this.viewer = 'image';
+        if (index >= this.pages.length) {
+            return;
+        }
         const lastLeftPage = this.getPage();
         if (lastLeftPage) {
             lastLeftPage.selected = false;
@@ -534,11 +536,13 @@ export class BookService {
             rightPage.selected = true;
             cached = cached && rightPage.hasImageData();
         }
-        let urlQuery = 'page=' + page.uuid;
-        if (this.fulltextQuery) {
-            urlQuery += '&fulltext=' + this.fulltextQuery;
+        if (!this.article) {
+            let urlQuery = 'page=' + page.uuid;
+            if (this.fulltextQuery) {
+                urlQuery += '&fulltext=' + this.fulltextQuery;
+            }
+            this.location.go('/view/' + this.uuid, urlQuery);
         }
-        this.location.go('/view/' + this.uuid, urlQuery);
         if (!cached) {
             this.publishNewPages(BookPageState.Loading);
             this.fetchImageProperties(page, rightPage, true);
@@ -572,6 +576,15 @@ export class BookService {
         if (this.activeNavigationTab === tab) {
             return;
         }
+        if (tab === 'pages') {
+            this.article = null;
+            this.refreshPages();
+            this.goToPageOnIndex(0);
+        } else {
+            this.fulltextQuery = null;
+            this.fulltextAllPages = false;
+            this.onArticleSelected(this.articles[0]);
+        }
         this.activeNavigationTab = tab;
     }
 
@@ -579,23 +592,63 @@ export class BookService {
         this.pdf = null;
         this.bookState = BookState.Loading;
         this.article = article;
-        let urlQuery = 'article=' + article.uuid;
-        if (this.fulltextQuery) {
-            urlQuery += '&fulltext=' + this.fulltextQuery;
-        }
+        const urlQuery = 'article=' + article.uuid;
+        // if (this.fulltextQuery) {
+        //     urlQuery += '&fulltext=' + this.fulltextQuery;
+        // }
         this.location.go('/view/' + this.uuid, urlQuery);
-        this.krameriusApiService.getItem(article.uuid).subscribe((item: DocumentItem) => {
-            console.log('article', item);
-            if (item.pdf) {
-                this.viewer = 'pdf';
-                this.pdf = this.krameriusApiService.getPdfUrl(item.uuid);
-            } else {
-                this.bookState = BookState.Success;
-            }
-        });
+        if (article.type === 'none') {
+            this.krameriusApiService.getItem(article.uuid).subscribe((item: DocumentItem) => {
+                article.type = item.pdf ? 'pdf' : 'pages';
+                this.onArticleLoaded(article);
+            });
+        } else {
+            this.onArticleLoaded(article);
+        }
     }
 
 
+    private onArticleLoaded(article: Article) {
+        if (article.type === 'pdf') {
+            this.viewer = 'pdf';
+            this.pdf = this.krameriusApiService.getPdfUrl(article.uuid);
+        } else if (article.type === 'pages') {
+            this.publishNewPages(BookPageState.Loading);
+            if (this.article.pages) {
+                this.pages = this.article.pages;
+                this.goToPageOnIndex(0);
+            } else {
+                this.krameriusApiService.getChildren(article.uuid).subscribe(response => {
+                    let index = 0;
+                    const pages = [];
+                    for (const p of response) {
+                        const page = new Page();
+                        page.uuid = p['pid'];
+                        page.policy = p['policy'];
+                        const details = p['details'];
+                        if (details) {
+                            page.type = details['type'];
+                            if (page.type) {
+                                page.type = page.type.toLowerCase();
+                            }
+                            page.number = details['pagenumber'];
+                        }
+                        if (!page.number) {
+                            page.number = p['title'];
+                        }
+                        page.index = index;
+                        page.thumb = this.krameriusApiService.getThumbUrl(page.uuid);
+                        page.position = PagePosition.Single;
+                        pages.push(page);
+                        index += 1;
+                    }
+                    this.article.pages = pages;
+                    this.pages = pages;
+                    this.goToPageOnIndex(0);
+                });
+            }
+        }
+    }
 
 
     private fetchImageProperties(leftPage: Page, rightPage: Page, first: boolean) {

@@ -46,6 +46,18 @@ app-navigation {
 
   .app-navigation-tabs {
     .tabs {
+      .tab a.active {
+        position: relative;
+        &:after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          height: 2px;
+          background-color: #0277bd;
+          width: 100%;
+        }
+      }
       background: transparent;
       @include set-border(bottom, 1, solid, $app-grey-l-2);
       .tab {

@@ -1,7 +1,5 @@
 <app-book-controls *ngIf="bookService.viewer === 'image'" class="hide-on-small-only"></app-book-controls>
 
-<app-book-search *ngIf="bookService.getPageCount() > 1"></app-book-search>
-
 <div class="app-navigation-tabs" *ngIf="bookService.showNavigationTabs">
   <ul class="tabs">
     <li class="tab">
@@ -22,6 +20,7 @@
 </div>
 
 
+<app-book-search [class.app-hidden]="bookService.activeNavigationTab !== 'pages'"></app-book-search>
 
 <div class="app-navigation-header" *ngIf="bookService.getPageCount() > 1" [class.app-hidden]="bookService.activeNavigationTab !== 'pages'">
   <input class="app-current-page" (keyup)="onKeyUp($event)" type="text" pattern="[0-9]*" value="23" [(ngModel)]="pageIndex" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
