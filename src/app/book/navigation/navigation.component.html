@@ -2,7 +2,7 @@
 
 <app-book-search *ngIf="bookService.getPageCount() > 1"></app-book-search>
 
-<div class="app-navigation-tabs" *ngIf="bookService.shownavigationTabs">
+<div class="app-navigation-tabs" *ngIf="bookService.showNavigationTabs">
   <ul class="tabs">
     <li class="tab">
       <a (click)="bookService.changeNavigationTab('pages')" [class.active]="bookService.activeNavigationTab === 'pages'">

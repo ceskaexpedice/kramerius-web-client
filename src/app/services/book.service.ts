@@ -58,7 +58,8 @@ export class BookService {
 
 
     public activeNavigationTab: string; // pages | articles
-    public shownavigationTabs: boolean;
+    public showNavigationTabs: boolean;
+    public showNavigationPanel: boolean;
     public viewer: string; // image | pdf | none
 
     constructor(private location: Location,
@@ -71,20 +72,28 @@ export class BookService {
         private modalService: MzModalService) {
     }
 
-    init(uuid: string, pageUuid: string, fulltext: string) {
+    init(uuid: string, pageUuid: string, articleUuid: string, fulltext: string) {
         this.clear();
         this.uuid = uuid;
         this.fulltextQuery = fulltext;
         this.bookState = BookState.Loading;
         this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+            if (item.doctype === 'article') {
+                const issueUuid = item.getUuidFromContext('periodicalitem');
+                if (issueUuid) {
+                    this.router.navigate(['/view', issueUuid], { queryParams: { article: uuid, fulltext: this.fulltextQuery } });
+                    return;
+                }
+            }
             this.isPrivate = !item.public;
             if (item.pdf) {
+                this.showNavigationPanel = false;
                 this.viewer = 'pdf';
                 this.pdf = this.krameriusApiService.getPdfUrl(uuid);
             } else {
                 this.krameriusApiService.getChildren(uuid).subscribe(response => {
                     if (response && response.length > 0) {
-                        this.onDataLoaded(response, pageUuid);
+                        this.onDataLoaded(response, pageUuid, articleUuid);
                     } else {
                         // TODO: Empty document
                     }
@@ -169,17 +178,18 @@ export class BookService {
     }
 
 
-    private onDataLoaded(pages: any[], uuid: string) {
+    private onDataLoaded(pages: any[], uuid: string, articleUuid: string) {
         const pageIndex = this.arrangePages(pages, uuid);
         this.bookState = BookState.Success;
         if (pageIndex === -1 || (this.pages.length === 0 && this.articles.length === 0)) {
             return;
         }
+        this.showNavigationPanel = true;
         if (this.pages.length > 0) {
             this.activeNavigationTab = 'pages';
             this.viewer = 'image';
             if (this.articles.length > 0) {
-                this.shownavigationTabs = true;
+                this.showNavigationTabs = true;
             }
             if (this.fulltextQuery) {
                 this.fulltextChanged(this.fulltextQuery, uuid);
@@ -188,7 +198,16 @@ export class BookService {
             }
         } else { // only articles
             this.activeNavigationTab = 'articles';
-            this.onArticleSelected(this.articles[0]);
+            let articleForSelection = this.articles[0];
+            if (articleUuid) {
+                for (const article of this.articles) {
+                    if (articleUuid === article.uuid) {
+                        articleForSelection = article;
+                        break;
+                    }
+                }
+            }
+            this.onArticleSelected(articleForSelection);
         }
     }
 
@@ -209,11 +228,12 @@ export class BookService {
                 // TODO:
             } else if (p['model'] === 'article') {
                 console.log('article', p);
-                this.articles.push({
+                const article = {
                     uuid: p['pid'],
                     title: p['title'],
                     policy: p['policy']
-                });
+                };
+                this.articles.push(article);
             } else if (p['model'] === 'page') {
                 const page = new Page();
                 page.uuid = p['pid'];
@@ -552,12 +572,21 @@ export class BookService {
     }
 
     onArticleSelected(article: Article) {
+        this.pdf = null;
+        this.bookState = BookState.Loading;
         this.article = article;
+        let urlQuery = 'article=' + article.uuid;
+        if (this.fulltextQuery) {
+            urlQuery += '&fulltext=' + this.fulltextQuery;
+        }
+        this.location.go('/view/' + this.uuid, urlQuery);
         this.krameriusApiService.getItem(article.uuid).subscribe((item: DocumentItem) => {
             console.log('article', item);
             if (item.pdf) {
                 this.viewer = 'pdf';
                 this.pdf = this.krameriusApiService.getPdfUrl(item.uuid);
+            } else {
+                this.bookState = BookState.Success;
             }
         });
     }
@@ -655,7 +684,8 @@ export class BookService {
         this.articles = [];
         this.article = null;
         this.activeNavigationTab = 'pages';
-        this.shownavigationTabs = false;
+        this.showNavigationTabs = false;
+        this.showNavigationPanel = false;
         this.viewer = 'none';
     }
 

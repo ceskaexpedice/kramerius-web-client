@@ -42,6 +42,9 @@ export class MetadataComponent implements OnInit {
     if (!uuid) {
       return;
     }
+    if (query.indexOf('article=uuid:') > -1) {
+      uuid = query.substr(query.indexOf('article=uuid:') + 8, 49);
+    }
     if (query.indexOf('page=uuid:') > -1) {
       uuid = query.substr(query.indexOf('page=uuid:') + 5, 46);
     }
