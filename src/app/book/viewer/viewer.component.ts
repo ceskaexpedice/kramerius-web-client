@@ -78,22 +78,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
       source: new ol.source.Vector(),
       style: mainStyle
     });
+    const interactions = ol.interaction.defaults({ keyboardPan: false, pinchRotate: false });
     this.view = new ol.Map({
       target: 'app-viewer',
       controls: [],
+      interactions: interactions,
       loadTilesWhileAnimating: true,
       layers: [this.vectorLayer]
     });
-    let keyboardPan;
-    this.view.getInteractions().forEach(function(interaction) {
-      if (interaction instanceof ol.interaction.KeyboardPan) {
-        keyboardPan = interaction;
-      }
-    }, this);
-    if (keyboardPan) {
-      this.view.removeInteraction(keyboardPan);
-    }
-    // this.updateView();
   }
 
 
