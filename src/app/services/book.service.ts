@@ -1,3 +1,4 @@
+import { DialogSheetmusicWarningComponent } from './../dialog/dialog-sheetmusic-warning/dialog-sheetmusic-warning.component';
 import { SolrService } from './solr.service';
 import { ModsParserService } from './mods-parser.service';
 import { DocumentItem } from './../model/document_item.model';
@@ -49,6 +50,7 @@ export class BookService {
     public metadata: Metadata;
 
     public pdf: string;
+    public isPrivate: boolean;
 
     constructor(private location: Location,
         private altoService: AltoService,
@@ -66,6 +68,7 @@ export class BookService {
         this.fulltextQuery = fulltext;
         this.bookState = BookState.Loading;
         this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+            this.isPrivate = !item.public;
             if (item.pdf) {
                 this.pdf = this.krameriusApiService.getPdfUrl(uuid);
             } else {
@@ -79,6 +82,7 @@ export class BookService {
             }
             this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response, item.root_uuid);
+                this.metadata.model = item.doctype;
                 this.metadata.model = item.doctype;
                 this.metadata.doctype = (item.doctype && item.doctype.startsWith('periodical')) ? 'periodical' : item.doctype;
                 if (item.doctype === 'periodicalitem') {
@@ -425,6 +429,10 @@ export class BookService {
     }
 
     private showPdfDialog(type: string) {
+        if (this.metadata.model === 'sheetmusic' && this.isPrivate) {
+            this.modalService.open(DialogSheetmusicWarningComponent);
+            return;
+        }
         const options = {
             pageCount: this.getPageCount(),
             currentPage: this.getPage().index,

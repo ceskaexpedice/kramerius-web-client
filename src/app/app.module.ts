@@ -1,3 +1,4 @@
+import { DialogSheetmusicWarningComponent } from './dialog/dialog-sheetmusic-warning/dialog-sheetmusic-warning.component';
 import { AppSettings } from './services/app-settings';
 import { PeriodicalFulltextItemComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-item/periodical-fulltext-item.component';
 import { PeriodicalFulltextLayoutComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-layout.component';
@@ -147,6 +148,7 @@ const ROUTES: Routes = [
     DialogOcrComponent,
     DialogPdfComponent,
     DialogShareComponent,
+    DialogSheetmusicWarningComponent,
     LogoComponent,
     BookSearchComponent,
     PersistentLinkComponent,
@@ -166,7 +168,8 @@ const ROUTES: Routes = [
   entryComponents: [
     DialogOcrComponent,
     DialogPdfComponent,
-    DialogShareComponent
+    DialogShareComponent,
+    DialogSheetmusicWarningComponent
   ],
   imports: [
     BrowserModule,
