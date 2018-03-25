@@ -9,6 +9,7 @@ export class PeriodicalQuery {
     page: number;
     from: number;
     to: number;
+    ordering: string; // relevance | earliest | latest
 
     constructor() {
     }
@@ -20,6 +21,8 @@ export class PeriodicalQuery {
         query.setFulltext(params.get('fulltext'));
         query.setYearRange(params.get('from'), params.get('to'));
         query.setPage(params.get('page'));
+        query.setOrdering(params.get('ordering'));
+
         return query;
     }
 
@@ -53,6 +56,17 @@ export class PeriodicalQuery {
         }
     }
 
+    public setOrdering(ordering: string) {
+        this.page = 1;
+        if (ordering === 'latest') {
+            this.ordering = 'latest';
+        } else if (ordering === 'earliest') {
+            this.ordering = 'earliest';
+        } else {
+            this.ordering = 'relevance';
+        }
+    }
+
     public setFulltext(fulltext: string) {
         this.page = 1;
         this.fulltext = fulltext;
@@ -80,6 +94,9 @@ export class PeriodicalQuery {
         }
         if (this.accessibility === 'public' || this.accessibility === 'private') {
             params['accessibility'] = this.accessibility;
+        }
+        if (this.ordering === 'latest' || this.ordering === 'earliest') {
+            params['ordering'] = this.ordering;
         }
         return params;
     }

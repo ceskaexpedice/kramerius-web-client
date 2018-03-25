@@ -37,7 +37,7 @@ export class PeriodicalService {
   volumesReverseOrder: boolean;
   issuesReverseOrder: boolean;
 
-  orderType = 'none'; // none | periodical | fulltext
+  orderingType = 'none'; // none | periodical | fulltext
 
   constructor(private solrService: SolrService,
     private router: Router,
@@ -159,7 +159,7 @@ export class PeriodicalService {
     this.daysOfMonths = [];
     this.daysOfMonthsItems = [];
     this.activeMobilePanel = 'content';
-    this.orderType = 'none';
+    this.orderingType = 'none';
     this.volumesReverseOrder = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_VOLUMES_REVERSE_ORDER) === 'true';
     this.issuesReverseOrder = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_ISSUES_REVERSE_ORDER) === 'true';
   }
@@ -216,17 +216,17 @@ export class PeriodicalService {
   private assignItems(items: PeriodicalItem[]) {
     this.items = items;
     if (this.isPeriodical()) {
-      this.orderType = 'periodical';
+      this.orderingType = 'periodical';
       if (this.volumesReverseOrder) {
         this.reverseItems();
       }
     } else if (this.isPeriodicalVolume()) {
-      this.orderType = 'periodical';
+      this.orderingType = 'periodical';
       if (this.issuesReverseOrder) {
         this.reverseItems();
       }
     } else {
-      this.orderType = 'none';
+      this.orderingType = 'none';
     }
     for (const item of this.items) {
       item.thumb = this.krameriusApiService.getThumbUrl(item.uuid);
@@ -257,6 +257,12 @@ export class PeriodicalService {
     this.fulltext.limit = 40;
     this.fulltext.query = this.query.fulltext;
     this.fulltext.page = this.query.page || 1;
+    if (this.isMonograph()) {
+      this.orderingType = 'none';
+    } else {
+      this.orderingType = 'fulltext';
+      this.fulltext.ordering = this.query.ordering;
+    }
     const uuid1 = this.isPeriodicalVolume() ? this.document.root_uuid : this.query.uuid;
     const uuid2 = this.isPeriodicalVolume() ? this.query.uuid : null;
     this.krameriusApiService.getPeriodicalFulltextPages(uuid1, uuid2, this.fulltext.getOffset(), this.fulltext.limit, this.query).subscribe(response => {
@@ -343,6 +349,11 @@ export class PeriodicalService {
 
   public setAccessibility(accessibility: string) {
     this.query.setAccessibility(accessibility);
+    this.reload();
+  }
+
+  public setOrdering(ordering: string) {
+    this.query.setOrdering(ordering);
     this.reload();
   }
 
@@ -497,6 +508,7 @@ export class PeriodicalFulltext {
   results: number;
   page: number;
   limit: number;
+  ordering: string;
   next: string;
   previous: string;
   pages: PeriodicalFtItem[];

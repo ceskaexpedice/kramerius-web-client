@@ -198,9 +198,13 @@ export class KrameriusApiService {
         if (query.isYearRangeSet()) {
             url += ' AND (rok:[' + query.from + ' TO ' + query.to + '])';
         }
-        url += ' AND fedora.model:page AND text:' + query.fulltext
-            // + '&sort=datum asc'
-            + '&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
+        url += ' AND fedora.model:page AND text:' + query.fulltext;
+        if (query.ordering === 'latest') {
+            url += '&sort=datum desc';
+        } else if (query.ordering === 'earliest') {
+            url += '&sort=datum asc';
+        }
+        url += '&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
         return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);

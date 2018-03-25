@@ -25,13 +25,23 @@
   <div class="col app-nav-item" [ngClass]="{'s6 m7 l5 xl3 app-mq-small-1 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <ul class="right">
 
-      <li *ngIf="periodicalService.orderType === 'periodical' && periodicalService.activeLayout === 'grid'" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+      <li *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid'" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
         <span disabled id="app-btn-sort" class="app-cursor-pointer" mz-tooltip [tooltip]="'search.ordering.label' | translate" [position]="'top'">
           <i class="app-mdi-sort"></i>
         </span>
         <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
           <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(false)">Od nejstarších</a></mz-dropdown-item>
           <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(true)">Od nejnovějších</a></mz-dropdown-item>
+        </mz-dropdown>
+      </li>
+      <li *ngIf="periodicalService.orderingType === 'fulltext'" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+        <span disabled id="app-btn-sort" class="app-cursor-pointer" mz-tooltip [tooltip]="'search.ordering.label' | translate" [position]="'top'">
+          <i class="app-mdi-sort"></i>
+        </span>
+        <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
+          <mz-dropdown-item><a (click)="periodicalService.setOrdering('relevance')">Podle relevance</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="periodicalService.setOrdering('earliest')">Od nejstarších</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="periodicalService.setOrdering('latest')">Od nejnovějších</a></mz-dropdown-item>
         </mz-dropdown>
       </li>
 
