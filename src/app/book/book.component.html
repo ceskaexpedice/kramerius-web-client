@@ -1,7 +1,7 @@
 <app-book-toolbar class="hide-on-med-and-up"></app-book-toolbar>
 
 <div class="app-book-wrapper">
-  <app-navigation *ngIf="showNavigationPanel"
+  <app-navigation *ngIf="bookService.showNavigationPanel"
     [class.app-panel-hidden]="!viewerControls.leftPanelVisible"
     [class.app-panel-tablet-visible-right]="!viewerControls.rightPanelVisible"
     [class.app-panel-mobile-hidden]="bookService.activeMobilePanel != 'navigation'">

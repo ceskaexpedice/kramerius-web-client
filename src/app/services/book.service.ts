@@ -611,11 +611,13 @@ export class BookService {
     private onArticleLoaded(article: Article) {
         if (article.type === 'pdf') {
             this.viewer = 'pdf';
+            // this.bookState = BookState.Success;
             this.pdf = this.krameriusApiService.getPdfUrl(article.uuid);
         } else if (article.type === 'pages') {
             this.publishNewPages(BookPageState.Loading);
             if (this.article.pages) {
                 this.pages = this.article.pages;
+                this.bookState = BookState.Success;
                 this.goToPageOnIndex(0);
             } else {
                 this.krameriusApiService.getChildren(article.uuid).subscribe(response => {
@@ -644,6 +646,7 @@ export class BookService {
                     }
                     this.article.pages = pages;
                     this.pages = pages;
+                    this.bookState = BookState.Success;
                     this.goToPageOnIndex(0);
                 });
             }
