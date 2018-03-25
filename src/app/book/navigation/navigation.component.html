@@ -1,4 +1,4 @@
-<app-book-controls class="hide-on-small-only"></app-book-controls>
+<app-book-controls *ngIf="bookService.viewer === 'image'" class="hide-on-small-only"></app-book-controls>
 
 <app-book-search *ngIf="bookService.getPageCount() > 1"></app-book-search>
 
