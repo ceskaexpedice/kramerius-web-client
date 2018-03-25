@@ -1,14 +1,35 @@
 <app-book-controls class="hide-on-small-only"></app-book-controls>
 
-<app-book-search></app-book-search>
+<app-book-search *ngIf="bookService.getPageCount() > 1"></app-book-search>
 
-<div class="app-navigation-header" *ngIf="bookService.getPageCount() > 1">
+<div class="app-navigation-tabs" *ngIf="bookService.shownavigationTabs">
+  <ul class="tabs">
+    <li class="tab">
+      <a (click)="bookService.changeNavigationTab('pages')" [class.active]="bookService.activeNavigationTab === 'pages'">
+        <span class="app-desc">Stránky</span>
+      </a>
+    </li> 
+    <li class="tab">
+      <a (click)="bookService.changeNavigationTab('articles')" [class.active]="bookService.activeNavigationTab === 'articles'">
+        <span class="app-desc">Články</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div class="app-navigation-articles" *ngIf="bookService.activeNavigationTab === 'articles'">
+  <div *ngFor="let article of bookService.articles" (click)="bookService.onArticleSelected(article)" class="app-article" [class.app-article-selected]="article === bookService.article">{{ article.title }}</div>
+</div>
+
+
+
+<div class="app-navigation-header" *ngIf="bookService.getPageCount() > 1" [class.app-hidden]="bookService.activeNavigationTab !== 'pages'">
   <input class="app-current-page" (keyup)="onKeyUp($event)" type="text" pattern="[0-9]*" value="23" [(ngModel)]="pageIndex" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
   <span>{{ 'common.of' | translate }}</span>
   <span>{{bookService.getPageCount()}}</span>
   <span>{{ 'common.pages' | translate }}</span>
 </div>
 
-<div class="app-navigation-pages" id="app-navigation-container" [class.app-is-query]="bookService.getFulltextQuery()">
+<div class="app-navigation-pages" id="app-navigation-container" [class.app-is-query]="bookService.getFulltextQuery()" [class.app-hidden]="bookService.activeNavigationTab !== 'pages'">
   <app-navigation-item [page]="page" [container]="container" *ngFor="let page of bookService.pages" (pageSelected)="onPageSelected(page)"></app-navigation-item>
 </div>

@@ -43,10 +43,39 @@ app-navigation {
   @import "styles/app-book-controls";
   @import "styles/app-book-search";
   
+
+  .app-navigation-tabs {
+    .tabs {
+      background: transparent;
+      @include set-border(bottom, 1, solid, $app-grey-l-2);
+      .tab {
+        width: 50%;
+      }
+    }
+  }
+
+  .app-navigation-articles {
+    overflow: auto;
+    .app-article {
+      padding: 8px 16px;
+      cursor: pointer;
+      &.app-article-selected {
+        background: #e0e0e0;
+      }
+      &:hover {
+        background: #eee;
+      }
+    }
+  }
+
   .app-navigation-header {
     padding: 5px 20px 8px 20px;
     @include set-border(bottom, 1, solid, $app-grey-l-2);
     
+    &.app-hidden {
+      display: none;
+    }
+
     .app-current-page {
       @extend .app-font-bold;
       @extend .app-clean-mg;
@@ -75,6 +104,10 @@ app-navigation {
     overflow: scroll;
     padding: 0.5rem;
     padding-top: 0;
+
+    &.app-hidden {
+      display: none;
+    }
     
     // mq
     @media #{$small-and-down} {
@@ -84,7 +117,6 @@ app-navigation {
         height: calc(#{$app-mobile-panel-height} - 44px - 43px - 20px - 53px);
       }
     }
-    
     @import "styles/app-navigation-item";
   }
 }
