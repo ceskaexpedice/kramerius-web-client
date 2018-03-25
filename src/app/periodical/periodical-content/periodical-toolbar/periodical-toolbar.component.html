@@ -57,13 +57,12 @@
       </li>
       <!-- Sort item ready for Honza -->
       <li *ngIf="periodicalService.getNumberOfResults() !== 0 && periodicalService.activeLayout == 'grid' || periodicalService.getNumberOfResults() !== 0 && periodicalService.fulltext" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
-        <span id="app-btn-sort" class="app-cursor-pointer" mz-tooltip [tooltip]="'search.ordering.label' | translate" [position]="'top'">
+        <span disabled id="app-btn-sort" class="app-cursor-pointer" mz-tooltip [tooltip]="'search.ordering.label' | translate" [position]="'top'">
           <i class="app-mdi-sort"></i>
         </span>
         <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-          <mz-dropdown-item><a href="#">sort item 1</a></mz-dropdown-item>
-          <mz-dropdown-item><a href="#">sort item 2</a></mz-dropdown-item>
-          <mz-dropdown-item><a href="#">sort item 3</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(false)">Od nejstarších</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(true)">Od nejnovějších</a></mz-dropdown-item>
         </mz-dropdown>
       </li>
     </ul>
