@@ -46,6 +46,8 @@ app-navigation {
 
   .app-navigation-tabs {
     .tabs {
+      overflow: inherit;
+
       .tab a.active {
         position: relative;
         &:after {
@@ -61,7 +63,7 @@ app-navigation {
       background: transparent;
       @include set-border(bottom, 1, solid, $app-grey-l-2);
       .tab {
-        width: 50%;
+        width: calc(50% - 1.5px);
       }
     }
   }
@@ -113,7 +115,7 @@ app-navigation {
   .app-navigation-pages {
     // height: calc(100% - 174px);
     margin-top: 10px;
-    overflow: scroll;
+    overflow-y: auto;
     padding: 0.5rem;
     padding-top: 0;
 
