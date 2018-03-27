@@ -1,0 +1,23 @@
+// --- NAVIGATION PAGES ---
+
+.app-navigation-pages {
+  // height: calc(100% - 174px);
+  margin-top: 10px;
+  overflow-y: auto;
+  padding: 0.5rem;
+  padding-top: 0;
+
+  &.app-hidden {
+    display: none;
+  }
+  
+  // mq
+  @media #{$small-and-down} {
+    height: calc(#{$app-mobile-panel-height} - 44px - 43px - 20px - 48px);
+  
+    &.app-is-query {
+      height: calc(#{$app-mobile-panel-height} - 44px - 43px - 20px - 53px - 48px);
+    }
+  }
+  @import "styles/app-navigation-item";
+}

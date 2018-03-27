@@ -1,0 +1,41 @@
+// --- BOOK TABS ---
+
+.app-navigation-tabs {
+  .tabs {
+    overflow: inherit;
+    background: transparent;
+    @include set-border(bottom, 1, solid, $app-grey-l-2);
+
+    .tab  {
+      width: calc(50% - 1.5px);
+
+      a {
+        &.active {
+          position: relative;
+  
+          &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            background-color: $primary-color;
+            width: 100%;
+          }
+        }
+
+        @media #{$small-and-down} {
+          color: $app-grey-l-1;;
+
+          &.active {
+            color: $app-grey-d-1;
+
+            &:after {
+              background-color: $app-grey-d-1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
