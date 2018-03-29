@@ -96,7 +96,7 @@ export class BookService {
             } else {
                 this.krameriusApiService.getChildren(uuid).subscribe(response => {
                     if (response && response.length > 0) {
-                        this.onDataLoaded(response, pageUuid, articleUuid);
+                        this.onDataLoaded(response, item.doctype, pageUuid, articleUuid);
                     } else {
                         // TODO: Empty document
                     }
@@ -181,8 +181,41 @@ export class BookService {
     }
 
 
-    private onDataLoaded(pages: any[], pageUuid: string, articleUuid: string) {
-        const pageIndex = this.arrangePages(pages, pageUuid);
+    private addSupplementPages(pages: any[], supplements: any[], pageUuid: string, articleUuid: string) {
+        if (supplements.length === 0) {
+            this.onDataLoaded(pages, null, pageUuid, articleUuid);
+            return;
+        }
+        const supplement = supplements.shift();
+        this.krameriusApiService.getChildren(supplement['pid']).subscribe(response => {
+            for (const p of response) {
+                if (p['model'] === 'page') {
+                    p['is_supplement'] = true;
+                    pages.push(p);
+                }
+            }
+            this.addSupplementPages(pages, supplements, pageUuid, articleUuid);
+        });
+    }
+
+
+    private onDataLoaded(pages: any[], doctype: string, pageUuid: string, articleUuid: string) {
+        this.pages = [];
+        console.log('onDataLoaded - pages', pages);
+        console.log('onDataLoaded - this.pages', this.pages);
+        if (doctype === 'periodicalitem') {
+            const supplements = [];
+            for (const p of pages) {
+                if (p['model'] === 'supplement') {
+                    supplements.push(p);
+                }
+            }
+            if (supplements.length > 0) {
+                this.addSupplementPages(pages, supplements, pageUuid, articleUuid);
+                return;
+            }
+        }
+        const pageIndex = this.arrangePages(pages, pageUuid, doctype);
         this.bookState = BookState.Success;
         if (pageIndex === -1 || (this.pages.length === 0 && this.articles.length === 0)) {
             return;
@@ -214,7 +247,7 @@ export class BookService {
     }
 
 
-    private arrangePages(pages: any[], uuid: string): number {
+    private arrangePages(pages: any[], uuid: string, doctype: string): number {
         let index = 0;
         let firstBackSingle = -1;
         let titlePage = -1;
@@ -228,7 +261,6 @@ export class BookService {
                 this.router.navigate(['/periodical', this.uuid], { queryParams: { fulltext: this.fulltextQuery } });
                 return -1;
             } else if (p['model'] === 'supplement') {
-                // TODO:
             } else if (p['model'] === 'article') {
                 const article = new Article(p['pid'], p['title'], p['policy']);
                 this.articles.push(article);
@@ -253,7 +285,7 @@ export class BookService {
                 page.index = index;
                 page.thumb = this.krameriusApiService.getThumbUrl(page.uuid);
 
-                if (page.type === 'backcover' && firstBackSingle === -1) {
+                if ((page.type === 'backcover' || p['is_supplement']) && firstBackSingle === -1) {
                     firstBackSingle = index;
                 } else if (page.type === 'titlepage') {
                     titlePage = index;
@@ -734,6 +766,7 @@ export class BookService {
 
 
     clear() {
+        console.log('clear');
         this.pdf = null;
         this.bookState = BookState.None;
         this.pageState = BookPageState.None;
