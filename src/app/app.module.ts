@@ -91,6 +91,7 @@ import { PeriodicalCountComponent } from './periodical/periodical-filters/period
 import { PeriodicalSearchComponent } from './periodical/periodical-filters/periodical-search/periodical-search.component';
 import { PeriodicalFiltersComponent } from './periodical/periodical-filters/periodical-filters.component';
 
+import { NgxGalleryModule } from 'ngx-gallery';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -182,6 +183,7 @@ const ROUTES: Routes = [
     LazyLoadImageModule,
     MaterializeModule.forRoot(),
     RouterModule.forRoot(ROUTES),
+    NgxGalleryModule,
     TranslatorModule.forRoot({
       providedLanguages: ['en', 'cs'],
       defaultLanguage: 'cs'

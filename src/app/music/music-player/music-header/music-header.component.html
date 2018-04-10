@@ -1,6 +1,7 @@
 <div class="app-music-header-wrapper">
-  <div *ngIf="musicService.hasCoverImage()" class="app-cover-image-wrapper">
-    <div class="app-cover-image" [style.background-image]="coverImage()"></div>
+  <div class="app-cover-image-wrapper">
+    <ngx-gallery [options]="galleryOptions" [images]="musicService.galleryImages"></ngx-gallery>
+
   </div>
   <div class="app-album-title">{{ musicService.getAlbumTitle() }}</div>
   <div class="app-album-author">{{ musicService.getAlbumAuthor() }}</div>

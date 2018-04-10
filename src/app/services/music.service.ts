@@ -8,13 +8,13 @@ import { DocumentItem } from './../model/document_item.model';
 import { PeriodicalItem } from './../model/periodicalItem.model';
 import { Injectable } from '@angular/core';
 import { Metadata } from '../model/metadata.model';
+import { NgxGalleryImage } from 'ngx-gallery';
 
 @Injectable()
 export class MusicService {
 
   audio;
   activeTrack: Track;
-  coverImageUuid: string;
   soundUnitIndex = 0;
   uuid: string;
   metadata: Metadata;
@@ -30,6 +30,8 @@ export class MusicService {
   trackDurationText: string;
 
   activeMobilePanel: String;
+
+  galleryImages: NgxGalleryImage[];
 
 
   constructor(private solrService: SolrService,
@@ -55,18 +57,29 @@ export class MusicService {
   }
 
 
+
+  private addImageToGallery(uuid: string, title: string) {
+    this.galleryImages.push({
+      small: this.krameriusApiService.getThumbUrl(uuid),
+      medium: this.krameriusApiService.getThumbUrl(uuid),
+      big: this.krameriusApiService.getScaledJpegUrl(uuid, 1500),
+      description: title
+    });
+  }
+
+
   private loadSoundUnits() {
     this.krameriusApiService.getChildren(this.uuid).subscribe((units) => {
       for (const unit of units) {
         if (unit['model'] === 'soundunit') {
           this.soundUnits.push(new SoundUnit(unit['pid'], unit['title']));
-        } else if (!this.coverImageUuid && unit['model'] === 'page') {
-          this.coverImageUuid = unit['pid'];
+        } else if (unit['model'] === 'page') {
+          this.addImageToGallery(unit['pid'], unit['title']);
         }
       }
       this.soundUnitIndex = 0;
-      if (!this.coverImageUuid && this.soundUnits.length > 0) {
-        this.coverImageUuid = this.soundUnits[0].uuid;
+      for (const su of this.soundUnits) {
+        this.addImageToGallery(su.uuid, su.name);
       }
       this.loadTrack();
     });
@@ -193,19 +206,10 @@ export class MusicService {
     this.audio.currentTime = value;
   }
 
-
-  getCoverImageUrl(): string {
-    return this.krameriusApiService.getThumbUrl(this.coverImageUuid);
-  }
-
   getSoundUnitImageUrl(): string {
     if (this.activeTrack) {
       return this.krameriusApiService.getThumbUrl(this.activeTrack.unit.uuid);
     }
-  }
-
-  hasCoverImage(): boolean {
-    return this.coverImageUuid !== null;
   }
 
   getAlbumTitle(): string {
@@ -227,7 +231,7 @@ export class MusicService {
     this.tracks = [];
     this.soundUnits = [];
     this.soundUnitIndex = 0;
-    this.coverImageUuid = null;
+    this.galleryImages = [];
     this.activeTrack = null;
     this.pauseTrack();
     this.audio = null;
