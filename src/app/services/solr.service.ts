@@ -1,4 +1,3 @@
-import { query } from '@angular/core/src/animation/dsl';
 import { SearchQuery } from './../search/search_query.model';
 import { PeriodicalFtItem } from './../model/periodicalftItem.model';
 import { KrameriusApiService } from './kramerius-api.service';

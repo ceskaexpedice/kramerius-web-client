@@ -1,4 +1,3 @@
-import { query } from '@angular/core/src/animation/dsl';
 export class PeriodicalQuery {
 
     static THIS_YEAR = (new Date()).getFullYear();

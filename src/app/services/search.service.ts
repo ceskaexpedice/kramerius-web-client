@@ -1,5 +1,4 @@
 import { LocalStorageService } from './local-storage.service';
-import { query } from '@angular/core/src/animation/dsl';
 import { Translator } from 'angular-translator';
 import { Author } from './../model/metadata.model';
 import { Router } from '@angular/router';

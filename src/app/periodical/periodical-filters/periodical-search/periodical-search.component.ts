@@ -1,4 +1,3 @@
-import { query } from '@angular/core/src/animation/dsl';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { PeriodicalService } from './../../../services/periodical.service';

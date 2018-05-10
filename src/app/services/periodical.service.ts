@@ -1,6 +1,5 @@
 import { AppSettings } from './app-settings';
 import { PeriodicalQuery } from './../periodical/periodical_query.model';
-import { query } from '@angular/core/src/animation/dsl';
 import { Router } from '@angular/router';
 import { PeriodicalFtItem } from './../model/periodicalftItem.model';
 import { KrameriusApiService } from './kramerius-api.service';

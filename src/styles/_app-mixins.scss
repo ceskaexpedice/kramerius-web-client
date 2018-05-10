@@ -90,11 +90,12 @@
   }
 }
 
-
+// @include roboto-font('Roboto','Condensed','Regular', 400, normal);
+// 
 // roboto fontface
 @mixin roboto-font($name, $variant, $type, $weight, $style) {
 
-  $font-full-path: '#{$roboto-font-path}/#{$name}-#{$variant}/#{$name}-#{$variant}';
+  $font-full-path: '#{$roboto-font-path}#{$name}-#{$variant}/#{$name}-#{$variant}';
 
   @font-face {
     font-family: '#{$name}-#{$variant}';
@@ -111,10 +112,9 @@
     font-weight: $weight;
     font-style: $style;
   }
-
   @font-face {
     font-family: '#{$name}-#{$variant}-#{$type}';
-    src: url('#{$name}-#{$font-full-path}-#{$type}.eot');
+    src: url('#{$font-full-path}-#{$type}.eot');
     src: local('#{$name} #{$variant} #{$type}'),
          local('#{$name}-#{$variant} #{$type}'),
          local('#{$name}-#{$variant}-#{$type}'),

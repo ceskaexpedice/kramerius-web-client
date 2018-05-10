@@ -1,4 +1,3 @@
-import { query } from '@angular/core/src/animation/dsl';
 export class DocumentItem {
     title: string;
     authors: string[];
