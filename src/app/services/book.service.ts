@@ -1,4 +1,3 @@
-import { DialogSheetmusicWarningComponent } from './../dialog/dialog-sheetmusic-warning/dialog-sheetmusic-warning.component';
 import { SolrService } from './solr.service';
 import { ModsParserService } from './mods-parser.service';
 import { DocumentItem } from './../model/document_item.model';
@@ -202,8 +201,6 @@ export class BookService {
 
     private onDataLoaded(pages: any[], doctype: string, pageUuid: string, articleUuid: string) {
         this.pages = [];
-        console.log('onDataLoaded - pages', pages);
-        console.log('onDataLoaded - this.pages', this.pages);
         if (doctype === 'periodicalitem') {
             const supplements = [];
             for (const p of pages) {
@@ -225,14 +222,7 @@ export class BookService {
         if (this.pages.length > 0 && this.articles.length > 0) {
             this.showNavigationTabs = true;
         }
-        if (!articleUuid) {
-            this.activeNavigationTab = 'pages';
-            if (this.fulltextQuery) {
-                this.fulltextChanged(this.fulltextQuery, pageUuid);
-            } else {
-                this.goToPageOnIndex(pageIndex);
-            }
-        } else {
+        if (articleUuid || (!pageUuid && this.pages.length === 0)) {
             this.activeNavigationTab = 'articles';
             let articleForSelection = this.articles[0];
             if (articleUuid) {
@@ -244,6 +234,13 @@ export class BookService {
                 }
             }
             this.onArticleSelected(articleForSelection);
+        } else {
+            this.activeNavigationTab = 'pages';
+            if (this.fulltextQuery) {
+                this.fulltextChanged(this.fulltextQuery, pageUuid);
+            } else {
+                this.goToPageOnIndex(pageIndex);
+            }
         }
     }
 
@@ -595,10 +592,6 @@ export class BookService {
     }
 
 
-
-
-
-
     isPageInaccessible() {
         return this.pageState === BookPageState.Inaccessible;
     }
@@ -777,7 +770,6 @@ export class BookService {
 
 
     clear() {
-        console.log('clear');
         this.pdf = null;
         this.bookState = BookState.None;
         this.pageState = BookPageState.None;

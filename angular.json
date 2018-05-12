@@ -47,22 +47,6 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
-            },
-            "mzk": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.mzk.ts"
-                }
-              ]
-            },
-            "knav": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.knav.ts"
-                }
-              ]
             }
           }
         },
@@ -74,12 +58,6 @@
           "configurations": {
             "production": {
               "browserTarget": "kramerius-client:build:production"
-            },
-            "mzk": {
-              "browserTarget": "kramerius-client:build:mzk"
-            },
-            "knav": {
-              "browserTarget": "kramerius-client:build:knav"
             }
           }
         },
