@@ -23,6 +23,7 @@ import { request } from 'https';
 import 'rxjs/add/observable/forkJoin';
 import { Article } from '../model/article.model';
 import { HistoryService } from './history.service';
+import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.component';
 
 
 
@@ -502,20 +503,30 @@ export class BookService {
         });
     }
 
+
     private showPdfDialog(type: string) {
-        if (this.metadata.model === 'sheetmusic' && this.isPrivate) {
-            this.modalService.open(DialogSheetmusicWarningComponent);
-            return;
+        if (this.isPrivate && this.metadata.model === 'sheetmusic') {
+            this.modalService.open(SimpleDialogComponent, {
+                title: 'common.warning',
+                message: 'dialogs.private_sheetmusic.message',
+                button: 'common.close'
+            });
+        } else if (this.isPrivate && type === 'generate') {
+            this.modalService.open(SimpleDialogComponent, {
+                title: 'common.warning',
+                message: 'dialogs.private_document_pdf.message',
+                button: 'common.close'
+            });
+        } else {
+            this.modalService.open(DialogPdfComponent, {
+                pageCount: this.getPageCount(),
+                currentPage: this.getPage().index,
+                doublePage: this.doublePage,
+                maxPageCount: 150,
+                uuids: this.uuids(),
+                type: type
+            });
         }
-        const options = {
-            pageCount: this.getPageCount(),
-            currentPage: this.getPage().index,
-            doublePage: this.doublePage,
-            maxPageCount: 150,
-            uuids: this.uuids(),
-            type: type
-        };
-        this.modalService.open(DialogPdfComponent, options);
     }
 
     private uuids(): string[] {

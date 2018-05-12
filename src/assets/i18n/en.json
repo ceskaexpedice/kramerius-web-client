@@ -232,6 +232,14 @@
     "title": "Share",
     "link": "Persistent link"
   },
+  "dialogs": {
+    "private_sheetmusic": {
+      "message": "Unfortunately, it is not allowed to copy copyright-protected sheet music in any way due to an exception in the Copyright Act."
+    },
+    "private_document_pdf": {
+      "message": "It is not allowed to generate PDF from copyrighted documents."
+    }
+  },
   "model" : {
     "monograph" : "Book",
     "monographunit" : "Book",

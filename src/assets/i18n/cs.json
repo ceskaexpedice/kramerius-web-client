@@ -227,6 +227,14 @@
     "title": "Sdílet dokument",
     "link": "Odkaz pro sdílení"
   },
+  "dialogs": {
+    "private_sheetmusic": {
+      "message": "Autorsky chráněné hudebniny bohužel nelze žádným způsobem kopírovat z důvodu výjimky v Autorském zákoně."
+    },
+    "private_document_pdf": {
+      "message": "Z autorsky chráněných dokumentů nelze generovat PDF."
+    }
+  },
   "model" : {
     "monograph" : "Kniha",
     "monographunit" : "Kniha",
