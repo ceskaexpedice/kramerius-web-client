@@ -8,7 +8,7 @@
   
   <div class="col app-col-right" [class.app-col-right-home]="state.activePage == '/'" [class.app-search-bar-displayed]="mobileSearchBarExpanded">
     <app-navbar-search-bar *ngIf="state.activePage != '/'" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
-    <mz-navbar-item-container [align]="'right'">
+    <mz-navbar-item-container [align]="'right'" class="hide-on-med-and-down">
       <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
         <a routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
       </mz-navbar-item>

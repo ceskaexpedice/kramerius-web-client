@@ -629,22 +629,21 @@ export class BookService {
         this.bookState = BookState.Loading;
         this.article = article;
         const urlQuery = 'article=' + article.uuid;
-        // if (this.fulltextQuery) {
-        //     urlQuery += '&fulltext=' + this.fulltextQuery;
-        // }
         this.location.go('/view/' + this.uuid, urlQuery);
         if (article.type === 'none') {
-            this.krameriusApiService.getItem(article.uuid).subscribe((item: DocumentItem) => {
+            Observable.forkJoin([this.krameriusApiService.getItem(article.uuid), this.krameriusApiService.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 article.type = item.pdf ? 'pdf' : 'pages';
                 this.onArticleLoaded(article);
+                const articleMetadata = this.modsParserService.parse(mods, article.uuid);
+                article.metadata = articleMetadata;
             });
         } else {
             this.onArticleLoaded(article);
         }
     }
 
-
     private onArticleLoaded(article: Article) {
+        this.metadata.article = article;
         if (article.type === 'pdf') {
             this.viewer = 'pdf';
             // this.bookState = BookState.Success;

@@ -1,3 +1,4 @@
+import { Metadata } from './metadata.model';
 import { Page } from './page.model';
 
 export class Article {
@@ -6,6 +7,7 @@ export class Article {
   policy: string;
   pages: Page[];
   type: string; // none | pdf | pages
+  metadata: Metadata;
 
   constructor(uuid?: string, title?: string, policy?: string) {
     this.uuid = uuid;

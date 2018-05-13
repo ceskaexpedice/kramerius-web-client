@@ -1,3 +1,4 @@
+import { Article } from './article.model';
 import { DocumentItem } from './document_item.model';
 import { PeriodicalItem } from './periodicalItem.model';
 
@@ -26,6 +27,8 @@ export class Metadata {
     public currentUnit: PeriodicalItem;
     public nextUnit: PeriodicalItem;
     public previousUnit: PeriodicalItem;
+
+    public article: Article;
 
     constructor() {
     }

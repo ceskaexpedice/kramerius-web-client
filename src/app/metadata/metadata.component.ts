@@ -9,6 +9,10 @@ import { MzModalService } from 'ng2-materialize';
   templateUrl: './metadata.component.html'
 })
 export class MetadataComponent implements OnInit {
+  public controlsEnabled = true;
+  @Input() set showControls(value: boolean) {
+    this.controlsEnabled = value;
+  }
   @Input() metadata: Metadata;
   showingTitle = false;
 

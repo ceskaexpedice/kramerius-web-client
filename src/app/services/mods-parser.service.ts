@@ -9,12 +9,11 @@ import { parseString, processors, Builder } from 'xml2js';
 export class ModsParserService {
 
     parse(mods, uuid: string): Metadata {
-        const xml = mods.replace(/xmlns.*=".*"/g, '');
+        // const xml = mods.replace(/xmlns.*=".*"/g, '');
         const data = {tagNameProcessors: [processors.stripPrefix], explicitCharkey: true};
         const ctx = this;
         let metadata: Metadata;
-        parseString(xml, data, function (err, result) {
-            // TODO: Handle parsing error
+        parseString(mods, data, function (err, result) {
             metadata = ctx.createMetadata(result, uuid);
         });
         return metadata;

@@ -1,6 +1,6 @@
 <div class="app-metadata-wrapper" *ngIf="metadata">
 
-  <div class="app-metadata-controls">
+  <div class="app-metadata-controls" *ngIf="controlsEnabled">
         <i class="app-mdi-book-share app-cursor-pointer" (click)="onShare()"
             mz-tooltip [tooltip]="'book_controls.tooltip_share' | translate" [position]="'bottom'"></i>
   </div>
@@ -81,6 +81,36 @@
 
       <div class="divider"></div>
     </div>
+
+
+
+
+
+
+
+
+    <div *ngIf="metadata.article && metadata.article.metadata" >
+      <label>Článek</label>
+      <app-metadata [metadata]="metadata.article.metadata" class="app-nested" [showControls]="false"></app-metadata>
+      <!-- <div class="divider"></div> -->
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <div *ngIf="metadata.publishers.length > 0">
       <label>{{ 'metadata.publisher' | translate }}</label>
