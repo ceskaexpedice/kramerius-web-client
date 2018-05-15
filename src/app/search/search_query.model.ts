@@ -2,6 +2,10 @@ import { Utils } from '../services/utils.service';
 import { AppSettings } from '../services/app-settings';
 
 export class SearchQuery {
+
+    private static YEAR_FROM = 0;
+    private static YEAR_TO = (new Date()).getFullYear();
+
     accessibility: string;
     query: string;
     page: number;
@@ -32,7 +36,7 @@ export class SearchQuery {
         query.setFiled(query.languages, params['languages']);
         query.setFiled(query.collections, params['collections']);
         query.setAccessibility(params['accessibility']);
-        query.setYearRange(params['from'], params['to']);
+        query.setYearRange(parseInt(params['from'], 10), parseInt(params['to'], 10));
         return query;
     }
 
@@ -67,7 +71,7 @@ export class SearchQuery {
     }
 
     public setYearRange(from: number, to: number) {
-        if (from && to) {
+        if ((from || from === 0) && (to || to === 0)) {
             this.from = from;
             this.to = to;
         } else {
@@ -77,8 +81,8 @@ export class SearchQuery {
 
 
     private clearYearRange() {
-        this.from = 0;
-        this.to = (new Date()).getFullYear();
+        this.from = SearchQuery.YEAR_FROM;
+        this.to = SearchQuery.YEAR_TO;
     }
 
     private setFiled(fieldValues: string[], input: string) {
@@ -154,7 +158,9 @@ export class SearchQuery {
 
 
     isYearRangeSet(): boolean {
-        return (this.from && this.from > 0) || (this.to && this.to !== (new Date()).getFullYear());
+        // console.log('isYearRangeSet');
+        // console.log('this.from', this.from);
+        return this.from !== SearchQuery.YEAR_FROM || this.to !== SearchQuery.YEAR_TO;
     }
 
 
@@ -191,7 +197,8 @@ export class SearchQuery {
             }
         }
         if (this.isYearRangeSet()) {
-            q += ' AND (rok:[' + this.from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + this.from + ' TO *]))';
+            const from = this.from === 0 ? 1 : this.from;
+            q += ' AND (rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))';
         }
         q += this.addToQuery('keywords', this.keywords, facet)
            + this.addToQuery('doctypes', this.doctypes, facet)
