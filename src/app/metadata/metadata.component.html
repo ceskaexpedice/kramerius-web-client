@@ -15,6 +15,20 @@
       <i *ngIf="metadata.getTitle().length > 75 && showingTitle == true" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.hide_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
     </div>
     <div class="app-subtitle" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].subTitle}}</div>
+    
+    
+
+    <div *ngIf="metadata.currentUnit">
+      <a [routerLink]="['/periodical', metadata.uuid]">
+        {{ 'metadata.unit_list' | translate }}
+      </a>
+    </div>
+    <div *ngIf="metadata.doctype === 'periodical'">
+      <a [routerLink]="['/periodical', metadata.uuid]">
+        {{ 'metadata.volume_list' | translate }}
+      </a>
+    </div>
+    
     <div class="divider"></div>
 
     <div *ngIf="metadata.authors.length > 0">
@@ -70,12 +84,6 @@
       <div *ngIf="metadata.nextUnit">
         <a [routerLink]="['/view', metadata.nextUnit.uuid]">
           {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.title }}
-        </a>
-      </div>
-
-      <div>
-        <a [routerLink]="['/periodical', metadata.uuid]">
-          {{ 'metadata.unit_list' | translate }}
         </a>
       </div>
 
