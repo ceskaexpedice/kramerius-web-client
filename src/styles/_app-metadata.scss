@@ -93,6 +93,16 @@ app-metadata {
           display: -webkit-box;
         }
       }
+
+      .single-line {
+        overflow: hidden;
+        line-height: 20px;
+        height: 20px;
+        -webkit-line-clamp: 1;
+        display: block;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+      }
       
       .app-more {
         color: $app-grey;
@@ -107,6 +117,12 @@ app-metadata {
       }
       
       .app-subtitle {
+        color: $app-grey-d-3;
+      }
+      .app-part-number {
+        color: $app-grey-d-1;
+      }
+      .app-part-name {
         color: $app-grey-d-3;
       }
       

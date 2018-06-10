@@ -1,3 +1,5 @@
+import { Metadata } from './metadata.model';
+
 export class PeriodicalItem {
     title: string;
     subtitle: string;
@@ -6,6 +8,7 @@ export class PeriodicalItem {
     uuid: string;
     thumb: string;
     virtual = false;
+    metadata: Metadata;
 
     constructor() {
     }

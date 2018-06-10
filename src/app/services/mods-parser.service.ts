@@ -1,4 +1,4 @@
-import { Metadata, TitleInfo, Author, Publisher, Location } from './../model/metadata.model';
+import { Metadata, TitleInfo, Author, Publisher, Location, PhysicalDescription } from './../model/metadata.model';
 import { Injectable } from '@angular/core';
 import { parseString, processors, Builder } from 'xml2js';
 
@@ -28,8 +28,10 @@ export class ModsParserService {
         this.processSubjects(root['subject'], metadata);
         this.processLanguages(root['language'], metadata);
         this.processReview(root, metadata);
+        this.processPhysicalDescriptions(root['physicalDescription'], metadata);
 
         this.processSimpleArray(root['note'], metadata.notes, null);
+        this.processSimpleArray(root['tableOfContents'], metadata.contents, null);
         this.processSimpleArray(root['abstract'], metadata.abstracts, null);
         this.processSimpleArray(root['genre'], metadata.genres, { key: 'authority', value: 'czenas' });
         return metadata;
@@ -44,6 +46,8 @@ export class ModsParserService {
             titleInfo.nonSort = this.getText(item.nonSort);
             titleInfo.title = this.getText(item.title);
             titleInfo.subTitle = this.getText(item.subTitle);
+            titleInfo.partNumber = this.getText(item.partNumber);
+            titleInfo.partName = this.getText(item.partName);
             metadata.titles.push(titleInfo);
         }
     }
@@ -88,6 +92,9 @@ export class ModsParserService {
 
     private processReview(mods, metadata: Metadata) {
         let hasReview = false;
+        if (!mods['genre']) {
+            return;
+        }
         for (const genre of mods['genre']) {
             if (this.hasAttribute(genre, 'type', 'review')) {
                 hasReview = true;
@@ -158,6 +165,21 @@ export class ModsParserService {
             location.shelfLocator = this.getText(item.shelfLocator);
             if (!location.empty()) {
                 metadata.locations.push(location);
+            }
+        }
+    }
+
+
+    private processPhysicalDescriptions(array, metadata: Metadata) {
+        if (!array) {
+            return;
+        }
+        for (const item of array) {
+            const desc = new PhysicalDescription();
+            desc.extent = this.getText(item.extent);
+            desc.note = this.getText(item.note);
+            if (!desc.empty()) {
+                metadata.physicalDescriptions.push(desc);
             }
         }
     }

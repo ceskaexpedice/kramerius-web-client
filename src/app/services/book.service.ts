@@ -123,6 +123,10 @@ export class BookService {
         this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
             this.metadata.assignVolume(item);
         });
+        this.krameriusApiService.getMods(uuid).subscribe(mods => {
+            const metadata = this.modsParserService.parse(mods, uuid);
+            this.metadata.volumeMetadata = metadata;
+        });
     }
 
 
@@ -144,11 +148,15 @@ export class BookService {
             }
             this.metadata.currentIssue = issues[index];
             if (index > 0) {
-            this.metadata.previousIssue = issues[index - 1];
+                this.metadata.previousIssue = issues[index - 1];
             }
             if (index < issues.length - 1) {
-            this.metadata.nextIssue = issues[index + 1];
+                this.metadata.nextIssue = issues[index + 1];
             }
+            this.krameriusApiService.getMods(issueUuid).subscribe(mods => {
+                const metadata = this.modsParserService.parse(mods, issueUuid);
+                this.metadata.currentIssue.metadata = metadata;
+            });
         });
     }
 
@@ -175,6 +183,15 @@ export class BookService {
             if (index < units.length - 1) {
                 this.metadata.nextUnit = units[index + 1];
             }
+
+            this.krameriusApiService.getMods(unitUud).subscribe(mods => {
+                const metadata = this.modsParserService.parse(mods, unitUud);
+                this.metadata.currentUnit.metadata = metadata;
+            });
+
+
+
+
         });
     }
 

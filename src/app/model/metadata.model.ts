@@ -15,6 +15,8 @@ export class Metadata {
     public locations: Location[] = [];
     public abstracts: string[] = [];
     public genres: string[] = [];
+    public contents: string[] = [];
+    public physicalDescriptions: PhysicalDescription[] = [];
 
     public model: string;
     public doctype: string;
@@ -30,20 +32,9 @@ export class Metadata {
 
     public article: Article;
     public review: Metadata;
+    public volumeMetadata: Metadata;
 
     constructor() {
-    }
-
-    public getTitle(): string {
-        if (this.titles && this.titles.length > 0) {
-            let title = this.titles[0].title;
-            if (this.titles[0].nonSort) {
-                title = this.titles[0].nonSort + ' ' + title;
-            }
-            return title;
-        } else {
-            return '';
-        }
     }
 
     public getYearRange() {
@@ -87,6 +78,16 @@ export class TitleInfo {
     public nonSort;
     public title;
     public subTitle;
+    public partName;
+    public partNumber;
+
+    maintTitle(): string {
+        if (this.nonSort) {
+            return this.nonSort + ' ' + this.title;
+        } else {
+            return this.title;
+        }
+    }
 }
 
 export class Volume {
@@ -108,6 +109,14 @@ export class Location {
     }
 }
 
+
+export class PhysicalDescription {
+    public extent;
+    public note;
+    empty() {
+        return !(this.extent || this. note);
+    }
+}
 
 export class Publisher {
     public name;

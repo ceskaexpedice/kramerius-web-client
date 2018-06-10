@@ -7,14 +7,19 @@
 
   <div class="app-metadata-content">
 
-    <div *ngIf="metadata.getTitle()"> 
-      <h5 [class.app-cut]="metadata.getTitle().length > 75 && showingTitle == false">
-        {{metadata.getTitle()}}
+    <ng-container *ngIf="metadata.titles.length > 0">
+      <h5 [class.app-cut]="metadata.titles[0].maintTitle().length > 75 && showingTitle == false">
+        {{ metadata.titles[0].maintTitle() }}
       </h5>
-      <i *ngIf="metadata.getTitle().length > 75 && showingTitle == false" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.show_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
-      <i *ngIf="metadata.getTitle().length > 75 && showingTitle == true" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.hide_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
-    </div>
-    <div class="app-subtitle" *ngIf="metadata.titles.length > 0">{{metadata.titles[0].subTitle}}</div>
+      <i *ngIf="metadata.titles[0].maintTitle().length > 75 && showingTitle == false" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.show_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
+      <i *ngIf="metadata.titles[0].maintTitle().length > 75 && showingTitle == true" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.hide_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
+      <div class="app-subtitle">{{metadata.titles[0].subTitle}}</div>
+      <div>
+        <span *ngIf="metadata.titles[0].partNumber" class="app-part-number">{{ metadata.titles[0].partNumber }}. </span>
+        <span class="app-part-name">{{ metadata.titles[0].partName }}</span>
+      </div>
+
+    </ng-container>
     
     
 
@@ -48,6 +53,9 @@
           {{ 'metadata.issue_list' | translate }}
         </a>
       </div>
+      <div *ngIf="metadata.volumeMetadata" >
+        <app-metadata [metadata]="metadata.volumeMetadata" class="app-nested" [showControls]="false"></app-metadata>
+      </div>
       <div class="divider"></div>
     </div>
 
@@ -68,21 +76,29 @@
         </a>
       </div>
 
+      <div *ngIf="metadata.currentIssue.metadata" >
+        <app-metadata [metadata]="metadata.currentIssue.metadata" class="app-nested" [showControls]="false"></app-metadata>
+      </div>
+
       <div class="divider"></div>
     </div>
 
     <div *ngIf="metadata.currentUnit">
       <label>{{ 'metadata.unit' | translate }}</label>
-      <div class="app-value"><strong>{{ metadata.currentUnit.title }}</strong></div>
+      <!-- <div class="app-value"><strong>{{ metadata.currentUnit.title }}</strong></div>
       <div class="app-value" >{{ 'metadata.unit_number' | translate }} <strong>{{ metadata.currentUnit.subtitle }}</strong></div>
-      
+       -->
+      <div *ngIf="metadata.currentUnit.metadata" >
+        <app-metadata [metadata]="metadata.currentUnit.metadata" class="app-nested" [showControls]="false"></app-metadata>
+      </div>
+
       <div *ngIf="metadata.previousUnit">
-        <a [routerLink]="['/view', metadata.previousUnit.uuid]">
+        <a [routerLink]="['/view', metadata.previousUnit.uuid]" class="single-line">
           {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.title }}
         </a>
       </div>
       <div *ngIf="metadata.nextUnit">
-        <a [routerLink]="['/view', metadata.nextUnit.uuid]">
+        <a [routerLink]="['/view', metadata.nextUnit.uuid]" class="single-line">
           {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.title }}
         </a>
       </div>
@@ -170,9 +186,24 @@
       <div class="divider"></div>
     </div>
 
+    <div *ngIf="metadata.physicalDescriptions.length > 0">
+      <label>{{ 'metadata.physical_description' | translate }}</label>
+      <div *ngFor="let desc of metadata.physicalDescriptions">
+        <div class="app-value" *ngIf="desc.extent">{{ 'metadata.extent' | translate }}: {{ desc.extent }}</div>
+        <div class="app-value" *ngIf="desc.note">{{ desc.note }}</div>
+      </div>
+      <div class="divider"></div>
+    </div>
+
     <div *ngIf="metadata.abstracts.length > 0">
       <label>{{ 'metadata.abstract' | translate }}</label>
       <div *ngFor="let abstract of metadata.abstracts" class="app-value" >{{ abstract }}</div>
+      <div class="divider"></div>
+    </div>
+
+    <div *ngIf="metadata.contents.length > 0">
+      <label>{{ 'metadata.content' | translate }}</label>
+      <div *ngFor="let content of metadata.contents" class="app-value" >{{ content }}</div>
       <div class="divider"></div>
     </div>
     
