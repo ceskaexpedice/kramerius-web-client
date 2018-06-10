@@ -1,8 +1,12 @@
 import { Article } from './article.model';
 import { DocumentItem } from './document_item.model';
 import { PeriodicalItem } from './periodicalItem.model';
+import beautify from 'xml-beautifier';
 
 export class Metadata {
+
+
+    public modsMap = {};
 
     public uuid: string;
     public titles: TitleInfo[] = [];
@@ -37,6 +41,11 @@ export class Metadata {
     public mainTitle: string;
 
     constructor() {
+    }
+
+
+    public addMods(doctype: string, mods: string) {
+        this.modsMap[doctype] = beautify(mods);
     }
 
     public getYearRange() {

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MzBaseModal } from 'ng2-materialize';
+import { MzBaseModal } from 'ngx-materialize';
 
 @Component({
   selector: 'app-dialog-ocr',

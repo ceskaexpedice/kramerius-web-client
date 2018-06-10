@@ -1,8 +1,12 @@
 <div class="app-metadata-wrapper" *ngIf="metadata">
 
   <div class="app-metadata-controls" *ngIf="controlsEnabled">
-        <i class="app-mdi-book-share app-cursor-pointer" (click)="onShare()"
-            mz-tooltip [tooltip]="'book_controls.tooltip_share' | translate" [position]="'bottom'"></i>
+      <i class="app-mdi-book-share app-cursor-pointer" (click)="onShare()"
+          mz-tooltip [tooltip]="'book_controls.tooltip_share' | translate" [position]="'bottom'">
+      </i>
+      <i class="app-mdi-metadata-share app-cursor-pointer" (click)="showModsDialog()"
+          mz-tooltip [tooltip]="'book_controls.tooltip_share' | translate" [position]="'bottom'">
+      </i>
   </div>
 
   <div class="app-metadata-content">

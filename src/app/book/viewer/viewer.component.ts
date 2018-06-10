@@ -1,10 +1,10 @@
 import { ViewerControlsService, ViewerActions } from './../../services/viewre-controls.service.';
 import { Page } from './../../model/page.model';
-import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { BookService } from './../../services/book.service';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/interval';
 
 declare var ol: any;
 
@@ -352,9 +352,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    this.viewerActionsSubscription.unsubscribe();
-    this.pageSubscription.unsubscribe();
-    this.intervalSubscription.unsubscribe();
+    if (this.viewerActionsSubscription) {
+      this.viewerActionsSubscription.unsubscribe();
+    }
+    if (this.pageSubscription) {
+      this.pageSubscription.unsubscribe();
+    }
+    if (this.intervalSubscription) {
+      this.intervalSubscription.unsubscribe();
+    }
     this.view.removeLayer(this.imageLayer);
     this.view.removeLayer(this.zoomifyLayer);
     this.view.removeLayer(this.imageLayer2);

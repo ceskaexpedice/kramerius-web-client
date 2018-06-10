@@ -54,7 +54,6 @@ export class ModsParserService {
         this.processSimpleArray(root['abstract'], metadata.abstracts, null);
         this.processSimpleArray(root['genre'], metadata.genres, { key: 'authority', value: 'czenas' });
         if (root['titleInfo'] && root['titleInfo'].length > 0) {
-            console.log('root["titleInfo"]', root['titleInfo'][0]);
             const title = this.getText(root['titleInfo'][0]['partName']);
             if (title) {
                 const titleInfo = new TitleInfo();

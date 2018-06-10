@@ -39,7 +39,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { TranslatorModule } from 'angular-translator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterializeModule } from 'ng2-materialize';
 import { FormsModule } from '@angular/forms';
 import { NgDatepickerModule } from './ng-datepicker/ng-datepicker.module';
 
@@ -92,6 +91,9 @@ import { PeriodicalSearchComponent } from './periodical/periodical-filters/perio
 import { PeriodicalFiltersComponent } from './periodical/periodical-filters/periodical-filters.component';
 
 import { NgxGalleryModule } from 'ngx-gallery';
+import { DialogMetadataComponent } from './dialog/dialog-metadata/dialog-metadata.component';
+
+import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule } from 'ngx-materialize';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -149,6 +151,7 @@ const ROUTES: Routes = [
     DialogOcrComponent,
     DialogPdfComponent,
     DialogShareComponent,
+    DialogMetadataComponent,
     LogoComponent,
     BookSearchComponent,
     PersistentLinkComponent,
@@ -170,7 +173,8 @@ const ROUTES: Routes = [
     DialogOcrComponent,
     DialogPdfComponent,
     DialogShareComponent,
-    SimpleDialogComponent
+    SimpleDialogComponent,
+    DialogMetadataComponent
   ],
   imports: [
     BrowserModule,
@@ -181,13 +185,29 @@ const ROUTES: Routes = [
     Ng2CompleterModule,
     PdfViewerModule,
     LazyLoadImageModule,
-    MaterializeModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     NgxGalleryModule,
     TranslatorModule.forRoot({
       providedLanguages: ['en', 'cs'],
       defaultLanguage: 'cs'
-    })
+    }),
+    MzButtonModule,
+    MzInputModule,
+    MzModalModule,
+    MzNavbarModule,
+    MzIconModule,
+    MzIconMdiModule,
+    MzTooltipModule,
+    MzSidenavModule,
+    MzSpinnerModule,
+    MzBadgeModule,
+    MzTabModule,
+    MzCollapsibleModule,
+    MzCollectionModule,
+    MzCardModule,
+    MzDropdownModule,
+    MzCheckboxModule,
+    MzDatepickerModule
   ],
   providers: [
     AppState,

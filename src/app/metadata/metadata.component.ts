@@ -2,7 +2,8 @@ import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.component';
-import { MzModalService } from 'ng2-materialize';
+import { MzModalService } from 'ngx-materialize';
+import { DialogMetadataComponent } from '../dialog/dialog-metadata/dialog-metadata.component';
 
 @Component({
   selector: 'app-metadata',
@@ -23,6 +24,11 @@ export class MetadataComponent implements OnInit {
 
   showTitle() {
     this.showingTitle = !this.showingTitle;
+  }
+
+  showModsDialog() {
+    this.modalService.open(DialogMetadataComponent, { map: this.metadata.modsMap} );
+
   }
 
   onShare() {

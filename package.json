@@ -31,13 +31,14 @@
     "ng-lazyload-image": "^3.4.2",
     "ng2-completer": "^1.6.3",
     "ng2-datepicker": "^2.3.1",
-    "ng2-materialize": "^1.8.0",
     "ng2-pdf-viewer": "^3.0.8",
     "ngx-gallery": "^5.3.1",
+    "ngx-materialize": "^6.0.1",
     "roboto-fontface": "^0.8.0",
     "rxjs": "^6.1.0",
     "rxjs-compat": "^6.1.0",
     "timers": "^0.1.1",
+    "xml-beautifier": "^0.4.0",
     "zone.js": "0.8.26"
   },
   "devDependencies": {

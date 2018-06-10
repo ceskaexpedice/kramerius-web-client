@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Translator } from 'angular-translator';
 import { AppState } from '../app.state';
 import { HistoryService } from '../services/history.service';
-import { MzSidenavComponent } from 'ng2-materialize';
+import { MzSidenavComponent } from 'ngx-materialize';
 
 
 @Component({

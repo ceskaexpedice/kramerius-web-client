@@ -1,0 +1,41 @@
+mz-modal.app-dialog-metadata {
+  .modal {
+    max-width: 1200px;
+    .modal-content {
+      padding-bottom: 0;
+    }
+  }
+  mz-modal-content {
+    display: block;
+    padding-top: 10px;
+  }
+  white-space: pre;
+
+  .tabs {
+    @extend .clearfix;
+    @include set-border(bottom, 1, solid, #{$app-grey-c-2});
+  
+    .tab {
+      float: left;
+      margin-right: 26px;
+      cursor: pointer;
+      color: $primary-color;
+      border-bottom: 2px solid transparent;
+      transition: border-bottom 0.4s ease-in-out;
+      
+      &.active {
+        border-bottom: 3px solid $primary-color;
+      }
+      
+      &:hover {
+        color: $primary-color-light;
+      }
+    }
+  }
+  
+  .app-tab-content {
+    padding: 0.5rem;
+    overflow: auto;
+    display: block;
+  }
+}

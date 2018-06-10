@@ -249,6 +249,7 @@
   "model" : {
     "monograph" : "Book",
     "monographunit" : "Book",
+    "monographbundle" : "Book Bundle",
     "periodical" : "Newspaper",
     "map" : "Map",
     "sheetmusic" : "Sheet Music",

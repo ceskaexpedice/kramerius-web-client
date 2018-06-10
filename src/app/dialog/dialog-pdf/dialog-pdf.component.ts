@@ -1,6 +1,6 @@
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { MzBaseModal, MzModalComponent } from 'ng2-materialize';
+import { MzBaseModal, MzModalComponent } from 'ngx-materialize';
 import { saveAs } from 'file-saver';
 
 @Component({
@@ -86,14 +86,14 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
         const blob = new Blob([response['_body']], { type: 'application/pdf' });
         saveAs(blob, 'document.pdf');
         this.inProgress = false;
-        this.modal.close();
+        this.modal.closeModal();
       }
     );
   }
 
   prepareToPrint(uuids: string[]) {
     window.open(this.krameriusApi.getLocalPrintUrl(uuids), '_blank');
-    this.modal.close();
+    this.modal.closeModal();
   }
 
 

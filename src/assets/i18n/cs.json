@@ -244,6 +244,7 @@
   "model" : {
     "monograph" : "Kniha",
     "monographunit" : "Kniha",
+    "monographbundle" : "Svazek knih",
     "periodical" : "Noviny a časopisy",
     "map" : "Mapa",
     "sheetmusic" : "Hudebniny",
