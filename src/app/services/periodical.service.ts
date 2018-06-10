@@ -83,6 +83,10 @@ export class PeriodicalService {
           this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid, query).subscribe(volumes => {
             this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
           });
+          this.krameriusApiService.getMods(query.uuid).subscribe(mods => {
+            const metadata = this.modsParserService.parse(mods, query.uuid, 'volume');
+            this.metadata.volumeMetadata = metadata;
+          });
           if (query.fulltext) {
             this.initFulltext();
           } else {

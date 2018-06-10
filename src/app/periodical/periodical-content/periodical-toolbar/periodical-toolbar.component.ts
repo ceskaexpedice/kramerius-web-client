@@ -1,6 +1,5 @@
 import { PeriodicalService } from './../../../services/periodical.service';
-import { Metadata } from './../../../model/metadata.model';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-periodical-toolbar',
@@ -11,6 +10,7 @@ export class PeriodicalToolbarComponent implements OnInit {
   constructor(public periodicalService: PeriodicalService) { }
 
   ngOnInit() {
+    console.log(this.periodicalService.metadata.titles[0].maintTitle());
   }
 
   selectLayout(layout: string) {

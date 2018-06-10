@@ -34,6 +34,8 @@ export class Metadata {
     public review: Metadata;
     public volumeMetadata: Metadata;
 
+    public mainTitle: string;
+
     constructor() {
     }
 
@@ -71,6 +73,20 @@ export class Metadata {
     public assignVolume(item: DocumentItem) {
         this.volume = new Volume(item.uuid, item.volumeYear, item.volumeNumber);
     }
+
+
+    public getTitle(): string {
+        if (this.mainTitle) {
+            return this.mainTitle;
+        }
+        if (this.titles.length > 0) {
+            this.mainTitle = this.titles[0].maintTitle();
+            return this.mainTitle;
+        }
+        return '';
+    }
+
+
 }
 
 

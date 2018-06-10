@@ -124,7 +124,7 @@ export class BookService {
             this.metadata.assignVolume(item);
         });
         this.krameriusApiService.getMods(uuid).subscribe(mods => {
-            const metadata = this.modsParserService.parse(mods, uuid);
+            const metadata = this.modsParserService.parse(mods, uuid, 'volume');
             this.metadata.volumeMetadata = metadata;
         });
     }
@@ -154,7 +154,7 @@ export class BookService {
                 this.metadata.nextIssue = issues[index + 1];
             }
             this.krameriusApiService.getMods(issueUuid).subscribe(mods => {
-                const metadata = this.modsParserService.parse(mods, issueUuid);
+                const metadata = this.modsParserService.parse(mods, issueUuid, 'issue');
                 this.metadata.currentIssue.metadata = metadata;
             });
         });

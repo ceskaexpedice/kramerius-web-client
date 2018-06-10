@@ -6,13 +6,17 @@ import { parseString, processors, Builder } from 'xml2js';
 @Injectable()
 export class ModsParserService {
 
-    parse(mods, uuid: string): Metadata {
+    parse(mods, uuid: string, type: string = 'full'): Metadata {
         // const xml = mods.replace(/xmlns.*=".*"/g, '');
         const data = {tagNameProcessors: [processors.stripPrefix], explicitCharkey: true};
         const ctx = this;
         let metadata: Metadata;
         parseString(mods, data, function (err, result) {
-            metadata = ctx.createMetadata(result, uuid);
+            if (type === 'full') {
+                metadata = ctx.createMetadata(result, uuid);
+            } else {
+                metadata = ctx.createPlainMetadata(result, uuid);
+            }
         });
         return metadata;
     }
@@ -29,13 +33,52 @@ export class ModsParserService {
         this.processLanguages(root['language'], metadata);
         this.processReview(root, metadata);
         this.processPhysicalDescriptions(root['physicalDescription'], metadata);
-
         this.processSimpleArray(root['note'], metadata.notes, null);
         this.processSimpleArray(root['tableOfContents'], metadata.contents, null);
         this.processSimpleArray(root['abstract'], metadata.abstracts, null);
         this.processSimpleArray(root['genre'], metadata.genres, { key: 'authority', value: 'czenas' });
         return metadata;
     }
+
+    private createPlainMetadata(mods, uuid: string): Metadata {
+        const metadata = new Metadata();
+        metadata.uuid = uuid;
+        const root = mods['modsCollection']['mods'][0];
+        this.processAuthors(root['name'], metadata);
+        this.processLocations(root['location'], metadata);
+        this.processSubjects(root['subject'], metadata);
+        this.processLanguages(root['language'], metadata);
+        this.processPhysicalDescriptions(root['physicalDescription'], metadata);
+        this.processSimpleArray(root['note'], metadata.notes, null);
+        this.processSimpleArray(root['tableOfContents'], metadata.contents, null);
+        this.processSimpleArray(root['abstract'], metadata.abstracts, null);
+        this.processSimpleArray(root['genre'], metadata.genres, { key: 'authority', value: 'czenas' });
+        if (root['titleInfo'] && root['titleInfo'].length > 0) {
+            console.log('root["titleInfo"]', root['titleInfo'][0]);
+            const title = this.getText(root['titleInfo'][0]['partName']);
+            if (title) {
+                const titleInfo = new TitleInfo();
+                titleInfo.title = title;
+                metadata.titles.push(titleInfo);
+            }
+        }
+        if (metadata.titles.length > 0 ||
+            metadata.authors.length > 0 ||
+            metadata.locations.length > 0 ||
+            metadata.keywords.length > 0 ||
+            metadata.languages.length > 0 ||
+            metadata.physicalDescriptions.length > 0 ||
+            metadata.notes.length > 0 ||
+            metadata.contents.length > 0 ||
+            metadata.abstracts.length > 0 ||
+            metadata.genres.length > 0) {
+                return metadata;
+        }
+        return null;
+    }
+
+
+
 
     private processTitles(array, metadata: Metadata) {
         if (!array) {
@@ -235,13 +278,15 @@ export class ModsParserService {
 
     private getText(element) {
         if (element) {
+            let el = '';
             if (Array.isArray(element)) {
-                return element[0]['_'];
+                el = element[0]['_'];
             } else {
-                return element['_'];
+                el = element['_'];
             }
-        } else {
-            return null;
+            if (el) {
+                return el.trim();
+            }
         }
     }
 
