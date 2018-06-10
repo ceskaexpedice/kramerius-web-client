@@ -35,7 +35,11 @@ export class Metadata {
 
     public getTitle(): string {
         if (this.titles && this.titles.length > 0) {
-            return this.titles[0].title;
+            let title = this.titles[0].title;
+            if (this.titles[0].nonSort) {
+                title = this.titles[0].nonSort + ' ' + title;
+            }
+            return title;
         } else {
             return '';
         }
@@ -79,6 +83,7 @@ export class Metadata {
 
 
 export class TitleInfo {
+    public nonSort;
     public title;
     public subTitle;
 }

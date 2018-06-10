@@ -8,7 +8,6 @@ import { DialogPdfComponent } from './../dialog/dialog-pdf/dialog-pdf.component'
 import { NotFoundError } from './../common/errors/not-found-error';
 import { UnauthorizedError } from './../common/errors/unauthorized-error';
 import { AppError } from './../common/errors/app-error';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { KrameriusApiService } from './kramerius-api.service';
@@ -18,7 +17,6 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MzModalService } from 'ng2-materialize';
 import { DialogOcrComponent } from '../dialog/dialog-ocr/dialog-ocr.component';
-import { request } from 'https';
 import 'rxjs/add/observable/forkJoin';
 import { Article } from '../model/article.model';
 import { HistoryService } from './history.service';

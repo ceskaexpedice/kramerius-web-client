@@ -1,6 +1,4 @@
-import { element } from 'protractor';
 import { Metadata, TitleInfo, Author, Publisher, Location } from './../model/metadata.model';
-import { Page } from './../model/page.model';
 import { Injectable } from '@angular/core';
 import { parseString, processors, Builder } from 'xml2js';
 
@@ -42,6 +40,7 @@ export class ModsParserService {
         }
         for (const item of array) {
             const titleInfo = new TitleInfo();
+            titleInfo.nonSort = this.getText(item.nonSort);
             titleInfo.title = this.getText(item.title);
             titleInfo.subTitle = this.getText(item.subTitle);
             metadata.titles.push(titleInfo);
