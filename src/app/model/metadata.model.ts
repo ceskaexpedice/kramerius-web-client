@@ -29,6 +29,7 @@ export class Metadata {
     public previousUnit: PeriodicalItem;
 
     public article: Article;
+    public review: Metadata;
 
     constructor() {
     }

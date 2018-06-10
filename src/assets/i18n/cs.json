@@ -139,6 +139,8 @@
     "doctype": "Typ dokumentu",        
     "notes": "Poznámky",
     "genres": "Žánr",
+    "article": "Článek",
+    "review_of": "Recenze na",
     "volume": "Ročník",
     "volume_year": "Rok vydání",
     "issue": "Číslo",

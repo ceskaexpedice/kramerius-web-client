@@ -139,6 +139,8 @@
     "doctype": "Document type",    
     "notes": "Notes",
     "genres": "Genre", 
+    "article": "Article",
+    "review_of": "Review of",
     "volume": "Volume",
     "volume_year": "Year of publication",
     "issue": "Issue",

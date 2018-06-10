@@ -27,6 +27,7 @@ export class ModsParserService {
         this.processLocations(root['location'], metadata);
         this.processSubjects(root['subject'], metadata);
         this.processLanguages(root['language'], metadata);
+        this.processReview(root, metadata);
 
         this.processSimpleArray(root['note'], metadata.notes, null);
         this.processSimpleArray(root['abstract'], metadata.abstracts, null);
@@ -84,6 +85,35 @@ export class ModsParserService {
         }
     }
 
+
+    private processReview(mods, metadata: Metadata) {
+        let hasReview = false;
+        for (const genre of mods['genre']) {
+            if (this.hasAttribute(genre, 'type', 'review')) {
+                hasReview = true;
+                break;
+            }
+        }
+        if (!hasReview) {
+            return;
+        }
+        const ris = mods['relatedItem'];
+        if (!ris || ris.length === 0) {
+            return;
+        }
+        const ri = ris[0];
+        const review = new Metadata();
+        this.processTitles(ri['titleInfo'], review);
+        this.processAuthors(ri['name'], review);
+        this.processPublishers(ri['originInfo'], review);
+        this.processLocations(ri['location'], review);
+        this.processSubjects(ri['subject'], review);
+        this.processLanguages(ri['language'], review);
+        this.processSimpleArray(ri['note'], review.notes, null);
+        this.processSimpleArray(ri['abstract'], review.abstracts, null);
+        this.processSimpleArray(ri['genre'], review.genres, { key: 'authority', value: 'czenas' });
+        metadata.review = review;
+    }
 
 
     private processPublishers(array, metadata: Metadata) {

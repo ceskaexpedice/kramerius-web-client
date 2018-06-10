@@ -98,10 +98,9 @@
 
 
     <div *ngIf="metadata.article && metadata.article.metadata" >
-      <label>Článek</label>
+      <label>{{ 'metadata.article' | translate }}</label>
       <app-metadata [metadata]="metadata.article.metadata" class="app-nested" [showControls]="false"></app-metadata>
       <!-- <div class="divider"></div> -->
-
     </div>
 
 
@@ -182,5 +181,16 @@
       <div *ngFor="let note of metadata.notes" class="app-value" >{{ note }}</div>
       <div class="divider"></div>
   </div>
+
+
+
+
+  <div *ngIf="metadata.review && metadata.review" >
+    <label>{{ 'metadata.review_of' | translate }}</label>
+    <app-metadata [metadata]="metadata.review" class="app-nested" [showControls]="false"></app-metadata>
+  </div>
+
+
+
   </div>
 </div>
