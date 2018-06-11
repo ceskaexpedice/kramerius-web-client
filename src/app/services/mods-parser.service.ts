@@ -150,17 +150,23 @@ export class ModsParserService {
         if (!ris || ris.length === 0) {
             return;
         }
-        const ri = ris[0];
-        const review = new Metadata();
-        this.processTitles(ri['titleInfo'], review);
-        this.processAuthors(ri['name'], review);
-        this.processPublishers(ri['originInfo'], review);
-        this.processLocations(ri['location'], review);
-        this.processSubjects(ri['subject'], review);
-        this.processLanguages(ri['language'], review);
-        this.processSimpleArray(ri['note'], review.notes, null);
-        this.processSimpleArray(ri['abstract'], review.abstracts, null);
-        this.processSimpleArray(ri['genre'], review.genres, { key: 'authority', value: 'czenas' });
+        let review: Metadata;
+        for (const ri of ris) {
+            review = new Metadata();
+            this.processTitles(ri['titleInfo'], review);
+            this.processAuthors(ri['name'], review);
+            this.processPublishers(ri['originInfo'], review);
+            this.processLocations(ri['location'], review);
+            this.processSubjects(ri['subject'], review);
+            this.processLanguages(ri['language'], review);
+            this.processSimpleArray(ri['note'], review.notes, null);
+            this.processSimpleArray(ri['abstract'], review.abstracts, null);
+            this.processSimpleArray(ri['genre'], review.genres, { key: 'authority', value: 'czenas' });
+            if (ri['$'] && ri['$']['displayLabel'] === 'Recenze na:') {
+                metadata.review = review;
+                return;
+            }
+        }
         metadata.review = review;
     }
 
