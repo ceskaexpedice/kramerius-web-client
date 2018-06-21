@@ -33,10 +33,29 @@
     background: rgba(255, 255, 255, 0.6);
     color: color("shades", "black");
   }
+  .app-item-type {
+    position: absolute;
+    font-size: 12px;
+    bottom: 0.5rem;
+    padding: 2px;
+    width: calc(100% - 1rem);
+    display: none;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.6);
+    color: color("shades", "black");
+  }
+
+
   &.active {
     background: $app-grey-d-1;
   }
   
+  &:hover {
+    .app-item-type {
+      display: block;
+    }
+  }
+
   // mq
   @media #{$small-and-down} {
     width: 16.66666%;

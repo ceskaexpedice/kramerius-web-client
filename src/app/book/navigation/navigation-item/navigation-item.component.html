@@ -1,4 +1,5 @@
 <div id="page-id-{{page.uuid}}" (click)="onPageClicked()" class="app-item" [class.active]="page.selected">
   <div class="app-item-thumb" [class.hidden]="page.hidden" [scrollTarget]="container" [lazyLoad]="page.thumb"></div>
   <div class="app-item-title">{{ page.number }}</div>
+  <div class="app-item-type">{{ 'page_type.' + page.type | translate }}</div>
 </div>
