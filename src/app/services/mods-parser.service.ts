@@ -262,7 +262,10 @@ export class ModsParserService {
                 const elem = item.languageTerm;
                 const params = elem[0]['$'];
                 if (params['type'] === 'code' && params['authority'] === 'iso639-2b') {
-                    metadata.languages.push(this.getText(elem));
+                    const lang = this.getText(elem);
+                    if (lang && lang.length > 0) {
+                        metadata.languages.push(lang);
+                    }
                 }
             }
         }
