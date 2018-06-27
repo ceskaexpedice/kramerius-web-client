@@ -286,6 +286,7 @@
     "track" : "Tracks"
   },
   "page_type" : {
+    "unknown" : "page",
     "advertisement" : "advertisement",
     "backcover" : "back cover",
     "backendsheet" : "back end sheet",

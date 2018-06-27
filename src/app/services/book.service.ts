@@ -295,6 +295,8 @@ export class BookService {
                     page.type = details['type'];
                     if (page.type) {
                         page.type = page.type.toLowerCase();
+                    } else {
+                        page.type = 'unknown';
                     }
                     page.number = details['pagenumber'];
                 }

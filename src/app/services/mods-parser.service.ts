@@ -1,4 +1,4 @@
-import { Metadata, TitleInfo, Author, Publisher, Location, PhysicalDescription, Part } from './../model/metadata.model';
+import { Metadata, TitleInfo, Author, Publisher, Location, PhysicalDescription } from './../model/metadata.model';
 import { Injectable } from '@angular/core';
 import { parseString, processors, Builder } from 'xml2js';
 

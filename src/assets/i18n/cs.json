@@ -281,6 +281,7 @@
     "track" : "Nahrávky"
   },
   "page_type": {
+    "unknown" : "strana",
     "advertisement" : "reklama",
     "backcover" : "zadní desky",
     "backendsheet" : "zadní přídeští",

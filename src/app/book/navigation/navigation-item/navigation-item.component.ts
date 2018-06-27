@@ -1,8 +1,5 @@
 import { Page } from './../../../model/page.model';
-import { KrameriusApiService } from './../../../services/kramerius-api.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Element } from '@angular/compiler';
 
 @Component({
   selector: 'app-navigation-item',
