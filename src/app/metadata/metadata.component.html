@@ -197,6 +197,14 @@
       <div class="divider"></div>
     </div>
 
+
+    <div *ngIf="metadata.extent">
+      <label>{{ 'metadata.extent' | translate }}</label>
+      <div class="app-value" >{{ metadata.extent }}</div>
+      <div class="divider"></div>
+    </div>
+
+
     <div *ngIf="metadata.abstracts.length > 0">
       <label>{{ 'metadata.abstract' | translate }}</label>
       <div *ngFor="let abstract of metadata.abstracts" class="app-value" >{{ abstract }}</div>

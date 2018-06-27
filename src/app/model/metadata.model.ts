@@ -12,6 +12,7 @@ export class Metadata {
     public titles: TitleInfo[] = [];
     public authors: Author[] = [];
     public publishers: Publisher[] = [];
+    public extent: String;
     public keywords: string[] = [];
     public geonames: string[] = [];
     public notes: string[] = [];

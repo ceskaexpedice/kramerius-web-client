@@ -1,4 +1,4 @@
-import { Metadata, TitleInfo, Author, Publisher, Location, PhysicalDescription } from './../model/metadata.model';
+import { Metadata, TitleInfo, Author, Publisher, Location, PhysicalDescription, Part } from './../model/metadata.model';
 import { Injectable } from '@angular/core';
 import { parseString, processors, Builder } from 'xml2js';
 
@@ -31,6 +31,7 @@ export class ModsParserService {
         this.processLocations(root['location'], metadata);
         this.processSubjects(root['subject'], metadata);
         this.processLanguages(root['language'], metadata);
+        this.processParts(root['part'], metadata);
         this.processReview(root, metadata);
         this.processPhysicalDescriptions(root['physicalDescription'], metadata);
         this.processSimpleArray(root['note'], metadata.notes, null);
@@ -48,6 +49,7 @@ export class ModsParserService {
         this.processLocations(root['location'], metadata);
         this.processSubjects(root['subject'], metadata);
         this.processLanguages(root['language'], metadata);
+        this.processParts(root['part'], metadata);
         this.processPhysicalDescriptions(root['physicalDescription'], metadata);
         this.processSimpleArray(root['note'], metadata.notes, null);
         this.processSimpleArray(root['tableOfContents'], metadata.contents, null);
@@ -77,6 +79,21 @@ export class ModsParserService {
     }
 
 
+
+    private processParts(array, metadata: Metadata) {
+        if (!array) {
+            return;
+        }
+        for (const item of array) {
+            if (item.extent && item.extent[0]) {
+                const extent = item.extent[0];
+                const start = this.getText(extent.start);
+                const end = this.getText(extent.end);
+                metadata.extent = start + '-' + end;
+                return;
+            }
+        }
+    }
 
 
     private processTitles(array, metadata: Metadata) {
@@ -158,6 +175,7 @@ export class ModsParserService {
             this.processPublishers(ri['originInfo'], review);
             this.processLocations(ri['location'], review);
             this.processSubjects(ri['subject'], review);
+            this.processParts(ri['part'], review);
             this.processLanguages(ri['language'], review);
             this.processSimpleArray(ri['note'], review.notes, null);
             this.processSimpleArray(ri['abstract'], review.abstracts, null);
