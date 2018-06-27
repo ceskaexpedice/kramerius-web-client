@@ -1,6 +1,4 @@
-import { ViewerControlsService, ViewerActions } from './../../services/viewre-controls.service.';
-import { Subscription } from 'rxjs/Subscription';
-import { BookService, BookState } from './../../services/book.service';
+import { BookService, BookState, BookPageState } from './../../services/book.service';
 import { Component, OnInit } from '@angular/core';
 import { PDFDocumentProxy } from 'ng2-pdf-viewer';
 
@@ -17,8 +15,13 @@ export class PdfViewerComponent implements  OnInit {
   ngOnInit() {
   }
 
-
   onError(error: any) {
+    this.bookService.bookState = BookState.Failure;
+    if (error && error['status'] === 403) {
+      this.bookService.pageState = BookPageState.Inaccessible;
+    } else {
+      this.bookService.pageState = BookPageState.Failure;
+    }
   }
 
   onSuccess(pdf: PDFDocumentProxy) {

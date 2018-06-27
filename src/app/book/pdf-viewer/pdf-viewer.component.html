@@ -12,6 +12,18 @@
   [render-text]="true">
 </pdf-viewer>
 
+  <app-alert *ngIf="bookService.isPageInaccessible()"
+             type="warning"
+             title="alert.warning"
+             message="alert.inaccessible_document">
+  </app-alert>
+
+  <app-alert *ngIf="bookService.isPageFailure()"
+              type="danger"
+              title="alert.error"
+              message="alert.failed_to_load_image">
+  </app-alert>
+
 <mz-spinner *ngIf="bookService.isLoading()"
   class="medium-centered-spinner"
   [color]="'blue'"
