@@ -68,13 +68,13 @@
       
       <div *ngIf="metadata.previousIssue">
         <a [routerLink]="['/view', metadata.previousIssue.uuid]">
-          {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.title }}
+          {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.subtitle }} ({{ metadata.previousIssue.title }})
         </a>
       </div>
 
       <div *ngIf="metadata.nextIssue">
         <a [routerLink]="['/view', metadata.nextIssue.uuid]">
-          {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.title }}
+          {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.subtitle }} ({{ metadata.nextIssue.title }})
         </a>
       </div>
 
@@ -96,12 +96,12 @@
 
       <div *ngIf="metadata.previousUnit">
         <a [routerLink]="['/view', metadata.previousUnit.uuid]" class="single-line">
-          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.title }}
+          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.subtitle }} ({{ metadata.previousUnit.title }})
         </a>
       </div>
       <div *ngIf="metadata.nextUnit">
         <a [routerLink]="['/view', metadata.nextUnit.uuid]" class="single-line">
-          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.title }}
+          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.subtitle }} ({{ metadata.nextUnit.title }})
         </a>
       </div>
 
