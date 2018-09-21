@@ -144,6 +144,18 @@ export class ModsParserService {
             if (given && family) {
                 author.name = family + ', ' + given;
             }
+            if (item.role) {
+                for (const role of item.role) {
+                    if (role['roleTerm']) {
+                        for (const roleTerm of role['roleTerm']) {
+                            const r = roleTerm['_'];
+                            if (r) {
+                                author.roles.push(r);
+                            }
+                        }
+                    }
+                }
+            }
             metadata.authors.push(author);
         }
     }

@@ -94,6 +94,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
 import { DialogMetadataComponent } from './dialog/dialog-metadata/dialog-metadata.component';
 
 import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule } from 'ngx-materialize';
+import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -151,6 +152,7 @@ const ROUTES: Routes = [
     DialogOcrComponent,
     DialogPdfComponent,
     DialogShareComponent,
+    DialogAuthosComponent,
     DialogMetadataComponent,
     LogoComponent,
     BookSearchComponent,
@@ -174,6 +176,7 @@ const ROUTES: Routes = [
     DialogPdfComponent,
     DialogShareComponent,
     SimpleDialogComponent,
+    DialogAuthosComponent,
     DialogMetadataComponent
   ],
   imports: [

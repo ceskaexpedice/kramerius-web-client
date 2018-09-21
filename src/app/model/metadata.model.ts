@@ -122,8 +122,13 @@ export class Volume {
 }
 
 export class Author {
-    public name;
-    public date;
+    public name: string;
+    public date: string;
+    public roles: string[];
+
+    constructor() {
+        this.roles = [];
+    }
 }
 
 export class Location {

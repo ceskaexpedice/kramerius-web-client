@@ -1,3 +1,4 @@
+import { DialogAuthosComponent } from './../dialog/dialog-authors/dialog-authors.component';
 import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, Input } from '@angular/core';
@@ -11,6 +12,7 @@ import { DialogMetadataComponent } from '../dialog/dialog-metadata/dialog-metada
 })
 export class MetadataComponent implements OnInit {
   public controlsEnabled = true;
+
   @Input() set showControls(value: boolean) {
     this.controlsEnabled = value;
   }
@@ -28,7 +30,10 @@ export class MetadataComponent implements OnInit {
 
   showModsDialog() {
     this.modalService.open(DialogMetadataComponent, { map: this.metadata.modsMap} );
+  }
 
+  showAuthors() {
+    this.modalService.open(DialogAuthosComponent, { authors: this.metadata.authors} );
   }
 
   onShare() {
