@@ -109,7 +109,9 @@
     },
     "toolbar": {
       "playing": "Playing"
-    }
+    },
+    "inaccessible_track": "The track is not publically accessible",
+    "download_track": "Download track"
   },
   "alert": {
     "warning": "Attention",

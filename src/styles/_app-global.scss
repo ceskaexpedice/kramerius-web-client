@@ -66,6 +66,13 @@ mz-spinner.medium-centered-spinner {
   left: calc(50% - 20px);
 }
 
+mz-spinner.app-small-spinner {
+  .preloader-wrapper {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 // mq
 @media #{$medium-and-down} {
   .material-tooltip {

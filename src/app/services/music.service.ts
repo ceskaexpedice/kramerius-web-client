@@ -3,18 +3,20 @@ import { Track } from './../model/track.model';
 import { KrameriusApiService } from './kramerius-api.service';
 import { LocalStorageService } from './local-storage.service';
 import { ModsParserService } from './mods-parser.service';
-import { SolrService } from './solr.service';
+import { saveAs } from 'file-saver';
 import { DocumentItem } from './../model/document_item.model';
-import { PeriodicalItem } from './../model/periodicalItem.model';
 import { Injectable } from '@angular/core';
 import { Metadata } from '../model/metadata.model';
 import { NgxGalleryImage } from 'ngx-gallery';
+import { MzModalService } from 'ngx-materialize';
+import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.component';
 
 @Injectable()
 export class MusicService {
 
   audio;
   activeTrack: Track;
+  downloadedTrack: Track;
   soundUnitIndex = 0;
   uuid: string;
   metadata: Metadata;
@@ -33,9 +35,11 @@ export class MusicService {
 
   galleryImages: NgxGalleryImage[];
 
+  downloadingTrackIndex: number;
 
-  constructor(private solrService: SolrService,
-    private modsParserService: ModsParserService,
+
+  constructor(private modsParserService: ModsParserService,
+    private modalService: MzModalService,
     private localStorageService: LocalStorageService,
     private krameriusApiService: KrameriusApiService) {
   }
@@ -185,6 +189,39 @@ export class MusicService {
     };
   }
 
+
+
+  downloadTrack(e, track: Track) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (track === null) {
+        return;
+    }
+    if (!track.isPublic) {
+      this.modalService.open(SimpleDialogComponent, {
+        title: 'common.warning',
+        message: 'music.inaccessible_track',
+        button: 'common.close'
+      });
+      return;
+    }
+    this.downloadedTrack = track;
+    this.krameriusApiService.downloadMp3(track.uuid).subscribe(
+      response => {
+        const blob = new Blob([response['_body']], { type: 'audio/mpeg' });
+        saveAs(blob, track.name + '.mp3');
+        this.downloadedTrack = null;
+      },
+      error => {
+        this.downloadedTrack = null;
+        console.error('MP3 download failed', error);
+      }
+    );
+    this.downloadingTrackIndex = -1;
+  }
+
+
+
   isPlaying(): boolean {
     return this.playing;
   }
@@ -224,6 +261,7 @@ export class MusicService {
     return '';
   }
 
+
   clear() {
     this.state = MusicState.None;
     this.metadata = null;
@@ -243,6 +281,8 @@ export class MusicService {
     this.playing = false;
     this.canPlay = false;
     this.activeMobilePanel = 'player';
+    this.downloadingTrackIndex = -1;
+    this.downloadedTrack = null;
   }
 
   isStateSuccess(): boolean {

@@ -7,6 +7,13 @@
   <div class="app-music-track-list">
     <div *ngFor="let track of musicService.tracks">
       <div class="app-music-track" (click)="musicService.selectTrack(track)" [class.playing]="musicService.isPlaying()" [class.active]="musicService.isActiveTrack(track)">
+        <div class="app-music-track-download">
+          <mz-spinner *ngIf="musicService.downloadedTrack === track"
+            class="app-small-spinner"
+            [color]="'blue'">
+          </mz-spinner>
+          <i *ngIf="musicService.downloadedTrack !== track" (click)="musicService.downloadTrack($event, track)" mz-tooltip [tooltip]="'music.download_track' | translate" [position]="'bottom'" mz-icon-mdi [size]="'18px'" [icon]="'download'" class="app-music-track-download-icon"></i>
+        </div>
         <div class="app-music-track-icon">
           <i *ngIf="!track.isPublic" mz-icon-mdi [size]="'18px'" [icon]="'lock'" class="app-music-track-lock"></i>
           <i mz-icon-mdi [size]="'18px'" [icon]="'play'" class="app-music-track-play"></i>

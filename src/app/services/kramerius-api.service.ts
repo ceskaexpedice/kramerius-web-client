@@ -256,6 +256,15 @@ export class KrameriusApiService {
         return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
     }
 
+    downloadMp3(uuid: string) {
+        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
+        return this.http.get(url, {
+            responseType: ResponseContentType.Blob
+        });
+    }
+
+
+
     getScaledJpegUrl(uuid: string, height: number): string {
         let url = this.BASE_URL + '/search/img?pid=' + uuid + '&stream=IMG_FULL';
         if (height) {

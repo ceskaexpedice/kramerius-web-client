@@ -109,7 +109,9 @@
     },
     "toolbar": {
       "playing": "Přehrávání"
-    }
+    },
+    "inaccessible_track": "Nahrávka není veřejně dostupná.",
+    "download_track": "Stáhnout nahrávku"
   },
   "alert": {
     "warning": "Upozornění",

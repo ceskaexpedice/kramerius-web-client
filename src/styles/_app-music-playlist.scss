@@ -51,7 +51,7 @@ app-music-playlist {
           float: left;
           height: 27px;
           width: 18px;
-          
+
           .app-music-track-lock {
             color: $app-grey-l-1;
             display: block;
@@ -60,6 +60,25 @@ app-music-playlist {
           .app-music-track-play, .app-music-track-pause {
             color: $app-grey-d-4;
             display: none;
+          }
+        }
+
+        .app-music-track-download {
+          float: right;
+          height: 27px;
+          width: 18px;
+          .app-music-track-download-icon {
+            color: $app-grey-l-1;
+            display: block;
+            &:hover {
+              color: $app-black;
+            }
+            &.app-private {
+              color: $app-grey-l-2;
+              &:hover {
+                color: $app-grey-l-2;
+              }
+            }
           }
         }
         
@@ -72,7 +91,7 @@ app-music-playlist {
           
           // mq
           @media #{$medium-and-down} {
-            width: calc(100% - 26px);
+            width: calc(100% - 44px);
           }
         }
         
