@@ -253,6 +253,9 @@
     },
     "private_document_pdf": {
       "message": "It is not allowed to generate PDF from copyrighted documents."
+    },
+    "private_document_jpeg": {
+      "message": "The page is not publically accessible."
     }
   },
   "model" : {

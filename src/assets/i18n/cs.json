@@ -248,6 +248,9 @@
     },
     "private_document_pdf": {
       "message": "Z autorsky chráněných dokumentů nelze generovat PDF."
+    },
+    "private_document_jpeg": {
+      "message": "Stránka není veřejně dostupná."
     }
   },
   "model" : {

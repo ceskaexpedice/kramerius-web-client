@@ -427,9 +427,17 @@ export class BookService {
     }
 
     showJpeg() {
-        window.open(this.krameriusApiService.getFullJpegUrl(this.getPage().uuid), '_blank');
-        if (this.getRightPage()) {
-            window.open(this.krameriusApiService.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+        if (this.pageState === BookPageState.Inaccessible) {
+            this.modalService.open(SimpleDialogComponent, {
+                title: 'common.warning',
+                message: 'dialogs.private_document_jpeg.message',
+                button: 'common.close'
+            });
+        } else if (this.pageState === BookPageState.Success) {
+            window.open(this.krameriusApiService.getFullJpegUrl(this.getPage().uuid), '_blank');
+            if (this.getRightPage()) {
+                window.open(this.krameriusApiService.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+            }
         }
     }
 
