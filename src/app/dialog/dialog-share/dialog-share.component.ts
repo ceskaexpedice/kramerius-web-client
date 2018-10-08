@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MzBaseModal } from 'ngx-materialize';
+import { MzBaseModal, MzToastService } from 'ngx-materialize';
+import { Translator } from 'angular-translator';
 
 @Component({
   selector: 'app-dialog-share',
@@ -13,7 +14,12 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
   }
 
 
-  share = function(site) {
+  constructor(private toastService: MzToastService, private translator: Translator) {
+    super();
+  }
+
+
+  share(site) {
     let baseUrl = '';
     if (site === 'facebook') {
       baseUrl = 'https://www.facebook.com/sharer/sharer.php?u=';
@@ -30,7 +36,12 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
          + encodeURIComponent(this.link)
         , 'sharer', 'toolbar=0,status=0,width=' + width + ',height=' + height
         + ',top=' + (window.innerHeight - height) / 2 + ',left=' + (window.innerWidth - width) / 2);
-  };
+  }
 
+  onCopied(callback) {
+    if (callback && callback['isSuccess']) {
+      this.toastService.show(<string> this.translator.instant('common.copied_to_clipboard'), 1000);
+    }
+  }
 
 }

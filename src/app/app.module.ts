@@ -41,6 +41,7 @@ import { TranslatorModule } from 'angular-translator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { NgDatepickerModule } from './ng-datepicker/ng-datepicker.module';
+import { ClipboardModule } from 'ngx-clipboard';
 
 
 import { AppComponent } from './app.component';
@@ -93,7 +94,7 @@ import { PeriodicalFiltersComponent } from './periodical/periodical-filters/peri
 import { NgxGalleryModule } from 'ngx-gallery';
 import { DialogMetadataComponent } from './dialog/dialog-metadata/dialog-metadata.component';
 
-import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule } from 'ngx-materialize';
+import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
 import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
 
 const ROUTES: Routes = [
@@ -208,9 +209,11 @@ const ROUTES: Routes = [
     MzCollapsibleModule,
     MzCollectionModule,
     MzCardModule,
+    MzToastModule,
     MzDropdownModule,
     MzCheckboxModule,
-    MzDatepickerModule
+    MzDatepickerModule,
+    ClipboardModule
   ],
   providers: [
     AppState,

@@ -13,6 +13,13 @@ mz-modal.app-dialog-share {
     }
   }
 
+  .copy-to-clipboard {
+    position: absolute;
+    right: 0px;
+    cursor: pointer;
+    top: 4px;
+  }
+
   .social {
     .label {
       margin-bottom: 15px;
