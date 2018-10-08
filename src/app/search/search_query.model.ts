@@ -136,7 +136,7 @@ export class SearchQuery {
         }
         let q = this.query;
         if (!Utils.inQuotes(q)) {
-            q = q.trim().replace(/:|;|{|}|&|\[|\]|!|/g, '').replace(/-/g, '//-');
+            q = q.trim(); // .replace(/:|\?|,|=|;|{|}|&|\[|\]|\[|!/g, ' ').replace(/-/g, '//-').replace(/\./g, '//.');
             while (q.indexOf('  ') > 0) {
                 q = q.replace(/  /g, ' ');
             }
@@ -174,9 +174,12 @@ export class SearchQuery {
             //     q += '_query_:"{!dismax qf=\'text\' v=$q1}\"';
             // }
             // q += '_query_:"{!edismax v=$q1}\"';
-            q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 keywords text^0.1\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
-
-
+            // q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 keywords text^0.1\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
+            if (facet) {
+                q += '_query_:"{!edismax v=$q1}\"';
+            } else {
+                q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
+            }
             // q += '&defType=edismax'
             // + '&qf=dc.title^10 dc.creator^2 keywords text^0.1'
             // + '&bq=(level:0)^10&bq=(dostupnost:public)^2';

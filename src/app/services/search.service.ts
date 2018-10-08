@@ -1,12 +1,10 @@
 import { LocalStorageService } from './local-storage.service';
 import { Translator } from 'angular-translator';
-import { Author } from './../model/metadata.model';
 import { Router } from '@angular/router';
 import { KrameriusApiService } from './kramerius-api.service';
 import { SolrService } from './solr.service';
 import { DocumentItem } from './../model/document_item.model';
 import { SearchQuery } from './../search/search_query.model';
-import { Page } from './../model/page.model';
 import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
@@ -39,7 +37,7 @@ export class SearchService {
         private krameriusApiService: KrameriusApiService,
         private appSettings: AppSettings,
         private translator: Translator) {
-            translator.languageChanged.subscribe(() => {
+            this.translator.languageChanged.subscribe(() => {
                 this.translateCollections();
             });
     }
