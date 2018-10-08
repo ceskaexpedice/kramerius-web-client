@@ -168,7 +168,12 @@ export class KrameriusApiService {
         if (query && applyYear && query.isYearRangeSet()) {
             url += ' AND (rok:[' + query.from + ' TO ' + query.to + '] OR (datum_begin:[* TO ' + query.to + '] AND datum_end:[' + query.from + ' TO *]))';
         }
-        url += '&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
+        url += '&sort=';
+        if (level > 1) {
+            url += 'datum asc,';
+        }
+        url += 'datum_str asc,fedora.model asc,dc.title asc&rows=1500&start=0';
+        // url += '&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
         return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
