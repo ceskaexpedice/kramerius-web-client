@@ -208,6 +208,21 @@ export class ModsParserService {
         for (const item of array) {
             const publisher = new Publisher();
             publisher.name = this.getText(item.publisher);
+
+            // publisher.place = ctx.textInElement($(this), ctx.addNS("placeTerm[type='text'][authority!='marccountry']:first"));
+            // var dateOther = ctx.textInElement($(this), ctx.addNS("dateOther:first"));
+
+            if (item.place) {
+                for (const place of item.place) {
+                    if (!(place.placeTerm && place.placeTerm[0])) {
+                        continue;
+                    }
+                    const placeTerm = place.placeTerm[0];
+                    if (this.hasAttribute(placeTerm, 'type', 'text')) {
+                        publisher.place = this.getText(placeTerm);
+                    }
+                }
+            }
             let dateFrom = null;
             let dateTo = null;
             let date = null;
@@ -225,6 +240,9 @@ export class ModsParserService {
                     date = dateFrom + '-' + dateTo;
                 }
                 publisher.date = date;
+            }
+            if (!publisher.date) {
+                publisher.date = this.getText(item.dateOther);
             }
             if (!publisher.empty()) {
                 metadata.publishers.push(publisher);

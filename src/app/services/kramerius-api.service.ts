@@ -135,6 +135,8 @@ export class KrameriusApiService {
             + ' AND fedora.model:page'
             + ' AND text:'
             + query
+            // + ' AND _query_:"{!edismax qf=\'text_ocr\' v=$q1}"'
+            // + '&q1=' + query
             + '&rows=200';
         return this.doGet(url)
             .map(response => this.solrService.uuidList(response.json()))
