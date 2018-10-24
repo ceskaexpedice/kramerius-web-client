@@ -142,7 +142,7 @@ export class SearchService {
         if (this.results.length === 0 || this.getNumberOfResults() === 0) {
             return 0;
         }
-        return Math.min(this.results.length, this.query.getStart() + 1);
+        return this.query.getStart() + 1;
     }
 
 
