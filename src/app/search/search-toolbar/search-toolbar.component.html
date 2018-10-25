@@ -3,7 +3,7 @@
   <div class="col s10 app-col-left hide-on-med-only hide-on-med-and-down">
     <ul>
       <li *ngFor="let doctype of searchService.doctypes" [ngClass]="{'active' : searchService.highlightDoctype(doctype.value), 'disable' : doctype.count == 0}" class="{{doctype.value}}">
-        <span (click)="searchService.toggleFilter(searchService.query.doctypes, doctype.value)" mz-tooltip [tooltip]="'model.' + doctype.value | translate" [position]="'top'" class="app-cursor-pointer">
+        <span (click)="searchService.toggleFilter(searchService.query.doctypes, doctype.value)" mz-tooltip [tooltip]="'model_plural.' + doctype.value | translate" [position]="'top'" class="app-cursor-pointer">
           <i [class]="'app-mdi-' + doctype.value"></i> {{doctype.count}}
         </span>
       </li>
