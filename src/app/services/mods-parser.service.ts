@@ -151,13 +151,14 @@ export class ModsParserService {
                     if (role['roleTerm']) {
                         for (const roleTerm of role['roleTerm']) {
                             const r = roleTerm['_'];
-                            if (r) {
+                            if (r && this.hasAttribute(roleTerm, 'type', 'code')) {
                                 author.roles.push(r);
                             }
                         }
                     }
                 }
             }
+            console.log('roles', author.roles);
             metadata.authors.push(author);
         }
     }
