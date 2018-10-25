@@ -134,15 +134,17 @@ export class ModsParserService {
                     if (type === 'date') {
                         author.date = partName['_'];
                     }
-                    // else {
-                    //     author.name = partName['_'];
-                    // }
                 } else {
                     author.name = partName['_'];
                 }
             }
-            if (given && family) {
-                author.name = family + ', ' + given;
+            if (family) {
+                author.name = family;
+                if (given) {
+                    author.name = author.name + ', ' + given;
+                }
+            } else if (given) {
+                author.name = given;
             }
             if (item.role) {
                 for (const role of item.role) {
