@@ -242,6 +242,9 @@ export class ModsParserService {
                 if (dateFrom && dateTo) {
                     date = dateFrom + '-' + dateTo;
                 }
+                if (date && (date.endsWith('-9999') || date.endsWith('-uuuu'))) {
+                    date = date.substring(0, date.length - 4);
+                }
                 publisher.date = date;
             }
             if (!publisher.date) {
