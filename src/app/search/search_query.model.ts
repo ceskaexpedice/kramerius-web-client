@@ -305,7 +305,11 @@ export class SearchQuery {
         } else if (this.ordering === 'earliest') {
            return 'datum_begin asc';
         } else if (this.ordering === 'alphabetical') {
-           return 'root_title asc';
+            if (this.getRawQ()) {
+                return 'root_title asc';
+            } else {
+                return 'title_sort asc';
+            }
         }
         return null;
     }
