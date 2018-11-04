@@ -2,7 +2,6 @@ import { Metadata, TitleInfo, Author, Publisher, Location, PhysicalDescription }
 import { Injectable } from '@angular/core';
 import { parseString, processors, Builder } from 'xml2js';
 
-
 @Injectable()
 export class ModsParserService {
 

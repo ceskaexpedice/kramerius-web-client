@@ -21,6 +21,7 @@ import 'rxjs/add/observable/forkJoin';
 import { Article } from '../model/article.model';
 import { HistoryService } from './history.service';
 import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.component';
+import { DomSanitizer} from '@angular/platform-browser';
 
 
 
@@ -49,6 +50,7 @@ export class BookService {
     public metadata: Metadata;
 
     public pdf: string;
+    public pdfPath;
     public isPrivate: boolean;
 
     public articles: Article[];
@@ -67,6 +69,7 @@ export class BookService {
         private krameriusApiService: KrameriusApiService,
         private modsParserService: ModsParserService,
         private solrService: SolrService,
+        private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
         private modalService: MzModalService) {
@@ -91,6 +94,7 @@ export class BookService {
                 this.showNavigationPanel = false;
                 this.viewer = 'pdf';
                 this.pdf = this.krameriusApiService.getPdfUrl(uuid);
+                this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl('assets/pdf/viewer.html?file=' + this.pdf);
             } else {
                 this.krameriusApiService.getChildren(uuid).subscribe(response => {
                     if (response && response.length > 0) {
@@ -657,6 +661,7 @@ export class BookService {
 
     onArticleSelected(article: Article) {
         this.pdf = null;
+        this.pdfPath = null;
         this.bookState = BookState.Loading;
         this.article = article;
         const urlQuery = 'article=' + article.uuid;
@@ -680,6 +685,7 @@ export class BookService {
             this.viewer = 'pdf';
             // this.bookState = BookState.Success;
             this.pdf = this.krameriusApiService.getPdfUrl(article.uuid);
+            this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl('assets/pdf/viewer.html?file=' + this.pdf);
         } else if (article.type === 'pages') {
             this.publishNewPages(BookPageState.Loading);
             if (this.article.pages) {
@@ -802,6 +808,7 @@ export class BookService {
 
     clear() {
         this.pdf = null;
+        this.pdfPath = null;
         this.bookState = BookState.None;
         this.pageState = BookPageState.None;
         this.doublePage = false;
