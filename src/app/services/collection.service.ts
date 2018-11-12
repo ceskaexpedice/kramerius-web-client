@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class CollectionService {
 
-    private collections: Collection[];
+    public collections: Collection[];
     private cache = {};
 
     constructor(private translator: Translator) {
@@ -21,29 +21,6 @@ export class CollectionService {
     getDescriptionByPid(pid: string): string {
         return this.cache[pid] ? this.cache[pid].description : '-';
     }
-
-
-    // getName(collection: Collection) {
-    //     if (!collection) {
-    //         return '-';
-    //     }
-    //     if (this.translator.language === 'cs') {
-    //         return collection.titleCs;
-    //     } else {
-    //         return collection.titleEn;
-    //     }
-    // }
-
-    // getDescription(collection: Collection) {
-    //     if (!collection) {
-    //         return '-';
-    //     }
-    //     if (this.translator.language === 'cs') {
-    //         return collection.descriptionCs;
-    //     } else {
-    //         return collection.descriptionEn;
-    //     }
-    // }
 
     assign(collections) {
         if (collections) {
