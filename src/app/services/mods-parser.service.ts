@@ -157,7 +157,6 @@ export class ModsParserService {
                     }
                 }
             }
-            console.log('roles', author.roles);
             metadata.authors.push(author);
         }
     }

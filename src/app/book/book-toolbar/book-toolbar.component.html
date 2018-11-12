@@ -1,7 +1,7 @@
 <div class="row app-clean-mg">
   <div class="col s12">
     <ul class="tabs">
-      <li class="tab col s3">
+      <li class="tab col s3" *ngIf="bookService.showNavigationPanel">
         <a (click)="bookService.activeMobilePanel = 'navigation'" [class.active]="bookService.activeMobilePanel == 'navigation'">
           <i mz-icon-mdi [icon]="'view-grid'"></i><span class="app-desc">{{'book_toolbar.desc_navigation' | translate}}</span>
         </a>

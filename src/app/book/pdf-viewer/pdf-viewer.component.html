@@ -1,34 +1,37 @@
-<!-- <pdf-viewer 
-  *ngIf="bookService.pdf"
-  [show-all]="true"
-  [original-size]="false"
-  [fit-to-page]="true"
-  (after-load-complete)="onSuccess($event)"
-  (error)="onError($event)"
-  [src]="{
-    url: bookService.pdf,
-    withCredentials: false
-  }" 
-  [render-text]="true">
-</pdf-viewer>
-
-  <app-alert *ngIf="bookService.isPageInaccessible()"
-             type="warning"
-             title="alert.warning"
-             message="alert.inaccessible_document">
-  </app-alert>
-
-  <app-alert *ngIf="bookService.isPageFailure()"
-              type="danger"
-              title="alert.error"
-              message="alert.failed_to_load_image">
-  </app-alert>
-
-<mz-spinner *ngIf="bookService.isLoading()"
-  class="medium-centered-spinner"
-  [color]="'blue'"
-  [size]="'medium'">
-</mz-spinner>
- -->
-
 <iframe *ngIf="bookService.pdf" [src]="bookService.pdfPath" width="100%" height="100%" frameborder="0"></iframe>
+
+<span *ngIf="controlsService.leftPanelVisible && bookService.showNavigationPanel"
+class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.hideLeftPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_hide_left' | translate" 
+[position]="'right'">
+<i class="app-mdi-menu-left" [class.app-mdi-tablet]="controlsService.leftPanelVisible"></i>
+</span>
+
+<span *ngIf="!controlsService.leftPanelVisible && bookService.showNavigationPanel"
+class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.showLeftPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_show_left' | translate" 
+[position]="'right'">
+<i class="app-mdi-menu-right"></i>
+</span>
+
+<span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
+class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.hideRightPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_hide_right' | translate" 
+[position]="'left'">
+<i class="app-mdi-menu-right" [class.app-mdi-tablet]="controlsService.rightPanelVisible"></i>
+</span>
+
+<span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
+class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.showRightPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_show_right' | translate" 
+[position]="'left'">
+<i class="app-mdi-menu-left"></i>
+</span>

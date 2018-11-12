@@ -1,6 +1,7 @@
 import { BookService, BookState, BookPageState } from './../../services/book.service';
 import { Component, OnInit } from '@angular/core';
 import { PDFDocumentProxy } from 'ng2-pdf-viewer';
+import { ViewerControlsService } from '../../services/viewre-controls.service.';
 
 @Component({
   selector: 'app-pdf-viewer',
@@ -9,7 +10,7 @@ import { PDFDocumentProxy } from 'ng2-pdf-viewer';
 export class PdfViewerComponent implements  OnInit {
 
 
-  constructor(public bookService: BookService) {
+  constructor(public bookService: BookService, public controlsService: ViewerControlsService) {
   }
 
   ngOnInit() {
