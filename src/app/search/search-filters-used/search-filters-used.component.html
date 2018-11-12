@@ -65,7 +65,7 @@
     <span (click)="searchService.removeFilter(searchService.query.collections, collection)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'flag'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ collections.getName(collection) }}
+      {{ collections.getNameByPid(collection) }}
     </span>
   </mz-collection-item>
 

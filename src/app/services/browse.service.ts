@@ -4,8 +4,6 @@ import { SolrService } from './solr.service';
 import { Router } from '@angular/router';
 import { BrowseQuery } from './../browse/browse_query.model';
 import { Injectable } from '@angular/core';
-import { filter } from 'rxjs/operator/filter';
-import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
 import { CollectionService } from './collection.service';
 
 
@@ -24,7 +22,7 @@ export class BrowseService {
     constructor(
         private router: Router,
         private translator: Translator,
-       private collections: CollectionService,
+        private collectionService: CollectionService,
         private solrService: SolrService,
         private krameriusApiService: KrameriusApiService) {
             translator.languageChanged.subscribe(() => {
@@ -158,9 +156,9 @@ export class BrowseService {
                 this.loading = false;
             });
         } else if (this.getCategory() === 'collections') {
-            if (this.collections.ready()) {
+            if (this.collectionService.ready()) {
                 for (const item of this.backupResults) {
-                    item.name  = this.collections.getName(item.value);
+                    item.name  = this.collectionService.getNameByPid(item.value);
                 }
                 const filteredResults = [];
                 for (const item of this.backupResults) {
@@ -176,7 +174,7 @@ export class BrowseService {
                 this.loading = true;
                 this.krameriusApiService.getCollections().subscribe(
                     results => {
-                        this.collections.assign(results);
+                        this.collectionService.assign(results);
                         this.translateResults();
                     }
                 );

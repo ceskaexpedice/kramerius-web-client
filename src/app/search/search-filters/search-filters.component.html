@@ -156,7 +156,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.collections; let i = index;">
             <span class="app-row" *ngIf="i < 6 || collectionsExpanded">
-              <a (click)="searchService.toggleFilter(searchService.query.collections, item.value)">{{ item.name }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.collections, item.value)">{{ collectionService.getNameByPid(item.value) }}</a>
               <span>
                 {{item.count}}
               </span>

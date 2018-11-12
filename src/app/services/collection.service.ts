@@ -1,40 +1,92 @@
+import { Collection } from './../model/collection.model';
 import { Translator } from 'angular-translator';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CollectionService {
 
+    private collections: Collection[];
+    private cache = {};
+
     constructor(private translator: Translator) {
-
+        this.translator.languageChanged.subscribe(() => {
+            this.localeChanged();
+        });
     }
 
-    private collections = null;
-
-
-    getName(id: string) {
-        if (this.collections) {
-            for (const coll of this.collections) {
-                if (id === coll.pid) {
-                    if (coll.descs) {
-                        if (this.translator.language === 'cs') {
-                            return coll.descs.cs;
-                        } else {
-                            return coll.descs.en;
-                        }
-                    }
-                }
-            }
-        }
-        return '-';
+    getNameByPid(pid: string): string {
+        return this.cache[pid] ? this.cache[pid].title : '-';
     }
+
+    getDescriptionByPid(pid: string): string {
+        return this.cache[pid] ? this.cache[pid].description : '-';
+    }
+
+
+    // getName(collection: Collection) {
+    //     if (!collection) {
+    //         return '-';
+    //     }
+    //     if (this.translator.language === 'cs') {
+    //         return collection.titleCs;
+    //     } else {
+    //         return collection.titleEn;
+    //     }
+    // }
+
+    // getDescription(collection: Collection) {
+    //     if (!collection) {
+    //         return '-';
+    //     }
+    //     if (this.translator.language === 'cs') {
+    //         return collection.descriptionCs;
+    //     } else {
+    //         return collection.descriptionEn;
+    //     }
+    // }
 
     assign(collections) {
-        this.collections = collections;
+        if (collections) {
+            this.collections = [];
+            for (const col of collections) {
+                const collection = new Collection();
+                collection.pid = col.pid;
+                if (col.descs) {
+                    collection.titleCs = col.descs.cs;
+                    collection.titleEn = col.descs.en;
+                }
+                if (col.longDescs) {
+                    collection.descriptionCs = col.longDescs.cs;
+                    collection.descriptionEn = col.longDescs.en;
+                }
+                if (col.numberOfDocs) {
+                    collection.count = col.numberOfDocs;
+                }
+                this.collections.push(collection);
+                this.cache[collection.pid] = collection;
+            }
+            this.localeChanged();
+        }
     }
 
     ready(): boolean {
         return !!this.collections;
     }
 
+
+    private localeChanged() {
+        if (!this.collections) {
+            return;
+        }
+        for (const col of this.collections) {
+            if (this.translator.language === 'cs') {
+                col.title = col.titleCs;
+                col.description = col.descriptionCs;
+            } else {
+                col.title = col.titleEn;
+                col.description = col.descriptionEn;
+            }
+        }
+    }
 
 }

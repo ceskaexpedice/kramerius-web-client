@@ -10,6 +10,7 @@ export class AppSettings {
   public logo = APP_GLOBAL.logo;
   public url = APP_GLOBAL.url;
   public share_url = APP_GLOBAL.share_url;
+  public richCollections = APP_GLOBAL.richCollections;
   public joinedDoctypes = APP_GLOBAL.joinedDoctypes;
   public doctypes = APP_GLOBAL.doctypes;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;

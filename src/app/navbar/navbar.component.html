@@ -10,7 +10,8 @@
     <app-navbar-search-bar *ngIf="state.activePage != '/'" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
     <mz-navbar-item-container [align]="'right'" class="hide-on-med-and-down">
       <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
-        <a routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
+        <a *ngIf="!richCollections" routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
+        <a *ngIf="richCollections" routerLink='collections'>{{ 'navbar.collections' | translate }}</a>
       </mz-navbar-item>
       <mz-navbar-item routerLinkActive="active" #browse="routerLinkActive">
         <a routerLink='browse'>{{ 'navbar.browse' | translate }}</a>
@@ -33,7 +34,8 @@
 <mz-sidenav #sidenav [id]="'app-side-nav'" [collapseButtonId]="'app-btn-sidenav'" [closeOnClick]="true">
   <mz-sidenav-subheader>{{ 'navbar.main_navigation' | translate }}</mz-sidenav-subheader>
   <mz-sidenav-link routerLinkActive="active" #collections="routerLinkActive">
-    <a routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
+    <a *ngIf="!richCollections" routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
+    <a *ngIf="richCollections" routerLink='collections'>{{ 'navbar.collections' | translate }}</a>
   </mz-sidenav-link>
   <mz-sidenav-link routerLinkActive="active" #browse="routerLinkActive">
     <a routerLink='browse'>{{ 'navbar.browse' | translate }}</a>

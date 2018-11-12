@@ -15,7 +15,8 @@ app-root {
     
     // common behavior
     app-search,
-    app-browse,    
+    app-browse,
+    app-collections,    
     app-periodical,
     app-music,
     //app-book,
@@ -84,6 +85,20 @@ app-root {
         @import "styles/app-browse-toolbar";
         @import "styles/app-browse-results";
       }
+    }
+
+    // collections
+    app-collections {
+      .app-collections-wrapper {
+        background-color: $app-grey-l-4;
+        overflow: auto;
+        padding: 1rem 0.5rem 0.5rem;
+        @media (min-width: 1200px) {
+          display: grid;
+          grid-template-columns: repeat(2, 50%);
+        }
+      }
+      @import "styles/app-collection";
     }
     
     // book

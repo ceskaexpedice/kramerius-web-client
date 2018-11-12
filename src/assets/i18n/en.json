@@ -12,7 +12,8 @@
     "hide_whole_title": "Hide whole title",
     "beta_version": "Beta version",
     "copy_to_clipboard": "Copy to clipboard",
-    "copied_to_clipboard": "Copied to clipboard"
+    "copied_to_clipboard": "Copied to clipboard",
+    "num_of_docs": "{{ count == 1 ? 'document' : 'documents' }}"
   },
   "navbar": {
     "collections": "Collections",

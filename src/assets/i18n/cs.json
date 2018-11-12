@@ -12,7 +12,8 @@
     "hide_whole_title": "Skryj celý titulek",
     "beta_version": "Beta verze",
     "copy_to_clipboard": "Zkopírovat do schránky",
-    "copied_to_clipboard": "Zkopirováno do schránky" 
+    "copied_to_clipboard": "Zkopirováno do schránky",
+    "num_of_docs": "{{ count == 1 ? 'titul' : count < 5 ? 'tituly' : 'titulů' }}"
   },
   "navbar": {
     "collections": "Sbírky",

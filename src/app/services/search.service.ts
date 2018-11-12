@@ -1,5 +1,4 @@
 import { LocalStorageService } from './local-storage.service';
-import { Translator } from 'angular-translator';
 import { Router } from '@angular/router';
 import { KrameriusApiService } from './kramerius-api.service';
 import { SolrService } from './solr.service';
@@ -35,11 +34,7 @@ export class SearchService {
         private solrService: SolrService,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
-        private appSettings: AppSettings,
-        private translator: Translator) {
-            this.translator.languageChanged.subscribe(() => {
-                this.translateCollections();
-            });
+        private appSettings: AppSettings) {
     }
 
 
@@ -187,13 +182,10 @@ export class SearchService {
             }
             case 'collections': {
                 this.collections = this.solrService.facetList(response, SearchQuery.getSolrField('collections'), this.query['collections'], true);
-                if (this.collectionService.ready()) {
-                    this.translateCollections();
-                } else {
+                if (!this.collectionService.ready()) {
                     this.krameriusApiService.getCollections().subscribe(
                         results => {
                             this.collectionService.assign(results);
-                            this.translateCollections();
                         }
                     );
                 }
@@ -232,12 +224,5 @@ export class SearchService {
         this.checkFacet(this.query.languages.length === 0, response, 'languages');
         this.checkFacet(this.query.collections.length === 0, response, 'collections');
     }
-
-    private translateCollections() {
-        for (const col of this.collections) {
-            col['name'] = this.collectionService.getName(col.value);
-        }
-    }
-
 
 }

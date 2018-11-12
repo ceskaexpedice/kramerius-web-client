@@ -96,11 +96,14 @@ import { DialogMetadataComponent } from './dialog/dialog-metadata/dialog-metadat
 
 import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
 import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
+import { CollectionsComponent } from './collections/collections.component';
+import { CollectionComponent } from './collections/collection/collection.component';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent },
   { path: 'browse', component: BrowseComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'collections', component: CollectionsComponent },
   { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true } },
   { path: 'music/:uuid', component: MusicComponent },
   { path: 'uuid/:uuid', component: PersistentLinkComponent },
@@ -170,7 +173,9 @@ const ROUTES: Routes = [
     PeriodicalCountComponent,
     PeriodicalSearchComponent,
     PeriodicalFiltersComponent,
-    SimpleDialogComponent
+    SimpleDialogComponent,
+    CollectionsComponent,
+    CollectionComponent
   ],
   entryComponents: [
     DialogOcrComponent,

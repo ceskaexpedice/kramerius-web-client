@@ -1,6 +1,7 @@
 import { SearchService } from './../../services/search.service';
 import { SearchQuery } from './../search_query.model';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { CollectionService } from '../../services/collection.service';
 
 @Component({
   selector: 'app-search-filters',
@@ -12,7 +13,7 @@ export class SearchFiltersComponent implements OnInit {
   yearFrom: number;
   yearTo: number;
 
-  constructor(public searchService: SearchService) {
+  constructor(public searchService: SearchService, public collectionService: CollectionService) {
   }
 
   ngOnInit() {

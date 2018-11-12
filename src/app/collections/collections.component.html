@@ -1,0 +1,7 @@
+<div class="app-collections-wrapper" *ngIf="collectionService.collections">
+
+  <div *ngFor="let collection of collectionService.collections;" class="app-collection-wrapper">
+    <app-collection [collection]="collection"></app-collection>
+  </div>
+
+</div>

@@ -1,3 +1,4 @@
+import { AppSettings } from './../services/app-settings';
 import { LibrarySearchService } from './../services/library-search.service';
 import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -14,17 +15,20 @@ import { MzSidenavComponent } from 'ngx-materialize';
 export class NavbarComponent implements OnInit {
 
   mobileSearchBarExpanded = false;
+  richCollections = false;
   @ViewChild('sidenav') sidenav: MzSidenavComponent;
 
   constructor(
     public translator: Translator,
     public router: Router,
+    private settings: AppSettings,
     private history: HistoryService,
     public service: LibrarySearchService,
     public state: AppState) {
   }
 
   ngOnInit() {
+    this.richCollections = this.settings.richCollections;
   }
 
   onLanguageChanged(lang: string) {
@@ -34,7 +38,6 @@ export class NavbarComponent implements OnInit {
   }
 
   goBack() {
-    // console.log('history', this.history.pages);
     const page = this.history.pop();
     this.router.navigateByUrl(page);
   }
