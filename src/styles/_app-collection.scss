@@ -1,22 +1,11 @@
 // --- COLLECTION CARD ---
 
 .app-collection-wrapper {
-  // width: 100%;
-  // float: left;
-  
-  // display: grid;
-  // grid-template-columns: repeat(2, 50%);
-  // @media (min-width: 1200px) {
-  //   width:50%;
-  // }
+  display: block;
   app-collection {
-    // position: relative;
-    // width: 50%;
-    // float: left;
     .card {
       @extend .app-cursor-pointer;
       margin: 0 0.5rem 1rem;
-      // height: 144px;
       @include setCardShadow(0, 0, 0, $app-grey-l-2);
       .card-content {
         padding: 10px;

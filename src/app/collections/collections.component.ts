@@ -8,14 +8,18 @@ import { KrameriusApiService } from '../services/kramerius-api.service';
 })
 export class CollectionsComponent implements OnInit {
 
+  loading = false;
+
   constructor(public collectionService: CollectionService,
     private krameriusApiService: KrameriusApiService ) { }
 
   ngOnInit() {
     if (!this.collectionService.ready()) {
+      this.loading = true;
       this.krameriusApiService.getCollections().subscribe(
           results => {
               this.collectionService.assign(results);
+              this.loading = false;
           }
       );
     }
