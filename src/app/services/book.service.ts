@@ -75,6 +75,19 @@ export class BookService {
         private modalService: MzModalService) {
     }
 
+
+    private assignPdfPath() {
+        if (this.pdf == null) {
+            this.pdfPath = null;
+            return;
+        }
+        let url = 'assets/pdf/viewer.html?file=' + this.pdf;
+        if (this.fulltextQuery) {
+            url += '?query=' + this.fulltextQuery;
+        }
+        this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+
     init(uuid: string, pageUuid: string, articleUuid: string, fulltext: string) {
         this.clear();
         this.uuid = uuid;
@@ -94,7 +107,7 @@ export class BookService {
                 this.showNavigationPanel = false;
                 this.viewer = 'pdf';
                 this.pdf = this.krameriusApiService.getPdfUrl(uuid);
-                this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl('assets/pdf/viewer.html?file=' + this.pdf);
+                this.assignPdfPath();
             } else {
                 this.krameriusApiService.getChildren(uuid).subscribe(response => {
                     if (response && response.length > 0) {
@@ -685,7 +698,7 @@ export class BookService {
             this.viewer = 'pdf';
             // this.bookState = BookState.Success;
             this.pdf = this.krameriusApiService.getPdfUrl(article.uuid);
-            this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl('assets/pdf/viewer.html?file=' + this.pdf);
+            this.assignPdfPath();
         } else if (article.type === 'pages') {
             this.publishNewPages(BookPageState.Loading);
             if (this.article.pages) {

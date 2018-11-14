@@ -1,5 +1,4 @@
 import { Utils } from '../services/utils.service';
-import { AppSettings } from '../services/app-settings';
 
 export class SearchQuery {
 
