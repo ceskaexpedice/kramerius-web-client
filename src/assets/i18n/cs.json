@@ -327,7 +327,18 @@
     "illustration" : "ilustrace",
     "imprimatur" : "povolení k tisku",
     "listofsupplements" : "seznam příloh",
-    "preface" : "předmluva"
+    "preface" : "předmluva",
+    "news": "zprávy",
+    "abstract": "abstrakt",
+    "introduction": "úvod",
+    "review": "recenze",
+    "mainarticle": "hlavní článek",
+    "editorial": "úvodník",
+    "obituary": "nekrolog",
+    "bibliographicalportrait": "medailonek",
+    "colophon": "tiráž",
+    "interview": "rozhovor",
+    "anotation": "anotace"
   },
   "calendar" : {
     "months" : {

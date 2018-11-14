@@ -332,7 +332,18 @@
     "illustration" : "illustration",
     "imprimatur" : "imprimatur",
     "listofsupplements" : "list of supplements",
-    "preface" : "preface"
+    "preface" : "preface",
+    "news": "news",
+    "abstract": "abstract",
+    "introduction": "introduction",
+    "review": "review",
+    "mainarticle": "main article",
+    "editorial": "editorial",
+    "obituary": "obituary",
+    "bibliographicalportrait": "portrait",
+    "colophon": "colophon",
+    "interview": "interview",
+    "anotation": "annotation"
   },
   "calendar" : {
     "months" : {
