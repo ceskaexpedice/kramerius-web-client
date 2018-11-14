@@ -19,9 +19,8 @@ export class PeriodicalQuery {
         query.setAccessibility(params.get('accessibility'));
         query.setFulltext(params.get('fulltext'));
         query.setYearRange(params.get('from'), params.get('to'));
-        query.setPage(params.get('page'));
         query.setOrdering(params.get('ordering'));
-
+        query.setPage(params.get('page'));
         return query;
     }
 
