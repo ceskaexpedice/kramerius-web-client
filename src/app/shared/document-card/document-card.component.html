@@ -11,7 +11,7 @@
         <div *ngIf="item.title" class="app-card-title">
           {{item.title}}
         </div>
-        <div *ngIf="item.authors" class="app-card-authors">
+        <div *ngIf="item.authors && item.authors.length > 0" class="app-card-authors">
           <i mz-icon-mdi [icon]="'account'" [class]="'app-clean-mg'"></i>
           {{item.authors}}
         </div>

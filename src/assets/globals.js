@@ -67,16 +67,16 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/cbvk/logo',
       url: 'http://kramerius.cbvk.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
       title: 'Národní technická knihovna',
-      code: 'mzk',
+      code: 'ntk',
       logo: 'https://registr.digitalniknihovna.cz/libraries/ntk/logo',
       url: 'http://kramerius.techlib.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -112,7 +112,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/cuni_fsv/logo',
       url: 'http://kramerius.fsv.cuni.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -121,7 +121,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/svkos/logo',
       url: 'https://camea2.svkos.cz/',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -130,7 +130,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/mendelu/logo',
       url: 'http://kramerius4.mendelu.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -166,7 +166,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/mkct/logo',
       url: 'https://k5.digiknihovna.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -175,7 +175,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/kvkli/logo',
       url: 'http://kramerius.kvkli.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -184,7 +184,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/kkkv/logo',
       url: 'http://k4.kr-karlovarsky.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -193,7 +193,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/kkvhb/logo',
       url: 'http://kramerius.kkvysociny.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -202,7 +202,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/nlk/logo',
       url: 'http://kramerius.medvik.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -211,7 +211,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/svkkl/logo',
       url: 'http://kramerius.svkkl.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -220,7 +220,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/svkpk/logo',
       url: 'http://k4.svkpl.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -247,7 +247,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/zcm/logo',
       url: 'http://kramerius.zcm.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
     {
@@ -265,7 +265,7 @@ var APP_GLOBAL = {
       logo: 'https://registr.digitalniknihovna.cz/libraries/cdk/logo',
       url: 'https://cdk.lib.cas.cz',
       richCollections: false,
-      joinedDoctypes: true,
+      joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
     },
   ]

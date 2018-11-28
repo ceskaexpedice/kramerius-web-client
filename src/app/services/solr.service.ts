@@ -145,6 +145,9 @@ export class SolrService {
         for (const doc of solr['response']['docs']) {
             const item = new DocumentItem();
             item.title = doc['dc.title'];
+            if (item.title === 'null') {
+                item.title = '-';
+            }
             item.uuid = doc['PID'];
             item.public = doc['dostupnost'] === 'public';
             item.doctype = doc['fedora.model'];
@@ -168,6 +171,9 @@ export class SolrService {
             const doc = doclist['docs'][0];
             const item = new DocumentItem();
             item.title = doc['root_title'];
+            if (item.title === 'null') {
+                item.title = '-';
+            }
             item.uuid = doc['root_pid'];
             item.public = doc['dostupnost'] === 'public';
             const dp = doc['model_path'][0];
