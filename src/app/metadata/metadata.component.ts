@@ -46,6 +46,10 @@ export class MetadataComponent implements OnInit {
     }
   }
 
+  public getSearchPath(): string {
+    return this.appSettings.getPathPrefix() + '/search';
+  }
+
   private getPagePersistentLink() {
     const path = location.pathname;
     const query = location.search;

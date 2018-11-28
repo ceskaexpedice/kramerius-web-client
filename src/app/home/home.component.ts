@@ -1,8 +1,10 @@
+import { AppSettings } from './../services/app-settings';
 import { LocalStorageService } from './../services/local-storage.service';
 import { DocumentItem } from './../model/document_item.model';
 import { KrameriusApiService } from './../services/kramerius-api.service';
 import { Component, OnInit } from '@angular/core';
 import { AppState } from '../app.state';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,9 +18,12 @@ export class HomeComponent implements OnInit {
   selectedTab = 'none';
   step = 6;
   page = 1;
+  lastCode: string;
 
   constructor(
     public state: AppState,
+    private route: ActivatedRoute,
+    private appSettings: AppSettings,
     private krameriusApiService: KrameriusApiService,
     private localStorageService: LocalStorageService
   ) {
@@ -26,6 +31,19 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.appSettings.multiKramerius) {
+      this.route.params.subscribe(params => {
+        if (params && params['k'] && params['k'] !== this.lastCode) {
+          this.lastCode = params['k'];
+          this.reloadData();
+        }
+      });
+    } else {
+      this.reloadData();
+    }
+  }
+
+  private reloadData() {
     this.getVisited();
     this.getNewest();
     this.getRecommended();

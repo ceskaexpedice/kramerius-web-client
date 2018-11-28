@@ -131,7 +131,8 @@
     "tab_visited": "Moje navštívené",
     "tab_recommended": "Doporučené",    
     "tab_requested": "Nejžádanějsí",
-    "tab_latest": "Nejnovější"
+    "tab_latest": "Nejnovější",
+    "select_library": "Vybrat knihovnu"
   },
   "metadata": {
     "author": "Autor",

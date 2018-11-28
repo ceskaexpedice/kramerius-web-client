@@ -1,9 +1,13 @@
+import { AppSettings } from './app-settings';
 import { DocumentItem, Context } from './../model/document_item.model';
 import { Injectable } from '@angular/core';
 
 
 @Injectable()
 export class Utils {
+
+
+    constructor(private appSettings: AppSettings) {}
 
     static inQuotes(text: string): boolean {
         return text && text.startsWith('"') && text.endsWith('"');
@@ -45,8 +49,7 @@ export class Utils {
         if (json['pdf'] && json['pdf']['url']) {
             item.pdf = true;
         }
-
-        item.resolveUrl();
+        item.resolveUrl(this.appSettings.getPathPrefix());
         return item;
     }
 

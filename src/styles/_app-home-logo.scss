@@ -1,0 +1,43 @@
+app-home-logo {
+  .brand-logo {
+    font-size: inherit;
+    position: inherit;
+    display: table;
+    line-height: normal;
+    height: 40px;
+    margin-right: auto;
+    margin-left: auto;    
+    @media #{$medium-and-down} {
+      transform: none;
+    }
+
+    .app-brand-img {
+      display: table-cell;
+      vertical-align: middle;
+
+      img {
+        height: 40px;
+      }
+    }
+
+    .app-brand-text {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 0 10px;
+      font-size: 1.1rem;
+      line-height: 1.1rem;
+      color: $app-grey;
+    }
+    .app-brand-handle {
+      display: table-cell;
+      vertical-align: middle;
+      color: #666;
+    }
+
+
+    #app-logo-dropdown-selector {
+      padding: 0 60px;
+      cursor: pointer;
+    }
+  }
+}

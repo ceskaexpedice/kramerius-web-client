@@ -12,20 +12,18 @@ export class DocumentItem {
     pdf = false;
     hits: number;
     context: Context[] = [];
+    library: string;
     params;
 
-    constructor() {
-    }
-
-    resolveUrl() {
+    resolveUrl(prefix: string) {
         if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume') {
-            this.url =  '/periodical/' + this.uuid;
+            this.url = prefix + '/periodical/' + this.uuid;
         } else if (this.doctype === 'soundrecording') {
-            this.url = '/music/' + this.uuid;
+            this.url = prefix + '/music/' + this.uuid;
         } else if (this.doctype === 'page') {
-            this.url = '/uuid/' + this.uuid;
+            this.url = prefix + '/uuid/' + this.uuid;
         } else {
-            this.url = '/view/' + this.uuid;
+            this.url = prefix + '/view/' + this.uuid;
         }
         // if (this.query) {
         //     this.url += '?q=' + this.query;

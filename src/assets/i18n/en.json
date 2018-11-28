@@ -131,7 +131,8 @@
     "tab_visited": "My visited",
     "tab_recommended": "Recommended",        
     "tab_requested": "The most requested",
-    "tab_latest": "The latest"
+    "tab_latest": "The latest",
+    "select_library": "Select Library"
   },
   "metadata": {
     "author": "Author",

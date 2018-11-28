@@ -1,13 +1,13 @@
 <mz-navbar class="clearfix">
-  <div *ngIf="state.activePage != '/'" class="col app-col-left" [class.app-col-hidden]="mobileSearchBarExpanded">
+  <div *ngIf="!state.atHome()" class="col app-col-left" [class.app-col-hidden]="mobileSearchBarExpanded">
     <a class="app-arrow-left" (click)="goBack()">
       <i mz-icon-mdi [icon]="'arrow-left'" [align]="'left'" mz-tooltip [tooltip]="'navbar.back' | translate" [position]="'right'" ></i>
     </a>
     <app-logo></app-logo>
   </div>
   
-  <div class="col app-col-right" [class.app-col-right-home]="state.activePage == '/'" [class.app-search-bar-displayed]="mobileSearchBarExpanded">
-    <app-navbar-search-bar *ngIf="state.activePage != '/'" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
+  <div class="col app-col-right" [class.app-col-right-home]="state.atHome()" [class.app-search-bar-displayed]="mobileSearchBarExpanded">
+    <app-navbar-search-bar *ngIf="!state.atHome()" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
     <mz-navbar-item-container [align]="'right'" class="hide-on-med-and-down">
       <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
         <a *ngIf="!richCollections" routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
@@ -22,7 +22,7 @@
     <a [id]="'app-btn-sidenav'" class="right hide-on-large-only">
       <i mz-icon-mdi [icon]="'menu'"></i>
     </a>
-    <a class="right app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="state.activePage != '/'">
+    <a class="right app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="!state.atHome()">
       <i *ngIf="!mobileSearchBarExpanded" mz-icon-mdi [icon]="'magnify'"></i>
       <i *ngIf="mobileSearchBarExpanded" mz-icon-mdi [icon]="'close'"></i>
     </a>

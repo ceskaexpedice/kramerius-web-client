@@ -3,7 +3,7 @@
     <mz-card-content>
       <div class="app-card-mark {{item.doctype}}"></div>
       <div class="app-card-media">
-        <div class="app-card-thumb" [style.background-image]="getThumb()">
+        <div class="app-card-thumb" [style.background-image]="thumb">
           <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
         </div>
       </div>
@@ -22,6 +22,7 @@
         <div *ngIf="item.hits" class="app-card-hits">
           <strong>{{item.hits}}</strong> {{ 'search.hits' | translate: { hits: item.hits } }}
         </div>
+        <img *ngIf="item.library" class="app-card-logo" src="{{ appSettings.getLogoByCode(item.library) }}" >
         <div *ngIf="item.doctype" class="app-card-doctype {{item.doctype}}">
           {{ 'model.' + item.doctype | translate }}
         </div>

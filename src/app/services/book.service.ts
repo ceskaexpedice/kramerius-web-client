@@ -1,3 +1,4 @@
+import { AppSettings } from './app-settings';
 import { SolrService } from './solr.service';
 import { ModsParserService } from './mods-parser.service';
 import { DocumentItem } from './../model/document_item.model';
@@ -65,6 +66,7 @@ export class BookService {
 
     constructor(private location: Location,
         private altoService: AltoService,
+        private appSettings: AppSettings,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
         private modsParserService: ModsParserService,
@@ -502,7 +504,7 @@ export class BookService {
             this.pages = this.ftPages;
         }
         if (this.pages.length < 1) {
-            this.location.go('/view/' + this.uuid, 'fulltext=' + this.fulltextQuery);
+            this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, 'fulltext=' + this.fulltextQuery);
             this.publishNewPages(BookPageState.NoResults);
         } else {
             let index = 0;
@@ -629,7 +631,7 @@ export class BookService {
             if (this.fulltextQuery) {
                 urlQuery += '&fulltext=' + this.fulltextQuery;
             }
-            this.location.go('/view/' + this.uuid, urlQuery);
+            this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         }
         if (!cached) {
             this.publishNewPages(BookPageState.Loading);
@@ -678,7 +680,7 @@ export class BookService {
         this.bookState = BookState.Loading;
         this.article = article;
         const urlQuery = 'article=' + article.uuid;
-        this.location.go('/view/' + this.uuid, urlQuery);
+        this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         if (article.type === 'none') {
             Observable.forkJoin([this.krameriusApiService.getItem(article.uuid), this.krameriusApiService.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 this.metadata.addMods('article', mods);

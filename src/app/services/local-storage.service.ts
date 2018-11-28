@@ -1,3 +1,4 @@
+import { AppSettings } from './app-settings';
 import { Metadata } from './../model/metadata.model';
 import { DocumentItem } from './../model/document_item.model';
 import { Injectable } from '@angular/core';
@@ -18,11 +19,14 @@ export class LocalStorageService {
     public static PERIODICAL_FULLTEXT_SORT = 'periodical_fulltext_sort';
 
 
+    constructor(private appSettings: AppSettings) {
+    }
+
     addToVisited(item: DocumentItem, metadata: Metadata) {
         if (LocalStorageService.VISITED_TYPES.indexOf(item.doctype) < 0) {
             return;
         }
-        const visited: DocumentItem[] = JSON.parse(localStorage.getItem('visited') || '[]');
+        const visited: DocumentItem[] = JSON.parse(localStorage.getItem(this.getVisitedKey()) || '[]');
         let match = -1;
         for (let i = 0; i < visited.length; i++) {
             if (visited[i].uuid === item.uuid) {
@@ -42,17 +46,20 @@ export class LocalStorageService {
                 authors.push(author.name);
             }
             item.authors = authors;
+            if (this.appSettings.multiKramerius) {
+                item.library = this.appSettings.code;
+            }
         }
 
         visited.unshift(item);
         if (visited.length > 24) {
             visited.pop();
         }
-        localStorage.setItem('visited', JSON.stringify(visited));
+        localStorage.setItem(this.getVisitedKey(), JSON.stringify(visited));
     }
 
     getVisited(): DocumentItem[] {
-        return JSON.parse(localStorage.getItem('visited') || '[]');
+        return JSON.parse(localStorage.getItem(this.getVisitedKey()) || '[]');
     }
 
     getProperty(property: string) {
@@ -63,5 +70,10 @@ export class LocalStorageService {
         return localStorage.setItem(property, value);
     }
 
+
+
+    private getVisitedKey(): string {
+        return 'visited_documents'; // + this.appSettings.code;
+    }
 
 }

@@ -1,0 +1,61 @@
+import { AppSettings } from './services/app-settings';
+import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { BookComponent } from './book/book.component';
+import { PersistentLinkComponent } from './persistent-link/persistent-link.component';
+import { MusicComponent } from './music/music.component';
+import { SearchComponent } from './search/search.component';
+import { BrowseComponent } from './browse/browse.component';
+import { HomeComponent } from './home/home.component';
+import { CollectionsComponent } from './collections/collections.component';
+import { PeriodicalComponent } from './periodical/periodical.component';
+import { RoutingGuardService } from './guards/routing.guard';
+import { RoutingPrefixGuardService } from './guards/routing-prefix.guard';
+
+declare var APP_GLOBAL: any;
+let ROUTES: Routes;
+if (APP_GLOBAL.krameriusList.length === 1) {
+  ROUTES = [
+    { path: '', component: HomeComponent },
+    { path: 'browse', component: BrowseComponent },
+    { path: 'search', component: SearchComponent },
+    { path: 'collections', component: CollectionsComponent },
+    { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true } },
+    { path: 'music/:uuid', component: MusicComponent },
+    { path: 'uuid/:uuid', component: PersistentLinkComponent },
+    // { path: 'help', component: HelpComponent },
+    { path: 'view/:uuid', component: BookComponent },
+    { path: 'view', component: BookComponent }
+  ];
+} else {
+  ROUTES = [
+    { path: '', component: HomeComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'browse', component: BrowseComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'search', component: SearchComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'collections', component: CollectionsComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingGuardService ] },
+    { path: 'music/:uuid', component: MusicComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'view/:uuid', component: BookComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'view', component: BookComponent, canActivate: [ RoutingGuardService ] },
+    { path: ':k', component: HomeComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/', component: HomeComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/browse', component: BrowseComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/search', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/collections', component: CollectionsComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/music/:uuid', component: MusicComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/view/:uuid', component: BookComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/view', component: BookComponent, canActivate: [ RoutingPrefixGuardService ] }
+  ];
+}
+
+@NgModule({
+  imports: [RouterModule.forRoot(ROUTES)],
+  exports: [RouterModule],
+  providers: [RoutingGuardService, RoutingPrefixGuardService]
+})
+
+export class AppRoutingModule {
+}

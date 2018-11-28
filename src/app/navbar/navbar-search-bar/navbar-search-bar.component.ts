@@ -61,7 +61,7 @@ export class NavbarSearchBarComponent implements OnInit {
     if (q == null) {
       q = '';
     }
-    if (this.onSearchScreen()) {
+    if (this.state.atSearchScreen()) {
       this.searchService.changeQueryString(q);
     } else {
       const params = { q: q };
@@ -70,10 +70,6 @@ export class NavbarSearchBarComponent implements OnInit {
       }
       this.router.navigate(['/search'], { queryParams: params });
     }
-  }
-
-  onSearchScreen() {
-    return this.state.activePage.startsWith('/search');
   }
 
 }

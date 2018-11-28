@@ -1,0 +1,38 @@
+<div class="brand-logo" *ngIf="!appSettings.multiKramerius">
+  <span class="app-brand-img">
+    <img src="{{ appSettings.logo }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
+  </span>
+  <span class="app-brand-text hide-on-small-only">{{ appSettings.title }}</span>
+</div>
+
+<div class="brand-logo" *ngIf="appSettings.multiKramerius">
+  <span id="app-logo-dropdown-selector" mz-tooltip [tooltip]="'home.select_library' | translate" [position]="'top'">
+    <span class="app-brand-img">
+      <img src="{{ appSettings.logo }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
+    </span>
+    <span class="app-brand-text hide-on-small-only">{{ appSettings.title }}</span>
+    <i mz-icon-mdi [icon]="'chevron-down'" class="app-clean-mg app-brand-handle"></i>
+  </span>
+
+  <mz-dropdown
+    [id]="'logo-dropdown'"
+    [align]="'left'"
+    [belowOrigin]="false"
+    [constrainWidth]="true"
+    [dropdownButtonId]="'app-logo-dropdown-selector'"
+    [gutter]="true"
+    [hover]="false"
+    [inDuration]="300"
+    [outDuration]="300"
+    [stopPropagation]="true"
+  >
+    <mz-dropdown-item *ngFor="let kramerius of appSettings.krameriusList">
+      <a [routerLink]="['/' + kramerius.code]">
+        <span class="app-brand-img">
+          <img src="{{ kramerius.logo }}" class="img-responsive app-pipe" alt="{{ kramerius.title }}" />
+        </span>
+        <span class="app-brand-text hide-on-small-only">{{ kramerius.title }}</span>
+      </a>
+    </mz-dropdown-item>
+  </mz-dropdown>
+</div>

@@ -41,7 +41,7 @@
     <div *ngIf="metadata.authors.length > 0">
       <label>{{ 'metadata.author' | translate }}</label>
       <div *ngFor="let author of metadata.authors; let index=index" class="app-value">
-          <a *ngIf="index < 2" routerLink='/search' [queryParams]="{authors: author.name }">{{ author.name }}</a>
+          <a *ngIf="index < 2" [routerLink]='getSearchPath()' [queryParams]="{authors: author.name }">{{ author.name }}</a>
       </div>
 
       <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showAuthors()" mz-tooltip [tooltip]="'common.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
@@ -149,7 +149,7 @@
     <div *ngIf="metadata.doctype">
       <label>{{ 'metadata.doctype' | translate }}</label>
       <div class="app-value" >
-          <a routerLink='/search' [queryParams]="{doctypes: metadata.doctype }">{{ 'model.' + metadata.doctype | translate }}</a>
+          <a [routerLink]='getSearchPath()'[queryParams]="{doctypes: metadata.doctype }">{{ 'model.' + metadata.doctype | translate }}</a>
       </div>
       <div class="divider"></div>
     </div>
@@ -157,7 +157,7 @@
     <div *ngIf="metadata.keywords.length > 0">
       <label>{{ 'metadata.keywords' | translate }}</label>
       <div *ngFor="let keyword of metadata.keywords" class="app-value" >
-          <a routerLink='/search' [queryParams]="{keywords: keyword }">{{ keyword }}</a>
+          <a [routerLink]='getSearchPath()' [queryParams]="{keywords: keyword }">{{ keyword }}</a>
       </div>
       <div class="divider"></div>
     </div>
@@ -177,7 +177,7 @@
     <div *ngIf="metadata.languages.length > 0">
       <label>{{ 'metadata.languages' | translate }}</label>
       <div *ngFor="let language of metadata.languages" class="app-value" >
-        <a routerLink='/search' [queryParams]="{languages: language }">{{ 'language.' + language | translate }}</a>
+        <a [routerLink]='getSearchPath()' [queryParams]="{languages: language }">{{ 'language.' + language | translate }}</a>
       </div>
       <div class="divider"></div>
     </div>

@@ -93,24 +93,13 @@ import { PeriodicalFiltersComponent } from './periodical/periodical-filters/peri
 
 import { NgxGalleryModule } from 'ngx-gallery';
 import { DialogMetadataComponent } from './dialog/dialog-metadata/dialog-metadata.component';
-
 import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
 import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { CollectionComponent } from './collections/collection/collection.component';
+import { AppRoutingModule } from './app-routing.module';
+import { HomeLogoComponent } from './home-logo/home-logo.component';
 
-const ROUTES: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'browse', component: BrowseComponent },
-  { path: 'search', component: SearchComponent },
-  { path: 'collections', component: CollectionsComponent },
-  { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true } },
-  { path: 'music/:uuid', component: MusicComponent },
-  { path: 'uuid/:uuid', component: PersistentLinkComponent },
-  // { path: 'help', component: HelpComponent },
-  { path: 'view/:uuid', component: BookComponent },
-  { path: 'view', component: BookComponent }
-];
 
 @NgModule({
   declarations: [
@@ -159,6 +148,7 @@ const ROUTES: Routes = [
     DialogAuthosComponent,
     DialogMetadataComponent,
     LogoComponent,
+    HomeLogoComponent,
     BookSearchComponent,
     PersistentLinkComponent,
     BrowseSearchComponent,
@@ -194,7 +184,7 @@ const ROUTES: Routes = [
     Ng2CompleterModule,
     PdfViewerModule,
     LazyLoadImageModule,
-    RouterModule.forRoot(ROUTES),
+    AppRoutingModule,
     NgxGalleryModule,
     TranslatorModule.forRoot({
       providedLanguages: ['en', 'cs'],

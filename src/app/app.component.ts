@@ -20,28 +20,20 @@ export class AppComponent implements OnInit {
     private history: HistoryService,
     private router: Router,
     public state: AppState) {
-
-
-      this.router.events.subscribe(event => {
-        if (event instanceof NavigationEnd) {
-          (<any>window).gaaa('set', 'page', event.urlAfterRedirects);
-          (<any>window).gaaa('send', 'pageview');
-          history.push(location.path());
-        }
-      });
-
-
-      const lang = localStorage.getItem('lang');
-      if (lang) {
-        this.translator.language = lang;
-      }
   }
 
   ngOnInit() {
-    this.router.events.subscribe(val => {
-      if (val instanceof NavigationEnd) {
-        this.state.activePage = val.url;
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        (<any>window).gaaa('set', 'page', event.urlAfterRedirects);
+        (<any>window).gaaa('send', 'pageview');
+        this.history.push(this.location.path());
+        this.state.pageUrl = event.url;
       }
     });
+    const lang = localStorage.getItem('lang');
+    if (lang) {
+      this.translator.language = lang;
+    }
   }
 }

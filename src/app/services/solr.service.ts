@@ -1,6 +1,6 @@
+import { AppSettings } from './app-settings';
 import { SearchQuery } from './../search/search_query.model';
 import { PeriodicalFtItem } from './../model/periodicalftItem.model';
-import { KrameriusApiService } from './kramerius-api.service';
 import { DocumentItem } from './../model/document_item.model';
 import { PeriodicalItem } from './../model/periodicalItem.model';
 import { Injectable } from '@angular/core';
@@ -9,8 +9,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SolrService {
 
-    constructor() {
-
+    constructor(private appSettings: AppSettings) {
     }
 
 
@@ -151,7 +150,7 @@ export class SolrService {
             item.doctype = doc['fedora.model'];
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
-            item.resolveUrl();
+            item.resolveUrl(this.appSettings.getPathPrefix());
             items.push(item);
         }
         return items;
@@ -191,7 +190,7 @@ export class SolrService {
             }
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
-            item.resolveUrl();
+            item.resolveUrl(this.appSettings.getPathPrefix());
             item.params = params;
             items.push(item);
         }

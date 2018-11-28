@@ -25,23 +25,27 @@ export class KrameriusApiService {
     private static STREAM_ALTO = 'ALTO';
     private static STREAM_MP3 = 'MP3';
 
-    // private BASE_URL = 'https://kramerius.mzk.cz';
-    // private BASE_URL = 'http://zvuk.nm.cz';
-    // private BASE_URL = 'https://kramerius.lib.cas.cz';
-    // private BASE_URL = 'http://kramerius4.nkp.cz';
-    // private BASE_URL = 'http://kramerius4.mlp.cz';
-
-    private BASE_URL: string;
-    private API_URL: string;
     private cache = {};
 
     constructor(private http: Http,
         private utils: Utils,
         private appSettings: AppSettings,
         private solrService: SolrService) {
-        this.BASE_URL = appSettings.url;
-        this.API_URL = this.BASE_URL + '/search/api/v5.0';
     }
+
+    private getbaseUrl(): string {
+        return this.appSettings.url;
+    }
+
+    private getApiUrl(): string {
+        return this.getbaseUrl() + '/search/api/v5.0';
+    }
+
+    private getApiUrlForKramerius(url: string): string {
+        return url + '/search/api/v5.0';
+    }
+
+
 
     private handleError(error: Response) {
         if (error.status === 404) {
@@ -57,7 +61,11 @@ export class KrameriusApiService {
     }
 
     private getItemUrl(uuid: string) {
-        return this.API_URL + '/item/' + uuid;
+        return this.getApiUrl() + '/item/' + uuid;
+    }
+
+    private getItemUrlForKramerius(uuid: string, url: string) {
+        return this.getApiUrlForKramerius(url) + '/item/' + uuid;
     }
 
     private doGet(url: string): Observable<Response> {
@@ -66,7 +74,7 @@ export class KrameriusApiService {
 
 
     getSearchResults(query: string) {
-        const url = this.API_URL + '/search?'
+        const url = this.getApiUrl() + '/search?'
             + query;
         return this.doGet(url)
             .map(response => response.json())
@@ -94,7 +102,7 @@ export class KrameriusApiService {
     // }
 
     getBrowseResults(query: BrowseQuery) {
-        const url = this.API_URL + '/search?'
+        const url = this.getApiUrl() + '/search?'
             + query.buildQuery();
         return this.doGet(url)
             .map(response => response.json())
@@ -123,14 +131,14 @@ export class KrameriusApiService {
 
 
     getNewest() {
-        const url = this.API_URL + '/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=24&start=0';
+        const url = this.getApiUrl() + '/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=24&start=0';
         return this.doGet(url)
             .map(response => this.solrService.documentItems(response.json()))
             .catch(this.handleError);
     }
 
     getFulltextUuidList(uuid, query) {
-        const url = this.API_URL + '/search/?fl=PID&q=parent_pid:"'
+        const url = this.getApiUrl() + '/search/?fl=PID&q=parent_pid:"'
             + uuid + '"'
             + ' AND fedora.model:page'
             + ' AND text:'
@@ -144,14 +152,14 @@ export class KrameriusApiService {
     }
 
     getRecommended() {
-        const url = this.API_URL + '/feed/custom';
+        const url = this.getApiUrl() + '/feed/custom';
         return this.doGet(url)
             .map(response => this.utils.parseRecommended(response.json()))
             .catch(this.handleError);
     }
 
     getCollections() {
-        const url = this.API_URL + '/vc';
+        const url = this.getApiUrl() + '/vc';
         return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
@@ -160,7 +168,7 @@ export class KrameriusApiService {
 
     private getPeriodicalItems(pidPath: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean) {
         const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
-        let url = this.API_URL + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:'
+        let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:'
                 + pidPath + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
         if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
             url += ' AND dostupnost:' + query.accessibility;
@@ -193,7 +201,7 @@ export class KrameriusApiService {
     }
 
     getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery) {
-        let url = this.API_URL + '/search?fl=PID,root_pid,pid_path,dostupnost,dc.title,parent_pid&q=';
+        let url = this.getApiUrl() + '/search?fl=PID,root_pid,pid_path,dostupnost,dc.title,parent_pid&q=';
         if (volumeUuid) {
             url += 'pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*';
         } else {
@@ -218,7 +226,7 @@ export class KrameriusApiService {
     }
 
     getPeriodicalItemDetails(uuids: string[]) {
-        const url = this.API_URL + '/search?fl=PID,details,dostupnost,fedora.model,dc.title,datum_str&q=PID:"' + uuids.join('" OR PID:"') + '"&rows=50';
+        const url = this.getApiUrl() + '/search?fl=PID,details,dostupnost,fedora.model,dc.title,datum_str&q=PID:"' + uuids.join('" OR PID:"') + '"&rows=50';
         return this.doGet(url)
             .map(response => response.json())
             .catch(this.handleError);
@@ -233,7 +241,7 @@ export class KrameriusApiService {
         if (!term.endsWith(' ') && !term.endsWith(':')) {
             query += '*';
         }
-        let result = this.API_URL + '/search/?fl=PID,dc.title,dc.creator&q='
+        let result = this.getApiUrl() + '/search/?fl=PID,dc.title,dc.creator&q='
         + '(fedora.model:monograph^5 OR fedora.model:periodical^4 OR fedora.model:map '
         + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic OR fedora.model:soundrecording)';
         if (onlyPublic) {
@@ -249,6 +257,10 @@ export class KrameriusApiService {
 
     getThumbUrl(uuid: string) {
         return this.getItemUrl(uuid) + '/thumb';
+    }
+
+    getThumbUrlForKramerius(uuid: string, url: string) {
+        return this.getItemUrlForKramerius(uuid, url) + '/thumb';
     }
 
     getFullJpegUrl(uuid: string): string {
@@ -273,7 +285,7 @@ export class KrameriusApiService {
 
 
     getScaledJpegUrl(uuid: string, height: number): string {
-        let url = this.BASE_URL + '/search/img?pid=' + uuid + '&stream=IMG_FULL';
+        let url = this.getbaseUrl() + '/search/img?pid=' + uuid + '&stream=IMG_FULL';
         if (height) {
             url += '&action=SCALE&scaledHeight=' + height;
         }
@@ -281,13 +293,13 @@ export class KrameriusApiService {
     }
 
     getLocalPrintUrl(uuids: string[]) {
-        return this.BASE_URL + '/search/localPrintPDF'
+        return this.getbaseUrl() + '/search/localPrintPDF'
             + '?pids=' + uuids.join(',')
             + '&pagesize=A4&imgop=FULL';
     }
 
     downloadPdef(uuids: string[]) {
-        const url = this.API_URL + '/pdf/selection'
+        const url = this.getApiUrl() + '/pdf/selection'
                 + '?pids=' + uuids.join(',');
         return this.http.get(url, {
             responseType: ResponseContentType.Blob
@@ -345,7 +357,7 @@ export class KrameriusApiService {
     }
 
     getZoomifyRootUrl(uuid: string): string {
-        return `${this.BASE_URL}/search/zoomify/${uuid}/`;
+        return `${this.getbaseUrl()}/search/zoomify/${uuid}/`;
     }
 
     getZoomifyProperties(uuid: string) {
