@@ -10,11 +10,11 @@
     <app-navbar-search-bar *ngIf="!state.atHome()" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
     <mz-navbar-item-container [align]="'right'" class="hide-on-med-and-down">
       <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
-        <a *ngIf="!richCollections" routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
-        <a *ngIf="richCollections" routerLink='collections'>{{ 'navbar.collections' | translate }}</a>
+        <a *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
+        <a *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
       </mz-navbar-item>
       <mz-navbar-item routerLinkActive="active" #browse="routerLinkActive">
-        <a routerLink='browse'>{{ 'navbar.browse' | translate }}</a>
+        <a [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
       </mz-navbar-item>
       <mz-navbar-item><a *ngIf="translator.language == 'cs'" (click)='onLanguageChanged("en")'>English</a></mz-navbar-item>
       <mz-navbar-item><a *ngIf="translator.language == 'en'" (click)='onLanguageChanged("cs")'>Česky</a></mz-navbar-item>
@@ -34,11 +34,11 @@
 <mz-sidenav #sidenav [id]="'app-side-nav'" [collapseButtonId]="'app-btn-sidenav'" [closeOnClick]="true">
   <mz-sidenav-subheader>{{ 'navbar.main_navigation' | translate }}</mz-sidenav-subheader>
   <mz-sidenav-link routerLinkActive="active" #collections="routerLinkActive">
-    <a *ngIf="!richCollections" routerLink='browse' [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
-    <a *ngIf="richCollections" routerLink='collections'>{{ 'navbar.collections' | translate }}</a>
+    <a *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
+    <a *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
   </mz-sidenav-link>
   <mz-sidenav-link routerLinkActive="active" #browse="routerLinkActive">
-    <a routerLink='browse'>{{ 'navbar.browse' | translate }}</a>
+    <a [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
   </mz-sidenav-link>
   <mz-sidenav-divider></mz-sidenav-divider>
   <mz-sidenav-link>

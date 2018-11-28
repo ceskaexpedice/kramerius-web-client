@@ -14,6 +14,11 @@ export class CollectionService {
         });
     }
 
+    public clear() {
+        this.collections = null;
+        this.cache = {};
+    }
+
     getNameByPid(pid: string): string {
         return this.cache[pid] ? this.cache[pid].title : '-';
     }

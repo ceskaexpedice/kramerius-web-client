@@ -53,7 +53,6 @@ export class MetadataComponent implements OnInit {
   private getPagePersistentLink() {
     const path = location.pathname;
     const query = location.search;
-    console.log('query', query);
     let uuid: string;
     if (path.indexOf('uuid:') > -1) {
       uuid = path.substr(path.indexOf('uuid:'), 41);
@@ -70,9 +69,17 @@ export class MetadataComponent implements OnInit {
 
     let url: string;
     if (this.appSettings.share_url) {
-      url = this.appSettings.share_url.replace(/\$\{UUID\}/, uuid);
+      if (this.appSettings.multiKramerius) {
+        url = this.appSettings.share_url.replace(/\$\{UUID\}/, uuid).replace(/\$\{KRAMERIUS\}/, this.appSettings.code);
+      } else {
+        url = this.appSettings.share_url.replace(/\$\{UUID\}/, uuid);
+      }
     } else {
-      url = location.protocol + '//' + location.host + '/uuid/' + uuid;
+      if (this.appSettings.multiKramerius) {
+        url = location.protocol + '//' + location.host + '/' + this.appSettings.code + '/uuid/' + uuid;
+      } else {
+        url = location.protocol + '//' + location.host + '/uuid/' + uuid;
+      }
     }
     return url;
   }

@@ -1,3 +1,4 @@
+import { CollectionService } from './collection.service';
 import { Injectable } from '@angular/core';
 
 declare var APP_GLOBAL: any;
@@ -7,6 +8,7 @@ declare var APP_GLOBAL: any;
 export class AppSettings {
 
   public multiKramerius: boolean;
+  public currentCode: string;
 
   public title: string;
   public logo: string;
@@ -23,7 +25,7 @@ export class AppSettings {
   public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
   public krameriusList: KrameriusData[];
 
-  constructor() {
+  constructor(private collectionsService: CollectionService) {
     this.krameriusList = [];
     for (const k of APP_GLOBAL.krameriusList) {
       this.krameriusList.push(k);
@@ -33,6 +35,9 @@ export class AppSettings {
   }
 
   public assignKrameriusByCode(code: string) {
+    if (this.currentCode === code) {
+      return;
+    }
     const k = this.findCrameriusByCode(code);
     if (k) {
       this.assignKramerius(k);
@@ -53,6 +58,8 @@ export class AppSettings {
   }
 
   public assignKramerius(kramerius: KrameriusData) {
+    console.log('assignKramerius');
+    this.collectionsService.clear();
     this.code = kramerius.code;
     this.title = kramerius.title;
     this.url = kramerius.url;
@@ -60,6 +67,7 @@ export class AppSettings {
     this.richCollections = kramerius.richCollections;
     this.joinedDoctypes = kramerius.joinedDoctypes;
     this.doctypes = kramerius.doctypes;
+    this.currentCode = this.code;
   }
 
   public getLogoByCode(code: string): string {
@@ -84,6 +92,11 @@ export class AppSettings {
     }
     return '/' + this.code;
   }
+
+  public getRouteFor(path: string): string {
+    return this.getPathPrefix() + '/' + path;
+  }
+
 }
 
 

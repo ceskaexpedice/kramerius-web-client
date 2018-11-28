@@ -21,14 +21,13 @@ export class NavbarComponent implements OnInit {
   constructor(
     public translator: Translator,
     public router: Router,
-    private settings: AppSettings,
+    public appSettings: AppSettings,
     private history: HistoryService,
     public service: LibrarySearchService,
     public state: AppState) {
   }
 
   ngOnInit() {
-    this.richCollections = this.settings.richCollections;
   }
 
   onLanguageChanged(lang: string) {

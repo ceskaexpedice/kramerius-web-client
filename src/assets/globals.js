@@ -1,5 +1,5 @@
 var APP_GLOBAL = {
-  share_url: "http://localhost:4200/uuid/${UUID}",
+  share_url: "http://localhost:4200/${KRAMERIUS}/uuid/${UUID}",
   ga: 'UA-65303593-14',
   enablePeriodicalVolumesYearsLayout: true, 
   enablePeriodicalIsssuesCalendarLayout: true,
