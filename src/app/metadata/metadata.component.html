@@ -24,12 +24,12 @@
       </div>
 
       <div *ngIf="metadata.currentUnit">
-        <a [routerLink]="['/periodical', metadata.uuid]">
+        <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.uuid]">
           {{ 'metadata.unit_list' | translate }}
         </a>
       </div>
       <div *ngIf="metadata.doctype === 'periodical'">
-        <a [routerLink]="['/periodical', metadata.uuid]">
+        <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.uuid]">
           {{ 'metadata.volume_list' | translate }}
         </a>
       </div>
@@ -41,7 +41,7 @@
     <div *ngIf="metadata.authors.length > 0">
       <label>{{ 'metadata.author' | translate }}</label>
       <div *ngFor="let author of metadata.authors; let index=index" class="app-value">
-          <a *ngIf="index < 2" [routerLink]='getSearchPath()' [queryParams]="{authors: author.name }">{{ author.name }}</a>
+          <a *ngIf="index < 2" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }">{{ author.name }}</a>
       </div>
 
       <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showAuthors()" mz-tooltip [tooltip]="'common.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
@@ -54,7 +54,7 @@
       <div class="app-value">{{ 'metadata.volume_year' | translate }} <strong>{{ metadata.volume.year }}</strong></div>
       <div class="app-value">{{ 'metadata.volume' | translate }} <strong>{{ metadata.volume.number }}</strong></div>
       <div *ngIf="metadata.currentIssue">
-        <a [routerLink]="['/periodical', metadata.volume.uuid]">
+        <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.volume.uuid]">
           {{ 'metadata.issue_list' | translate }}
         </a>
       </div>
@@ -70,13 +70,13 @@
       <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.subtitle }}</strong></div>
       
       <div *ngIf="metadata.previousIssue">
-        <a [routerLink]="['/view', metadata.previousIssue.uuid]">
+        <a [routerLink]="[appSettings.getRouteFor('view'), metadata.previousIssue.uuid]">
           {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.subtitle }} ({{ metadata.previousIssue.title }})
         </a>
       </div>
 
       <div *ngIf="metadata.nextIssue">
-        <a [routerLink]="['/view', metadata.nextIssue.uuid]">
+        <a [routerLink]="[appSettings.getRouteFor('view'), metadata.nextIssue.uuid]">
           {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.subtitle }} ({{ metadata.nextIssue.title }})
         </a>
       </div>
@@ -98,12 +98,12 @@
       </div>
 
       <div *ngIf="metadata.previousUnit">
-        <a [routerLink]="['/view', metadata.previousUnit.uuid]" class="single-line">
+        <a [routerLink]="[appSettings.getRouteFor('view'), metadata.previousUnit.uuid]" class="single-line">
           {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.subtitle }} ({{ metadata.previousUnit.title }})
         </a>
       </div>
       <div *ngIf="metadata.nextUnit">
-        <a [routerLink]="['/view', metadata.nextUnit.uuid]" class="single-line">
+        <a [routerLink]="[appSettings.getRouteFor('view'), metadata.nextUnit.uuid]" class="single-line">
           {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.subtitle }} ({{ metadata.nextUnit.title }})
         </a>
       </div>
@@ -149,7 +149,7 @@
     <div *ngIf="metadata.doctype">
       <label>{{ 'metadata.doctype' | translate }}</label>
       <div class="app-value" >
-          <a [routerLink]='getSearchPath()'[queryParams]="{doctypes: metadata.doctype }">{{ 'model.' + metadata.doctype | translate }}</a>
+          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: metadata.doctype }">{{ 'model.' + metadata.doctype | translate }}</a>
       </div>
       <div class="divider"></div>
     </div>
@@ -157,7 +157,7 @@
     <div *ngIf="metadata.keywords.length > 0">
       <label>{{ 'metadata.keywords' | translate }}</label>
       <div *ngFor="let keyword of metadata.keywords" class="app-value" >
-          <a [routerLink]='getSearchPath()' [queryParams]="{keywords: keyword }">{{ keyword }}</a>
+          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{keywords: keyword }">{{ keyword }}</a>
       </div>
       <div class="divider"></div>
     </div>
@@ -177,7 +177,7 @@
     <div *ngIf="metadata.languages.length > 0">
       <label>{{ 'metadata.languages' | translate }}</label>
       <div *ngFor="let language of metadata.languages" class="app-value" >
-        <a [routerLink]='getSearchPath()' [queryParams]="{languages: language }">{{ 'language.' + language | translate }}</a>
+        <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{languages: language }">{{ 'language.' + language | translate }}</a>
       </div>
       <div class="divider"></div>
     </div>

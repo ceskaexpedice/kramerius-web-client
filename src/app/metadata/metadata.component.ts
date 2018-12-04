@@ -1,3 +1,4 @@
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { DialogAuthosComponent } from './../dialog/dialog-authors/dialog-authors.component';
 import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
@@ -46,9 +47,6 @@ export class MetadataComponent implements OnInit {
     }
   }
 
-  public getSearchPath(): string {
-    return this.appSettings.getPathPrefix() + '/search';
-  }
 
   private getPagePersistentLink() {
     const path = location.pathname;

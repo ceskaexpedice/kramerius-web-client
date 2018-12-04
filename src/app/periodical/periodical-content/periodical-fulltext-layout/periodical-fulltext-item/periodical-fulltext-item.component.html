@@ -1,4 +1,4 @@
-<a [routerLink]="item.getUrl()" [queryParams]="{page: item.uuid, fulltext: item.query}">
+<a [routerLink]="appSettings.getRouteFor(item.getPath())" [queryParams]="{page: item.uuid, fulltext: item.query}">
   <mz-card  [hoverable]="true">
     <mz-card-content>
       <div class="app-card-media">

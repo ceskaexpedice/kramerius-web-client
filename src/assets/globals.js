@@ -1,5 +1,6 @@
 var APP_GLOBAL = {
-  share_url: "http://localhost:4200/${KRAMERIUS}/uuid/${UUID}",
+  // share_url: "http://localhost:4200/${KRAMERIUS}/uuid/${UUID}",
+  share_url: "http://kramerius.rychtar.cloud/${KRAMERIUS}/uuid/${UUID}",
   ga: 'UA-65303593-14',
   enablePeriodicalVolumesYearsLayout: true, 
   enablePeriodicalIsssuesCalendarLayout: true,
@@ -267,7 +268,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
-    },
+    }
   ]
 
 };

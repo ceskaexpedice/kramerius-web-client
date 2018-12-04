@@ -13,11 +13,11 @@ export class PeriodicalItem {
     constructor() {
     }
 
-    getUrl(): string {
+    getPath(): string {
         if (this.doctype === 'periodicalvolume') {
-            return '/periodical/' + this.uuid;
+            return 'periodical/' + this.uuid;
         } else {
-            return '/view/' + this.uuid;
+            return 'view/' + this.uuid;
         }
     }
 

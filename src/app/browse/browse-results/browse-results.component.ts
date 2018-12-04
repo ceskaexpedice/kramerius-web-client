@@ -1,3 +1,4 @@
+import { AppSettings } from './../../services/app-settings';
 import { BrowseService } from './../../services/browse.service';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -7,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class BrowseResultsComponent implements OnInit {
 
-  constructor(public browseService: BrowseService) {
+  constructor(public browseService: BrowseService, public appSettings: AppSettings) {
   }
 
   ngOnInit() {

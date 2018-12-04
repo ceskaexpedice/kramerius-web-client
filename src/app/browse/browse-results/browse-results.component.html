@@ -1,7 +1,7 @@
 <a *ngFor="let item of browseService.results; let odd=odd; let even=even;" 
       class="app-browse-item" 
       [ngClass]="{ odd: odd, even: even, hidden: !item.name}"
-      [routerLink]="['/search']" [queryParams]="getParams(item.value)"
+      [routerLink]="appSettings.getRouteFor('search')" [queryParams]="getParams(item.value)"
       >
   <div class="right">{{item.count}}x</div>
   <div>{{item.name}}</div>

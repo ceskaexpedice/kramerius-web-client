@@ -58,7 +58,6 @@ export class AppSettings {
   }
 
   public assignKramerius(kramerius: KrameriusData) {
-    console.log('assignKramerius');
     this.collectionsService.clear();
     this.code = kramerius.code;
     this.title = kramerius.title;

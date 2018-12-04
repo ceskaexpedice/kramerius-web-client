@@ -22,11 +22,11 @@ export class AppState {
   }
 
   atHome(): boolean {
-    return (!this.appSettings.multiKramerius && this.pageUrl === '/') || /^\/[a-z0-9]*\/?$/.test(this.pageUrl);
+    return (!this.appSettings.multiKramerius && this.pageUrl === '/') || (this.appSettings.multiKramerius && /^\/[a-z0-9]*\/?$/.test(this.pageUrl));
   }
 
   atSearchScreen(): boolean {
-    return (!this.appSettings.multiKramerius && this.pageUrl.startsWith('/search')) || /^\/[a-z0-9]*\/search.*$/.test(this.pageUrl);
+    return (!this.appSettings.multiKramerius && this.pageUrl.startsWith('/search')) || (this.appSettings.multiKramerius && /^\/[a-z0-9]*\/search.*$/.test(this.pageUrl));
   }
 
 }

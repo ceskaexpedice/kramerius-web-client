@@ -19,6 +19,7 @@ import {
   setDay
 } from 'date-fns';
 import { ISlimScrollOptions } from 'ngx-slimscroll';
+import { AppSettings } from '../services/app-settings';
 
 @Component({
   selector: 'ng-datepicker',
@@ -39,7 +40,7 @@ export class NgDatepickerComponent implements OnInit {
     isActive: boolean;
   }[];
 
-  constructor(private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef, public appSettings: AppSettings) {
     this.scrollOptions = {
       barBackground: '#DFE3E9',
       gridBackground: '#FFFFFF',

@@ -19,8 +19,8 @@ export class PeriodicalFtItem {
     constructor() {
     }
 
-    getUrl(): string {
-        return '/view/' + this.issueUuid;
+    getPath(): string {
+        return 'view/' + this.issueUuid;
     }
 
 }

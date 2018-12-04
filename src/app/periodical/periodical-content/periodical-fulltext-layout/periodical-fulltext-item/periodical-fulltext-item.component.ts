@@ -1,3 +1,4 @@
+import { AppSettings } from './../../../../services/app-settings';
 import { DomSanitizer } from '@angular/platform-browser';
 import { KrameriusApiService } from './../../../../services/kramerius-api.service';
 import { PeriodicalFtItem } from './../../../../model/periodicalftItem.model';
@@ -11,6 +12,7 @@ export class PeriodicalFulltextItemComponent implements OnInit {
   @Input() item: PeriodicalFtItem;
 
   constructor(private krameriusApiService: KrameriusApiService,
+    public appSettings: AppSettings,
     private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {

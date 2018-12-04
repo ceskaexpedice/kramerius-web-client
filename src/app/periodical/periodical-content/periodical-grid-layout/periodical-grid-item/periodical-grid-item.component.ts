@@ -1,6 +1,7 @@
 import { PeriodicalService } from './../../../../services/periodical.service';
 import { PeriodicalItem } from './../../../../model/periodicalItem.model';
 import { Component, OnInit, Input } from '@angular/core';
+import { AppSettings } from '../../../../services/app-settings';
 
 @Component({
   selector: 'app-periodical-grid-item',
@@ -10,7 +11,7 @@ export class PeriodicalGridItemComponent implements OnInit {
   @Input() item: PeriodicalItem;
   @Input() container;
 
-  constructor(public periodicalService: PeriodicalService) { }
+  constructor(public periodicalService: PeriodicalService, public appSettings: AppSettings) { }
 
   ngOnInit() {
   }

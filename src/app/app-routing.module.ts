@@ -1,4 +1,3 @@
-import { AppSettings } from './services/app-settings';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BookComponent } from './book/book.component';
@@ -12,23 +11,7 @@ import { PeriodicalComponent } from './periodical/periodical.component';
 import { RoutingGuardService } from './guards/routing.guard';
 import { RoutingPrefixGuardService } from './guards/routing-prefix.guard';
 
-declare var APP_GLOBAL: any;
-let ROUTES: Routes;
-if (APP_GLOBAL.krameriusList.length === 1) {
-  ROUTES = [
-    { path: '', component: HomeComponent },
-    { path: 'browse', component: BrowseComponent },
-    { path: 'search', component: SearchComponent },
-    { path: 'collections', component: CollectionsComponent },
-    { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true } },
-    { path: 'music/:uuid', component: MusicComponent },
-    { path: 'uuid/:uuid', component: PersistentLinkComponent },
-    // { path: 'help', component: HelpComponent },
-    { path: 'view/:uuid', component: BookComponent },
-    { path: 'view', component: BookComponent }
-  ];
-} else {
-  ROUTES = [
+const ROUTES: Routes = [
     { path: '', component: HomeComponent, canActivate: [ RoutingGuardService ] },
     { path: 'browse', component: BrowseComponent, canActivate: [ RoutingGuardService ] },
     { path: 'search', component: SearchComponent, canActivate: [ RoutingGuardService ] },
@@ -49,7 +32,7 @@ if (APP_GLOBAL.krameriusList.length === 1) {
     { path: ':k/view/:uuid', component: BookComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/view', component: BookComponent, canActivate: [ RoutingPrefixGuardService ] }
   ];
-}
+
 
 @NgModule({
   imports: [RouterModule.forRoot(ROUTES)],

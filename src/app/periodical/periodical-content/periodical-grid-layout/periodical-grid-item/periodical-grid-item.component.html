@@ -1,4 +1,4 @@
-<a [routerLink]="item.getUrl()" [queryParams]="periodicalService.getUrlParams()">
+<a [routerLink]="appSettings.getRouteFor(item.getPath())" [queryParams]="periodicalService.getUrlParams()">
   <mz-card  [hoverable]="true">
     <mz-card-content>
       <div class="app-card-content center-align" *ngIf="item.doctype === 'periodicalvolume'" >
