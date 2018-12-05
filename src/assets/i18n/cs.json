@@ -6,7 +6,9 @@
     "cancel": "Zrušit",
     "close": "Zavřít",
     "warning": "Varování",
-    "pages": "stránek",
+    "of_pages": "stránek",
+    "n_pages": "{{ count == 1 ? 'stránka' : count < 5 ? 'stránky' : 'stránek' }}",
+    "n_occurrences": "{{ count == 1 ? 'výskyt' : count < 5 ? 'výskyty' : 'výskytů' }}",
     "set_page_number": "Zadejte číslo stránky",
     "show_whole_title": "Ukaž celý titulek",
     "hide_whole_title": "Skryj celý titulek",
@@ -79,8 +81,7 @@
       "from": "Od",
       "to": "Do",
       "apply": "Použít"
-    },
-    "hits": "{{ hits == 1 ? 'stránka' : hits < 5 ? 'stránky' : 'stránek' }}"
+    }
   },
   "browse": {
     "category": {

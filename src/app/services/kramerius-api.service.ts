@@ -243,7 +243,7 @@ export class KrameriusApiService {
         }
         let result = this.getApiUrl() + '/search/?fl=PID,dc.title,dc.creator&q='
         + '(fedora.model:monograph%5E5 OR fedora.model:periodical%5E4 OR fedora.model:map '
-        + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic OR fedora.model:soundrecording)';
+        + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic OR fedora.model:soundrecording OR fedora.model:article)';
         if (onlyPublic) {
             result += ' AND dostupnost:public';
         } else {

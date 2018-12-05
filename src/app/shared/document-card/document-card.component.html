@@ -20,7 +20,7 @@
           {{item.date}}
         </div>
         <div *ngIf="item.hits" class="app-card-hits">
-          <strong>{{item.hits}}</strong> {{ 'search.hits' | translate: { hits: item.hits } }}
+          <strong>{{item.hits}}</strong> {{ 'common.n_occurrences' | translate: { count: item.hits } }}
         </div>
         <img *ngIf="item.library" class="app-card-logo" src="{{ appSettings.getLogoByCode(item.library) }}" >
         <div *ngIf="item.doctype" class="app-card-doctype {{item.doctype}}">

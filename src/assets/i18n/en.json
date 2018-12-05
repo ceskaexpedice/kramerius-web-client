@@ -6,7 +6,9 @@
     "cancel": "Cancel",
     "close": "Close",    
     "warning": "Warning",
-    "pages": "pages",
+    "of_pages": "pages",
+    "n_pages": "{{ count == 1 ? 'page' : 'pages' }}",
+    "n_occurrences": "{{ count == 1 ? 'occurrence' : 'occurrences' }}",
     "set_page_number": "Set page number",
     "show_whole_title": "Show whole title",
     "hide_whole_title": "Hide whole title",
@@ -79,8 +81,7 @@
       "from": "From",
       "to": "To",
       "apply": "Apply"
-    },
-    "hits": "{{ hits == 1 ? 'page' : 'pages' }}"
+    }
   },
   "browse": {
     "category": {

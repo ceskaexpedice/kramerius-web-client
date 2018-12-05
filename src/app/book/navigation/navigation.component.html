@@ -26,7 +26,7 @@
   <input class="app-current-page" (keyup)="onKeyUp($event)" type="text" pattern="[0-9]*" value="23" [(ngModel)]="pageIndex" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
   <span>{{ 'common.of' | translate }}</span>
   <span>{{bookService.getPageCount()}}</span>
-  <span>{{ 'common.pages' | translate }}</span>
+  <span>{{ 'common.of_pages' | translate }}</span>
 </div>
 
 <div class="app-navigation-pages" id="app-navigation-container" [class.app-is-query]="bookService.getFulltextQuery()" [class.app-hidden]="bookService.activeNavigationTab !== 'pages'">
