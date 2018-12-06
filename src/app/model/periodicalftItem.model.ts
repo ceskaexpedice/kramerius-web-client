@@ -29,6 +29,9 @@ export class PeriodicalFtItem {
         if (this.type === 'page' || this.type === 'monograph_unit_page') {
             const uuid = this.context['article'] || this.context['monographunit'] || this.context['periodicalitem'] || this.context['periodicalvolume'];
             this.path = 'view/' + uuid;
+        } else if (this.type === 'article') {
+            const uuid = this.context['periodicalitem'] || this.context['periodicalvolume'];
+            this.path = 'view/' + uuid;
         } else {
             this.path = 'view/' + this.uuid;
         }
@@ -41,6 +44,8 @@ export class PeriodicalFtItem {
         }
         if (this.type === 'page' || this.type === 'monograph_unit_page') {
             this.queryParams = { page: this.uuid, fulltext: this.query };
+        } else if (this.type === 'article') {
+            this.queryParams = { article: this.uuid };
         } else {
             this.queryParams = {};
         }

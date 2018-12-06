@@ -91,8 +91,6 @@ export class BookService {
     }
 
     init(uuid: string, pageUuid: string, articleUuid: string, fulltext: string) {
-        console.log('INIT', 'uuid: ' + uuid + ', pageUuid: ' + pageUuid + ', articleUuid: ' + articleUuid + ', fulltext: ' + fulltext);
-        console.log('history on init', this.history.pages);
         this.clear();
         this.uuid = uuid;
         this.fulltextQuery = fulltext;

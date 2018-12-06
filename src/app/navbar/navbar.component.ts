@@ -37,7 +37,6 @@ export class NavbarComponent implements OnInit {
   }
 
   goBack() {
-    console.log(this.history.pages);
     const page = this.history.pop();
     this.router.navigateByUrl(page);
   }
