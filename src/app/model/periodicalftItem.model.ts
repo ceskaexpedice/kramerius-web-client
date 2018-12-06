@@ -15,27 +15,36 @@ export class PeriodicalFtItem {
     text: string;
     query: string;
     type: string; // 'page', 'monograph_unit_page', 'monograph_unit', 'article'
+    path: string;
+    queryParams: any;
 
     constructor() {
         this.context = {};
     }
 
     getPath(): string {
-        console.log('context', this.context);
+        if (this.path) {
+            return this.path;
+        }
         if (this.type === 'page' || this.type === 'monograph_unit_page') {
             const uuid = this.context['article'] || this.context['monographunit'] || this.context['periodicalitem'] || this.context['periodicalvolume'];
-            return 'view/' + uuid;
+            this.path = 'view/' + uuid;
         } else {
-            return 'view/' + this.uuid;
+            this.path = 'view/' + this.uuid;
         }
+        return this.path;
     }
 
     getQuery() {
-        if (this.type === 'page' || this.type === 'monograph_unit_page') {
-            return { page: this.uuid, fulltext: this.query };
-        } else {
-            return {};
+        if (this.queryParams) {
+            return this.queryParams;
         }
+        if (this.type === 'page' || this.type === 'monograph_unit_page') {
+            this.queryParams = { page: this.uuid, fulltext: this.query };
+        } else {
+            this.queryParams = {};
+        }
+        return this.queryParams;
     }
 
 }

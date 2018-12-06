@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private translator: Translator,
-    private route: ActivatedRoute,
     private location: Location,
     private history: HistoryService,
     private router: Router,
@@ -28,6 +27,7 @@ export class AppComponent implements OnInit {
         (<any>window).gaaa('set', 'page', event.urlAfterRedirects);
         (<any>window).gaaa('send', 'pageview');
         this.history.push(this.location.path());
+        console.log('pushing to history', this.location.path());
         this.state.pageUrl = event.url;
       }
     });

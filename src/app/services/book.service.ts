@@ -91,15 +91,20 @@ export class BookService {
     }
 
     init(uuid: string, pageUuid: string, articleUuid: string, fulltext: string) {
+        console.log('INIT', 'uuid: ' + uuid + ', pageUuid: ' + pageUuid + ', articleUuid: ' + articleUuid + ', fulltext: ' + fulltext);
+        console.log('history on init', this.history.pages);
         this.clear();
         this.uuid = uuid;
         this.fulltextQuery = fulltext;
         this.bookState = BookState.Loading;
         this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
             if (item.doctype === 'article') {
+                if (articleUuid) {
+                    return;
+                }
                 const issueUuid = item.getUuidFromContext('periodicalitem');
                 if (issueUuid) {
-                    const page = this.history.pop();
+                    this.history.removeCurrent();
                     this.router.navigate(['/view', issueUuid], { queryParams: { article: uuid, fulltext: this.fulltextQuery } });
                     return;
                 }

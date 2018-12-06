@@ -2,11 +2,11 @@ import { AppSettings } from './../../../../services/app-settings';
 import { DomSanitizer } from '@angular/platform-browser';
 import { KrameriusApiService } from './../../../../services/kramerius-api.service';
 import { PeriodicalFtItem } from './../../../../model/periodicalftItem.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-periodical-fulltext-item',
-  templateUrl: './periodical-fulltext-item.component.html'
+  templateUrl: './periodical-fulltext-item.component.html',
 })
 export class PeriodicalFulltextItemComponent implements OnInit {
   @Input() item: PeriodicalFtItem;

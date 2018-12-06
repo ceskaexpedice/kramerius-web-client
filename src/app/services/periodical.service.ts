@@ -283,7 +283,7 @@ export class PeriodicalService {
         if (item.type === 'monograph_unit') {
           continue;
         }
-        console.log('item', item);
+        // console.log('item', item);
         const unit = item.context['monographunit'];
         if (unintPids && unintPids.indexOf(unit) < 0) {
           unintPids.push(unit);
