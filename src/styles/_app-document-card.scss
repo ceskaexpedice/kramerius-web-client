@@ -29,6 +29,8 @@ app-document-card {
       &.sheetmusic {background-color: $app-type-sheetmusic}
       &.archive {background-color: $app-type-archive}
       &.manuscript {background-color: $app-type-manuscript}
+      &.article {background-color: $app-type-article}
+      &.page {background-color: $app-type-page}
     }
     
     .app-card-logo {

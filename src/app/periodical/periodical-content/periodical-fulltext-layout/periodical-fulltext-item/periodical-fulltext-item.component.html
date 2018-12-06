@@ -1,4 +1,4 @@
-<a [routerLink]="appSettings.getRouteFor(item.getPath())" [queryParams]="{page: item.uuid, fulltext: item.query}">
+<a [routerLink]="appSettings.getRouteFor(item.getPath())" [queryParams]="item.getQuery()">
   <mz-card  [hoverable]="true">
     <mz-card-content>
       <div class="app-card-media">
@@ -6,8 +6,9 @@
           <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
         </div>
       </div>
+
       <div class="app-card-content">
-        <div *ngIf="!item.isMonographUnit">
+        <ng-container *ngIf="item.type === 'page' || item.type === 'article'">
           <div class="app-card-row">
             <div class="app-card-row-right">{{item.year}}</div>
             <div class="app-card-row-left">{{ 'metadata.volume' | translate }} {{item.volume}}</div>
@@ -16,22 +17,40 @@
             <div class="app-card-row-right">{{item.date}}</div>
             <div class="app-card-row-left">{{ 'metadata.issue' | translate }} {{item.issue}}</div>
           </div>
-        </div>
-        <div *ngIf="item.isMonographUnit">
+        </ng-container>
+
+        <ng-container *ngIf="item.type === 'monograph_unit_page'">
           <div class="app-card-row">
             <div class="app-card-row-left">{{item.title}}</div>
           </div>
           <div class="app-card-row">
             <div class="app-card-row-left">{{ 'metadata.unit' | translate }} {{item.part}}</div>
           </div>
-        </div>
-        <div class="app-card-row">
-          <div class="app-card-row-right"></div>
-          <div class="app-card-row-left">{{ 'metadata.page' | translate }} {{item.page}}</div>
-        </div>
-        <div class="app-card-ocr" [innerHTML]="item.text">
-        </div>
+        </ng-container>
+
+        <ng-container *ngIf="item.type === 'monograph_unit'">
+          <div class="app-card-row app-main-title">{{item.title}}</div>
+          <div class="app-card-row">{{ 'metadata.unit' | translate }} {{item.part}}</div>
+          <div class="app-card-doctype app-card-monograph">{{ 'model.monograph' | translate }}</div>
+        </ng-container>
+  
+
+        <ng-container *ngIf="item.type === 'article'">
+          <div class="app-card-row app-main-title">{{item.title}}</div>
+          <div class="app-card-row">{{ item.authors }}</div>
+          <div class="app-card-doctype app-card-article">{{ 'model.article' | translate }}</div>
+        </ng-container>
+
+        <ng-container *ngIf="item.type === 'page' || item.type === 'monograph_unit_page'">
+          <div class="app-card-row">
+            <div class="app-card-row-right"></div>
+            <div class="app-card-row-left">{{ 'metadata.page' | translate }} {{item.page}}</div>
+          </div>
+          <div class="app-card-ocr" [innerHTML]="item.text"></div>
+        </ng-container>
+
       </div>
+
     </mz-card-content>
   </mz-card>
 </a>

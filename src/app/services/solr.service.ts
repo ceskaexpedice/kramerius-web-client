@@ -22,7 +22,7 @@ export class SolrService {
         if (item.doctype === 'periodicalvolume') {
             if (details && details[0]) {
                 const parts = details[0].split('##');
-                if (parts.length === 2) {
+                if (parts.length >= 2) {
                     item.title = parts[0];
                     item.subtitle = parts[1];
                 }
@@ -96,19 +96,37 @@ export class SolrService {
             const item = new PeriodicalFtItem();
             item.uuid = doc['PID'];
             item.public = doc['dostupnost'] === 'public';
-            item.page = doc['dc.title'];
-            item.query = query;
-            let pidPath = doc['pid_path'];
-            if (pidPath.length > 0) {
-                pidPath = pidPath[0].split('/');
-                if (pidPath.length > 1) {
-                    item.issueUuid = pidPath[pidPath.length - 2];
+            if (doc['fedora.model'] === 'article') {
+                item.type = 'article';
+                item.authors = doc['dc.creator'];
+                item.title = doc['dc.title'];
+            } else if (doc['fedora.model'] === 'monographunit') {
+                item.type = 'monograph_unit';
+                const pItem = this.periodicalItem(doc);
+                item.title = pItem.title;
+                item.part = pItem.subtitle;
+            } else {
+                item.type = 'page';
+                item.page = doc['dc.title'];
+                item.query = query;
+            }
+            if (doc['pid_path'].length > 0 && doc['model_path'].length > 0) {
+                const pp = doc['pid_path'][0].replace(/\@/, '/');
+                const pidPath = pp.split('/');
+                const modelPath = doc['model_path'][0].split('/');
+                for (let i = 0; i < modelPath.length; i++) {
+                    const model = modelPath[i];
+                    item.context[model] = pidPath[i];
                 }
-                if (pidPath.length > 2) {
-                    item.volumeUuid = pidPath[pidPath.length - 3];
-                }
-                if (solr['highlighting'][item.uuid]) {
-                    const ocr = solr['highlighting'][item.uuid]['text'];
+                // if (pidPath.length > 1) {
+                //     item.issueUuid = pidPath[pidPath.length - 2];
+                // }
+                // if (pidPath.length > 2) {
+                //     item.volumeUuid = pidPath[pidPath.length - 3];
+                // }
+                const uuid = item.uuid.replace(/\@/, '/@');
+                if (solr['highlighting'][uuid]) {
+                    const ocr = solr['highlighting'][uuid]['text'];
                     if (ocr) {
                         item.text = ocr[0];
                     }

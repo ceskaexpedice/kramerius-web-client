@@ -277,53 +277,62 @@ export class PeriodicalService {
       this.fulltext.results = this.solrService.numberOfResults(response);
       const issuePids = [];
       const volumePids = [];
+      const unintPids = [];
       for (const item of this.fulltext.pages) {
         item.thumb = this.krameriusApiService.getThumbUrl(item.uuid);
-        if (issuePids.indexOf(item.issueUuid) < 0) {
-          issuePids.push(item.issueUuid);
+        if (item.type === 'monograph_unit') {
+          continue;
         }
-        if (volumePids.indexOf(item.volumeUuid) < 0) {
-          volumePids.push(item.volumeUuid);
+        console.log('item', item);
+        const unit = item.context['monographunit'];
+        if (unintPids && unintPids.indexOf(unit) < 0) {
+          unintPids.push(unit);
+        }
+        const issue = item.context['periodicalitem'];
+        if (issue && issuePids.indexOf(issue) < 0) {
+          issuePids.push(issue);
+        }
+        const volume = item.context['periodicalvolume'];
+        if (volume && issuePids.indexOf(volume) < 0) {
+          volumePids.push(volume);
         }
       }
-      this.krameriusApiService.getPeriodicalItemDetails(issuePids).subscribe(items => {
+      if (this.isMonograph()) {
+      this.krameriusApiService.getPeriodicalItemDetails(unintPids).subscribe(items => {
         for (const item of items['response']['docs']) {
           const detail = this.solrService.periodicalItem(item);
           for (const page of this.fulltext.pages) {
-            if (this.isMonograph()) {
-              page.isMonographUnit = true;
-            }
-            if (detail.uuid === page.issueUuid) {
-              if (this.isMonograph()) {
+            page.type = 'monograph_unit_page';
+            if (detail.uuid === page.context['monographunit']) {
                 page.title = detail.title;
                 page.part = detail.subtitle;
-              } else {
-                page.date = detail.title;
-                page.issue = detail.subtitle;
-              }
-            } else if (detail.uuid === page.volumeUuid) {
+            }
+          }
+        }
+      });
+    } else {
+      this.krameriusApiService.getPeriodicalItemDetails(volumePids).subscribe(items => {
+        for (const item of items['response']['docs']) {
+          const detail = this.solrService.periodicalItem(item);
+          for (const page of this.fulltext.pages) {
+            if (detail.uuid === page.context['periodicalvolume']) {
               page.year = detail.title;
               page.volume = detail.subtitle;
             }
           }
         }
       });
-
-      if (!this.isMonograph()) {
-        this.krameriusApiService.getPeriodicalItemDetails(volumePids).subscribe(items => {
-          for (const item of items['response']['docs']) {
-            const detail = this.solrService.periodicalItem(item);
-            for (const page of this.fulltext.pages) {
-              if (detail.uuid === page.issueUuid) {
-                page.date = detail.title;
-                page.issue = detail.subtitle;
-              } else if (detail.uuid === page.volumeUuid) {
-                page.year = detail.title;
-                page.volume = detail.subtitle;
-              }
+      this.krameriusApiService.getPeriodicalItemDetails(issuePids).subscribe(items => {
+        for (const item of items['response']['docs']) {
+          const detail = this.solrService.periodicalItem(item);
+          for (const page of this.fulltext.pages) {
+            if (detail.uuid === page.context['periodicalitem']) {
+              page.date = detail.title;
+              page.issue = detail.subtitle;
             }
           }
-        });
+        }
+      });
       }
       this.state = PeriodicalState.Success;
     });

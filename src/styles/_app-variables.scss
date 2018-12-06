@@ -42,6 +42,9 @@ $app-type-soundrecording:   color("orange", "accent-2") !default; // ffab40 -> a
 $app-type-archive:          color("teal", "accent-4") !default; // 00bfa5 -> archivalie
 $app-type-sheetmusic:       color("deep-purple", "lighten-2") !default; // 9575cd -> hudebniny
 $app-type-manuscript:       color("blue-grey", "lighten-1") !default; // 78909c -> rukopisy
+$app-type-article: #4a84fd !default;
+$app-type-page: #8B4513 !default;
+
 
 // global
 $app-border-radius:         2px !default;

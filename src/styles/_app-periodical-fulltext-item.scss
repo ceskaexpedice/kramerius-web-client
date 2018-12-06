@@ -93,6 +93,31 @@ app-periodical-fulltext-item {
             .app-card-row-left {
               float: left;
             }
+            &.app-main-title {
+              font-weight: 600; 
+              margin-bottom: 5px;
+              overflow: hidden;
+              line-height: 20px;
+              max-height: 40px;
+              -webkit-line-clamp: 2;
+              display: -webkit-box;
+              text-overflow: ellipsis;
+            }
+          }
+
+          .app-card-doctype {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            color: #ffffff;
+            padding: 0 6px;
+            border-radius: 2px;
+            &.app-card-article {
+              background: $app-type-article;
+            }
+            &.app-card-monograph {
+              background: $app-type-monograph;
+            }
           }
 
           .app-card-title {

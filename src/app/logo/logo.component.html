@@ -1,7 +1,7 @@
-<a [routerLink]="['']" class="brand-logo" title="{{'navbar.home' | translate}}">
+<a [routerLink]="appSettings.getRouteFor('')" class="brand-logo" title="{{'navbar.home' | translate}}">
   <span class="app-brand-img">
     <!-- This element should be visible only if the logo is setup in conf file -->
-    <img src="{{ appSettings.logo }}" class="img-responsive app-pipe" alt="{{'navbar.home' | translate}}" />
+    <img src="{{ appSettings.logo }}" class="img-responsive app-pipe" alt="{{'navbar.home' | translate }}" />
 
     <!-- // Default logo -> visible only if the logo is NOT setup in conf file
     -->
