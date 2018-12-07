@@ -10,7 +10,6 @@ export class HttpRequestCache  {
   get(req: HttpRequest<any>): HttpResponse<any> | undefined {
     const url = req.urlWithParams;
     const cached = this.cache.get(url);
-    console.log('cached', cached);
     if (!cached) {
       return undefined;
     }

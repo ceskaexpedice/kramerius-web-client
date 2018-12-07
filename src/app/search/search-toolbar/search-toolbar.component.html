@@ -20,7 +20,7 @@
     <ul class="right">
       <li>
         <span class="app-cursor-pointer app-mdi-in">
-          <label>{{ 'search.ordering.label' | translate }}:</label>
+          <label>{{ 'search.ordering.label' | translate }}: </label>
           <a id="app-btn-sort" href="#">{{ 'search.ordering.' + searchService.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
           <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
             <mz-dropdown-item *ngIf="searchService.query.hasQueryString()"><a (click)="searchService.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item>
