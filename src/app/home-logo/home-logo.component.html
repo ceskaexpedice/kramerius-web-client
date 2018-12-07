@@ -2,17 +2,19 @@
   <span class="app-brand-img">
     <img src="{{ appSettings.logo }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
   </span>
-  <span class="app-brand-text hide-on-small-only">{{ appSettings.title }}</span>
+  <span class="app-brand-text">{{ appSettings.title }}</span>
 </div>
 
 <div class="brand-logo" *ngIf="appSettings.multiKramerius">
-  <span id="app-logo-dropdown-selector" mz-tooltip [tooltip]="'home.select_library' | translate" [position]="'top'">
-    <span class="app-brand-img">
-      <img src="{{ appSettings.logo }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
+  <div id="app-logo-dropdown-selector" mz-tooltip [tooltip]="'home.select_library' | translate" [position]="'top'">
+    <span>
+      <span class="app-brand-img">
+        <img src="{{ appSettings.logo }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
+      </span>
+      <span class="app-brand-text">{{ appSettings.title }}</span>
+      <i mz-icon-mdi [icon]="'chevron-down'" class="app-clean-mg app-brand-handle"></i>
     </span>
-    <span class="app-brand-text hide-on-small-only">{{ appSettings.title }}</span>
-    <i mz-icon-mdi [icon]="'chevron-down'" class="app-clean-mg app-brand-handle"></i>
-  </span>
+  </div>
 
   <mz-dropdown
     [id]="'logo-dropdown'"
@@ -31,7 +33,7 @@
         <span class="app-brand-img">
           <img src="{{ kramerius.logo }}" class="img-responsive app-pipe" alt="{{ kramerius.title }}" />
         </span>
-        <span class="app-brand-text hide-on-small-only">{{ kramerius.title }}</span>
+        <span class="app-brand-text">{{ kramerius.title }}</span>
       </a>
     </mz-dropdown-item>
   </mz-dropdown>

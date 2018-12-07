@@ -36,7 +36,23 @@ app-home-logo {
 
 
     #app-logo-dropdown-selector {
-      padding: 0 60px;
+      width: 450px;
+      @media (max-width: 500px) {
+        width: 400px;
+      }
+      @media (max-width: 450px) {
+        width: 350px;
+      }
+      @media (max-width: 400px) {
+        width: 300px;
+      }
+      @media (max-width: 350px) {
+        width: 250px;
+      }
+      @media (max-width: 300px) {
+        width: 100%;
+      }
+      text-align: center;
       cursor: pointer;
     }
   }
