@@ -114,9 +114,9 @@ export class BookService {
                 this.pdf = this.krameriusApiService.getPdfUrl(uuid);
                 this.assignPdfPath();
             } else {
-                this.krameriusApiService.getChildren(uuid).subscribe(response => {
-                    if (response && response.length > 0) {
-                        this.onDataLoaded(response, item.doctype, pageUuid, articleUuid);
+                this.krameriusApiService.getChildren(uuid).subscribe(children => {
+                    if (children && children.length > 0) {
+                        this.onDataLoaded(children, item.doctype, pageUuid, articleUuid);
                     } else {
                         // TODO: Empty document
                     }
@@ -230,8 +230,8 @@ export class BookService {
             return;
         }
         const supplement = supplements.shift();
-        this.krameriusApiService.getChildren(supplement['pid']).subscribe(response => {
-            for (const p of response) {
+        this.krameriusApiService.getChildren(supplement['pid']).subscribe(children => {
+            for (const p of children) {
                 if (p['model'] === 'page') {
                     p['is_supplement'] = true;
                     pages.push(p);
@@ -711,10 +711,10 @@ export class BookService {
                 this.bookState = BookState.Success;
                 this.goToPageOnIndex(0);
             } else {
-                this.krameriusApiService.getChildren(article.uuid).subscribe(response => {
+                this.krameriusApiService.getChildren(article.uuid).subscribe(children => {
                     let index = 0;
                     const pages = [];
-                    for (const p of response) {
+                    for (const p of children) {
                         const page = new Page();
                         page.uuid = p['pid'];
                         page.policy = p['policy'];

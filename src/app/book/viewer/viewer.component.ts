@@ -39,6 +39,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public hideOnInactivity = false;
   public lastMouseMove = 0;
 
+  private lastLeftPage: Page;
+  private lastRightPage: Page;
 
   ngOnInit() {
     this.init();
@@ -47,7 +49,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.updateView(pages[0], pages[1]);
       }
     );
-
+    const lPage = this.bookService.getPage();
+    const rPage = this.bookService.getRightPage();
+    if (lPage) {
+      this.updateView(lPage, rPage);
+    }
     this.intervalSubscription = Observable.interval(4000).subscribe( () => {
       const lastMouseDist = new Date().getTime() - this.lastMouseMove;
       if (lastMouseDist >= 4000) {
@@ -93,8 +99,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.lastMouseMove = new Date().getTime();
     this.hideOnInactivity = false;
   }
-
-
 
   updateView(leftPage: Page, rightPage: Page) {
     const left = (leftPage && leftPage.url) ? leftPage : null;

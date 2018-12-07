@@ -81,9 +81,7 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
   generatePdf(uuids: string[]) {
     this.inProgress = true;
     this.krameriusApi.downloadPdef(uuids).subscribe(
-      response => {
-        const contentDispositionHeader: string = response.headers.get('Content-Disposition');
-        const blob = new Blob([response['_body']], { type: 'application/pdf' });
+      blob => {
         saveAs(blob, 'document.pdf');
         this.inProgress = false;
         this.modal.closeModal();

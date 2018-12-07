@@ -1,6 +1,5 @@
 import { PeriodicalQuery } from './../periodical/periodical_query.model';
 import { BrowseQuery } from './../browse/browse_query.model';
-import { SearchQuery } from './../search/search_query.model';
 import { SolrService } from './solr.service';
 import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
@@ -14,6 +13,7 @@ import 'rxjs/add/operator/map';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { Response } from '@angular/http/src/static_response';
 import { AppSettings } from './app-settings';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class KrameriusApiService {
@@ -25,9 +25,7 @@ export class KrameriusApiService {
     private static STREAM_ALTO = 'ALTO';
     private static STREAM_MP3 = 'MP3';
 
-    private cache = {};
-
-    constructor(private http: Http,
+    constructor(private http: HttpClient,
         private utils: Utils,
         private appSettings: AppSettings,
         private solrService: SolrService) {
@@ -68,16 +66,25 @@ export class KrameriusApiService {
         return this.getApiUrlForKramerius(url) + '/item/' + uuid;
     }
 
-    private doGet(url: string): Observable<Response> {
+    private doGet(url: string): Observable<Object> {
         return this.http.get(encodeURI(url));
     }
 
+    private doGetBlob(url: string): Observable<Blob> {
+        return this.http.get(encodeURI(url), { observe: 'response', responseType: 'blob' })
+        .map(response => response['body']);
+    }
+
+    private doGetText(url: string): Observable<string> {
+        return this.http.get(encodeURI(url), { observe: 'response', responseType: 'text' })
+        .map(response => response['body']);
+
+    }
 
     getSearchResults(query: string) {
         const url = this.getApiUrl() + '/search?'
             + query;
         return this.doGet(url)
-            .map(response => response.json())
             .catch(this.handleError);
     }
 
@@ -105,7 +112,6 @@ export class KrameriusApiService {
         const url = this.getApiUrl() + '/search?'
             + query.buildQuery();
         return this.doGet(url)
-            .map(response => response.json())
             .catch(this.handleError);
     }
 
@@ -133,7 +139,7 @@ export class KrameriusApiService {
     getNewest() {
         const url = this.getApiUrl() + '/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=24&start=0';
         return this.doGet(url)
-            .map(response => this.solrService.documentItems(response.json()))
+            .map(response => this.solrService.documentItems(response))
             .catch(this.handleError);
     }
 
@@ -147,21 +153,21 @@ export class KrameriusApiService {
             // + '&q1=' + query
             + '&rows=200';
         return this.doGet(url)
-            .map(response => this.solrService.uuidList(response.json()))
+            .map(response => this.solrService.uuidList(response))
             .catch(this.handleError);
     }
 
     getRecommended() {
         const url = this.getApiUrl() + '/feed/custom';
         return this.doGet(url)
-            .map(response => this.utils.parseRecommended(response.json()))
+            .map(response => this.utils.parseRecommended(response))
             .catch(this.handleError);
     }
 
     getCollections() {
         const url = this.getApiUrl() + '/vc';
         return this.doGet(url)
-            .map(response => response.json())
+            .map(response => response)
             .catch(this.handleError);
     }
 
@@ -183,7 +189,6 @@ export class KrameriusApiService {
         url += 'datum_str asc,fedora.model asc,dc.title asc&rows=1500&start=0';
         // url += '&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
         return this.doGet(url)
-            .map(response => response.json())
             .catch(this.handleError);
     }
 
@@ -221,14 +226,12 @@ export class KrameriusApiService {
         }
         url += '&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
         return this.doGet(url)
-            .map(response => response.json())
             .catch(this.handleError);
     }
 
     getPeriodicalItemDetails(uuids: string[]) {
         const url = this.getApiUrl() + '/search?fl=PID,details,dostupnost,fedora.model,dc.title,datum_str&q=PID:"' + uuids.join('" OR PID:"') + '"&rows=50';
         return this.doGet(url)
-            .map(response => response.json())
             .catch(this.handleError);
     }
 
@@ -275,14 +278,10 @@ export class KrameriusApiService {
         return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
     }
 
-    downloadMp3(uuid: string) {
+    downloadMp3(uuid: string): Observable<Blob> {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
-        return this.http.get(url, {
-            responseType: ResponseContentType.Blob
-        });
+        return this.doGetBlob(url);
     }
-
-
 
     getScaledJpegUrl(uuid: string, height: number): string {
         let url = this.getbaseUrl() + '/search/img?pid=' + uuid + '&stream=IMG_FULL';
@@ -301,59 +300,52 @@ export class KrameriusApiService {
     downloadPdef(uuids: string[]) {
         const url = this.getApiUrl() + '/pdf/selection'
                 + '?pids=' + uuids.join(',');
-        return this.http.get(url, {
-            responseType: ResponseContentType.Blob
-        });
+        return this.doGetBlob(url);
     }
 
 
-    getOcr(uuid: string) {
+    getOcr(uuid: string): Observable<string> {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);
-        return this.doGet(url)
-            .map(response => response['_body'])
+        return this.doGetText(url)
             .catch(this.handleError);
     }
 
     getDc(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
         return this.doGet(url)
-          .map(response => response['_body'])
           .catch(this.handleError);
     }
 
     getAlto(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO);
         return this.doGet(url)
-          .map(response => response['_body'])
           .catch(this.handleError);
     }
 
-    getMods(uuid: string) {
+    getMods(uuid: string): Observable<string> {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
-        return this.doGet(url)
-          .map(response => response['_body'])
+        return this.doGetText(url)
           .catch(this.handleError);
     }
 
-    getChildren(uuid: string) {
+    getChildren(uuid: string): Observable<any[]> {
         const url = this.getItemUrl(uuid) + '/children';
         return this.doGet(url)
-          .map(response => response.json())
+            .map(res => <any[]> res)
           .catch(this.handleError);
     }
 
     getSiblings(uuid: string) {
         const url = this.getItemUrl(uuid) + '/siblings';
         return this.doGet(url)
-          .map(response => response.json())
           .catch(this.handleError);
     }
 
     getItem(uuid: string) {
         const url = this.getItemUrl(uuid);
         return this.doGet(url)
-          .map(response => this.utils.parseItem(response.json()))
-          .catch(this.handleError);
+        .map(response => this.utils.parseItem(response))
+        .catch(this.handleError);
     }
 
     getZoomifyRootUrl(uuid: string): string {
@@ -362,8 +354,7 @@ export class KrameriusApiService {
 
     getZoomifyProperties(uuid: string) {
         const url = `${this.getZoomifyRootUrl(uuid)}ImageProperties.xml`;
-        return this.doGet(url)
-            .map(response => response['_body'])
+        return this.doGetText(url)
             .catch(this.handleError);
     }
 

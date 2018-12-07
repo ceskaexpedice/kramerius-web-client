@@ -47,7 +47,6 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ViewerComponent } from './book/viewer/viewer.component';
-import { RouterModule, Routes } from '@angular/router';
 
 import { BookComponent } from './book/book.component';
 import { HelpComponent } from './help/help.component';
@@ -99,6 +98,9 @@ import { CollectionsComponent } from './collections/collections.component';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeLogoComponent } from './home-logo/home-logo.component';
+import { HttpRequestCache } from './services/http-request-cache.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { CachingInterceptor } from './services/caching-interceptor.service';
 
 
 @NgModule({
@@ -178,7 +180,7 @@ import { HomeLogoComponent } from './home-logo/home-logo.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     NgDatepickerModule,
     Ng2CompleterModule,
@@ -227,7 +229,9 @@ import { HomeLogoComponent } from './home-logo/home-logo.component';
     HistoryService,
     AltoService,
     MusicService,
-    AppSettings
+    AppSettings,
+    HttpRequestCache,
+    { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

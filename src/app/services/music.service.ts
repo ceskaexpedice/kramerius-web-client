@@ -207,8 +207,7 @@ export class MusicService {
     }
     this.downloadedTrack = track;
     this.krameriusApiService.downloadMp3(track.uuid).subscribe(
-      response => {
-        const blob = new Blob([response['_body']], { type: 'audio/mpeg' });
+      blob => {
         saveAs(blob, track.name + '.mp3');
         this.downloadedTrack = null;
       },

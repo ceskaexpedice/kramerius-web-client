@@ -11,9 +11,6 @@ export class HistoryService {
   }
 
   pop(): string {
-    console.log('HISTORY', 'pop');
-    console.log('HISTORY', 'after pop', this.pages);
-
     if (this.empty()) {
       this.pages = [];
       return this.appSettings.getRouteFor('/');
@@ -23,7 +20,6 @@ export class HistoryService {
   }
 
   removeCurrent() {
-    console.log('HISTORY', 'removeCurrent');
     if (this.pages.length > 0) {
       this.pages.splice(-1, 1);
     }
@@ -34,7 +30,6 @@ export class HistoryService {
   }
 
   push(page: string) {
-    console.log('before push', this.pages);
     if (this.pages.length > 0) {
       const last = this.pages[this.pages.length - 1];
       const searchPath = this.appSettings.getRouteFor('search');
@@ -45,8 +40,6 @@ export class HistoryService {
       }
     }
     this.pages.push(page);
-    console.log('after push', this.pages);
-
   }
 
 }

@@ -1,7 +1,7 @@
 import { HistoryService } from './services/history.service';
 import { Component, OnInit } from '@angular/core';
 import { Translator } from 'angular-translator';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AppState } from './app.state';
 import { Location } from '@angular/common';
 
@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
         (<any>window).gaaa('set', 'page', event.urlAfterRedirects);
         (<any>window).gaaa('send', 'pageview');
         this.history.push(this.location.path());
-        console.log('pushing to history', this.location.path());
         this.state.pageUrl = event.url;
       }
     });
