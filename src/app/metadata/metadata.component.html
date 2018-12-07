@@ -44,7 +44,7 @@
           <a *ngIf="index < 2" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }">{{ author.name }}</a>
       </div>
 
-      <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showAuthors()" mz-tooltip [tooltip]="'common.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
+      <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showAuthors()" mz-tooltip [tooltip]="'metadata.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
 
       <div class="divider"></div>
     </div>
