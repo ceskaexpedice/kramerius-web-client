@@ -268,26 +268,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else if (type === 2) {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
-    const iProjection = new ol.proj.Projection({
-      code: 'THUMB',
-      units: 'pixels',
-      extent: extent
-    });
-    const zProjection = new ol.proj.Projection({
-      code: 'ZOOMIFY',
-      units: 'pixels',
-      extent: extent
-    });
     const zoomifySource = new ol.source.Zoomify({
       url: url,
       size: [width, height],
-      projection: zProjection,
       tierSizeCalculation: 'truncated',
       imageExtent: extent,
     });
     const imageSource = new ol.source.ImageStatic({
       url: url + 'TileGroup0/0-0-0.jpg',
-      projection: iProjection,
       imageExtent: extent
     });
     const iLayer = new ol.layer.Image({
