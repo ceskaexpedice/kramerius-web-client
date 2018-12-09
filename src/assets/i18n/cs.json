@@ -17,6 +17,11 @@
     "copied_to_clipboard": "Zkopirováno do schránky",
     "num_of_docs": "{{ count == 1 ? 'titul' : count < 5 ? 'tituly' : 'titulů' }}"
   },
+  "page-not-found": {
+    "title": "Stránka nebyla nalezena",
+    "go": "Přejděte na",
+    "home": "úvodní stránku"
+  },
   "title": {
     "main": "Digitální knihovna Kramerius",
     "search": "Hledání",

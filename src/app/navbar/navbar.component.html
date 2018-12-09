@@ -19,7 +19,7 @@
       <mz-navbar-item><a *ngIf="translator.language == 'cs'" (click)='onLanguageChanged("en")'>English</a></mz-navbar-item>
       <mz-navbar-item><a *ngIf="translator.language == 'en'" (click)='onLanguageChanged("cs")'>Česky</a></mz-navbar-item>
     </mz-navbar-item-container>
-    <a [id]="'app-btn-sidenav'" class="right hide-on-large-only">
+    <a id="app-btn-sidenav" class="right hide-on-large-only">
       <i mz-icon-mdi [icon]="'menu'"></i>
     </a>
     <a class="right app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="!state.atHome()">

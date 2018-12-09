@@ -11,6 +11,9 @@ import { NgxGalleryImage } from 'ngx-gallery';
 import { MzModalService } from 'ngx-materialize';
 import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.component';
 import { PageTitleService } from './page-title.service';
+import { NotFoundError } from '../common/errors/not-found-error';
+import { Router } from '@angular/router';
+import { AppSettings } from './app-settings';
 
 @Injectable()
 export class MusicService {
@@ -41,6 +44,8 @@ export class MusicService {
 
   constructor(private modsParserService: ModsParserService,
     private modalService: MzModalService,
+    private router: Router,
+    private appSettings: AppSettings,
     private pageTitle: PageTitleService,
     private localStorageService: LocalStorageService,
     private krameriusApiService: KrameriusApiService) {
@@ -61,10 +66,13 @@ export class MusicService {
         this.localStorageService.addToVisited(this.document, this.metadata);
         this.loadSoundUnits();
       });
-    });
+    },
+    error => {
+      if (error instanceof NotFoundError) {
+        this.router.navigateByUrl(this.appSettings.getRouteFor('404'), { skipLocationChange: true });
+      }
+  });
   }
-
-
 
   private addImageToGallery(uuid: string, title: string) {
     this.galleryImages.push({
@@ -74,7 +82,6 @@ export class MusicService {
       description: title
     });
   }
-
 
   private loadSoundUnits() {
     this.krameriusApiService.getChildren(this.uuid).subscribe((units) => {

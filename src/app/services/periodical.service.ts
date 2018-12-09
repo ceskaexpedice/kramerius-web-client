@@ -11,6 +11,7 @@ import { PeriodicalItem } from './../model/periodicalItem.model';
 import { Injectable } from '@angular/core';
 import { Metadata } from '../model/metadata.model';
 import { PageTitleService } from './page-title.service';
+import { NotFoundError } from '../common/errors/not-found-error';
 
 @Injectable()
 export class PeriodicalService {
@@ -105,7 +106,12 @@ export class PeriodicalService {
           }
         }
       });
-    });
+    },
+    error => {
+      if (error instanceof NotFoundError) {
+          this.router.navigateByUrl(this.appSettings.getRouteFor('404'), { skipLocationChange: true });
+      }
+  });
   }
 
 

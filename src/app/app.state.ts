@@ -22,6 +22,7 @@ export class AppState {
   }
 
   atHome(): boolean {
+    console.log('pageUrl', this.pageUrl);
     return (!this.appSettings.multiKramerius && this.pageUrl === '/') || (this.appSettings.multiKramerius && /^\/[a-z0-9]*\/?$/.test(this.pageUrl));
   }
 

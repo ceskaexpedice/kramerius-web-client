@@ -14,12 +14,15 @@ export class RoutingPrefixGuardService implements CanActivate {
   canActivate(
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot): boolean {
-      const url = state.url.substring(1);
-      let code = url;
-      if (url.indexOf('/') > -1) {
-        code = url.substring(0, url.indexOf('/'));
-      }
-      this.appSettings.assignKrameriusByCode(code);
-      return true;
-  }
+        const url = state.url.substring(1);
+        let code = url;
+        if (url.indexOf('/') > -1) {
+          code = url.substring(0, url.indexOf('/'));
+        }
+        if (!this.appSettings.multiKramerius || !this.appSettings.assignKrameriusByCode(code)) {
+          this.router.navigateByUrl('/404');
+          return false;
+        }
+        return true;
+    }
 }

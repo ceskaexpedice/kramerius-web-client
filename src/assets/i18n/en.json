@@ -17,6 +17,11 @@
     "copied_to_clipboard": "Copied to clipboard",
     "num_of_docs": "{{ count == 1 ? 'document' : 'documents' }}"
   },
+  "page-not-found": {
+    "title": "Page not found",
+    "go": "Go to",
+    "home": "Homepage"
+  },
   "title": {
     "main": "Kramerius - Digital Library",
     "search": "Search",

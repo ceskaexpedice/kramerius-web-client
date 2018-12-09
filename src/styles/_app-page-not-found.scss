@@ -1,0 +1,35 @@
+.app-page-not-found {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  .app-404-page {
+    background-color: #fafafa;
+    -webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.12);
+    -moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.12);
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.12);
+    width: 600px;
+    max-width: 80%;
+    height: calc(100% - 80px);
+    margin: 40px auto;
+    position: relative;
+    .app-404-header {
+      padding-top: 50px;
+      font-size: 30px;
+      color: #444;
+      text-align: center;
+    }
+    .app-404-go-home {
+      text-align: center;
+      padding-top: 20px;
+      font-size: 18px;
+    }
+    .app-404-footer {
+      position: absolute;
+      bottom: 20px;
+      text-align: center;
+      width: 100%;
+      font-size: 18px;
+      color: #444;
+    }
+  }
+}

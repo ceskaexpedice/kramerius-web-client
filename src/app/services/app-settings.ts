@@ -34,14 +34,16 @@ export class AppSettings {
     this.assignKrameriusByIndex(0);
   }
 
-  public assignKrameriusByCode(code: string) {
+  public assignKrameriusByCode(code: string): boolean {
     if (this.currentCode === code) {
-      return;
+      return true;
     }
     const k = this.findCrameriusByCode(code);
     if (k) {
       this.assignKramerius(k);
+      return true;
     }
+    return false;
   }
 
   private findCrameriusByCode(code: string): KrameriusData {

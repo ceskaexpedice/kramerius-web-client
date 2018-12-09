@@ -147,6 +147,11 @@ export class BookService {
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
             });
+        },
+        error => {
+            if (error instanceof NotFoundError) {
+                this.router.navigateByUrl(this.appSettings.getRouteFor('404'), { skipLocationChange: true });
+            }
         });
 
     }

@@ -102,6 +102,7 @@ import { HttpRequestCache } from './services/http-request-cache.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CachingInterceptor } from './services/caching-interceptor.service';
 import { PageTitleService } from './services/page-title.service';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 @NgModule({
@@ -168,7 +169,8 @@ import { PageTitleService } from './services/page-title.service';
     PeriodicalFiltersComponent,
     SimpleDialogComponent,
     CollectionsComponent,
-    CollectionComponent
+    CollectionComponent,
+    NotFoundComponent
   ],
   entryComponents: [
     DialogOcrComponent,
