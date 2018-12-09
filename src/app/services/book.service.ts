@@ -79,7 +79,6 @@ export class BookService {
         private modalService: MzModalService) {
     }
 
-
     private assignPdfPath() {
         if (this.pdf == null) {
             this.pdfPath = null;
@@ -105,7 +104,7 @@ export class BookService {
                 const issueUuid = item.getUuidFromContext('periodicalitem');
                 if (issueUuid) {
                     this.history.removeCurrent();
-                    this.router.navigate(['/view', issueUuid], { queryParams: { article: uuid, fulltext: this.fulltextQuery } });
+                    this.router.navigate(['/view', issueUuid], { replaceUrl: true, queryParams: { article: uuid, fulltext: this.fulltextQuery } });
                     return;
                 }
             }
@@ -292,7 +291,7 @@ export class BookService {
             if (this.fulltextQuery) {
                 this.fulltextChanged(this.fulltextQuery, pageUuid);
             } else {
-                this.goToPageOnIndex(pageIndex);
+                this.goToPageOnIndex(pageIndex, true);
             }
         }
     }
@@ -309,7 +308,7 @@ export class BookService {
         for (const p of pages) {
             if (p['model'] === 'monographunit') {
                 const page = this.history.pop();
-                this.router.navigate(['/periodical', this.uuid], { queryParams: { fulltext: this.fulltextQuery } });
+                this.router.navigate(['/periodical', this.uuid], { replaceUrl: true, queryParams: { fulltext: this.fulltextQuery } });
                 return -1;
             } else if (p['model'] === 'supplement') {
             } else if (p['model'] === 'article') {
@@ -607,7 +606,7 @@ export class BookService {
         return !this.fulltextQuery && this.getPage() && (this.getPage().position === PagePosition.Left || this.getPage().position === PagePosition.Right);
     }
 
-    goToPageOnIndex(index: number) {
+    goToPageOnIndex(index: number, replaceState = false) {
         this.viewer = 'image';
         if (index >= this.pages.length) {
             return;
@@ -644,7 +643,11 @@ export class BookService {
             if (this.fulltextQuery) {
                 urlQuery += '&fulltext=' + this.fulltextQuery;
             }
-            this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+            if (replaceState) {
+                this.location.replaceState(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+            } else {
+                this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+            }
         }
         if (!cached) {
             this.publishNewPages(BookPageState.Loading);
