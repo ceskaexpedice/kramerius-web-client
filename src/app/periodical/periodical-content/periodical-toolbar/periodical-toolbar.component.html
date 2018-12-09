@@ -2,9 +2,9 @@
   <div class="col app-periodical-info" [ngClass]="{'s6 m5 l7 xl9 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <a *ngIf="periodicalService.isPeriodicalVolume() && periodicalService.metadata.getTitle()" [routerLink]="['/periodical', periodicalService.document.root_uuid]" [queryParams]="periodicalService.getUrlParams()">
       <i class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.volume_list' | translate" position="bottom"></i>
-      <span class="app-periodical-title" *ngIf="periodicalService.metadata.getTitle()">{{ periodicalService.metadata.titles[0].maintTitle() }}</span>
+      <span class="app-periodical-title">{{ periodicalService.metadata.getTitle() }}</span>
     </a>
-    <span *ngIf="periodicalService.isPeriodical() || periodicalService.isMonograph()" class="app-periodical-title">{{ periodicalService.metadata.titles[0].maintTitle() }}</span>
+    <span *ngIf="periodicalService.isPeriodical() || periodicalService.isMonograph()" class="app-periodical-title">{{ periodicalService.metadata.getTitle() }}</span>
   </div>
   
   

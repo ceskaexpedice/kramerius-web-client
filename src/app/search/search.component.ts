@@ -1,3 +1,4 @@
+import { PageTitleService } from './../services/page-title.service';
 import { SearchService } from './../services/search.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -10,10 +11,12 @@ export class SearchComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private pageTitle: PageTitleService,
     public searchService: SearchService) {
   }
 
   ngOnInit() {
+    this.pageTitle.setTitle('search', null);
     this.route.queryParams.subscribe(params => {
       this.searchService.init(params);
     });

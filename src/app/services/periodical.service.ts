@@ -10,6 +10,7 @@ import { DocumentItem } from './../model/document_item.model';
 import { PeriodicalItem } from './../model/periodicalItem.model';
 import { Injectable } from '@angular/core';
 import { Metadata } from '../model/metadata.model';
+import { PageTitleService } from './page-title.service';
 
 @Injectable()
 export class PeriodicalService {
@@ -41,6 +42,7 @@ export class PeriodicalService {
   constructor(private solrService: SolrService,
     private router: Router,
     private appSettings: AppSettings,
+    private pageTitle: PageTitleService,
     private modsParserService: ModsParserService,
     private localStorageService: LocalStorageService,
     private krameriusApiService: KrameriusApiService) {
@@ -54,6 +56,7 @@ export class PeriodicalService {
       this.document = item;
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
+        this.pageTitle.setTitle(null, this.metadata.getShortTitle());
         this.metadata.model = item.doctype;
         if (this.isMonograph()) {
           this.metadata.doctype = 'monographbundle';
@@ -83,6 +86,7 @@ export class PeriodicalService {
           this.metadata.doctype = 'periodical';
           this.metadata.addMods('periodical', response);
           this.metadata.assignVolume(this.document);
+          this.pageTitle.setTitle(null, this.metadata.getShortTitlwWithVolume());
           this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid, query).subscribe(volumes => {
             this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
           });

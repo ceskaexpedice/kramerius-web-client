@@ -17,6 +17,12 @@
     "copied_to_clipboard": "Zkopirováno do schránky",
     "num_of_docs": "{{ count == 1 ? 'titul' : count < 5 ? 'tituly' : 'titulů' }}"
   },
+  "title": {
+    "main": "Digitální knihovna Kramerius",
+    "search": "Hledání",
+    "browse": "Procházení",
+    "collections": "Sbírky"
+  },
   "navbar": {
     "collections": "Sbírky",
     "browse": "Procházet",

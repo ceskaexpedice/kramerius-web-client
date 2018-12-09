@@ -23,6 +23,7 @@ import { Article } from '../model/article.model';
 import { HistoryService } from './history.service';
 import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.component';
 import { DomSanitizer} from '@angular/platform-browser';
+import { PageTitleService } from './page-title.service';
 
 
 
@@ -67,6 +68,7 @@ export class BookService {
     constructor(private location: Location,
         private altoService: AltoService,
         private appSettings: AppSettings,
+        private pageTitle: PageTitleService,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
         private modsParserService: ModsParserService,
@@ -124,8 +126,8 @@ export class BookService {
             }
             this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response, item.root_uuid);
-                const page = this.getPage();
                 this.metadata.model = item.doctype;
+                this.pageTitle.setTitle(null, this.metadata.getShortTitle());
                 if (item.doctype) {
                     if (item.doctype.startsWith('periodical')) {
                         this.metadata.doctype = 'periodical';
@@ -175,9 +177,10 @@ export class BookService {
             }
             }
             if (index < 0) {
-            return;
+                return;
             }
             this.metadata.currentIssue = issues[index];
+            this.pageTitle.setTitle(null, this.metadata.getShortTitleWithIssue());
             if (index > 0) {
                 this.metadata.previousIssue = issues[index - 1];
             }
@@ -209,6 +212,7 @@ export class BookService {
                 return;
             }
             this.metadata.currentUnit = units[index];
+            this.pageTitle.setTitle(null, this.metadata.getShortTitleWithUnit());
             if (index > 0) {
                 this.metadata.previousUnit = units[index - 1];
             }

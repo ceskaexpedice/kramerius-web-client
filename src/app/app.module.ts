@@ -35,7 +35,7 @@ import { ModsParserService } from './services/mods-parser.service';
 import { BookService } from './services/book.service';
 import { Http, HttpModule } from '@angular/http';
 import { KrameriusApiService } from './services/kramerius-api.service';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { TranslatorModule } from 'angular-translator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -101,6 +101,7 @@ import { HomeLogoComponent } from './home-logo/home-logo.component';
 import { HttpRequestCache } from './services/http-request-cache.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CachingInterceptor } from './services/caching-interceptor.service';
+import { PageTitleService } from './services/page-title.service';
 
 
 @NgModule({
@@ -231,6 +232,8 @@ import { CachingInterceptor } from './services/caching-interceptor.service';
     MusicService,
     AppSettings,
     HttpRequestCache,
+    Title,
+    PageTitleService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

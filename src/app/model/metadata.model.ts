@@ -84,7 +84,6 @@ export class Metadata {
         this.volume = new Volume(item.uuid, item.volumeYear, item.volumeNumber);
     }
 
-
     public getTitle(): string {
         if (this.mainTitle) {
             return this.mainTitle;
@@ -96,6 +95,33 @@ export class Metadata {
         return '';
     }
 
+    public getShortTitle(): string {
+        return this.getTitle().substring(0, 50);
+    }
+
+    public getShortTitleWithUnit(): string {
+        let title = this.getShortTitle();
+        if (this.currentUnit && this.currentUnit.title) {
+            title = this.currentUnit.title + ' | ' + title;
+        }
+        return title;
+    }
+
+    public getShortTitleWithIssue(): string {
+        let title = this.getShortTitle();
+        if (this.currentIssue && this.currentIssue.title) {
+            title += ' ' + this.currentIssue.title;
+        }
+        return title;
+    }
+
+    public getShortTitlwWithVolume(): string {
+        let title = this.getShortTitle();
+        if (this.volume && this.volume.year) {
+            title += ' ' + this.volume.year;
+        }
+        return title;
+    }
 
 }
 

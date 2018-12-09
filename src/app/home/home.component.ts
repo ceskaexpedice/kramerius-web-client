@@ -5,6 +5,7 @@ import { KrameriusApiService } from './../services/kramerius-api.service';
 import { Component, OnInit } from '@angular/core';
 import { AppState } from '../app.state';
 import { ActivatedRoute } from '@angular/router';
+import { PageTitleService } from '../services/page-title.service';
 
 @Component({
   selector: 'app-home',
@@ -25,12 +26,14 @@ export class HomeComponent implements OnInit {
     private route: ActivatedRoute,
     private appSettings: AppSettings,
     private krameriusApiService: KrameriusApiService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private pageTitle: PageTitleService
   ) {
 
   }
 
   ngOnInit() {
+    this.pageTitle.setTitle(null, null);
     if (this.appSettings.multiKramerius) {
       this.route.params.subscribe(params => {
         if (params && params['k'] && params['k'] !== this.lastCode) {

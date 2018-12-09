@@ -10,6 +10,7 @@ import { Metadata } from '../model/metadata.model';
 import { NgxGalleryImage } from 'ngx-gallery';
 import { MzModalService } from 'ngx-materialize';
 import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.component';
+import { PageTitleService } from './page-title.service';
 
 @Injectable()
 export class MusicService {
@@ -40,6 +41,7 @@ export class MusicService {
 
   constructor(private modsParserService: ModsParserService,
     private modalService: MzModalService,
+    private pageTitle: PageTitleService,
     private localStorageService: LocalStorageService,
     private krameriusApiService: KrameriusApiService) {
   }
@@ -55,6 +57,7 @@ export class MusicService {
         this.metadata.addMods('soundrecording', response);
         this.metadata.doctype = 'soundrecording';
         this.metadata.model = item.doctype;
+        this.pageTitle.setTitle(null, this.metadata.getShortTitle());
         this.localStorageService.addToVisited(this.document, this.metadata);
         this.loadSoundUnits();
       });
