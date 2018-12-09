@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MzModalService } from 'ngx-materialize';
 import { DialogOcrComponent } from '../dialog/dialog-ocr/dialog-ocr.component';
-import 'rxjs/add/observable/forkJoin';
+import { forkJoin} from 'rxjs/observable/forkJoin';
 import { Article } from '../model/article.model';
 import { HistoryService } from './history.service';
 import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.component';
@@ -446,7 +446,7 @@ export class BookService {
         if (this.getRightPage()) {
             requests.push(this.krameriusApiService.getOcr(this.getRightPage().uuid));
         }
-        Observable.forkJoin(requests).subscribe(result => {
+        forkJoin(requests).subscribe(result => {
             const options = {
                 ocr: result[0]
             };
@@ -694,7 +694,7 @@ export class BookService {
         const urlQuery = 'article=' + article.uuid;
         this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         if (article.type === 'none') {
-            Observable.forkJoin([this.krameriusApiService.getItem(article.uuid), this.krameriusApiService.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
+            forkJoin([this.krameriusApiService.getItem(article.uuid), this.krameriusApiService.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 this.metadata.addMods('article', mods);
                 article.type = item.pdf ? 'pdf' : 'pages';
                 this.onArticleLoaded(article);

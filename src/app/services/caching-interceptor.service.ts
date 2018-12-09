@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpResponse, HttpInterceptor, HttpHandler } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { startWith, tap } from 'rxjs/operators';
-import 'rxjs/add/observable/of';
-
+import { tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { HttpRequestCache } from './http-request-cache.service';
 
 @Injectable()
@@ -12,7 +11,7 @@ export class CachingInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const cachedResponse = this.cache.get(req);
-    return cachedResponse ? Observable.of(cachedResponse) : this.sendRequest(req, next, this.cache);
+    return cachedResponse ? of(cachedResponse) : this.sendRequest(req, next, this.cache);
   }
 
   sendRequest(

@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
 
   mobileSearchBarExpanded = false;
   richCollections = false;
-  @ViewChild('sidenav') sidenav: MzSidenavComponent;
+  // @ViewChild('sidenav') sidenav: MzSidenavComponent;
 
   constructor(
     public translator: Translator,
@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
   onLanguageChanged(lang: string) {
     localStorage.setItem('lang', lang);
     this.translator.language = lang;
-    this.sidenav.opened = false;
+    // this.sidenav.opened = false;
   }
 
   goBack() {

@@ -33,7 +33,6 @@ import { Utils } from './services/utils.service';
 import { LibrarySearchService } from './services/library-search.service';
 import { ModsParserService } from './services/mods-parser.service';
 import { BookService } from './services/book.service';
-import { Http, HttpModule } from '@angular/http';
 import { KrameriusApiService } from './services/kramerius-api.service';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -84,7 +83,6 @@ import { MusicControlsComponent } from './music/music-player/music-controls/musi
 import { BookToolbarComponent } from './book/book-toolbar/book-toolbar.component';
 import { MusicToolbarComponent } from './music/music-player/music-toolbar/music-toolbar.component';
 
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { PdfViewerComponent } from './book/pdf-viewer/pdf-viewer.component';
 import { PeriodicalCountComponent } from './periodical/periodical-filters/periodical-count/periodical-count.component';
 import { PeriodicalSearchComponent } from './periodical/periodical-filters/periodical-search/periodical-search.component';
@@ -187,7 +185,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
     FormsModule,
     NgDatepickerModule,
     Ng2CompleterModule,
-    PdfViewerModule,
     LazyLoadImageModule,
     AppRoutingModule,
     NgxGalleryModule,

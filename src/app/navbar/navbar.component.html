@@ -19,9 +19,9 @@
       <mz-navbar-item><a *ngIf="translator.language == 'cs'" (click)='onLanguageChanged("en")'>English</a></mz-navbar-item>
       <mz-navbar-item><a *ngIf="translator.language == 'en'" (click)='onLanguageChanged("cs")'>Česky</a></mz-navbar-item>
     </mz-navbar-item-container>
-    <a id="app-btn-sidenav" class="right hide-on-large-only">
+    <!-- <a id="app-btn-sidenav" class="right hide-on-large-only">
       <i mz-icon-mdi [icon]="'menu'"></i>
-    </a>
+    </a> -->
     <a class="right app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="!state.atHome()">
       <i *ngIf="!mobileSearchBarExpanded" mz-icon-mdi [icon]="'magnify'"></i>
       <i *ngIf="mobileSearchBarExpanded" mz-icon-mdi [icon]="'close'"></i>
@@ -31,7 +31,7 @@
 
 
 <!-- sidenav -->
-<mz-sidenav #sidenav [id]="'app-side-nav'" [collapseButtonId]="'app-btn-sidenav'" [closeOnClick]="true">
+<!-- <mz-sidenav #sidenav [id]="'app-side-nav'" [collapseButtonId]="'app-btn-sidenav'" [closeOnClick]="true">
   <mz-sidenav-subheader>{{ 'navbar.main_navigation' | translate }}</mz-sidenav-subheader>
   <mz-sidenav-link routerLinkActive="active" #collections="routerLinkActive">
     <a *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
@@ -46,3 +46,4 @@
     <a *ngIf="translator.language == 'en'" (click)='onLanguageChanged("cs")'>Česky</a>
   </mz-sidenav-link>
 </mz-sidenav>
+-->

@@ -5,9 +5,8 @@ import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { Injectable } from '@angular/core';
-import { Http, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';
+import { throwError } from 'rxjs';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
@@ -47,11 +46,11 @@ export class KrameriusApiService {
 
     private handleError(error: Response) {
         if (error.status === 404) {
-            return Observable.throw(new NotFoundError());
+            return throwError(new NotFoundError());
         } else if (error.status === 401 || error.status === 403) {
-            return Observable.throw(new UnauthorizedError());
+            return throwError(new UnauthorizedError());
         }
-        return Observable.throw(new AppError(error));
+        return throwError(new AppError(error));
     }
 
     private getItemStreamUrl(uuid: string, stream: string) {
@@ -245,16 +244,23 @@ export class KrameriusApiService {
             query += '*';
         }
         let result = this.getApiUrl() + '/search/?fl=PID,dc.title,dc.creator&q='
-        + '(fedora.model:monograph%5E5 OR fedora.model:periodical%5E4 OR fedora.model:map '
+        + '(fedora.model:monograph^5 OR fedora.model:periodical^4 OR fedora.model:map '
         + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic OR fedora.model:soundrecording OR fedora.model:article)';
         if (onlyPublic) {
             result += ' AND dostupnost:public';
         } else {
-            result += ' AND (dostupnost:public%5E5 OR dostupnost:private)';
+            result += ' AND (dostupnost:public^5 OR dostupnost:private)';
 
         }
         result += ' AND dc.title:'  + query + '&rows=30';
         return result;
+    }
+
+    getSearchAutocomplete(term: string, onlyPublic: boolean = false): Observable<any[]> {
+        const url = this.getSearchAutocompleteUrl(term, onlyPublic);
+        return this.doGet(url)
+            .map(res => <any> res['response']['docs'])
+          .catch(this.handleError);
     }
 
 
@@ -303,22 +309,21 @@ export class KrameriusApiService {
         return this.doGetBlob(url);
     }
 
-
     getOcr(uuid: string): Observable<string> {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);
         return this.doGetText(url)
             .catch(this.handleError);
     }
 
-    getDc(uuid: string) {
-        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
-        return this.doGet(url)
-          .catch(this.handleError);
-    }
+    // getDc(uuid: string) {
+    //     const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
+    //     return this.doGet(url)
+    //       .catch(this.handleError);
+    // }
 
     getAlto(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO);
-        return this.doGet(url)
+        return this.doGetText(url)
           .catch(this.handleError);
     }
 

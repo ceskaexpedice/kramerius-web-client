@@ -1,14 +1,8 @@
 import { ViewerControlsService } from './../services/viewre-controls.service.';
-import { Observable } from 'rxjs/Observable';
-import { LocalStorageService } from './../services/local-storage.service';
-import { DocumentItem } from './../model/document_item.model';
-import { ModsParserService } from './../services/mods-parser.service';
-import { Page } from './../model/page.model';
 import { BookService } from './../services/book.service';
-import { KrameriusApiService } from './../services/kramerius-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import 'rxjs/add/observable/combineLatest';
+import { combineLatest } from 'rxjs/observable/combineLatest';
 
 @Component({
   selector: 'app-book',
@@ -33,7 +27,7 @@ export class BookComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.viewerControls.clear();
-    Observable.combineLatest([this.route.paramMap, this.route.queryParamMap]).subscribe(
+    combineLatest([this.route.paramMap, this.route.queryParamMap]).subscribe(
       results => {
         const p = results[0];
         const q = results[1];

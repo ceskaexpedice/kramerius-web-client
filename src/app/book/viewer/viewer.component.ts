@@ -1,10 +1,9 @@
 import { ViewerControlsService, ViewerActions } from './../../services/viewre-controls.service.';
 import { Page } from './../../model/page.model';
 import { BookService } from './../../services/book.service';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/interval';
+import { interval } from 'rxjs';
 
 declare var ol: any;
 
@@ -39,9 +38,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public hideOnInactivity = false;
   public lastMouseMove = 0;
 
-  private lastLeftPage: Page;
-  private lastRightPage: Page;
-
   ngOnInit() {
     this.init();
     this.pageSubscription = this.bookService.watchPage().subscribe(
@@ -54,7 +50,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (lPage) {
       this.updateView(lPage, rPage);
     }
-    this.intervalSubscription = Observable.interval(4000).subscribe( () => {
+    this.intervalSubscription = interval(4000).subscribe( () => {
       const lastMouseDist = new Date().getTime() - this.lastMouseMove;
       if (lastMouseDist >= 4000) {
         this.hideOnInactivity = true;

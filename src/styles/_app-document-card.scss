@@ -32,6 +32,11 @@ app-document-card {
       &.article {background-color: $app-type-article}
       &.page {background-color: $app-type-page}
     }
+
+    &>div {
+      height: 100%;
+    }
+
     
     .app-card-logo {
       position: absolute;
@@ -44,11 +49,7 @@ app-document-card {
     .card-content {
       padding: 10px;
       height: 100%;
-      overflow: hidden;
-      
-     // p {
-        height: 100%;
-        
+      overflow: hidden;        
         mz-card-content {
           display: table;
           width: 100%;

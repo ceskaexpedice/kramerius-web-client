@@ -33,7 +33,9 @@ app-periodical-fulltext-item {
     margin: 0.5rem;
     height: 144px;
     @include setCardShadow(0, 0, 0, $app-grey-l-2);
-      
+    &>div {
+      height: 100%;
+    }  
     .card-content {
       padding: 10px;
       height: 100%;
