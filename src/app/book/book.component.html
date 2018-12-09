@@ -11,7 +11,7 @@
   
   <app-pdf-viewer *ngIf="bookService.viewer === 'pdf'"></app-pdf-viewer>
 
-  <app-metadata 
+  <app-metadata *ngIf="!bookService.isDocLoading()"
     [class.app-panel-hidden]="!viewerControls.rightPanelVisible" 
     [class.app-panel-tablet-visible-left]="!viewerControls.leftPanelVisible"
     [class.app-panel-mobile-hidden]="bookService.activeMobilePanel != 'metadata'" 
@@ -20,3 +20,9 @@
       <app-book-controls></app-book-controls>
   </app-metadata>
 </div>
+
+<mz-spinner *ngIf="bookService.isDocLoading()"
+  class="medium-centered-spinner"
+  [color]="'blue'"
+  [size]="'medium'">
+</mz-spinner>

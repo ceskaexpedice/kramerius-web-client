@@ -114,6 +114,7 @@ export class BookService {
                 this.showNavigationPanel = false;
                 this.viewer = 'pdf';
                 this.pdf = this.krameriusApiService.getPdfUrl(uuid);
+                this.bookState = BookState.Success;
                 this.assignPdfPath();
             } else {
                 this.krameriusApiService.getChildren(uuid).subscribe(children => {
@@ -662,8 +663,12 @@ export class BookService {
         return this.pageState === BookPageState.Failure;
     }
 
-    isLoading() {
-        return this.bookState === BookState.Loading || this.pageState === BookPageState.Loading;
+    isDocLoading() {
+        return this.bookState === BookState.Loading;
+    }
+
+    isPageLoading() {
+        return this.pageState === BookPageState.Loading;
     }
 
     noFulltextResults() {
@@ -710,7 +715,7 @@ export class BookService {
         this.metadata.article = article;
         if (article.type === 'pdf') {
             this.viewer = 'pdf';
-            // this.bookState = BookState.Success;
+            this.bookState = BookState.Success;
             this.pdf = this.krameriusApiService.getPdfUrl(article.uuid);
             this.assignPdfPath();
         } else if (article.type === 'pages') {
