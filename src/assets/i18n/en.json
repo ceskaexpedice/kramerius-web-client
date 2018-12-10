@@ -140,10 +140,10 @@
     "desc": "searching in digital documents",
     "btn_enter": "Enter",
     "btn_search": "Search",
-    "tab_visited": "My visited",
+    "tab_visited": "Visited",
     "tab_recommended": "Recommended",        
     "tab_requested": "The most requested",
-    "tab_latest": "The latest",
+    "tab_latest": "Latest",
     "select_library": "Select Library"
   },
   "metadata": {
