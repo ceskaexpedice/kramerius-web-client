@@ -1,5 +1,5 @@
 import { ViewerControlsService, ViewerActions } from './../../services/viewre-controls.service.';
-import { Page } from './../../model/page.model';
+import { Page, PageImageType } from './../../model/page.model';
 import { BookService } from './../../services/book.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
@@ -234,18 +234,18 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.setView(view);
 
     if (image2 != null) {
-      if (image1.zoomify) {
+      if (image1.imageType === PageImageType.ZOOMIFY) {
         this.addZoomifyImage(image1.url, image1.width, image1.height, 1);
       } else {
          this.addStaticImage(image1.url, image1.width, image1.height, 1);
       }
-      if (image2.zoomify) {
+      if (image2.imageType === PageImageType.ZOOMIFY) {
         this.addZoomifyImage(image2.url, image2.width, image2.height, 2);
       } else {
          this.addStaticImage(image2.url, image2.width, image2.height, 2);
       }
     } else {
-      if (image1.zoomify) {
+      if (image1.imageType === PageImageType.ZOOMIFY) {
         this.addZoomifyImage(image1.url, image1.width, image1.height, 0);
       } else {
         this.addStaticImage(image1.url, image1.width, image1.height, 0);
@@ -256,7 +256,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
     this.fitToScreen();
   }
-
 
 
   addZoomifyImage(url, width, height, type) {

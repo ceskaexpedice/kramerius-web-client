@@ -10,27 +10,60 @@ export class Page {
     hidden: boolean;
     selected = false;
     position = PagePosition.None;
+    imageType = PageImageType.None;
 
     // Image Properties
-    width: number;
-    height: number;
+    width: number = -1;
+    height: number = -1;
     url: string;
-    zoomify: boolean;
     altoBoxes: any[];
 
     constructor() {
 
     }
 
-    public setImageProperties(width: number, height: number, url: string, zoomify: boolean) {
+    public assignZoomifyData(data: string) {
+        const a = data.toLowerCase().split('"');
+        const width = parseInt(a[1], 10);
+        const height = parseInt(a[3], 10);
+        this.width = width;
+        this.height = height;
+    }
+
+    public assignJpegData(width, height, url) {
         this.width = width;
         this.height = height;
         this.url = url;
-        this.zoomify = zoomify;
     }
 
-    public hasImageData() {
-        return this.width && this.height && this.url;
+    public cached() {
+        return this.imageType === PageImageType.PDF
+           || (this.imageType !== PageImageType.None && this.url && this.height > -1 && this.width > -1);
+    }
+
+    public assignPageData(data) {
+        if (!data) {
+            return;
+        }
+        if (data['zoom'] && data['zoom']['url']) {
+            this.imageType = PageImageType.ZOOMIFY;
+            this.url = data['zoom']['url'] + '/';
+            return;
+        }
+        if (data['pdf'] && data['pdf']['url']) {
+            this.imageType = PageImageType.PDF;
+            this.url = data['pdf']['url'];
+            return;
+        } else {
+            this.imageType = PageImageType.JPEG;
+        }
+    }
+
+    public clear() {
+        this.height = -1;
+        this.width = -1;
+        this.url = null;
+        this.imageType = PageImageType.None;
     }
 
 }
@@ -39,3 +72,8 @@ export class Page {
 export enum PagePosition {
     Single, None, Left, Right
 }
+
+export enum PageImageType {
+    ZOOMIFY, IIIF, PDF, JPEG, None
+}
+

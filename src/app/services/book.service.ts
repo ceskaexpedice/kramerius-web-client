@@ -12,7 +12,7 @@ import { AppError } from './../common/errors/app-error';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { KrameriusApiService } from './kramerius-api.service';
-import { Page, PagePosition } from './../model/page.model';
+import { Page, PagePosition, PageImageType } from './../model/page.model';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -86,7 +86,8 @@ export class BookService {
         }
         let url = 'assets/pdf/viewer.html?file=' + this.pdf;
         if (this.fulltextQuery) {
-            url += '?query=' + this.fulltextQuery;
+            url += url.indexOf('?') ? '&' : '?';
+            url += 'query=' + this.fulltextQuery;
         }
         this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
@@ -633,10 +634,10 @@ export class BookService {
         const page = this.getPage();
         page.selected = true;
         const rightPage = this.getRightPage();
-        let cached = page.hasImageData();
+        let cached = page.cached();
         if (rightPage) {
             rightPage.selected = true;
-            cached = cached && rightPage.hasImageData();
+            cached = cached && rightPage.cached();
         }
         if (!this.article) {
             let urlQuery = 'page=' + page.uuid;
@@ -651,9 +652,13 @@ export class BookService {
         }
         if (!cached) {
             this.publishNewPages(BookPageState.Loading);
-            this.fetchImageProperties(page, rightPage, true);
+            this.fetchPageData(page, rightPage, true);
         } else {
-            this.publishNewPages(BookPageState.Success);
+            if (page.imageType === PageImageType.PDF) {
+                this.onPdfPageSelected(page, rightPage);
+            } else {
+                this.publishNewPages(BookPageState.Success);
+            }
         }
     }
 
@@ -761,51 +766,91 @@ export class BookService {
         }
     }
 
-
-    private fetchImageProperties(leftPage: Page, rightPage: Page, first: boolean) {
-        const page = first ? leftPage : rightPage;
-        const url = this.krameriusApiService.getZoomifyRootUrl(page.uuid);
-        this.krameriusApiService.getZoomifyProperties(page.uuid).subscribe(
-            response => {
-                const a = response.toLowerCase().split('"');
-                const width = parseInt(a[1], 10);
-                const height = parseInt(a[3], 10);
-                page.setImageProperties(width, height, url, true);
-                if (first && rightPage) {
-                    this.fetchImageProperties(leftPage, rightPage, false);
-                } else {
-                    this.publishNewPages(BookPageState.Success);
-                }
-            },
-            (error: AppError)  => {
-                if (error instanceof UnauthorizedError) {
-                    // Private document
-                    this.publishNewPages(BookPageState.Inaccessible);
-                } else if (error instanceof NotFoundError) {
-                    // Not zoomify
-                    const jepgUrl = this.krameriusApiService.getScaledJpegUrl(page.uuid, 3000);
-                    const image = new Image();
-                    const subject = this.subject;
-                    image.onload = (() => {
-                        page.setImageProperties(image.width, image.height, jepgUrl, false);
-                        if (first && rightPage) {
-                            this.fetchImageProperties(leftPage, rightPage, false);
-                        } else {
-                            this.publishNewPages(BookPageState.Success);
-                        }
-                    });
-                    image.onerror = (() => {
-                        // JPEF failure
-                        image.onerror = null;
-                        this.publishNewPages(BookPageState.Failure);
-                    });
-                    image.src = jepgUrl;
-                } else {
-                    // Zoomify failure
-                    this.publishNewPages(BookPageState.Failure);
-                }
+    private fetchPageData(leftPage: Page, rightPage: Page, first: boolean) {
+        const itemRequests = [];
+        itemRequests.push(this.krameriusApiService.getPageItem(leftPage.uuid));
+        if (rightPage) {
+            itemRequests.push(this.krameriusApiService.getPageItem(rightPage.uuid));
+        }
+        forkJoin(itemRequests).subscribe(result => {
+            leftPage.assignPageData(result[0]);
+            if (rightPage) {
+                rightPage.assignPageData(result[1]);
             }
-        );
+            if (leftPage.imageType === PageImageType.None) {
+                this.publishNewPages(BookPageState.Failure);
+            } else if (leftPage.imageType === PageImageType.PDF) {
+                this.onPdfPageSelected(leftPage, rightPage); 
+            } else if (leftPage.imageType === PageImageType.ZOOMIFY) {
+                this.fetchZoomifyData(leftPage, rightPage);
+            } else if (leftPage.imageType === PageImageType.JPEG) {
+                this.fetchJpegData(leftPage, rightPage, true);
+            }
+        },
+        (error: AppError)  => {
+            if (error instanceof UnauthorizedError) {
+                this.publishNewPages(BookPageState.Inaccessible);
+            } else {
+                this.publishNewPages(BookPageState.Failure);
+            }
+        });
+    }
+
+
+    private onPdfPageSelected(leftPage: Page, rightPage: Page) {
+        this.viewer = 'pdf';
+        if (rightPage) {
+            rightPage.selected = false;
+        }
+        this.doublePageEnabled = false;
+        this.pdf = this.krameriusApiService.getPdfUrl(leftPage.uuid);
+        this.bookState = BookState.Success;
+        this.assignPdfPath();
+    }
+
+
+    private fetchJpegData(leftPage: Page, rightPage: Page, left: boolean) {
+        const page = left ? leftPage : rightPage;
+        console.log('fetchJpegData', page);
+        const url = this.krameriusApiService.getScaledJpegUrl(page.uuid, 3000);
+        const image = new Image();
+        image.onload = (() => {
+            page.assignJpegData(image.width, image.height, url);
+            if (left && rightPage && rightPage.imageType === PageImageType.JPEG) {
+                this.fetchJpegData(leftPage, rightPage, false);
+            } else {
+                this.publishNewPages(BookPageState.Success);
+
+            }
+        });
+        image.onerror = (() => {
+            image.onerror = null;
+            this.publishNewPages(BookPageState.Failure);
+        });
+        image.src = url;
+    }
+
+
+    private fetchZoomifyData(leftPage: Page, rightPage: Page) {
+        const zRequests = [];
+        zRequests.push(this.krameriusApiService.getZoomifyProperties(leftPage.url));
+        if (rightPage && rightPage.imageType === PageImageType.ZOOMIFY) {
+            zRequests.push(this.krameriusApiService.getZoomifyProperties(rightPage.url));
+        }
+        forkJoin(zRequests).subscribe(zResult => {
+            leftPage.assignZoomifyData(zResult[0]);
+            if (rightPage && zResult.length >= 2) {
+                rightPage.assignZoomifyData(zResult[1]);
+            }
+            this.publishNewPages(BookPageState.Success);
+        },
+        (error: AppError)  => {
+            if (error instanceof UnauthorizedError) {
+                this.publishNewPages(BookPageState.Inaccessible);
+            } else {
+                this.publishNewPages(BookPageState.Failure);
+            }
+        });
     }
 
 
@@ -820,10 +865,10 @@ export class BookService {
         }
         if (state !== BookPageState.Success) {
             if (leftPage) {
-                leftPage.setImageProperties(-1, -1, null, true);
+                leftPage.clear();
             }
             if (rightPage) {
-                rightPage.setImageProperties(-1, -1, null, true);
+                rightPage.clear();
             }
         }
         this.pageState = state;

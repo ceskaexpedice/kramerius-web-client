@@ -17,7 +17,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class KrameriusApiService {
 
-    private static STREAM_DC = 'DC';
+    // private static STREAM_DC = 'DC';
     private static STREAM_MODS = 'BIBLIO_MODS';
     private static STREAM_OCR = 'TEXT_OCR';
     private static STREAM_JPEG = 'IMG_FULL';
@@ -174,7 +174,7 @@ export class KrameriusApiService {
     private getPeriodicalItems(pidPath: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean) {
         const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
         let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:'
-                + pidPath + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
+                + pidPath.toLowerCase() + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
         if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
             url += ' AND dostupnost:' + query.accessibility;
         }
@@ -353,13 +353,24 @@ export class KrameriusApiService {
         .catch(this.handleError);
     }
 
-    getZoomifyRootUrl(uuid: string): string {
-        return `${this.getbaseUrl()}/search/zoomify/${uuid}/`;
+    getPageItem(uuid: string) {
+        const url = this.getItemUrl(uuid);
+        return this.doGet(url)
+        .catch(this.handleError);
     }
 
-    getZoomifyProperties(uuid: string) {
-        const url = `${this.getZoomifyRootUrl(uuid)}ImageProperties.xml`;
-        return this.doGetText(url)
+    // getZoomifyRootUrl(uuid: string): string {
+    //     return `${this.getbaseUrl()}/search/zoomify/${uuid}/`;
+    // }
+
+    // getZoomifyProperties(uuid: string) {
+    //     const url = `${this.getZoomifyRootUrl(uuid)}ImageProperties.xml`;
+    //     return this.doGetText(url)
+    //         .catch(this.handleError);
+    // }
+
+    getZoomifyProperties(url: string) {
+        return this.doGetText(`${url}/ImageProperties.xml`)
             .catch(this.handleError);
     }
 
