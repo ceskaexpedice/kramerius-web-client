@@ -780,7 +780,7 @@ export class BookService {
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {
-                this.onPdfPageSelected(leftPage, rightPage); 
+                this.onPdfPageSelected(leftPage, rightPage);
             } else if (leftPage.imageType === PageImageType.ZOOMIFY) {
                 this.fetchZoomifyData(leftPage, rightPage);
             } else if (leftPage.imageType === PageImageType.JPEG) {
@@ -811,7 +811,6 @@ export class BookService {
 
     private fetchJpegData(leftPage: Page, rightPage: Page, left: boolean) {
         const page = left ? leftPage : rightPage;
-        console.log('fetchJpegData', page);
         const url = this.krameriusApiService.getScaledJpegUrl(page.uuid, 3000);
         const image = new Image();
         image.onload = (() => {

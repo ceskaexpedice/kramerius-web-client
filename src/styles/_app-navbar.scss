@@ -46,6 +46,7 @@ app-navbar {
           
           .app-btn-search-bar {
             display: none;
+            margin-right: 12px;
           }
           
           // mq
@@ -61,11 +62,21 @@ app-navbar {
               display: block; 
             }
           }
-          
-        }
-        
+          .app-buttons {
+            display: initial;
+          }
+          @media only screen and (max-width : 991px) {
+            .app-buttons {
+              display: none;
+            }
+          }
+        }        
         &.app-col-right-home {
           width: 100%;
+          $large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
+          .app-buttons {
+            display: initial;
+          }
         }
       }
     }

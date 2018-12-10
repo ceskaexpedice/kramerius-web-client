@@ -5,7 +5,7 @@ app-home-search-bar {
   .app-search-bar-wrapper {
     position: relative;
     display: inline-block;
-    width: calc(100% - 60px);
+    width: calc(100% - 16px);
     height: $app-search-bar-height;
     vertical-align: middle;
     margin-bottom: 3px;
@@ -117,7 +117,7 @@ app-navbar-search-bar {
       display: initial;
       
       .app-search-bar-wrapper {
-        width: calc(100% - 87px);
+        width: calc(100% - 50px);
       }
     }
   }
