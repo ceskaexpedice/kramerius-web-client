@@ -58,7 +58,7 @@ export class BookService {
     public articles: Article[];
     public article: Article;
 
-
+    public lastIndex = -1;
 
     public activeNavigationTab: string; // pages | articles
     public showNavigationTabs: boolean;
@@ -650,9 +650,10 @@ export class BookService {
                 this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
             }
         }
+        this.lastIndex = index;
         if (!cached) {
             this.publishNewPages(BookPageState.Loading);
-            this.fetchPageData(page, rightPage, true);
+            this.fetchPageData(page, rightPage);
         } else {
             if (page.imageType === PageImageType.PDF) {
                 this.onPdfPageSelected(page, rightPage);
@@ -766,7 +767,7 @@ export class BookService {
         }
     }
 
-    private fetchPageData(leftPage: Page, rightPage: Page, first: boolean) {
+    private fetchPageData(leftPage: Page, rightPage: Page) {
         const itemRequests = [];
         itemRequests.push(this.krameriusApiService.getPageItem(leftPage.uuid));
         if (rightPage) {
@@ -845,7 +846,12 @@ export class BookService {
         },
         (error: AppError)  => {
             if (error instanceof UnauthorizedError) {
-                this.publishNewPages(BookPageState.Inaccessible);
+                if (this.doublePage && rightPage) {
+                    this.doublePageEnabled = false;
+                    this.goToPageOnIndex(this.lastIndex);
+                } else {
+                    this.publishNewPages(BookPageState.Inaccessible);
+                }
             } else {
                 this.publishNewPages(BookPageState.Failure);
             }
