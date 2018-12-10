@@ -420,7 +420,17 @@
     "ABD001" : "Charles University in Prague - Faculty of Arts Library",
     "ABA006" : "University of Economics, Prague",
     "ABA008" : "National Medical Library",
-    "ABE343" : "National Archive"
+    "ABE343" : "National Archive",
+    "ABE459" : "Royal Canonry of Premonstratensians at Strahov",
+    "HOE802" : "Masaryk Museum in Hodonin",
+    "ABA011" : "Parliamentary library",
+    "BOA002" : "Moravian Library in Brno - Pedagogická knihovna",
+    "ABB045" : "Institute of Ethnology of the AS CR",
+    "ABE050" : "Ministry of the Environment of the Czech Republic",
+    "ABD005" : "Charles University - Faculty of Education",
+    "HBG001" : "Regional Library of Highlands",
+    "KOE801" : "Regional Museum in Kolin",
+    "OPE301" : "Library Silesian Museum"
   },
   "language" : {
     "aar" : "Afar",
