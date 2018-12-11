@@ -170,14 +170,14 @@
     <div *ngIf="metadata.keywords.length > 0">
       <label>{{ 'metadata.keywords' | translate }}</label>
       <div *ngFor="let keyword of metadata.keywords" class="app-value" >
-          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{keywords: keyword }">{{ keyword }}</a>
+          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{keywords: keyword }">{{ keyword | appUpcase }}</a>
       </div>
       <div class="divider"></div>
     </div>
 
     <div *ngIf="metadata.genres.length > 0">
       <label>{{ 'metadata.genres' | translate }}</label>
-      <div *ngFor="let genre of metadata.genres" class="app-value" >{{ genre }}</div>
+      <div *ngFor="let genre of metadata.genres" class="app-value" >{{ genre | appUpcase }}</div>
       <div class="divider"></div>
     </div>
 
@@ -185,7 +185,7 @@
       <label>{{ 'metadata.geonames' | translate }}</label>
       <div *ngFor="let geoname of metadata.geonames">
         <ng-container *ngIf="appSettings.availableFilter('geonames'); else noLinkGeoname" >
-          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{geonames: geoname }">{{ geoname }}</a>
+          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{geonames: geoname }">{{ geoname | appUpcase}}</a>
         </ng-container>
         <ng-template #noLinkGeoname>
           <div class="app-value">{{ geoname }}</div>
@@ -197,7 +197,7 @@
     <div *ngIf="metadata.languages.length > 0">
       <label>{{ 'metadata.languages' | translate }}</label>
       <div *ngFor="let language of metadata.languages" class="app-value" >
-        <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{languages: language }">{{ 'language.' + language | translate }}</a>
+        <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{languages: language }">{{ 'language.' + language | translate | appUpcase }}</a>
       </div>
       <div class="divider"></div>
     </div>
