@@ -181,7 +181,7 @@ export class SearchQuery {
         const qString = this.getQ();
         let q = 'q=';
         if (qString) {
-            q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
+            q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
             q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page OR fedora.model:article)';
         } else {
           q += '(fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
