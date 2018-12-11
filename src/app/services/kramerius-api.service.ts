@@ -236,14 +236,12 @@ export class KrameriusApiService {
 
 
     getSearchAutocompleteUrl(term: string, onlyPublic: boolean = false): string {
-        let query = term.toLowerCase().trim()
+        const searchField = this.appSettings.lemmatization ? 'title_lemmatized_ascii' : 'dc.title';
+        const query = term.toLowerCase().trim()
                         .replace(/"/g, '\\"').replace(/~/g, '\\~')
                         .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!')
-                        .split(' ').join(' AND dc.title:');
-        if (!term.endsWith(' ') && !term.endsWith(':')) {
-            query += '*';
-        }
-        let result = this.getApiUrl() + '/search/?fl=PID,dc.title,dc.creator&q='
+                        .split(' ').join(' AND ' + searchField + ':');
+        let result = this.getApiUrl() + '/search/?fl=PID,dc.title&q='
         + '(fedora.model:monograph^5 OR fedora.model:periodical^4 OR fedora.model:map '
         + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic OR fedora.model:soundrecording OR fedora.model:article)';
         if (onlyPublic) {
@@ -252,7 +250,20 @@ export class KrameriusApiService {
             result += ' AND (dostupnost:public^5 OR dostupnost:private)';
 
         }
-        result += ' AND dc.title:'  + query + '&rows=30';
+        if (this.appSettings.lemmatization) {
+            result += ' AND ((' + searchField + ':'  + query;
+            if (!term.endsWith(' ') && !term.endsWith(':')) {
+                result += ') OR (' + searchField + ':'  + query + '*))';
+            } else {
+                result += '))';
+            }
+        } else {
+            result += ' AND ' + searchField + ':'  + query;
+            if (!term.endsWith(' ') && !term.endsWith(':')) {
+                result += '*';
+            }
+        }
+        result += '&rows=30';
         return result;
     }
 

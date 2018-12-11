@@ -15,6 +15,7 @@ var APP_GLOBAL = {
       url: 'https://kramerius.mzk.cz',
       richCollections: true,
       joinedDoctypes: true,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     }
@@ -26,6 +27,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius4.nkp.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -36,6 +38,7 @@ var APP_GLOBAL = {
       url: 'https://kramerius.lib.cas.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: true,
       doctypes: ['monograph', 'periodical'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
     },
@@ -46,6 +49,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius.kr-olomoucky.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'manuscript'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -56,6 +60,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius4.svkhk.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -66,6 +71,7 @@ var APP_GLOBAL = {
       url: 'https://kramerius.svkul.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -76,6 +82,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius.cbvk.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -86,6 +93,7 @@ var APP_GLOBAL = {
       url: 'https://kramerius.techlib.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -96,6 +104,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius4.mlp.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
     },
@@ -106,6 +115,7 @@ var APP_GLOBAL = {
       url: 'https://kramerius.uzei.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'languages']
     },
@@ -116,6 +126,7 @@ var APP_GLOBAL = {
       url: 'https://kramerius.vse.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -126,6 +137,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius.fsv.cuni.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -136,6 +148,7 @@ var APP_GLOBAL = {
       url: 'https://camea2.svkos.cz/',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -146,6 +159,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius4.mendelu.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -156,6 +170,7 @@ var APP_GLOBAL = {
       url: 'http://dlib.kfbz.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -166,6 +181,7 @@ var APP_GLOBAL = {
       url: 'https://kramerius.army.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -176,6 +192,7 @@ var APP_GLOBAL = {
       url: 'http://library.nfa.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -186,6 +203,7 @@ var APP_GLOBAL = {
       url: 'https://k5.digiknihovna.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -196,6 +214,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius.kvkli.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -206,6 +225,7 @@ var APP_GLOBAL = {
       url: 'http://k4.kr-karlovarsky.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -216,6 +236,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius.kkvysociny.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -226,6 +247,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius.medvik.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -236,6 +258,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius.svkkl.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -246,6 +269,7 @@ var APP_GLOBAL = {
       url: 'http://k4.svkpl.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -256,6 +280,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius4.jewishmuseum.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -266,6 +291,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius.nm.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
     },
@@ -276,6 +302,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius.zcm.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -286,6 +313,7 @@ var APP_GLOBAL = {
       url: 'http://kramerius.nacr.cz',
       richCollections: false,
       joinedDoctypes: true,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -296,6 +324,7 @@ var APP_GLOBAL = {
       url: 'https://cdk.lib.cas.cz',
       richCollections: false,
       joinedDoctypes: false,
+      lemmatization: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     }
