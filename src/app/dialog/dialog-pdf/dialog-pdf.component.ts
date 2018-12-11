@@ -15,6 +15,7 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
   @Input() maxPageCount: number;
   @Input() uuids: string[];
   @Input() type: string;
+  @Input() name: string;
 
   pageFrom: number;
   pageTo: number;
@@ -65,7 +66,6 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
     }
   }
 
-
   action() {
     if (!this.isValid()) {
       return;
@@ -80,9 +80,9 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
 
   generatePdf(uuids: string[]) {
     this.inProgress = true;
-    this.krameriusApi.downloadPdef(uuids).subscribe(
+    this.krameriusApi.downloadPdf(uuids).subscribe(
       blob => {
-        saveAs(blob, 'document.pdf');
+        saveAs(blob, this.name + '.pdf');
         this.inProgress = false;
         this.modal.closeModal();
       }

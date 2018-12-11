@@ -584,7 +584,8 @@ export class BookService {
                 doublePage: this.doublePage,
                 maxPageCount: 150,
                 uuids: this.uuids(),
-                type: type
+                type: type,
+                name: this.metadata.getShortTitle()
             });
         }
     }

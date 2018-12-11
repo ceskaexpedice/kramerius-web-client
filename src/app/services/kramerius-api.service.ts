@@ -303,7 +303,7 @@ export class KrameriusApiService {
             + '&pagesize=A4&imgop=FULL';
     }
 
-    downloadPdef(uuids: string[]) {
+    downloadPdf(uuids: string[]) {
         const url = this.getApiUrl() + '/pdf/selection'
                 + '?pids=' + uuids.join(',');
         return this.doGetBlob(url);
