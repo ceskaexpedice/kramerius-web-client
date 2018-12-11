@@ -57,7 +57,7 @@
     <span (click)="searchService.removeFilter(searchService.query.locations, location)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'flag'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'sigla.' + location.toUpperCase() | translate }}
+      {{ 'sigla.' + location.toUpperCase() | translate | appRemovePrefix:'sigla.' }}
     </span>
   </mz-collection-item>
 

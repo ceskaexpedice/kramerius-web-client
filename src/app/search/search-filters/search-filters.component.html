@@ -126,7 +126,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.locations; let i = index;">
             <span class="app-row" *ngIf="i < 6 || locationsExpanded">
-              <a (click)="searchService.toggleFilter(searchService.query.locations, item.value)">{{'sigla.' + item.value | translate }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.locations, item.value)">{{'sigla.' + item.value | translate | appRemovePrefix:'sigla.' }}</a>
               <span>
                 {{item.count}}
               </span>

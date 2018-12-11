@@ -101,6 +101,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CachingInterceptor } from './services/caching-interceptor.service';
 import { PageTitleService } from './services/page-title.service';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { RemovePrefixPipe } from './pipes/remove-prefix.pipe';
 
 
 @NgModule({
@@ -168,7 +169,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     SimpleDialogComponent,
     CollectionsComponent,
     CollectionComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    RemovePrefixPipe
   ],
   entryComponents: [
     DialogOcrComponent,

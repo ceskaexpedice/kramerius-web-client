@@ -16,10 +16,7 @@ var APP_GLOBAL = {
       richCollections: true,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
-      // filters: ['doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
-      // filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
-
-      filters: ['accessibility', 'doctypes', 'authors']
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     }
     ,
     {
