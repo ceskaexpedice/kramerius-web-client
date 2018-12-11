@@ -61,6 +61,19 @@
       <div *ngIf="metadata.volumeMetadata" >
         <app-metadata [metadata]="metadata.volumeMetadata" class="app-nested" [showControls]="false"></app-metadata>
       </div>
+
+      <div *ngIf="metadata.previousVolume">
+          <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.previousVolume.uuid]">
+            {{ 'metadata.previous_volume' | translate }} {{ metadata.previousVolume.subtitle }} ({{ metadata.previousVolume.title }})
+          </a>
+        </div>
+  
+        <div *ngIf="metadata.nextVolume">
+          <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.nextVolume.uuid]">
+            {{ 'metadata.next_volume' | translate }} {{ metadata.nextVolume.subtitle }} ({{ metadata.nextVolume.title }})
+          </a>
+        </div>
+
       <div class="divider"></div>
     </div>
 

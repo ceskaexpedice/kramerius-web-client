@@ -25,6 +25,19 @@ export class HistoryService {
     }
   }
 
+  current(): string {
+    if (this.pages.length > 0) {
+      return this.pages[this.pages.length - 1];
+    }
+  }
+
+  removeCurrentCheck(url: string) {
+    if (url === this.current()) {
+      this.removeCurrent();
+    }
+  }
+
+
   empty(): boolean {
     return this.pages.length < 2;
   }

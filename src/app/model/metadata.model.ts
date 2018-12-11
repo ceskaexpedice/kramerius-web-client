@@ -31,6 +31,10 @@ export class Metadata {
     public nextIssue: PeriodicalItem;
     public previousIssue: PeriodicalItem;
 
+    public currentVolume: PeriodicalItem;
+    public nextVolume: PeriodicalItem;
+    public previousVolume: PeriodicalItem;
+
     public currentUnit: PeriodicalItem;
     public nextUnit: PeriodicalItem;
     public previousUnit: PeriodicalItem;

@@ -12,6 +12,7 @@ import { Injectable } from '@angular/core';
 import { Metadata } from '../model/metadata.model';
 import { PageTitleService } from './page-title.service';
 import { NotFoundError } from '../common/errors/not-found-error';
+import { HistoryService } from './history.service';
 
 @Injectable()
 export class PeriodicalService {
@@ -43,6 +44,7 @@ export class PeriodicalService {
   constructor(private solrService: SolrService,
     private router: Router,
     private appSettings: AppSettings,
+    private history: HistoryService,
     private pageTitle: PageTitleService,
     private modsParserService: ModsParserService,
     private localStorageService: LocalStorageService,
@@ -92,9 +94,11 @@ export class PeriodicalService {
             this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
           });
           this.krameriusApiService.getMods(query.uuid).subscribe(mods => {
-            const metadata = this.modsParserService.parse(mods, query.uuid, 'volume');
-            this.metadata.addMods('periodicalvolume', mods);
-            this.metadata.volumeMetadata = metadata;
+            if (this.metadata) {
+              const metadata = this.modsParserService.parse(mods, query.uuid, 'volume');
+              this.metadata.addMods('periodicalvolume', mods);
+              this.metadata.volumeMetadata = metadata;
+            }
           });
           if (query.fulltext) {
             this.initFulltext();
@@ -244,6 +248,13 @@ export class PeriodicalService {
       }
     } else {
       this.orderingType = 'none';
+    }
+    if (this.items.length === 1) {
+      const item = this.items[0];
+      this.history.removeCurrentCheck(this.router.url);
+      const uuid = item.virtual ? this.document.uuid : item.uuid;
+      this.router.navigate(['/view', uuid], { replaceUrl: true });
+      return;
     }
     for (const item of this.items) {
       item.thumb = this.krameriusApiService.getThumbUrl(item.uuid);

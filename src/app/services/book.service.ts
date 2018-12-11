@@ -145,6 +145,9 @@ export class BookService {
                     this.loadIssues(item.root_uuid, volumeUuid, this.uuid);
                 } else if (item.doctype === 'monographunit') {
                     this.loadMonographUnits(item.root_uuid, this.uuid);
+                } else if (item.doctype === 'periodicalvolume') {
+                    this.loadVolume(this.uuid);
+                    this.loadVolumes(item.root_uuid, this.uuid);
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
             });
@@ -198,6 +201,34 @@ export class BookService {
                 const metadata = this.modsParserService.parse(mods, issueUuid, 'issue');
                 this.metadata.currentIssue.metadata = metadata;
             });
+        });
+    }
+
+
+    private loadVolumes(periodicalUuid: string, volumeUuid: string) {
+        this.krameriusApiService.getPeriodicalVolumes(periodicalUuid, null).subscribe(response => {
+            const volumes = this.solrService.periodicalItems(response, 'periodicalvolume');
+            if (!volumes || volumes.length < 1) {
+                return;
+            }
+            let index = -1;
+            for (let i = 0; i < volumes.length; i++) {
+            if (volumes[i].uuid === volumeUuid) {
+                index = i;
+                break;
+            }
+            }
+            if (index < 0) {
+                return;
+            }
+            this.metadata.currentVolume = volumes[index];
+            this.pageTitle.setTitle(null, this.metadata.getShortTitlwWithVolume());
+            if (index > 0) {
+                this.metadata.previousVolume = volumes[index - 1];
+            }
+            if (index < volumes.length - 1) {
+                this.metadata.nextVolume = volumes[index + 1];
+            }
         });
     }
 
