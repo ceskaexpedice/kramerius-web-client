@@ -10,7 +10,7 @@ export class LocalStorageService {
     private static VISITED_TYPES = ['monograph', 'periodical', 'soundrecording', 'map', 'graphic', 'sheetmusic', 'archive', 'manuscript'];
 
     public static FEATURED_TAB = 'featured_tab';
-    public static ACCESSIBILITY_FILTER = 'accessibility_filter';
+    private static ACCESSIBILITY_FILTER = 'accessibility_filter';
     public static DOUBLE_PAGE = 'double_page';
     public static PERIODICAL_VOLUMES_LAYOUT = 'periodical_volumes_layout';
     public static PERIODICAL_ISSUES_LAYOUT = 'periodical_issues_layout';
@@ -70,7 +70,19 @@ export class LocalStorageService {
         return localStorage.setItem(property, value);
     }
 
+    publicFilterChecked(): boolean {
+        const value = localStorage.getItem(LocalStorageService.ACCESSIBILITY_FILTER);
+        if (value === '1') {
+            return true;
+        } else if (value === '0') {
+            return false;
+        }
+        return this.appSettings.publicFilterDefault;
+    }
 
+    setPublicFilter(value: boolean) {
+        this.setProperty(LocalStorageService.ACCESSIBILITY_FILTER, value ? '1' : '0');
+    }
 
     private getVisitedKey(): string {
         return 'visited_documents'; // + this.appSettings.code;

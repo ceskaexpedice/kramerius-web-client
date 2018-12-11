@@ -6,7 +6,7 @@ var APP_GLOBAL = {
   enablePeriodicalIsssuesCalendarLayout: true,
   defaultPeriodicalVolumesLayout: "years", // grid | years
   defaultPeriodicalIssuesLayout: "calendar", // grid | calendar
-
+  publicFilterDefault: false,
   krameriusList: [
     {
       title: 'Moravská zemská knihovna',

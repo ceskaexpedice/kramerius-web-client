@@ -26,7 +26,7 @@ export class HomeSearchBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.accessibilityFilter = this.localStorageService.getProperty(LocalStorageService.ACCESSIBILITY_FILTER) !== '0';
+    this.accessibilityFilter = this.localStorageService.publicFilterChecked();
     this.searchStr = '';
   }
 
@@ -55,7 +55,7 @@ export class HomeSearchBarComponent implements OnInit {
     }
     const params = { q: q };
     if (this.appSettings.availableFilter('accessibility')) {
-      this.localStorageService.setProperty(LocalStorageService.ACCESSIBILITY_FILTER, this.accessibilityFilter ? '1' : '0');
+      this.localStorageService.setPublicFilter(this.accessibilityFilter);
       if (this.accessibilityFilter) {
         params['accessibility'] = 'public';
       }

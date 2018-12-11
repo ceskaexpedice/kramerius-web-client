@@ -94,7 +94,7 @@ export class SearchService {
     }
 
     public setAccessibility(accessibility: string) {
-        this.localStorageService.setProperty(LocalStorageService.ACCESSIBILITY_FILTER, accessibility === 'public' ? '1' : '0');
+        this.localStorageService.setPublicFilter(accessibility === 'public');
         this.query.setAccessibility(accessibility);
         this.reload(false);
     }

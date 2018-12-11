@@ -19,12 +19,12 @@ export class AppSettings {
   public doctypes: string[];
   public filters: string[];
 
-
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
   public enablePeriodicalIsssuesCalendarLayout = APP_GLOBAL.enablePeriodicalIsssuesCalendarLayout;
   public defaultPeriodicalVolumesLayout = APP_GLOBAL.defaultPeriodicalVolumesLayout;
   public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
+  public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
   public krameriusList: KrameriusData[];
 
   constructor(private collectionsService: CollectionService) {

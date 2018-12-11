@@ -65,7 +65,7 @@ export class NavbarSearchBarComponent implements OnInit {
       this.searchService.changeQueryString(q);
     } else {
       const params = { q: q };
-      if (this.localStorageService.getProperty(LocalStorageService.ACCESSIBILITY_FILTER) !== '0') {
+      if (this.localStorageService.publicFilterChecked()) {
         params['accessibility'] = 'public';
       }
       this.router.navigate(['/search'], { queryParams: params });
