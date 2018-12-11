@@ -4,7 +4,7 @@
       [routerLink]="appSettings.getRouteFor('search')" [queryParams]="getParams(item.value)"
       >
   <div class="right">{{item.count}}x</div>
-  <div>{{item.name}}</div>
+  <div>{{item.name | appUpcase }}</div>
 </a>
 
 <div class="clearfix"></div>

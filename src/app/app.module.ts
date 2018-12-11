@@ -102,6 +102,7 @@ import { CachingInterceptor } from './services/caching-interceptor.service';
 import { PageTitleService } from './services/page-title.service';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RemovePrefixPipe } from './pipes/remove-prefix.pipe';
+import { UpcasePipe } from './pipes/upcase.pipe';
 
 
 @NgModule({
@@ -170,7 +171,8 @@ import { RemovePrefixPipe } from './pipes/remove-prefix.pipe';
     CollectionsComponent,
     CollectionComponent,
     NotFoundComponent,
-    RemovePrefixPipe
+    RemovePrefixPipe,
+    UpcasePipe
   ],
   entryComponents: [
     DialogOcrComponent,

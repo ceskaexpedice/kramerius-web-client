@@ -30,9 +30,9 @@
 
   <mz-collection-item *ngFor="let keyword of searchService.query.keywords">
     <span (click)="searchService.removeFilter(searchService.query.keywords, keyword)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'tag'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'star'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{keyword}}
+      {{ keyword | appUpcase }}
     </span>
   </mz-collection-item>
 
@@ -41,7 +41,7 @@
       <i mz-icon-mdi [icon]="'file-document'" [class]="'app-clean-mg'" [class]="'app-mdi-' + doctype"></i>
       <!--<i [class]="'app-mdi-' + doctype"></i>-->
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'model.' + doctype | translate }}
+      {{ 'model.' + doctype | translate | appUpcase }}
     </span>
   </mz-collection-item>
 
@@ -49,7 +49,7 @@
     <span (click)="searchService.removeFilter(searchService.query.authors, author)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'account'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{author}}
+      {{ author | appUpcase }}
     </span>
   </mz-collection-item>
 
@@ -57,7 +57,7 @@
     <span (click)="searchService.removeFilter(searchService.query.geonames, geoname)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'map'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{geoname}}
+      {{ geoname | appUpcase }}
     </span>
   </mz-collection-item>
 
@@ -71,17 +71,17 @@
 
   <mz-collection-item *ngFor="let language of searchService.query.languages">
     <span (click)="searchService.removeFilter(searchService.query.languages, language)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'flag'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'translate'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'language.' + language | translate }}
+      {{ 'language.' + language | translate | appUpcase }}
     </span>
   </mz-collection-item>
 
   <mz-collection-item *ngFor="let collection of searchService.query.collections">
     <span (click)="searchService.removeFilter(searchService.query.collections, collection)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'flag'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'palette'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ collections.getNameByPid(collection) }}
+      {{ collections.getNameByPid(collection) | appUpcase }}
     </span>
   </mz-collection-item>
 
@@ -89,7 +89,7 @@
     <span (click)="searchService.setYearRange()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'calendar-range'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      <span>{{ searchService.query.from }} - {{ searchService.query.to }}</span>
+      <span> {{ searchService.query.from }} - {{ searchService.query.to }}</span>
     </span>
   </mz-collection-item>
 
