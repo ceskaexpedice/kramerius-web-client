@@ -21,6 +21,7 @@ export class SearchService {
     authors: any[] = [];
     languages: any[] = [];
     locations: any[] = [];
+    geonames: any[] = [];
     collections: any[] = [];
 
     loading = false;
@@ -183,6 +184,10 @@ export class SearchService {
                 this.locations = this.solrService.facetList(response, SearchQuery.getSolrField('locations'), this.query['locations'], true);
                 break;
             }
+            case 'geonames': {
+                this.geonames = this.solrService.facetList(response, SearchQuery.getSolrField('geonames'), this.query['geonames'], true);
+                break;
+            }
             case 'collections': {
                 this.collections = this.solrService.facetList(response, SearchQuery.getSolrField('collections'), this.query['collections'], true);
                 if (!this.collectionService.ready()) {
@@ -229,6 +234,7 @@ export class SearchService {
         this.checkFacet(this.query.keywords.length === 0, response, 'keywords');
         this.checkFacet(this.query.languages.length === 0, response, 'languages');
         this.checkFacet(this.query.locations.length === 0, response, 'locations');
+        this.checkFacet(this.query.geonames.length === 0, response, 'geonames');
         this.checkFacet(this.query.collections.length === 0, response, 'collections');
     }
 

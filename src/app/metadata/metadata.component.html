@@ -170,7 +170,14 @@
 
     <div *ngIf="metadata.geonames.length > 0">
       <label>{{ 'metadata.geonames' | translate }}</label>
-      <div *ngFor="let geoname of metadata.geonames" class="app-value" >{{ geoname }}</div>
+      <div *ngFor="let geoname of metadata.geonames">
+        <ng-container *ngIf="appSettings.availableFilter('geonames'); else noLinkGeoname" >
+          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{geonames: geoname }">{{ geoname }}</a>
+        </ng-container>
+        <ng-template #noLinkGeoname>
+          <div class="app-value">{{ geoname }}</div>
+        </ng-template>
+      </div>
       <div class="divider"></div>
     </div>
 
@@ -185,7 +192,12 @@
     <div *ngIf="metadata.locations.length > 0">
       <label>{{ 'metadata.location' | translate }}</label>
       <div *ngFor="let location of metadata.locations">
-        <div class="app-value" *ngIf="location.physicalLocation">{{ 'sigla.' + location.physicalLocation | translate }}</div>
+        <ng-container *ngIf="appSettings.availableFilter('locations'); else noLinkLocation" >
+          <a *ngIf="location.physicalLocation" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{locations: location.physicalLocation }">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</a>
+        </ng-container>
+        <ng-template #noLinkLocation>
+          <div class="app-value" *ngIf="location.physicalLocation">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</div>
+        </ng-template>
         <div class="app-value" *ngIf="location.shelfLocator">{{ 'metadata.shelf_locator' | translate: { shelf_locator: location.shelfLocator } }}</div>
       </div>
       <div class="divider"></div>

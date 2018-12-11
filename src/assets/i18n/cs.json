@@ -67,6 +67,7 @@
     "collections": "Sbírka",
     "languages": "Jazyk",
     "locations": "Místo uložení",
+    "geonames": "Geografický název",
     "authors": "Autor",
     "inaccessible_document": "Dokument není veřejně přístupný",
     "ordering": {
@@ -103,7 +104,8 @@
       "collections": "Sbírky",
       "keywords": "Klíčová slova",
       "languages": "Jazyky",
-      "locations": "Místa uložení"
+      "locations": "Místa uložení",
+      "geonames": "Geografické názvy"
     },
     "search": {
       "doctypes": "Vyhledat typ dokumentu",
@@ -111,7 +113,8 @@
       "collections": "Vyhledat sbírku",
       "keywords": "Vyhledat klíčové slovo", 
       "languages": "Vyhledat jazyk",
-      "locations": "Vyhledat místo uložení"
+      "locations": "Vyhledat místo uložení",
+      "geonames": "Vyhledat Geografický název"
     },
     "ordering": {
       "label": "Řazení",      

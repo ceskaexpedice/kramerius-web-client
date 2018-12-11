@@ -37,7 +37,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical'],
-      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
     },
     {
       title: 'Vědecká knihovna v Olomouci',
@@ -97,7 +97,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
-      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
     },
     {
       title: 'Knihovna Antonína Švehly',
@@ -107,7 +107,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
-      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'languages']
     },
     {
       title: 'Vysoká škola ekonomická v Praze',
@@ -267,7 +267,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
-      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
     },
     {
       title: 'Knihovna Západočeského muzea v Plzni',

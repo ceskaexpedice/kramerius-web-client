@@ -34,6 +34,8 @@ export class BrowseQuery {
             return 'language';
         } else if (this.category === 'locations') {
             return 'mods.physicalLocation';
+        } else if (this.category === 'geonames') {
+            return 'geographic_names';
         } else if (this.category === 'collections') {
             return 'collection';
         }

@@ -114,6 +114,36 @@
     </mz-collapsible-item>
   </mz-collapsible>
 
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.geonames.length && filters.indexOf('geonames') > -1">
+    <mz-collapsible-item [active]="collapsedFilter">
+      <mz-collapsible-item-header>
+        {{ 'search.geonames' | translate }}   
+        <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
+        <i mz-icon-mdi [icon]="'chevron-left'" [class]="'app-clean-mg'"></i>
+      </mz-collapsible-item-header>
+      <mz-collapsible-item-body>
+      <mz-collection *ngIf="searchService.geonames">
+        <ng-container>
+          <mz-collection-item *ngFor="let item of searchService.geonames; let i = index;">
+            <span class="app-row" *ngIf="i < 6 || geonamesExpanded">
+              <a (click)="searchService.toggleFilter(searchService.query.geonames, item.value)">{{item.value}}</a>
+              <span>
+                {{item.count}}
+              </span>
+            </span>
+          </mz-collection-item>
+          <mz-collection-item *ngIf="searchService.geonames.length > 6">
+              <span class="app-row">
+                <a class="light-blue-text text-darken-3" *ngIf="!geonamesExpanded" (click)="geonamesExpanded = true">{{'filters.btn_show_more' | translate}}</a>  
+                <a class="light-blue-text text-darken-3" *ngIf="geonamesExpanded" (click)="geonamesExpanded = false">{{'filters.btn_show_less' | translate}}</a>
+              </span>
+            </mz-collection-item>
+        </ng-container>
+      </mz-collection>
+      </mz-collapsible-item-body>
+    </mz-collapsible-item>
+  </mz-collapsible>
+
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.locations.length && filters.indexOf('locations') > -1">
     <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>

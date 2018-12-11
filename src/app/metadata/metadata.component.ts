@@ -20,7 +20,7 @@ export class MetadataComponent implements OnInit {
   @Input() metadata: Metadata;
   showingTitle = false;
 
-  constructor(private modalService: MzModalService, private appSettings: AppSettings) { }
+  constructor(private modalService: MzModalService, public appSettings: AppSettings) { }
 
   ngOnInit() {
   }

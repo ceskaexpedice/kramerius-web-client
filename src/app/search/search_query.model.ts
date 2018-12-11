@@ -14,6 +14,7 @@ export class SearchQuery {
     authors: string[] = [];
     languages: string[] = [];
     locations: string[] = [];
+    geonames: string[] = [];
     doctypes: string[] = [];
     collections: string[] = [];
 
@@ -38,6 +39,7 @@ export class SearchQuery {
         query.setFiled(query.authors, 'authors', params);
         query.setFiled(query.languages, 'languages', params);
         query.setFiled(query.locations, 'locations', params);
+        query.setFiled(query.geonames, 'geonames', params);
         query.setFiled(query.collections, 'collections', params);
         if (query.availableFilters.indexOf('accessibility') > -1) {
             query.setAccessibility(params['accessibility']);
@@ -59,6 +61,8 @@ export class SearchQuery {
             return 'language';
         } else if (field === 'locations') {
             return 'mods.physicalLocation';
+        } else if (field === 'geonames') {
+            return 'geographic_names';
         } else if (field === 'collections') {
             return 'collection';
         } else if (field === 'accessibility') {
@@ -200,6 +204,7 @@ export class SearchQuery {
            + this.addToQuery('authors', this.authors, facet)
            + this.addToQuery('languages', this.languages, facet)
            + this.addToQuery('locations', this.locations, facet)
+           + this.addToQuery('geonames', this.geonames, facet)
            + this.addToQuery('collections', this.collections, facet)
            + this.getDateOrderingRestriction();
         if (qString) {
@@ -221,6 +226,7 @@ export class SearchQuery {
            + this.addFacetToQuery(facet, 'keywords', 'keywords', this.keywords.length === 0)
            + this.addFacetToQuery(facet, 'languages', 'language', this.languages.length === 0)
            + this.addFacetToQuery(facet, 'locations', 'mods.physicalLocation', this.locations.length === 0)
+           + this.addFacetToQuery(facet, 'geonames', 'geographic_names', this.geonames.length === 0)
            + this.addFacetToQuery(facet, 'authors', 'facet_autor', this.authors.length === 0)
            + this.addFacetToQuery(facet, 'collections', 'collection', this.collections.length === 0)
            + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
@@ -271,6 +277,9 @@ export class SearchQuery {
         }
         if (this.locations.length > 0) {
             params['locations'] = this.locations.join(',,');
+        }
+        if (this.geonames.length > 0) {
+            params['geonames'] = this.geonames.join(',,');
         }
         if (this.doctypes.length > 0) {
             params['doctypes'] = this.doctypes.join(',,');
@@ -340,6 +349,7 @@ export class SearchQuery {
         this.collections = [];
         this.languages = [];
         this.locations = [];
+        this.geonames = [];
         this.clearYearRange();
     }
 
@@ -370,6 +380,9 @@ export class SearchQuery {
             return true;
         }
         if (this.locations && this.locations.length > 0) {
+            return true;
+        }
+        if (this.geonames && this.geonames.length > 0) {
             return true;
         }
         if (this.collections && this.collections.length > 0) {

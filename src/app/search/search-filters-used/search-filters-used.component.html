@@ -53,9 +53,17 @@
     </span>
   </mz-collection-item>
 
+  <mz-collection-item *ngFor="let geoname of searchService.query.geonames">
+    <span (click)="searchService.removeFilter(searchService.query.geonames, geoname)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'map'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{geoname}}
+    </span>
+  </mz-collection-item>
+
   <mz-collection-item *ngFor="let location of searchService.query.locations">
     <span (click)="searchService.removeFilter(searchService.query.locations, location)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'flag'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'home'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
       {{ 'sigla.' + location.toUpperCase() | translate | appRemovePrefix:'sigla.' }}
     </span>
