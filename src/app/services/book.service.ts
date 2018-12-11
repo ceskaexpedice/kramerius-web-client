@@ -308,7 +308,7 @@ export class BookService {
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         for (const p of pages) {
             if (p['model'] === 'monographunit') {
-                const page = this.history.pop();
+                this.history.removeCurrent();
                 this.router.navigate(['/periodical', this.uuid], { replaceUrl: true, queryParams: { fulltext: this.fulltextQuery } });
                 return -1;
             } else if (p['model'] === 'supplement') {
