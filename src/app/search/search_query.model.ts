@@ -13,28 +13,35 @@ export class SearchQuery {
     keywords: string[] = [];
     authors: string[] = [];
     languages: string[] = [];
+    locations: string[] = [];
     doctypes: string[] = [];
     collections: string[] = [];
+
+    availableFilters: string[];
 
     from = -1;
     to = -1;
 
     solrConfig;
 
-    constructor() {
+    constructor(filters: string[]) {
+        this.availableFilters = filters || [];
     }
 
-    public static fromParams(params): SearchQuery {
-        const query = new SearchQuery();
+    public static fromParams(params, filters: string[]): SearchQuery {
+        const query = new SearchQuery(filters);
         query.query = params['q'];
         query.setOrdering(params['ordering']);
         query.setPage(params['page']);
-        query.setFiled(query.keywords, params['keywords']);
-        query.setFiled(query.doctypes, params['doctypes']);
-        query.setFiled(query.authors, params['authors']);
-        query.setFiled(query.languages, params['languages']);
-        query.setFiled(query.collections, params['collections']);
-        query.setAccessibility(params['accessibility']);
+        query.setFiled(query.keywords, 'keywords', params);
+        query.setFiled(query.doctypes, 'doctypes', params);
+        query.setFiled(query.authors, 'authors', params);
+        query.setFiled(query.languages, 'languages', params);
+        query.setFiled(query.locations, 'locations', params);
+        query.setFiled(query.collections, 'collections', params);
+        if (query.availableFilters.indexOf('accessibility') > -1) {
+            query.setAccessibility(params['accessibility']);
+        }
         query.setYearRange(parseInt(params['from'], 10), parseInt(params['to'], 10));
         return query;
     }
@@ -50,6 +57,8 @@ export class SearchQuery {
             return 'document_type';
         } else if (field === 'languages') {
             return 'language';
+        } else if (field === 'locations') {
+            return 'mods.physicalLocation';
         } else if (field === 'collections') {
             return 'collection';
         } else if (field === 'accessibility') {
@@ -84,8 +93,9 @@ export class SearchQuery {
         this.to = SearchQuery.YEAR_TO;
     }
 
-    private setFiled(fieldValues: string[], input: string) {
-        if (input) {
+    private setFiled(fieldValues: string[], field: string, params) {
+        const input = params[field];
+        if (input && this.availableFilters.indexOf(field) > -1) {
             input.split(',,').forEach(function(a) {
                 fieldValues.push(a);
             });
@@ -172,7 +182,7 @@ export class SearchQuery {
         } else {
           q += '(fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
         }
-        if (facet !== 'accessibility') {
+        if (facet !== 'accessibility' && this.availableFilters.indexOf('accessibility') > -1) {
             if (this.accessibility === 'public') {
                 q += ' AND dostupnost:public';
             } else if (this.accessibility === 'private') {
@@ -189,6 +199,7 @@ export class SearchQuery {
            + this.addToQuery('doctypes', this.doctypes, facet)
            + this.addToQuery('authors', this.authors, facet)
            + this.addToQuery('languages', this.languages, facet)
+           + this.addToQuery('locations', this.locations, facet)
            + this.addToQuery('collections', this.collections, facet)
            + this.getDateOrderingRestriction();
         if (qString) {
@@ -209,6 +220,7 @@ export class SearchQuery {
         q += '&facet=true&facet.mincount=1'
            + this.addFacetToQuery(facet, 'keywords', 'keywords', this.keywords.length === 0)
            + this.addFacetToQuery(facet, 'languages', 'language', this.languages.length === 0)
+           + this.addFacetToQuery(facet, 'locations', 'mods.physicalLocation', this.locations.length === 0)
            + this.addFacetToQuery(facet, 'authors', 'facet_autor', this.authors.length === 0)
            + this.addFacetToQuery(facet, 'collections', 'collection', this.collections.length === 0)
            + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
@@ -226,8 +238,10 @@ export class SearchQuery {
     }
 
     private addFacetToQuery(facet: string, currentFacet: string, field: string, apply: boolean): string {
-        if ((!facet && apply) || currentFacet === facet) {
-            return '&facet.field=' + field;
+        if (this.availableFilters.indexOf(currentFacet) > -1) {
+            if ((!facet && apply) || currentFacet === facet) {
+                return '&facet.field=' + field;
+            }
         }
         return '';
     }
@@ -254,6 +268,9 @@ export class SearchQuery {
         }
         if (this.languages.length > 0) {
             params['languages'] = this.languages.join(',,');
+        }
+        if (this.locations.length > 0) {
+            params['locations'] = this.locations.join(',,');
         }
         if (this.doctypes.length > 0) {
             params['doctypes'] = this.doctypes.join(',,');
@@ -301,10 +318,12 @@ export class SearchQuery {
         let q = '';
         if (skip !== field) {
             if (values.length > 0) {
-                if (field === 'doctypes' && this.hasQueryString()) {
-                    q = ' AND (model_path:' + values.join('* OR model_path:') + '*)';
-                } else {
-                    q = ' AND (' + SearchQuery.getSolrField(field) + ':"' + values.join('" OR ' + SearchQuery.getSolrField(field) + ':"') + '")';
+                if (this.availableFilters.indexOf(field) > -1) {
+                    if (field === 'doctypes' && this.hasQueryString()) {
+                        q = ' AND (model_path:' + values.join('* OR model_path:') + '*)';
+                    } else {
+                        q = ' AND (' + SearchQuery.getSolrField(field) + ':"' + values.join('" OR ' + SearchQuery.getSolrField(field) + ':"') + '")';
+                    }
                 }
             }
         }
@@ -320,6 +339,7 @@ export class SearchQuery {
         this.authors = [];
         this.collections = [];
         this.languages = [];
+        this.locations = [];
         this.clearYearRange();
     }
 
@@ -347,6 +367,9 @@ export class SearchQuery {
             return true;
         }
         if (this.languages && this.languages.length > 0) {
+            return true;
+        }
+        if (this.locations && this.locations.length > 0) {
             return true;
         }
         if (this.collections && this.collections.length > 0) {

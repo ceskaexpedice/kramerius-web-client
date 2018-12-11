@@ -1,5 +1,6 @@
 import { BrowseService } from './../../services/browse.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { AppSettings } from '../../services/app-settings';
 
 @Component({
   selector: 'app-browse-filters',
@@ -9,10 +10,21 @@ import { Component, OnInit, Input } from '@angular/core';
 export class BrowseFiltersComponent implements OnInit {
   @Input() collapsedFilter: boolean;
 
-  constructor(public browseService: BrowseService) {
+  filters: string[];
+  accessibilityEnabled = false;
+
+  constructor(public browseService: BrowseService, private appSettings: AppSettings) {
   }
 
   ngOnInit() {
+    this.filters = [];
+    for (const f of this.appSettings.filters) {
+      if (f === 'accessibility') {
+        this.accessibilityEnabled = true;
+      } else {
+        this.filters.push(f);
+      }
+    }
   }
 
 }

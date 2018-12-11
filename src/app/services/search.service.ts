@@ -20,6 +20,7 @@ export class SearchService {
     accessibility: any[] = [];
     authors: any[] = [];
     languages: any[] = [];
+    locations: any[] = [];
     collections: any[] = [];
 
     loading = false;
@@ -37,7 +38,6 @@ export class SearchService {
         private appSettings: AppSettings) {
     }
 
-
     public init(params) {
         this.results = [];
         this.keywords = [];
@@ -46,10 +46,9 @@ export class SearchService {
         this.accessibility = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = SearchQuery.fromParams(params);
+        this.query = SearchQuery.fromParams(params, this.appSettings.filters);
         this.search();
     }
-
 
     public reload(preservePage: boolean) {
         if (!preservePage) {
@@ -180,6 +179,10 @@ export class SearchService {
                 this.languages = this.solrService.facetList(response, SearchQuery.getSolrField('languages'), this.query['languages'], true);
                 break;
             }
+            case 'locations': {
+                this.locations = this.solrService.facetList(response, SearchQuery.getSolrField('locations'), this.query['locations'], true);
+                break;
+            }
             case 'collections': {
                 this.collections = this.solrService.facetList(response, SearchQuery.getSolrField('collections'), this.query['collections'], true);
                 if (!this.collectionService.ready()) {
@@ -202,6 +205,9 @@ export class SearchService {
     }
 
     private checkFacet(condition: boolean, response, facet: string) {
+        if (this.appSettings.filters.indexOf(facet) < 0) {
+            return;
+        }
         if (condition) {
             this.handleFacetResponse(response, facet);
         } else {
@@ -222,6 +228,7 @@ export class SearchService {
         this.checkFacet(this.query.authors.length === 0, response, 'authors');
         this.checkFacet(this.query.keywords.length === 0, response, 'keywords');
         this.checkFacet(this.query.languages.length === 0, response, 'languages');
+        this.checkFacet(this.query.locations.length === 0, response, 'locations');
         this.checkFacet(this.query.collections.length === 0, response, 'collections');
     }
 

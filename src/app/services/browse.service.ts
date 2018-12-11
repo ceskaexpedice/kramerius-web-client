@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BrowseQuery } from './../browse/browse_query.model';
 import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
+import { AppSettings } from './app-settings';
 
 
 @Injectable()
@@ -24,21 +25,20 @@ export class BrowseService {
         private translator: Translator,
         private collectionService: CollectionService,
         private solrService: SolrService,
+        private appSettings: AppSettings,
         private krameriusApiService: KrameriusApiService) {
             translator.languageChanged.subscribe(() => {
                 this.translateResults();
             });
     }
 
-
     public init(params) {
         this.results = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = BrowseQuery.fromParams(params);
+        this.query = BrowseQuery.fromParams(params, this.appSettings.filters);
         this.search();
     }
-
 
     public reload(preservePage: boolean) {
         if (!preservePage) {
@@ -147,6 +147,31 @@ export class BrowseService {
                 for (const item of this.backupResults) {
                     item['name'] = this.translator.instant('model_plural.' + item['value']);
                     if (!this.getText() || item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
+                        filteredResults.push(item);
+                    }
+                }
+                this.results = filteredResults;
+                this.numberOfResults = this.results.length;
+                this.sortResult();
+                this.loading = false;
+            });
+        } else if (this.getCategory() === 'locations') {
+            this.translator.waitForTranslation().then(() => {
+                const filteredResults = [];
+                for (const item of this.backupResults) {
+                    item['value'] = item['value'].toUpperCase();
+                    item['name'] = this.translator.instant('sigla.' + item['value']);
+                    if (item['name'].startsWith('sigla.')) {
+                        if (!/^[A-Z]{3}[0-9]{3}$/.test(item['value'])) {
+                            continue;
+                        }
+                        item['name'] = item['name'].substring(6);
+                    }
+                    if (this.getText()) {
+                        if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
+                            filteredResults.push(item);
+                        }
+                    } else {
                         filteredResults.push(item);
                     }
                 }

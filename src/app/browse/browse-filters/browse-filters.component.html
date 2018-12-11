@@ -3,7 +3,7 @@
 <app-browse-search></app-browse-search>
 
 <div class="app-filters-wrapper">
-  <mz-collapsible [mode]="'expandable'">
+  <mz-collapsible [mode]="'expandable'" *ngIf="accessibilityEnabled">
       <mz-collapsible-item [active]="collapsedFilter">
         <mz-collapsible-item-header>
           {{ 'search.accessibility.label' | translate }}   
@@ -45,29 +45,9 @@
       <mz-collapsible-item-body>
       <mz-collection>
         <ng-container>
-          <mz-collection-item>
-              <span class="app-row" [class.selected]="browseService.query.category == 'doctypes'">
-                <a (click)="browseService.setCategory('doctypes')">{{'browse.category.doctype' | translate }}</a>
-              </span>
-          </mz-collection-item>
-          <mz-collection-item>
-            <span class="app-row" [class.selected]="browseService.query.category == 'authors'">
-              <a (click)="browseService.setCategory('authors')">{{'browse.category.author' | translate }}</a>
-            </span>
-          </mz-collection-item>
-          <mz-collection-item>
-            <span class="app-row" [class.selected]="browseService.query.category == 'keywords'">
-              <a (click)="browseService.setCategory('keywords')">{{'browse.category.keyword' | translate }}</a>
-            </span>
-          </mz-collection-item>
-          <mz-collection-item>
-              <span class="app-row" [class.selected]="browseService.query.category == 'collections'">
-                <a (click)="browseService.setCategory('collections')">{{'browse.category.collection' | translate }}</a>
-              </span>
-          </mz-collection-item>
-          <mz-collection-item>
-              <span class="app-row" [class.selected]="browseService.query.category == 'languages'">
-                <a (click)="browseService.setCategory('languages')">{{'browse.category.language' | translate }}</a>
+          <mz-collection-item *ngFor="let filter of filters">
+              <span class="app-row" [class.selected]="browseService.query.category == filter">
+                <a (click)="browseService.setCategory(filter)">{{'browse.category.' + filter | translate }}</a>
               </span>
           </mz-collection-item>
         </ng-container>

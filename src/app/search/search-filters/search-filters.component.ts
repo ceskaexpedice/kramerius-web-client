@@ -1,7 +1,7 @@
 import { SearchService } from './../../services/search.service';
-import { SearchQuery } from './../search_query.model';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CollectionService } from '../../services/collection.service';
+import { AppSettings } from '../../services/app-settings';
 
 @Component({
   selector: 'app-search-filters',
@@ -12,13 +12,17 @@ export class SearchFiltersComponent implements OnInit {
 
   yearFrom: number;
   yearTo: number;
+  filters: string[];
 
-  constructor(public searchService: SearchService, public collectionService: CollectionService) {
+  constructor(public searchService: SearchService,
+              public collectionService: CollectionService,
+              private appSettings: AppSettings) {
   }
 
   ngOnInit() {
     this.yearFrom = this.searchService.query.from;
     this.yearTo = this.searchService.query.to;
+    this.filters = this.appSettings.filters;
   }
 
 

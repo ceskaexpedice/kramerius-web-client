@@ -17,6 +17,8 @@ export class AppSettings {
   public richCollections: boolean;
   public joinedDoctypes: boolean;
   public doctypes: string[];
+  public filters: string[];
+
 
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -68,6 +70,7 @@ export class AppSettings {
     this.richCollections = kramerius.richCollections;
     this.joinedDoctypes = kramerius.joinedDoctypes;
     this.doctypes = kramerius.doctypes;
+    this.filters = kramerius.filters;
     this.currentCode = this.code;
   }
 
@@ -98,6 +101,10 @@ export class AppSettings {
     return this.getPathPrefix() + '/' + path;
   }
 
+  public availableFilter(filter: string): boolean {
+    return this.filters.indexOf(filter) > -1;
+  }
+
 }
 
 
@@ -109,4 +116,5 @@ interface KrameriusData {
   richCollections: boolean;
   joinedDoctypes: boolean;
   doctypes: string[];
+  filters: string[];
 }

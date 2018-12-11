@@ -66,6 +66,7 @@
     "doctypes": "Document Type",   
     "collections": "Collection", 
     "languages": "Language",
+    "locations": "Location",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",    
     "ordering": {
@@ -97,18 +98,20 @@
   "browse": {
     "category": {
       "label": "Browse",
-      "doctype": "Document Types",
-      "author": "Authors",
-      "collection": "Collections",
-      "keyword": "Keywords",
-      "language": "Languages"
+      "doctypes": "Document Types",
+      "authors": "Authors",
+      "collections": "Collections",
+      "keywords": "Keywords",
+      "languages": "Languages",
+      "locations": "Locations"
     },
     "search": {
       "doctypes": "Lookup Document type",
       "authors": "Lookup Author",
       "collections": "Lookup Collection",
       "keywords": "Lookup Keyword", 
-      "languages": "Lookup Language"
+      "languages": "Lookup Language",
+      "locations": "Lookup Location"
     },
     "ordering": {
       "label": "Ordering",      

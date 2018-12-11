@@ -1,3 +1,4 @@
+import { AppSettings } from './../../services/app-settings';
 import { LocalStorageService } from './../../services/local-storage.service';
 import { SearchService } from './../../services/search.service';
 import { AppState } from './../../app.state';
@@ -19,9 +20,7 @@ export class HomeSearchBarComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private state: AppState,
-    private route: ActivatedRoute,
-    private searchService: SearchService,
+    public appSettings: AppSettings,
     private localStorageService: LocalStorageService,
     public service: LibrarySearchService) {
   }
@@ -55,9 +54,11 @@ export class HomeSearchBarComponent implements OnInit {
       q = '';
     }
     const params = { q: q };
-    this.localStorageService.setProperty(LocalStorageService.ACCESSIBILITY_FILTER, this.accessibilityFilter ? '1' : '0');
-    if (this.accessibilityFilter) {
-      params['accessibility'] = 'public';
+    if (this.appSettings.availableFilter('accessibility')) {
+      this.localStorageService.setProperty(LocalStorageService.ACCESSIBILITY_FILTER, this.accessibilityFilter ? '1' : '0');
+      if (this.accessibilityFilter) {
+        params['accessibility'] = 'public';
+      }
     }
     this.router.navigate(['/search'], { queryParams: params });
   }

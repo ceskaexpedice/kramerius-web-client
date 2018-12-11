@@ -3,7 +3,7 @@
 <div class="app-filters-wrapper">
   <app-search-filters-used *ngIf="searchService.query.anyFilter()"></app-search-filters-used>
   
-  <mz-collapsible [mode]="'expandable'">
+  <mz-collapsible [mode]="'expandable'" *ngIf="filters.indexOf('accessibility') > -1">
     <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.accessibility.label' | translate }}
@@ -28,7 +28,7 @@
   </mz-collapsible>
 
    
-  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.doctypes?.length" class="hide-on-large-only">
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.doctypes.length && filters.indexOf('doctypes') > -1" class="hide-on-large-only">
     <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.doctypes' | translate }}   
@@ -53,7 +53,7 @@
   </mz-collapsible>     
 
 
-  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.keywords?.length">
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.keywords.length && filters.indexOf('keywords') > -1">
     <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.keywords' | translate }}            
@@ -84,7 +84,7 @@
   </mz-collapsible>
 
 
-  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.authors?.length">
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.authors.length && filters.indexOf('authors') > -1">
     <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.authors' | translate }}   
@@ -114,7 +114,37 @@
     </mz-collapsible-item>
   </mz-collapsible>
 
-  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.languages?.length">
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.locations.length && filters.indexOf('locations') > -1">
+    <mz-collapsible-item [active]="collapsedFilter">
+      <mz-collapsible-item-header>
+        {{ 'search.locations' | translate }}   
+        <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
+        <i mz-icon-mdi [icon]="'chevron-left'" [class]="'app-clean-mg'"></i>
+      </mz-collapsible-item-header>
+      <mz-collapsible-item-body>
+      <mz-collection *ngIf="searchService.locations">
+        <ng-container>
+          <mz-collection-item *ngFor="let item of searchService.locations; let i = index;">
+            <span class="app-row" *ngIf="i < 6 || locationsExpanded">
+              <a (click)="searchService.toggleFilter(searchService.query.locations, item.value)">{{'sigla.' + item.value | translate }}</a>
+              <span>
+                {{item.count}}
+              </span>
+            </span>
+          </mz-collection-item>
+          <mz-collection-item *ngIf="searchService.locations.length > 6">
+              <span class="app-row">
+                <a class="light-blue-text text-darken-3" *ngIf="!locationsExpanded" (click)="locationsExpanded = true">{{'filters.btn_show_more' | translate}}</a>  
+                <a class="light-blue-text text-darken-3" *ngIf="locationsExpanded" (click)="llocationsExpanded = false">{{'filters.btn_show_less' | translate}}</a>
+              </span>
+            </mz-collection-item>
+        </ng-container>
+      </mz-collection>
+      </mz-collapsible-item-body>
+    </mz-collapsible-item>
+  </mz-collapsible>    
+
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.languages.length && filters.indexOf('languages') > -1">
     <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.languages' | translate }}   
@@ -144,7 +174,7 @@
     </mz-collapsible-item>
   </mz-collapsible>    
 
-  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.collections?.length">
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.collections.length && filters.indexOf('collections') > -1">
     <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.collections' | translate }}   

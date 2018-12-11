@@ -228,9 +228,15 @@ export class SolrService {
             return list;
         }
         for (let i = 0; i < facetFields.length; i += 2) {
-            const value = facetFields[i];
+            let value = facetFields[i];
             if (!value) {
                 continue;
+            }
+            if (SearchQuery.getSolrField('locations') === field) {
+                value = value.toUpperCase();
+                if (!/^[A-Z]{3}[0-9]{3}$/.test(value)) {
+                    continue;
+                }
             }
             const count = facetFields[i + 1];
             const selected = usedFiltes && usedFiltes.indexOf(value) >= 0;

@@ -5,11 +5,14 @@ export class BrowseQuery {
     page: number;
     text: string;
 
-    constructor() {
+    availableFilters: string[];
+
+    constructor(filters: string[]) {
+        this.availableFilters = filters || [];
     }
 
-    public static fromParams(params): BrowseQuery {
-        const query = new BrowseQuery();
+    public static fromParams(params, filters: string[]): BrowseQuery {
+        const query = new BrowseQuery(filters);
         query.setOrdering(params['sort']);
         query.setPage(params['page']);
         query.setCategory(params['category']);
@@ -29,6 +32,8 @@ export class BrowseQuery {
             return 'document_type';
         } else if (this.category === 'languages') {
             return 'language';
+        } else if (this.category === 'locations') {
+            return 'mods.physicalLocation';
         } else if (this.category === 'collections') {
             return 'collection';
         }
@@ -69,7 +74,15 @@ export class BrowseQuery {
         if (category) {
             this.category = category;
         } else {
-            this.category = 'doctypes';
+            this.category = this.getDefaultCategory();
+        }
+    }
+
+    private getDefaultCategory(): string {
+        for (const cat of this.availableFilters) {
+            if (cat !== 'accessibility') {
+                return cat;
+            }
         }
     }
 
@@ -91,7 +104,7 @@ export class BrowseQuery {
 
     buildQuery(): string {
         let q = 'q=(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
-        if (this.accessibility === 'public') {
+        if (this.accessibility === 'public' && this.availableFilters.includes('accessibility')) {
             q += ' AND dostupnost:public';
         } else if (this.accessibility === 'private') {
             q += ' AND dostupnost:private';

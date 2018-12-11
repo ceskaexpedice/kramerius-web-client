@@ -66,6 +66,7 @@
     "doctypes": "Typ dokumentu",
     "collections": "Sbírka",
     "languages": "Jazyk",
+    "locations": "Místo uložení",
     "authors": "Autor",
     "inaccessible_document": "Dokument není veřejně přístupný",
     "ordering": {
@@ -97,18 +98,20 @@
   "browse": {
     "category": {
       "label": "Procházet",
-      "doctype": "Typy dokumentů",
-      "author": "Autoři",
-      "collection": "Sbírky",
-      "keyword": "Klíčová slova",
-      "language": "Jazyky"
+      "doctypes": "Typy dokumentů",
+      "authors": "Autoři",
+      "collections": "Sbírky",
+      "keywords": "Klíčová slova",
+      "languages": "Jazyky",
+      "locations": "Místa uložení"
     },
     "search": {
       "doctypes": "Vyhledat typ dokumentu",
       "authors": "Vyhledat autora",
       "collections": "Vyhledat sbírku",
       "keywords": "Vyhledat klíčové slovo", 
-      "languages": "Vyhledat jazyk"
+      "languages": "Vyhledat jazyk",
+      "locations": "Vyhledat místo uložení"
     },
     "ordering": {
       "label": "Řazení",      
@@ -417,6 +420,7 @@
     "ABA008" : "Národní lékařská knihovna",
     "ABE343" : "Národní archiv",
     "ABE459" : "Královská kanonie premonstrátů na Strahově",
+    "HOE802" : "Masarykovo muzeum v Hodoníně",
     "ABA011" : "Parlamentní knihovna",
     "BOA002" : "Moravská zemská knihovna - Pedagogická knihovna",
     "ABB045" : "Etnologický ústav AV ČR",

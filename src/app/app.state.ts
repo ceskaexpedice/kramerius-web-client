@@ -23,8 +23,8 @@ export class AppState {
   }
 
   atHome(): boolean {
-    this.counter ++;
-    console.log('pageUrl', this.counter + ' ' + this.pageUrl);
+    // this.counter ++;
+    // console.log('pageUrl', this.counter + ' ' + this.pageUrl);
     return (!this.appSettings.multiKramerius && this.pageUrl === '/') || (this.appSettings.multiKramerius && /^\/[a-z0-9]*\/?$/.test(this.pageUrl));
   }
 
