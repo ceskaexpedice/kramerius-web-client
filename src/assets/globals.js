@@ -27,6 +27,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Knihovna Akademie věd ČR',
@@ -36,6 +37,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Vědecká knihovna v Olomouci',
@@ -45,6 +47,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'manuscript'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Studijní a vědecká knihovna v Hradci Králové',
@@ -54,6 +57,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Severočeská vědecká knihovna v Ústí nad Labem',
@@ -63,6 +67,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Jihočeská vědecká knihovna v Českých Budějovicích',
@@ -72,15 +77,17 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Národní technická knihovna',
       code: 'ntk',
       logo: 'https://registr.digitalniknihovna.cz/libraries/ntk/logo',
-      url: 'http://kramerius.techlib.cz',
+      url: 'https://kramerius.techlib.cz',
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Městská knihovna v Praze',
@@ -90,6 +97,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Knihovna Antonína Švehly',
@@ -99,6 +107,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Vysoká škola ekonomická v Praze',
@@ -108,6 +117,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Univerzita Karlova v Praze - Fakulta sociálních věd',
@@ -117,6 +127,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Moravskoslezská vědecká knihovna v Ostravě',
@@ -126,6 +137,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Mendelova univerzita v Brně',
@@ -135,6 +147,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Krajská knihovna Františka Bartoše ve Zlíně',
@@ -144,6 +157,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Digitální studovna Ministerstva obrany ČR',
@@ -153,6 +167,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Národní filmový archiv',
@@ -162,6 +177,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Městská knihovna Česká Třebová',
@@ -171,6 +187,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Krajská vědecká knihovna Liberec',
@@ -180,6 +197,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Krajská knihovna Karlovy Vary',
@@ -189,15 +207,17 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Krajská knihovna Vysočiny',
-      code: 'mkkvhbzk',
+      code: 'kkvhb',
       logo: 'https://registr.digitalniknihovna.cz/libraries/kkvhb/logo',
       url: 'http://kramerius.kkvysociny.cz',
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Národní lékařská knihovna v Praze',
@@ -207,6 +227,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Středočeská vědecká knihovna v Kladně',
@@ -216,6 +237,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Studijní a vědecká knihovna Plzeňského kraje',
@@ -225,6 +247,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Židovské muzeum v Praze',
@@ -234,6 +257,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Národní muzeum',
@@ -243,6 +267,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Knihovna Západočeského muzea v Plzni',
@@ -252,6 +277,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
     {
       title: 'Národní archiv',
@@ -261,6 +287,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
     {
       title: 'Česká digitální knihovna',
@@ -270,6 +297,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     }
   ]
 
