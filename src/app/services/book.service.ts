@@ -85,6 +85,7 @@ export class BookService {
             return;
         }
         let url = 'assets/pdf/viewer.html?file=' + this.pdf;
+        console.log('this.fulltextQuery', this.fulltextQuery);
         if (this.fulltextQuery) {
             url += url.indexOf('?') ? '&' : '?';
             url += 'query=' + this.fulltextQuery;
@@ -98,6 +99,7 @@ export class BookService {
         this.fulltextQuery = fulltext;
         this.bookState = BookState.Loading;
         this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+            console.log(item);
             if (item.doctype === 'article') {
                 if (articleUuid) {
                     return;
@@ -106,25 +108,10 @@ export class BookService {
                 if (issueUuid) {
                     this.history.removeCurrent();
                     this.router.navigate(['/view', issueUuid], { replaceUrl: true, queryParams: { article: uuid, fulltext: this.fulltextQuery } });
-                    return;
                 }
+                return;
             }
             this.isPrivate = !item.public;
-            if (item.pdf) {
-                this.showNavigationPanel = false;
-                this.viewer = 'pdf';
-                this.pdf = this.krameriusApiService.getPdfUrl(uuid);
-                this.bookState = BookState.Success;
-                this.assignPdfPath();
-            } else {
-                this.krameriusApiService.getChildren(uuid).subscribe(children => {
-                    if (children && children.length > 0) {
-                        this.onDataLoaded(children, item.doctype, pageUuid, articleUuid);
-                    } else {
-                        // TODO: Empty document
-                    }
-                });
-            }
             this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response, item.root_uuid);
                 this.metadata.model = item.doctype;
@@ -150,6 +137,21 @@ export class BookService {
                     this.loadVolumes(item.root_uuid, this.uuid);
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
+                if (item.pdf) {
+                    this.showNavigationPanel = false;
+                    this.viewer = 'pdf';
+                    this.pdf = this.krameriusApiService.getPdfUrl(uuid);
+                    this.bookState = BookState.Success;
+                    this.assignPdfPath();
+                } else {
+                    this.krameriusApiService.getChildren(uuid).subscribe(children => {
+                        if (children && children.length > 0) {
+                            this.onDataLoaded(children, item.doctype, pageUuid, articleUuid);
+                        } else {
+                            // TODO: Empty document
+                        }
+                    });
+                }
             });
         },
         error => {
@@ -737,11 +739,16 @@ export class BookService {
         this.pdfPath = null;
         this.bookState = BookState.Loading;
         this.article = article;
-        const urlQuery = 'article=' + article.uuid;
+        let urlQuery = 'article=' + article.uuid;
+        if (this.fulltextQuery) {
+            urlQuery += '&fulltext=' + this.fulltextQuery;
+        }
         this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         if (article.type === 'none') {
             forkJoin([this.krameriusApiService.getItem(article.uuid), this.krameriusApiService.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
-                this.metadata.addMods('article', mods);
+                if (this.metadata) {
+                    this.metadata.addMods('article', mods);
+                }
                 article.type = item.pdf ? 'pdf' : 'pages';
                 this.onArticleLoaded(article);
                 const articleMetadata = this.modsParserService.parse(mods, article.uuid);
