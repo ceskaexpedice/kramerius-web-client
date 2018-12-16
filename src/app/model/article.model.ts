@@ -1,11 +1,10 @@
 import { Metadata } from './metadata.model';
-import { Page } from './page.model';
 
 export class Article {
   uuid: string;
   title: string;
   policy: string;
-  pages: Page[];
+  firstPageUuid: string;
   type: string; // none | pdf | pages
   metadata: Metadata;
 
