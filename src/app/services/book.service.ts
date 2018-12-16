@@ -118,13 +118,9 @@ export class BookService {
                 }
                 return;
             } else if (item.doctype === 'internalpart') {
-                // if (params.articleUuid) {
-                //     return;
-                // }
                 const parentUuid = item.getParentUuid();
                 if (parentUuid) {
                     this.history.removeCurrent();
-                    console.log('go to chapter');
                     this.router.navigate(['/view', parentUuid], { replaceUrl: true, queryParams: { chapter: params.uuid, fulltext: this.fulltextQuery } });
                 }
                 return;
@@ -764,6 +760,10 @@ export class BookService {
         if (this.activeNavigationTab === tab) {
             return;
         }
+        if (this.metadata) {
+            this.metadata.article = null;
+            this.metadata.internalPart = null;
+        }
         if (tab === 'pages') {
             this.article = null;
             this.internalPart = null;
@@ -788,17 +788,11 @@ export class BookService {
         this.pdfPath = null;
         this.pageState = BookPageState.Loading;
         this.internalPart = internalPart;
-        // let urlQuery = 'internalPart=' + internalPart.uuid;
-        // if (this.fulltextQuery) {
-            // urlQuery += '&fulltext=' + this.fulltextQuery;
-        // }
-        // this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
-        if (internalPart.type === 'none') {
+        if (!internalPart.metadata) {
             forkJoin([this.krameriusApiService.getItem(internalPart.uuid), this.krameriusApiService.getMods(internalPart.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 if (this.metadata) {
                     this.metadata.addMods('internalpart', mods);
                 }
-                internalPart.type = item.pdf ? 'pdf' : 'pages';
                 this.onInternalPartLoaded(internalPart);
                 internalPart.metadata = this.modsParserService.parse(mods, internalPart.uuid);
             });
@@ -809,22 +803,18 @@ export class BookService {
 
     private onInternalPartLoaded(internalPart: InternalPart) {
         this.metadata.internalPart = internalPart;
-        if (internalPart.type === 'pdf') {
-            this.assignPdfPath(internalPart.uuid);
-        } else if (internalPart.type === 'pages') {
-            if (this.internalPart.firstPageUuid) {
+        if (this.internalPart.firstPageUuid) {
+            this.pageState = BookPageState.Success;
+            this.goToPageWithUuid(this.internalPart.firstPageUuid);
+        } else {
+            this.publishNewPages(BookPageState.Loading);
+            this.krameriusApiService.getChildren(internalPart.uuid).subscribe(children => {
+                if (children && children.length > 0) {
+                    this.internalPart.firstPageUuid = children[0]['pid'];
+                }
                 this.pageState = BookPageState.Success;
                 this.goToPageWithUuid(this.internalPart.firstPageUuid);
-            } else {
-                this.publishNewPages(BookPageState.Loading);
-                this.krameriusApiService.getChildren(internalPart.uuid).subscribe(children => {
-                    if (children && children.length > 0) {
-                        this.internalPart.firstPageUuid = children[0]['pid'];
-                    }
-                    this.pageState = BookPageState.Success;
-                    this.goToPageWithUuid(this.internalPart.firstPageUuid);
-                });
-            }
+            });
         }
     }
 
