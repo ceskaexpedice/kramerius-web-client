@@ -88,7 +88,13 @@ export class ModsParserService {
                 const extent = item.extent[0];
                 const start = this.getText(extent.start);
                 const end = this.getText(extent.end);
-                metadata.extent = start + '-' + end;
+                const list = this.getText(extent.list);
+
+                if (start && end) {
+                    metadata.extent = start + '-' + end;
+                } else if (list) {
+                    metadata.extent = list;
+                }
                 return;
             }
         }

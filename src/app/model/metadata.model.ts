@@ -2,6 +2,7 @@ import { Article } from './article.model';
 import { DocumentItem } from './document_item.model';
 import { PeriodicalItem } from './periodicalItem.model';
 import beautify from 'xml-beautifier';
+import { InternalPart } from './internal_part.model';
 
 export class Metadata {
 
@@ -40,6 +41,7 @@ export class Metadata {
     public previousUnit: PeriodicalItem;
 
     public article: Article;
+    public internalPart: InternalPart;
     public review: Metadata;
     public volumeMetadata: Metadata;
 

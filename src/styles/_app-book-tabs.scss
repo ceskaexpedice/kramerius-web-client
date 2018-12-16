@@ -7,9 +7,17 @@
     @include set-border(bottom, 1, solid, $app-grey-l-2);
 
     .tab  {
-      width: calc(50% - 1.5px);
-
+      &.tab-1 {
+        width: 100%;
+      }
+      &.tab-2 {
+        width: calc(50% - 1.5px);
+      }
+      &.tab-3 {
+        width: calc(33% - 1.5px);
+      }
       a {
+        padding: 0px;
         &.active {
           position: relative;
   

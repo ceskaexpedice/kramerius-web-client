@@ -139,7 +139,11 @@
 
 
 
-
+    <div *ngIf="metadata.internalPart && metadata.internalPart.metadata" >
+      <label>{{ 'model.internalpart' | translate }}</label>
+      <app-metadata [metadata]="metadata.internalPart.metadata" class="app-nested" [showControls]="false"></app-metadata>
+      <!-- <div class="divider"></div> -->
+    </div>
 
 
 

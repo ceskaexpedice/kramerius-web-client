@@ -293,7 +293,7 @@
     "page" : "Stránka",
     "supplement" : "Příloha",
     "article" : "Článek",
-    "internalpart" : "Vnitřní část",
+    "internalpart" : "Kapitola",
     "soundunit" : "Album",
     "track" : "Nahrávka"
   },
@@ -312,7 +312,7 @@
     "page" : "Stránky",
     "supplement" : "Přílohy",
     "article" : "Články",
-    "internalpart" : "Vnitřní části",
+    "internalpart" : "Kapitoly",
     "soundunit" : "Alba",
     "track" : "Nahrávky"
   },

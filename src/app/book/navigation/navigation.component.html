@@ -1,15 +1,20 @@
 <app-book-controls *ngIf="bookService.viewer === 'image'" class="hide-on-small-only"></app-book-controls>
 
-<div class="app-navigation-tabs" *ngIf="bookService.showNavigationTabs">
+<div class="app-navigation-tabs" *ngIf="bookService.navigationTabsCount > 1">
   <ul class="tabs">
-    <li class="tab">
+    <li *ngIf="bookService.allPages.length > 0"  class="tab tab-{{bookService.navigationTabsCount}}">
       <a (click)="bookService.changeNavigationTab('pages')" [class.active]="bookService.activeNavigationTab === 'pages'">
-        <span class="app-desc">Stránky</span>
+        <span class="app-desc">{{ 'model_plural.page' | translate }}</span>
       </a>
     </li> 
-    <li class="tab">
+    <li *ngIf="bookService.articles.length > 0"  class="tab tab-{{bookService.navigationTabsCount}}">
       <a (click)="bookService.changeNavigationTab('articles')" [class.active]="bookService.activeNavigationTab === 'articles'">
-        <span class="app-desc">Články</span>
+        <span class="app-desc">{{ 'model_plural.article' | translate }}</span>
+      </a>
+    </li>
+    <li *ngIf="bookService.internalParts.length > 0" class="tab tab-{{bookService.navigationTabsCount}}">
+      <a (click)="bookService.changeNavigationTab('internalparts')" [class.active]="bookService.activeNavigationTab === 'internalparts'">
+        <span class="app-desc">{{ 'model_plural.internalpart' | translate }}</span>
       </a>
     </li>
   </ul>
@@ -17,6 +22,11 @@
 
 <div class="app-navigation-articles" *ngIf="bookService.activeNavigationTab === 'articles'">
   <div *ngFor="let article of bookService.articles" (click)="bookService.onArticleSelected(article)" class="app-article" [class.app-article-selected]="article === bookService.article">{{ article.title }}</div>
+</div>
+
+
+<div class="app-navigation-internalparts" *ngIf="bookService.activeNavigationTab === 'internalparts'">
+  <div *ngFor="let internalPart of bookService.internalParts" (click)="bookService.onInternalPartSelected(internalPart)" class="app-internalpart" [class.app-internalpart-selected]="internalPart === bookService.internalPart">{{ internalPart.title }}</div>
 </div>
 
 

@@ -39,6 +39,12 @@ export class DocumentItem {
         }
     }
 
+    public getParentUuid(): string|null {
+        if (this.context && this.context.length > 1) {
+            return this.context[this.context.length - 2].uuid;
+        }
+    }
+
 }
 
 export class Context {
