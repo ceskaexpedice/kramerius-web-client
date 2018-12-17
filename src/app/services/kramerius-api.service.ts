@@ -216,8 +216,8 @@ export class KrameriusApiService {
         }
         if (query.isYearRangeSet()) {
             url += ' AND (rok:[' + query.from + ' TO ' + query.to + '])';
-        }// !img_full_mime:"application/pdf"
-        url += ' AND (fedora.model:article || fedora.model:monographunit || fedora.model:page) AND !PID:*33@* AND text:' + query.fulltext;
+        }
+        url += ' AND (fedora.model:article || fedora.model:monographunit || fedora.model:page) AND text:' + query.fulltext;
         if (query.ordering === 'latest') {
             url += '&sort=datum desc, datum_str desc';
         } else if (query.ordering === 'earliest') {
