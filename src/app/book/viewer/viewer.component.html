@@ -1,6 +1,6 @@
 <div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()">
   <app-viewer-controls [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
-  
+
   <span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
         class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
         (click)="controlsService.hideLeftPanel()" 
@@ -60,4 +60,12 @@
               [color]="'blue'"
               [size]="'medium'">
   </mz-spinner>
+
+
+  <div *ngIf="bookService.dnntMode" class="app-dnnt">
+      <span class="app-info">DÍLO NEDOSTUPNÉ NA TRHU <a href="#">Více informací</a></span>
+      <span class="app-user">Jan Rychtář</span>
+
+  </div>
+
 </div>

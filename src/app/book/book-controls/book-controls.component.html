@@ -1,5 +1,5 @@
 <mz-collection>
-  <mz-collection-item>
+  <mz-collection-item *ngIf="!bookService.dnntMode">
     <i class="app-mdi-book-print app-cursor-pointer" (click)="bookService.prepareToPrint()"
        mz-tooltip [tooltip]="'book_controls.tooltip_print' | translate" [position]="'bottom'"></i>
     <i class="app-mdi-book-pdf app-cursor-pointer" (click)="bookService.generatePdf()"

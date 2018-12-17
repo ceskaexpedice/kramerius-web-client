@@ -69,6 +69,8 @@ export class BookService {
     public showNavigationPanel: boolean;
     public viewer: string; // image | pdf | none
 
+    public dnntMode = false;
+
     constructor(private location: Location,
         private altoService: AltoService,
         private appSettings: AppSettings,
@@ -862,6 +864,11 @@ export class BookService {
         }
     }
 
+
+    private setDnntMode(active: boolean) {
+        this.dnntMode = !active;
+    }
+
     private fetchPageData(leftPage: Page, rightPage: Page) {
         const itemRequests = [];
         itemRequests.push(this.krameriusApiService.getPageItem(leftPage.uuid));
@@ -872,6 +879,11 @@ export class BookService {
             leftPage.assignPageData(result[0]);
             if (rightPage) {
                 rightPage.assignPageData(result[1]);
+            }
+            if (leftPage.dnntMode || (rightPage && rightPage.dnntMode)) {
+                this.setDnntMode(true);
+            } else {
+                this.setDnntMode(false);
             }
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
@@ -1000,6 +1012,7 @@ export class BookService {
         this.navigationTabsCount = 0;
         this.showNavigationPanel = false;
         this.viewer = 'none';
+        this.dnntMode = false;
     }
 
 

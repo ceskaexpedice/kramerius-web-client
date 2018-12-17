@@ -12,6 +12,8 @@ export class Page {
     position = PagePosition.None;
     imageType = PageImageType.None;
 
+    dnntMode = false;
+
     // Image Properties
     width: number = -1;
     height: number = -1;
@@ -44,6 +46,9 @@ export class Page {
     public assignPageData(data) {
         if (!data) {
             return;
+        }
+        if (data['providedByDnnt']) {
+            this.dnntMode = true;
         }
         if (data['zoom'] && data['zoom']['url']) {
             this.imageType = PageImageType.ZOOMIFY;
