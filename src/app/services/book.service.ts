@@ -462,11 +462,8 @@ export class BookService {
     }
 
     goToPageWithUuid(uuid: string) {
-        console.log('goToPageWithUuid', uuid);
         for (const page of this.pages) {
             if (page.uuid === uuid) {
-                console.log('goToPageWithUuid - match', uuid);
-
                 this.goToPageOnIndex(page.index);
                 return;
             }
@@ -775,11 +772,11 @@ export class BookService {
         } else if (tab === 'articles') {
             this.fulltextQuery = null;
             this.fulltextAllPages = false;
-            this.onArticleSelected(this.articles[0]);
+            // this.onArticleSelected(this.articles[0]);
         } else if (tab === 'internalparts') {
             this.fulltextQuery = null;
             this.fulltextAllPages = false;
-            this.onInternalPartSelected(this.internalParts[0]);
+            // this.onInternalPartSelected(this.internalParts[0]);
         }
         this.activeNavigationTab = tab;
     }
@@ -825,11 +822,6 @@ export class BookService {
         this.pdfPath = null;
         this.pageState = BookPageState.Loading;
         this.article = article;
-        // let urlQuery = 'article=' + article.uuid;
-        // if (this.fulltextQuery) {
-        //     urlQuery += '&fulltext=' + this.fulltextQuery;
-        // }
-        // this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         if (article.type === 'none') {
             forkJoin([this.krameriusApiService.getItem(article.uuid), this.krameriusApiService.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 if (this.metadata) {
@@ -845,7 +837,6 @@ export class BookService {
     }
 
     private onArticleLoaded(article: Article) {
-        console.log('article', article);
         this.metadata.article = article;
         if (article.type === 'pdf') {
             let urlQuery = 'article=' + article.uuid;
@@ -861,7 +852,6 @@ export class BookService {
             } else {
                 this.publishNewPages(BookPageState.Loading);
                 this.krameriusApiService.getChildren(article.uuid).subscribe(children => {
-                    console.log('children', children);
                     if (children && children.length > 0) {
                         article.firstPageUuid = children[0]['pid'];
                     }
