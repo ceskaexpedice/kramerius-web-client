@@ -93,10 +93,8 @@ export class BookService {
         }
         this.pdf = this.krameriusApiService.getPdfUrl(uuid);
         let url = 'assets/pdf/viewer.html?file=' + this.pdf;
-        console.log('this.fulltextQuery', this.fulltextQuery);
         if (this.fulltextQuery) {
-            url += url.indexOf('?') ? '&' : '?';
-            url += 'query=' + this.fulltextQuery;
+            url += '&query=' + this.fulltextQuery;
         }
         this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }

@@ -7585,8 +7585,8 @@ var PDFViewerApplication = {
       self.loadingBar.hide();
     });
     var url = window.location.search;
-    if (url && url.indexOf('?query=') > 0) {
-      var query = url.substring(url.indexOf('?query=') + 7, url.length);
+    if (url && url.indexOf('&query=') > 0) {
+      var query = url.substring(url.indexOf('&query=') + 7, url.length);
       document.getElementById('findInput').value = decodeURIComponent(query);
       this.findBar.open();
       this.findBar.dispatchEvent('again', false);
