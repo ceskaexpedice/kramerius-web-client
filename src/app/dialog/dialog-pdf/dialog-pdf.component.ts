@@ -21,6 +21,7 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
   pageTo: number;
 
   inProgress = false;
+  downloadError: boolean;
 
   constructor(private krameriusApi: KrameriusApiService) {
     super();
@@ -29,6 +30,7 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
   ngOnInit(): void {
     this.pageFrom = this.currentPage + 1;
     this.pageTo = this.pageFrom;
+    this.downloadError = false;
     if (this.doublePage) {
       this.pageTo += 1;
     }
@@ -80,11 +82,16 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
 
   generatePdf(uuids: string[]) {
     this.inProgress = true;
+    this.downloadError = false;
     this.krameriusApi.downloadPdf(uuids).subscribe(
       blob => {
         saveAs(blob, this.name + '.pdf');
         this.inProgress = false;
         this.modal.closeModal();
+      },
+      error => {
+        this.downloadError = true;
+        this.inProgress = false;
       }
     );
   }

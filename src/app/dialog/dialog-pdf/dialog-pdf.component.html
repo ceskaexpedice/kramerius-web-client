@@ -23,6 +23,8 @@
     </p>
 
     <p [class.app-highlight]="inProgress">{{ 'pdf-dialog.warning_' + type | translate }}</p>
+    <p *ngIf="downloadError" class="app-error">{{ 'pdf-dialog.error_generate' | translate }}</p>
+
 
   </mz-modal-content>
   <mz-modal-footer>

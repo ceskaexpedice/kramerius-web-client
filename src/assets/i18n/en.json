@@ -258,6 +258,7 @@
     "max_page_count": "Maximum number of pages:",
     "warning_generate": "Creating the PDF document can take several minutes depending on the number of selected pages.",
     "warning_prepare": "Preparing to print can take several minutes depending on the number of selected pages.",
+    "error_generate": "Failed to download PDF document",
     "action_generate": "Download PDF",
     "action_prepare": "Prepare to print"
   },

@@ -253,6 +253,7 @@
     "max_page_count": "Maximální počet stran:",
     "warning_generate": "Vytváření PDF dokumentu může trvat několik minut v závislosti na počtu vybraných stránek.",
     "warning_prepare": "Příprava k tisku může trvat několik minut v závislosti na počtu vybraných stránek.",
+    "error_generate": "PDF dokument se nepodařilo stáhnout",
     "action_generate": "Stáhnout PDF",
     "action_prepare": "Připravit k tisku"
   },
