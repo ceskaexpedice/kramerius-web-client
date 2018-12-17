@@ -224,7 +224,7 @@
   },
   "book_controls": {
     "tooltip_print": "Příprava k tisku",
-    "tooltip_pdf": "Vygenerovat PDF",
+    "tooltip_pdf": "Stáhnout PDF",
     "tooltip_jpg": "JPEG stránky",
     "tooltip_ocr": "Textový přepis stránky",
     "tooltip_quote": "Zobrazit citaci",
@@ -243,7 +243,7 @@
     "desc_information": "Informace"
   },
   "pdf-dialog": {
-    "title_generate": "Generování PDF",
+    "title_generate": "Příprava ke stažení",
     "title_prepare": "Příprava k tisku",
     "message_generate": "Vyberte stránky pro výsledný PDF dokument.",    
     "message_prepare": "Vyberte stránky k tisku.",
@@ -253,7 +253,7 @@
     "max_page_count": "Maximální počet stran:",
     "warning_generate": "Vytváření PDF dokumentu může trvat několik minut v závislosti na počtu vybraných stránek.",
     "warning_prepare": "Příprava k tisku může trvat několik minut v závislosti na počtu vybraných stránek.",
-    "action_generate": "Generovat",
+    "action_generate": "Stáhnout PDF",
     "action_prepare": "Připravit k tisku"
   },
   "share-dialog": {

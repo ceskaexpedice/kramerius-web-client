@@ -13,6 +13,11 @@ mz-modal.app-dialog-pdf {
     strong {
       color: #000; 
     }
+    &.app-highlight {
+      color: #000;
+      font-weight: 600;
+    }
+  
   }
   mz-spinner {
     float: left;

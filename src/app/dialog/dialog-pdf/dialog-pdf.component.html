@@ -22,7 +22,7 @@
       <strong>{{ maxPageCount }}</strong>
     </p>
 
-    <p>{{ 'pdf-dialog.warning_' + type | translate }}</p>
+    <p [class.app-highlight]="inProgress">{{ 'pdf-dialog.warning_' + type | translate }}</p>
 
   </mz-modal-content>
   <mz-modal-footer>
