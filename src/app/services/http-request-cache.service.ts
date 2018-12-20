@@ -30,4 +30,9 @@ export class HttpRequestCache  {
     //   }
     // });
   }
+
+  clear() {
+    this.cache.clear();
+  }
+
 }

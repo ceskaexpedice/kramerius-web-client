@@ -4,6 +4,7 @@ import { Translator } from 'angular-translator';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { AppState } from './app.state';
 import { Location } from '@angular/common';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +19,14 @@ export class AppComponent implements OnInit {
     private location: Location,
     private history: HistoryService,
     private router: Router,
+    private auth: AuthService,
     public state: AppState) {
   }
 
   ngOnInit() {
+    this.auth.login('', '').subscribe(user => {
+      // console.log('user', user);
+    });
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         (<any>window).gaaa('set', 'page', event.urlAfterRedirects);

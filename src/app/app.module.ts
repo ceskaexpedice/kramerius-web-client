@@ -1,3 +1,6 @@
+import { AuthInterceptor } from './services/auth-interceptor.service';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from './services/auth.service';
 import { SimpleDialogComponent } from './dialog/simple-dialog/simple-dialog.component';
 import { AppSettings } from './services/app-settings';
 import { PeriodicalFulltextItemComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-item/periodical-fulltext-item.component';
@@ -104,6 +107,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { RemovePrefixPipe } from './pipes/remove-prefix.pipe';
 import { UpcasePipe } from './pipes/upcase.pipe';
 
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -172,7 +176,8 @@ import { UpcasePipe } from './pipes/upcase.pipe';
     CollectionComponent,
     NotFoundComponent,
     RemovePrefixPipe,
-    UpcasePipe
+    UpcasePipe,
+    LoginComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -236,7 +241,10 @@ import { UpcasePipe } from './pipes/upcase.pipe';
     AppSettings,
     HttpRequestCache,
     Title,
+    AuthService,
     PageTitleService,
+    CookieService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

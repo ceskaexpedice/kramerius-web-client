@@ -12,7 +12,8 @@ import 'rxjs/add/operator/map';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { Response } from '@angular/http/src/static_response';
 import { AppSettings } from './app-settings';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { User } from '../model/user.model';
 
 @Injectable()
 export class KrameriusApiService {
@@ -133,6 +134,21 @@ export class KrameriusApiService {
     //         })
     //         .catch(this.handleError);
     // }
+
+
+    getUserInfo(username: string, password: string): Observable<User> {
+        // console.log('getUserInfo: ' + username + ',' + password);
+        const url = this.getApiUrl() + '/user';
+        const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json',
+              'Authorization': 'Basic ' + btoa(username + ':' + password)
+            })
+          };
+        return this.http.get(url, httpOptions)
+            .map(response => User.fromJson(response, username, password))
+            .catch(this.handleError);
+    }
 
 
     getNewest() {

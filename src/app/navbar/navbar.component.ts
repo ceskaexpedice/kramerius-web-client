@@ -1,12 +1,11 @@
+import { AuthService } from './../services/auth.service';
 import { AppSettings } from './../services/app-settings';
 import { LibrarySearchService } from './../services/library-search.service';
 import { Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Translator } from 'angular-translator';
 import { AppState } from '../app.state';
 import { HistoryService } from '../services/history.service';
-import { MzSidenavComponent } from 'ngx-materialize';
-
 
 @Component({
   selector: 'app-navbar',
@@ -20,6 +19,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     public translator: Translator,
     public router: Router,
+    public authService: AuthService,
     public appSettings: AppSettings,
     private history: HistoryService,
     public service: LibrarySearchService,

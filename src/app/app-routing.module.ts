@@ -11,10 +11,12 @@ import { PeriodicalComponent } from './periodical/periodical.component';
 import { RoutingGuardService } from './guards/routing.guard';
 import { RoutingPrefixGuardService } from './guards/routing-prefix.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { LoginComponent } from './login/login.component';
 
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
     { path: '', component: HomeComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'login', component: LoginComponent, canActivate: [ RoutingGuardService ] },
     { path: 'browse', component: BrowseComponent, canActivate: [ RoutingGuardService ] },
     { path: 'search', component: SearchComponent, canActivate: [ RoutingGuardService ] },
     { path: 'collections', component: CollectionsComponent, canActivate: [ RoutingGuardService ] },
@@ -23,6 +25,7 @@ const ROUTES: Routes = [
     { path: 'uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view/:uuid', component: BookComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view', component: BookComponent, canActivate: [ RoutingGuardService ] },
+    { path: ':k/login', component: LoginComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/browse', component: BrowseComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/search', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collections', component: CollectionsComponent, canActivate: [ RoutingPrefixGuardService ] },

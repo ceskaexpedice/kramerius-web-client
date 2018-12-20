@@ -4,6 +4,7 @@ import { BookService } from './../../services/book.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { interval } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 declare var ol: any;
 
@@ -58,7 +59,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
   }
 
-  constructor(public bookService: BookService, public controlsService: ViewerControlsService) {
+  constructor(public bookService: BookService,
+              public authService: AuthService,
+              public controlsService: ViewerControlsService) {
     this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
         this.onActionPerformed(action);
     });

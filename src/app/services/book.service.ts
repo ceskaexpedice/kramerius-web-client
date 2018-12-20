@@ -866,7 +866,7 @@ export class BookService {
 
 
     private setDnntMode(active: boolean) {
-        this.dnntMode = !active;
+        this.dnntMode = active;
     }
 
     private fetchPageData(leftPage: Page, rightPage: Page) {
@@ -927,7 +927,7 @@ export class BookService {
 
             }
         });
-        image.onerror = (() => {
+        image.onerror = ((error, status) => {
             image.onerror = null;
             this.publishNewPages(BookPageState.Failure);
         });

@@ -62,9 +62,9 @@
   </mz-spinner>
 
 
-  <div *ngIf="bookService.dnntMode" class="app-dnnt">
-      <span class="app-info">DÍLO NEDOSTUPNÉ NA TRHU <a href="#">Více informací</a></span>
-      <span class="app-user">Jan Rychtář</span>
+  <div *ngIf="bookService.dnntMode && authService.isLoggedIn()" class="app-dnnt">
+      <span class="app-info">DÍLO NEDOSTUPNÉ NA TRHU <a>Více informací</a></span>
+      <span class="app-user">{{ authService.user.name }}</span>
 
   </div>
 

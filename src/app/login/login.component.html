@@ -1,0 +1,33 @@
+<div class="app-login-wrapper">
+
+  <div class="app-title">Přihlašte se</div>
+
+    <mz-input-container>
+        <input mz-input
+          [label]="'Jméno'"
+          [(ngModel)]="username"
+          [validate]="false"
+          id="username-input"
+          placeholder="Zadejte uživatelské jméno"
+          type="text">
+      </mz-input-container>
+
+      <mz-input-container>
+          <input mz-input
+            [label]="'Heslo'"
+            [(ngModel)]="password"
+            [validate]="false"
+            id="password-input"
+            placeholder="Zadejte heslo"
+            type="password">
+        </mz-input-container>
+
+        <div *ngIf="state === 'failure'" class="app-error">Přihlášení se nezdařilo</div>
+
+        <button mz-button (click)="login()">
+            Přihlásit
+          </button>
+
+
+
+</div>

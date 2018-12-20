@@ -12,14 +12,14 @@ app-viewer {
 
     .app-dnnt {
       position: absolute;
-      bottom: 0;
-      height: 30px;
+      top: 0;
+      height: 32px;
       background: #435cadd6;
       width: 100%;
       z-index: 12;
       .app-info {
-        line-height: 30px;
-        padding-left: 25px;
+        line-height: 32px;
+        padding-left: 32px;
         font-size: 15px;
         color: #fff;
         a {
@@ -33,8 +33,8 @@ app-viewer {
       }
       .app-user {
         float:right;
-        line-height: 30px;
-        padding-right: 25px;
+        line-height: 32px;
+        padding-right: 32px;
         font-size: 15px;
         color: #fff;
       }

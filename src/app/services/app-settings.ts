@@ -26,6 +26,7 @@ export class AppSettings {
   public defaultPeriodicalVolumesLayout = APP_GLOBAL.defaultPeriodicalVolumesLayout;
   public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
   public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
+  public dnntEnabled = APP_GLOBAL.dnnt;
   public krameriusList: KrameriusData[];
 
   constructor(private collectionsService: CollectionService) {
