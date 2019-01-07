@@ -43,4 +43,10 @@ export class NavbarComponent implements OnInit {
     this.mobileSearchBarExpanded = !this.mobileSearchBarExpanded;
   }
 
+  logout() {
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['/']);
+    });
+  }
+
 }

@@ -19,7 +19,7 @@
 
       <ng-container *ngIf="appSettings.dnntEnabled">
         <mz-navbar-item *ngIf="authService.isLoggedIn()">
-          <a (click)="authService.logout()">Odhlásit</a>
+          <a (click)="logout()">Odhlásit</a>
         </mz-navbar-item>
         <mz-navbar-item *ngIf="!authService.isLoggedIn()">
           <a [routerLink]="appSettings.getRouteFor('login')">Přihlásit</a>

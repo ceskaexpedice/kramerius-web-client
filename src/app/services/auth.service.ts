@@ -25,22 +25,24 @@ export class AuthService {
     }
 
     login(username: string, password: string) {
-        this.cache.clear();
-        this.user = null;
         return this.krameriusApi.getUserInfo(username, password)
-                                .shareReplay()
                                 .do(user => {
                                     this.user = user;
-                                    // this.cache.clear();
-                                    // console.log('user', user);
-                                    // this.subject.next(user);
+                                    this.cache.clear();
                                 });
     }
 
     logout() {
-        // this.cache.clear();
-        // this.user = null;
+        if (!this.isLoggedIn()) {
+            return;
+        }
+        return this.krameriusApi.logout()
+                                .do(user => {
+                                    this.cache.clear();
+                                    this.user = null;
+                                });
     }
+
 
     isLoggedIn(): boolean {
         return this.user && this.user.isLoggedIn();
