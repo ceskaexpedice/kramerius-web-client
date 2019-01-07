@@ -182,11 +182,12 @@ export class BrowseService {
             });
         } else if (this.getCategory() === 'collections') {
             if (this.collectionService.ready()) {
-                for (const item of this.backupResults) {
-                    item.name  = this.collectionService.getNameByPid(item.value);
-                }
                 const filteredResults = [];
                 for (const item of this.backupResults) {
+                    item.name  = this.collectionService.getNameByPid(item.value);
+                    if (item.name === '-') {
+                        continue;
+                    }
                     if (!this.getText() || item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
                         filteredResults.push(item);
                     }

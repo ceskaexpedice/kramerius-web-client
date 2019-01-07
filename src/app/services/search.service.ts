@@ -190,10 +190,13 @@ export class SearchService {
             }
             case 'collections': {
                 this.collections = this.solrService.facetList(response, SearchQuery.getSolrField('collections'), this.query['collections'], true);
-                if (!this.collectionService.ready()) {
+                if (this.collectionService.ready()) {
+                    this.dropEmptyCollections();
+                } else {
                     this.krameriusApiService.getCollections().subscribe(
                         results => {
                             this.collectionService.assign(results);
+                            this.dropEmptyCollections();
                         }
                     );
                 }
@@ -201,6 +204,16 @@ export class SearchService {
             }
 
         }
+    }
+
+    private dropEmptyCollections() {
+        const cols = [];
+        for (const col of this.collections) {
+            if (this.collectionService.getNameByPid(col.value) !== '-') {
+                cols.push(col);
+            }
+        }
+        this.collections = cols;
     }
 
     private makeFacetRequest(facet: string) {
