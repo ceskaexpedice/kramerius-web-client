@@ -34,6 +34,11 @@ app-alert {
       margin-right: 5px;
       vertical-align: sub;
     }
+
+    .app-description {
+      padding: 10px 20px;
+      color: #222;
+    }
   }
   
   app-root main app-book app-viewer .app-viewer-wrapper & {

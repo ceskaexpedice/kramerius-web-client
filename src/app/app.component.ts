@@ -1,3 +1,4 @@
+import { AppSettings } from './services/app-settings';
 import { HistoryService } from './services/history.service';
 import { Component, OnInit } from '@angular/core';
 import { Translator } from 'angular-translator';
@@ -19,14 +20,16 @@ export class AppComponent implements OnInit {
     private location: Location,
     private history: HistoryService,
     private router: Router,
+    private appSettings: AppSettings,
     private auth: AuthService,
     public state: AppState) {
   }
 
   ngOnInit() {
-    this.auth.login('', '').subscribe(user => {
-      // console.log('user', user);
-    });
+    if (this.appSettings.dnntEnabled) {
+      this.auth.login('', '').subscribe(user => {
+      });
+    }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         (<any>window).gaaa('set', 'page', event.urlAfterRedirects);

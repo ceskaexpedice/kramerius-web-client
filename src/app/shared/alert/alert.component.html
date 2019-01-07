@@ -5,6 +5,9 @@
       <span>
         {{ message | translate}}
       </span>
+      <div *ngIf="description" class="app-description">
+        {{ description | translate}}
+      </div>
     </div>
   </div>
 </div>

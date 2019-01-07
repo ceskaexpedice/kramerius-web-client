@@ -40,7 +40,9 @@
   <app-alert *ngIf="bookService.isPageInaccessible()"
              type="warning"
              title="alert.warning"
-             message="alert.inaccessible_document">
+             message="alert.inaccessible_document"
+             description="alert.inaccessible_document_description">
+
   </app-alert>
 
   <app-alert *ngIf="bookService.isPageFailure()"

@@ -7,7 +7,7 @@ var APP_GLOBAL = {
   defaultPeriodicalVolumesLayout: "years", // grid | years
   defaultPeriodicalIssuesLayout: "calendar", // grid | calendar
   publicFilterDefault: false,
-  dnnt: true,
+  dnnt: false,
   krameriusList: [
     // {
     //   title: 'Moravská zemská knihovna',
@@ -21,29 +21,30 @@ var APP_GLOBAL = {
     //   filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     // }
     // ,
-    {
-      title: 'Kramerius DNNT',
-      code: 'dnnt',
-      logo: 'https://registr.digitalniknihovna.cz/libraries/nkp/logo',
-      url: 'http://kramerius-test.rychtar.cloud:8080',
-      richCollections: true,
-      joinedDoctypes: true,
-      lemmatization: false,
-      doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
-      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
-    }
-    // ,
     // {
-    //   title: 'Národní knihovna České republiky',
-    //   code: 'nkp',
+    //   title: 'Kramerius DNNT',
+    //   code: 'dnnt',
     //   logo: 'https://registr.digitalniknihovna.cz/libraries/nkp/logo',
-    //   url: 'http://kramerius4.nkp.cz',
-    //   richCollections: false,
-    //   joinedDoctypes: false,
+    //   url: 'http://kramerius-test.rychtar.cloud:8080',
+    //   richCollections: true,
+    //   joinedDoctypes: true,
     //   lemmatization: false,
-    //   doctypes: ['monograph', 'periodical', 'map', 'sheetmusic'],
-    //   filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
-    // },
+    //   doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+    //   filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
+    // }
+    // ,
+    {
+      title: 'Národní knihovna České republiky',
+      code: 'nkp',
+      logo: 'https://registr.digitalniknihovna.cz/libraries/nkp/logo',
+      url: 'http://kramerius4.nkp.cz',
+      richCollections: false,
+      joinedDoctypes: false,
+      lemmatization: false,
+      doctypes: ['monograph', 'periodical', 'map', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
+    }
+    //,
     // {
     //   title: 'Knihovna Akademie věd ČR',
     //   code: 'knav',
