@@ -190,7 +190,14 @@
     "shelf_locator": "Signatura: {{shelf_locator}}",
     "btn_show_metadata": "Zobrazit metadata",
     "btn_hide_metadata": "Skrýt metadata",
-    "authors_info": "Více o autorech"
+    "authors_info": "Více o autorech",
+    "donator": "S podporou"
+  },
+  "donator": {
+    "norway": {
+      "url": "http://www.eeagrants.org/projects",
+      "name": "Norské findy"
+    }
   },
   "periodical": {
     "volume": "Ročník {{volume}}",

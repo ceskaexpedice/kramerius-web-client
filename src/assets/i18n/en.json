@@ -187,7 +187,8 @@
     "shelf_locator": "Shelf/Call number: {{shelf_locator}}",
     "btn_show_metadata": "Show metadata",
     "btn_hide_metadata": "Hide metadata",
-    "authors_info": "More about authors"
+    "authors_info": "More about authors",
+    "donator": "Supported by"
   },
   "periodical": {
     "volume": "Volume {{volume}}",

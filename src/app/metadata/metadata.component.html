@@ -146,15 +146,12 @@
     </div>
 
 
-
-
-
-
-
-
-
-
-
+    <div *ngIf="metadata.donator">
+      <label>{{ 'metadata.donator' | translate }}</label>
+      <a style="display:block" target="_blank" href="{{ 'donator.' + metadata.donator + '.url' | translate }}">
+        <img src="assets/img/donator_{{metadata.donator}}.png" >
+      </a>
+    </div>
 
 
     <div *ngIf="metadata.publishers.length > 0">

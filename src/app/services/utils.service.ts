@@ -32,6 +32,9 @@ export class Utils {
         const item = new DocumentItem();
         item.title = json['title'];
         item.uuid = json['pid'];
+        if (json['donator'] && json['donator'].startsWith('donator:')) {
+            item.donator = json['donator'].substring(8);
+        }
         item.root_uuid = json['root_pid'];
         item.public = json['policy'] === 'public';
         item.doctype = json['model'];

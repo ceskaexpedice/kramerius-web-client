@@ -46,6 +46,7 @@ export class Metadata {
     public volumeMetadata: Metadata;
 
     public mainTitle: string;
+    public donator: string;
 
     constructor() {
     }

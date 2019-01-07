@@ -13,6 +13,7 @@ export class DocumentItem {
     hits: number;
     context: Context[] = [];
     library: string;
+    donator: string;
     params;
 
     resolveUrl(prefix: string) {

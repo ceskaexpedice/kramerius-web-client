@@ -131,6 +131,7 @@ export class BookService {
             this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response, item.root_uuid);
                 this.metadata.model = item.doctype;
+                this.metadata.donator = item.donator;
                 this.pageTitle.setTitle(null, this.metadata.getShortTitle());
                 if (item.doctype) {
                     if (item.doctype.startsWith('periodical')) {
