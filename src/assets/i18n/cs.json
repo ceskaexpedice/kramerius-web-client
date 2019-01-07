@@ -140,6 +140,8 @@
     "no_results_found": "Nebyly nalezeny žádné výsledky. Prosím, zkuste jiný dotaz.",
     "inaccessible_document": "Tento dokument není veřejně přístupný",
     "inaccessible_document_description": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
+    "inaccessible_document_dnnt": "Tento dokument není veřejně přístupný",
+    "inaccessible_document_dnnt_description": "Tento dokument spadá do režimu Děl nedostupných na trhu. Je dostupný ve vybraných knihovnách na vyhrazených terminálech. Chystá se vzdálené zpřístupnění pro registrované uživatele knihoven.",
     "failed_to_load_image": "Obrázek se nepodařilo načíst",
     "book_no_results": "Nebyly nalezeny žádné výsledky"
   },

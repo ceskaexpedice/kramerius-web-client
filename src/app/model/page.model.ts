@@ -12,7 +12,8 @@ export class Page {
     position = PagePosition.None;
     imageType = PageImageType.None;
 
-    dnntMode = false;
+    providedByDnnt = false;
+    dnntFlag = false;
 
     // Image Properties
     width: number = -1;
@@ -47,8 +48,11 @@ export class Page {
         if (!data) {
             return;
         }
+        if (data['dnnt']) {
+            this.dnntFlag = true;
+        }
         if (data['providedByDnnt']) {
-            this.dnntMode = true;
+            this.providedByDnnt = true;
         }
         if (data['zoom'] && data['zoom']['url']) {
             this.imageType = PageImageType.ZOOMIFY;

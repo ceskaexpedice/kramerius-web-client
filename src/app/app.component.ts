@@ -6,6 +6,7 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { AppState } from './app.state';
 import { Location } from '@angular/common';
 import { AuthService } from './services/auth.service';
+import { KrameriusApiService } from './services/kramerius-api.service';
 
 @Component({
   selector: 'app-root',

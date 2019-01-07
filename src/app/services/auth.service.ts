@@ -5,7 +5,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
 import { HttpRequestCache } from './http-request-cache.service';
-import { CookieService } from 'ngx-cookie-service';
 
 
 @Injectable()
