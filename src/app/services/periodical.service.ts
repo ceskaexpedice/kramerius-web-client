@@ -61,6 +61,7 @@ export class PeriodicalService {
         this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
         this.pageTitle.setTitle(null, this.metadata.getShortTitle());
         this.metadata.model = item.doctype;
+        this.metadata.donator = item.donator;
         if (this.isMonograph()) {
           this.metadata.doctype = 'monographbundle';
           this.metadata.addMods('monographbundle', response);
