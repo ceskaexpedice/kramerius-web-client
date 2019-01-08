@@ -14,11 +14,8 @@
       <input #inputTarget readonly mz-input label="{{ 'share-dialog.link' | translate }}" [(ngModel)]="link" type="text">
     </mz-input-container>
 
-
-
-
     <div class="social">
-      <div class="label">Sdílet na sociálních sítích</div>
+      <div class="label">{{ 'share-dialog.social' | translate }}</div>
       <i class="app-mdi-share-facebook" (click)="share('facebook')"></i>
       <i class="app-mdi-share-twitter" (click)="share('twitter')"></i>
       <i class="app-mdi-share-gplus" (click)="share('gplus')"></i>      

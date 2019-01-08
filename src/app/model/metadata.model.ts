@@ -147,6 +147,23 @@ export class TitleInfo {
             return this.title;
         }
     }
+
+    fullTitle(): string {
+        let t = this.title;
+        if (this.nonSort) {
+            t = this.nonSort + ' ' + this.title;
+        }
+        if (this.subTitle) {
+            t += ': ' + this.subTitle;
+        }
+        if (this.partNumber) {
+            t += ', ' + this.partNumber;
+        }
+        if (this.partName) {
+            t += ': ' + this.partName;
+        }
+        return t;
+    }
 }
 
 export class Volume {

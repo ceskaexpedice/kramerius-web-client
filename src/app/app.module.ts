@@ -1,3 +1,4 @@
+import { DialogCitationComponent } from './dialog/dialog-citation/dialog-citation.component';
 import { AuthInterceptor } from './services/auth-interceptor.service';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
@@ -108,6 +109,7 @@ import { RemovePrefixPipe } from './pipes/remove-prefix.pipe';
 import { UpcasePipe } from './pipes/upcase.pipe';
 
 import { CookieService } from 'ngx-cookie-service';
+import { CitationService } from './services/citation.service';
 
 @NgModule({
   declarations: [
@@ -153,6 +155,7 @@ import { CookieService } from 'ngx-cookie-service';
     DialogOcrComponent,
     DialogPdfComponent,
     DialogShareComponent,
+    DialogCitationComponent,
     DialogAuthosComponent,
     DialogMetadataComponent,
     LogoComponent,
@@ -183,6 +186,7 @@ import { CookieService } from 'ngx-cookie-service';
     DialogOcrComponent,
     DialogPdfComponent,
     DialogShareComponent,
+    DialogCitationComponent,
     SimpleDialogComponent,
     DialogAuthosComponent,
     DialogMetadataComponent
@@ -244,6 +248,7 @@ import { CookieService } from 'ngx-cookie-service';
     AuthService,
     PageTitleService,
     CookieService,
+    CitationService,
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],

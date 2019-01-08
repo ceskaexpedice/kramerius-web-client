@@ -263,9 +263,13 @@
     "action_generate": "Download PDF",
     "action_prepare": "Prepare to print"
   },
+  "citation-dialog": {
+    "title": "Citation"
+  },
   "share-dialog": {
     "title": "Share",
-    "link": "Persistent link"
+    "link": "Persistent link",
+    "social": "Share on social media"
   },
   "authors-dialog": {
     "title": "Authors",

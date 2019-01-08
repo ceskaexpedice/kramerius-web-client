@@ -267,9 +267,13 @@
     "action_generate": "Stáhnout PDF",
     "action_prepare": "Připravit k tisku"
   },
+  "citation-dialog": {
+    "title": "Citace"
+  },
   "share-dialog": {
     "title": "Sdílet dokument",
-    "link": "Odkaz pro sdílení"
+    "link": "Odkaz pro sdílení",
+    "social": "Sdílet na sociálních sítích"
   },
   "authors-dialog": {
     "title": "Informace o autorech",
