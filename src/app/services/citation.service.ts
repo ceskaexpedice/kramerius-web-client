@@ -5,8 +5,8 @@ export class CitationService {
     let c = '';
     if (metadata.authors.length > 0) {
       let a = metadata.authors[0].name;
-      if (a.indexOf(' ') > -1) {
-        a = a.substring(0, a.indexOf(' ')).toUpperCase() + a.substring(a.indexOf(' '));
+      if (a.indexOf(',') > -1) {
+        a = a.substring(0, a.indexOf(',')).toUpperCase() + a.substring(a.indexOf(','));
       }
       if (a.endsWith(',')) {
         a = a.substring(0, a.length - 1);
