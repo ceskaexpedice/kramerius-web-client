@@ -410,8 +410,30 @@ export class KrameriusApiService {
 
 
 
-
-
-
+    getImageSelection = function(iiif: string, x1: number, y1: number, x2: number, y2: number) {
+        if (x1 < 0) {
+            x1 = 0;
+        }
+        if (x2 < 0) {
+            if (x1 === 0) {
+                return;
+            }
+            x2 = 0;
+        }
+        if (y1 > 0) {
+            y1 = 0;
+        }
+        if (y2 > 0) {
+            if (y1 === 0) {
+                return;
+            }
+            y2 = 0;
+        }
+        const a = Math.max(Math.round(x1), 0);
+        const b = Math.round(Math.abs(y2));
+        const c = Math.max(Math.round(x2 - x1), 0);
+        const d = Math.max(Math.round(Math.abs(y1) - Math.abs(y2)), 0);
+        return iiif + '/' + a + ',' + b + ',' + c + ',' + d + '/full/0/default.jpg';
+    };
 
 }

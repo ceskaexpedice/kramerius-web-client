@@ -225,7 +225,9 @@
     "tooltip_hide_left": "Hide thumbails",
     "tooltip_show_left": "Show thumbails",
     "tooltip_hide_right": "Hide details",
-    "tooltip_show_right": "Show details"
+    "tooltip_show_right": "Show details",
+    "tooltip_select_text": "Select text",
+    "tooltip_crop_image": "Crop image"
   },
   "book_controls": {
     "tooltip_print": "Prepare to print",

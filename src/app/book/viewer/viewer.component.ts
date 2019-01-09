@@ -39,6 +39,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public hideOnInactivity = false;
   public lastMouseMove = 0;
 
+  private selectionInteraction;
+  private selectionType: SelectionType;
+
   ngOnInit() {
     this.init();
     this.pageSubscription = this.bookService.watchPage().subscribe(
@@ -91,6 +94,44 @@ export class ViewerComponent implements OnInit, OnDestroy {
       loadTilesWhileAnimating: true,
       layers: [this.vectorLayer]
     });
+
+    this.selectionInteraction = new ol.interaction.DragBox({});
+
+    this.selectionInteraction.on('boxend', () => {
+      this.view.removeInteraction(this.selectionInteraction);
+      this.view.getViewport().style.cursor = '';
+      let extent = this.selectionInteraction.getGeometry().getExtent();
+      if (this.imageWidth1 > 0) {
+        // double page;
+        const startExtentX = extent[0];
+        if (-this.imageWidth / 2 + this.imageWidth1 > startExtentX) {
+          extent = [extent[0] + this.imageWidth1, extent[1], extent[2] + this.imageWidth1, extent[3]];
+          this.onSelectionEnd(extent, this.imageWidth1, this.imageHeight, false);
+        } else {
+          const offset = this.imageWidth / 2 - this.imageWidth1;
+          extent = [extent[0] + offset, extent[1], extent[2] + offset, extent[3]];
+          this.onSelectionEnd(extent, this.imageWidth - this.imageWidth1, this.imageHeight, true);
+        }
+      } else {
+        this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
+      }
+    });
+  }
+
+
+  onSelectionStart(type: SelectionType) {
+    this.selectionType = type;
+    this.view.addInteraction(this.selectionInteraction);
+    this.view.getViewport().style.cursor = 'crosshair';
+  }
+
+  onSelectionEnd(extent, width: number, height: number, right: boolean) {
+    this.view.removeInteraction(this.selectionInteraction);
+    if (this.selectionType === SelectionType.textSelection) {
+      this.bookService.showTextSelection(extent, width, height, right);
+    } else if (this.selectionType === SelectionType.imageSelection) {
+      this.bookService.showImageCrop(extent, right);
+    }
   }
 
 
@@ -121,6 +162,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
         break;
       case ViewerActions.fitToScreen:
         this.fitToScreen();
+        break;
+      case ViewerActions.selectText:
+        this.onSelectionStart(SelectionType.textSelection);
+        break;
+      case ViewerActions.cropImage:
+        this.onSelectionStart(SelectionType.imageSelection);
         break;
     }
   }
@@ -359,7 +406,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   }
 
-
   today() {
     const date = new Date();
     const day = date.getDate();
@@ -368,9 +414,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     return day + '.' + month + '.' + year;
   }
 
+}
 
-
-
-
-
+export enum SelectionType {
+  imageSelection = 1,
+  textSelection = 2
 }

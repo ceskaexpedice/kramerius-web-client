@@ -71,6 +71,7 @@ export class BookService {
 
     public dnntMode = false;
     public dnntFlag = false;
+    public iiifEnabled = false;
 
 
     constructor(private location: Location,
@@ -108,6 +109,7 @@ export class BookService {
         this.uuid = params.uuid;
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
+        this.iiifEnabled =  this.appSettings.iiifEnabled;
         this.krameriusApiService.getItem(params.uuid).subscribe((item: DocumentItem) => {
             if (item.doctype === 'article') {
                 if (params.articleUuid) {
@@ -532,6 +534,34 @@ export class BookService {
         });
     }
 
+
+    showTextSelection(extent, width: number, height: number, right: boolean) {
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.krameriusApiService.getAlto(uuid).subscribe(result => {
+            const text = this.altoService.getTextInBox(result, extent, width, height);
+            const options = {
+                ocr: text
+            };
+            this.modalService.open(DialogOcrComponent, options);
+        });
+    }
+
+    showImageCrop(extent, right: boolean) {
+        if (this.pageState === BookPageState.Inaccessible) {
+            this.modalService.open(SimpleDialogComponent, {
+                title: 'common.warning',
+                message: 'dialogs.private_document_jpeg.message',
+                button: 'common.close'
+            });
+        } else if (this.pageState === BookPageState.Success) {
+            const iiif = right ? this.getRightPage().iiif : this.getPage().iiif;
+            const url = this.krameriusApiService.getImageSelection(iiif, extent[0], extent[1], extent[2], extent[3]);
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+    }
+
     showJpeg() {
         if (this.pageState === BookPageState.Inaccessible) {
             this.modalService.open(SimpleDialogComponent, {
@@ -880,6 +910,7 @@ export class BookService {
             }
             this.dnntMode = leftPage.providedByDnnt || (rightPage && rightPage.providedByDnnt);
             this.dnntFlag = leftPage.dnntFlag || (rightPage && rightPage.dnntFlag);
+            // this.iiifEnabled = !!leftPage.iiif;
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {
@@ -1009,6 +1040,7 @@ export class BookService {
         this.viewer = 'none';
         this.dnntMode = false;
         this.dnntFlag = false;
+        this.iiifEnabled = false;
     }
 
 

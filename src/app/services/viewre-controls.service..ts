@@ -20,6 +20,7 @@ declare global {
 export class ViewerControlsService {
 
     private listners = new Subject<any>();
+
     public fullscreenAvailable = false;
     public leftPanelVisible = true;
     public rightPanelVisible = true;
@@ -43,7 +44,6 @@ export class ViewerControlsService {
         this.rightPanelVisible = true;
     }
 
-
     viewerActions(): Observable<ViewerActions> {
         return this.listners.asObservable();
     }
@@ -66,6 +66,14 @@ export class ViewerControlsService {
 
     fitToScreen() {
         this.listners.next(ViewerActions.fitToScreen);
+    }
+
+    selectText() {
+        this.listners.next(ViewerActions.selectText);
+    }
+
+    cropImage() {
+        this.listners.next(ViewerActions.cropImage);
     }
 
     enterFullscreen() {
@@ -149,5 +157,7 @@ export enum ViewerActions {
     zoomOut = 2,
     rotateLeft = 3,
     rotateRight = 4,
-    fitToScreen = 5
+    fitToScreen = 5,
+    selectText = 6,
+    cropImage = 7
 }

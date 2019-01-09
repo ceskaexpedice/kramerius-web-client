@@ -230,7 +230,9 @@
     "tooltip_hide_left": "Schovat náhledy",
     "tooltip_show_left": "Zobrazit náhledy",
     "tooltip_hide_right": "Schovat podrobnosti",
-    "tooltip_show_right": "Zobrazit podrobnosti"
+    "tooltip_show_right": "Zobrazit podrobnosti",
+    "tooltip_select_text": "Vybrat text",
+    "tooltip_crop_image": "Výřez obrázků"
   },
   "book_controls": {
     "tooltip_print": "Příprava k tisku",

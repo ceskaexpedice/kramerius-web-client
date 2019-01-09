@@ -17,6 +17,10 @@
     mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_off' | translate" [position]="'top'"></i>
   <i class="app-mdi-double-page hide-on-small-only" *ngIf="bookService.doublePageSupported() && !bookService.doublePageEnabled" (click)="bookService.toggleDoublePage()" style="padding-top:5px;"
     mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_on' | translate" [position]="'top'"></i>
+  <i class="app-mdi-select-text hide-on-small-only" (click)="controlsService.selectText()"
+    mz-tooltip [tooltip]="'view_controls.tooltip_select_text' | translate" [position]="'top'"></i>
+  <i class="app-mdi-crop-image hide-on-small-only" (click)="controlsService.cropImage()" *ngIf="bookService.iiifEnabled"
+    mz-tooltip [tooltip]="'view_controls.tooltip_crop_image' | translate" [position]="'top'"></i>
   <i disabled class="app-mdi-page-right" (click)="bookService.goToNext()" [class.app-inactive]="!bookService.hasNext()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_right' | translate" [position]="'top'"></i>
 </div>

@@ -9,6 +9,7 @@ export class Page {
     thumb: string;
     hidden: boolean;
     selected = false;
+    iiif: string;
     position = PagePosition.None;
     imageType = PageImageType.None;
 
@@ -48,6 +49,7 @@ export class Page {
         if (!data) {
             return;
         }
+        this.iiif = data['iiif'];
         if (data['dnnt']) {
             this.dnntFlag = true;
         }
