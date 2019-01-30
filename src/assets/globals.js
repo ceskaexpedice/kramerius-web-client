@@ -19,8 +19,9 @@ var APP_GLOBAL = {
       lemmatization: false,
       iiif: true,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
-      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
-    },
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
+    }
+    ,
     {
       title: 'Kramerius DNNT',
       code: 'dnnt',

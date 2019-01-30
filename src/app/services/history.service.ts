@@ -13,7 +13,7 @@ export class HistoryService {
   pop(): string {
     if (this.empty()) {
       this.pages = [];
-      return this.appSettings.getRouteFor('/');
+      return this.appSettings.getRouteFor('');
     } else {
       return this.pages.splice(this.pages.length - 2, 2)[0];
     }
