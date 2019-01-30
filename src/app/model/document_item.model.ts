@@ -31,7 +31,6 @@ export class DocumentItem {
         // }
     }
 
-
     public getUuidFromContext(doctype: string): string|null {
         for (const context of this.context) {
             if (context.doctype === doctype) {
