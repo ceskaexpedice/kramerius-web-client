@@ -23,6 +23,7 @@ export class Metadata {
     public genres: string[] = [];
     public contents: string[] = [];
     public physicalDescriptions: PhysicalDescription[] = [];
+    public identifiers = {};
 
     public model: string;
     public doctype: string;
@@ -128,6 +129,10 @@ export class Metadata {
             title += ' ' + this.volume.year;
         }
         return title;
+    }
+
+    public hasIdentifier(type: string): boolean {
+        return !!this.identifiers[type];
     }
 
 }

@@ -26,12 +26,17 @@
         <span class="app-part-name">{{ metadata.titles[0].partName }}</span>
       </div>
 
+      <div *ngIf="metadata.hasIdentifier('issn')" class="app-identifier">
+        ISSN: {{ metadata.identifiers['issn'] }}
+      </div>
+
+      
       <div *ngIf="metadata.currentUnit">
         <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.uuid]">
           {{ 'metadata.unit_list' | translate }}
         </a>
       </div>
-      <div *ngIf="metadata.doctype === 'periodical'">
+      <div *ngIf="metadata.volume">
         <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.uuid]">
           {{ 'metadata.volume_list' | translate }}
         </a>

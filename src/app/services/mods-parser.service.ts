@@ -26,6 +26,7 @@ export class ModsParserService {
         const root = mods['modsCollection']['mods'][0];
         this.processTitles(root['titleInfo'], metadata);
         this.processAuthors(root['name'], metadata);
+        this.processIdentifiers(root['identifier'], metadata);
         this.processPublishers(root['originInfo'], metadata);
         this.processLocations(root['location'], metadata);
         this.processSubjects(root['subject'], metadata);
@@ -167,6 +168,17 @@ export class ModsParserService {
         }
     }
 
+
+    private processIdentifiers(array, metadata: Metadata) {
+        if (!array) {
+            return;
+        }
+        for (const item of array) {
+            if (item['$'] && item['$']['type']) {
+                metadata.identifiers[item['$']['type']] = item['_'];
+            }
+        }
+    }
 
     private processReview(mods, metadata: Metadata) {
         let hasReview = false;
