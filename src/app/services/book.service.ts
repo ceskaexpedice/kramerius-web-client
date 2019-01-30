@@ -26,6 +26,7 @@ import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.com
 import { DomSanitizer} from '@angular/platform-browser';
 import { PageTitleService } from './page-title.service';
 import { InternalPart } from '../model/internal_part.model';
+import { Translator } from 'angular-translator';
 
 
 
@@ -82,6 +83,7 @@ export class BookService {
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
         private modsParserService: ModsParserService,
+        private translator: Translator,
         private solrService: SolrService,
         private sanitizer: DomSanitizer,
         private history: HistoryService,
@@ -103,6 +105,7 @@ export class BookService {
         if (this.fulltextQuery) {
             url += '&query=' + this.fulltextQuery;
         }
+        url += '&lang=' + this.translator.language;
         this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 

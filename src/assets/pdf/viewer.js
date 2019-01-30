@@ -7405,12 +7405,23 @@ var PDFViewerApplication = {
       },
       function getDocumentError(exception) {
         var loadingErrorMessage = "";
+        var queryString = document.location.search.substring(1);
+        var params = parseQueryString(queryString);
+        var lang = 'lang' in params ? params.lang : 'en';
         if (exception && exception.status == 403) {
-          self.info("PDF dokument není veřejně dostupný");
+          if (lang == 'cs') {
+            self.info("PDF dokument není veřejně dostupný");
+          } else {
+            self.info("The PDF document is not publically accessible");
+          }
         } else {
-          self.info("PDF Dokument se nepodařilo načíst");
+          if (lang == 'cs') {
+            self.info("PDF dokument se nepodařilo načíst");
+          } else {
+            self.info("Failed to load the PDF document");
+          }
         }
-        throw new Error("loadingErrorMessage");
+        throw new Error(loadingErrorMessage);
       }
     );
 
