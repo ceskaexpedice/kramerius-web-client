@@ -29,7 +29,7 @@ var APP_GLOBAL = {
       richCollections: true,
       joinedDoctypes: true,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
     }
@@ -42,7 +42,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     }
@@ -55,7 +55,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: true,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
     },
@@ -67,7 +67,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'manuscript'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -79,7 +79,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -91,7 +91,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -103,7 +103,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -115,7 +115,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -139,7 +139,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: true,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'languages']
     },
@@ -151,7 +151,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -175,7 +175,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -187,7 +187,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -199,7 +199,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -211,7 +211,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -223,7 +223,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -235,7 +235,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -259,7 +259,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -271,7 +271,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -283,7 +283,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -295,7 +295,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -307,7 +307,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -319,7 +319,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -343,7 +343,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     },
@@ -355,7 +355,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     },
@@ -367,7 +367,7 @@ var APP_GLOBAL = {
       richCollections: false,
       joinedDoctypes: false,
       lemmatization: false,
-      iiif: true,
+      iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     }

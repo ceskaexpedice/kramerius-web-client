@@ -57,9 +57,15 @@ export class Page {
             this.providedByDnnt = true;
         }
         if (data['zoom'] && data['zoom']['url']) {
-            this.imageType = PageImageType.ZOOMIFY;
-            this.url = data['zoom']['url'] + '/';
-            return;
+            if (data['zoom']['type'] === 'zoomify') {
+                this.imageType = PageImageType.ZOOMIFY;
+                this.url = data['zoom']['url'] + '/';
+                return;
+            } else  if (data['zoom']['type'] === 'deepzoom') {
+                this.imageType = PageImageType.ZOOMIFY;
+                this.url = data['zoom']['url'].replace('deepZoom', 'zoomify') + '/';
+                return;
+            }
         }
         if (data['pdf'] && data['pdf']['url']) {
             this.imageType = PageImageType.PDF;
@@ -87,4 +93,3 @@ export enum PagePosition {
 export enum PageImageType {
     ZOOMIFY, IIIF, PDF, JPEG, None
 }
-

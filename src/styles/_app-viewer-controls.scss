@@ -17,7 +17,7 @@ app-viewer-controls {
     -webkit-transform: translate(-50%, 0%);    
     transform: translate(-50%, 0%);
     border-radius: $app-border-radius;
-    padding: 5px 10px;
+    padding: 5px 10px 2px;
     user-select: none;
   }
   i[class*="app-mdi-"] {

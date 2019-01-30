@@ -563,6 +563,9 @@ export class BookService {
             });
         } else if (this.pageState === BookPageState.Success) {
             const iiif = right ? this.getRightPage().iiif : this.getPage().iiif;
+            if (!iiif) {
+                return;
+            }
             const url = this.krameriusApiService.getImageSelection(iiif, extent[0], extent[1], extent[2], extent[3]);
             if (url) {
                 window.open(url, '_blank');
