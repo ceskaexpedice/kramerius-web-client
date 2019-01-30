@@ -1,11 +1,11 @@
 <mz-modal [fixedFooter]="true" [bottomSheet]="true">
-    <!-- <mz-modal-header>
-     Textový přepis
-    </mz-modal-header> -->
     <mz-modal-content>
       {{ocr}}
       <div *ngIf="ocr2" style="margin-top:15px;">
         {{ocr2}}
+      </div>
+      <div *ngIf="citation" style="margin-top:15px; padding-top: 10px; border-top: 1px solid #ccc;">
+        {{citation}}
       </div>
     </mz-modal-content>
     <mz-modal-footer>

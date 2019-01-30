@@ -8,5 +8,6 @@ import { MzBaseModal } from 'ngx-materialize';
 export class DialogOcrComponent extends MzBaseModal {
   @Input() ocr: string;
   @Input() ocr2: string;
+  @Input() citation: string;
 
 }

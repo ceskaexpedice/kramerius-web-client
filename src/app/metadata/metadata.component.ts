@@ -1,13 +1,11 @@
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ShareService } from './../services/share.service';
 import { DialogAuthosComponent } from './../dialog/dialog-authors/dialog-authors.component';
 import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, Input } from '@angular/core';
-import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.component';
 import { MzModalService } from 'ngx-materialize';
 import { DialogMetadataComponent } from '../dialog/dialog-metadata/dialog-metadata.component';
 import { CitationService } from '../services/citation.service';
-import { DialogCitationComponent } from '../dialog/dialog-citation/dialog-citation.component';
 
 @Component({
   selector: 'app-metadata',
@@ -24,6 +22,7 @@ export class MetadataComponent implements OnInit {
 
   constructor(private modalService: MzModalService,
               private citationService: CitationService,
+              private shareService: ShareService,
               public appSettings: AppSettings) { }
 
   ngOnInit() {
@@ -41,61 +40,12 @@ export class MetadataComponent implements OnInit {
     this.modalService.open(DialogAuthosComponent, { authors: this.metadata.authors} );
   }
 
-  generateCitation() {
-    const link = this.getPagePersistentLink();
-    if (!link) {
-      return;
-    }
-    const citation = this.citationService.generateCitation(this.metadata, link);
-    console.log('citation', citation);
-    const options = {
-      citation: citation
-    };
-    this.modalService.open(DialogCitationComponent, options);
+  showCitation() {
+    this.citationService.showCitation(this.metadata);
   }
 
   onShare() {
-    const link = this.getPagePersistentLink();
-    if (link) {
-      const options = {
-        link: this.getPagePersistentLink()
-      };
-      this.modalService.open(DialogShareComponent, options);
-    }
-  }
-
-  private getPagePersistentLink() {
-    const path = location.pathname;
-    const query = location.search;
-    let uuid: string;
-    if (path.indexOf('uuid:') > -1) {
-      uuid = path.substr(path.indexOf('uuid:'), 41);
-    }
-    if (!uuid) {
-      return;
-    }
-    if (query.indexOf('article=uuid:') > -1) {
-      uuid = query.substr(query.indexOf('article=uuid:') + 8, 49);
-    }
-    if (query.indexOf('page=uuid:') > -1) {
-      uuid = query.substr(query.indexOf('page=uuid:') + 5, 46);
-    }
-
-    let url: string;
-    if (this.appSettings.share_url) {
-      if (this.appSettings.multiKramerius) {
-        url = this.appSettings.share_url.replace(/\$\{UUID\}/, uuid).replace(/\$\{KRAMERIUS\}/, this.appSettings.code);
-      } else {
-        url = this.appSettings.share_url.replace(/\$\{UUID\}/, uuid);
-      }
-    } else {
-      if (this.appSettings.multiKramerius) {
-        url = location.protocol + '//' + location.host + '/' + this.appSettings.code + '/uuid/' + uuid;
-      } else {
-        url = location.protocol + '//' + location.host + '/uuid/' + uuid;
-      }
-    }
-    return url;
+    this.shareService.showShareDialog();
   }
 
 }

@@ -1,3 +1,4 @@
+import { CitationService } from './citation.service';
 import { AppSettings } from './app-settings';
 import { SolrService } from './solr.service';
 import { ModsParserService } from './mods-parser.service';
@@ -85,6 +86,7 @@ export class BookService {
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
+        private citationService: CitationService,
         private modalService: MzModalService) {
     }
 
@@ -530,6 +532,10 @@ export class BookService {
             if (result.length > 1) {
                 options['ocr2'] = result[1];
             }
+            const citation = this.citationService.generateCitation(this.metadata);
+            if (citation) {
+                options['citation'] = citation;
+            }
             this.modalService.open(DialogOcrComponent, options);
         });
     }
@@ -539,8 +545,10 @@ export class BookService {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.krameriusApiService.getAlto(uuid).subscribe(result => {
             const text = this.altoService.getTextInBox(result, extent, width, height);
+            const citation = this.citationService.generateCitation(this.metadata);
             const options = {
-                ocr: text
+                ocr: text,
+                citation: citation
             };
             this.modalService.open(DialogOcrComponent, options);
         });

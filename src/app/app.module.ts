@@ -110,6 +110,7 @@ import { UpcasePipe } from './pipes/upcase.pipe';
 
 import { CookieService } from 'ngx-cookie-service';
 import { CitationService } from './services/citation.service';
+import { ShareService } from './services/share.service';
 
 @NgModule({
   declarations: [
@@ -249,6 +250,7 @@ import { CitationService } from './services/citation.service';
     PageTitleService,
     CookieService,
     CitationService,
+    ShareService,
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],

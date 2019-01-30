@@ -1,7 +1,24 @@
 import { Metadata } from './../model/metadata.model';
+import { Injectable } from '@angular/core';
+import { MzModalService } from 'ngx-materialize';
+import { ShareService } from './share.service';
+import { DialogCitationComponent } from '../dialog/dialog-citation/dialog-citation.component';
+
+
+
+@Injectable()
 export class CitationService {
 
-  public generateCitation(metadata: Metadata, link: string): string {
+  constructor(private modalService: MzModalService,
+    private shareService: ShareService) { }
+
+  public generateCitation(metadata: Metadata, link: string = null): string {
+    if (!metadata) {
+      return null;
+    }
+    if (link == null) {
+      link = this.shareService.getPagePersistentLink();
+    }
     let c = '';
     if (metadata.authors.length > 0) {
       let a = metadata.authors[0].name;
@@ -25,5 +42,17 @@ export class CitationService {
     c += 'Dostupné také z: ' + link;
     return c;
   }
+
+  public showCitation(metadata: Metadata) {
+    const citation = this.generateCitation(metadata);
+    if (!citation) {
+      return;
+    }
+    const options = {
+      citation: citation
+    };
+    this.modalService.open(DialogCitationComponent, options);
+  }
+
 
 }
