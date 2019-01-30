@@ -57,6 +57,7 @@ export class PeriodicalService {
     this.state = PeriodicalState.Loading;
     this.krameriusApiService.getItem(query.uuid).subscribe((item: DocumentItem) => {
       this.document = item;
+      console.log('item', item);
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
         this.pageTitle.setTitle(null, this.metadata.getShortTitle());
@@ -250,7 +251,7 @@ export class PeriodicalService {
     } else {
       this.orderingType = 'none';
     }
-    if (this.items.length === 1) {
+    if (this.items.length === 1 && this.isPeriodicalVolume()) {
       const item = this.items[0];
       this.history.removeCurrentCheck(this.router.url);
       const uuid = item.virtual ? this.document.uuid : item.uuid;
