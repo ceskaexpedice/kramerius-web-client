@@ -20,7 +20,7 @@ export class CitationService {
       link = this.shareService.getPagePersistentLink();
     }
     let c = '';
-    if (metadata.authors.length > 0) {
+    if (metadata.authors.length > 0 && metadata.doctype !== 'periodical') {
       let a = metadata.authors[0].name;
       if (a.indexOf(',') > -1) {
         a = a.substring(0, a.indexOf(',')).toUpperCase() + a.substring(a.indexOf(','));
@@ -32,14 +32,18 @@ export class CitationService {
       c += '. ';
     }
     if (metadata.titles.length > 0) {
+      c += '<i>';
       c += metadata.titles[0].fullTitle();
-      c += '. ';
+      c += '</i>. ';
     }
     if (metadata.publishers.length > 0) {
       c += metadata.publishers[0].fullDetail();
       c += '. ';
     }
-    c += 'Dostupné také z: ' + link;
+    if (metadata.hasIdentifier('issn')) {
+      c += 'ISSN ' + metadata.identifiers['issn'] + '. ';
+    }
+     c += 'Dostupné také z: ' + link;
     return c;
   }
 
