@@ -370,7 +370,7 @@ var APP_GLOBAL = {
       lemmatization: false,
       iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
-      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     }
   ]
 
