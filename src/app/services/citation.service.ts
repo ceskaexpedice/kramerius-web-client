@@ -1,4 +1,4 @@
-import { Metadata } from './../model/metadata.model';
+import { Metadata, Author } from './../model/metadata.model';
 import { Injectable } from '@angular/core';
 import { MzModalService } from 'ngx-materialize';
 import { ShareService } from './share.service';
@@ -20,16 +20,11 @@ export class CitationService {
       link = this.shareService.getPagePersistentLink();
     }
     let c = '';
-    if (metadata.authors.length > 0 && metadata.doctype !== 'periodical') {
-      let a = metadata.authors[0].name;
-      if (a.indexOf(',') > -1 && a.indexOf('(') < 0) {
-        a = a.substring(0, a.indexOf(',')).toUpperCase() + a.substring(a.indexOf(','));
-      }
-      if (a.endsWith(',')) {
-        a = a.substring(0, a.length - 1);
-      }
-      c += a;
-      c += '. ';
+    if (metadata.doctype !== 'periodical') {
+      c += this.writeAuthors(metadata);
+    }
+    if (metadata.article) {
+      c += this.writeAuthors(metadata.article.metadata);
     }
     if (metadata.titles.length > 0) {
       c += '<i>';
@@ -55,6 +50,16 @@ export class CitationService {
       if (metadata.currentIssue) {
         c += '(' + metadata.currentIssue.subtitle + ')';
       }
+      if (metadata.article && metadata.article.metadata && metadata.article.metadata.extent) {
+        let extent = metadata.article.metadata.extent;
+        if (extent.indexOf('-')) {
+          const p = extent.split('-');
+          if (p[0] === p[1]) {
+            extent = p[0];
+          }
+        }
+        c += ', ' + extent;
+      }
       c += '. ';
     }
     if (metadata.hasIdentifier('issn')) {
@@ -63,6 +68,42 @@ export class CitationService {
      c += 'Dostupné také z: ' + link;
     return c;
   }
+
+
+  private writeAuthors(metadata: Metadata): string {
+    if (!metadata || !metadata.authors || metadata.authors.length === 0) {
+      return '';
+    }
+    const authors = metadata.authors;
+    let result = this.writeAuthor(authors[0]);
+    if (authors.length > 4) {
+      result += ' et al. ';
+      return result;
+    }
+    for (let i = 1; i < authors.length - 1; i++) {
+      result += ', ' + this.writeAuthor(authors[i]);
+    }
+    if (authors.length > 1) {
+      result += ' a ' + this.writeAuthor(authors[authors.length - 1]);
+    }
+    result += '. ';
+    return result;
+  }
+
+  private writeAuthor(author: Author): string {
+    let fullname = author.name;
+    if (fullname.endsWith(',')) {
+      fullname = fullname.substring(0, fullname.length - 1);
+    }
+    if (fullname.indexOf(',') > -1 && fullname.indexOf('(') < 0) {
+      const family = fullname.substring(0, fullname.indexOf(',')).toUpperCase();
+      const given = fullname.substring(fullname.indexOf(',') + 1);
+      return family + ', ' + given;
+    } else {
+      return fullname;
+    }
+  }
+
 
   public showCitation(metadata: Metadata) {
     const citation = this.generateCitation(metadata);

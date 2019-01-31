@@ -238,4 +238,3 @@ export class Publisher {
         return !(this.name || this. date || this.place);
     }
 }
-

@@ -31,6 +31,7 @@ export class ModsParserService {
         this.processLocations(root['location'], metadata);
         this.processSubjects(root['subject'], metadata);
         this.processLanguages(root['language'], metadata);
+        this.processRelatedItem(root['relatedItem'], metadata);
         this.processParts(root['part'], metadata);
         this.processReview(root, metadata);
         this.processPhysicalDescriptions(root['physicalDescription'], metadata);
@@ -78,6 +79,16 @@ export class ModsParserService {
         return null;
     }
 
+    private processRelatedItem(array, metadata: Metadata) {
+        if (!array) {
+            console.log('array empty');
+            return;
+        }
+        for (const item of array) {
+            console.log('item', item);
+            this.processParts(item['part'], metadata);
+        }
+    }
 
 
     private processParts(array, metadata: Metadata) {
