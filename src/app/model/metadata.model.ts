@@ -205,11 +205,11 @@ export class PhysicalDescription {
 }
 
 export class Publisher {
-    public name;
-    public date;
-    public place;
+    public name: string;
+    public date: string;
+    public place: string;
 
-    fullDetail() {
+    placeAndName(): string {
         let s = '';
         if (this.place) {
             s += this.place;
@@ -220,6 +220,11 @@ export class Publisher {
             }
             s += this.name;
         }
+        return s;
+    }
+
+    fullDetail(): string {
+       let s = this.placeAndName();
         if (this.date) {
             if (s) {
                 s += ', ';
