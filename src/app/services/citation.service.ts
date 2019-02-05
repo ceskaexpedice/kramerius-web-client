@@ -24,7 +24,12 @@ export class CitationService {
       c += this.writeAuthors(metadata);
     }
     if (metadata.article) {
-      c += this.writeAuthors(metadata.article.metadata);
+      const articleMetadata = metadata.article.metadata;
+      c += this.writeAuthors(articleMetadata);
+      if (articleMetadata && articleMetadata.titles.length > 0) {
+        c += articleMetadata.titles[0].fullTitle();
+        c += '. ';
+      }
     }
     if (metadata.titles.length > 0) {
       c += '<i>';
