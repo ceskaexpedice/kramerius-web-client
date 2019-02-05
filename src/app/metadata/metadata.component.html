@@ -4,12 +4,12 @@
       <i class="app-mdi-book-share app-cursor-pointer" (click)="onShare()"
           mz-tooltip [tooltip]="'book_controls.tooltip_share' | translate" [position]="'bottom'">
       </i>
-      <i class="app-mdi-metadata-share app-cursor-pointer" (click)="showModsDialog()"
-          mz-tooltip [tooltip]="'Metadata'" [position]="'bottom'">
-      </i>
       <i class="app-mdi-book-quote app-cursor-pointer" (click)="showCitation()"
-      mz-tooltip [tooltip]="'Citace'" [position]="'bottom'">
-  </i>
+        mz-tooltip [tooltip]="'book_controls.tooltip_citation' | translate"  [position]="'bottom'">
+      </i>
+      <i class="app-mdi-metadata-share app-cursor-pointer" (click)="showModsDialog()"
+        mz-tooltip [tooltip]="'book_controls.tooltip_metadata' | translate"  [position]="'bottom'">
+     </i>
   </div>
 
   <div class="app-metadata-content">

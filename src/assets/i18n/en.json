@@ -234,6 +234,8 @@
     "tooltip_ocr": "Text transcript of the page",
     "tooltip_quote": "show quotation",
     "tooltip_share": "Share",
+    "tooltip_metadata": "Metadata",
+    "tooltip_citation": "Citation",
     "all_pages": "All Pages"
    
   },

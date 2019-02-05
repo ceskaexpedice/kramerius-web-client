@@ -239,6 +239,8 @@
     "tooltip_ocr": "Textový přepis stránky",
     "tooltip_quote": "Zobrazit citaci",
     "tooltip_share": "Sdílet",
+    "tooltip_metadata": "Metadata",
+    "tooltip_citation": "Citace",
     "all_pages": "Všechny stránky"
   },
   "book_toolbar": {
