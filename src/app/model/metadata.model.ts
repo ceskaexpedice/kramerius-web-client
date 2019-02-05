@@ -65,7 +65,7 @@ export class Metadata {
             if (publisher && publisher.date) {
               const d = publisher.date.replace(/ /g, '').split('-');
               if (d.length === 2) {
-                if (!(isNaN(d[0]) || isNaN(d[1]) || d[0] % 1 !== 0 || d[1] % 1 !== 0)) {
+                if (!(isNaN(Number(d[0])) || isNaN(Number(d[1])) || Number(d[0]) % 1 !== 0 || Number(d[1]) % 1 !== 0)) {
                   const d1 = parseInt(d[0], 10);
                   const d2 = parseInt(d[1], 10);
                   if (!min || d1 < min) {

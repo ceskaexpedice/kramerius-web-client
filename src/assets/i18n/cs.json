@@ -1,6 +1,4 @@
 {
-  "app-name": "Kramerius",
-  "app-title": "Kramerius - vyhledávání v digitalizovaných dokumentech",
   "common": {
     "of": "z",
     "cancel": "Zrušit",
@@ -146,7 +144,7 @@
     "book_no_results": "Nebyly nalezeny žádné výsledky"
   },
   "home": {
-    "desc": "vyhledávání v digitalizovaných dokumentech",
+    "title": "Digitální knihovna Kramerius",
     "btn_enter": "Vstupte",
     "btn_search": "Hledej",
     "tab_visited": "Navštívené",

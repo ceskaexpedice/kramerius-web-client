@@ -1,6 +1,4 @@
 {
-  "app-name": "Kramerius",
-  "app-title": "Kramerius - searching in digitized documents",
   "common": {
     "of": "of",
     "cancel": "Cancel",
@@ -143,7 +141,7 @@
     "book_no_results": "No results found"
   },
   "home": {
-    "desc": "searching in digital documents",
+    "title": "Digital library Kramerius",
     "btn_enter": "Enter",
     "btn_search": "Search",
     "tab_visited": "Visited",

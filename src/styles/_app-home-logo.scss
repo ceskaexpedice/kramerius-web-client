@@ -4,7 +4,7 @@ app-home-logo {
     position: inherit;
     display: table;
     line-height: normal;
-    height: 40px;
+    // height: 40px;
     margin-right: auto;
     margin-left: auto;    
     @media #{$medium-and-down} {
@@ -56,4 +56,25 @@ app-home-logo {
       cursor: pointer;
     }
   }
+
+  .app-logo-big.brand-logo {
+      .app-brand-top.app-brand-img {
+        display: block; 
+        margin-top: -60px; 
+        margin-bottom: 10px;
+        @media #{$medium-and-down} {
+          margin-top: -20px; 
+        }
+        img {
+          height: 200px;
+        }
+      }
+      .app-brand-top.app-brand-text.app-single-kramerius {
+        display: block; 
+        margin-bottom: 10px;
+        padding: 0;
+      }
+    }
+
+
 }

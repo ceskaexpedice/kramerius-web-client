@@ -8,6 +8,7 @@ var APP_GLOBAL = {
   defaultPeriodicalIssuesLayout: "calendar", // grid | calendar
   publicFilterDefault: false,
   dnnt: false,
+  bigHomeLogo: false,
   krameriusList: [
     {
       title: 'Moravská zemská knihovna',
@@ -59,7 +60,8 @@ var APP_GLOBAL = {
       iiif: false,
       doctypes: ['monograph', 'periodical'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
-    },
+    }
+    ,
     {
       title: 'Vědecká knihovna v Olomouci',
       code: 'vkol',
@@ -95,7 +97,8 @@ var APP_GLOBAL = {
       iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
-    },
+    }
+    ,
     {
       title: 'Jihočeská vědecká knihovna v Českých Budějovicích',
       code: 'cbvk',
