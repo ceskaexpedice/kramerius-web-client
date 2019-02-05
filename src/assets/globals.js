@@ -58,7 +58,7 @@ var APP_GLOBAL = {
       joinedDoctypes: true,
       lemmatization: true,
       iiif: false,
-      doctypes: ['monograph', 'periodical'],
+      doctypes: ['monograph', 'periodical', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
     }
     ,
