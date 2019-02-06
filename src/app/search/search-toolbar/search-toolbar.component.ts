@@ -1,3 +1,4 @@
+import { AppSettings } from './../../services/app-settings';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SearchService } from './../../services/search.service';
 
@@ -7,7 +8,7 @@ import { SearchService } from './../../services/search.service';
 })
 export class SearchToolbarComponent implements OnInit {
 
-  constructor(public searchService: SearchService) {
+  constructor(public searchService: SearchService, private appSettings: AppSettings) {
   }
 
   ngOnInit() {

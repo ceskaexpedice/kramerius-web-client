@@ -8,6 +8,8 @@
         </span>
       </li>
     </ul>
+    <span *ngIf="appSettings.k3" style="margin-left: 20px;"><a [href]="searchService.buildK3Link()" target="_blank">{{ 'search.k3' | translate }}</a>
+    </span>
   </div>
   <!-- Show just for small devices -->
   <div class="col s2 app-col-left hide-on-med-and-up">

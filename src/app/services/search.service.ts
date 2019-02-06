@@ -76,6 +76,15 @@ export class SearchService {
         }
     }
 
+    public buildK3Link(): string {
+        if (this.query.getRawQ()) {
+            return this.appSettings.k3 + 'Search.do?text=' + (this.query.getRawQ() || '');
+        } else {
+            return this.appSettings.k3 + 'Welcome.do';
+
+        }
+    }
+
     public changeOrdering(ordering: string) {
         this.query.setOrdering(ordering);
         this.reload(false);

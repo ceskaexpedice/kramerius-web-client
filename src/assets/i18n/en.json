@@ -60,6 +60,7 @@
     "tooltip_display_calendar": "Display calendar"
   },
   "search": {
+    "k3": "Search in the old digitization",
     "results": "Results",
     "keywords": "Keyword",
     "doctypes": "Document Type",   

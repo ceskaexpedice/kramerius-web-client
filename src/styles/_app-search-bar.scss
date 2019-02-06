@@ -117,11 +117,34 @@ app-navbar-search-bar {
       width: 600px;
     }
   }
-  @media #{$large-only} {
+
+  @media only screen and (max-width: 1230px) {
     .app-search-bar-wrapper {
-      width: 450px;
+      width: 500px;
     }
   }
+
+  @media only screen and (max-width: 1130px) {
+    .app-search-bar-wrapper {
+      width: 400px;
+    }
+  }
+
+  @media only screen and (max-width: 1030px) {
+    .app-search-bar-wrapper {
+      width: 350px;
+    }
+  }
+
+  @media only screen and (max-width: 991px) {
+    .app-search-bar-wrapper {
+      width: calc(100% - 16px);
+    }
+  }
+
+
+
+
   @media #{$small-400-and-down} {
     display: none;
     
