@@ -64,6 +64,7 @@
     "results": "Výsledky",
     "keywords": "Klíčové slovo",
     "doctypes": "Typ dokumentu",
+
     "collections": "Sbírka",
     "languages": "Jazyk",
     "locations": "Místo uložení",
@@ -272,7 +273,12 @@
     "action_prepare": "Připravit k tisku"
   },
   "citation-dialog": {
-    "title": "Citace"
+    "title": "Citace",
+    "level-0": "celého dokumentu",
+    "level-1": "ročníku periodika",
+    "level-2": "čísla periodika",
+    "level-3": "článku",
+    "level-4": "vybrané stránky"
   },
   "share-dialog": {
     "title": "Sdílet dokument",

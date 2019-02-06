@@ -49,6 +49,8 @@ export class Metadata {
     public mainTitle: string;
     public donator: string;
 
+    public activePages: string;
+
     constructor() {
     }
 

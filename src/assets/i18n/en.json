@@ -277,7 +277,12 @@
     "action_prepare": "Prepare to print"
   },
   "citation-dialog": {
-    "title": "Citation"
+    "title": "Citation of the",
+    "level-0": "whole document",
+    "level-1": "periodical volume",
+    "level-2": "periodical issue",
+    "level-3": "article",
+    "level-4": "selected page"
   },
   "share-dialog": {
     "title": "Share",

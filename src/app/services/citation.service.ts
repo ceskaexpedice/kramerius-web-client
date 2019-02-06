@@ -9,21 +9,26 @@ import { DialogCitationComponent } from '../dialog/dialog-citation/dialog-citati
 @Injectable()
 export class CitationService {
 
+  public static LEVEL_DOCUMENT = 0;
+  public static LEVEL_VOLUME = 1;
+  public static LEVEL_ISSUE = 2;
+  public static LEVEL_ARTICLE = 3;
+  public static LEVEL_PAGE = 4;
+
+
   constructor(private modalService: MzModalService,
     private shareService: ShareService) { }
 
-  public generateCitation(metadata: Metadata, link: string = null): string {
+  public generateCitation(metadata: Metadata, level: number = CitationService.LEVEL_DOCUMENT): string {
     if (!metadata) {
       return null;
     }
-    if (link == null) {
-      link = this.shareService.getPagePersistentLink();
-    }
+    const link = this.shareService.getPagePersistentLink();
     let c = '';
     if (metadata.doctype !== 'periodical') {
       c += this.writeAuthors(metadata);
     }
-    if (metadata.article) {
+    if (metadata.article && level >= CitationService.LEVEL_ARTICLE) {
       const articleMetadata = metadata.article.metadata;
       c += this.writeAuthors(articleMetadata);
       if (articleMetadata && articleMetadata.titles.length > 0) {
@@ -36,26 +41,26 @@ export class CitationService {
       c += metadata.titles[0].fullTitle();
       c += '</i>. ';
     }
-    if (metadata.publishers.length > 0 && !metadata.volume) {
+    if (metadata.publishers.length > 0 && (level === CitationService.LEVEL_DOCUMENT || level === CitationService.LEVEL_PAGE && !metadata.volume)) {
       c += metadata.publishers[0].fullDetail();
       c += '. ';
     }
-    if (metadata.volume) {
+    if (metadata.volume && level >= CitationService.LEVEL_VOLUME) {
       if (metadata.publishers.length > 0) {
         c += metadata.publishers[0].placeAndName();
         c += ', ';
       }
-      if (metadata.currentIssue && metadata.currentIssue.title) {
+      if (metadata.currentIssue && metadata.currentIssue.title && level >= CitationService.LEVEL_ISSUE) {
         c += metadata.currentIssue.title;
       } else if (metadata.volume.year) {
         c += metadata.volume.year;
       }
       c += ', ';
       c += '<b>' + metadata.volume.number + '</b>';
-      if (metadata.currentIssue) {
+      if (metadata.currentIssue && level >= CitationService.LEVEL_ISSUE) {
         c += '(' + metadata.currentIssue.subtitle + ')';
       }
-      if (metadata.article && metadata.article.metadata && metadata.article.metadata.extent) {
+      if (metadata.article && metadata.article.metadata && metadata.article.metadata.extent && level === CitationService.LEVEL_ARTICLE) {
         let extent = metadata.article.metadata.extent;
         if (extent.indexOf('-')) {
           const p = extent.split('-');
@@ -66,6 +71,9 @@ export class CitationService {
         c += ', ' + extent;
       }
       c += '. ';
+    }
+    if (metadata.activePages && level === CitationService.LEVEL_PAGE) {
+      c += 's. ' + metadata.activePages + '. ';
     }
     if (metadata.hasIdentifier('issn')) {
       c += 'ISSN ' + metadata.identifiers['issn'] + '. ';
@@ -111,12 +119,8 @@ export class CitationService {
 
 
   public showCitation(metadata: Metadata) {
-    const citation = this.generateCitation(metadata);
-    if (!citation) {
-      return;
-    }
     const options = {
-      citation: citation
+      metadata: metadata
     };
     this.modalService.open(DialogCitationComponent, options);
   }

@@ -10,22 +10,22 @@ var APP_GLOBAL = {
   dnnt: false,
   bigHomeLogo: false,
   aboutPage: {
-    cs: '/assets/pages/nkp.about.cs.html',
-    en: '/assets/pages/nkp.about.en.html',
+    cs: '/assets/pages/knav.about.cs.html',
+    en: '/assets/pages/knav.about.en.html',
   },
   krameriusList: [
-    // {
-    //   title: 'Moravská zemská knihovna',
-    //   code: 'mzk',
-    //   logo: 'https://registr.digitalniknihovna.cz/libraries/mzk/logo',
-    //   url: 'https://kramerius.mzk.cz',
-    //   richCollections: true,
-    //   joinedDoctypes: true,
-    //   lemmatization: false,
-    //   iiif: true,
-    //   doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
-    //   filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
-    // }
+    {
+      title: 'Moravská zemská knihovna',
+      code: 'mzk',
+      logo: 'https://registr.digitalniknihovna.cz/libraries/mzk/logo',
+      url: 'https://kramerius.mzk.cz',
+      richCollections: true,
+      joinedDoctypes: true,
+      lemmatization: false,
+      iiif: true,
+      doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
+    }
     // ,
     // {
     //   title: 'Kramerius DNNT',
@@ -40,32 +40,32 @@ var APP_GLOBAL = {
     //   filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
     // }
     // ,
-    {
-      title: 'Národní knihovna České republiky',
-      code: 'nkp',
-      logo: 'https://registr.digitalniknihovna.cz/libraries/nkp/logo',
-      url: 'http://kramerius4.nkp.cz',
-      richCollections: false,
-      joinedDoctypes: false,
-      lemmatization: false,
-      iiif: false,
-      k3: 'http://kramerius.nkp.cz/kramerius/',
-      doctypes: ['monograph', 'periodical', 'map', 'sheetmusic'],
-      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
-    }
-    // ,
     // {
-    //   title: 'Knihovna Akademie věd ČR',
-    //   code: 'knav',
-    //   logo: 'https://registr.digitalniknihovna.cz/libraries/knav/logo',
-    //   url: 'https://kramerius.lib.cas.cz',
+    //   title: 'Národní knihovna České republiky',
+    //   code: 'nkp',
+    //   logo: 'https://registr.digitalniknihovna.cz/libraries/nkp/logo',
+    //   url: 'http://kramerius4.nkp.cz',
     //   richCollections: false,
-    //   joinedDoctypes: true,
-    //   lemmatization: true,
+    //   joinedDoctypes: false,
+    //   lemmatization: false,
     //   iiif: false,
-    //   doctypes: ['monograph', 'periodical', 'sheetmusic'],
-    //   filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
+    //   k3: 'http://kramerius.nkp.cz/kramerius/',
+    //   doctypes: ['monograph', 'periodical', 'map', 'sheetmusic'],
+    //   filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'locations', 'languages']
     // }
+    ,
+    {
+      title: 'Knihovna Akademie věd ČR',
+      code: 'knav',
+      logo: 'https://registr.digitalniknihovna.cz/libraries/knav/logo',
+      url: 'https://kramerius.lib.cas.cz',
+      richCollections: false,
+      joinedDoctypes: true,
+      lemmatization: true,
+      iiif: false,
+      doctypes: ['monograph', 'periodical', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'geonames', 'collections', 'locations', 'languages']
+    }
     // ,
     // {
     //   title: 'Vědecká knihovna v Olomouci',

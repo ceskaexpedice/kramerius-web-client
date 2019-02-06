@@ -411,7 +411,7 @@ export class BookService {
                     } else {
                         page.type = 'unknown';
                     }
-                    page.number = details['pagenumber'];
+                    page.number = details['pagenumber'] ? details['pagenumber'].trim() : '';
                 }
                 if (!page.number) {
                     page.number = p['title'];
@@ -521,12 +521,13 @@ export class BookService {
     showQuotation() {
 
     }
-
     showOcr() {
         const requests = [];
         requests.push(this.krameriusApiService.getOcr(this.getPage().uuid));
+        let citPages = this.getPage().number + '';
         if (this.getRightPage()) {
             requests.push(this.krameriusApiService.getOcr(this.getRightPage().uuid));
+            citPages += '-' + this.getRightPage().number;
         }
         forkJoin(requests).subscribe(result => {
             const options = {
@@ -535,7 +536,7 @@ export class BookService {
             if (result.length > 1) {
                 options['ocr2'] = result[1];
             }
-            const citation = this.citationService.generateCitation(this.metadata);
+            const citation = this.citationService.generateCitation(this.metadata, CitationService.LEVEL_PAGE);
             if (citation) {
                 options['citation'] = citation;
             }
@@ -548,7 +549,7 @@ export class BookService {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.krameriusApiService.getAlto(uuid).subscribe(result => {
             const text = this.altoService.getTextInBox(result, extent, width, height);
-            const citation = this.citationService.generateCitation(this.metadata);
+            const citation = this.citationService.generateCitation(this.metadata, CitationService.LEVEL_PAGE);
             const options = {
                 ocr: text,
                 citation: citation
@@ -752,11 +753,16 @@ export class BookService {
         }
         const page = this.getPage();
         page.selected = true;
+        let pages = page.number + '';
         const rightPage = this.getRightPage();
         let cached = page.cached();
         if (rightPage) {
             rightPage.selected = true;
             cached = cached && rightPage.cached();
+            pages += '-' + rightPage.number;
+        }
+        if (this.metadata) {
+            this.metadata.activePages = pages;
         }
         // if (!this.article) {
         let urlQuery = 'page=' + page.uuid;
