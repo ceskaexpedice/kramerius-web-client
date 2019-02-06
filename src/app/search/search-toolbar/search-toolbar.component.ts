@@ -8,7 +8,7 @@ import { SearchService } from './../../services/search.service';
 })
 export class SearchToolbarComponent implements OnInit {
 
-  constructor(public searchService: SearchService, private appSettings: AppSettings) {
+  constructor(public searchService: SearchService, public appSettings: AppSettings) {
   }
 
   ngOnInit() {
