@@ -191,6 +191,12 @@
     "authors_info": "More about authors",
     "donator": "Supported by"
   },
+  "donator": {
+    "norway": {
+      "url": "http://www.eeagrants.org",
+      "name": "Norway grants"
+    }
+  },
   "periodical": {
     "volume": "Volume {{volume}}",
     "issue": "Issue {{issue}}",
