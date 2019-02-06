@@ -1,3 +1,4 @@
+import { AboutComponent } from './about/about.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BookComponent } from './book/book.component';
@@ -16,6 +17,7 @@ import { LoginComponent } from './login/login.component';
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
     { path: '', component: HomeComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'about', component: AboutComponent, canActivate: [ RoutingGuardService ] },
     { path: 'login', component: LoginComponent, canActivate: [ RoutingGuardService ] },
     { path: 'browse', component: BrowseComponent, canActivate: [ RoutingGuardService ] },
     { path: 'search', component: SearchComponent, canActivate: [ RoutingGuardService ] },
@@ -25,6 +27,7 @@ const ROUTES: Routes = [
     { path: 'uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view/:uuid', component: BookComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view', component: BookComponent, canActivate: [ RoutingGuardService ] },
+    { path: ':k/about', component: AboutComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/login', component: LoginComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/browse', component: BrowseComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/search', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },

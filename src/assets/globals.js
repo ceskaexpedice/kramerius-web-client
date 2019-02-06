@@ -9,6 +9,10 @@ var APP_GLOBAL = {
   publicFilterDefault: false,
   dnnt: false,
   bigHomeLogo: false,
+  aboutPage: {
+    cs: '/assets/pages/kanv.about.cs.html',
+    en: '/assets/pages/knav.about.en.html',
+  },
   krameriusList: [
     {
       title: 'Moravská zemská knihovna',

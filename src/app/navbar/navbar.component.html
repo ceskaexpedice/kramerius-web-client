@@ -16,6 +16,10 @@
       <mz-navbar-item routerLinkActive="active" #browse="routerLinkActive">
         <a [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
       </mz-navbar-item>
+      <mz-navbar-item routerLinkActive="active" *ngIf="appSettings.aboutPage">
+        <a [routerLink]="appSettings.getRouteFor('about')">{{ 'navbar.about' | translate }}</a>
+      </mz-navbar-item>
+
 
       <ng-container *ngIf="appSettings.dnntEnabled">
         <mz-navbar-item *ngIf="authService.isLoggedIn()">

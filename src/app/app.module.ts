@@ -111,6 +111,7 @@ import { UpcasePipe } from './pipes/upcase.pipe';
 import { CookieService } from 'ngx-cookie-service';
 import { CitationService } from './services/citation.service';
 import { ShareService } from './services/share.service';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { ShareService } from './services/share.service';
     ViewerComponent,
     BookComponent,
     HelpComponent,
+    AboutComponent,
     HomeComponent,
     BrowseComponent,
     NavigationComponent,
@@ -181,7 +183,8 @@ import { ShareService } from './services/share.service';
     NotFoundComponent,
     RemovePrefixPipe,
     UpcasePipe,
-    LoginComponent
+    LoginComponent,
+    AboutComponent
   ],
   entryComponents: [
     DialogOcrComponent,

@@ -49,11 +49,16 @@ app-root {
       }
     }
     
-    // browse
+    // help
     app-help {
       @import "styles/app-help";
     }
-    
+
+    // about
+    app-about {
+      @import "styles/app-about";
+    }
+        
     // search
     app-search {
       @import "styles/app-search-count";
