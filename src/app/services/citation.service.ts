@@ -78,7 +78,10 @@ export class CitationService {
     if (metadata.hasIdentifier('issn')) {
       c += 'ISSN ' + metadata.identifiers['issn'] + '. ';
     }
-     c += 'Dostupné také z: ' + link;
+    if (metadata.hasIdentifier('isbn')) {
+      c += 'ISBN ' + metadata.identifiers['isbn'] + '. ';
+    }
+    c += 'Dostupné také z: ' + link;
     return c;
   }
 

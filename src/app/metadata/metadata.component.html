@@ -30,6 +30,10 @@
         ISSN {{ metadata.identifiers['issn'] }}
       </div>
 
+      <div *ngIf="metadata.hasIdentifier('isbn')" class="app-identifier">
+        ISBN {{ metadata.identifiers['isbn'] }}
+      </div>
+
       
       <div *ngIf="metadata.currentUnit">
         <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.uuid]">
