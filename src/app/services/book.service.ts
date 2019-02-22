@@ -288,7 +288,7 @@ export class BookService {
     }
 
 
-    private addSupplementPages(pages: any[], supplements: any[], pageUuid: string, articleUuid: string, internalPartUuid: string) {
+    private addSupplementPages(pages: any[], supplements: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
         if (supplements.length === 0) {
             this.onDataLoaded(pages, null, pageUuid, articleUuid, internalPartUuid);
             return;
@@ -301,7 +301,7 @@ export class BookService {
                     pages.push(p);
                 }
             }
-            this.addSupplementPages(pages, supplements, pageUuid, articleUuid, internalPartUuid);
+            this.onDataLoaded(pages, doctype, pageUuid, articleUuid, internalPartUuid);
         });
     }
 
@@ -320,19 +320,20 @@ export class BookService {
         this.navigationTabsCount = tabs;
     }
 
-    private onDataLoaded(pages: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
+    private onDataLoaded(inputPages: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
         this.pages = [];
-        if (doctype === 'periodicalitem') {
-            const supplements = [];
-            for (const p of pages) {
-                if (p['model'] === 'supplement') {
-                    supplements.push(p);
-                }
+        const pages = [];
+        const supplements = [];
+        for (const p of inputPages) {
+            if (p['model'] === 'supplement') {
+                supplements.push(p);
+            } else {
+                pages.push(p);
             }
-            if (supplements.length > 0) {
-                this.addSupplementPages(pages, supplements, pageUuid, articleUuid, internalPartUuid);
-                return;
-            }
+        }
+        if (supplements.length > 0) {
+            this.addSupplementPages(pages, supplements, doctype, pageUuid, articleUuid, internalPartUuid);
+            return;
         }
         const pageIndex = this.arrangePages(pages, pageUuid, doctype);
         this.bookState = BookState.Success;
