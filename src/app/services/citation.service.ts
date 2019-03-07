@@ -58,7 +58,12 @@ export class CitationService {
       c += ', ';
       c += '<b>' + metadata.volume.number + '</b>';
       if (metadata.currentIssue && level >= CitationService.LEVEL_ISSUE) {
-        c += '(' + metadata.currentIssue.subtitle + ')';
+        const edition = this.findIssueEdition(metadata.currentIssue.metadata);
+        c += '(' + metadata.currentIssue.subtitle;
+        if (edition) {
+          c += ', ' + edition;
+        }
+        c += ')';
       }
       if (metadata.article && metadata.article.metadata && metadata.article.metadata.extent && level === CitationService.LEVEL_ARTICLE) {
         let extent = metadata.article.metadata.extent;
@@ -83,6 +88,42 @@ export class CitationService {
     }
     c += 'Dostupné také z: ' + link;
     return c;
+  }
+
+
+  private findIssueEdition(metadata: Metadata): string {
+    if (!metadata) {
+      return;
+    }
+    let edition = null;
+    for (const pd of metadata.physicalDescriptions) {
+      let note = pd.note;
+      if (!note) {
+        continue;
+      }
+      note = note.trim().toLowerCase();
+      if (note === 'ranní vydání;') {
+        edition = 'ranní vydání';
+      } else if (note === 'odpolední vydání;') {
+        edition = 'odpolední vydání';
+      } else if (note === 'večerní vydání;') {
+        edition = 'večerní vydání';
+      }
+    }
+    for (let note of metadata.notes) {
+      if (!note) {
+        continue;
+      }
+      note = note.trim().toLowerCase();
+      if (note === 'ranní vydání;') {
+        edition = 'ranní vydání';
+      } else if (note === 'odpolední vydání;') {
+        edition = 'odpolední vydání';
+      } else if (note === 'večerní vydání;') {
+        edition = 'večerní vydání';
+      }
+    }
+    return edition;
   }
 
 
