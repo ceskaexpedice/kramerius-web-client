@@ -150,7 +150,7 @@ export class BookService {
                     }
                 }
                 this.metadata.addMods(this.metadata.doctype, response);
-                if (item.doctype === 'periodicalitem') {
+                if (item.doctype === 'periodicalitem' || item.doctype === 'supplement') {
                     const volumeUuid = item.getUuidFromContext('periodicalvolume');
                     this.loadVolume(volumeUuid);
                     this.loadIssues(item.root_uuid, volumeUuid, this.uuid);
