@@ -15,7 +15,8 @@
           </div>
           <div class="app-card-row">
             <div class="app-card-row-right">{{item.date}}</div>
-            <div class="app-card-row-left">{{ 'metadata.issue' | translate }} {{item.issue}}</div>
+            <div class="app-card-row-left" *ngIf="item.issue">{{ 'metadata.issue' | translate }} {{item.issue}}</div>
+            <div class="app-card-row-left" style="-webkit-box-orient: vertical;" *ngIf="item.supplement">{{ 'model.supplement' | translate }} {{item.supplement}}</div>
           </div>
         </ng-container>
 

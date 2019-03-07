@@ -93,7 +93,11 @@ app-periodical-fulltext-item {
               float: right;
             }
             .app-card-row-left {
-              float: left;
+              overflow: hidden;
+              -webkit-line-clamp: 1;
+              display: block;
+              display: -webkit-box;
+              text-overflow: ellipsis;           
             }
             &.app-main-title {
               font-weight: 600; 

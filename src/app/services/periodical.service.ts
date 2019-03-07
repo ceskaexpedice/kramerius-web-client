@@ -306,7 +306,6 @@ export class PeriodicalService {
         if (item.type === 'monograph_unit') {
           continue;
         }
-        // console.log('item', item);
         const unit = item.context['monographunit'];
         if (unintPids && unintPids.indexOf(unit) < 0) {
           unintPids.push(unit);
@@ -314,6 +313,10 @@ export class PeriodicalService {
         const issue = item.context['periodicalitem'];
         if (issue && issuePids.indexOf(issue) < 0) {
           issuePids.push(issue);
+        }
+        const supplement = item.context['supplement'];
+        if (supplement && issuePids.indexOf(supplement) < 0) {
+          issuePids.push(supplement);
         }
         const volume = item.context['periodicalvolume'];
         if (volume && issuePids.indexOf(volume) < 0) {
@@ -352,6 +355,9 @@ export class PeriodicalService {
             if (detail.uuid === page.context['periodicalitem']) {
               page.date = detail.title;
               page.issue = detail.subtitle;
+            } else if (detail.uuid === page.context['supplement']) {
+              page.date = detail.title;
+              page.supplement = detail.subtitle;
             }
           }
         }
