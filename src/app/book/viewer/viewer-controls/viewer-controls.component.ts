@@ -1,6 +1,7 @@
 import { BookService } from './../../../services/book.service';
 import { ViewerControlsService } from './../../../services/viewre-controls.service.';
 import { Component, OnInit, Input} from '@angular/core';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-viewer-controls',
@@ -8,7 +9,8 @@ import { Component, OnInit, Input} from '@angular/core';
 export class ViewerControlsComponent implements OnInit {
 
 
-  constructor(public controlsService: ViewerControlsService, public bookService: BookService) {
+  constructor(public controlsService: ViewerControlsService, public analytics: AnalyticsService,
+    public bookService: BookService) {
   }
 
   ngOnInit() {

@@ -2,6 +2,7 @@ import { SearchService } from './../../services/search.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CollectionService } from '../../services/collection.service';
 import { AppSettings } from '../../services/app-settings';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-search-filters',
@@ -16,6 +17,7 @@ export class SearchFiltersComponent implements OnInit {
 
   constructor(public searchService: SearchService,
               public collectionService: CollectionService,
+              public analytics: AnalyticsService,
               private appSettings: AppSettings) {
   }
 
@@ -24,7 +26,6 @@ export class SearchFiltersComponent implements OnInit {
     this.yearTo = this.searchService.query.to;
     this.filters = this.appSettings.filters;
   }
-
 
   onYearFromValueChanged() {
     if (!this.yearFrom || this.yearFrom < 0) {
@@ -44,6 +45,7 @@ export class SearchFiltersComponent implements OnInit {
   }
 
   applyYearRange() {
+    this.analytics.sendEvent('search', 'year', this.yearFrom + '-' + this.yearTo);
     this.searchService.setYearRange(this.yearFrom, this.yearTo);
   }
 

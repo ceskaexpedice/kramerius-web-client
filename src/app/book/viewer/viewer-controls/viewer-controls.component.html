@@ -1,26 +1,26 @@
 <div class="app-view-controls">
-  <i class="app-mdi-page-left" (click)="bookService.goToPrevious()" [class.app-inactive]="!bookService.hasPrevious()"
+  <i class="app-mdi-page-left" (click)="bookService.goToPrevious();analytics.sendEvent('viewer', 'controls', 'previous page');" [class.app-inactive]="!bookService.hasPrevious()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_left' | translate" [position]="'top'"></i>
-  <i class="app-mdi-zoom-in hide-on-small-only" (click)="controlsService.zoomIn()"
+  <i class="app-mdi-zoom-in hide-on-small-only" (click)="controlsService.zoomIn();analytics.sendEvent('viewer', 'controls', 'zoom in');"
     mz-tooltip [tooltip]="'view_controls.tooltip_zoom_in' | translate" [position]="'top'"></i>
-  <i class="app-mdi-zoom-out hide-on-small-only" (click)="controlsService.zoomOut()"
+  <i class="app-mdi-zoom-out hide-on-small-only" (click)="controlsService.zoomOut();analytics.sendEvent('viewer', 'controls', 'zoom out');"
     mz-tooltip [tooltip]="'view_controls.tooltip_zoom_out' | translate" [position]="'top'"></i>
-  <i class="app-mdi-fit-to-screen hide-on-small-only" (click)="controlsService.fitToScreen()"
+  <i class="app-mdi-fit-to-screen hide-on-small-only" (click)="controlsService.fitToScreen();analytics.sendEvent('viewer', 'controls', 'fit to screen');"
     mz-tooltip [tooltip]="'view_controls.tooltip_fit_to_screen' | translate" [position]="'top'"></i>
-  <i class="app-mdi-fullscreen" *ngIf="controlsService.fullscreenAvailable && !controlsService.fullscreenEnabled()" (click)="controlsService.enterFullscreen()"
+  <i class="app-mdi-fullscreen" *ngIf="controlsService.fullscreenAvailable && !controlsService.fullscreenEnabled()" (click)="controlsService.enterFullscreen();analytics.sendEvent('viewer', 'controls', 'enter fullscreen');"
     mz-tooltip [tooltip]="'view_controls.tooltip_enter_fullscreen' | translate" [position]="'top'"></i>
-  <i class="app-mdi-fullscreen-exit" *ngIf="controlsService.fullscreenAvailable && controlsService.fullscreenEnabled()" (click)="controlsService.exitFullscreen()"
+  <i class="app-mdi-fullscreen-exit" *ngIf="controlsService.fullscreenAvailable && controlsService.fullscreenEnabled()" (click)="controlsService.exitFullscreen();analytics.sendEvent('viewer', 'controls', 'exit fullscreen');"
     mz-tooltip [tooltip]="'view_controls.tooltip_exit_fullscreen' | translate" [position]="'top'"></i>
-  <i class="app-mdi-rotate-right hide-on-small-only" (click)="controlsService.rotateRight()"
+  <i class="app-mdi-rotate-right hide-on-small-only" (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate');"
     mz-tooltip [tooltip]="'view_controls.tooltip_rotate_right' | translate" [position]="'top'"></i>
-  <i class="app-mdi-double-page hide-on-small-only" *ngIf="bookService.doublePageSupported() && bookService.doublePageEnabled" (click)="bookService.toggleDoublePage()" style="padding-top:5px;"
+  <i class="app-mdi-double-page hide-on-small-only" *ngIf="bookService.doublePageSupported() && bookService.doublePageEnabled" (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page off');" style="padding-top:5px;"
     mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_off' | translate" [position]="'top'"></i>
-  <i class="app-mdi-double-page hide-on-small-only" *ngIf="bookService.doublePageSupported() && !bookService.doublePageEnabled" (click)="bookService.toggleDoublePage()" style="padding-top:5px;"
+  <i class="app-mdi-double-page hide-on-small-only" *ngIf="bookService.doublePageSupported() && !bookService.doublePageEnabled" (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page on');" style="padding-top:5px;"
     mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_on' | translate" [position]="'top'"></i>
-  <i class="app-mdi-select-text hide-on-small-only" (click)="controlsService.selectText()"
+  <i class="app-mdi-select-text hide-on-small-only" (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text');"
     mz-tooltip [tooltip]="'view_controls.tooltip_select_text' | translate" [position]="'top'"></i>
-  <i class="app-mdi-crop-image hide-on-small-only" (click)="controlsService.cropImage()" *ngIf="bookService.iiifEnabled"
+  <i class="app-mdi-crop-image hide-on-small-only" (click)="controlsService.cropImage();analytics.sendEvent('viewer', 'controls', 'crop image');" *ngIf="bookService.iiifEnabled"
     mz-tooltip [tooltip]="'view_controls.tooltip_crop_image' | translate" [position]="'top'"></i>
-  <i disabled class="app-mdi-page-right" (click)="bookService.goToNext()" [class.app-inactive]="!bookService.hasNext()"
+  <i disabled class="app-mdi-page-right" (click)="bookService.goToNext();analytics.sendEvent('viewer', 'controls', 'next page');" [class.app-inactive]="!bookService.hasNext()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_right' | translate" [position]="'top'"></i>
 </div>

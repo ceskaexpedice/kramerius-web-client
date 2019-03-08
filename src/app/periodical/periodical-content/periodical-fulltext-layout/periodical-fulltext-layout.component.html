@@ -14,7 +14,7 @@
           [step]="periodicalService.fulltext.limit"
           (next)="periodicalService.nextFtPage()"
           (previous)="periodicalService.previousFtPage()"
-          (change)="periodicalService.setFtPage($event)">
+          (change)="periodicalService.onFtPage($event)">
   </app-paginator> 
 
 </div>

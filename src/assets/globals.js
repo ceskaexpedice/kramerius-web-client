@@ -9,8 +9,8 @@ var APP_GLOBAL = {
   dnnt: false,
   bigHomeLogo: false,
   aboutPage: {
-    cs: '/assets/pages/knav.about.cs.html',
-    en: '/assets/pages/knav.about.en.html',
+    cs: '/assets/pages/about.cs.html',
+    en: '/assets/pages/about.cs.html',
   },
   krameriusList: [
     {

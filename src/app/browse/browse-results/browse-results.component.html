@@ -14,7 +14,7 @@
                [step]="browseService.query.getRows()"
                (next)="browseService.nextPage()"
                (previous)="browseService.previousPage()"
-               (change)="browseService.setPage($event)">
+               (change)="browseService.onPage($event)">
 </app-paginator> 
 <mz-spinner *ngIf="browseService.loading"
             class="medium-centered-spinner" 

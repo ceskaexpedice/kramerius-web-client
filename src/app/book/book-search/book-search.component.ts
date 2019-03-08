@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { BookService } from './../../services/book.service';
 import { Component, OnInit, Input} from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-book-search',
@@ -12,7 +13,7 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   // allPages: boolean;
   pageSubscription: Subscription;
 
-  constructor(public bookService: BookService) {
+  constructor(public bookService: BookService, public analytics: AnalyticsService) {
   }
 
   ngOnInit() {
@@ -23,12 +24,17 @@ export class BookSearchComponent implements OnInit, OnDestroy {
     );
   }
 
-
   onKeyUp(event) {
     if (event.keyCode === 13) {
+      this.analytics.sendEvent('viewer', 'search-by-return', this.fulltextQuery);
       this.changeQuery();
     }
     event.stopPropagation();
+  }
+
+  onMagnifyIconClick() {
+    this.analytics.sendEvent('viewer', 'search-by-icon', this.fulltextQuery);
+    this.changeQuery();
   }
 
   changeQuery() {
@@ -40,6 +46,7 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   }
 
   cleanQuery() {
+    this.analytics.sendEvent('viewer', 'cancel-search');
     this.fulltextQuery = '';
     this.bookService.fulltextChanged(this.fulltextQuery);
   }

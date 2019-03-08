@@ -6,6 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MzModalService } from 'ngx-materialize';
 import { DialogMetadataComponent } from '../dialog/dialog-metadata/dialog-metadata.component';
 import { CitationService } from '../services/citation.service';
+import { AnalyticsService } from '../services/analytics.service';
 
 @Component({
   selector: 'app-metadata',
@@ -23,6 +24,7 @@ export class MetadataComponent implements OnInit {
   constructor(private modalService: MzModalService,
               private citationService: CitationService,
               private shareService: ShareService,
+              public analytics: AnalyticsService,
               public appSettings: AppSettings) { }
 
   ngOnInit() {
@@ -33,18 +35,22 @@ export class MetadataComponent implements OnInit {
   }
 
   showModsDialog() {
+    this.analytics.sendEvent('metadata', 'mods');
     this.modalService.open(DialogMetadataComponent, { map: this.metadata.modsMap} );
   }
 
   showAuthors() {
+    this.analytics.sendEvent('metadata', 'authors');
     this.modalService.open(DialogAuthosComponent, { authors: this.metadata.authors} );
   }
 
   showCitation() {
+    this.analytics.sendEvent('metadata', 'citation');
     this.citationService.showCitation(this.metadata);
   }
 
   onShare() {
+    this.analytics.sendEvent('metadata', 'share');
     this.shareService.showShareDialog();
   }
 

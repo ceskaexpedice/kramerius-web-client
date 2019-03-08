@@ -15,7 +15,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.accessibility;">
             <span [class.selected]="item.value === searchService.query.accessibility" class="app-row">
-              <a (click)="searchService.setAccessibility(item.value)">{{ 'search.accessibility.' + item.value | translate}}</a>
+              <a (click)="searchService.setAccessibility(item.value);analytics.sendEvent('search', 'accessibility', item.value);">{{ 'search.accessibility.' + item.value | translate}}</a>
               <span>
                 {{item.count}}
               </span>
@@ -40,7 +40,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.doctypes;">
             <span class="app-row">
-              <a (click)="searchService.toggleFilter(searchService.query.doctypes, item.value)">{{'model.' + item.value | translate | appUpcase }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.doctypes, item.value);analytics.sendEvent('search', 'doctype', item.value);">{{'model.' + item.value | translate | appUpcase }}</a>
               <span>
                 {{item.count}}
               </span>
@@ -65,7 +65,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.keywords; let i = index;">
             <span class="app-row" *ngIf="i < 6 || keywordsExpanded">
-              <a (click)="searchService.toggleFilter(searchService.query.keywords, item.value)">{{ item.value | appUpcase }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.keywords, item.value);analytics.sendEvent('search', 'keyword', item.value);">{{ item.value | appUpcase }}</a>
               <span>
                 {{item.count}}
               </span>
@@ -96,7 +96,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.authors; let i = index;">
             <span class="app-row" *ngIf="i < 6 || authorsExpanded">
-              <a (click)="searchService.toggleFilter(searchService.query.authors, item.value)">{{ item.value | appUpcase }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.authors, item.value);analytics.sendEvent('search', 'author', item.value);">{{ item.value | appUpcase }}</a>
               <span>
                 {{item.count}}
               </span>
@@ -126,7 +126,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.geonames; let i = index;">
             <span class="app-row" *ngIf="i < 6 || geonamesExpanded">
-              <a (click)="searchService.toggleFilter(searchService.query.geonames, item.value)">{{ item.value | appUpcase }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.geonames, item.value);analytics.sendEvent('search', 'geoname', item.value);">{{ item.value | appUpcase }}</a>
               <span>
                 {{item.count}}
               </span>
@@ -156,7 +156,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.locations; let i = index;">
             <span class="app-row" *ngIf="i < 6 || locationsExpanded">
-              <a (click)="searchService.toggleFilter(searchService.query.locations, item.value)">{{'sigla.' + item.value | translate | appRemovePrefix:'sigla.' }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.locations, item.value);analytics.sendEvent('search', 'location', item.value);">{{'sigla.' + item.value | translate | appRemovePrefix:'sigla.' }}</a>
               <span>
                 {{item.count}}
               </span>
@@ -186,7 +186,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.languages; let i = index;">
             <span class="app-row" *ngIf="i < 6 || languagesExpanded">
-              <a (click)="searchService.toggleFilter(searchService.query.languages, item.value)">{{'language.' + item.value | translate | appUpcase }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.languages, item.value);analytics.sendEvent('search', 'language', item.value);">{{'language.' + item.value | translate | appUpcase }}</a>
               <span>
                 {{item.count}}
               </span>
@@ -216,7 +216,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.collections; let i = index;">
             <span class="app-row" *ngIf="i < 6 || collectionsExpanded">
-              <a (click)="searchService.toggleFilter(searchService.query.collections, item.value)">{{ collectionService.getNameByPid(item.value) | appUpcase }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.collections, item.value);analytics.sendEvent('search', 'collection', item.value);">{{ collectionService.getNameByPid(item.value) | appUpcase }}</a>
               <span>
                 {{item.count}}
               </span>

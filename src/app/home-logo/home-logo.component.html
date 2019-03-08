@@ -29,7 +29,7 @@
     [stopPropagation]="true"
   >
     <mz-dropdown-item *ngFor="let kramerius of appSettings.krameriusList">
-      <a [routerLink]="['/' + kramerius.code]">
+      <a [routerLink]="['/' + kramerius.code]" (click)="analytics.sendEvent('home', 'kramerius', kramerius.title);">
         <span class="app-brand-img">
           <img src="{{ kramerius.logo }}" class="img-responsive app-pipe" alt="{{ kramerius.title }}" />
         </span>

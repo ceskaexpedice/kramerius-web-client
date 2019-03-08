@@ -3,6 +3,7 @@ import { BookService } from './../services/book.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { combineLatest } from 'rxjs/observable/combineLatest';
+import { AnalyticsService } from '../services/analytics.service';
 
 @Component({
   selector: 'app-book',
@@ -12,6 +13,7 @@ export class BookComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               public bookService: BookService,
+              public analytics: AnalyticsService,
               public viewerControls: ViewerControlsService) {
 
   }
@@ -19,8 +21,10 @@ export class BookComponent implements OnInit, OnDestroy {
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if (event && event.keyCode === 37) {
+      this.analytics.sendEvent('viewer', 'keyboard', 'previous page');
       this.bookService.goToPrevious();
     } else if (event && event.keyCode === 39) {
+      this.analytics.sendEvent('viewer', 'keyboard', 'next page');
       this.bookService.goToNext();
     }
   }

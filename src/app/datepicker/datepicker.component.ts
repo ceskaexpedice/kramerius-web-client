@@ -20,13 +20,13 @@ import {
 } from 'date-fns';
 import { ISlimScrollOptions } from 'ngx-slimscroll';
 import { AppSettings } from '../services/app-settings';
+import { AnalyticsService } from '../services/analytics.service';
 
 @Component({
-  selector: 'ng-datepicker',
-  templateUrl: 'ng-datepicker.component.html',
-  styleUrls: ['ng-datepicker.component.scss']
+  selector: 'app-datepicker',
+  templateUrl: 'datepicker.component.html'
 })
-export class NgDatepickerComponent implements OnInit {
+export class DatepickerComponent implements OnInit {
   @Input() date: Date;
   @Input() activeDays: number[];
   @Input() daysUrl;
@@ -40,7 +40,7 @@ export class NgDatepickerComponent implements OnInit {
     isActive: boolean;
   }[];
 
-  constructor(private elementRef: ElementRef, public appSettings: AppSettings) {
+  constructor(private elementRef: ElementRef, public appSettings: AppSettings, public analytics: AnalyticsService) {
     this.scrollOptions = {
       barBackground: '#DFE3E9',
       gridBackground: '#FFFFFF',

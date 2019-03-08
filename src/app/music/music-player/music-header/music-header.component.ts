@@ -1,8 +1,7 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { MusicService } from './../../../services/music.service';
 import { Component, OnInit } from '@angular/core';
-import { KrameriusApiService } from '../../../services/kramerius-api.service';
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import { NgxGalleryOptions } from 'ngx-gallery';
 
 @Component({
   selector: 'app-music-header',
@@ -12,8 +11,7 @@ export class MusicHeaderComponent implements OnInit {
 
   galleryOptions: NgxGalleryOptions[];
 
-  constructor(public musicService: MusicService,
-              private _sanitizer: DomSanitizer) { }
+  constructor(public musicService: MusicService) { }
 
   ngOnInit() {
     this.galleryOptions = [

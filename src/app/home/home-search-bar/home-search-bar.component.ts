@@ -1,10 +1,9 @@
 import { AppSettings } from './../../services/app-settings';
 import { LocalStorageService } from './../../services/local-storage.service';
-import { SearchService } from './../../services/search.service';
-import { AppState } from './../../app.state';
 import { LibrarySearchService } from './../../services/library-search.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-home-search-bar',
@@ -21,6 +20,7 @@ export class HomeSearchBarComponent implements OnInit {
   constructor(
     public router: Router,
     public appSettings: AppSettings,
+    public analytics: AnalyticsService,
     private localStorageService: LocalStorageService,
     public service: LibrarySearchService) {
   }
@@ -34,6 +34,7 @@ export class HomeSearchBarComponent implements OnInit {
     if (event) {
       const title = event['title'];
       this.searchStr = title;
+      this.analytics.sendEvent('home', 'search-by-selection', this.searchStr);
       this.search();
     }
   }
@@ -44,11 +45,26 @@ export class HomeSearchBarComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.keyCode === 13) {
+      this.analytics.sendEvent('home', 'search-by-return', this.searchStr);
       this.search();
     }
   }
 
-  search() {
+  onMagnifyIconClick() {
+    this.analytics.sendEvent('home', 'search-by-icon', this.searchStr);
+    this.search();
+  }
+
+  onSearchButtonClick() {
+    if (this.searchStr) {
+      this.analytics.sendEvent('home', 'search-by-button', this.searchStr);
+    } else {
+      this.analytics.sendEvent('home', 'enter');
+    }
+    this.search();
+  }
+
+  private search() {
     let q = this.searchStr;
     if (q == null) {
       q = '';

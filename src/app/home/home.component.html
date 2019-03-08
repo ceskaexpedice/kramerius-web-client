@@ -33,7 +33,7 @@
     </div>
 
     <div class="app-tab-content row">
-      <app-document-card *ngFor="let item of getActiveItems()" [item]="item" class="col s12 m6 l6 xl4"></app-document-card>
+      <app-document-card *ngFor="let item of getActiveItems()" [in]="'home'" [item]="item" class="col s12 m6 l6 xl4"></app-document-card>
     </div>
 
     <app-paginator 

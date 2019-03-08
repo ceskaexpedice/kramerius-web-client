@@ -7,6 +7,7 @@ import { SearchQuery } from './../search/search_query.model';
 import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
+import { AnalyticsService } from './analytics.service';
 
 
 @Injectable()
@@ -34,6 +35,7 @@ export class SearchService {
         private router: Router,
         private collectionService: CollectionService,
         private solrService: SolrService,
+        private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
         private appSettings: AppSettings) {
@@ -86,6 +88,7 @@ export class SearchService {
     }
 
     public changeOrdering(ordering: string) {
+        this.analytics.sendEvent('search', 'ordering', ordering);
         this.query.setOrdering(ordering);
         this.reload(false);
     }
@@ -113,17 +116,24 @@ export class SearchService {
         this.reload(false);
     }
 
-    public setPage(page: number) {
+    public onPage(page: number) {
+        this.analytics.sendEvent('search', 'paginator', page + '');
+        this.setPage(page);
+    }
+
+    private setPage(page: number) {
         this.query.setPage(page);
         this.reload(true);
     }
 
     public nextPage() {
+        this.analytics.sendEvent('search', 'paginator', 'next');
         this.query.setPage(this.query.page + 1);
         this.reload(true);
     }
 
     public previousPage() {
+        this.analytics.sendEvent('search', 'paginator', 'previous');
         this.query.setPage(this.query.page - 1);
         this.reload(true);
     }

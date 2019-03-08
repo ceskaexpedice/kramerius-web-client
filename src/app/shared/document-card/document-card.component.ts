@@ -3,6 +3,7 @@ import { DocumentItem } from './../../model/document_item.model';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Component, OnInit, Input } from '@angular/core';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-document-card',
@@ -10,10 +11,13 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DocumentCardComponent implements OnInit {
   @Input() item: DocumentItem;
+  @Input() in: String;
+
   public thumb;
 
   constructor(private krameriusApiService: KrameriusApiService,
               public appSettings: AppSettings,
+              public analytics: AnalyticsService,
               private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {

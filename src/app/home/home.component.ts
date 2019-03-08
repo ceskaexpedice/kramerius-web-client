@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../app.state';
 import { ActivatedRoute } from '@angular/router';
 import { PageTitleService } from '../services/page-title.service';
+import { AnalyticsService } from '../services/analytics.service';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
     private appSettings: AppSettings,
     private krameriusApiService: KrameriusApiService,
     private localStorageService: LocalStorageService,
+    public analytics: AnalyticsService,
     private pageTitle: PageTitleService
   ) {
 
@@ -92,6 +94,7 @@ export class HomeComponent implements OnInit {
   }
 
   changeTab(tab: string) {
+    this.analytics.sendEvent('home', 'tab', tab);
     this.localStorageService.setProperty(LocalStorageService.FEATURED_TAB, tab);
     this.page = 1;
     this.selectedTab = tab;

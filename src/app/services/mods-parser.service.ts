@@ -81,11 +81,9 @@ export class ModsParserService {
 
     private processRelatedItem(array, metadata: Metadata) {
         if (!array) {
-            console.log('array empty');
             return;
         }
         for (const item of array) {
-            console.log('item', item);
             this.processParts(item['part'], metadata);
         }
     }

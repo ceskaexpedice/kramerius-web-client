@@ -1,4 +1,4 @@
-<a *ngIf="collection" routerLink="/search" [queryParams]="{ collections: collection.pid }">
+<a *ngIf="collection" routerLink="/search" [queryParams]="{ collections: collection.pid }" (click)="analytics.sendEvent('collections', 'open', collection.title);">
     <mz-card [hoverable]="true">
       <mz-card-content>
         <div class="app-card-media">

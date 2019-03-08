@@ -8,7 +8,7 @@
 </app-alert>
 
 
-<app-document-card *ngFor="let item of searchService.results" [item]="item"></app-document-card>
+<app-document-card *ngFor="let item of searchService.results" [in]="'search'" [item]="item"></app-document-card>
 <div class="clearfix"></div>
 
 <app-paginator [activeIndex]="searchService.query.page"
@@ -16,7 +16,7 @@
         [step]="searchService.query.getRows()"
         (next)="searchService.nextPage()"
         (previous)="searchService.previousPage()"
-        (change)="searchService.setPage($event)">
+        (change)="searchService.onPage($event)">
 </app-paginator> 
 <mz-spinner *ngIf="searchService.loading"
         class="medium-centered-spinner" 

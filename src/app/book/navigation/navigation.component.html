@@ -3,17 +3,17 @@
 <div class="app-navigation-tabs" *ngIf="bookService.navigationTabsCount > 1">
   <ul class="tabs">
     <li *ngIf="bookService.allPages.length > 0"  class="tab tab-{{bookService.navigationTabsCount}}">
-      <a (click)="bookService.changeNavigationTab('pages')" [class.active]="bookService.activeNavigationTab === 'pages'">
+      <a (click)="bookService.changeNavigationTab('pages');analytics.sendEvent('viewer', 'navigation', 'pages');" [class.active]="bookService.activeNavigationTab === 'pages'">
         <span class="app-desc">{{ 'model_plural.page' | translate }}</span>
       </a>
     </li> 
     <li *ngIf="bookService.articles.length > 0"  class="tab tab-{{bookService.navigationTabsCount}}">
-      <a (click)="bookService.changeNavigationTab('articles')" [class.active]="bookService.activeNavigationTab === 'articles'">
+      <a (click)="bookService.changeNavigationTab('articles');analytics.sendEvent('viewer', 'navigation', 'articles');" [class.active]="bookService.activeNavigationTab === 'articles'">
         <span class="app-desc">{{ 'model_plural.article' | translate }}</span>
       </a>
     </li>
     <li *ngIf="bookService.internalParts.length > 0" class="tab tab-{{bookService.navigationTabsCount}}">
-      <a (click)="bookService.changeNavigationTab('internalparts')" [class.active]="bookService.activeNavigationTab === 'internalparts'">
+      <a (click)="bookService.changeNavigationTab('internalparts');analytics.sendEvent('viewer', 'navigation', 'internalparts');" [class.active]="bookService.activeNavigationTab === 'internalparts'">
         <span class="app-desc">{{ 'model_plural.internalpart' | translate }}</span>
       </a>
     </li>

@@ -43,7 +43,6 @@ import { NgModule } from '@angular/core';
 import { TranslatorModule } from 'angular-translator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { NgDatepickerModule } from './ng-datepicker/ng-datepicker.module';
 import { ClipboardModule } from 'ngx-clipboard';
 
 
@@ -112,6 +111,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { CitationService } from './services/citation.service';
 import { ShareService } from './services/share.service';
 import { AboutComponent } from './about/about.component';
+import { AnalyticsService } from './services/analytics.service';
+import { DatepickerModule } from './datepicker';
 
 @NgModule({
   declarations: [
@@ -200,7 +201,7 @@ import { AboutComponent } from './about/about.component';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    NgDatepickerModule,
+    DatepickerModule,
     Ng2CompleterModule,
     LazyLoadImageModule,
     AppRoutingModule,
@@ -254,6 +255,7 @@ import { AboutComponent } from './about/about.component';
     CookieService,
     CitationService,
     ShareService,
+    AnalyticsService,
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],

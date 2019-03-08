@@ -4,10 +4,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSlimScrollModule } from 'ngx-slimscroll';
-import { NgDatepickerComponent } from './ng-datepicker.component';
+import { DatepickerComponent } from './datepicker.component';
 
 @NgModule({
-  declarations: [ NgDatepickerComponent ],
+  declarations: [DatepickerComponent ],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,6 +18,6 @@ import { NgDatepickerComponent } from './ng-datepicker.component';
       defaultLanguage: 'cs'
     })
   ],
-  exports: [ NgDatepickerComponent, CommonModule, FormsModule, NgSlimScrollModule ]
+  exports: [ DatepickerComponent, CommonModule, FormsModule, NgSlimScrollModule ]
 })
-export class NgDatepickerModule { }
+export class DatepickerModule { }

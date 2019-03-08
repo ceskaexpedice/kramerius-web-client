@@ -15,17 +15,17 @@
           <ng-container>
             <mz-collection-item>
               <span class="app-row" [class.selected]="browseService.query.accessibility == 'public'">
-                <a (click)="browseService.setAccessibility('public')">{{'search.accessibility.public' | translate }}</a>
+                <a (click)="browseService.setAccessibility('public');analytics.sendEvent('browse', 'accessibility', 'public');">{{'search.accessibility.public' | translate }}</a>
               </span>
             </mz-collection-item>
             <mz-collection-item>
               <span class="app-row" [class.selected]="browseService.query.accessibility == 'private'">
-                <a (click)="browseService.setAccessibility('private')">{{'search.accessibility.private' | translate }}</a>
+                <a (click)="browseService.setAccessibility('private');analytics.sendEvent('browse', 'accessibility', 'private');">{{'search.accessibility.private' | translate }}</a>
               </span>
             </mz-collection-item>
             <mz-collection-item>
                 <span class="app-row" [class.selected]="browseService.query.accessibility == 'all'">
-                  <a (click)="browseService.setAccessibility('all')">{{'search.accessibility.all' | translate }}</a>
+                  <a (click)="browseService.setAccessibility('all');analytics.sendEvent('browse', 'accessibility', 'all');">{{'search.accessibility.all' | translate }}</a>
                 </span>
               </mz-collection-item>
           </ng-container>
@@ -47,7 +47,7 @@
         <ng-container>
           <mz-collection-item *ngFor="let filter of filters">
               <span class="app-row" [class.selected]="browseService.query.category == filter">
-                <a (click)="browseService.setCategory(filter)">{{'browse.category.' + filter | translate }}</a>
+                <a (click)="browseService.setCategory(filter);analytics.sendEvent('browse', 'category', filter);">{{'browse.category.' + filter | translate }}</a>
               </span>
           </mz-collection-item>
         </ng-container>

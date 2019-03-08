@@ -4,6 +4,7 @@ import { LibrarySearchService } from './../../services/library-search.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { AppState } from './../../app.state';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-navbar-search-bar',
@@ -20,6 +21,7 @@ export class NavbarSearchBarComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private state: AppState,
+    public analytics: AnalyticsService,
     private localStorageService: LocalStorageService,
     private searchService: SearchService,
     public service: LibrarySearchService) {
@@ -42,6 +44,7 @@ export class NavbarSearchBarComponent implements OnInit {
       const uuid = event['originalObject']['PID'];
       const title = event['title'];
       this.searchStr = title;
+      this.analytics.sendEvent('home', 'search-by-selection', this.searchStr);
       this.search();
     }
   }
@@ -52,6 +55,7 @@ export class NavbarSearchBarComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.keyCode === 13) {
+      this.analytics.sendEvent('search', 'search-by-return', this.searchStr);
       this.search();
     }
   }
@@ -70,6 +74,11 @@ export class NavbarSearchBarComponent implements OnInit {
       }
       this.router.navigate(['/search'], { queryParams: params });
     }
+  }
+
+  onMagnifyIconClick() {
+    this.analytics.sendEvent('search', 'search-by-icon', this.searchStr);
+    this.search();
   }
 
 }

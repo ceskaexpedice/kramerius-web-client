@@ -1,3 +1,4 @@
+import { AnalyticsService } from './../services/analytics.service';
 import { AuthService } from './../services/auth.service';
 import { AppSettings } from './../services/app-settings';
 import { LibrarySearchService } from './../services/library-search.service';
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit {
     public appSettings: AppSettings,
     private history: HistoryService,
     public service: LibrarySearchService,
+    public analytics: AnalyticsService,
     public state: AppState) {
   }
 
@@ -30,11 +32,13 @@ export class NavbarComponent implements OnInit {
   }
 
   onLanguageChanged(lang: string) {
+    this.analytics.sendEvent('navbar', 'language', lang);
     localStorage.setItem('lang', lang);
     this.translator.language = lang;
   }
 
   goBack() {
+    this.analytics.sendEvent('navbar', 'back');
     const page = this.history.pop();
     this.router.navigateByUrl(page);
   }
@@ -44,6 +48,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
+    this.analytics.sendEvent('navbar', 'logout');
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/']);
     });

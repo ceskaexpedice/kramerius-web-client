@@ -14,6 +14,7 @@ import { PageTitleService } from './page-title.service';
 import { NotFoundError } from '../common/errors/not-found-error';
 import { Router } from '@angular/router';
 import { AppSettings } from './app-settings';
+import { AnalyticsService } from './analytics.service';
 
 @Injectable()
 export class MusicService {
@@ -47,6 +48,7 @@ export class MusicService {
     private router: Router,
     private appSettings: AppSettings,
     private pageTitle: PageTitleService,
+    public analytics: AnalyticsService,
     private localStorageService: LocalStorageService,
     private krameriusApiService: KrameriusApiService) {
   }
@@ -148,6 +150,7 @@ export class MusicService {
 
 
   selectTrack(track: Track) {
+    this.analytics.sendEvent('music', 'select track', track.name);
     if (track === this.activeTrack) {
       if (this.isPlaying()) {
         this.pauseTrack();
@@ -202,6 +205,7 @@ export class MusicService {
 
 
   downloadTrack(e, track: Track) {
+    this.analytics.sendEvent('music', 'download', track.name);
     e.preventDefault();
     e.stopPropagation();
     if (track === null) {

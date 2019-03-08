@@ -6,6 +6,7 @@ import { BrowseQuery } from './../browse/browse_query.model';
 import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
+import { AnalyticsService } from './analytics.service';
 
 
 @Injectable()
@@ -26,6 +27,7 @@ export class BrowseService {
         private collectionService: CollectionService,
         private solrService: SolrService,
         private appSettings: AppSettings,
+        private analytics: AnalyticsService,
         private krameriusApiService: KrameriusApiService) {
             translator.languageChanged.subscribe(() => {
                 this.translateResults();
@@ -58,6 +60,7 @@ export class BrowseService {
     }
 
     public changeOrdering(ordering: string) {
+        this.analytics.sendEvent('browse', 'ordering', ordering);
         this.query.setOrdering(ordering);
         this.reload(false);
     }
@@ -76,17 +79,24 @@ export class BrowseService {
         return this.query.text;
     }
 
-    public setPage(page: number) {
+    public onPage(page: number) {
+        this.analytics.sendEvent('browse', 'paginator', page + '');
+        this.setPage(page);
+    }
+
+    private setPage(page: number) {
         this.query.setPage(page);
         this.reload(true);
     }
 
     public nextPage() {
+        this.analytics.sendEvent('browse', 'paginator', 'next');
         this.query.setPage(this.query.page + 1);
         this.reload(true);
     }
 
     public previousPage() {
+        this.analytics.sendEvent('browse', 'paginator', 'previous');
         this.query.setPage(this.query.page - 1);
         this.reload(true);
     }

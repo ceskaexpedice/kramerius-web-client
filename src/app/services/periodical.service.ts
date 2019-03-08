@@ -13,6 +13,7 @@ import { Metadata } from '../model/metadata.model';
 import { PageTitleService } from './page-title.service';
 import { NotFoundError } from '../common/errors/not-found-error';
 import { HistoryService } from './history.service';
+import { AnalyticsService } from './analytics.service';
 
 @Injectable()
 export class PeriodicalService {
@@ -46,6 +47,7 @@ export class PeriodicalService {
     private appSettings: AppSettings,
     private history: HistoryService,
     private pageTitle: PageTitleService,
+    private analytics: AnalyticsService,
     private modsParserService: ModsParserService,
     private localStorageService: LocalStorageService,
     private krameriusApiService: KrameriusApiService) {
@@ -57,7 +59,6 @@ export class PeriodicalService {
     this.state = PeriodicalState.Loading;
     this.krameriusApiService.getItem(query.uuid).subscribe((item: DocumentItem) => {
       this.document = item;
-      console.log('item', item);
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
         this.pageTitle.setTitle(null, this.metadata.getShortTitle());
@@ -387,28 +388,36 @@ export class PeriodicalService {
     this.reload();
   }
 
-  public setFtPage(page: number) {
-    this.query.setPage(page);
-    this.reload();
-  }
-
   public setAccessibility(accessibility: string) {
     this.query.setAccessibility(accessibility);
     this.reload();
   }
 
   public setOrdering(ordering: string) {
+    this.analytics.sendEvent('periodical', 'ordering', ordering);
     this.query.setOrdering(ordering);
     this.reload();
   }
 
 
   public nextFtPage() {
+    this.analytics.sendEvent('periodical', 'paginator', 'next');
     this.setFtPage(this.fulltext.page + 1);
   }
 
   public previousFtPage() {
+    this.analytics.sendEvent('periodical', 'paginator', 'previous');
     this.setFtPage(this.fulltext.page - 1);
+  }
+
+  public onFtPage(page: number) {
+    this.analytics.sendEvent('periodical', 'paginator', page + '');
+    this.setFtPage(page);
+  }
+
+  private setFtPage(page: number) {
+    this.query.setPage(page);
+    this.reload();
   }
 
   public getFulltextQuery() {

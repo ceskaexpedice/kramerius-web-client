@@ -1,6 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { PeriodicalService } from './../../../services/periodical.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-periodical-search',
@@ -11,6 +12,7 @@ export class PeriodicalSearchComponent implements OnInit {
   query: string;
 
   constructor(public periodicalService: PeriodicalService,
+              public analytics: AnalyticsService,
               private route: ActivatedRoute) {
   }
 
@@ -23,8 +25,14 @@ export class PeriodicalSearchComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.keyCode === 13) {
+      this.analytics.sendEvent('periodical', 'search-by-return', this.query);
       this.changeQuery();
     }
+  }
+
+  onMagnifyIconClick() {
+    this.analytics.sendEvent('periodical', 'search-by-icon', this.query);
+    this.changeQuery();
   }
 
   changeQuery() {
@@ -32,6 +40,7 @@ export class PeriodicalSearchComponent implements OnInit {
   }
 
   cleanQuery() {
+    this.analytics.sendEvent('periodical', 'cancel search');
     this.periodicalService.changeSearchQuery(null);
   }
 

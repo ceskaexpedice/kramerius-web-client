@@ -10,7 +10,7 @@
       <div class="main-calendar-days">
         <span class="day-unit" *ngFor="let day of days; let i = index;">
           <span *ngIf="!day.isActive" class="day-unit-inner" [ngClass]="{ 'previous-month': !day.inThisMonth }" >{{ day.day }}</span>
-          <a *ngIf="day.isActive" class="day-unit-inner" [routerLink]="appSettings.getRouteFor('view/' + day.uuid)">{{ day.day }}</a>
+          <a *ngIf="day.isActive" class="day-unit-inner" [routerLink]="appSettings.getRouteFor('view/' + day.uuid)" (click)="analytics.sendEvent('periodical', 'open from', 'calendar');">{{ day.day }}</a>
         </span>
       </div>
     </div>

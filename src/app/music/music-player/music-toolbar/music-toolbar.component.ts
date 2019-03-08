@@ -1,6 +1,5 @@
 import { MusicService } from './../../../services/music.service';
 import { Component, OnInit } from '@angular/core';
-import { AppState } from './../../../app.state';
 
 @Component({
   selector: 'app-music-toolbar',

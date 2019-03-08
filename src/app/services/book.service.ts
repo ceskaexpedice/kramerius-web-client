@@ -27,6 +27,7 @@ import { DomSanitizer} from '@angular/platform-browser';
 import { PageTitleService } from './page-title.service';
 import { InternalPart } from '../model/internal_part.model';
 import { Translator } from 'angular-translator';
+import { AnalyticsService } from './analytics.service';
 
 
 
@@ -80,6 +81,7 @@ export class BookService {
         private altoService: AltoService,
         private appSettings: AppSettings,
         private pageTitle: PageTitleService,
+        private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
         private modsParserService: ModsParserService,
@@ -139,6 +141,7 @@ export class BookService {
                 this.metadata = this.modsParserService.parse(response, item.root_uuid);
                 this.metadata.model = item.doctype;
                 this.metadata.donator = item.donator;
+                this.analytics.sendEvent('viewer', 'open', this.metadata.getShortTitle());
                 this.pageTitle.setTitle(null, this.metadata.getShortTitle());
                 if (item.doctype) {
                     if (item.doctype.startsWith('periodical')) {
@@ -203,10 +206,10 @@ export class BookService {
             }
             let index = -1;
             for (let i = 0; i < issues.length; i++) {
-            if (issues[i].uuid === issueUuid) {
-                index = i;
-                break;
-            }
+                if (issues[i].uuid === issueUuid) {
+                    index = i;
+                    break;
+                }
             }
             if (index < 0) {
                 return;

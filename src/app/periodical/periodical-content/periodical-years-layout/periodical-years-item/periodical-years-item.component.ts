@@ -2,6 +2,7 @@ import { PeriodicalService } from './../../../../services/periodical.service';
 import { PeriodicalItem } from './../../../../model/periodicalItem.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { AppSettings } from '../../../../services/app-settings';
+import { AnalyticsService } from '../../../../services/analytics.service';
 
 @Component({
   selector: 'app-periodical-years-item',
@@ -10,7 +11,9 @@ import { AppSettings } from '../../../../services/app-settings';
 export class PeriodicalYearsItemComponent implements OnInit {
   @Input() item: PeriodicalItem;
 
-  constructor(public periodicalService: PeriodicalService, public appSettings: AppSettings) { }
+  constructor(public periodicalService: PeriodicalService,
+              public analytics: AnalyticsService,
+              public appSettings: AppSettings) { }
 
   ngOnInit() {
   }

@@ -1,11 +1,11 @@
 import { BrowseService } from './../../services/browse.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { AppSettings } from '../../services/app-settings';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-browse-filters',
-  templateUrl: './browse-filters.component.html',
-  styleUrls: ['./browse-filters.component.scss']
+  templateUrl: './browse-filters.component.html'
 })
 export class BrowseFiltersComponent implements OnInit {
   @Input() collapsedFilter: boolean;
@@ -13,7 +13,9 @@ export class BrowseFiltersComponent implements OnInit {
   filters: string[];
   accessibilityEnabled = false;
 
-  constructor(public browseService: BrowseService, private appSettings: AppSettings) {
+  constructor(public browseService: BrowseService,
+    public analytics: AnalyticsService,
+    private appSettings: AppSettings) {
   }
 
   ngOnInit() {

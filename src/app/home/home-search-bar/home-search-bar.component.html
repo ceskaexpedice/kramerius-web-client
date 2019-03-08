@@ -6,17 +6,17 @@
         [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="'searchbar.library' | translate" [inputName]="'autocomplete-input'">
         </ng2-completer>
       </div>
-      <i mz-icon-mdi [icon]="'magnify'" (click)="search()" class="app-cursor-pointer"></i>
+      <i mz-icon-mdi [icon]="'magnify'" (click)="onMagnifyIconClick()" class="app-cursor-pointer"></i>
       <i *ngIf="searchStr" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
     </div>
     <mz-checkbox-container [class.app-hide-filter]="!appSettings.availableFilter('accessibility')">
-      <input mz-checkbox [(ngModel)]="accessibilityFilter" [label]="'navbar.checkbox_label' | translate" id="checkbox-id" type="checkbox">
+      <input mz-checkbox [(ngModel)]="accessibilityFilter" [label]="'navbar.checkbox_label' | translate" id="checkbox-id" type="checkbox" (change)="analytics.sendEvent('home', 'accessibility', accessibilityFilter + '');">
     </mz-checkbox-container> 
   </div>
 </div>
 <div class="row">
   <div class="col s12">
-    <a mz-button (click)="search()" class="app-button">
+    <a mz-button (click)="onSearchButtonClick()" class="app-button">
       <i *ngIf="!searchStr" mz-icon-mdi [icon]="'arrow-right'" [align]="'left'"></i>
       <i *ngIf="searchStr" mz-icon-mdi [icon]="'magnify'" [align]="'left'"></i>
       <span *ngIf="!searchStr">{{'home.btn_enter' | translate}}</span>

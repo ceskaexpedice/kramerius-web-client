@@ -3,6 +3,7 @@ import { Page } from './../../model/page.model';
 import { BookService } from './../../services/book.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { AnalyticsService } from '../../services/analytics.service';
 
 declare var $: any;
 
@@ -17,7 +18,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   scrollOptions = {};
   pageIndex;
 
-  constructor(public bookService: BookService) {
+  constructor(public bookService: BookService, public analytics: AnalyticsService) {
 
   }
 
