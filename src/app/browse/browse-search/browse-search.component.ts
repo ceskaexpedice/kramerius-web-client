@@ -26,14 +26,14 @@ export class BrowseSearchComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.keyCode === 13) {
-      this.analytics.sendEvent('browse', 'search-by-return', this.query);
+      this.analytics.sendEvent('search phrase', 'browse-by-return', this.query);
       this.onBrowseQueryChanged();
     }
     event.stopPropagation();
   }
 
   onMagnifyIconClick() {
-    this.analytics.sendEvent('browse', 'search-by-icon', this.query);
+    this.analytics.sendEvent('search phrase', 'browse-by-icon', this.query);
     this.onBrowseQueryChanged();
   }
 

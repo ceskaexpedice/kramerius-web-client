@@ -34,7 +34,7 @@ export class HomeSearchBarComponent implements OnInit {
     if (event) {
       const title = event['title'];
       this.searchStr = title;
-      this.analytics.sendEvent('home', 'search-by-selection', this.searchStr);
+      this.analytics.sendEvent('search phrase', 'home-by-selection', this.searchStr);
       this.search();
     }
   }
@@ -45,19 +45,19 @@ export class HomeSearchBarComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.keyCode === 13) {
-      this.analytics.sendEvent('home', 'search-by-return', this.searchStr);
+      this.analytics.sendEvent('search phrase', 'home-by-return', this.searchStr);
       this.search();
     }
   }
 
   onMagnifyIconClick() {
-    this.analytics.sendEvent('home', 'search-by-icon', this.searchStr);
+    this.analytics.sendEvent('search phrase', 'home-by-icon', this.searchStr);
     this.search();
   }
 
   onSearchButtonClick() {
     if (this.searchStr) {
-      this.analytics.sendEvent('home', 'search-by-button', this.searchStr);
+      this.analytics.sendEvent('search phrase', 'home-by-button', this.searchStr);
     } else {
       this.analytics.sendEvent('home', 'enter');
     }

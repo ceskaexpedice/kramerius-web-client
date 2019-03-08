@@ -25,13 +25,13 @@ export class PeriodicalSearchComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.keyCode === 13) {
-      this.analytics.sendEvent('periodical', 'search-by-return', this.query);
+      this.analytics.sendEvent('search phrase', 'periodical-by-return', this.query);
       this.changeQuery();
     }
   }
 
   onMagnifyIconClick() {
-    this.analytics.sendEvent('periodical', 'search-by-icon', this.query);
+    this.analytics.sendEvent('search phrase', 'periodical-by-icon', this.query);
     this.changeQuery();
   }
 

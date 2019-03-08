@@ -44,7 +44,7 @@ export class NavbarSearchBarComponent implements OnInit {
       const uuid = event['originalObject']['PID'];
       const title = event['title'];
       this.searchStr = title;
-      this.analytics.sendEvent('navbar', 'search-by-selection', this.searchStr);
+      this.analytics.sendEvent('search phrase', 'navbar-by-selection', this.searchStr);
       this.search();
     }
   }
@@ -55,7 +55,7 @@ export class NavbarSearchBarComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.keyCode === 13) {
-      this.analytics.sendEvent('navbar', 'search-by-return', this.searchStr);
+      this.analytics.sendEvent('search phrase', 'navbar-by-return', this.searchStr);
       this.search();
     }
   }
@@ -77,7 +77,7 @@ export class NavbarSearchBarComponent implements OnInit {
   }
 
   onMagnifyIconClick() {
-    this.analytics.sendEvent('navbar', 'search-by-icon', this.searchStr);
+    this.analytics.sendEvent('search phrase', 'navbar-by-icon', this.searchStr);
     this.search();
   }
 
