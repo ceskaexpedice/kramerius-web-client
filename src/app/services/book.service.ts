@@ -388,6 +388,7 @@ export class BookService {
         let currentPage = 0;
         this.activeMobilePanel = 'viewer';
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
+        const spines: Page[] = [];
         for (const p of pages) {
             if (p['model'] === 'monographunit') {
                 this.history.removeCurrent();
@@ -403,9 +404,6 @@ export class BookService {
             } else if (p['model'] === 'page') {
                 const page = new Page();
                 page.uuid = p['pid'];
-                if (uuid === page.uuid) {
-                    currentPage = index;
-                }
                 page.policy = p['policy'];
                 const details = p['details'];
                 if (details) {
@@ -420,9 +418,16 @@ export class BookService {
                 if (!page.number) {
                     page.number = p['title'];
                 }
-                page.index = index;
                 page.thumb = this.krameriusApiService.getThumbUrl(page.uuid);
-
+                page.position = PagePosition.Single;
+                if (page.type === 'spine') {
+                    spines.push(page);
+                    continue;
+                }
+                page.index = index;
+                if (uuid === page.uuid) {
+                    currentPage = index;
+                }
                 if ((page.type === 'backcover' || p['is_supplement']) && firstBackSingle === -1) {
                     firstBackSingle = index;
                 } else if (page.type === 'titlepage') {
@@ -434,11 +439,22 @@ export class BookService {
                             || page.type === 'spine')) {
                     lastSingle = index;
                 }
-                page.position = PagePosition.Single;
                 this.pages.push(page);
                 this.allPages.push(page);
                 index += 1;
             }
+        }
+        for (const page of spines) {
+            if (firstBackSingle === -1) {
+                firstBackSingle = index;
+            }
+            page.index = index;
+            if (uuid === page.uuid) {
+                currentPage = index;
+            }
+            this.pages.push(page);
+            this.allPages.push(page);
+            index += 1;
         }
         const bounds = this.computeDoublePageBounds(this.pages.length, titlePage, lastSingle, firstBackSingle);
         if (bounds !== null) {
