@@ -240,7 +240,10 @@ export class KrameriusApiService {
         if (query.isYearRangeSet()) {
             url += ' AND (rok:[' + query.from + ' TO ' + query.to + '])';
         }
-        url += ' AND (fedora.model:article || fedora.model:monographunit || fedora.model:page) AND text:' + query.fulltext;
+        const text = query.fulltext.toLowerCase().trim()
+                        .replace(/"/g, '\\"').replace(/~/g, '\\~')
+                        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
+        url += ' AND (fedora.model:article || fedora.model:monographunit || fedora.model:page) AND text:' + text;
         if (query.ordering === 'latest') {
             url += '&sort=datum desc, datum_str desc';
         } else if (query.ordering === 'earliest') {
