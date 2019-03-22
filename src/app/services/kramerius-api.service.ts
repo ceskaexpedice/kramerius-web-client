@@ -166,13 +166,14 @@ export class KrameriusApiService {
     }
 
     getFulltextUuidList(uuid, query) {
+        const text = query.toLowerCase().trim()
+        .replace(/"/g, '\\"').replace(/~/g, '\\~')
+        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
         const url = this.getApiUrl() + '/search/?fl=PID&q=parent_pid:"'
             + uuid + '"'
             + ' AND fedora.model:page'
             + ' AND text:'
-            + query
-            // + ' AND _query_:"{!edismax qf=\'text_ocr\' v=$q1}"'
-            // + '&q1=' + query
+            + text
             + '&rows=200';
         return this.doGet(url)
             .map(response => this.solrService.uuidList(response))

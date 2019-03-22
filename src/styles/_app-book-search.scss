@@ -16,8 +16,8 @@ app-book-search {
         @extend .app-clean-mg;
         border-bottom-color: transparent;
         padding-left: 30px;
-        width: calc(100% - 30px);
-        
+        padding-right: 30px;
+        width: calc(100% - 60px);
         &::placeholder {
           color: $app-grey;
         }
