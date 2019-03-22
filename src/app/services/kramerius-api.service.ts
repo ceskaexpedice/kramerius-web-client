@@ -341,9 +341,10 @@ export class KrameriusApiService {
             + '&pagesize=A4&imgop=FULL';
     }
 
-    downloadPdf(uuids: string[]) {
+    downloadPdf(uuids: string[], language: string = 'cs') {
         const url = this.getApiUrl() + '/pdf/selection'
-                + '?pids=' + uuids.join(',');
+                + '?pids=' + uuids.join(',')
+                + '&language=' + language;
         return this.doGetBlob(url);
     }
 

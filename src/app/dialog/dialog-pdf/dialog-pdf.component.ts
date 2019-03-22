@@ -2,6 +2,7 @@ import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MzBaseModal, MzModalComponent } from 'ngx-materialize';
 import { saveAs } from 'file-saver';
+import { Translator } from 'angular-translator';
 
 @Component({
   selector: 'app-dialog-pdf',
@@ -23,7 +24,7 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
   inProgress = false;
   downloadError: boolean;
 
-  constructor(private krameriusApi: KrameriusApiService) {
+  constructor(private krameriusApi: KrameriusApiService, private translator: Translator) {
     super();
   }
 
@@ -81,9 +82,10 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
   }
 
   generatePdf(uuids: string[]) {
+    const language = this.translator.language === 'cs' ? 'cs' : 'en';
     this.inProgress = true;
     this.downloadError = false;
-    this.krameriusApi.downloadPdf(uuids).subscribe(
+    this.krameriusApi.downloadPdf(uuids, language).subscribe(
       blob => {
         saveAs(blob, this.name + '.pdf');
         this.inProgress = false;
