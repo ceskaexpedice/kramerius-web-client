@@ -134,6 +134,7 @@ export class ModsParserService {
             const author = new Author();
             let given;
             let family;
+            let termsOfAddress;
             if (!item.namePart) {
                 continue;
             }
@@ -142,24 +143,35 @@ export class ModsParserService {
                     const type = partName['$']['type'];
                     if (type === 'given') {
                         given = partName['_'];
-                    }
-                    if (type === 'family') {
+                    } else if (type === 'family') {
                         family = partName['_'];
-                    }
-                    if (type === 'date') {
+                    } else if (type === 'termsOfAddress') {
+                        termsOfAddress = partName['_'];
+                    } else if (type === 'date') {
                         author.date = partName['_'];
                     }
                 } else {
                     author.name = partName['_'];
                 }
             }
+            let name = '';
             if (family) {
-                author.name = family;
-                if (given) {
-                    author.name = author.name + ', ' + given;
+                name = family;
+            }
+            if (given) {
+                if (name !== '') {
+                    name += ', ';
                 }
-            } else if (given) {
-                author.name = given;
+                name += given;
+            }
+            if (name !== '') {
+                author.name = name;
+            }
+            if (termsOfAddress) {
+                if (author.name !== '') {
+                    author.name += ' ';
+                }
+                author.name += termsOfAddress;
             }
             if (item.role) {
                 for (const role of item.role) {
