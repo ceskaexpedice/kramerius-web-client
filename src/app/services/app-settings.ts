@@ -12,6 +12,7 @@ export class AppSettings {
 
   public title: string;
   public logo: string;
+  public logoHome: string;
   public url: string;
   public code: string;
   public richCollections: boolean;
@@ -73,6 +74,7 @@ export class AppSettings {
     this.title = kramerius.title;
     this.url = kramerius.url;
     this.logo = kramerius.logo;
+    this.logoHome = kramerius.logoHome || this.logo;
     this.richCollections = kramerius.richCollections;
     this.joinedDoctypes = kramerius.joinedDoctypes;
     this.doctypes = kramerius.doctypes;
@@ -121,6 +123,7 @@ interface KrameriusData {
   code: string;
   title: string;
   logo: string;
+  logoHome: string;
   url: string;
   richCollections: boolean;
   joinedDoctypes: boolean;

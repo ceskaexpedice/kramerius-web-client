@@ -1,6 +1,6 @@
 <div class="brand-logo" [class.app-logo-big]="appSettings.bigHomeLogo" *ngIf="!appSettings.multiKramerius">
   <span class="app-brand-img app-brand-top">
-    <img src="{{ appSettings.logo }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
+    <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
   </span>
   <span class="app-brand-text app-brand-top app-single-kramerius">{{ appSettings.title }}</span>
 </div>
@@ -9,7 +9,7 @@
   <div id="app-logo-dropdown-selector" mz-tooltip [tooltip]="'home.select_library' | translate" [position]="'top'">
     <span>
       <span class="app-brand-img app-brand-top">
-        <img src="{{ appSettings.logo }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
+        <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
       </span>
       <span class="app-brand-text app-brand-top">{{ appSettings.title }}</span>
       <i mz-icon-mdi [icon]="'chevron-down'" class="app-clean-mg app-brand-handle"></i>
