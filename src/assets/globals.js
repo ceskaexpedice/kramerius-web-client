@@ -379,6 +379,18 @@ var APP_GLOBAL = {
       iiif: false,
       doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
+    },
+    {
+      title: 'Vysoká škola uměleckoprůmyslová v Praze',
+      code: 'vsup',
+      logo: 'https://registr.digitalniknihovna.cz/libraries/vsup/logo',
+      url: 'https://kramerius.vsup.cz',
+      richCollections: false,
+      joinedDoctypes: false,
+      lemmatization: false,
+      iiif: false,
+      doctypes: ['monograph', 'periodical', 'map', 'graphic', 'archive', 'manuscript', 'soundrecording', 'sheetmusic'],
+      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
     }
   ]
 
