@@ -178,8 +178,10 @@ export class MusicService {
     const url = this.krameriusApiService.getMp3Url(this.activeTrack.uuid);
     if (this.audio) {
       this.audio.setAttribute('src', url);
+      this.audio.load();
     } else {
       this.audio = new Audio(url);
+      this.audio.load();
     }
     this.audio.ontimeupdate = () => {
       this.trackPosition = Math.round(this.audio.currentTime);
