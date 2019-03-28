@@ -32,7 +32,7 @@ export class SearchQuery {
     public static fromParams(params, filters: string[]): SearchQuery {
         const query = new SearchQuery(filters);
         query.query = params['q'];
-        query.setOrdering(params['ordering']);
+        query.setOrdering(params['sort']);
         query.setPage(params['page']);
         query.setFiled(query.keywords, 'keywords', params);
         query.setFiled(query.doctypes, 'doctypes', params);
@@ -264,7 +264,7 @@ export class SearchQuery {
             params['q'] = this.query;
         }
         if (this.ordering) {
-            params['ordering'] = this.ordering;
+            params['sort'] = this.ordering;
         }
         if (this.keywords.length > 0) {
             params['keywords'] = this.keywords.join(',,');

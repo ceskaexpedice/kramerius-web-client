@@ -19,7 +19,7 @@ export class PeriodicalQuery {
         query.setAccessibility(params.get('accessibility'));
         query.setFulltext(params.get('fulltext'));
         query.setYearRange(params.get('from'), params.get('to'));
-        query.setOrdering(params.get('ordering'));
+        query.setOrdering(params.get('sort'));
         query.setPage(params.get('page'));
         return query;
     }
@@ -94,7 +94,7 @@ export class PeriodicalQuery {
             params['accessibility'] = this.accessibility;
         }
         if (this.ordering === 'latest' || this.ordering === 'earliest') {
-            params['ordering'] = this.ordering;
+            params['sort'] = this.ordering;
         }
         return params;
     }
