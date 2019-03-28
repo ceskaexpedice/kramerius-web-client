@@ -1,3 +1,4 @@
+import { Utils } from './utils.service';
 import { AppSettings } from './app-settings';
 import { PeriodicalQuery } from './../periodical/periodical_query.model';
 import { Router } from '@angular/router';
@@ -43,6 +44,7 @@ export class PeriodicalService {
   orderingType = 'none'; // none | periodical | fulltext
 
   constructor(private solrService: SolrService,
+    private utilsService: Utils,
     private router: Router,
     private appSettings: AppSettings,
     private history: HistoryService,
@@ -71,8 +73,8 @@ export class PeriodicalService {
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.krameriusApiService.getMonographUnits(query.uuid, query).subscribe(units => {
-              this.assignItems(this.solrService.periodicalItems(units, 'monographunit'));
+            this.krameriusApiService.getChildren(query.uuid).subscribe(children => {
+              this.assignItems(this.utilsService.parseMonographBundleChildren(children, query.accessibility));
               this.initMonographUnit();
             });
           }

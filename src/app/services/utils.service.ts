@@ -1,6 +1,7 @@
 import { AppSettings } from './app-settings';
 import { DocumentItem, Context } from './../model/document_item.model';
 import { Injectable } from '@angular/core';
+import { PeriodicalItem } from '../model/periodicalItem.model';
 
 
 @Injectable()
@@ -27,6 +28,7 @@ export class Utils {
         }
         return items;
     }
+
 
     parseItem(json): DocumentItem {
         const item = new DocumentItem();
@@ -55,5 +57,25 @@ export class Utils {
         item.resolveUrl(this.appSettings.getPathPrefix());
         return item;
     }
+
+    parseMonographBundleChildren(jsonArray, accessibility: string): PeriodicalItem[] {
+        const items: PeriodicalItem[] = [];
+        for (const json of jsonArray) {
+            if (accessibility === 'all' || accessibility === json['policy']) {
+                const item = new PeriodicalItem();
+                item.uuid = json['pid'];
+                item.public = json['policy'] === 'public';
+                item.doctype = json['model'];
+                item.uuid = json['pid'];
+                if (json['details']) {
+                    item.title = json['details']['title'];
+                    item.subtitle = json['details']['partNumber'];
+                }
+                items.push(item);
+            }
+        }
+        return items;
+    }
+
 
 }
