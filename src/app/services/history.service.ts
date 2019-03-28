@@ -48,11 +48,20 @@ export class HistoryService {
       const searchPath = this.appSettings.getRouteFor('search');
       const browsePath = this.appSettings.getRouteFor('browse');
       if ((last.startsWith(searchPath) && page.startsWith(searchPath)) ||
-           last.startsWith(browsePath) && page.startsWith(browsePath)) {
+           (last.startsWith(browsePath) && page.startsWith(browsePath)) ||
+           this.getPath(last) === this.getPath(page)) {
         this.removeCurrent();
       }
     }
     this.pages.push(page);
   }
+
+  private getPath(page: string): string {
+    if (page.indexOf('?') > -1) {
+      return page.substring(0, page.indexOf('?'));
+    }
+    return page;
+  }
+
 
 }
