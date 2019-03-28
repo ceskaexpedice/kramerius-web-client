@@ -2,8 +2,9 @@ import { AppSettings } from './../../services/app-settings';
 import { LocalStorageService } from './../../services/local-storage.service';
 import { LibrarySearchService } from './../../services/library-search.service';
 import { Router } from '@angular/router';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
+import { CompleterCmp } from 'ng2-completer';
 
 @Component({
   selector: 'app-home-search-bar',
@@ -17,6 +18,8 @@ export class HomeSearchBarComponent implements OnInit {
 
   searchStr: string;
 
+  @ViewChild('completer') completer: CompleterCmp;
+
   constructor(
     public router: Router,
     public appSettings: AppSettings,
@@ -28,6 +31,7 @@ export class HomeSearchBarComponent implements OnInit {
   ngOnInit() {
     this.accessibilityFilter = this.localStorageService.publicFilterChecked();
     this.searchStr = '';
+    this.completer.fillHighlighted = false;
   }
 
   onSelected(event) {

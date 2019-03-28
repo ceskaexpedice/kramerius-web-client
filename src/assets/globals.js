@@ -7,7 +7,7 @@ var APP_GLOBAL = {
   defaultPeriodicalIssuesLayout: "calendar", // grid | calendar
   publicFilterDefault: false,
   dnnt: false,
-  bigHomeLogo: true,
+  bigHomeLogo: false,
   aboutPage: {
     cs: '/assets/pages/about.cs.html',
     en: '/assets/pages/about.cs.html',
@@ -17,7 +17,7 @@ var APP_GLOBAL = {
       title: 'Moravská zemská knihovna',
       code: 'mzk',
       logo: 'https://registr.digitalniknihovna.cz/libraries/mzk/logo',
-      logoHome: 'https://registr.digitalniknihovna.cz/libraries/nkp/logo',
+      logoHome: 'https://registr.digitalniknihovna.cz/libraries/mzk/logo',
       url: 'https://kramerius.mzk.cz',
       richCollections: true,
       joinedDoctypes: true,

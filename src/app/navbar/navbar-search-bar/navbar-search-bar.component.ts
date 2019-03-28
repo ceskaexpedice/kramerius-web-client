@@ -2,9 +2,10 @@ import { LocalStorageService } from './../../services/local-storage.service';
 import { SearchService } from './../../services/search.service';
 import { LibrarySearchService } from './../../services/library-search.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AppState } from './../../app.state';
 import { AnalyticsService } from '../../services/analytics.service';
+import { CompleterCmp } from 'ng2-completer';
 
 @Component({
   selector: 'app-navbar-search-bar',
@@ -16,6 +17,8 @@ export class NavbarSearchBarComponent implements OnInit {
   @Input() input;
 
   searchStr: string;
+
+  @ViewChild('completer') completer: CompleterCmp;
 
   constructor(
     public router: Router,
@@ -37,6 +40,7 @@ export class NavbarSearchBarComponent implements OnInit {
         this.searchStr = '';
       }
     });
+    this.completer.fillHighlighted = false;
   }
 
   onSelected(event) {
