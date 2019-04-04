@@ -23,8 +23,6 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
     let baseUrl = '';
     if (site === 'facebook') {
       baseUrl = 'https://www.facebook.com/sharer/sharer.php?u=';
-    } else if (site === 'gplus') {
-      baseUrl = 'https://plus.google.com/share?url=';
     } else if (site === 'twitter') {
       baseUrl = 'https://www.twitter.com/intent/tweet?url=';
     } else {
