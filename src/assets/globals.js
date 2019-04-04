@@ -17,7 +17,6 @@ var APP_GLOBAL = {
       title: 'Moravská zemská knihovna',
       code: 'mzk',
       logo: 'https://registr.digitalniknihovna.cz/libraries/mzk/logo',
-      logoHome: 'https://registr.digitalniknihovna.cz/libraries/mzk/logo',
       url: 'https://kramerius.mzk.cz',
       richCollections: true,
       joinedDoctypes: true,
