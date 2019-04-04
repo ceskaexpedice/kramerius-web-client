@@ -66,7 +66,10 @@ app-home-logo {
           margin-top: -20px; 
         }
         img {
-          height: 200px;
+          height: 160px;
+          @media #{$medium-and-down} {
+            height: 120px;
+          }
         }
       }
       .app-brand-top.app-brand-text.app-single-kramerius {
