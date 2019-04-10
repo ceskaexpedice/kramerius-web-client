@@ -32,6 +32,7 @@ export class AppSettings {
   public dnntEnabled = APP_GLOBAL.dnnt;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public aboutPage = APP_GLOBAL.aboutPage;
+  public footer = APP_GLOBAL.footer;
   public krameriusList: KrameriusData[];
 
   constructor(private collectionsService: CollectionService) {

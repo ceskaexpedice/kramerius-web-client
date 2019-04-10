@@ -113,6 +113,7 @@ import { ShareService } from './services/share.service';
 import { AboutComponent } from './about/about.component';
 import { AnalyticsService } from './services/analytics.service';
 import { DatepickerModule } from './datepicker';
+import { HomeFooterComponent } from './home/home-footer/home-footer.component';
 
 @NgModule({
   declarations: [
@@ -185,7 +186,8 @@ import { DatepickerModule } from './datepicker';
     RemovePrefixPipe,
     UpcasePipe,
     LoginComponent,
-    AboutComponent
+    AboutComponent,
+    HomeFooterComponent
   ],
   entryComponents: [
     DialogOcrComponent,
