@@ -3,6 +3,24 @@
 <head>
   <meta charset="utf-8">
   <title>Kramerius</title>
+  <style type="text/css">
+    .app-loading .loader {
+      border: 4px solid #f1f1f1;
+      border-radius: 50%;
+      border-top: 4px solid #3177b7;
+      width: 50px;
+      height: 50px;
+      margin: auto;
+      position: absolute;
+      top: calc(50% - 25px);
+      left: calc(50% - 25px);
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
   <base href="/">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/shared/img/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/shared/img/favicon-96x96.png">
@@ -12,7 +30,11 @@
 </head>
 <body>
   <script type="text/javascript" src="assets/shared/globals.js?v1.2.6"></script>
-  <app-root>...</app-root>
+  <app-root>
+    <div class="app-loading">
+      <div class="loader"></div>
+    </div>
+  </app-root>
   <script>
     (function(i, s, o, g, r, a, m) {
       i['GoogleAnalyticsObject'] = r;
