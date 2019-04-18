@@ -114,6 +114,7 @@ import { AboutComponent } from './about/about.component';
 import { AnalyticsService } from './services/analytics.service';
 import { DatepickerModule } from './datepicker';
 import { HomeFooterComponent } from './home/home-footer/home-footer.component';
+import { KrameriusInfoService } from './services/kramerius-info.service';
 
 @NgModule({
   declarations: [
@@ -258,6 +259,7 @@ import { HomeFooterComponent } from './home/home-footer/home-footer.component';
     CitationService,
     ShareService,
     AnalyticsService,
+    KrameriusInfoService,
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],

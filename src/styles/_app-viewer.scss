@@ -7,6 +7,7 @@ app-viewer {
   .app-viewer-wrapper {
     width: 100%;
     height: 100%;
+    overflow: hidden;
     background-color: $app-grey-l-4;    
     position: relative;
 

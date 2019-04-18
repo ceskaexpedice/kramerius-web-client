@@ -37,30 +37,41 @@
         <i class="app-mdi-menu-left"></i>
   </span>
 
-  <app-alert *ngIf="!bookService.dnntFlag && bookService.isPageInaccessible()"
-             type="warning"
-             title="alert.warning"
-             message="alert.inaccessible_document"
-             description="alert.inaccessible_document_description">
-  </app-alert>
+  
+  <ng-container *ngIf="bookService.isPageInaccessible()">
+      <ng-container *ngIf="!bookService.dnntFlag">
+            <app-alert *ngIf="!appSettings.customRightMessage"
+                  type="warning"
+                  label="alert.warning"
+                  message="alert.inaccessible_document"
+                  description="alert.inaccessible_document_description">
+            </app-alert>
+            <app-alert *ngIf="appSettings.customRightMessage"
+                  type="warning"
+                  label="alert.warning"
+                  message="alert.inaccessible_document"
+                  [html]="(krameriusInfo.data$ | async).rightMsg">
+            </app-alert>
+      </ng-container>
+      <app-alert *ngIf="bookService.dnntFlag"
+            type="warning"
+            label="alert.warning"
+            message="alert.inaccessible_document_dnnt"
+            description="alert.inaccessible_document_dnnt_description">
+      </app-alert>
+  </ng-container>
 
-  <app-alert *ngIf="bookService.dnntFlag && bookService.isPageInaccessible()"
-      type="warning"
-      title="alert.warning"
-      message="alert.inaccessible_document_dnnt"
-      description="alert.inaccessible_document_dnnt_description">
-  </app-alert>
 
   <app-alert *ngIf="bookService.isPageFailure()"
               type="danger"
-              title="alert.error"
+              label="alert.error"
               message="alert.failed_to_load_image">
   </app-alert>
 
 
   <app-alert *ngIf="bookService.noFulltextResults()"
              type="warning"
-             title="alert.warning"
+             label="alert.warning"
              message="alert.book_no_results">
   </app-alert>
 

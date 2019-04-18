@@ -6,9 +6,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AlertComponent implements OnInit {
   @Input() type;
-  @Input() title;
+  @Input() label;
   @Input() message;
   @Input() description;
+  @Input() html;
 
   constructor() { }
 

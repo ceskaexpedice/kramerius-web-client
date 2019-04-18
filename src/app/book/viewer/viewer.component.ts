@@ -1,3 +1,4 @@
+import { AppSettings } from './../../services/app-settings';
 import { ViewerControlsService, ViewerActions } from './../../services/viewre-controls.service.';
 import { Page, PageImageType } from './../../model/page.model';
 import { BookService } from './../../services/book.service';
@@ -5,6 +6,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { interval } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { KrameriusApiService } from '../../services/kramerius-api.service';
+import { KrameriusInfoService } from '../../services/kramerius-info.service';
 
 declare var ol: any;
 
@@ -64,6 +67,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   constructor(public bookService: BookService,
               public authService: AuthService,
+              public appSettings: AppSettings,
+              public krameriusInfo: KrameriusInfoService,
               public controlsService: ViewerControlsService) {
     this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
         this.onActionPerformed(action);

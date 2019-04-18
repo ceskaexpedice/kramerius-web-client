@@ -1,11 +1,16 @@
+import { KrameriusInfoService } from './kramerius-info.service';
 import { CollectionService } from './collection.service';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 declare var APP_GLOBAL: any;
 
 @Injectable()
-
 export class AppSettings {
+
+  private listner = new Subject<KrameriusData>();
+  kramerius$ = this.listner.asObservable();
+
 
   public multiKramerius: boolean;
   public currentCode: string;
@@ -33,6 +38,7 @@ export class AppSettings {
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public aboutPage = APP_GLOBAL.aboutPage;
   public footer = APP_GLOBAL.footer;
+  public customRightMessage = APP_GLOBAL.customRightMessage;
   public krameriusList: KrameriusData[];
 
   constructor(private collectionsService: CollectionService) {
@@ -83,7 +89,10 @@ export class AppSettings {
     this.lemmatization = kramerius.lemmatization;
     this.iiifEnabled = kramerius.iiif;
     this.k3 = kramerius.k3;
+    this.customRightMessage = kramerius.customRightMessage;
     this.currentCode = this.code;
+    // this.krameriusInfoService.reload();
+    this.listner.next(kramerius);
   }
 
   public getLogoByCode(code: string): string {
@@ -133,4 +142,5 @@ interface KrameriusData {
   lemmatization: boolean;
   iiif: boolean;
   k3: string;
+  customRightMessage: boolean;
 }
