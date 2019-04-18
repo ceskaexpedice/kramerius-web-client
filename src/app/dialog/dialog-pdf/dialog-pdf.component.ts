@@ -13,28 +13,45 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
   @Input() pageCount: number;
   @Input() currentPage: number;
   @Input() doublePage: boolean;
-  @Input() maxPageCount: number;
   @Input() uuids: string[];
   @Input() type: string;
   @Input() name: string;
 
+  maxPageCount: number;
+
   pageFrom: number;
   pageTo: number;
 
-  inProgress = false;
+  inProgress: boolean;
+  showWarningMessage: boolean;
   downloadError: boolean;
+
 
   constructor(private krameriusApi: KrameriusApiService, private translator: Translator) {
     super();
   }
 
   ngOnInit(): void {
+    this.inProgress = true;
+    this.showWarningMessage = false;
     this.pageFrom = this.currentPage + 1;
     this.pageTo = this.pageFrom;
     this.downloadError = false;
     if (this.doublePage) {
       this.pageTo += 1;
     }
+    this.krameriusApi.getKrameriusInfo(this.getLanguage()).subscribe(
+      info => {
+        console.log('info', info);
+        this.maxPageCount = info.pdfMaxRange;
+        this.inProgress = false;
+      },
+      error => {
+        console.log('error while getting info');
+        this.maxPageCount = 30;
+        this.inProgress = false;
+      }
+    );
   }
 
   onFromValueChanged() {
@@ -82,17 +99,19 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
   }
 
   generatePdf(uuids: string[]) {
-    const language = this.translator.language === 'cs' ? 'cs' : 'en';
+    this.showWarningMessage = true;
     this.inProgress = true;
     this.downloadError = false;
-    this.krameriusApi.downloadPdf(uuids, language).subscribe(
+    this.krameriusApi.downloadPdf(uuids, this.getLanguage()).subscribe(
       blob => {
         saveAs(blob, this.name + '.pdf');
         this.inProgress = false;
+        this.showWarningMessage = false;
         this.modal.closeModal();
       },
       error => {
         this.downloadError = true;
+        this.showWarningMessage = false;
         this.inProgress = false;
       }
     );
@@ -103,5 +122,10 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
     this.modal.closeModal();
   }
 
+
+
+  private getLanguage(): string {
+    return this.translator.language === 'cs' ? 'cs' : 'en';
+  }
 
 }

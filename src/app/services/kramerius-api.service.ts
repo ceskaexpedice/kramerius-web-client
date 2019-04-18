@@ -1,3 +1,4 @@
+import { KrameriusInfo } from './../model/krameriusInfo.model';
 import { PeriodicalQuery } from './../periodical/periodical_query.model';
 import { BrowseQuery } from './../browse/browse_query.model';
 import { SolrService } from './solr.service';
@@ -191,6 +192,13 @@ export class KrameriusApiService {
         const url = this.getApiUrl() + '/vc';
         return this.doGet(url)
             .map(response => response)
+            .catch(this.handleError);
+    }
+
+    getKrameriusInfo(language: string): Observable<KrameriusInfo> {
+        const url = this.getApiUrl() + '/info?language=' + language;
+        return this.doGet(url)
+            .map(response => KrameriusInfo.fromJson(response))
             .catch(this.handleError);
     }
 

@@ -721,7 +721,6 @@ export class BookService {
                 pageCount: this.getPageCount(),
                 currentPage: this.getPage().index,
                 doublePage: this.doublePage,
-                maxPageCount: 150,
                 uuids: this.uuids(),
                 type: type,
                 name: this.metadata.getShortTitle()
