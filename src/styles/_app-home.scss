@@ -45,7 +45,7 @@
 
 
 .app-featured {
-  margin-top: 80px;
+  margin-top: 60px;
   
   .tabs {
     @extend .clearfix;
@@ -83,6 +83,10 @@
   @media #{$medium-and-down} {
     margin-top: 30px;
   }
+}
+
+app-paginator .pagination {
+  margin-top: -10px;
 }
 
 .app-footer {

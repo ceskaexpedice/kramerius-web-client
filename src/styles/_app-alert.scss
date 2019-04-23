@@ -1,10 +1,6 @@
 // --- ALERTS ---
 
 app-alert {
-  .row {
-    // overflow: auto;
-    // height: 100%;
-  }
  .alert {   
     @extend .text-darken-4, .z-depth-0;
     margin-bottom: 0;
