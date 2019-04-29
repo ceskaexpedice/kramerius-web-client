@@ -41,10 +41,11 @@ app-alert {
     }
     .app-html {
       padding: 10px 20px;
-      color: #222;
       overflow: auto;
       text-align: left;
       color: #444;
+      margin: 10px auto 0;
+      max-width: 800px;
       h1,h2,h3,h4,h5 {
         line-height: 120%;
         color: #444;
