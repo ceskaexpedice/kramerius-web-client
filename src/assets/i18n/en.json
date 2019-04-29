@@ -304,6 +304,9 @@
     },
     "private_document_jpeg": {
       "message": "The page is not publically accessible."
+    },
+    "missing_alto": {
+      "message": "The selected region cannot be converted to text because the structured text transcription is missing for the page."
     }
   },
   "model" : {

@@ -567,15 +567,27 @@ export class BookService {
 
     showTextSelection(extent, width: number, height: number, right: boolean) {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
-        this.krameriusApiService.getAlto(uuid).subscribe(result => {
-            const text = this.altoService.getTextInBox(result, extent, width, height);
-            const citation = this.citationService.generateCitation(this.metadata, CitationService.LEVEL_PAGE);
-            const options = {
-                ocr: text,
-                citation: citation
-            };
-            this.modalService.open(DialogOcrComponent, options);
-        });
+        this.krameriusApiService.getAlto(uuid).subscribe(
+            result => {
+                const text = this.altoService.getTextInBox(result, extent, width, height);
+                const citation = this.citationService.generateCitation(this.metadata, CitationService.LEVEL_PAGE);
+                const options = {
+                    ocr: text,
+                    citation: citation
+                };
+                this.modalService.open(DialogOcrComponent, options);
+            },
+            error => {
+                if (error instanceof NotFoundError) {
+                    console.log('not found error', error);
+                    this.modalService.open(SimpleDialogComponent, {
+                        title: 'common.warning',
+                        message: 'dialogs.missing_alto.message',
+                        button: 'common.close'
+                    });
+                }
+            }
+        );
     }
 
     showImageCrop(extent, right: boolean) {

@@ -300,6 +300,9 @@
     },
     "private_document_jpeg": {
       "message": "Stránka není veřejně dostupná."
+    },
+    "missing_alto": {
+      "message": "Vybranou oblast nelze převést na text, protože ke stránce není dostupný strukturovaný textový přepis."
     }
   },
   "model" : {
