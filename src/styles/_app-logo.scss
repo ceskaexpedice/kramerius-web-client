@@ -25,7 +25,7 @@ app-logo {
     .app-brand-text {
       display: table-cell;
       vertical-align: middle;
-      padding: 0 10px;
+      padding: 0 8px;
       font-size: 0.9rem;
       line-height: 1.1rem;
       color: $app-grey;
@@ -34,7 +34,7 @@ app-logo {
     // only for navbar
     .app-pipe {
       app-navbar & {
-        padding-left: 13px;
+        padding-left: 10px;
         @include set-border(left, 1, solid, $app-grey-l-2); 
         
         /* if arrow left is hidden
