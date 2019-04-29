@@ -66,9 +66,9 @@ app-home-logo {
           margin-top: -20px; 
         }
         img {
-          height: 160px;
+          height: 142px;
           @media #{$medium-and-down} {
-            height: 120px;
+            height: 110px;
           }
         }
       }
@@ -76,6 +76,9 @@ app-home-logo {
         display: block; 
         margin-bottom: 10px;
         padding: 0;
+        &.app-brand-text-hide {
+          display: none;
+        }
       }
     }
 

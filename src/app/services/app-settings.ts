@@ -36,6 +36,7 @@ export class AppSettings {
   public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
   public dnntEnabled = APP_GLOBAL.dnnt;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
+  public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public aboutPage = APP_GLOBAL.aboutPage;
   public footer = APP_GLOBAL.footer;
   public customRightMessage = APP_GLOBAL.customRightMessage;

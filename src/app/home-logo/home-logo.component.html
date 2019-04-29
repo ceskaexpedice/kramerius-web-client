@@ -2,7 +2,7 @@
   <span class="app-brand-img app-brand-top">
     <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
   </span>
-  <span class="app-brand-text app-brand-top app-single-kramerius">{{ appSettings.title }}</span>
+  <span [class.app-brand-text-hide]="appSettings.hideHomeTitle" class="app-brand-text app-brand-top app-single-kramerius">{{ appSettings.title }}</span>
 </div>
 
 <div class="brand-logo" [class.app-logo-big]="appSettings.bigHomeLogo" *ngIf="appSettings.multiKramerius">
