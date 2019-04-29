@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   step = 6;
   page = 1;
   lastCode: string;
+  showFooter: boolean;
 
   constructor(
     public state: AppState,
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.pageTitle.setTitle(null, null);
+    this.showFooter = !!this.appSettings.footer;
     if (this.appSettings.multiKramerius) {
       this.route.params.subscribe(params => {
         if (params && params['k'] && params['k'] !== this.lastCode) {
