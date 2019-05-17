@@ -314,11 +314,17 @@ export class ModsParserService {
             return;
         }
         for (const item of array) {
-            const desc = new PhysicalDescription();
-            desc.extent = this.getText(item.extent);
-            desc.note = this.getText(item.note);
+            const desc = new PhysicalDescription(this.getText(item.note), this.getText(item.extent));
             if (!desc.empty()) {
                 metadata.physicalDescriptions.push(desc);
+            }
+            if (item.note && Array.isArray(item.note) && item.note.length > 1) {
+                for (let i = 1; i < item.note.length; i++) {
+                    const note = this.getText(item.note[i]);
+                    if (note) {
+                        metadata.physicalDescriptions.push(new PhysicalDescription(note));
+                    }
+                }
             }
         }
     }

@@ -197,10 +197,8 @@ export class Location {
     }
 }
 
-
 export class PhysicalDescription {
-    public extent;
-    public note;
+    constructor(public note?: string, public extent?: string) {}
     empty() {
         return !(this.extent || this. note);
     }
