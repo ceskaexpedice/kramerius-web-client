@@ -18,6 +18,11 @@ mz-modal.app-dialog-citation {
       float: left;
       padding-right: 8px;
       color: $primary-color;
+      .app-citation-spec {
+        font-size: 12px;
+        color: #777;
+        margin-left: 2px;
+      }
     }
     .app-tab {
       float: left;
