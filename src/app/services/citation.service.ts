@@ -19,11 +19,11 @@ export class CitationService {
   constructor(private modalService: MzModalService,
     private shareService: ShareService) { }
 
-  public generateCitation(metadata: Metadata, level: number = CitationService.LEVEL_DOCUMENT): string {
+  public generateCitation(metadata: Metadata, uuid: string, level: number = CitationService.LEVEL_DOCUMENT): string {
     if (!metadata) {
       return null;
     }
-    const link = this.shareService.getPagePersistentLink();
+    const link = !!uuid ? this.shareService.getPersistentLink(uuid) : this.shareService.getPersistentLinkByUrl();
     let c = '';
     if (metadata.doctype !== 'periodical') {
       c += this.writeAuthors(metadata);

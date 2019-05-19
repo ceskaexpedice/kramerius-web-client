@@ -41,14 +41,14 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
       if (this.metadata.modsMap[doctype[0]]) {
         this.data.push({
           level:  Number(doctype[1]),
-          citation: this.citationService.generateCitation(this.metadata, Number(doctype[1]))
+          citation: this.citationService.generateCitation(this.metadata, this.metadata.modsMap[doctype[0]].uuid, Number(doctype[1]))
         });
       }
     }
     if (this.metadata.activePages) {
       this.data.push({
         level: CitationService.LEVEL_PAGE,
-        citation: this.citationService.generateCitation(this.metadata, CitationService.LEVEL_PAGE)
+        citation: this.citationService.generateCitation(this.metadata, null, CitationService.LEVEL_PAGE)
       });
     }
     if (this.data.length > 0) {

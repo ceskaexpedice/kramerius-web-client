@@ -9,19 +9,8 @@ export class ShareService {
 
   constructor(private appSettings: AppSettings, private modalService: MzModalService) { }
 
-  getPagePersistentLink(): string {
-    const path = location.pathname;
-    const query = location.search;
-    let uuid: string;
-    if (path.indexOf('uuid:') > -1) {
-      uuid = path.substr(path.indexOf('uuid:'));
-    }
-    if (query.indexOf('article=uuid:') > -1) {
-      uuid = this.parseUuid(query, 'article');
-    }
-    if (query.indexOf('page=uuid:') > -1) {
-      uuid = this.parseUuid(query, 'page');
-    }
+
+  getPersistentLink(uuid: string): string {
     if (!uuid) {
       return;
     }
@@ -42,6 +31,24 @@ export class ShareService {
     return url;
   }
 
+  getPersistentLinkByUrl(): string {
+    const path = location.pathname;
+    const query = location.search;
+    let uuid: string;
+    if (path.indexOf('uuid:') > -1) {
+      uuid = path.substr(path.indexOf('uuid:'));
+    }
+    if (query.indexOf('article=uuid:') > -1) {
+      uuid = this.parseUuid(query, 'article');
+    }
+    if (query.indexOf('page=uuid:') > -1) {
+      uuid = this.parseUuid(query, 'page');
+    }
+    return this.getPersistentLink(uuid);
+  }
+
+
+
   private parseUuid(query: string, param: string) {
     for (const p of query.split('&')) {
       if (p.indexOf(param + '=') > -1) {
@@ -51,7 +58,7 @@ export class ShareService {
   }
 
   public showShareDialog() {
-    const link = this.getPagePersistentLink();
+    const link = this.getPersistentLinkByUrl();
     if (link) {
       const options = {
         link: link

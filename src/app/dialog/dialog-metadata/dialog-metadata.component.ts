@@ -19,7 +19,7 @@ export class DialogMetadataComponent extends MzBaseModal implements OnInit {
       if (this.map[doctype]) {
         this.data.push({
           tab: doctype,
-          mods: this.map[doctype]
+          mods: this.map[doctype].mods
         });
       }
     }

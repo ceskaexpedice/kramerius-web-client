@@ -152,7 +152,7 @@ export class BookService {
                         this.metadata.doctype = item.doctype;
                     }
                 }
-                this.metadata.addMods(this.metadata.doctype, response);
+                this.metadata.addMods(this.metadata.doctype, this.metadata.uuid, response);
                 if (item.doctype === 'periodicalitem' || item.doctype === 'supplement') {
                     const volumeUuid = item.getUuidFromContext('periodicalvolume');
                     this.loadVolume(volumeUuid);
@@ -191,7 +191,7 @@ export class BookService {
             this.metadata.assignVolume(item);
         });
         this.krameriusApiService.getMods(uuid).subscribe(mods => {
-            this.metadata.addMods('periodicalvolume', mods);
+            this.metadata.addMods('periodicalvolume', uuid, mods);
             const metadata = this.modsParserService.parse(mods, uuid, 'volume');
             this.metadata.volumeMetadata = metadata;
         });
@@ -223,7 +223,7 @@ export class BookService {
                 this.metadata.nextIssue = issues[index + 1];
             }
             this.krameriusApiService.getMods(issueUuid).subscribe(mods => {
-                this.metadata.addMods('periodicalitem', mods);
+                this.metadata.addMods('periodicalitem', issueUuid, mods);
                 const metadata = this.modsParserService.parse(mods, issueUuid, 'issue');
                 this.metadata.currentIssue.metadata = metadata;
             });
@@ -283,7 +283,7 @@ export class BookService {
                 this.metadata.nextUnit = units[index + 1];
             }
             this.krameriusApiService.getMods(unitUud).subscribe(mods => {
-                this.metadata.addMods('monographunit', mods);
+                this.metadata.addMods('monographunit', unitUud, mods);
                 const metadata = this.modsParserService.parse(mods, unitUud);
                 this.metadata.currentUnit.metadata = metadata;
             });
@@ -556,7 +556,7 @@ export class BookService {
             if (result.length > 1) {
                 options['ocr2'] = result[1];
             }
-            const citation = this.citationService.generateCitation(this.metadata, CitationService.LEVEL_PAGE);
+            const citation = this.citationService.generateCitation(this.metadata, null, CitationService.LEVEL_PAGE);
             if (citation) {
                 options['citation'] = citation;
             }
@@ -570,7 +570,7 @@ export class BookService {
         this.krameriusApiService.getAlto(uuid).subscribe(
             result => {
                 const text = this.altoService.getTextInBox(result, extent, width, height);
-                const citation = this.citationService.generateCitation(this.metadata, CitationService.LEVEL_PAGE);
+                const citation = this.citationService.generateCitation(this.metadata, null, CitationService.LEVEL_PAGE);
                 const options = {
                     ocr: text,
                     citation: citation
@@ -875,7 +875,7 @@ export class BookService {
         if (!internalPart.metadata) {
             forkJoin([this.krameriusApiService.getItem(internalPart.uuid), this.krameriusApiService.getMods(internalPart.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 if (this.metadata) {
-                    this.metadata.addMods('internalpart', mods);
+                    this.metadata.addMods('internalpart', internalPart.uuid, mods);
                 }
                 this.onInternalPartLoaded(internalPart);
                 internalPart.metadata = this.modsParserService.parse(mods, internalPart.uuid);
@@ -911,7 +911,7 @@ export class BookService {
         if (article.type === 'none') {
             forkJoin([this.krameriusApiService.getItem(article.uuid), this.krameriusApiService.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 if (this.metadata) {
-                    this.metadata.addMods('article', mods);
+                    this.metadata.addMods('article', article.uuid, mods);
                 }
                 article.type = item.pdf ? 'pdf' : 'pages';
                 this.onArticleLoaded(article);

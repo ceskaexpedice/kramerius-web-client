@@ -55,8 +55,8 @@ export class Metadata {
     }
 
 
-    public addMods(doctype: string, mods: string) {
-        this.modsMap[doctype] = beautify(mods);
+    public addMods(doctype: string, uuid: string, mods: string) {
+        this.modsMap[doctype] = { uuid: uuid, mods: beautify(mods) };
     }
 
     public getYearRange() {
