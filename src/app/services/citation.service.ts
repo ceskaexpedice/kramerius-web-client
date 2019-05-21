@@ -161,13 +161,4 @@ export class CitationService {
     }
   }
 
-
-  public showCitation(metadata: Metadata) {
-    const options = {
-      metadata: metadata
-    };
-    this.modalService.open(DialogCitationComponent, options);
-  }
-
-
 }

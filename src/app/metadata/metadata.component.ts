@@ -1,3 +1,4 @@
+import { DialogCitationComponent } from './../dialog/dialog-citation/dialog-citation.component';
 import { ShareService } from './../services/share.service';
 import { DialogAuthosComponent } from './../dialog/dialog-authors/dialog-authors.component';
 import { AppSettings } from './../services/app-settings';
@@ -5,7 +6,6 @@ import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { MzModalService } from 'ngx-materialize';
 import { DialogMetadataComponent } from '../dialog/dialog-metadata/dialog-metadata.component';
-import { CitationService } from '../services/citation.service';
 import { AnalyticsService } from '../services/analytics.service';
 
 @Component({
@@ -22,7 +22,6 @@ export class MetadataComponent implements OnInit {
   showingTitle = false;
 
   constructor(private modalService: MzModalService,
-              private citationService: CitationService,
               private shareService: ShareService,
               public analytics: AnalyticsService,
               public appSettings: AppSettings) { }
@@ -46,7 +45,7 @@ export class MetadataComponent implements OnInit {
 
   showCitation() {
     this.analytics.sendEvent('metadata', 'citation');
-    this.citationService.showCitation(this.metadata);
+    this.modalService.open(DialogCitationComponent, { metadata: this.metadata });
   }
 
   onShare() {
