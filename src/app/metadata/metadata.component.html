@@ -174,9 +174,12 @@
 
     <div *ngIf="metadata.doctype">
       <label>{{ 'metadata.doctype' | translate }}</label>
-      <div class="app-value" >
+      <div class="app-value" *ngIf="metadata.doctype !== 'monographbundle'">
           <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: metadata.doctype }" (click)="analytics.sendEvent('metadata', 'link', 'doctype');">{{ 'model.' + metadata.doctype | translate }}</a>
       </div>
+      <div class="app-value" *ngIf="metadata.doctype === 'monographbundle'">
+        {{ 'model.' + metadata.doctype | translate }}
+    </div>
       <div class="divider"></div>
     </div>
 
