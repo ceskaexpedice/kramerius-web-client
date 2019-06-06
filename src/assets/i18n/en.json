@@ -479,7 +479,12 @@
     "ABE135" : "The Ministry of Labour and Social Affairs",
     "ABE345" : "National Museum - History muzeum",
     "ABE370" : "National Museum - Czech Museum of Music",
-    "ABE336" : "Library of useum of Czech Literature"
+    "ABE336" : "Library of useum of Czech Literature",
+    "ABD024" : "Academy of Arts, Architecture and Design in Prague",
+    "ABD134" : "Charles University - First Faculty of Medicine",
+    "PNE303" : "Museum of West Bohemia in Pilsen",
+    "OPD001" : "Silesian university in Opava",
+    "JHE301" : "Museum of Jindrichuv Hradec Region"
   },
   "language" : {
     "aar" : "Afar",
