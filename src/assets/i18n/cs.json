@@ -167,6 +167,8 @@
     "content": "Obsah",
     "extent": "Rozsah",
     "physical_description": "Fyzický popis",
+    "cartographic_data": "Kartografické údaje",
+    "scale": "Měřítko",
     "doctype": "Typ dokumentu",        
     "notes": "Poznámky",
     "genres": "Žánr",

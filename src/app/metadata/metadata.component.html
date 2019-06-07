@@ -241,6 +241,15 @@
       <div class="divider"></div>
     </div>
 
+    <div *ngIf="metadata.cartographicData.length > 0">
+      <label>{{ 'metadata.cartographic_data' | translate }}</label>
+      <div *ngFor="let cd of metadata.cartographicData">
+        <div class="app-value" *ngIf="cd.scale">{{ cd.scale }}</div>
+        <div class="app-value" *ngIf="cd.coordinates">{{ cd.coordinates }}</div>
+      </div>
+      <div class="divider"></div>
+    </div>
+
 
     <div *ngIf="metadata.extent">
       <label>{{ 'metadata.extent' | translate }}</label>

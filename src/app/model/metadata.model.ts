@@ -22,6 +22,7 @@ export class Metadata {
     public abstracts: string[] = [];
     public genres: string[] = [];
     public contents: string[] = [];
+    public cartographicData: CartographicData[] = [];
     public physicalDescriptions: PhysicalDescription[] = [];
     public identifiers = {};
 
@@ -201,6 +202,15 @@ export class PhysicalDescription {
     constructor(public note?: string, public extent?: string) {}
     empty() {
         return !(this.extent || this. note);
+    }
+}
+
+export class CartographicData {
+    public scale: string;
+    public coordinates: string;
+
+    empty() {
+        return !(this.scale || this.coordinates);
     }
 }
 

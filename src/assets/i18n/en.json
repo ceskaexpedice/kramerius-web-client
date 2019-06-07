@@ -166,6 +166,8 @@
     "content": "Content",
     "extent": "Extent",
     "physical_description": "Physical Description",
+    "cartographic_data": "Cartographic data",
+    "scale": "Scale",
     "doctype": "Document type",    
     "notes": "Notes",
     "genres": "Genre", 

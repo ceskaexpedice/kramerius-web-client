@@ -1,4 +1,4 @@
-import { Metadata, TitleInfo, Author, Publisher, Location, PhysicalDescription } from './../model/metadata.model';
+import { Metadata, TitleInfo, Author, Publisher, Location, PhysicalDescription, CartographicData } from './../model/metadata.model';
 import { Injectable } from '@angular/core';
 import { parseString, processors, Builder } from 'xml2js';
 
@@ -345,6 +345,25 @@ export class ModsParserService {
                 const text = this.getText(item.geographic);
                 if (text && metadata.geonames.indexOf(text) < 0) {
                     metadata.geonames.push(text);
+                }
+            }
+            if (item.cartographics) {
+                const cartographics = item.cartographics;
+                const cd = new CartographicData();
+                if (Array.isArray(cartographics)) {
+                    for (const c of cartographics) {
+                        const scale = this.getText(c.scale);
+                        const coordinates = this.getText(c.coordinates);
+                        if (scale) {
+                            cd.scale = scale;
+                        }
+                        if (coordinates) {
+                            cd.coordinates = coordinates;
+                        }
+                    }
+                }
+                if (!cd.empty()) {
+                    metadata.cartographicData.push(cd);
                 }
             }
         }
