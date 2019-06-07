@@ -160,7 +160,7 @@ export class BrowseQuery {
 
 
     public getOrderingValue(): string {
-        if (this.ordering === 'alphabetical') {
+        if (this.ordering === 'alphabetical' && this.category !== 'collections') {
             return 'index';
         } else {
             return 'count';
