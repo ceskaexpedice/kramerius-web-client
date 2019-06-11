@@ -1,19 +1,21 @@
-<mz-modal #modal [fixedFooter]="true" class="app-dialog-metadata">
+<mz-modal #modal [fixedFooter]="true" class="app-dialog app-dialog-metadata">
+
   <mz-modal-header>
-    Metadata
-  </mz-modal-header>
-  <mz-modal-content>
+    <div class="app-tabs" *ngIf="selection">
+      <div class="app-dialog-title">{{ 'metadata-dialog.title' | translate }}</div>
+      <div *ngFor="let item of data" class="app-tab" [class.active]="selection.tab === item.tab" (click)="changeTab(item)">
+          {{ 'model.' + item.tab | translate | lowercase }}
+      </div>
+    </div>
 
-      <div class="tabs" *ngIf="selection">
-          <div *ngFor="let item of data" class="tab" [class.active]="selection.tab === item.tab" (click)="changeTab(item)">
-            {{ 'model.' + item.tab | translate }}
-          </div>
-        </div>
-
+    <div class="app-tab-content-wrapper">
       <div class="app-tab-content" *ngIf="selection">{{ selection.mods }}</div>
+    </div> 
+  
+  </mz-modal-header>
 
-  </mz-modal-content>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close>{{ 'common.close' | translate }}</button>
   </mz-modal-footer>
+
 </mz-modal>

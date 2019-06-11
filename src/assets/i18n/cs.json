@@ -274,6 +274,9 @@
     "action_generate": "Stáhnout PDF",
     "action_prepare": "Připravit k tisku"
   },
+  "metadata-dialog": {
+    "title": "Metadata pro"
+  },
   "citation-dialog": {
     "title": "Citace",
     "level-0": "celého dokumentu",

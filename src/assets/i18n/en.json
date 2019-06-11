@@ -278,6 +278,9 @@
     "action_generate": "Download PDF",
     "action_prepare": "Prepare to print"
   },
+  "metadata-dialog": {
+    "title": "Metadata for"
+  },
   "citation-dialog": {
     "title": "Citation of the",
     "level-0": "whole document",
