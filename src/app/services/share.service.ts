@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AppSettings } from './app-settings';
-import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.component';
-import { MzModalService } from 'ngx-materialize';
-
 
 @Injectable()
 export class ShareService {
 
-  constructor(private appSettings: AppSettings, private modalService: MzModalService) { }
+  constructor(private appSettings: AppSettings) { }
 
 
   getPersistentLink(uuid: string): string {
@@ -48,7 +45,6 @@ export class ShareService {
   }
 
 
-
   private parseUuid(query: string, param: string) {
     for (const p of query.split('&')) {
       if (p.indexOf(param + '=') > -1) {
@@ -56,16 +52,5 @@ export class ShareService {
       }
     }
   }
-
-  public showShareDialog() {
-    const link = this.getPersistentLinkByUrl();
-    if (link) {
-      const options = {
-        link: link
-      };
-      this.modalService.open(DialogShareComponent, options);
-    }
-  }
-
 
 }

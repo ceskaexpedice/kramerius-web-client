@@ -286,7 +286,12 @@
     "level-4": "vybrané stránky"
   },
   "share-dialog": {
-    "title": "Sdílet dokument",
+    "title": "Sdílet",
+    "level-0": "dokument",
+    "level-1": "ročník",
+    "level-2": "výtisk",
+    "level-3": "článek",
+    "level-4": "vybranou stránku",
     "link": "Odkaz pro sdílení",
     "social": "Sdílet na sociálních sítích"
   },
