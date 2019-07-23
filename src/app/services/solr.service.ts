@@ -188,20 +188,21 @@ export class SolrService {
             const doclist = group['doclist'];
             const doc = doclist['docs'][0];
             const item = new DocumentItem();
-            item.title = doc['root_title'];
-            if (item.title === 'null') {
-                item.title = '-';
-            }
             item.uuid = doc['root_pid'];
             item.public = doc['dostupnost'] === 'public';
             const dp = doc['model_path'][0];
             const params = {};
+            item.title = doc['dc.title'];
             if (dp.indexOf('/') > 0) {
+                item.title = doc['root_title'];
                 item.doctype = dp.substring(0, dp.indexOf('/'));
                 params['fulltext'] = query.getRawQ();
                 item.hits = doclist['numFound'];
             } else {
                 item.doctype = dp;
+            }
+            if (item.title === 'null') {
+                item.title = '-';
             }
             if (item.doctype === 'periodical') {
                 if (query.accessibility !== 'all') {
