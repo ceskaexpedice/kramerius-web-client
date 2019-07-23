@@ -300,7 +300,7 @@ export class BookService {
         this.krameriusApiService.getChildren(supplement['pid']).subscribe(children => {
             for (const p of children) {
                 if (p['model'] === 'page') {
-                    p['is_supplement'] = true;
+                    p['supplement_uuid'] = supplement['pid'];
                     pages.push(p);
                 }
             }
@@ -404,6 +404,7 @@ export class BookService {
             } else if (p['model'] === 'page') {
                 const page = new Page();
                 page.uuid = p['pid'];
+                page.supplementUuid = p['supplement_uuid'];
                 page.policy = p['policy'];
                 const details = p['details'];
                 if (details) {
@@ -428,7 +429,7 @@ export class BookService {
                 if (uuid === page.uuid) {
                     currentPage = index;
                 }
-                if ((page.type === 'backcover' || p['is_supplement']) && firstBackSingle === -1) {
+                if ((page.type === 'backcover' || p['supplement_uuid']) && firstBackSingle === -1) {
                     firstBackSingle = index;
                 } else if (page.type === 'titlepage') {
                     titlePage = index;
@@ -784,6 +785,25 @@ export class BookService {
         }
         const page = this.getPage();
         page.selected = true;
+
+
+
+        if (page.supplementUuid) {
+            const uuid = page.supplementUuid;
+            this.krameriusApiService.getMods(uuid).subscribe(mods => {
+                if (uuid === this.getPage().supplementUuid) {
+                    const metadata = this.modsParserService.parse(mods, uuid, 'supplement');
+                    this.metadata.pageSupplementMetadata = metadata;
+                }
+            });
+        } else {
+            this.metadata.pageSupplementMetadata = null;
+        }
+
+
+
+
+
         let pages = page.number + '';
         const rightPage = this.getRightPage();
         let cached = page.cached();

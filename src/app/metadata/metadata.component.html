@@ -158,6 +158,15 @@
     </div>
 
 
+
+    <div *ngIf="metadata.pageSupplementMetadata">
+      <label>{{ 'metadata.supplement' | translate }}</label>
+      <app-metadata [metadata]="metadata.pageSupplementMetadata" class="app-nested" [showControls]="false"></app-metadata>
+      <div class="divider"></div>
+    </div>
+
+
+
     <div *ngIf="metadata.donator">
       <label>{{ 'metadata.donator' | translate }}</label>
       <a style="display:block" target="_blank" href="{{ 'donator.' + metadata.donator + '.url' | translate }}" (click)="analytics.sendEvent('metadata', 'link', 'donator');">

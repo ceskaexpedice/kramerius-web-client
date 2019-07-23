@@ -46,6 +46,7 @@ export class Metadata {
     public internalPart: InternalPart;
     public review: Metadata;
     public volumeMetadata: Metadata;
+    public pageSupplementMetadata: Metadata;
 
     public mainTitle: string;
     public donator: string;

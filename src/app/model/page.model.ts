@@ -2,6 +2,7 @@ export class Page {
 
     // Page Properties
     uuid: string;
+    supplementUuid: string;
     policy: string;
     type: string;
     number: string;
