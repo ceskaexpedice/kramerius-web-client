@@ -1,4 +1,3 @@
-import { CitationService } from './citation.service';
 import { AppSettings } from './app-settings';
 import { SolrService } from './solr.service';
 import { ModsParserService } from './mods-parser.service';
@@ -90,7 +89,6 @@ export class BookService {
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
-        private citationService: CitationService,
         private modalService: MzModalService) {
     }
 
@@ -545,22 +543,21 @@ export class BookService {
     showOcr() {
         const requests = [];
         requests.push(this.krameriusApiService.getOcr(this.getPage().uuid));
-        let citPages = this.getPage().number + '';
         if (this.getRightPage()) {
             requests.push(this.krameriusApiService.getOcr(this.getRightPage().uuid));
-            citPages += '-' + this.getRightPage().number;
         }
         forkJoin(requests).subscribe(result => {
             const options = {
-                ocr: result[0]
+                ocr: result[0],
+                uuid: this.getPage().uuid
             };
             if (result.length > 1) {
                 options['ocr2'] = result[1];
             }
-            const citation = this.citationService.generateCitation(this.metadata, null, CitationService.LEVEL_PAGE);
-            if (citation) {
-                options['citation'] = citation;
-            }
+            // const citation = this.citationService.generateCitation(this.metadata, null, CitationService.LEVEL_PAGE);
+            // if (citation) {
+                // options['citation'] = citation;
+            // }
             this.modalService.open(DialogOcrComponent, options);
         });
     }
@@ -571,10 +568,11 @@ export class BookService {
         this.krameriusApiService.getAlto(uuid).subscribe(
             result => {
                 const text = this.altoService.getTextInBox(result, extent, width, height);
-                const citation = this.citationService.generateCitation(this.metadata, null, CitationService.LEVEL_PAGE);
+                // const citation = this.citationService.generateCitation(this.metadata, null, CitationService.LEVEL_PAGE);
                 const options = {
                     ocr: text,
-                    citation: citation
+                    uuid: this.getPage().uuid
+                    // citation: citation
                 };
                 this.modalService.open(DialogOcrComponent, options);
             },
@@ -814,6 +812,7 @@ export class BookService {
         }
         if (this.metadata) {
             this.metadata.activePages = pages;
+            this.metadata.activePage = page;
         }
         // if (!this.article) {
         let urlQuery = 'page=' + page.uuid;
@@ -1038,7 +1037,7 @@ export class BookService {
         if (rightPage && rightPage.imageType === PageImageType.ZOOMIFY) {
             zRequests.push(this.krameriusApiService.getZoomifyProperties(rightPage.url));
         }
-        forkJoin(zRequests).subscribe(zResult => {
+        forkJoin(zRequests).subscribe((zResult: string[]) => {
             leftPage.assignZoomifyData(zResult[0]);
             if (rightPage && zResult.length >= 2) {
                 rightPage.assignZoomifyData(zResult[1]);

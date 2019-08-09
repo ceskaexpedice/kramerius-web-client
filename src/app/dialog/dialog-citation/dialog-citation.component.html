@@ -10,8 +10,14 @@
     </div>
   </mz-modal-header>
 
-  <mz-modal-content>
-    <div *ngIf="selection" class="app-citation" [innerHtml]="selection.citation"></div>
+  <mz-modal-content *ngIf="selection">
+    <div *ngIf="selection.citation" class="app-citation" [innerHtml]="selection.citation"></div>
+    <div *ngIf="!selection.citation" style="padding-top: 20px;">
+      <mz-spinner *ngIf="!selection.citation"
+        [color]="'blue'"
+        [size]="'small'">
+      </mz-spinner>
+  </div>
   </mz-modal-content>
 
   <mz-modal-footer>

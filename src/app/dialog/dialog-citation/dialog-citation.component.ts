@@ -1,4 +1,5 @@
-import { CitationService } from './../../services/citation.service';
+import { ShareService } from './../../services/share.service';
+import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { MzBaseModal } from 'ngx-materialize';
 import { Metadata } from '../../model/metadata.model';
@@ -17,22 +18,22 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
   selection;
 
   doctypes = [
-      ['article', CitationService.LEVEL_ARTICLE],
-      ['periodicalitem', CitationService.LEVEL_ISSUE],
-      ['periodicalvolume', CitationService.LEVEL_VOLUME],
-      ['periodical', CitationService.LEVEL_DOCUMENT],
-      ['monographbundle', CitationService.LEVEL_DOCUMENT],
-      ['monograph', CitationService.LEVEL_DOCUMENT],
-      ['map', CitationService.LEVEL_DOCUMENT],
-      ['sheetmusic', CitationService.LEVEL_DOCUMENT],
-      ['graphic', CitationService.LEVEL_DOCUMENT],
-      ['archive', CitationService.LEVEL_DOCUMENT],
-      ['soundrecording', CitationService.LEVEL_DOCUMENT],
-      ['manuscript', CitationService.LEVEL_DOCUMENT]
+    ['article', 3],
+    ['periodicalitem', 2],
+    ['periodicalvolume', 1],
+    ['periodical', 0],
+    ['monographbundle', 0],
+    ['monograph', 0],
+    ['map', 0],
+    ['sheetmusic', 0],
+    ['graphic', 0],
+    ['archive', 0],
+    ['soundrecording', 0],
+    ['manuscript', 0]
   ];
 
 
-  constructor(private citationService: CitationService) {
+  constructor(private api: KrameriusApiService, private shareService: ShareService) {
     super();
   }
 
@@ -41,23 +42,31 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
       if (this.metadata.modsMap[doctype[0]]) {
         this.data.push({
           level:  Number(doctype[1]),
-          citation: this.citationService.generateCitation(this.metadata, this.metadata.modsMap[doctype[0]].uuid, Number(doctype[1]))
+          citation: null,
+          uuid: this.metadata.modsMap[doctype[0]].uuid
         });
       }
     }
-    if (this.metadata.activePages) {
+    if (this.metadata.activePage) {
       this.data.push({
-        level: CitationService.LEVEL_PAGE,
-        citation: this.citationService.generateCitation(this.metadata, null, CitationService.LEVEL_PAGE)
+        level: 4,
+        citation: null,
+        uuid: this.metadata.activePage.uuid
       });
     }
     if (this.data.length > 0) {
-      this.selection = this.data[0];
+      this.changeTab(this.data[0]);
     }
   }
 
   changeTab(item) {
     this.selection = item;
+    if (!this.selection.citation) {
+      this.api.getCitation(item.uuid).subscribe( (citation: string) => {
+        const link = this.shareService.getPersistentLink(item.uuid);
+        item.citation = `${citation} Dostupné také z: ${link}`;
+      });
+    }
   }
 
 }

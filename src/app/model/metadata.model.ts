@@ -1,3 +1,4 @@
+import { Page } from './page.model';
 import { Article } from './article.model';
 import { DocumentItem } from './document_item.model';
 import { PeriodicalItem } from './periodicalItem.model';
@@ -52,6 +53,7 @@ export class Metadata {
     public donator: string;
 
     public activePages: string;
+    public activePage: Page;
 
     constructor() {
     }

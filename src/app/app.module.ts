@@ -1,5 +1,4 @@
 import { DialogCitationComponent } from './dialog/dialog-citation/dialog-citation.component';
-import { AuthInterceptor } from './services/auth-interceptor.service';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
 import { SimpleDialogComponent } from './dialog/simple-dialog/simple-dialog.component';
@@ -108,7 +107,6 @@ import { RemovePrefixPipe } from './pipes/remove-prefix.pipe';
 import { UpcasePipe } from './pipes/upcase.pipe';
 
 import { CookieService } from 'ngx-cookie-service';
-import { CitationService } from './services/citation.service';
 import { ShareService } from './services/share.service';
 import { AboutComponent } from './about/about.component';
 import { AnalyticsService } from './services/analytics.service';
@@ -256,7 +254,6 @@ import { KrameriusInfoService } from './services/kramerius-info.service';
     AuthService,
     PageTitleService,
     CookieService,
-    CitationService,
     ShareService,
     AnalyticsService,
     KrameriusInfoService,

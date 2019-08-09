@@ -421,9 +421,7 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-
-
-    getImageSelection = function(iiif: string, x1: number, y1: number, x2: number, y2: number) {
+    getImageSelection(iiif: string, x1: number, y1: number, x2: number, y2: number) {
         if (x1 < 0) {
             x1 = 0;
         }
@@ -447,6 +445,12 @@ export class KrameriusApiService {
         const c = Math.max(Math.round(x2 - x1), 0);
         const d = Math.max(Math.round(Math.abs(y1) - Math.abs(y2)), 0);
         return iiif + '/' + a + ',' + b + ',' + c + ',' + d + '/full/0/default.jpg';
-    };
+    }
+
+
+    getCitation(uuid: string): Observable<string> {
+        const url =  `http://citace.rychtar.cloud/v1/kramerius?url=${this.getbaseUrl()}&uuid=${uuid}&format=html`;
+        return this.doGetText(url).catch(this.handleError);
+    }
 
 }
