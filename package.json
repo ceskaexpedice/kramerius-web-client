@@ -21,6 +21,7 @@
     "@angular/platform-browser": "7.1.2",
     "@angular/platform-browser-dynamic": "7.1.2",
     "@angular/router": "7.1.2",
+    "angular-token": "^7.0.1",
     "angular-translator": "^3.1.0",
     "buffer": "^5.2.1",
     "core-js": "^2.6.0",

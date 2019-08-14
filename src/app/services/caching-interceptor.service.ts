@@ -4,12 +4,18 @@ import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { HttpRequestCache } from './http-request-cache.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CachingInterceptor implements HttpInterceptor {
   constructor(private cache: HttpRequestCache) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
+    console.log('req', req.url);
+    if (req.url.startsWith(environment.apiBase)) {
+      console.log('do not cache');
+      return next.handle(req);
+    }
     const cachedResponse = this.cache.get(req);
     return cachedResponse ? of(cachedResponse) : this.sendRequest(req, next, this.cache);
   }

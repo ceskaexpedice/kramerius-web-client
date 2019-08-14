@@ -6,6 +6,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { AppState } from './app.state';
 import { Location } from '@angular/common';
 import { AuthService } from './services/auth.service';
+import { CloudAuthService } from './services/cloud-auth.service';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private appSettings: AppSettings,
     private auth: AuthService,
+    private cloudAuth: CloudAuthService,
     public state: AppState) {
   }
 
@@ -29,6 +31,8 @@ export class AppComponent implements OnInit {
     if (this.appSettings.dnntEnabled) {
       this.auth.login('', '').subscribe(user => {
       });
+    } else if (this.appSettings.loginEnabled) {
+
     }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

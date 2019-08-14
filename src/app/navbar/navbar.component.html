@@ -29,6 +29,15 @@
           <a [routerLink]="appSettings.getRouteFor('login')">Přihlásit</a>
         </mz-navbar-item>
       </ng-container>
+
+      <ng-container *ngIf="appSettings.loginEnabled">
+        <mz-navbar-item *ngIf="cloudAuth.isLoggedIn()">
+          <a (click)="logout()">Odhlásit</a>
+        </mz-navbar-item>
+        <mz-navbar-item *ngIf="!cloudAuth.isLoggedIn()">
+          <a [routerLink]="appSettings.getRouteFor('login')">Přihlásit</a>
+        </mz-navbar-item>
+      </ng-container>
       
       <mz-navbar-item *ngIf="translator.language == 'cs'"><a (click)='onLanguageChanged("en")'>English</a></mz-navbar-item>
       <mz-navbar-item *ngIf="translator.language == 'en'"><a (click)='onLanguageChanged("cs")'>Česky</a></mz-navbar-item>

@@ -113,6 +113,10 @@ import { AnalyticsService } from './services/analytics.service';
 import { DatepickerModule } from './datepicker';
 import { HomeFooterComponent } from './home/home-footer/home-footer.component';
 import { KrameriusInfoService } from './services/kramerius-info.service';
+import { CloudApiService } from './services/cloud-api.service';
+import { CloudAuthService } from './services/cloud-auth.service';
+import { AngularTokenModule } from 'angular-token';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -229,7 +233,10 @@ import { KrameriusInfoService } from './services/kramerius-info.service';
     MzDropdownModule,
     MzCheckboxModule,
     MzDatepickerModule,
-    ClipboardModule
+    ClipboardModule,
+    AngularTokenModule.forRoot({
+      apiBase: environment.apiBase
+    })
   ],
   providers: [
     AppState,
@@ -257,7 +264,9 @@ import { KrameriusInfoService } from './services/kramerius-info.service';
     ShareService,
     AnalyticsService,
     KrameriusInfoService,
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    CloudApiService,
+    CloudAuthService,
+    AngularTokenModule,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

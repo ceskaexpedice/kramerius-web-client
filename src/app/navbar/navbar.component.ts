@@ -1,3 +1,4 @@
+import { CloudAuthService } from './../services/cloud-auth.service';
 import { AnalyticsService } from './../services/analytics.service';
 import { AuthService } from './../services/auth.service';
 import { AppSettings } from './../services/app-settings';
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
     public translator: Translator,
     public router: Router,
     public authService: AuthService,
+    public cloudAuth: CloudAuthService,
     public appSettings: AppSettings,
     private history: HistoryService,
     public service: LibrarySearchService,
@@ -49,9 +51,15 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.analytics.sendEvent('navbar', 'logout');
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['/']);
-    });
+    if (this.appSettings.dnntEnabled) {
+      this.authService.logout().subscribe(() => {
+        this.router.navigate(['/']);
+      });
+    } else if (this.appSettings.loginEnabled) {
+      this.cloudAuth.logout().subscribe(() => {
+        this.router.navigate(['/']);
+      });
+    }
   }
 
 }

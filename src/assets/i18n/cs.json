@@ -247,6 +247,8 @@
     "tooltip_share": "Sdílet",
     "tooltip_metadata": "Metadata",
     "tooltip_citation": "Citace",
+    "tooltip_mark_favourite": "Přidat do oblíbených",
+    "tooltip_unmark_favourite": "Odebrat z oblíbených",
     "all_pages": "Všechny stránky"
   },
   "book_toolbar": {

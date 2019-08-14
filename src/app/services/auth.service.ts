@@ -13,6 +13,7 @@ export class AuthService {
     user: User = null;
 
     constructor(private krameriusApi: KrameriusApiService, private cache: HttpRequestCache) {
+        console.log('AuthService initialized');
     }
 
     login(username: string, password: string) {
