@@ -1,4 +1,4 @@
-import { DocumentItem } from './../model/document_item.model';
+import { DocumentItem } from '../model/document_item.model';
 import { AppSettings } from './app-settings';
 import { CloudApiService } from './cloud-api.service';
 import { Injectable } from '@angular/core';
@@ -6,12 +6,11 @@ import { AngularTokenService } from 'angular-token';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
-import { Observable } from 'rxjs';
 import { Metadata } from '../model/metadata.model';
 
 
 @Injectable()
-export class CloudAuthService {
+export class AccountService {
 
     favourites: DocumentItem[] = [];
     favouritesMap = {};
@@ -22,8 +21,6 @@ export class CloudAuthService {
         if (!appSettings.loginEnabled) {
             return;
         }
-        console.log('CloudAuthService initialized');
-        console.log('user data', this.tokenService.currentUserData);
         this.tokenService.validateToken().subscribe(
             response => {
                 console.log('response', response);
@@ -37,25 +34,35 @@ export class CloudAuthService {
     }
 
 
-    login(email: string, password: string): Observable<Response> {
+    login(email: string, password: string, callback: (success: boolean) => void) {
         return this.tokenService.signIn({
           login: email,
           password: password
+        }).subscribe(
+        (response) => {
+            if (callback) {
+                callback(true);
+            }
+        },
+        (error) => {
+            if (callback) {
+                callback(false);
+            }
         });
     }
 
 
-    logout(): Observable<Response> {
-        return this.tokenService.signOut();
+    logout(callback: () => any) {
+        return this.tokenService.signOut().subscribe(() => {
+            if (callback) {
+                callback();
+            }
+        });
     }
 
 
     isLoggedIn(): boolean {
         return this.tokenService.userSignedIn();
-    }
-
-    userData() {
-        return this.tokenService.currentUserData;
     }
 
     fetchFavourites() {
@@ -67,33 +74,6 @@ export class CloudAuthService {
                 this.addFavourite(this.buildDoc(doc));
             }
         });
-    }
-
-    private addFavourite(item: DocumentItem) {
-        this.favourites.push(item);
-        this.favouritesMap[item.uuid] = item;
-    }
-
-    private removeFromFavourites(uuid: string) {
-        const item = this.favouritesMap[uuid];
-        const index = this.favourites.indexOf(item, 0);
-        if (index > -1) {
-            this.favourites.splice(index, 1);
-        }
-        this.favouritesMap[uuid] = null;
-    }
-
-    private buildDoc(doc: any): DocumentItem {
-        const item = new DocumentItem();
-        item.title = doc['title'];
-        item.uuid = doc['uuid'];
-        item.root_uuid = doc['uuid'];
-        item.public = doc['policy'] === 'public';
-        item.doctype = doc['doctype'];
-        item.date = doc['date'];
-        item.authors = doc['author'] ? [doc['author']] : [];
-        item.resolveUrl(this.appSettings.getPathPrefix());
-        return item;
     }
 
     isFavourited(uuid: string): boolean {
@@ -129,8 +109,41 @@ export class CloudAuthService {
     }
 
 
-    afterLogin() {
 
+
+
+
+
+    private userData() {
+        return this.tokenService.currentUserData;
+    }
+
+    private addFavourite(item: DocumentItem) {
+        this.favourites.unshift(item);
+        this.favouritesMap[item.uuid] = item;
+    }
+
+    private removeFromFavourites(uuid: string) {
+        const item = this.favouritesMap[uuid];
+        const index = this.favourites.indexOf(item, 0);
+        if (index > -1) {
+            this.favourites.splice(index, 1);
+        }
+        this.favouritesMap[uuid] = null;
+    }
+
+    private buildDoc(doc: any): DocumentItem {
+        const item = new DocumentItem();
+        item.title = doc['title'];
+        item.uuid = doc['uuid'];
+        item.root_uuid = doc['uuid'];
+        item.public = doc['policy'] === 'public';
+        item.doctype = doc['doctype'];
+        item.date = doc['date'];
+        item.library = doc['kramerius'];
+        item.authors = doc['author'] ? [doc['author']] : [];
+        item.resolveUrl(this.appSettings.getPathPrefix());
+        return item;
     }
 
 }

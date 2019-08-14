@@ -1,5 +1,6 @@
+import { SigninComponent } from './account/signin/signin.component';
+import { AccountService } from './services/account.service';
 import { DialogCitationComponent } from './dialog/dialog-citation/dialog-citation.component';
-import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
 import { SimpleDialogComponent } from './dialog/simple-dialog/simple-dialog.component';
 import { AppSettings } from './services/app-settings';
@@ -114,9 +115,10 @@ import { DatepickerModule } from './datepicker';
 import { HomeFooterComponent } from './home/home-footer/home-footer.component';
 import { KrameriusInfoService } from './services/kramerius-info.service';
 import { CloudApiService } from './services/cloud-api.service';
-import { CloudAuthService } from './services/cloud-auth.service';
 import { AngularTokenModule } from 'angular-token';
 import { environment } from '../environments/environment';
+import { FavouritesComponent } from './favourites/favourites.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -188,9 +190,11 @@ import { environment } from '../environments/environment';
     NotFoundComponent,
     RemovePrefixPipe,
     UpcasePipe,
-    LoginComponent,
     AboutComponent,
-    HomeFooterComponent
+    HomeFooterComponent,
+    FavouritesComponent,
+    LoginComponent,
+    SigninComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -265,7 +269,7 @@ import { environment } from '../environments/environment';
     AnalyticsService,
     KrameriusInfoService,
     CloudApiService,
-    CloudAuthService,
+    AccountService,
     AngularTokenModule,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],

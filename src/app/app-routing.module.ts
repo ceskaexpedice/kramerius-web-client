@@ -1,3 +1,4 @@
+import { FavouritesComponent } from './favourites/favourites.component';
 import { AboutComponent } from './about/about.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -13,14 +14,17 @@ import { RoutingGuardService } from './guards/routing.guard';
 import { RoutingPrefixGuardService } from './guards/routing-prefix.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
+import { SigninComponent } from './account/signin/signin.component';
 
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
     { path: '', component: HomeComponent, canActivate: [ RoutingGuardService ] },
     { path: 'about', component: AboutComponent, canActivate: [ RoutingGuardService ] },
     { path: 'login', component: LoginComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'signin', component: SigninComponent, canActivate: [ RoutingGuardService ] },
     { path: 'browse', component: BrowseComponent, canActivate: [ RoutingGuardService ] },
     { path: 'search', component: SearchComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'favourites', component: FavouritesComponent, canActivate: [ RoutingGuardService ] },
     { path: 'collections', component: CollectionsComponent, canActivate: [ RoutingGuardService ] },
     { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingGuardService ] },
     { path: 'music/:uuid', component: MusicComponent, canActivate: [ RoutingGuardService ] },
@@ -29,8 +33,10 @@ const ROUTES: Routes = [
     { path: 'view', component: BookComponent, canActivate: [ RoutingGuardService ] },
     { path: ':k/about', component: AboutComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/login', component: LoginComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/signin', component: SigninComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/browse', component: BrowseComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/search', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/favourites', component: FavouritesComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collections', component: CollectionsComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/music/:uuid', component: MusicComponent, canActivate: [ RoutingPrefixGuardService ] },

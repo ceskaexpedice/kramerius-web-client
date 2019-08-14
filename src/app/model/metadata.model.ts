@@ -31,6 +31,8 @@ export class Metadata {
     public doctype: string;
     public volume: Volume;
 
+    public isPublic = true;
+
     public currentIssue: PeriodicalItem;
     public nextIssue: PeriodicalItem;
     public previousIssue: PeriodicalItem;

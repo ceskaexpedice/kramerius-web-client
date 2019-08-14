@@ -23,19 +23,22 @@
 
       <ng-container *ngIf="appSettings.dnntEnabled">
         <mz-navbar-item *ngIf="authService.isLoggedIn()">
-          <a (click)="logout()">Odhlásit</a>
+          <a (click)="krameriusLogout()">Odhlásit</a>
         </mz-navbar-item>
         <mz-navbar-item *ngIf="!authService.isLoggedIn()">
           <a [routerLink]="appSettings.getRouteFor('login')">Přihlásit</a>
         </mz-navbar-item>
       </ng-container>
 
-      <ng-container *ngIf="appSettings.loginEnabled">
-        <mz-navbar-item *ngIf="cloudAuth.isLoggedIn()">
+      <ng-container *ngIf="!appSettings.dnntEnabled && appSettings.loginEnabled">
+        <mz-navbar-item *ngIf="account.isLoggedIn()">
+          <a [routerLink]="appSettings.getRouteFor('favourites')">Oblíbené</a>
+        </mz-navbar-item>
+        <mz-navbar-item *ngIf="account.isLoggedIn()">
           <a (click)="logout()">Odhlásit</a>
         </mz-navbar-item>
-        <mz-navbar-item *ngIf="!cloudAuth.isLoggedIn()">
-          <a [routerLink]="appSettings.getRouteFor('login')">Přihlásit</a>
+        <mz-navbar-item *ngIf="!account.isLoggedIn()">
+          <a [routerLink]="appSettings.getRouteFor('signin')">Přihlásit</a>
         </mz-navbar-item>
       </ng-container>
       

@@ -36,7 +36,10 @@ export class CloudApiService {
     markFavourite(metadata: Metadata): Observable<Object> {
         const body = {
             uuid: metadata.uuid,
-            title: metadata.getShortTitle()
+            doctype: metadata.model,
+            policy: metadata.isPublic ? 'public' : 'private',
+            title: metadata.getShortTitle(),
+            kramerius: this.appSettings.code
         };
         if (metadata.publishers.length > 0) {
             body['date'] = metadata.publishers[0].date;
@@ -44,7 +47,6 @@ export class CloudApiService {
         if (metadata.authors.length > 0) {
             body['author'] = metadata.authors[0].name;
         }
-        body['kramerius'] = this.appSettings.code;
         return this.doPost('favourites', body);
     }
 

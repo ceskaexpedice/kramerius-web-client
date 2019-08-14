@@ -1,4 +1,4 @@
-import { CloudAuthService } from './../services/cloud-auth.service';
+import { AccountService } from './../services/account.service';
 import { DialogCitationComponent } from './../dialog/dialog-citation/dialog-citation.component';
 import { DialogAuthosComponent } from './../dialog/dialog-authors/dialog-authors.component';
 import { AppSettings } from './../services/app-settings';
@@ -24,7 +24,7 @@ export class MetadataComponent implements OnInit {
 
   constructor(private modalService: MzModalService,
               public analytics: AnalyticsService,
-              public cloud: CloudAuthService,
+              public account: AccountService,
               public appSettings: AppSettings) { }
 
   ngOnInit() {
