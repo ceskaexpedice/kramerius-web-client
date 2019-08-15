@@ -1,6 +1,7 @@
 // --- BOOK CONTROLS ---
 
 app-book-controls {
+  flex: none;
   .collection {
     .collection-item {
       i[class*="app-mdi-"] {

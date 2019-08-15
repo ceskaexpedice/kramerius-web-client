@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
 import { Metadata } from '../model/metadata.model';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -17,6 +18,7 @@ export class AccountService {
 
     constructor(private tokenService: AngularTokenService,
                 private appSettings: AppSettings,
+                private http: HttpClient,
                 private api: CloudApiService) {
         if (!appSettings.loginEnabled) {
             return;
@@ -25,7 +27,8 @@ export class AccountService {
             response => {
                 console.log('response', response);
                 console.log('as', this.tokenService.currentUserData);
-                this.fetchFavourites();
+                console.log('tokenOptions', this.tokenService.tokenOptions);
+                this.afterLogin();
             },
             error => {
                 console.log('validateToken - error', error);
@@ -40,11 +43,78 @@ export class AccountService {
           password: password
         }).subscribe(
         (response) => {
+            this.afterLogin();
             if (callback) {
                 callback(true);
             }
         },
         (error) => {
+            if (callback) {
+                callback(false);
+            }
+        });
+    }
+
+    activateAccount(uid: string, token: string, clinecId: string, password: string, passwordConfirmations: string, callback: (success: boolean) => void) {
+        const headers = new HttpHeaders({'uid': uid, 'client': clinecId, 'access-token': token});
+        const options = { headers: headers };
+        const url = `${this.tokenService.apiBase}/auth/password?password=${password}&password_confirmation=${passwordConfirmations}`;
+        this.http.put(url, null, options).subscribe(
+            (response) => {
+                console.log('activateAccount success', response);
+                this.tokenService.validateToken().subscribe(
+                    () => {
+                        this.afterLogin();
+                        if (callback) {
+                            callback(true);
+                        }
+                    },
+                    error => {
+                        if (callback) {
+                            callback(false);
+                        }
+                    }
+                );
+            },
+            (error) => {
+                console.log('activateAccount failure', error);
+                if (callback) {
+                    callback(false);
+                }
+            });
+    }
+
+    resetPassword(email: string, callback: (success: boolean) => void) {
+        this.tokenService.tokenOptions.resetPasswordCallback = window.location.origin + this.appSettings.getRouteFor('reset-password');
+        this.tokenService.resetPassword( {login: email}).subscribe(
+            () => {
+                if (callback) {
+                    callback(true);
+                }
+            },
+            (error) => {
+                if (callback) {
+                    callback(false);
+                }
+            });
+    }
+
+    register(name: string, email: string, password: string, passwordConfirmation: string, callback: (success: boolean) => void) {
+        this.tokenService.tokenOptions.registerAccountCallback = window.location.origin + this.appSettings.getRouteFor('signin');
+        return this.tokenService.registerAccount({
+            name: name,
+            login: email,
+            password: password,
+            passwordConfirmation: passwordConfirmation
+        }).subscribe(
+        (response) => {
+            console.log('register success', response);
+            if (callback) {
+                callback(true);
+            }
+        },
+        (error) => {
+            console.log('register error', error);
             if (callback) {
                 callback(false);
             }
@@ -62,7 +132,7 @@ export class AccountService {
 
 
     isLoggedIn(): boolean {
-        return this.tokenService.userSignedIn();
+        return this.tokenService.userSignedIn() && !!this.tokenService.currentUserData;
     }
 
     fetchFavourites() {
@@ -112,7 +182,11 @@ export class AccountService {
 
 
 
-
+    private afterLogin() {
+        console.log('is sign in', this.tokenService.userSignedIn());
+        console.log('data', this.tokenService.currentUserData);
+        this.fetchFavourites();
+    }
 
     private userData() {
         return this.tokenService.currentUserData;
@@ -142,7 +216,8 @@ export class AccountService {
         item.date = doc['date'];
         item.library = doc['kramerius'];
         item.authors = doc['author'] ? [doc['author']] : [];
-        item.resolveUrl(this.appSettings.getPathPrefix());
+        const prefix = this.appSettings.multiKramerius ? '/' + item.library : '';
+        item.resolveUrl(prefix);
         return item;
     }
 

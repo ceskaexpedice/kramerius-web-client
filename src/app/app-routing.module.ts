@@ -1,3 +1,4 @@
+import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
 import { FavouritesComponent } from './favourites/favourites.component';
 import { AboutComponent } from './about/about.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -15,13 +16,18 @@ import { RoutingPrefixGuardService } from './guards/routing-prefix.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import { SigninComponent } from './account/signin/signin.component';
+import { RegisterComponent } from './account/register/register.component';
+import { ResetPasswordComponent } from './account/reset-password/reset-password.component';
 
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
     { path: '', component: HomeComponent, canActivate: [ RoutingGuardService ] },
     { path: 'about', component: AboutComponent, canActivate: [ RoutingGuardService ] },
     { path: 'login', component: LoginComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'register', component: RegisterComponent, canActivate: [ RoutingGuardService ] },
     { path: 'signin', component: SigninComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'reset-password', component: ResetPasswordComponent, canActivate: [ RoutingGuardService ] },
     { path: 'browse', component: BrowseComponent, canActivate: [ RoutingGuardService ] },
     { path: 'search', component: SearchComponent, canActivate: [ RoutingGuardService ] },
     { path: 'favourites', component: FavouritesComponent, canActivate: [ RoutingGuardService ] },
@@ -33,7 +39,10 @@ const ROUTES: Routes = [
     { path: 'view', component: BookComponent, canActivate: [ RoutingGuardService ] },
     { path: ':k/about', component: AboutComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/login', component: LoginComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/register', component: RegisterComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/signin', component: SigninComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/forgot-password', component: ForgotPasswordComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/reset-password', component: ResetPasswordComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/browse', component: BrowseComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/search', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/favourites', component: FavouritesComponent, canActivate: [ RoutingPrefixGuardService ] },

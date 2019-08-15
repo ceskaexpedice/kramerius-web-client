@@ -1,4 +1,9 @@
 <div class="app-signin-wrapper">
+  <div class="app-signin">
+
+  <div *ngIf="welcomeMessage" class="app-message">
+    {{ welcomeMessage }}
+  </div>
 
   <div class="app-title">Přihlaste se</div>
 
@@ -7,9 +12,9 @@
           [label]="'E-mail'"
           [(ngModel)]="email"
           [validate]="false"
-          id="email-input"
+          name="email"
           placeholder="Zadejte e-mailovou adresu"
-          type="text">
+          type="email">
       </mz-input-container>
 
       <mz-input-container>
@@ -17,17 +22,31 @@
             [label]="'Heslo'"
             [(ngModel)]="password"
             [validate]="false"
-            id="password-input"
+            name="password"
             placeholder="Zadejte heslo"
             type="password">
         </mz-input-container>
 
-        <div *ngIf="state === 'failure'" class="app-error">Přihlášení se nezdařilo</div>
+        <div *ngIf="state === 'failure'" class="app-error">{{ errorMessage }}</div>
+
+        <div class="app-links">
+          <div style="float: left;">
+            Nemáte účet?
+            <a [routerLink]="appSettings.getRouteFor('register')">Registrujte se</a>
+          </div>
+          <div style="float: right;">
+              <a [routerLink]="appSettings.getRouteFor('forgot-password')">Zapomněli jste heslo?</a>
+          </div>
+        </div>
 
         <button mz-button (click)="login()">
             Přihlásit se
         </button>
 
+        <mz-spinner *ngIf="state == 'loading'"
+          [color]="'blue'"
+          [size]="'small'">
+        </mz-spinner>
 
-
+    </div>
 </div>

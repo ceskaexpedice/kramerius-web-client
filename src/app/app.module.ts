@@ -1,3 +1,4 @@
+import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
 import { SigninComponent } from './account/signin/signin.component';
 import { AccountService } from './services/account.service';
 import { DialogCitationComponent } from './dialog/dialog-citation/dialog-citation.component';
@@ -119,6 +120,8 @@ import { AngularTokenModule } from 'angular-token';
 import { environment } from '../environments/environment';
 import { FavouritesComponent } from './favourites/favourites.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './account/register/register.component';
+import { ResetPasswordComponent } from './account/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -194,7 +197,10 @@ import { LoginComponent } from './login/login.component';
     HomeFooterComponent,
     FavouritesComponent,
     LoginComponent,
-    SigninComponent
+    SigninComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   entryComponents: [
     DialogOcrComponent,
