@@ -251,7 +251,8 @@ import { OmniauthComponent } from './account/omniauth/omniauth.component';
       oAuthBase: 'http://localhost:3000/api/v1',
       oAuthCallbackPath: 'omniauth',
       oAuthPaths: {
-        google: 'auth/google_oauth2'
+        google: 'auth/google_oauth2',
+        facebook: 'auth/facebook'
       },
       oAuthWindowType: 'newWindow'
     })

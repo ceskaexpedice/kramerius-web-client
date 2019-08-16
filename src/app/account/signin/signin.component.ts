@@ -60,12 +60,14 @@ export class SigninComponent implements OnInit {
 
   loginWithGoogle() {
     this.account.signInOAuth('google', () => {
-
+      console.log('after loginWithGoogle');
     });
   }
 
   loginWithFacebook() {
-
+    this.account.signInOAuth('facebook', () => {
+      console.log('after loginWithFacebook');
+    });
   }
 
 }
