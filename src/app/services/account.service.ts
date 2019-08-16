@@ -36,6 +36,23 @@ export class AccountService {
         );
     }
 
+    processOAuthCallback(callback: (success: boolean) => void) {
+        this.tokenService.processOAuthCallback();
+        this.tokenService.validateToken().subscribe(
+          response => {
+            this.afterLogin();
+            if (callback) {
+                callback(true);
+            }
+          },
+          error => {
+            if (callback) {
+                callback(false);
+            }
+        }
+      );
+    }
+
 
     login(email: string, password: string, callback: (success: boolean) => void) {
         return this.tokenService.signIn({
@@ -83,6 +100,26 @@ export class AccountService {
                 }
             });
     }
+
+
+    signInOAuth(provider: string, callback: (success: boolean) => void) {
+        this.tokenService.tokenOptions.oAuthWindowType = 'sameWindow'; // 'newWindow';
+        console.log('this.tokenService.tokenOptions', this.tokenService.tokenOptions);
+        this.tokenService.signInOAuth(provider).subscribe(
+            (response) => {
+                console.log('signInOAuth success', response);
+                if (callback) {
+                    callback(true);
+                }
+            },
+            (error) => {
+                console.log('signInOAuth failure', error);
+                if (callback) {
+                    callback(false);
+                }
+            });
+    }
+
 
     resetPassword(email: string, callback: (success: boolean) => void) {
         this.tokenService.tokenOptions.resetPasswordCallback = window.location.origin + this.appSettings.getRouteFor('reset-password');

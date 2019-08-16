@@ -14,20 +14,21 @@ app-search-results {
   app-document-card {
     float: left;
     width:16.66666%;
-    @media (max-width: 1900px) {
+    @media (max-width: 2300px) {
       width:20%;
     }
-    @media (max-width: 1500px) {
+    @media (max-width: 1900px) {
       width:25%;
     }
-    @media (max-width: 1100px) {
+    @media (max-width: 1500px) {
       width:33.33333%;
     }
-    @media (max-width: 800px) {
+    @media (max-width: 1260px) {
       width:50%;
     }
-    @media (max-width: 500px) {
+    @media (max-width: 900px) {
       width:100%;
     }
   }
+
 }

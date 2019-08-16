@@ -12,6 +12,7 @@
           [label]="'E-mail'"
           [(ngModel)]="email"
           [validate]="false"
+          [disabled]="state == 'loading'"
           name="email"
           placeholder="Zadejte e-mailovou adresu"
           type="email">
@@ -22,6 +23,7 @@
             [label]="'Heslo'"
             [(ngModel)]="password"
             [validate]="false"
+            [disabled]="state == 'loading'"
             name="password"
             placeholder="Zadejte heslo"
             type="password">
@@ -39,6 +41,8 @@
           </div>
         </div>
 
+
+
         <button mz-button (click)="login()">
             Přihlásit se
         </button>
@@ -47,6 +51,18 @@
           [color]="'blue'"
           [size]="'small'">
         </mz-spinner>
+
+        <div class="app-social-auth-wrapper">
+          <button mz-button [disabled]="state == 'loading'"
+                  class="app-social-auth app-google-auth" (click)="loginWithGoogle()">
+            Přihlásit se Google účtem
+          </button>
+
+          <button mz-button [disabled]="state == 'loading'"
+                  class="app-social-auth app-facebook-auth" (click)="loginWithFacebook()">
+            Přihlásit se Facebook účtem
+          </button>
+        </div>
 
     </div>
 </div>

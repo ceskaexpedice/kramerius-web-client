@@ -122,6 +122,7 @@ import { FavouritesComponent } from './favourites/favourites.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './account/register/register.component';
 import { ResetPasswordComponent } from './account/reset-password/reset-password.component';
+import { OmniauthComponent } from './account/omniauth/omniauth.component';
 
 @NgModule({
   declarations: [
@@ -200,7 +201,8 @@ import { ResetPasswordComponent } from './account/reset-password/reset-password.
     SigninComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    OmniauthComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -245,7 +247,13 @@ import { ResetPasswordComponent } from './account/reset-password/reset-password.
     MzDatepickerModule,
     ClipboardModule,
     AngularTokenModule.forRoot({
-      apiBase: environment.apiBase
+      apiBase: environment.apiBase,
+      oAuthBase: 'http://localhost:3000/api/v1',
+      oAuthCallbackPath: 'omniauth',
+      oAuthPaths: {
+        google: 'auth/google_oauth2'
+      },
+      oAuthWindowType: 'newWindow'
     })
   ],
   providers: [

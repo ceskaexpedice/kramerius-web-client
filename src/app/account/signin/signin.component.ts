@@ -37,7 +37,6 @@ export class SigninComponent implements OnInit {
   }
 
   login() {
-    this.state = 'loading';
     if (!this.email) {
       this.errorMessage = 'Zadejte prosím e-mailovou adresu';
       this.state = 'failure';
@@ -48,6 +47,7 @@ export class SigninComponent implements OnInit {
       this.state = 'failure';
       return;
     }
+    this.state = 'loading';
     this.account.login(this.email, this.password, (success: boolean) => {
       if (success) {
         this.router.navigate(['/']);
@@ -57,4 +57,17 @@ export class SigninComponent implements OnInit {
       }
     });
   }
+
+  loginWithGoogle() {
+    this.account.signInOAuth('google', () => {
+
+    });
+  }
+
+  loginWithFacebook() {
+
+  }
+
 }
+
+// http://localhost:4200/omniauth?auth_token=Cz0g7SOmKm189Ksu1dTmqw&blank=true&client_id=kCi7_1OIHmtIyyOzLsaC8Q&config=&expiry=1571167415&oauth_registration=true&uid=110717545164623872062#
