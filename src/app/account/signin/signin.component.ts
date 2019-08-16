@@ -69,5 +69,3 @@ export class SigninComponent implements OnInit {
   }
 
 }
-
-// http://localhost:4200/omniauth?auth_token=Cz0g7SOmKm189Ksu1dTmqw&blank=true&client_id=kCi7_1OIHmtIyyOzLsaC8Q&config=&expiry=1571167415&oauth_registration=true&uid=110717545164623872062#

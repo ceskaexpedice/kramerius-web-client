@@ -30,20 +30,57 @@
         </mz-navbar-item>
       </ng-container>
 
-      <ng-container *ngIf="!appSettings.dnntEnabled && appSettings.loginEnabled">
-        <mz-navbar-item *ngIf="account.isLoggedIn()">
-          <a [routerLink]="appSettings.getRouteFor('favourites')">Oblíbené</a>
-        </mz-navbar-item>
-        <mz-navbar-item *ngIf="account.isLoggedIn()">
-          <a (click)="logout()">Odhlásit</a>
-        </mz-navbar-item>
-        <mz-navbar-item *ngIf="!account.isLoggedIn()">
-          <a [routerLink]="appSettings.getRouteFor('signin')">Přihlásit</a>
-        </mz-navbar-item>
-      </ng-container>
+
+
+
+
+
+
+
+
       
       <mz-navbar-item *ngIf="translator.language == 'cs'"><a (click)='onLanguageChanged("en")'>English</a></mz-navbar-item>
       <mz-navbar-item *ngIf="translator.language == 'en'"><a (click)='onLanguageChanged("cs")'>Česky</a></mz-navbar-item>
+
+      <ng-container *ngIf="!appSettings.dnntEnabled && appSettings.loginEnabled">
+
+        <mz-navbar-item *ngIf="account.isLoggedIn()" class="app-profile">
+         
+          <img *ngIf="account.getImage()" class="app-profile-img" [src]="account.getImage()" id="btn-dropdown-profile">
+          <div *ngIf="!account.getImage()" class="app-profile-txt" id="btn-dropdown-profile">{{ account.getTextProfile() }}</div>
+
+          <mz-dropdown
+          [id]="'dropdown-profile'"
+          [align]="'left'"
+          [belowOrigin]="true"
+          [constrainWidth]="true"
+          [dropdownButtonId]="'btn-dropdown-profile'"
+          [gutter]="true"
+          [hover]="false"
+          [inDuration]="300"
+          [outDuration]="300"
+          [stopPropagation]="true"
+        >
+          <mz-dropdown-item><div class="app-profile-name">{{ account.getName() }}</div></mz-dropdown-item>
+          <mz-dropdown-item><a [routerLink]="appSettings.getRouteFor('favourites')">Oblíbené</a></mz-dropdown-item>
+          <mz-dropdown-divider></mz-dropdown-divider>
+          <mz-dropdown-item><a (click)="logout()">Odhlásit</a></mz-dropdown-item>
+        </mz-dropdown>
+
+
+        </mz-navbar-item>
+        <mz-navbar-item *ngIf="!account.isLoggedIn()">
+            <a [routerLink]="appSettings.getRouteFor('signin')">Přihlásit</a>
+          </mz-navbar-item>  
+
+
+
+
+
+
+      </ng-container>
+
+
     </mz-navbar-item-container>
     <a class="right app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="!state.atHome()">
       <i *ngIf="!mobileSearchBarExpanded" mz-icon-mdi [icon]="'magnify'"></i>

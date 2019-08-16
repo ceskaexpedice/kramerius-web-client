@@ -218,6 +218,25 @@ export class AccountService {
 
 
 
+    getName(): string {
+        return this.tokenService.currentUserData ? this.tokenService.currentUserData.name : '';
+    }
+
+    getImage(): string {
+        return this.tokenService.currentUserData ? this.tokenService.currentUserData.image : '';
+    }
+
+
+    getTextProfile(): string {
+        const name = this.getName();
+        if (!name) {
+            return '?';
+        }
+        return name[0];
+    }
+
+
+
 
     private afterLogin() {
         console.log('is sign in', this.tokenService.userSignedIn());
