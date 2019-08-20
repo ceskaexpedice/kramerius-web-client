@@ -248,7 +248,7 @@ import { OmniauthComponent } from './account/omniauth/omniauth.component';
     ClipboardModule,
     AngularTokenModule.forRoot({
       apiBase: environment.apiBase,
-      oAuthBase: 'http://localhost:3000/api/v1',
+      oAuthBase: environment.apiBase,
       oAuthCallbackPath: 'omniauth',
       oAuthPaths: {
         google: 'auth/google_oauth2',

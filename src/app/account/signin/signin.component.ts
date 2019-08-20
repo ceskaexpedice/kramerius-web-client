@@ -19,7 +19,7 @@ export class SigninComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private account: AccountService,
-              private appSettings: AppSettings) { }
+              public appSettings: AppSettings) { }
 
   ngOnInit() {
     if (!this.appSettings.loginEnabled) {
