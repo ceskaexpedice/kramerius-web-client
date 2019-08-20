@@ -1,3 +1,4 @@
+import { AccountService } from './account.service';
 import { AppSettings } from './app-settings';
 import { SolrService } from './solr.service';
 import { ModsParserService } from './mods-parser.service';
@@ -89,6 +90,7 @@ export class BookService {
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
+        private account: AccountService,
         private modalService: MzModalService) {
     }
 
@@ -374,6 +376,15 @@ export class BookService {
                 this.fulltextChanged(this.fulltextQuery, pageUuid);
             } else {
                 this.goToPageOnIndex(pageIndex, true);
+                if (pageIndex === 0) {
+                    if (this.account.serviceEnabled()) {
+                        this.account.getLastPageIndex(this.uuid, (index: number) => {
+                            if (this.activePageIndex === 0 && index && index !== 0) {
+                                this.goToPageOnIndex(index);
+                            }
+                        });
+                    }
+                }
             }
         }
     }
@@ -759,6 +770,10 @@ export class BookService {
     }
 
     goToPageOnIndex(index: number, replaceState = false) {
+        console.log('index', index);
+        if (this.account.serviceEnabled()) {
+            this.account.setLastPageIndex(this.uuid, index, null);
+        }
         this.viewer = 'image';
         if (index >= this.pages.length) {
             return;

@@ -20,7 +20,7 @@ export class AccountService {
                 private appSettings: AppSettings,
                 private http: HttpClient,
                 private api: CloudApiService) {
-        if (!appSettings.loginEnabled) {
+        if (!this.serviceEnabled()) {
             return;
         }
         this.tokenService.validateToken().subscribe(
@@ -34,6 +34,10 @@ export class AccountService {
                 console.log('validateToken - error', error);
             }
         );
+    }
+
+    serviceEnabled(): boolean {
+        return this.appSettings.loginEnabled;
     }
 
     processOAuthCallback(callback: (success: boolean) => void) {
@@ -185,6 +189,39 @@ export class AccountService {
 
     isFavourited(uuid: string): boolean {
         return !!this.favouritesMap[uuid];
+    }
+
+
+    setLastPageIndex(uuid: string, index: number, callback: () => any) {
+        if (!this.isLoggedIn()) {
+            return;
+        }
+        this.api.setLastPageIndex(uuid, index).subscribe(
+            (response) => {
+                if (callback) {
+                    callback();
+                }
+            },
+            (error) => {
+                console.log('CL setLastPageIndex error', error);
+            }
+        );
+    }
+
+    getLastPageIndex(uuid: string, callback: (index: number) => any) {
+        if (!this.isLoggedIn()) {
+            return;
+        }
+        this.api.getLastPageIndex(uuid).subscribe(
+            (response) => {
+                if (callback) {
+                    callback(response['index']);
+                }
+            },
+            (error) => {
+                console.log('CL getLastPageIndex error', error);
+            }
+        );
     }
 
     markFavourite(metadata: Metadata, callback: () => any) {

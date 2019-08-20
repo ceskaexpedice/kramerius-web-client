@@ -20,8 +20,8 @@ export class CloudApiService {
     constructor(private http: HttpClient, private appSettings: AppSettings) {
     }
 
-    private doGet(path: string): Observable<Object> {
-        return this.http.get(encodeURI(this.baseUrl + '/' + path));
+    private doGet(path: string, params: any = {}): Observable<Object> {
+        return this.http.get(encodeURI(this.baseUrl + '/' + path), {params: params});
     }
 
     private doPost(path: string, body: any = null): Observable<Object> {
@@ -31,6 +31,25 @@ export class CloudApiService {
     getFavourites() {
         const url = 'favourites';
         return this.doGet(url);
+    }
+
+    getLastPageIndex(uuid: string) {
+        const params = {
+            uuid: uuid,
+            kramerius: this.appSettings.code
+        };
+        const url = 'last_page_indices';
+        return this.doGet(url, params);
+    }
+
+    setLastPageIndex(uuid: string, index: number) {
+        const params = {
+            uuid: uuid,
+            index: index,
+            kramerius: this.appSettings.code
+        };
+        const url = 'last_page_indices';
+        return this.doPost(url, params);
     }
 
     markFavourite(metadata: Metadata): Observable<Object> {
