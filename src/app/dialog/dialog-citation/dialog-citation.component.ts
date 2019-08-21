@@ -1,8 +1,8 @@
 import { ShareService } from './../../services/share.service';
-import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { MzBaseModal } from 'ngx-materialize';
 import { Metadata } from '../../model/metadata.model';
+import { CloudApiService } from '../../services/cloud-api.service';
 
 @Component({
   selector: 'app-dialog-citation',
@@ -33,7 +33,7 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
   ];
 
 
-  constructor(private api: KrameriusApiService, private shareService: ShareService) {
+  constructor(private cloudApi: CloudApiService, private shareService: ShareService) {
     super();
   }
 
@@ -62,7 +62,7 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
   changeTab(item) {
     this.selection = item;
     if (!this.selection.citation) {
-      this.api.getCitation(item.uuid).subscribe( (citation: string) => {
+      this.cloudApi.getCitation(item.uuid).subscribe( (citation: string) => {
         const link = this.shareService.getPersistentLink(item.uuid);
         item.citation = `${citation} Dostupné také z: ${link}`;
       });

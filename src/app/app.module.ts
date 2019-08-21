@@ -1,5 +1,7 @@
+import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
+import { SigninComponent } from './account/signin/signin.component';
+import { AccountService } from './services/account.service';
 import { DialogCitationComponent } from './dialog/dialog-citation/dialog-citation.component';
-import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
 import { SimpleDialogComponent } from './dialog/simple-dialog/simple-dialog.component';
 import { AppSettings } from './services/app-settings';
@@ -113,6 +115,14 @@ import { AnalyticsService } from './services/analytics.service';
 import { DatepickerModule } from './datepicker';
 import { HomeFooterComponent } from './home/home-footer/home-footer.component';
 import { KrameriusInfoService } from './services/kramerius-info.service';
+import { CloudApiService } from './services/cloud-api.service';
+import { AngularTokenModule } from 'angular-token';
+import { environment } from '../environments/environment';
+import { FavouritesComponent } from './favourites/favourites.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './account/register/register.component';
+import { ResetPasswordComponent } from './account/reset-password/reset-password.component';
+import { OmniauthComponent } from './account/omniauth/omniauth.component';
 
 @NgModule({
   declarations: [
@@ -184,9 +194,15 @@ import { KrameriusInfoService } from './services/kramerius-info.service';
     NotFoundComponent,
     RemovePrefixPipe,
     UpcasePipe,
-    LoginComponent,
     AboutComponent,
-    HomeFooterComponent
+    HomeFooterComponent,
+    FavouritesComponent,
+    LoginComponent,
+    SigninComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    OmniauthComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -229,7 +245,17 @@ import { KrameriusInfoService } from './services/kramerius-info.service';
     MzDropdownModule,
     MzCheckboxModule,
     MzDatepickerModule,
-    ClipboardModule
+    ClipboardModule,
+    AngularTokenModule.forRoot({
+      apiBase: environment.apiBase,
+      oAuthBase: environment.apiBase,
+      oAuthCallbackPath: 'omniauth',
+      oAuthPaths: {
+        google: 'auth/google_oauth2',
+        facebook: 'auth/facebook'
+      },
+      oAuthWindowType: 'newWindow'
+    })
   ],
   providers: [
     AppState,
@@ -257,7 +283,9 @@ import { KrameriusInfoService } from './services/kramerius-info.service';
     ShareService,
     AnalyticsService,
     KrameriusInfoService,
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    CloudApiService,
+    AccountService,
+    AngularTokenModule,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

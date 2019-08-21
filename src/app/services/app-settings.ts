@@ -1,4 +1,3 @@
-import { KrameriusInfoService } from './kramerius-info.service';
 import { CollectionService } from './collection.service';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -35,6 +34,7 @@ export class AppSettings {
   public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
   public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
   public dnntEnabled = APP_GLOBAL.dnnt;
+  public loginEnabled = APP_GLOBAL.login;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public aboutPage = APP_GLOBAL.aboutPage;

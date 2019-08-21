@@ -1,0 +1,66 @@
+<div class="app-register-wrapper">
+  <div class="app-register">
+    <div class="app-title">Vytvořit účet</div>
+    <mz-input-container>
+      <input mz-input
+        [label]="'Jméno'"
+        [(ngModel)]="name"
+        [validate]="false"
+        [disabled]="state == 'loading' || state == 'success'"
+        id="name-input"
+        placeholder="Zadejte jméno"
+        type="text">
+    </mz-input-container>
+    <mz-input-container>
+      <input mz-input
+        [label]="'E-mail'"
+        [(ngModel)]="email"
+        [validate]="false"
+        required=true
+        [disabled]="state == 'loading' || state == 'success'"
+        id="email-input"
+        placeholder="Zadejte e-mailovou adresu"
+        type="text">
+    </mz-input-container>
+
+    <mz-input-container>
+      <input mz-input
+        [label]="'Heslo'"
+        [(ngModel)]="password"
+        [validate]="false"
+        required=true
+        [disabled]="state == 'loading' || state == 'success'"
+        id="password-input"
+        placeholder="Zadejte heslo"
+        type="password">
+    </mz-input-container>
+
+    <mz-input-container>
+      <input mz-input
+        [label]="'Potvrzení hesla'"
+        [(ngModel)]="passwordConfirmation"
+        [validate]="false"
+        required=true
+        [disabled]="state == 'loading' || state == 'success'"
+        id="password-confirmation-input"
+        placeholder="Zadejte heslo ještě jednou"
+        type="password">
+    </mz-input-container>
+
+    <div *ngIf="state === 'failure'" class="app-error">{{ message }}</div>
+
+    <button mz-button (click)="register()" [disabled]="state == 'loading' || state == 'success'">
+        Vytvořit účet
+    </button>
+
+    <div *ngIf="state === 'success'" class="app-message">
+      Na vaší e-mailovou adresu byla odeslána zpráva z insturkcemi pro aktivaci účtu.
+    </div>
+
+    <mz-spinner *ngIf="state == 'loading'"
+      [color]="'blue'"
+      [size]="'small'">
+    </mz-spinner>
+
+  </div>
+</div>

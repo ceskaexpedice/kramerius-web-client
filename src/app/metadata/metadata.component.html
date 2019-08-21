@@ -9,7 +9,15 @@
       </i>
       <i class="app-mdi-metadata-share app-cursor-pointer" (click)="showModsDialog()"
         mz-tooltip [tooltip]="'book_controls.tooltip_metadata' | translate"  [position]="'bottom'">
-     </i>
+      </i>
+      <ng-container *ngIf="appSettings.loginEnabled">
+        <i *ngIf="!account.isFavourited(metadata.uuid)" class="app-mdi-favourite-off app-cursor-pointer" (click)="account.markFavourite(metadata, null)"
+          mz-tooltip [tooltip]="'book_controls.tooltip_mark_favourite' | translate"  [position]="'bottom'">
+        </i>
+        <i *ngIf="account.isFavourited(metadata.uuid)" class="app-mdi-favourite-on app-cursor-pointer app-favourite" (click)="account.unmarkFavourite(metadata.uuid, null)"
+        mz-tooltip [tooltip]="'book_controls.tooltip_unmark_favourite' | translate"  [position]="'bottom'">
+      </i>
+      </ng-container>
   </div>
 
   <div class="app-metadata-content">

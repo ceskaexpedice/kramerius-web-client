@@ -250,6 +250,8 @@
     "tooltip_share": "Share",
     "tooltip_metadata": "Metadata",
     "tooltip_citation": "Citation",
+    "tooltip_mark_favourite": "Add to favourites",
+    "tooltip_unmark_favourite": "Remove from favourites",
     "all_pages": "All Pages"
    
   },

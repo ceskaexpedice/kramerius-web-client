@@ -1,4 +1,4 @@
-import { AuthService } from './../services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user.model';
 import { Router } from '@angular/router';
@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
 
   state: string; // none | loading | failure
 
-  constructor(private authService: AuthService, public router: Router) { }
+  constructor(private authService: AuthService,
+              public router: Router) { }
 
   ngOnInit() {
     this.state = 'none';
@@ -36,4 +37,5 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
 }

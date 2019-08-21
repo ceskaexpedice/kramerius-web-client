@@ -80,6 +80,46 @@ app-navbar {
             display: initial;
           }
         }
+        .app-profile {
+          & > li {
+            height: 68px;
+          } 
+          .app-profile-img {
+            width: 40px;
+            height: 40px;
+            margin: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+          }
+          .app-profile-txt {
+            width: 40px;
+            height: 40px;
+            margin: 14px;
+            background: $primary-color;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 16px;
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: 600;
+            line-height: 40px;
+            cursor: pointer;
+          }
+          .dropdown-content {
+              width: auto !important;
+              right: 14px !important;
+              top: 50px !important;
+              left: auto !important;
+            .app-profile-name {
+              line-height: 50px;
+              padding-left: 16px;
+              padding-right: 16px;
+              background: $primary-color;
+              color: #fff;
+              cursor: default;
+            }
+          }
+        }
       }
     }
   }

@@ -79,7 +79,6 @@ export class KrameriusApiService {
     private doGetText(url: string): Observable<string> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'text' })
         .map(response => response['body']);
-
     }
 
     getSearchResults(query: string) {
@@ -445,12 +444,6 @@ export class KrameriusApiService {
         const c = Math.max(Math.round(x2 - x1), 0);
         const d = Math.max(Math.round(Math.abs(y1) - Math.abs(y2)), 0);
         return iiif + '/' + a + ',' + b + ',' + c + ',' + d + '/full/0/default.jpg';
-    }
-
-
-    getCitation(uuid: string): Observable<string> {
-        const url =  `http://citace.kramerius.cloud/v1/kramerius?url=${this.getbaseUrl()}&uuid=${uuid}&format=html`;
-        return this.doGetText(url).catch(this.handleError);
     }
 
 }

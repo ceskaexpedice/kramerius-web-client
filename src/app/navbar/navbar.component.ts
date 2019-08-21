@@ -1,3 +1,4 @@
+import { AccountService } from './../services/account.service';
 import { AnalyticsService } from './../services/analytics.service';
 import { AuthService } from './../services/auth.service';
 import { AppSettings } from './../services/app-settings';
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
     public translator: Translator,
     public router: Router,
     public authService: AuthService,
+    public account: AccountService,
     public appSettings: AppSettings,
     private history: HistoryService,
     public service: LibrarySearchService,
@@ -49,9 +51,21 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.analytics.sendEvent('navbar', 'logout');
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['/']);
-    });
+    if (this.appSettings.loginEnabled) {
+      this.account.logout(() => {
+        this.router.navigate(['/']);
+      });
+    }
   }
+
+  krameriusLogout() {
+    this.analytics.sendEvent('navbar', 'kramerius-logout');
+    if (this.appSettings.dnntEnabled) {
+      this.authService.logout().subscribe(() => {
+        this.router.navigate(['/']);
+      });
+    }
+  }
+
 
 }

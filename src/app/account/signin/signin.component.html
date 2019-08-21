@@ -1,0 +1,68 @@
+<div class="app-signin-wrapper">
+  <div class="app-signin">
+
+  <div *ngIf="welcomeMessage" class="app-message">
+    {{ welcomeMessage }}
+  </div>
+
+  <div class="app-title">Přihlaste se</div>
+
+    <mz-input-container>
+        <input mz-input
+          [label]="'E-mail'"
+          [(ngModel)]="email"
+          [validate]="false"
+          [disabled]="state == 'loading'"
+          name="email"
+          placeholder="Zadejte e-mailovou adresu"
+          type="email">
+      </mz-input-container>
+
+      <mz-input-container>
+          <input mz-input
+            [label]="'Heslo'"
+            [(ngModel)]="password"
+            [validate]="false"
+            [disabled]="state == 'loading'"
+            name="password"
+            placeholder="Zadejte heslo"
+            type="password">
+        </mz-input-container>
+
+        <div *ngIf="state === 'failure'" class="app-error">{{ errorMessage }}</div>
+
+        <div class="app-links">
+          <div style="float: left;">
+            Nemáte účet?
+            <a [routerLink]="appSettings.getRouteFor('register')">Registrujte se</a>
+          </div>
+          <div style="float: right;">
+              <a [routerLink]="appSettings.getRouteFor('forgot-password')">Zapomněli jste heslo?</a>
+          </div>
+        </div>
+
+
+
+        <button mz-button (click)="login()">
+            Přihlásit se
+        </button>
+
+        <mz-spinner *ngIf="state == 'loading'"
+          [color]="'blue'"
+          [size]="'small'">
+        </mz-spinner>
+
+        <div class="app-social-auth-wrapper">
+          <button mz-button [disabled]="state == 'loading'"
+                  class="app-social-auth app-google-auth" (click)="loginWithGoogle()">
+            Přihlásit se Google účtem
+          </button>
+
+          <button mz-button [disabled]="state == 'loading'"
+                  class="app-social-auth app-facebook-auth" (click)="loginWithFacebook()">
+            Přihlásit se Facebook účtem
+          </button>
+        </div>
+
+    </div>
+</div>

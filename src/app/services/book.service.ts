@@ -1,3 +1,4 @@
+import { AccountService } from './account.service';
 import { AppSettings } from './app-settings';
 import { SolrService } from './solr.service';
 import { ModsParserService } from './mods-parser.service';
@@ -89,6 +90,7 @@ export class BookService {
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
+        private account: AccountService,
         private modalService: MzModalService) {
     }
 
@@ -137,6 +139,7 @@ export class BookService {
             this.isPrivate = !item.public;
             this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response, item.root_uuid);
+                this.metadata.isPublic = item.public;
                 this.metadata.model = item.doctype;
                 this.metadata.donator = item.donator;
                 this.analytics.sendEvent('viewer', 'open', this.metadata.getShortTitle());
@@ -373,6 +376,15 @@ export class BookService {
                 this.fulltextChanged(this.fulltextQuery, pageUuid);
             } else {
                 this.goToPageOnIndex(pageIndex, true);
+                if (pageIndex === 0) {
+                    if (this.account.serviceEnabled()) {
+                        this.account.getLastPageIndex(this.uuid, (index: number) => {
+                            if (this.activePageIndex === 0 && index && index !== 0) {
+                                this.goToPageOnIndex(index);
+                            }
+                        });
+                    }
+                }
             }
         }
     }
@@ -490,6 +502,9 @@ export class BookService {
 
     goToPage(page: Page) {
         this.goToPageOnIndex(page.index);
+        if (this.account.serviceEnabled()) {
+            this.account.setLastPageIndex(this.uuid, page.index, null);
+        }
     }
 
     goToPageWithUuid(uuid: string) {
@@ -504,13 +519,21 @@ export class BookService {
     goToNext() {
         if (this.hasNext()) {
             const n = this.doublePage ? 2 : 1;
-            this.goToPageOnIndex(this.activePageIndex + n);
+            const index = this.activePageIndex + n;
+            this.goToPageOnIndex(index);
+            if (this.account.serviceEnabled()) {
+                this.account.setLastPageIndex(this.uuid, index, null);
+            }
         }
     }
 
     goToPrevious() {
         if (this.hasPrevious()) {
-            this.goToPageOnIndex(this.activePageIndex - 1);
+            const index = this.activePageIndex - 1;
+            this.goToPageOnIndex(index);
+            if (this.account.serviceEnabled()) {
+                this.account.setLastPageIndex(this.uuid, index, null);
+            }
         }
     }
 

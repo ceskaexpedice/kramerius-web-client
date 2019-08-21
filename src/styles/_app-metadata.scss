@@ -69,6 +69,9 @@ app-metadata {
         margin-right: 21px;  
         float: right;  
         color: $app-grey;
+        &.app-favourite {
+          color: $primary-color;
+        }
         &:hover {
           color: color("shades", "black");
         }
