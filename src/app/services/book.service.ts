@@ -28,6 +28,7 @@ import { PageTitleService } from './page-title.service';
 import { InternalPart } from '../model/internal_part.model';
 import { Translator } from 'angular-translator';
 import { AnalyticsService } from './analytics.service';
+import { DialogPdfGeneratorComponent } from '../dialog/dialog-pdf-generator/dialog-pdf-generator.component';
 
 
 
@@ -756,11 +757,11 @@ export class BookService {
                 button: 'common.close'
             });
         } else {
-            this.modalService.open(DialogPdfComponent, {
+            this.modalService.open(DialogPdfGeneratorComponent, {
                 pageCount: this.getPageCount(),
                 currentPage: this.getPage().index,
                 doublePage: this.doublePage,
-                uuids: this.uuids(),
+                pages: this.pages,
                 type: type,
                 name: this.metadata.getShortTitle()
             });

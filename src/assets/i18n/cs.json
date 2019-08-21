@@ -265,14 +265,11 @@
   "pdf-dialog": {
     "title_generate": "Příprava ke stažení",
     "title_prepare": "Příprava k tisku",
-    "message_generate": "Vyberte stránky pro výsledný PDF dokument.",    
-    "message_prepare": "Vyberte stránky k tisku.",
-    "page_from": "Od stránky",
-    "page_to": "Po stránku",
-    "page_count": "Počet vybraných stran:",
-    "max_page_count": "Maximální počet stran:",
+    "tip_shift": "Tip: přes stisknutou klávesu Shift můžete vybrat více stránek naráz",
+    "warning_too_manny_pages": "Je překročen maximální počet stran",
+    "warning_number_of_pages": "máte vybráno {{num}} stran",
+    "warning_no_page": "Není vybraná žádná stránka",
     "warning_generate": "Vytváření PDF dokumentu může trvat několik minut v závislosti na počtu vybraných stránek.",
-    "warning_prepare": "Příprava k tisku může trvat několik minut v závislosti na počtu vybraných stránek.",
     "error_generate": "PDF dokument se nepodařilo stáhnout",
     "action_generate": "Stáhnout PDF",
     "action_prepare": "Připravit k tisku"

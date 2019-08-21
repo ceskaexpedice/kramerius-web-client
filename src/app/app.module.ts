@@ -1,3 +1,4 @@
+import { DialogPdfGeneratorComponent } from './dialog/dialog-pdf-generator/dialog-pdf-generator.component';
 import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
 import { SigninComponent } from './account/signin/signin.component';
 import { AccountService } from './services/account.service';
@@ -169,6 +170,7 @@ import { DocumentSearchService } from './services/document-search.service';
     BookControlsComponent,
     DialogOcrComponent,
     DialogPdfComponent,
+    DialogPdfGeneratorComponent,
     DialogShareComponent,
     DialogCitationComponent,
     DialogAuthosComponent,
@@ -212,7 +214,8 @@ import { DocumentSearchService } from './services/document-search.service';
     DialogCitationComponent,
     SimpleDialogComponent,
     DialogAuthosComponent,
-    DialogMetadataComponent
+    DialogMetadataComponent,
+    DialogPdfGeneratorComponent
   ],
   imports: [
     BrowserModule,

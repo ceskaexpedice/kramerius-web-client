@@ -1,0 +1,30 @@
+<mz-modal #modal [fixedFooter]="true" class="app-dialog-pdf-generator">
+  <mz-modal-content>
+    <div class="app-pages-wrapper">
+      <div class="app-pages">
+        <div *ngFor="let page of pages" (click)="onPageSelected(page, $event)" class="app-page-wrapper" [class.active]="selection[page.uuid]">
+          <div class="app-page-thumb" [style.background-image]="thumb(page)"></div>
+          <div class="app-page-title">{{page.number}}</div>
+          <i class="app-mdi-check app-page-check"></i>
+        </div>
+      </div>
+    </div>
+
+  </mz-modal-content>
+  <mz-modal-footer>
+    <mz-spinner *ngIf="inProgress"
+      [color]="'blue'"
+      [size]="'small'">
+    </mz-spinner>
+    
+    <p *ngIf="messageId" class="app-message">{{ 'pdf-dialog.' + messageId | translate }}</p>
+    <p *ngIf="errorId" class="app-error">{{ 'pdf-dialog.' + errorId | translate }}
+      <span *ngIf="errorId == 'warning_too_manny_pages'">
+        ({{maxPageCount}}), {{ 'pdf-dialog.warning_number_of_pages' | translate: { num: numberOfPages } }} 
+      </span>
+    </p>
+
+    <button mz-button [flat]="true" mz-modal-close>{{ 'common.cancel' | translate }}</button>
+    <button mz-button (click)="action()" [disabled]="inProgress">{{ 'pdf-dialog.action_' + type | translate }}</button>
+  </mz-modal-footer>
+</mz-modal>
