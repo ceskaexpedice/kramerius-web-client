@@ -502,6 +502,9 @@ export class BookService {
 
     goToPage(page: Page) {
         this.goToPageOnIndex(page.index);
+        if (this.account.serviceEnabled()) {
+            this.account.setLastPageIndex(this.uuid, page.index, null);
+        }
     }
 
     goToPageWithUuid(uuid: string) {
@@ -516,13 +519,21 @@ export class BookService {
     goToNext() {
         if (this.hasNext()) {
             const n = this.doublePage ? 2 : 1;
-            this.goToPageOnIndex(this.activePageIndex + n);
+            const index = this.activePageIndex + n;
+            this.goToPageOnIndex(index);
+            if (this.account.serviceEnabled()) {
+                this.account.setLastPageIndex(this.uuid, index, null);
+            }
         }
     }
 
     goToPrevious() {
         if (this.hasPrevious()) {
-            this.goToPageOnIndex(this.activePageIndex - 1);
+            const index = this.activePageIndex - 1;
+            this.goToPageOnIndex(index);
+            if (this.account.serviceEnabled()) {
+                this.account.setLastPageIndex(this.uuid, index, null);
+            }
         }
     }
 
@@ -770,10 +781,6 @@ export class BookService {
     }
 
     goToPageOnIndex(index: number, replaceState = false) {
-        console.log('index', index);
-        if (this.account.serviceEnabled()) {
-            this.account.setLastPageIndex(this.uuid, index, null);
-        }
         this.viewer = 'image';
         if (index >= this.pages.length) {
             return;
