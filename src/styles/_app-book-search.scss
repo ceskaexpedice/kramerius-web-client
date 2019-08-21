@@ -11,7 +11,7 @@ app-book-search {
 
     .app-book-search-bar {
       position: relative;
-
+      height: 47px;
       input {
         @extend .app-clean-mg;
         border-bottom-color: transparent;

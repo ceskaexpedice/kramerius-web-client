@@ -301,10 +301,23 @@ export class KrameriusApiService {
         return result;
     }
 
+    getDocumentSearchAutocompleteUrl(term: string, uuid: string): string {
+        const query = term.toLowerCase().trim() + '*';
+        const result = this.getApiUrl() + `/search/?fl=PID&hl=true&hl.fl=text_ocr&hl.fragsize=1&hl.simple.post=<<&hl.simple.pre=>>&hl.snippets=10&q=parent_pid:"${uuid}"+AND+text_ocr:${query}&rows=20`;
+        return result;
+    }
+
     getSearchAutocomplete(term: string, onlyPublic: boolean = false): Observable<any[]> {
         const url = this.getSearchAutocompleteUrl(term, onlyPublic);
         return this.doGet(url)
             .map(res => <any> res['response']['docs'])
+          .catch(this.handleError);
+    }
+
+    getDocumentSearchAutocomplete(term: string, uuid: string): Observable<any[]> {
+        const url = this.getDocumentSearchAutocompleteUrl(term, uuid);
+        return this.doGet(url)
+            .map(res => <any> res)
           .catch(this.handleError);
     }
 

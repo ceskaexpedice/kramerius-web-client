@@ -187,6 +187,11 @@ export class BookService {
 
     }
 
+
+    getUuid(): string {
+        return this.uuid;
+    }
+
     private loadVolume(uuid: string) {
         this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
             this.metadata.assignVolume(item);
