@@ -1,7 +1,7 @@
 <div class="app-book-search-bar-wrapper">
   <div class="app-book-search-bar" [class.app-is-query]="bookService.getFulltextQuery()">
     <ng2-completer  #completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="fulltextQuery" [matchClass]="'highlight'"
-    [datasource]="service" [minSearchLength]="2" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="'searchbar.document' | translate" [inputName]="'autocomplete-input'">
+    [datasource]="service" [minSearchLength]="2" [inputClass]="'autocomplete'" [placeholder]="'searchbar.document' | translate" [inputName]="'autocomplete-input'">
     </ng2-completer>
 
     <i *ngIf="bookService.getFulltextQuery()" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer"></i>

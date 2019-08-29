@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs/Subscription';
 import { BookService } from './../../services/book.service';
-import { Component, OnInit, Input, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { AnalyticsService } from '../../services/analytics.service';
 import { CompleterCmp } from 'ng2-completer';

@@ -118,21 +118,27 @@ app-navbar-search-bar {
     }
   }
 
-  @media only screen and (max-width: 1230px) {
+  @media only screen and (max-width: 1300px) {
     .app-search-bar-wrapper {
       width: 500px;
     }
   }
 
-  @media only screen and (max-width: 1130px) {
+  @media only screen and (max-width: 1190px) {
     .app-search-bar-wrapper {
       width: 400px;
     }
   }
 
-  @media only screen and (max-width: 1030px) {
+  @media only screen and (max-width: 1090px) {
     .app-search-bar-wrapper {
       width: 350px;
+    }
+  }
+
+  @media only screen and (max-width: 1040px) {
+    .app-search-bar-wrapper {
+      width: 300px;
     }
   }
 
