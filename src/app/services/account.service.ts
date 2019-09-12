@@ -254,6 +254,11 @@ export class AccountService {
 
 
 
+    adminMetadataEnabled(): boolean {
+        return true;
+    }
+
+
 
     getName(): string {
         return this.tokenService.currentUserData ? this.tokenService.currentUserData.name : '';

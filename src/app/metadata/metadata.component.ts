@@ -8,6 +8,7 @@ import { MzModalService } from 'ngx-materialize';
 import { DialogMetadataComponent } from '../dialog/dialog-metadata/dialog-metadata.component';
 import { AnalyticsService } from '../services/analytics.service';
 import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.component';
+import { DialogAdminMetadataComponent } from '../dialog/dialog-admin-metadata/dialog-admin-metadata.component';
 
 @Component({
   selector: 'app-metadata',
@@ -52,6 +53,11 @@ export class MetadataComponent implements OnInit {
   onShare() {
     this.analytics.sendEvent('metadata', 'share');
     this.modalService.open(DialogShareComponent, { metadata: this.metadata });
+  }
+
+  showAdminMetadata() {
+    this.analytics.sendEvent('metadata', 'admin-metadata');
+    this.modalService.open(DialogAdminMetadataComponent, { map: this.metadata.modsMap} );
   }
 
 }

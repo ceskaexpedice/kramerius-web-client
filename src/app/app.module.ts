@@ -126,6 +126,16 @@ import { ResetPasswordComponent } from './account/reset-password/reset-password.
 import { OmniauthComponent } from './account/omniauth/omniauth.component';
 import { DocumentSearchService } from './services/document-search.service';
 
+import { HighlightModule } from 'ngx-highlightjs';
+import xml from 'highlight.js/lib/languages/xml';
+import { DialogAdminMetadataComponent } from './dialog/dialog-admin-metadata/dialog-admin-metadata.component';
+
+export function hljsLanguages() {
+  return [
+    {name: 'xml', func: xml}
+  ];
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -205,7 +215,8 @@ import { DocumentSearchService } from './services/document-search.service';
     RegisterComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    OmniauthComponent
+    OmniauthComponent,
+    DialogAdminMetadataComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -215,7 +226,8 @@ import { DocumentSearchService } from './services/document-search.service';
     SimpleDialogComponent,
     DialogAuthosComponent,
     DialogMetadataComponent,
-    DialogPdfGeneratorComponent
+    DialogPdfGeneratorComponent,
+    DialogAdminMetadataComponent
   ],
   imports: [
     BrowserModule,
@@ -259,7 +271,10 @@ import { DocumentSearchService } from './services/document-search.service';
         facebook: 'auth/facebook'
       },
       oAuthWindowType: 'newWindow'
-    })
+    }),
+    HighlightModule.forRoot({
+      languages: hljsLanguages
+    }),
   ],
   providers: [
     AppState,
