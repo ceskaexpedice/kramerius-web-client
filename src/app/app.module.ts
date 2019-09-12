@@ -131,11 +131,14 @@ import { AgmCoreModule } from '@agm/core';
 
 import { HighlightModule } from 'ngx-highlightjs';
 import xml from 'highlight.js/lib/languages/xml';
+import json from 'highlight.js/lib/languages/json';
+import typescript from 'highlight.js/lib/languages/typescript';
 import { DialogAdminMetadataComponent } from './dialog/dialog-admin-metadata/dialog-admin-metadata.component';
 import { MapBrowseComponent } from './map/browse/map-browse.component';
 
 export function hljsLanguages() {
   return [
+    {name: 'json', func: json},
     {name: 'xml', func: xml}
   ];
 }

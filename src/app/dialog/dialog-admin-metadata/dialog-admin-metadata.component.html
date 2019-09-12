@@ -2,20 +2,73 @@
 
   <mz-modal-header>
     <div class="app-tabs" *ngIf="selection">
-      <div class="app-dialog-title">{{ 'metadata-dialog.title' | translate }}</div>
+
+
+<mz-dropdown
+  [id]="'dropdown'"
+  [align]="'left'"
+  [belowOrigin]="true"
+  [constrainWidth]="true"
+  [dropdownButtonId]="'btn-dropdown'"
+  [gutter]="true"
+  [hover]="false"
+  [inDuration]="300"
+  [outDuration]="300"
+  [stopPropagation]="true"
+>
+<mz-dropdown-item><a (click)="changeResource('mods')">mods</a></mz-dropdown-item>
+<mz-dropdown-item><a (click)="changeResource('dc')">dc</a></mz-dropdown-item>
+<mz-dropdown-item><a (click)="changeResource('solr')">solr</a></mz-dropdown-item>
+<mz-dropdown-item><a (click)="changeResource('foxml')">foxml</a></mz-dropdown-item>
+<mz-dropdown-divider></mz-dropdown-divider>
+<mz-dropdown-item><a (click)="changeResource('alto')">alto</a></mz-dropdown-item>
+<mz-dropdown-item><a (click)="changeResource('ocr')">ocr</a></mz-dropdown-item>
+<mz-dropdown-divider></mz-dropdown-divider>
+<mz-dropdown-item><a (click)="changeResource('item')">item</a></mz-dropdown-item>
+<mz-dropdown-item><a (click)="changeResource('children')">children</a></mz-dropdown-item>
+<mz-dropdown-item><a (click)="changeResource('siblings')">siblings</a></mz-dropdown-item>
+<mz-dropdown-divider></mz-dropdown-divider>
+<mz-dropdown-item><a (click)="changeResource('iiif')">iiif</a></mz-dropdown-item>
+
+</mz-dropdown>
+
+<a id="btn-dropdown" class="app-dialog-title">{{ resource }}</a>
+
       <div *ngFor="let item of data" class="app-tab" [class.active]="selection.tab === item.tab" (click)="changeTab(item)">
           {{ 'model.' + item.tab | translate | lowercase }}
       </div>
     </div>
 
     <div class="app-tab-content-wrapper">
-      <div class="app-tab-content" *ngIf="selection">
-          <code [highlight]="selection.mods"></code>
+      <div class="app-tab-content" *ngIf="selection[resource]">
+          <code [highlight]="selection[resource]"></code>
+      </div>
+      <div *ngIf="!selection[resource]" style="padding-top: 20px;">
+          <mz-spinner
+            [color]="'blue'"
+            [size]="'small'">
+          </mz-spinner>
       </div>
     </div> 
   
   </mz-modal-header>
 
+
+  <mz-dropdown 
+  [id]="'dropdown-demo'"
+  [align]="'right'"
+  [belowOrigin]="true"
+  [constrainWidth]="false"
+  [dropdownButtonId]="'btn-dropdown-demo'"
+  [inDuration]="300"
+  [outDuration]="300"
+  [stopPropagation]="true">
+  <mz-dropdown-item><a (click)="changeResource('mods')">MODS</a></mz-dropdown-item>
+  <mz-dropdown-item><a (click)="changeResource('dc')">DC</a></mz-dropdown-item>
+  <mz-dropdown-item><a (click)="changeResource('solr')">SOLR</a></mz-dropdown-item>
+<mz-dropdown-divider></mz-dropdown-divider>
+<mz-dropdown-item><a (click)="changeResource('solr')">SOLR</a></mz-dropdown-item>
+</mz-dropdown>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close>{{ 'common.close' | translate }}</button>
   </mz-modal-footer>

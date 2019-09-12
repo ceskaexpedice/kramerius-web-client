@@ -57,7 +57,7 @@ export class MetadataComponent implements OnInit {
 
   showAdminMetadata() {
     this.analytics.sendEvent('metadata', 'admin-metadata');
-    this.modalService.open(DialogAdminMetadataComponent, { map: this.metadata.modsMap} );
+    this.modalService.open(DialogAdminMetadataComponent, { metadata: this.metadata } );
   }
 
 }

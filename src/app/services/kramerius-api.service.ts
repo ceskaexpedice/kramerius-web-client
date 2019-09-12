@@ -19,7 +19,7 @@ import { User } from '../model/user.model';
 @Injectable()
 export class KrameriusApiService {
 
-    // private static STREAM_DC = 'DC';
+    private static STREAM_DC = 'DC';
     private static STREAM_MODS = 'BIBLIO_MODS';
     private static STREAM_OCR = 'TEXT_OCR';
     private static STREAM_JPEG = 'IMG_FULL';
@@ -374,11 +374,11 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-    // getDc(uuid: string) {
-    //     const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
-    //     return this.doGet(url)
-    //       .catch(this.handleError);
-    // }
+    getDc(uuid: string) {
+        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
+        return this.doGetText(url)
+          .catch(this.handleError);
+    }
 
     getAlto(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO);
@@ -392,10 +392,22 @@ export class KrameriusApiService {
           .catch(this.handleError);
     }
 
+    getFoxml(uuid: string): Observable<string> {
+        const url = this.getItemUrl(uuid) + '/foxml';
+        return this.doGetText(url)
+          .catch(this.handleError);
+    }
+
     getChildren(uuid: string): Observable<any[]> {
         const url = this.getItemUrl(uuid) + '/children';
         return this.doGet(url)
             .map(res => <any[]> res)
+          .catch(this.handleError);
+    }
+
+    getIiifPresentation(uuid: string): Observable<any> {
+        const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
+        return this.doGet(url)
           .catch(this.handleError);
     }
 
