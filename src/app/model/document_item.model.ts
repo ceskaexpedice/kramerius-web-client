@@ -1,6 +1,7 @@
 export class DocumentItem {
     title: string;
     authors: string[];
+    geonames: string[];
     date: string;
     doctype: string;
     uuid: string;
@@ -15,6 +16,10 @@ export class DocumentItem {
     library: string;
     donator: string;
     params;
+    north: number;
+    south: number;
+    west: number;
+    east: number;
 
     resolveUrl(prefix: string) {
         if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume') {
@@ -43,6 +48,10 @@ export class DocumentItem {
         if (this.context && this.context.length > 1) {
             return this.context[this.context.length - 2].uuid;
         }
+    }
+
+    public isPoint(): boolean {
+        return this.south === this.north && this.east === this.west;
     }
 
 }

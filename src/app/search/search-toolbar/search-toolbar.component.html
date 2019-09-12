@@ -20,7 +20,23 @@
   </div>
   <div class="col s10 m12 l2 xl2 app-col-right">
     <ul class="right">
-      <li>
+
+
+
+        <li (click)="searchService.selectContentType('grid')" class="serch-content-type-button" [class.active]="searchService.contentType == 'grid'">
+            <span mz-tooltip [tooltip]="'toolbar.tooltip_display_calendar' | translate" [position]="'top'" class="app-cursor-pointer">
+              <i class="app-mdi-view-grid"></i>
+            </span>
+          </li>
+          <li (click)="searchService.selectContentType('map')" class="serch-content-type-button" [class.active]="searchService.contentType == 'map'">
+            <span mz-tooltip [tooltip]="'toolbar.tooltip_display_calendar' | translate" [position]="'top'" class="app-cursor-pointer">
+              <i class="app-mdi-view-map"></i>
+            </span>
+          </li>
+
+
+
+      <li *ngIf="searchService.contentType == 'grid'">
         <span class="app-cursor-pointer app-mdi-in">
           <label>{{ 'search.ordering.label' | translate }}: </label>
           <a id="app-btn-sort" href="#">{{ 'search.ordering.' + searchService.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
@@ -33,6 +49,7 @@
           </mz-dropdown>
         </span>
       </li>
+
       <!-- <li [class.active]="state.showingChartBar">
         <span (click)="toggleElement('app-chart-bar')">
           <i *ngIf="!state.showingChartBar" mz-tooltip [tooltip]="'toolbar.tooltip_show_chartbar' | translate" [position]="'top'" class="app-mdi-chart-bar app-cursor-pointer"></i>

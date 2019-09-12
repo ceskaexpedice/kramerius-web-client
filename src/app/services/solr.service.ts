@@ -171,6 +171,8 @@ export class SolrService {
             item.doctype = doc['fedora.model'];
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
+            item.geonames = doc['geographic_names'];
+            this.parseLocation(doc['location'], item);
             item.resolveUrl(this.appSettings.getPathPrefix());
             items.push(item);
         }
@@ -215,12 +217,26 @@ export class SolrService {
             }
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
+            item.geonames = doc['geographic_names'];
+            this.parseLocation(doc['location'], item);
             item.resolveUrl(this.appSettings.getPathPrefix());
             item.params = params;
             items.push(item);
         }
         return items;
     }
+
+
+    private parseLocation(location: string, document: DocumentItem) {
+        if (!location || !location[0] || !location[1] || location[0].indexOf(',') < 0 || location[1].indexOf(',') < 0) {
+            return;
+        }
+        document.south = +location[0].split(',')[0];
+        document.north = +location[1].split(',')[0];
+        document.west = +location[0].split(',')[1];
+        document.east = +location[1].split(',')[1];
+    }
+
 
     facetList(solr, field, usedFiltes: any[], skipSelected: boolean) {
         const list = [];

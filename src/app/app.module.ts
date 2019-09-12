@@ -126,9 +126,13 @@ import { ResetPasswordComponent } from './account/reset-password/reset-password.
 import { OmniauthComponent } from './account/omniauth/omniauth.component';
 import { DocumentSearchService } from './services/document-search.service';
 
+import { AgmCoreModule } from '@agm/core';
+
+
 import { HighlightModule } from 'ngx-highlightjs';
 import xml from 'highlight.js/lib/languages/xml';
 import { DialogAdminMetadataComponent } from './dialog/dialog-admin-metadata/dialog-admin-metadata.component';
+import { MapBrowseComponent } from './map/browse/map-browse.component';
 
 export function hljsLanguages() {
   return [
@@ -216,7 +220,8 @@ export function hljsLanguages() {
     ForgotPasswordComponent,
     ResetPasswordComponent,
     OmniauthComponent,
-    DialogAdminMetadataComponent
+    DialogAdminMetadataComponent,
+    MapBrowseComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -271,6 +276,9 @@ export function hljsLanguages() {
         facebook: 'auth/facebook'
       },
       oAuthWindowType: 'newWindow'
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCGDIOYeh5bw_vsBcZxZH3GOzmA0aetqBw'
     }),
     HighlightModule.forRoot({
       languages: hljsLanguages

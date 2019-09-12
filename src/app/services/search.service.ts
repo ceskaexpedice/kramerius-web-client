@@ -31,6 +31,8 @@ export class SearchService {
 
     activeMobilePanel: String;
 
+    contentType = 'grid'; // 'grid' | 'map'
+
     constructor(
         private router: Router,
         private collectionService: CollectionService,
@@ -50,7 +52,22 @@ export class SearchService {
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
         this.query = SearchQuery.fromParams(params, this.appSettings.filters);
+        if (this.query.isBoundingBoxSet()) {
+            this.contentType = 'map';
+        } else {
+            this.contentType = 'grid';
+        }
         this.search();
+    }
+
+    selectContentType(contentType: string) {
+        this.contentType = contentType;
+        if (this.contentType === 'map') {
+            this.query.setBoundingBox(50.7278, 48.707, 12.7476, 18.9549);
+        } else {
+            this.query.clearBoundingBox();
+        }
+        this.reload(false);
     }
 
     public reload(preservePage: boolean) {
@@ -85,6 +102,11 @@ export class SearchService {
             return this.appSettings.k3 + 'Welcome.do';
 
         }
+    }
+
+    public setBoundingBox(north: number, south: number, west: number, east: number) {
+        this.query.setBoundingBox(north, south, west, east);
+        this.reload(false);
     }
 
     public changeOrdering(ordering: string) {

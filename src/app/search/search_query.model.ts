@@ -23,6 +23,11 @@ export class SearchQuery {
     from = -1;
     to = -1;
 
+    north: number = null;
+    south: number = null;
+    east: number = null;
+    west: number = null;
+
     solrConfig;
 
     constructor(filters: string[]) {
@@ -45,6 +50,9 @@ export class SearchQuery {
             query.setAccessibility(params['accessibility']);
         }
         query.setYearRange(parseInt(params['from'], 10), parseInt(params['to'], 10));
+        if (params['north']) {
+            query.setBoundingBox(parseFloat(params['north']), parseFloat(params['south']), parseFloat(params['west']), parseFloat(params['east']));
+        }
         return query;
     }
 
@@ -95,6 +103,24 @@ export class SearchQuery {
     private clearYearRange() {
         this.from = SearchQuery.YEAR_FROM;
         this.to = SearchQuery.YEAR_TO;
+    }
+
+    public clearBoundingBox() {
+        this.north = null;
+        this.south = null;
+        this.east = null;
+        this.west = null;
+    }
+
+    public setBoundingBox(north: number, south: number, west: number, east: number) {
+        this.north = north;
+        this.south = south;
+        this.west = west;
+        this.east = east;
+    }
+
+    public isBoundingBoxSet(): boolean {
+        return this.north != null;
     }
 
     private setFiled(fieldValues: string[], field: string, params) {
@@ -180,6 +206,9 @@ export class SearchQuery {
     buildQuery(facet: string): string {
         const qString = this.getQ();
         let q = 'q=';
+        if (this.isBoundingBoxSet()) {
+            q += `{!field f=range score=overlapRatio}Intersects(ENVELOPE(${this.west},${this.east},${this.north},${this.south}))&fq=`;
+        }
         if (qString) {
             q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
             q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page OR fedora.model:article)';
@@ -212,15 +241,18 @@ export class SearchQuery {
             //    + '&qf=dc.title^10 dc.creator^2 keywords text^0.1'
             //    + '&bq=(level:0)^10&bq=(dostupnost:public)^2'
             q += '&q1=' + qString
-               + '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score'
                + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
             // if (environment.solr.facetTruncate) {
             q += '&group.truncate=true';
             //  } else {
             //    q += '&group.facet=true';
             //    }
+            q += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score'
         } else {
             q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
+        }
+        if (this.isBoundingBoxSet()) {
+            q += ",location,geographic_names"
         }
         q += '&facet=true&facet.mincount=1'
            + this.addFacetToQuery(facet, 'keywords', 'keywords', this.keywords.length === 0)
@@ -233,6 +265,8 @@ export class SearchQuery {
            + this.addFacetToQuery(facet, 'accessibility', 'dostupnost', this.accessibility === 'all');
         if (facet) {
             q += '&rows=0';
+        } else if (this.isBoundingBoxSet()) {
+            q += '&rows=' + "100" + '&start=' + "0";
         } else {
             const ordering = this.getOrderingValue();
             if (ordering) {
@@ -240,6 +274,45 @@ export class SearchQuery {
             }
             q += '&rows=' + this.getRows() + '&start=' + this.getStart();
         }
+        return q;
+    }
+
+
+    buildQueryForMap(north: number, south: number, west: number, east: number): string {
+        const qString = this.getQ();
+
+        let q = `q={!field f=range score=overlapRatio}Intersects(ENVELOPE(${west},${east},${north},${south}))&fq=`;
+        if (qString) {
+            q += '_query_:"{!edismax qf=\'dc.title dc.creator text mods.shelfLocator\' v=$q1}\"';
+            q += ' AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page OR fedora.model:article)';
+        } else {
+          q += '(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
+        }
+        if (this.accessibility === 'public') {
+            q += ' AND dostupnost:public';
+        } else if (this.accessibility === 'private') {
+            q += ' AND dostupnost:private';
+        } 
+        if (this.isYearRangeSet()) {
+            const from = this.from === 0 ? 1 : this.from;
+            q += ' AND (rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))';
+        }
+        q += this.addToQuery('keywords', this.keywords, null)
+           + this.addToQuery('doctypes', this.doctypes, null)
+           + this.addToQuery('authors', this.authors, null)
+           + this.addToQuery('languages', this.languages, null)
+           + this.addToQuery('locations', this.locations, null)
+           + this.addToQuery('geonames', this.geonames, null)
+           + this.addToQuery('collections', this.collections, null)
+        if (qString) {
+            q += '&q1=' + qString
+               + '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score,location,geographic_names'
+               + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
+            q += '&group.truncate=true';
+        } else {
+            q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime,location,geographic_names';
+        }
+        q += '&rows=' + "100" + '&start=' + "0";
         return q;
     }
 
@@ -286,10 +359,16 @@ export class SearchQuery {
         }
         if (this.collections.length > 0) {
             params['collections'] = this.collections.join(',,');
-        }
+        }        
         if (this.isYearRangeSet()) {
             params['from'] = this.from;
             params['to'] = this.to;
+        }
+        if (this.isBoundingBoxSet()) {
+            params['north'] = this.north;
+            params['south'] = this.south;
+            params['west'] = this.west;
+            params['east'] = this.east;
         }
         return params;
     }
@@ -394,6 +473,6 @@ export class SearchQuery {
         return false;
     }
 
-
-
 }
+
+
