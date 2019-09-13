@@ -171,11 +171,13 @@ export class SolrService {
             item.doctype = doc['fedora.model'];
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
+            item.dnnt = !!doc['dnnt'];
             item.geonames = doc['geographic_names'];
             this.parseLocation(doc['location'], item);
             item.resolveUrl(this.appSettings.getPathPrefix());
             items.push(item);
         }
+        console.log(items);
         return items;
     }
 
@@ -217,6 +219,7 @@ export class SolrService {
             }
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
+            item.dnnt = !!doc['dnnt'];
             item.geonames = doc['geographic_names'];
             this.parseLocation(doc['location'], item);
             item.resolveUrl(this.appSettings.getPathPrefix());
@@ -309,6 +312,17 @@ export class SolrService {
         list.push({'value' : 'public', 'count': publicDocs});
         list.push({'value' : 'private', 'count': privateDocs});
         list.push({'value' : 'all', 'count': allDocs});
+        if (this.appSettings.dnntFilter) {
+            const dnnt = solr['facet_counts']['facet_fields']['dnnt'];
+            let dnntCount = 0;
+            for (let i = 0; i < dnnt.length; i += 2) {
+                if (dnnt[i] === 'true') {
+                    dnntCount = dnnt[i + 1];
+                }
+            }
+            list.push({'value' : 'dnnt', 'count': dnntCount});
+
+        }
         return list;
     }
 

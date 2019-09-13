@@ -51,7 +51,7 @@ export class SearchService {
         this.accessibility = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = SearchQuery.fromParams(params, this.appSettings.filters);
+        this.query = SearchQuery.fromParams(params, this.appSettings.filters, this.appSettings.dnntFilter);
         if (this.query.isBoundingBoxSet()) {
             this.contentType = 'map';
         } else {

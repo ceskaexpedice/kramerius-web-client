@@ -69,7 +69,8 @@
     "locations": "Location",
     "geonames": "Geographic name",
     "authors": "Author",
-    "inaccessible_document": "The document is not publicly accessible",    
+    "inaccessible_document": "The document is not publicly accessible",
+    "dnnt": "Dokument podléhá režimu děl nedostupných na trhu",
     "ordering": {
       "label": "Ordering",
       "relevance": "Relevance",
@@ -82,6 +83,7 @@
       "label": "Accessibility",
       "public": "Public",
       "private": "Private",
+      "dnnt": "Díla nedostupná na trhu",
       "all": "All"
     },
     "datepicker": {

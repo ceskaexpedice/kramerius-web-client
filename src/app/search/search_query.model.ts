@@ -30,12 +30,15 @@ export class SearchQuery {
 
     solrConfig;
 
-    constructor(filters: string[]) {
+    dnntFilterEnabled = false;
+
+    constructor(filters: string[], dnntFilterEnabled: boolean) {
         this.availableFilters = filters || [];
+        this.dnntFilterEnabled = dnntFilterEnabled;
     }
 
-    public static fromParams(params, filters: string[]): SearchQuery {
-        const query = new SearchQuery(filters);
+    public static fromParams(params, filters: string[], dnntFilterEnabled: boolean): SearchQuery {
+        const query = new SearchQuery(filters, dnntFilterEnabled);
         query.query = params['q'];
         query.setOrdering(params['sort']);
         query.setPage(params['page']);
@@ -85,6 +88,8 @@ export class SearchQuery {
             this.accessibility = 'private';
         } else if (accessibility === 'public') {
             this.accessibility = 'public';
+        } else if (accessibility === 'dnnt') {
+            this.accessibility = 'dnnt';
         } else {
             this.accessibility = 'all';
         }
@@ -220,6 +225,8 @@ export class SearchQuery {
                 q += ' AND dostupnost:public';
             } else if (this.accessibility === 'private') {
                 q += ' AND dostupnost:private';
+            } else if (this.dnntFilterEnabled && this.accessibility === 'dnnt') {
+                q += ' AND dnnt:true';
             } else if (!facet) {
                 // q += ' AND (dostupnost:public^999 OR dostupnost:private)';
             }
@@ -234,8 +241,10 @@ export class SearchQuery {
            + this.addToQuery('languages', this.languages, facet)
            + this.addToQuery('locations', this.locations, facet)
            + this.addToQuery('geonames', this.geonames, facet)
-           + this.addToQuery('collections', this.collections, facet)
-           + this.getDateOrderingRestriction();
+           + this.addToQuery('collections', this.collections, facet);
+           if (!this.isBoundingBoxSet()) {
+            q += this.getDateOrderingRestriction();
+           }
         if (qString) {
             // q += '&defType=edismax'
             //    + '&qf=dc.title^10 dc.creator^2 keywords text^0.1'
@@ -251,6 +260,9 @@ export class SearchQuery {
         } else {
             q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
         }
+        if (this.dnntFilterEnabled) {
+            q += ",dnnt"
+        }
         if (this.isBoundingBoxSet()) {
             q += ",location,geographic_names"
         }
@@ -263,6 +275,9 @@ export class SearchQuery {
            + this.addFacetToQuery(facet, 'collections', 'collection', this.collections.length === 0)
            + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
            + this.addFacetToQuery(facet, 'accessibility', 'dostupnost', this.accessibility === 'all');
+        if (this.dnntFilterEnabled) {
+            q += '&facet.field=dnnt';
+        }
         if (facet) {
             q += '&rows=0';
         } else if (this.isBoundingBoxSet()) {
@@ -274,45 +289,6 @@ export class SearchQuery {
             }
             q += '&rows=' + this.getRows() + '&start=' + this.getStart();
         }
-        return q;
-    }
-
-
-    buildQueryForMap(north: number, south: number, west: number, east: number): string {
-        const qString = this.getQ();
-
-        let q = `q={!field f=range score=overlapRatio}Intersects(ENVELOPE(${west},${east},${north},${south}))&fq=`;
-        if (qString) {
-            q += '_query_:"{!edismax qf=\'dc.title dc.creator text mods.shelfLocator\' v=$q1}\"';
-            q += ' AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page OR fedora.model:article)';
-        } else {
-          q += '(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
-        }
-        if (this.accessibility === 'public') {
-            q += ' AND dostupnost:public';
-        } else if (this.accessibility === 'private') {
-            q += ' AND dostupnost:private';
-        } 
-        if (this.isYearRangeSet()) {
-            const from = this.from === 0 ? 1 : this.from;
-            q += ' AND (rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))';
-        }
-        q += this.addToQuery('keywords', this.keywords, null)
-           + this.addToQuery('doctypes', this.doctypes, null)
-           + this.addToQuery('authors', this.authors, null)
-           + this.addToQuery('languages', this.languages, null)
-           + this.addToQuery('locations', this.locations, null)
-           + this.addToQuery('geonames', this.geonames, null)
-           + this.addToQuery('collections', this.collections, null)
-        if (qString) {
-            q += '&q1=' + qString
-               + '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score,location,geographic_names'
-               + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
-            q += '&group.truncate=true';
-        } else {
-            q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime,location,geographic_names';
-        }
-        q += '&rows=' + "100" + '&start=' + "0";
         return q;
     }
 
@@ -330,7 +306,7 @@ export class SearchQuery {
         if (this.page && this.page > 1) {
             params['page'] = this.page;
         }
-        if (this.accessibility === 'public' || this.accessibility === 'private') {
+        if (this.accessibility === 'public' || this.accessibility === 'private' || this.accessibility === 'dnnt') {
             params['accessibility'] = this.accessibility;
         }
         if (this.query) {

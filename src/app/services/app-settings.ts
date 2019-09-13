@@ -26,6 +26,7 @@ export class AppSettings {
   public lemmatization: boolean;
   public iiifEnabled: boolean;
   public k3: string;
+  public dnntFilter: boolean;
 
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -90,6 +91,7 @@ export class AppSettings {
     this.lemmatization = kramerius.lemmatization;
     this.iiifEnabled = kramerius.iiif;
     this.k3 = kramerius.k3;
+    this.dnntFilter = kramerius.dnntFilter;
     this.customRightMessage = kramerius.customRightMessage;
     this.currentCode = this.code;
     // this.krameriusInfoService.reload();
@@ -143,5 +145,6 @@ interface KrameriusData {
   lemmatization: boolean;
   iiif: boolean;
   k3: string;
+  dnntFilter: boolean;
   customRightMessage: boolean;
 }
