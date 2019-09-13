@@ -70,7 +70,7 @@
     "geonames": "Geographic name",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",
-    "dnnt": "Dokument podléhá režimu děl nedostupných na trhu",
+    "dnnt_document": "Dokument podléhá režimu děl nedostupných na trhu",
     "ordering": {
       "label": "Ordering",
       "relevance": "Relevance",
@@ -166,6 +166,7 @@
     "location": "Location",
     "abstract": "Abstract",
     "content": "Content",
+    "origin": "Origin of the Title",
     "extent": "Extent",
     "physical_description": "Physical Description",
     "cartographic_data": "Cartographic data",

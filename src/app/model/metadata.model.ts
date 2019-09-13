@@ -2,7 +2,6 @@ import { Page } from './page.model';
 import { Article } from './article.model';
 import { DocumentItem } from './document_item.model';
 import { PeriodicalItem } from './periodicalItem.model';
-import beautify from 'xml-beautifier';
 import { InternalPart } from './internal_part.model';
 
 export class Metadata {
@@ -57,7 +56,24 @@ export class Metadata {
     public activePages: string;
     public activePage: Page;
 
+    public originUrl: string;
+
     constructor() {
+    }
+
+
+    public assignDocument(item: DocumentItem) {
+        this.isPublic = item.public;
+        this.model = item.doctype;
+        this.donator = item.donator;
+        this.originUrl = item.originUrl;
+    }
+
+    public getOriginUrl() {
+        if (this.activePage) {
+            return this.activePage.originUrl;
+        }
+        return this.originUrl;
     }
 
 

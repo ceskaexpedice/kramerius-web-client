@@ -21,6 +21,8 @@ export class DocumentItem {
     west: number;
     east: number;
     dnnt = false;
+    originUrl: string;
+
 
     resolveUrl(prefix: string) {
         if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume') {

@@ -42,6 +42,9 @@ export class Utils {
         item.doctype = json['model'];
         item.date = json['datumstr'];
         item.authors = json['author'];
+        if (json['replicatedFrom'] && json['replicatedFrom'].length > 0) {
+            item.originUrl = json['replicatedFrom'][0];
+        }
         if (json['context'] && json['context'][0]) {
             for (const context of json['context'][0]) {
                 item.context.push(new Context(context['pid'], context['model']));

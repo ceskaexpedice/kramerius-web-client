@@ -27,6 +27,7 @@ export class AppSettings {
   public iiifEnabled: boolean;
   public k3: string;
   public dnntFilter: boolean;
+  public originLink: boolean;
 
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -92,6 +93,7 @@ export class AppSettings {
     this.iiifEnabled = kramerius.iiif;
     this.k3 = kramerius.k3;
     this.dnntFilter = kramerius.dnntFilter;
+    this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
     this.currentCode = this.code;
     // this.krameriusInfoService.reload();
@@ -146,5 +148,6 @@ interface KrameriusData {
   iiif: boolean;
   k3: string;
   dnntFilter: boolean;
+  originLink: boolean;
   customRightMessage: boolean;
 }

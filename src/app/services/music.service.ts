@@ -61,10 +61,9 @@ export class MusicService {
       this.document = item;
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
-        this.metadata.isPublic = item.public;
         this.metadata.addMods('soundrecording', this.metadata.uuid, response);
+        this.metadata.assignDocument(item);
         this.metadata.doctype = 'soundrecording';
-        this.metadata.model = item.doctype;
         this.pageTitle.setTitle(null, this.metadata.getShortTitle());
         this.localStorageService.addToVisited(this.document, this.metadata);
         this.loadSoundUnits();

@@ -47,6 +47,7 @@
         ISBN {{ metadata.identifiers['isbn'] }}
       </div>
 
+      <a *ngIf="appSettings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
       
       <div *ngIf="metadata.currentUnit">
         <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'unit list');">
@@ -62,6 +63,7 @@
       <div class="divider"></div>
 
     </ng-container>
+
 
     <div *ngIf="metadata.authors.length > 0">
       <label>{{ 'metadata.author' | translate }}</label>

@@ -17,6 +17,8 @@ export class Page {
     providedByDnnt = false;
     dnntFlag = false;
 
+    originUrl: string;
+
     // Image Properties
     width: number = -1;
     height: number = -1;
@@ -56,6 +58,9 @@ export class Page {
         }
         if (data['providedByDnnt']) {
             this.providedByDnnt = true;
+        }
+        if (data['replicatedFrom'] && data['replicatedFrom'].length > 0) {
+            this.originUrl = data['replicatedFrom'][0];
         }
         if (data['zoom'] && data['zoom']['url']) {
             if (data['zoom']['type'] === 'zoomify') {
