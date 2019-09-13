@@ -73,6 +73,9 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
         } else {
           this.selection[this.resource] = result;
         }
+      },
+      () => {
+        this.selection[this.resource] = `Objekt ${this.selection.tab.toUpperCase()} neobsahuje ${this.resource.toUpperCase()}`;
       });
     }
   }
