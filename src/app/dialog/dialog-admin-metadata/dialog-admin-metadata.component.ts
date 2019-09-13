@@ -57,7 +57,6 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
   reload() {
     if (!this.selection[this.resource]) {
       this.getRequest(this.selection.uuid).subscribe((result: string) => {
-        console.log('result', result);
         if (this.resource === 'dc' || this.resource === 'mods' || this.resource === 'alto' || this.resource === 'foxml') {
           const data = {};
           const ctx = this;
@@ -89,7 +88,7 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
       case 'alto': return this.api.getAlto(uuid);
       case 'ocr': return this.api.getOcr(uuid);
       case 'foxml': return this.api.getFoxml(uuid);
-      case 'item': return this.api.getItem(uuid);
+      case 'item': return this.api.getRawItem(uuid);
       case 'children': return this.api.getChildren(uuid);
       case 'siblings': return this.api.getSiblings(uuid);
       case 'iiif': return this.api.getIiifPresentation(uuid);

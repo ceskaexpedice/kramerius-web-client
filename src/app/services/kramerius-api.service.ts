@@ -424,7 +424,7 @@ export class KrameriusApiService {
         .catch(this.handleError);
     }
 
-    getPageItem(uuid: string) {
+    getRawItem(uuid: string) {
         const url = this.getItemUrl(uuid);
         return this.doGet(url)
         .catch(this.handleError);

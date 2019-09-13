@@ -998,9 +998,9 @@ export class BookService {
 
     private fetchPageData(leftPage: Page, rightPage: Page) {
         const itemRequests = [];
-        itemRequests.push(this.krameriusApiService.getPageItem(leftPage.uuid));
+        itemRequests.push(this.krameriusApiService.getRawItem(leftPage.uuid));
         if (rightPage) {
-            itemRequests.push(this.krameriusApiService.getPageItem(rightPage.uuid));
+            itemRequests.push(this.krameriusApiService.getRawItem(rightPage.uuid));
         }
         forkJoin(itemRequests).subscribe(result => {
             leftPage.assignPageData(result[0]);
