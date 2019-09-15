@@ -61,7 +61,6 @@ export class Metadata {
     constructor() {
     }
 
-
     public assignDocument(item: DocumentItem) {
         this.isPublic = item.public;
         this.model = item.doctype;
@@ -76,6 +75,9 @@ export class Metadata {
         return this.originUrl;
     }
 
+    public proarcLink(): string {
+        return `http://proarc.kramerius.org/documents/${this.uuid}`;
+    }
 
     public addMods(doctype: string, uuid: string, mods: string) {
         this.modsMap[doctype] = { uuid: uuid, mods: mods.trim() };

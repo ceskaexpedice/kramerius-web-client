@@ -22,6 +22,9 @@
         <i *ngIf="account.hasRole('metadata')" class="app-mdi-metadata app-cursor-pointer app" (click)="showAdminMetadata()"
           mz-tooltip [tooltip]="'book_controls.tooltip_metadata' | translate"  [position]="'bottom'">
         </i>
+        <i *ngIf="account.hasRole('proarc')" class="app-mdi-edit app-cursor-pointer app" target="_blank" (click)="openInProarc()"
+          mz-tooltip [tooltip]="'book_controls.tooltip_edit' | translate"  [position]="'bottom'">
+        </i>
       </ng-container>
   </div>
 

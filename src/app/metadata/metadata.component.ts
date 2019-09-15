@@ -35,6 +35,10 @@ export class MetadataComponent implements OnInit {
     this.showingTitle = !this.showingTitle;
   }
 
+  openInProarc() {
+    window.open(this.metadata.proarcLink(), '_blank');
+  }
+
   showModsDialog() {
     this.analytics.sendEvent('metadata', 'mods');
     this.modalService.open(DialogMetadataComponent, { map: this.metadata.modsMap} );
