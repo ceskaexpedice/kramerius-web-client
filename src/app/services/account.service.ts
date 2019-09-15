@@ -252,14 +252,6 @@ export class AccountService {
         );
     }
 
-
-
-    adminMetadataEnabled(): boolean {
-        return true;
-    }
-
-
-
     getName(): string {
         return this.tokenService.currentUserData ? this.tokenService.currentUserData.name : '';
     }
@@ -268,6 +260,16 @@ export class AccountService {
         return this.tokenService.currentUserData ? this.tokenService.currentUserData.image : '';
     }
 
+    hasRole(role: string): boolean {
+        if (!this.tokenService.currentUserData) {
+            return false;
+        }
+        const roles = this.tokenService.currentUserData['roles'];
+        if (!roles) {
+            return false;
+        }
+        return roles.split(',').indexOf(role) >= 0;
+    }
 
     getTextProfile(): string {
         const name = this.getName();

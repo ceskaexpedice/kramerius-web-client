@@ -1,7 +1,10 @@
 mz-modal.app-dialog-admin-metadata {
   .modal {
-    max-width: 1400px;
-    height: 80%;
+    max-height: calc(100% - 130px);
+    height: calc(100% - 130px);
+    max-width: calc(100% - 130px);
+    width: calc(100% - 130px);
+    top: 65px !important;
   }
 
   .app-tab-content-wrapper {

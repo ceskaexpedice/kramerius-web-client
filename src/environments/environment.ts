@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  apiBase: 'http://localhost:3000/api/v1'
+  // apiBase: 'http://localhost:3000/api/v1',
+  apiBase: 'https://api.kramerius.cloud/api/v1'
 };

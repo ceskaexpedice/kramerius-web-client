@@ -256,7 +256,7 @@ export class SearchQuery {
             //  } else {
             //    q += '&group.facet=true';
             //    }
-            q += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score'
+            q += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score';
         } else {
             q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
         }
@@ -281,7 +281,7 @@ export class SearchQuery {
         if (facet) {
             q += '&rows=0';
         } else if (this.isBoundingBoxSet()) {
-            q += '&rows=' + "100" + '&start=' + "0";
+            q += '&rows=' + '100' + '&start=' + '0';
         } else {
             const ordering = this.getOrderingValue();
             if (ordering) {
@@ -335,7 +335,7 @@ export class SearchQuery {
         }
         if (this.collections.length > 0) {
             params['collections'] = this.collections.join(',,');
-        }        
+        }
         if (this.isYearRangeSet()) {
             params['from'] = this.from;
             params['to'] = this.to;
