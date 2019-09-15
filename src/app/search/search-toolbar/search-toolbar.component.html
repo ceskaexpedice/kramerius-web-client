@@ -1,6 +1,6 @@
 <div class="row app-clean-mg">
   <!-- Show just for medium devices and up -->
-  <div class="col s10 app-col-left hide-on-med-only hide-on-med-and-down">
+  <div class="col s8 app-col-left hide-on-med-only hide-on-med-and-down">
     <ul>
       <li *ngFor="let doctype of searchService.doctypes" [ngClass]="{'active' : searchService.highlightDoctype(doctype.value), 'disable' : doctype.count == 0}" class="{{doctype.value}}">
         <span (click)="searchService.toggleFilter(searchService.query.doctypes, doctype.value);analytics.sendEvent('search', 'doctype', doctype.value);" mz-tooltip [tooltip]="'model_plural.' + doctype.value | translate" [position]="'top'" class="app-cursor-pointer">
@@ -18,7 +18,7 @@
       <i *ngIf="searchService.activeMobilePanel == 'filters'" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
     </a>
   </div>
-  <div class="col s10 m12 l2 xl2 app-col-right">
+  <div class="col s10 m12 l4 xl4 app-col-right">
     <ul class="right">
 
 
