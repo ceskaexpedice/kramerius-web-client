@@ -261,10 +261,10 @@ export class SearchQuery {
             q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
         }
         if (this.dnntFilterEnabled) {
-            q += ",dnnt"
+            q += ',dnnt';
         }
         if (this.isBoundingBoxSet()) {
-            q += ",location,geographic_names"
+            q += ',location,geographic_names';
         }
         q += '&facet=true&facet.mincount=1'
            + this.addFacetToQuery(facet, 'keywords', 'keywords', this.keywords.length === 0)

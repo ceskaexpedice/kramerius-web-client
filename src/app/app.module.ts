@@ -1,3 +1,4 @@
+import { PresentationComponent } from './presentation/presentation.component';
 import { DialogPdfGeneratorComponent } from './dialog/dialog-pdf-generator/dialog-pdf-generator.component';
 import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
 import { SigninComponent } from './account/signin/signin.component';
@@ -98,7 +99,6 @@ import { DialogMetadataComponent } from './dialog/dialog-metadata/dialog-metadat
 import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
 import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
 import { CollectionsComponent } from './collections/collections.component';
-import { CollectionComponent } from './collections/collection/collection.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeLogoComponent } from './home-logo/home-logo.component';
 import { HttpRequestCache } from './services/http-request-cache.service';
@@ -135,6 +135,7 @@ import json from 'highlight.js/lib/languages/json';
 import typescript from 'highlight.js/lib/languages/typescript';
 import { DialogAdminMetadataComponent } from './dialog/dialog-admin-metadata/dialog-admin-metadata.component';
 import { MapBrowseComponent } from './map/browse/map-browse.component';
+import { CollectionComponent } from './collections/collection/collection.component';
 
 export function hljsLanguages() {
   return [
@@ -224,7 +225,8 @@ export function hljsLanguages() {
     ResetPasswordComponent,
     OmniauthComponent,
     DialogAdminMetadataComponent,
-    MapBrowseComponent
+    MapBrowseComponent,
+    PresentationComponent
   ],
   entryComponents: [
     DialogOcrComponent,

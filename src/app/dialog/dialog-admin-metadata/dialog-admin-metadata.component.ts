@@ -58,9 +58,9 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
     if (!this.selection[this.resource]) {
       this.getRequest(this.selection.uuid).subscribe((result: string) => {
         if (this.resource === 'dc' || this.resource === 'mods' || this.resource === 'alto' || this.resource === 'foxml') {
-          const data = {};
+          const params = {};
           const ctx = this;
-          parseString(result, data, function (err, data) {
+          parseString(result, params, function (err: any, data) {
               const builder = new Builder({ 'headless': true });
               const xml = builder.buildObject(data);
               ctx.selection[ctx.resource] = xml;
