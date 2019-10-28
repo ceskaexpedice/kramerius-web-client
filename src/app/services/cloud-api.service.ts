@@ -78,7 +78,7 @@ export class CloudApiService {
     }
 
     getCitation(uuid: string): Observable<string> {
-        const url =  `http://citace.kramerius.cloud/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html`;
+        const url =  `https://citace.kramerius.cloud/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html`;
         return this.doGetText(url).catch(this.handleError);
     }
 
