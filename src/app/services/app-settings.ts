@@ -29,6 +29,8 @@ export class AppSettings {
   public customRightMessage: boolean;
   public dnntFilter: boolean;
   public originLink: boolean;
+  public mapSearch: boolean;
+
 
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -42,6 +44,7 @@ export class AppSettings {
   public aboutPage = APP_GLOBAL.aboutPage;
   public footer = APP_GLOBAL.footer;
   public cloudApiBase = APP_GLOBAL.cloudApiBase;
+  public googleMapsApiKey = APP_GLOBAL.googleMapsApiKey;
   public krameriusList: KrameriusData[];
 
   constructor(private collectionsService: CollectionService) {
@@ -95,6 +98,7 @@ export class AppSettings {
     this.dnntFilter = kramerius.dnntFilter;
     this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
+    this.mapSearch = kramerius.mapSearch || false;
     this.currentCode = this.code;
     // this.krameriusInfoService.reload();
     this.listner.next(kramerius);
@@ -150,4 +154,5 @@ interface KrameriusData {
   dnntFilter: boolean;
   originLink: boolean;
   customRightMessage: boolean;
+  mapSearch: boolean;
 }

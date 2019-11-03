@@ -284,7 +284,7 @@ export function hljsLanguages() {
       oAuthWindowType: 'newWindow'
     }),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCGDIOYeh5bw_vsBcZxZH3GOzmA0aetqBw'
+      apiKey: APP_GLOBAL.googleMapsApiKey
     }),
     HighlightModule.forRoot({
       languages: hljsLanguages

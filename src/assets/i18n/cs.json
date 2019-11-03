@@ -57,7 +57,9 @@
     "tooltip_hide_date": "Skrýt časové rozmezí od - do",
     "tooltip_display_grid": "Zobraz mřížku",
     "tooltip_display_years": "Zobraz roky",
-    "tooltip_display_calendar": "Zobraz kalendář"
+    "tooltip_display_calendar": "Zobraz kalendář",
+    "tooltip_display_map": "Zobrazit výsledky na mapě",
+    "tooltip_display_cards": "Zobrazit karty s výsledky"
   },
   "search": {
     "k3": "Hledat ve staré digitalizaci",

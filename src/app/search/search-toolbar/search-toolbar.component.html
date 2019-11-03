@@ -21,15 +21,13 @@
   <div class="col s10 m12 l4 xl4 app-col-right">
     <ul class="right">
 
-
-
-        <li (click)="searchService.selectContentType('grid')" class="serch-content-type-button" [class.active]="searchService.contentType == 'grid'">
-            <span mz-tooltip [tooltip]="'toolbar.tooltip_display_calendar' | translate" [position]="'top'" class="app-cursor-pointer">
+        <li  *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('grid')" class="serch-content-type-button" [class.active]="searchService.contentType == 'grid'">
+            <span mz-tooltip [tooltip]="'toolbar.tooltip_display_cards' | translate" [position]="'top'" class="app-cursor-pointer">
               <i class="app-mdi-view-grid"></i>
             </span>
           </li>
-          <li (click)="searchService.selectContentType('map')" class="serch-content-type-button" [class.active]="searchService.contentType == 'map'">
-            <span mz-tooltip [tooltip]="'toolbar.tooltip_display_calendar' | translate" [position]="'top'" class="app-cursor-pointer">
+          <li *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('map')" class="serch-content-type-button" [class.active]="searchService.contentType == 'map'">
+            <span mz-tooltip [tooltip]="'toolbar.tooltip_display_map' | translate" [position]="'top'" class="app-cursor-pointer">
               <i class="app-mdi-view-map"></i>
             </span>
           </li>
