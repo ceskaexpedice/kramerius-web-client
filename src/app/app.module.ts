@@ -136,7 +136,6 @@ import { DialogAdminMetadataComponent } from './dialog/dialog-admin-metadata/dia
 import { MapBrowseComponent } from './map/browse/map-browse.component';
 import { CollectionComponent } from './collections/collection/collection.component';
 
-declare var APP_GLOBAL: any;
 
 export function hljsLanguages() {
   return [
@@ -274,8 +273,8 @@ export function hljsLanguages() {
     MzDatepickerModule,
     ClipboardModule,
     AngularTokenModule.forRoot({
-      apiBase: APP_GLOBAL.cloudApiBase,
-      oAuthBase: APP_GLOBAL.cloudApiBase,
+      apiBase: environment.cloudApiBase,
+      oAuthBase: environment.cloudApiBase,
       oAuthCallbackPath: 'omniauth',
       oAuthPaths: {
         google: 'auth/google_oauth2',
@@ -284,7 +283,7 @@ export function hljsLanguages() {
       oAuthWindowType: 'newWindow'
     }),
     AgmCoreModule.forRoot({
-      apiKey: APP_GLOBAL.googleMapsApiKey
+      apiKey: environment.googleMapsApiKey
     }),
     HighlightModule.forRoot({
       languages: hljsLanguages

@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment.prod';
 import { Metadata } from './../model/metadata.model';
 import { AppError } from '../common/errors/app-error';
 import { NotFoundError } from '../common/errors/not-found-error';
@@ -18,15 +19,15 @@ export class CloudApiService {
     }
 
     private doGet(path: string, params: any = {}): Observable<Object> {
-        return this.http.get(encodeURI(this.appSettings.cloudApiBase + '/' + path), {params: params});
+        return this.http.get(encodeURI(environment.cloudApiBase + '/' + path), {params: params});
     }
 
     private doPost(path: string, body: any = null): Observable<Object> {
-        return this.http.post(encodeURI(this.appSettings.cloudApiBase + '/' + path), body);
+        return this.http.post(encodeURI(environment.cloudApiBase + '/' + path), body);
     }
 
     serviceEnabled(): boolean {
-        return !!this.appSettings.cloudApiBase;
+        return !!this.appSettings.cloudEnabled;
     }
 
     getFavourites() {

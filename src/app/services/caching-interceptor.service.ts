@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment.prod';
 import { AppSettings } from './app-settings';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpResponse, HttpInterceptor, HttpHandler } from '@angular/common/http';
@@ -12,7 +13,7 @@ export class CachingInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // console.log('req', req.url);
-    if (this.appSettings.cloudApiBase && req.url.startsWith(this.appSettings.cloudApiBase)) {
+    if (environment.cloudApiBase && req.url.startsWith(environment.cloudApiBase)) {
       // console.log('do not cache');
       return next.handle(req);
     }

@@ -31,7 +31,6 @@ export class AppSettings {
   public originLink: boolean;
   public mapSearch: boolean;
 
-
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
   public enablePeriodicalIsssuesCalendarLayout = APP_GLOBAL.enablePeriodicalIsssuesCalendarLayout;
@@ -43,8 +42,7 @@ export class AppSettings {
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public aboutPage = APP_GLOBAL.aboutPage;
   public footer = APP_GLOBAL.footer;
-  public cloudApiBase = APP_GLOBAL.cloudApiBase;
-  public googleMapsApiKey = APP_GLOBAL.googleMapsApiKey;
+  public cloudEnabled = APP_GLOBAL.cloudEnabled;
   public krameriusList: KrameriusData[];
 
   constructor(private collectionsService: CollectionService) {
