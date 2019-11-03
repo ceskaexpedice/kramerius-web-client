@@ -37,7 +37,7 @@ export class AccountService {
     }
 
     serviceEnabled(): boolean {
-        return this.appSettings.loginEnabled;
+        return this.api.serviceEnabled();
     }
 
     processOAuthCallback(callback: (success: boolean) => void) {

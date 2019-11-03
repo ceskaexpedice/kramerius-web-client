@@ -22,7 +22,7 @@ export class SigninComponent implements OnInit {
               public appSettings: AppSettings) { }
 
   ngOnInit() {
-    if (!this.appSettings.loginEnabled) {
+    if (!this.account.serviceEnabled()) {
       this.router.navigate(['/']);
       return;
     }

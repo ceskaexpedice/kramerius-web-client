@@ -29,8 +29,6 @@ export class AppComponent implements OnInit {
     if (this.appSettings.dnntEnabled) {
       this.auth.login('', '').subscribe(user => {
       });
-    } else if (this.appSettings.loginEnabled) {
-
     }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

@@ -1,18 +1,18 @@
+import { AppSettings } from './app-settings';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpResponse, HttpInterceptor, HttpHandler } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { HttpRequestCache } from './http-request-cache.service';
-import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CachingInterceptor implements HttpInterceptor {
-  constructor(private cache: HttpRequestCache) {}
+  constructor(private cache: HttpRequestCache, private appSettings: AppSettings) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // console.log('req', req.url);
-    if (req.url.startsWith(environment.apiBase)) {
+    if (this.appSettings.cloudApiBase && req.url.startsWith(this.appSettings.cloudApiBase)) {
       // console.log('do not cache');
       return next.handle(req);
     }

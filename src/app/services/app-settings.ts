@@ -26,6 +26,7 @@ export class AppSettings {
   public lemmatization: boolean;
   public iiifEnabled: boolean;
   public k3: string;
+  public customRightMessage: boolean;
   public dnntFilter: boolean;
   public originLink: boolean;
 
@@ -36,12 +37,11 @@ export class AppSettings {
   public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
   public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
   public dnntEnabled = APP_GLOBAL.dnnt;
-  public loginEnabled = APP_GLOBAL.login;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public aboutPage = APP_GLOBAL.aboutPage;
   public footer = APP_GLOBAL.footer;
-  public customRightMessage = APP_GLOBAL.customRightMessage;
+  public cloudApiBase = APP_GLOBAL.cloudApiBase;
   public krameriusList: KrameriusData[];
 
   constructor(private collectionsService: CollectionService) {

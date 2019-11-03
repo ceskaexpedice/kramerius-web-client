@@ -132,10 +132,11 @@ import { AgmCoreModule } from '@agm/core';
 import { HighlightModule } from 'ngx-highlightjs';
 import xml from 'highlight.js/lib/languages/xml';
 import json from 'highlight.js/lib/languages/json';
-import typescript from 'highlight.js/lib/languages/typescript';
 import { DialogAdminMetadataComponent } from './dialog/dialog-admin-metadata/dialog-admin-metadata.component';
 import { MapBrowseComponent } from './map/browse/map-browse.component';
 import { CollectionComponent } from './collections/collection/collection.component';
+
+declare var APP_GLOBAL: any;
 
 export function hljsLanguages() {
   return [
@@ -273,8 +274,8 @@ export function hljsLanguages() {
     MzDatepickerModule,
     ClipboardModule,
     AngularTokenModule.forRoot({
-      apiBase: environment.apiBase,
-      oAuthBase: environment.apiBase,
+      apiBase: APP_GLOBAL.cloudApiBase,
+      oAuthBase: APP_GLOBAL.cloudApiBase,
       oAuthCallbackPath: 'omniauth',
       oAuthPaths: {
         google: 'auth/google_oauth2',

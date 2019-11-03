@@ -51,7 +51,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.analytics.sendEvent('navbar', 'logout');
-    if (this.appSettings.loginEnabled) {
+    if (this.account.serviceEnabled()) {
       this.account.logout(() => {
         this.router.navigate(['/']);
       });

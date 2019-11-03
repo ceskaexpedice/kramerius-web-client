@@ -21,11 +21,10 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private account: AccountService,
-              private appSettings: AppSettings) { }
+              private account: AccountService) { }
 
   ngOnInit() {
-    if (!this.appSettings.loginEnabled) {
+    if (!this.account.serviceEnabled()) {
       this.router.navigate(['/']);
       return;
     }

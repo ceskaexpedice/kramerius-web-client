@@ -10,22 +10,23 @@ import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { Response } from '@angular/http/src/static_response';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppSettings } from './app-settings';
-import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CloudApiService {
-
-    private baseUrl = environment.apiBase;
 
     constructor(private http: HttpClient, private appSettings: AppSettings) {
     }
 
     private doGet(path: string, params: any = {}): Observable<Object> {
-        return this.http.get(encodeURI(this.baseUrl + '/' + path), {params: params});
+        return this.http.get(encodeURI(this.appSettings.cloudApiBase + '/' + path), {params: params});
     }
 
     private doPost(path: string, body: any = null): Observable<Object> {
-        return this.http.post(encodeURI(this.baseUrl + '/' + path), body);
+        return this.http.post(encodeURI(this.appSettings.cloudApiBase + '/' + path), body);
+    }
+
+    serviceEnabled(): boolean {
+        return !!this.appSettings.cloudApiBase;
     }
 
     getFavourites() {
