@@ -1,5 +1,5 @@
 import { BookService } from './../../../services/book.service';
-import { ViewerControlsService } from './../../../services/viewre-controls.service.';
+import { ViewerControlsService } from '../../../services/viewer-controls.service';
 import { Component, OnInit, Input} from '@angular/core';
 import { AnalyticsService } from '../../../services/analytics.service';
 

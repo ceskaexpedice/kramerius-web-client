@@ -1,5 +1,5 @@
 import { AppSettings } from './../../services/app-settings';
-import { ViewerControlsService, ViewerActions } from './../../services/viewre-controls.service.';
+import { ViewerControlsService, ViewerActions } from '../../services/viewer-controls.service';
 import { Page, PageImageType } from './../../model/page.model';
 import { BookService } from './../../services/book.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';

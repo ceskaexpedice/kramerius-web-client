@@ -177,7 +177,7 @@ export class SolrService {
             item.resolveUrl(this.appSettings.getPathPrefix());
             items.push(item);
         }
-        console.log(items);
+        // console.log(items);
         return items;
     }
 

@@ -75,8 +75,6 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
     } else {
       return;
     }
-console.log('link ----' + this.selection.link + '------');
-
     const width = 500;
     const height = 500;
     window.open(baseUrl

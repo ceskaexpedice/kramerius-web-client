@@ -612,7 +612,7 @@ export class BookService {
             },
             error => {
                 if (error instanceof NotFoundError) {
-                    console.log('not found error', error);
+                    // console.log('not found error', error);
                     this.modalService.open(SimpleDialogComponent, {
                         title: 'common.warning',
                         message: 'dialogs.missing_alto.message',

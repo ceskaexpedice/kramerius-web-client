@@ -1,6 +1,6 @@
 import { BookService } from './../../services/book.service';
 import { Component, OnInit } from '@angular/core';
-import { ViewerControlsService } from '../../services/viewre-controls.service.';
+import { ViewerControlsService } from '../../services/viewer-controls.service';
 
 @Component({
   selector: 'app-pdf-viewer',

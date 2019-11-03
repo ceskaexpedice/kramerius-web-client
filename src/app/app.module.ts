@@ -23,7 +23,7 @@ import { PaginatorComponent } from './shared/paginator/paginator.component';
 import { BrowseResultsComponent } from './browse/browse-results/browse-results.component';
 import { BrowseCountComponent } from './browse/browse-count/browse-count.component';
 import { BrowseService } from './services/browse.service';
-import { ViewerControlsService } from './services/viewre-controls.service.';
+import { ViewerControlsService } from './services/viewer-controls.service';
 import { ViewerControlsComponent } from './book/viewer/viewer-controls/viewer-controls.component';
 import { SearchService } from './services/search.service';
 import { LocalStorageService } from './services/local-storage.service';
