@@ -53,7 +53,7 @@ const ROUTES: Routes = [
     { path: ':k/favourites', component: FavouritesComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collections', component: CollectionsComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingPrefixGuardService ] },
-    { path: ':k/collection/:uuid', component: PresentationComponent, canActivate: [ RoutingPrefixGuardService ] },
+    // { path: ':k/collection/:uuid', component: PresentationComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/music/:uuid', component: MusicComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/view/:uuid', component: BookComponent, canActivate: [ RoutingPrefixGuardService ] },
