@@ -16,4 +16,11 @@ export class ViewerControlsComponent implements OnInit {
   ngOnInit() {
   }
 
+  onCropImageClicked() {
+    if (this.bookService.cropEnabled()) {
+      this.controlsService.cropImage();
+      this.analytics.sendEvent('viewer', 'controls', 'crop image');
+    }
+  }
+
 }

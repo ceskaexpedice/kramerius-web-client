@@ -19,7 +19,7 @@
     mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_on' | translate" [position]="'top'"></i>
   <i class="app-mdi-select-text hide-on-small-only" (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text');"
     mz-tooltip [tooltip]="'view_controls.tooltip_select_text' | translate" [position]="'top'"></i>
-  <i class="app-mdi-crop-image hide-on-small-only" (click)="controlsService.cropImage();analytics.sendEvent('viewer', 'controls', 'crop image');" *ngIf="bookService.iiifEnabled"
+  <i class="app-mdi-crop-image hide-on-small-only" (click)="onCropImageClicked()" *ngIf="bookService.iiifEnabled" [class.app-inactive]="!bookService.cropEnabled()"
     mz-tooltip [tooltip]="'view_controls.tooltip_crop_image' | translate" [position]="'top'"></i>
   <i disabled class="app-mdi-page-right" (click)="bookService.goToNext();analytics.sendEvent('viewer', 'controls', 'next page');" [class.app-inactive]="!bookService.hasNext()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_right' | translate" [position]="'top'"></i>

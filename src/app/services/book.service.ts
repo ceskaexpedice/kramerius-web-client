@@ -547,6 +547,11 @@ export class BookService {
         return this.pages === null || this.pages.length === 0;
     }
 
+    cropEnabled(): boolean {
+        const page = this.getPage();
+        return page && page.imageType === PageImageType.ZOOMIFY;
+    }
+
     hasNext() {
         const n = this.doublePage ? 2 : 1;
         return this.activePageIndex < this.pages.length - n;

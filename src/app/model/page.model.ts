@@ -26,7 +26,6 @@ export class Page {
     altoBoxes: any[];
 
     constructor() {
-
     }
 
     public assignZoomifyData(data: string) {
