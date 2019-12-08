@@ -130,6 +130,7 @@ export class ModsParserService {
         if (!array) {
             return;
         }
+        let anyPrimary = false;
         for (const item of array) {
             const author = new Author();
             let given;
@@ -137,6 +138,13 @@ export class ModsParserService {
             let termsOfAddress;
             if (!item.namePart) {
                 continue;
+            }
+            if (item['$'] && item['$']['type']) {
+                author.type = item['$']['type'];
+            }
+            if (item['$'] && item['$']['usage'] === 'primary') {
+                anyPrimary = true;
+                author.primary = true;
             }
             for (const partName of item.namePart) {
                 if (partName['$'] && partName['$']['type']) {
@@ -186,6 +194,11 @@ export class ModsParserService {
                 }
             }
             metadata.authors.push(author);
+        }
+        if (!anyPrimary) {
+            for (const author of metadata.authors) {
+                author.primary = true;
+            }
         }
     }
 

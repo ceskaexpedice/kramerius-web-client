@@ -161,6 +161,26 @@ export class Metadata {
         return !!this.identifiers[type];
     }
 
+    public getPrimaryAuthors() {
+        const result = [];
+        for (const author of this.authors) {
+            if (author.primary) {
+                result.push(author);
+            }
+        }
+        return result;
+    }
+
+    public getOtherAuthors() {
+        const result = [];
+        for (const author of this.authors) {
+            if (!author.primary) {
+                result.push(author);
+            }
+        }
+        return result;
+    }
+
 }
 
 
@@ -203,13 +223,17 @@ export class Volume {
 }
 
 export class Author {
+    public type: string;
+    public usage: string;
     public name: string;
     public date: string;
     public roles: string[];
+    public primary = false;
 
     constructor() {
         this.roles = [];
     }
+
 }
 
 export class Location {
