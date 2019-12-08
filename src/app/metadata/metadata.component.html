@@ -71,7 +71,7 @@
     <div *ngIf="metadata.getPrimaryAuthors().length > 0">
       <label>{{ 'metadata.author' | translate }}</label>
       <div *ngFor="let author of metadata.getPrimaryAuthors(); let index=index" class="app-value">
-          <a *ngIf="index < 2" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
+          <a *ngIf="index < 3" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
       </div>
       <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showAuthors()" mz-tooltip [tooltip]="'metadata.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
       <div class="divider"></div>
@@ -80,7 +80,7 @@
     <div *ngIf="metadata.getOtherAuthors().length > 0">
       <label>{{ 'metadata.author_other' | translate }}</label>
       <div *ngFor="let author of metadata.getOtherAuthors(); let index=index" class="app-value">
-          <a *ngIf="index < 2" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
+          <a *ngIf="index < 3" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
       </div>
       <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showAuthors()" mz-tooltip [tooltip]="'metadata.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
       <div class="divider"></div>
