@@ -88,6 +88,22 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
+    public getIiifImageBaseUrl(uuid: string): string {
+        return this.getbaseUrl() + '/search/iiif/' + uuid + '/';
+    }
+
+    public getIiifImageFullUrl(uuid: string, width: number, height: number): string {
+        return this.getIiifImageBaseUrl(uuid) + 'full/' + width + ',' + height + '/0/default.jpg';
+    }
+
+    public getIiifImageManifestUrl(uuid: string): string {
+        return this.getIiifImageBaseUrl(uuid) + 'info.json';
+    }
+
+    public getIiifImageManifest(uuid: string) {
+        return this.doGet(this.getIiifImageManifestUrl(uuid));
+    }
+
 
     // getSearchResults(query: SearchQuery) {
     //     let url = this.API_URL + '/search?'

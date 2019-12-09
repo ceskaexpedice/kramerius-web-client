@@ -6,8 +6,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { interval } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { KrameriusInfoService } from '../../services/kramerius-info.service';
+import { KrameriusApiService } from '../../services/kramerius-api.service';
 
 declare var ol: any;
 
@@ -23,15 +23,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private imageLayer2;
   private zoomifyLayer2;
   private vectorLayer;
+  private extent;
 
   private imageWidth = 0;
   private imageWidth1 = 0;
   private imageHeight = 0;
-
-  private maxResolution = 0;
-  private minResolution = 0;
-
-  private zoomFactor = 1.5;
 
   private lastRotateTime = 0;
 
@@ -67,13 +63,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   constructor(public bookService: BookService,
               public authService: AuthService,
+              public krameriusApi: KrameriusApiService,
               public appSettings: AppSettings,
               public krameriusInfo: KrameriusInfoService,
               public controlsService: ViewerControlsService) {
     this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
         this.onActionPerformed(action);
     });
-}
+  }
 
 
   init() {
@@ -139,7 +136,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-
   onMouseMove() {
     this.lastMouseMove = new Date().getTime();
     this.hideOnInactivity = false;
@@ -180,9 +176,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private zoomIn() {
     const currentZoom = this.view.getView().getResolution();
     let newZoom = currentZoom / 1.5;
-    if (newZoom < this.minResolution) {
-      newZoom = this.minResolution;
-    }
     this.view.getView().animate({
       resolution: newZoom,
       duration: 300
@@ -192,9 +185,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private zoomOut() {
     const currentZoom = this.view.getView().getResolution();
     let newZoom = currentZoom * 1.5;
-    if (newZoom > this.maxResolution) {
-      newZoom = this.maxResolution;
-    }
     this.view.getView().animate({
       resolution: newZoom,
       duration: 300
@@ -224,12 +214,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   private fitToScreen() {
-    this.view.updateSize();
     this.view.getView().setRotation(0);
-    this.bestFit();
-    const extent = this.view.getView().getProjection().getExtent();
-    const center = ol.extent.getCenter(extent);
-    this.view.getView().setCenter(center);
+    this.view.getView().fit(this.extent);
   }
 
   updateBoxes(data) {
@@ -267,41 +253,37 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else {
       extent = [0, -this.imageHeight, this.imageWidth, 0];
     }
-
-    const projection = new ol.proj.Projection({
-      code: 'ZOOMIFY',
-      units: 'pixels',
-      extent: extent
-    });
-    this.maxResolution = this.getBestFitResolution() * this.zoomFactor;
-    this.minResolution = 0.5;
+    this.extent = extent;
+    const maxResolution = this.getBestFitResolution() * 1.5;
+    const minResolution = 0.5;
     const viewOpts: any = {
-      projection: projection,
-      center: ol.extent.getCenter(extent),
-      extent: extent
+      extent: this.extent,
+      minResolution: minResolution,
+      maxResolution: maxResolution,
+      constrainOnlyCenter: true,
+      smoothExtentConstraint: false
     };
-    if (this.maxResolution < 100) {
-      viewOpts.minResolution = this.minResolution;
-      viewOpts.maxResolution = this.maxResolution;
-    }
     const view = new ol.View(viewOpts);
-
     this.view.setView(view);
 
     if (image2 != null) {
       if (image1.imageType === PageImageType.ZOOMIFY) {
-        this.addZoomifyImage(image1.url, image1.width, image1.height, 1);
+        // this.addZoomifyImage(image1.url, image1.width, image1.height, 1);
+        this.addIIIFImage(image1.uuid, image1.width, image1.height, 1);
       } else {
          this.addStaticImage(image1.url, image1.width, image1.height, 1);
       }
       if (image2.imageType === PageImageType.ZOOMIFY) {
-        this.addZoomifyImage(image2.url, image2.width, image2.height, 2);
+        // this.addZoomifyImage(image2.url, image2.width, image2.height, 2);
+        this.addIIIFImage(image2.uuid, image2.width, image2.height, 2);
       } else {
          this.addStaticImage(image2.url, image2.width, image2.height, 2);
       }
     } else {
       if (image1.imageType === PageImageType.ZOOMIFY) {
-        this.addZoomifyImage(image1.url, image1.width, image1.height, 0);
+        // this.addZoomifyImage(image1.url, image1.width, image1.height, 0);
+        this.addIIIFImage(image1.uuid, image1.width, image1.height, 0);
+
       } else {
         this.addStaticImage(image1.url, image1.width, image1.height, 0);
       }
@@ -310,8 +292,49 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.updateBoxes(image1.altoBoxes);
     }
     this.fitToScreen();
+    // this.view.getView().fit(extent);
   }
 
+  addIIIFImage(uuid, width, height, type) {
+    let extent;
+    if (type === 0) {
+      extent = [0, -height, width, 0];
+    } else if (type === 1) {
+      extent = [-this.imageWidth / 2, -height, -this.imageWidth / 2 + width, 0];
+    } else if (type === 2) {
+      extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
+    }
+    this.krameriusApi.getIiifImageManifest(uuid).subscribe((imageInfo: any) => {
+      var options = new ol.format.IIIFInfo(imageInfo).getTileSourceOptions();
+      if (options === undefined || options.version === undefined) {
+        // Invalid IIIF
+        return;
+      }
+      options.zDirection = -1;
+      options.extent = extent;
+      const iiifTileSource = new ol.source.IIIF(options);
+      const zLayer = new ol.layer.Tile({
+        source: iiifTileSource
+      });
+      const thumbUrl = this.krameriusApi.getIiifImageFullUrl(uuid, options.sizes[0][0], options.sizes[0][1]);
+      const iLayer = new ol.layer.Image({
+        source: new ol.source.ImageStatic({
+          url: thumbUrl,
+          imageExtent: extent
+        })
+      });
+      this.view.addLayer(iLayer);
+      this.view.addLayer(zLayer);
+      if (type === 2) {
+        this.imageLayer2 = iLayer;
+        this.zoomifyLayer2 = zLayer;
+      } else {
+        this.imageLayer = iLayer;
+        this.zoomifyLayer = zLayer;
+      }
+      this.view.getView().fit(this.extent);
+    });
+  }
 
   addZoomifyImage(url, width, height, type) {
     let extent;
@@ -322,21 +345,22 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else if (type === 2) {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
-    const zoomifySource = new ol.source.Zoomify({
-      url: url,
-      size: [width, height],
-      tierSizeCalculation: 'truncated',
-      imageExtent: extent,
-    });
-    const imageSource = new ol.source.ImageStatic({
-      url: url + 'TileGroup0/0-0-0.jpg',
-      imageExtent: extent
-    });
-    const iLayer = new ol.layer.Image({
-      source: imageSource
-    });
     const zLayer = new ol.layer.Tile({
-      source: zoomifySource
+      source: new ol.source.Zoomify({
+        tileSize: 256,
+        tilePixelRatio: 1,
+        url: url,
+        size: [width, height],
+        tierSizeCalculation: 'truncated',
+        crossOrigin: 'anonymous',
+        extent: extent
+      })
+    });    
+    const iLayer = new ol.layer.Image({
+      source: new ol.source.ImageStatic({
+        url: url + 'TileGroup0/0-0-0.jpg',
+        imageExtent: extent
+      })
     });
     this.view.addLayer(iLayer);
     this.view.addLayer(zLayer);
@@ -360,11 +384,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
 
-    const projection = new ol.proj.Projection({
-      code: 'IMAGE',
-      units: 'pixels',
-      extent: extent
-    });
+    // const projection = new ol.proj.Projection({
+    //   code: 'IMAGE',
+    //   units: 'pixels',
+    //   extent: extent
+    // });
     const iLayer = new ol.layer.Image({
       source: new ol.source.ImageStatic({
         url: url,
@@ -387,11 +411,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const ry = this.imageHeight / (this.view.getSize()[1] - 10);
     return Math.max(rx, ry);
   }
-
-  bestFit() {
-    this.view.getView().setResolution(this.getBestFitResolution());
-  }
-
 
   ngOnDestroy() {
     if (this.viewerActionsSubscription) {
