@@ -28,7 +28,7 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/materialize-css/dist/js/materialize.min.js",
-              "src/assets/js/ol-custom.js"
+              "src/assets/js/ol.js"
             ]
           },
           "configurations": {
