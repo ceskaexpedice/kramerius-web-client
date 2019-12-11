@@ -135,6 +135,8 @@ import json from 'highlight.js/lib/languages/json';
 import { DialogAdminMetadataComponent } from './dialog/dialog-admin-metadata/dialog-admin-metadata.component';
 import { MapBrowseComponent } from './map/browse/map-browse.component';
 import { CollectionComponent } from './collections/collection/collection.component';
+import { IiifService } from './services/iiif.service';
+import { ZoomifyService } from './services/zoomify.service';
 
 
 export function hljsLanguages() {
@@ -319,6 +321,8 @@ export function hljsLanguages() {
     CloudApiService,
     AccountService,
     AngularTokenModule,
+    IiifService,
+    ZoomifyService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

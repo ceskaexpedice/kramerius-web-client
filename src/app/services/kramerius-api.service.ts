@@ -88,23 +88,6 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-    public getIiifImageBaseUrl(uuid: string): string {
-        return this.getbaseUrl() + '/search/iiif/' + uuid + '/';
-    }
-
-    public getIiifImageFullUrl(uuid: string, width: number, height: number): string {
-        return this.getIiifImageBaseUrl(uuid) + 'full/' + width + ',' + height + '/0/default.jpg';
-    }
-
-    public getIiifImageManifestUrl(uuid: string): string {
-        return this.getIiifImageBaseUrl(uuid) + 'info.json';
-    }
-
-    public getIiifImageManifest(uuid: string) {
-        return this.doGet(this.getIiifImageManifestUrl(uuid));
-    }
-
-
     // getSearchResults(query: SearchQuery) {
     //     let url = this.API_URL + '/search?'
     //         + query.buildQuery(null);
@@ -456,35 +439,9 @@ export class KrameriusApiService {
     //         .catch(this.handleError);
     // }
 
-    getZoomifyProperties(url: string) {
-        return this.doGetText(`${url}/ImageProperties.xml`)
-            .catch(this.handleError);
-    }
-
-    getImageSelection(iiif: string, x1: number, y1: number, x2: number, y2: number) {
-        if (x1 < 0) {
-            x1 = 0;
-        }
-        if (x2 < 0) {
-            if (x1 === 0) {
-                return;
-            }
-            x2 = 0;
-        }
-        if (y1 > 0) {
-            y1 = 0;
-        }
-        if (y2 > 0) {
-            if (y1 === 0) {
-                return;
-            }
-            y2 = 0;
-        }
-        const a = Math.max(Math.round(x1), 0);
-        const b = Math.round(Math.abs(y2));
-        const c = Math.max(Math.round(x2 - x1), 0);
-        const d = Math.max(Math.round(Math.abs(y1) - Math.abs(y2)), 0);
-        return iiif + '/' + a + ',' + b + ',' + c + ',' + d + '/full/0/default.jpg';
-    }
+    // getZoomifyProperties(url: string) {
+    //     return this.doGetText(`${url}/ImageProperties.xml`)
+    //         .catch(this.handleError);
+    // }
 
 }
