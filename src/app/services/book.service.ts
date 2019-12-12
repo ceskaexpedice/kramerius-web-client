@@ -1119,6 +1119,7 @@ export class BookService {
     }
 
     private publishNewPages(state: BookPageState) {
+        console.log('publishNewPages');
         const leftPage = this.getPage();
         const rightPage = this.getRightPage();
         if (state !== BookPageState.Success) {
@@ -1130,7 +1131,19 @@ export class BookService {
             }
         }
         this.pageState = state;
+       
+        this.subject.next(this.getViewerData());
+        this.subjectPages.next([leftPage, rightPage]);
+    }
+
+
+    public getViewerData(): ViewerData {
         const data = new ViewerData();
+        const leftPage = this.getPage();
+        const rightPage = this.getRightPage();
+        if (!leftPage) {
+            return null;
+        }
         data.url1 = leftPage.getImageUrl()
         data.imageType = leftPage.getViewerImageType();
         data.query = this.fulltextQuery;
@@ -1140,8 +1153,7 @@ export class BookService {
             data.url2 = rightPage.getImageUrl()
             data.uuid2 = rightPage.uuid;
         }
-        this.subject.next(data);
-        this.subjectPages.next([leftPage, rightPage]);
+        return data;
     }
 
 
@@ -1256,10 +1268,16 @@ export enum ViewerImageType {
     uuid2: string;
     imageType: ViewerImageType;
     query: string;
-    boxes: any[];
   
     doublePage(): boolean {
       return !!this.url2 && !!this.uuid2;
     }
   
+    equals(to: ViewerData): boolean {
+        if (!to) {
+            return false;
+        }
+        return this.uuid1 === to.uuid1 && this.uuid2 === to.uuid2 && this.query === to.query && this.imageType === to.imageType;
+    }
+
   }

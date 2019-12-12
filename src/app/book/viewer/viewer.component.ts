@@ -50,16 +50,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.init();
+    console.log('ViewerComponent init')
     this.pageSubscription = this.bookService.watchViewerData().subscribe(
       (data: ViewerData) => {
         this.updateImage(data);
       }
     );
-    // const lPage = this.bookService.getPage();
-    // const rPage = this.bookService.getRightPage();
-    // if (lPage) {
-    //   this.updateView(lPage, rPage);
-    // }
+    this.updateImage(this.bookService.getViewerData());
     this.intervalSubscription = interval(4000).subscribe( () => {
       const lastMouseDist = new Date().getTime() - this.lastMouseMove;
       if (lastMouseDist >= 4000) {
@@ -278,26 +275,21 @@ export class ViewerComponent implements OnInit, OnDestroy {
           }
           this.view.addLayer(this.vectorLayer);
      });
+  }
 
-
-     this.watermark.getSource().clear();
-
-     const w = 5;
-     const h = 5;
-     for (let i = 0; i < w; i ++) {
-      for (let j = 0; j < h; j ++) {
-        const x = (i/(w*1.0))*this.imageWidth + this.imageWidth/20.0;
-        const y = (j/(h*1.0))*this.imageHeight + this.imageHeight/10.0;
-
-
-        var point = new ol.Feature(
-          new ol.geom.Point([x, -y]));
-         this.watermark.getSource().addFeature(point);
-
-
-      }
+  addWaterMark() {
+    this.watermark.getSource().clear();
+    const w = 4;
+    const h = 5;
+    for (let i = 0; i < w; i ++) {
+     for (let j = 0; j < h; j ++) {
+       const x = (i/(w*1.0))*this.imageWidth + this.imageWidth/20.0;
+       const y = (j/(h*1.0))*this.imageHeight + this.imageHeight/25.0*i + 50;
+       var point = new ol.Feature(
+         new ol.geom.Point([x, -y]));
+        this.watermark.getSource().addFeature(point);
      }
-
+    }
   }
 
 
@@ -403,7 +395,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   onImageUpdated() {
     this.view.getView().fit(this.extent);
     this.updateBoxes();
-    
+    this.addWaterMark();
   }
 
   setDimensions(width1: number, height1: number, width2: number, height2: number) {
@@ -435,6 +427,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateImage(data: ViewerData) {
+    console.log('updateImage', data);
+    if (this.data && this.data.equals(data)) {
+      return;
+    }
     this.view.removeLayer(this.imageLayer);
     this.view.removeLayer(this.zoomifyLayer);
     this.view.removeLayer(this.imageLayer2);
