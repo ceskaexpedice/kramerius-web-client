@@ -138,11 +138,16 @@ export class KrameriusApiService {
     getUserInfo(username: string, password: string): Observable<User> {
         // console.log('getUserInfo: ' + username + ',' + password);
         const url = this.getApiUrl() + '/user';
+
+        const headerParams = {
+            'Content-Type':  'application/json',
+        };
+        if (username && password) {
+            headerParams['Authorization'] = 'Basic ' + btoa(username + ':' + password);
+        }
+
         const httpOptions = {
-            headers: new HttpHeaders({
-              'Content-Type':  'application/json',
-              'Authorization': 'Basic ' + btoa(username + ':' + password)
-            })
+            headers: new HttpHeaders(headerParams)
           };
         return this.http.get(url, httpOptions)
             .map(response => User.fromJson(response, username, password))

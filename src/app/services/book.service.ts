@@ -6,7 +6,6 @@ import { DocumentItem } from './../model/document_item.model';
 import { Metadata } from './../model/metadata.model';
 import { AltoService } from './alto-service';
 import { LocalStorageService } from './local-storage.service';
-import { DialogPdfComponent } from './../dialog/dialog-pdf/dialog-pdf.component';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { UnauthorizedError } from './../common/errors/unauthorized-error';
 import { AppError } from './../common/errors/app-error';
@@ -78,6 +77,8 @@ export class BookService {
     public dnntMode = false;
     public dnntFlag = false;
     public iiifEnabled = false;
+
+
 
 
     constructor(private location: Location,
@@ -1027,7 +1028,6 @@ export class BookService {
             }
             this.dnntMode = leftPage.providedByDnnt || (rightPage && rightPage.providedByDnnt);
             this.dnntFlag = leftPage.dnntFlag || (rightPage && rightPage.dnntFlag);
-            // this.iiifEnabled = !!leftPage.iiif;
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {
@@ -1035,11 +1035,6 @@ export class BookService {
             } else {
                 this.publishNewPages(BookPageState.Success);
             }
-            // } else if (leftPage.imageType === PageImageType.ZOOMIFY) {
-            //     this.fetchZoomifyData(leftPage, rightPage);
-            // } else if (leftPage.imageType === PageImageType.JPEG) {
-            //     this.fetchJpegData(leftPage, rightPage, true);
-            // }
         },
         (error: AppError)  => {
             if (error instanceof UnauthorizedError) {
@@ -1050,7 +1045,6 @@ export class BookService {
         });
     }
 
-
     private onPdfPageSelected(leftPage: Page, rightPage: Page) {
         if (rightPage) {
             rightPage.selected = false;
@@ -1059,56 +1053,6 @@ export class BookService {
         this.assignPdfPath(leftPage.uuid);
     }
 
-
-    // private fetchJpegData(leftPage: Page, rightPage: Page, left: boolean) {
-    //     const page = left ? leftPage : rightPage;
-    //     const url = this.krameriusApiService.getScaledJpegUrl(page.uuid, 3000);
-    //     const image = new Image();
-    //     image.onload = (() => {
-    //         page.assignJpegData(image.width, image.height, url);
-    //         if (left && rightPage && rightPage.imageType === PageImageType.JPEG) {
-    //             this.fetchJpegData(leftPage, rightPage, false);
-    //         } else {
-    //             this.publishNewPages(BookPageState.Success);
-
-    //         }
-    //     });
-    //     image.onerror = (() => {
-    //         image.onerror = null;
-    //         this.publishNewPages(BookPageState.Inaccessible);
-    //     });
-    //     image.src = url;
-    // }
-
-
-    // private fetchZoomifyData(leftPage: Page, rightPage: Page) {
-    //     const zRequests = [];
-    //     zRequests.push(this.krameriusApiService.getZoomifyProperties(leftPage.url));
-    //     if (rightPage && rightPage.imageType === PageImageType.ZOOMIFY) {
-    //         zRequests.push(this.krameriusApiService.getZoomifyProperties(rightPage.url));
-    //     }
-    //     forkJoin(zRequests).subscribe((zResult: string[]) => {
-    //         leftPage.assignZoomifyData(zResult[0]);
-    //         if (rightPage && zResult.length >= 2) {
-    //             rightPage.assignZoomifyData(zResult[1]);
-    //         }
-    //         this.publishNewPages(BookPageState.Success);
-    //     },
-    //     (error: AppError)  => {
-    //         if (error instanceof UnauthorizedError) {
-    //             if (this.doublePage && rightPage) {
-    //                 this.doublePageEnabled = false;
-    //                 this.goToPageOnIndex(this.lastIndex);
-    //             } else {
-    //                 this.publishNewPages(BookPageState.Inaccessible);
-    //             }
-    //         } else {
-    //             this.publishNewPages(BookPageState.Failure);
-    //         }
-    //     });
-    // }
-
-    
     public onInaccessibleImage() {
         if (this.doublePage && this.getRightPage()) {
             this.doublePageEnabled = false;
@@ -1148,7 +1092,6 @@ export class BookService {
         data.imageType = leftPage.getViewerImageType();
         data.query = this.fulltextQuery;
         data.uuid1 = leftPage.uuid;
-        if (leftPage.imageType)
         if (rightPage) {
             data.url2 = rightPage.getImageUrl()
             data.uuid2 = rightPage.uuid;

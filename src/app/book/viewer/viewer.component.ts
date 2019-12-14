@@ -48,6 +48,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   private data: ViewerData;
 
+  public imageLoading = false;
+
   ngOnInit() {
     this.init();
     console.log('ViewerComponent init')
@@ -83,45 +85,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   init() {
-
-
-  
-  var text1 = 'Jan Rychtář';
-  var font = '15px roboto,sans-serif';
-  // var canvas = document.createElement('canvas');
-  // var context = canvas.getContext('2d');
-  // // context.font = font;
-  // var width1 = context.measureText(text1).width;
-
-
-
-  this.watermark = new ol.layer.Vector({
-    name: 'watermark',
-    source: new ol.source.Vector(),
-    style: new ol.style.Style({
-      fill: new ol.style.Fill({
-        color: 'rgba(244, 81, 30, 0.20)'
-      }),
-      stroke: new ol.style.Stroke({
-        color: '#F4511E',
-        width: 2
-      }),
-      text: new ol.style.Text({
-        // font: font,
-        text: text1,
-        fill: new ol.style.Fill({
-          color: 'rgba(0, 0, 0, 0.75)'
-        }),
-        textAlign: 'left',
-        // textBaseline: 'bottom',
-        // offsetY: -5,
-        // offsetX: -width1 / 2
-      })
-    })
-  });
-  this.watermark.setZIndex(100);
-
-
     const mainStyle = new ol.style.Style({
       fill: new ol.style.Fill({
         color: 'rgba(244, 81, 30, 0.20)'
@@ -142,7 +105,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       controls: [],
       interactions: interactions,
       loadTilesWhileAnimating: true,
-      layers: [this.vectorLayer, this.watermark]
+      layers: [this.vectorLayer]
     });
 
     this.selectionInteraction = new ol.interaction.DragBox({});
@@ -277,23 +240,89 @@ export class ViewerComponent implements OnInit, OnDestroy {
      });
   }
 
+  buildWatermarkLayer(text: string) {
+    const font = '13px roboto,sans-serif';
+    this.watermark = new ol.layer.Vector({
+      name: 'watermark',
+      source: new ol.source.Vector(),
+      style: new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: 'rgba(244, 81, 30, 0.20)'
+        }),
+        stroke: new ol.style.Stroke({
+          color: '#F4511E',
+          width: 2
+        }),
+        text: new ol.style.Text({
+          font: font,
+          text: text,
+          fill: new ol.style.Fill({
+            color: 'rgba(0, 0, 0, 0.2)'
+          }),
+          textAlign: 'left',
+        })
+      })
+    });
+    this.watermark.setZIndex(100);
+    this.view.addLayer(this.watermark);
+  }
+
   addWaterMark() {
-    this.watermark.getSource().clear();
-    const w = 4;
-    const h = 5;
-    for (let i = 0; i < w; i ++) {
-     for (let j = 0; j < h; j ++) {
-       const x = (i/(w*1.0))*this.imageWidth + this.imageWidth/20.0;
-       const y = (j/(h*1.0))*this.imageHeight + this.imageHeight/25.0*i + 50;
-       var point = new ol.Feature(
-         new ol.geom.Point([x, -y]));
+    if (this.watermark) {
+      this.watermark.getSource().clear();
+    }
+    console.log('this.extent', this.extent);
+    let watermarkText: string;
+    if (this.bookService.dnntMode && this.authService.isLoggedIn()) {
+      watermarkText = this.authService.user.name;
+    } else {
+      // watermarkText = 'Josef Novák';
+    }
+    if (!watermarkText) {
+      return;
+    }
+    if (!this.watermark) {
+      this.buildWatermarkLayer(watermarkText);
+    }
+    let cw = 3;
+    const ch = 4;
+    const sw = this.extent[0];
+    const width = this.extent[2] - this.extent[0];
+    if (this.extent[0] < 0) {
+      cw = 6;
+    }
+    const height = -this.extent[1];
+    for (let i = 0; i < cw; i ++) {
+     for (let j = 0; j < ch; j ++) {
+       const x = sw + (i/(cw*1.0))*width + width/20.0;
+       const y = (j/(ch*1.0)) * height + height/30.0*i + 70;
+       var point = new ol.Feature(new ol.geom.Point([x, -y]));
         this.watermark.getSource().addFeature(point);
      }
     }
   }
 
-
-  updateJpegImage(uuid1: string, uuid2: string, left: boolean, thumb: boolean) {
+  updateJpegImage(uuid1: string, uuid2: string) {
+    this.onImageLoading();
+    const rq = [];
+    rq.push(this.http.head(this.krameriusApi.getScaledJpegUrl(uuid1, 3000)));
+    if (uuid2) {
+      rq.push(this.http.head(this.krameriusApi.getScaledJpegUrl(uuid1, 3000)));
+    }
+    forkJoin(rq).subscribe(
+      (results) => {
+        this.loadJpegImage(uuid1, uuid2, true, false)
+      },
+      (error) => {
+        this.onImageFailure();
+        if (error && error.status === 403) {
+          this.bookService.onInaccessibleImage();
+        }
+      }
+    );
+  }
+  
+  loadJpegImage(uuid1: string, uuid2: string, left: boolean, thumb: boolean) {
     const uuid = left ? uuid1 : uuid2;
     const url = this.krameriusApi.getScaledJpegUrl(uuid, 3000);
     const image = new Image();
@@ -301,7 +330,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
         if (left && uuid2) {
           this.imageWidth = image.width;
           this.imageHeight = image.height;
-          this.updateJpegImage(uuid1, uuid2, false, thumb);
+          this.loadJpegImage(uuid1, uuid2, false, thumb);
         } else {
           if (!left) {
             this.setDimensions(this.imageWidth, this.imageHeight, image.width, image.height);
@@ -316,10 +345,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
             const thumb1 = this.krameriusApi.getThumbUrl(uuid1);
             this.addStaticImage(image.width, image.height, thumb ? thumb1 : url, 0);
           }
-          this.onImageUpdated();
+          this.onImageSuccess();
         }
     });
     image.onerror = ((error) => {
+        this.onImageFailure();
         image.onerror = null;
         console.log('on error', error);
     });
@@ -328,6 +358,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateZoomifyImage(url1: string, url2: string) {
+    this.onImageLoading();
     const rq = [];
     let w1, w2, h1, h2;
     rq.push(this.http.get(this.zoomify.properties(url1), { observe: 'response', responseType: 'text' }));
@@ -350,9 +381,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
       } else {
         this.addZoomifyImage(w1, h1, url1, 0);
       }
-      this.onImageUpdated();
+      this.onImageSuccess();
     },
     (error)  => {
+        this.onImageFailure();
         if (error && error.status === 403) {
           this.bookService.onInaccessibleImage();
         }
@@ -362,6 +394,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateIiifImage(url1: string, url2: string) {
+    this.onImageLoading();
     const rq = [];
     let w1, w2, h1, h2;
     rq.push(this.http.get(this.iiif.imageManifest(url1)));
@@ -382,9 +415,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
       } else {
         this.addIIIFImage(results[0], w1, h1, url1, 0);
       }
-      this.onImageUpdated();
+      this.onImageSuccess();
     },
     (error)  => {
+        this.onImageFailure();
         if (error && error.status === 403) {
           this.bookService.onInaccessibleImage();
         }
@@ -392,10 +426,23 @@ export class ViewerComponent implements OnInit, OnDestroy {
     );
   }
 
-  onImageUpdated() {
+  onImageLoading() {
+    if (this.watermark) {
+      this.watermark.getSource().clear();
+    }
+    this.vectorLayer.getSource().clear();
+    this.imageLoading = true;
+  }
+
+  onImageSuccess() {
+    this.imageLoading = false;
     this.view.getView().fit(this.extent);
     this.updateBoxes();
     this.addWaterMark();
+  }
+
+  onImageFailure() {
+    this.imageLoading = false;
   }
 
   setDimensions(width1: number, height1: number, width2: number, height2: number) {
@@ -446,7 +493,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.updateZoomifyImage(data.url1, data.url2);
         break;
       case ViewerImageType.JPEG: 
-        this.updateJpegImage(data.uuid1, data.uuid2, true, false);
+        this.updateJpegImage(data.uuid1, data.uuid2);
         // this.updateJpegImage(data.uuid1, data.uuid2, true);
         break;
     }
