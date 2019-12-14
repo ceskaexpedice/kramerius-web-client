@@ -515,15 +515,17 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
     options.zDirection = -1;
     options.extent = extent;
+    options.crossOrigin = 'Anonymous';
     const iiifTileSource = new ol.source.IIIF(options);
     const zLayer = new ol.layer.Tile({
-      source: iiifTileSource
+      source: iiifTileSource,
     });
     const thumbUrl = this.iiif.image(url, options.sizes[0][0], options.sizes[0][1]);
     const iLayer = new ol.layer.Image({
       source: new ol.source.ImageStatic({
         url: thumbUrl,
-        imageExtent: extent
+        imageExtent: extent,
+        crossOrigin: 'Anonymous'
       })
     });
     this.view.addLayer(iLayer);
@@ -553,14 +555,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
         url: url + '/',
         size: [width, height],
         tierSizeCalculation: 'truncated',
-        crossOrigin: 'anonymous',
+        crossOrigin: 'Anonymous',
         extent: extent
       })
     });    
     const iLayer = new ol.layer.Image({
       source: new ol.source.ImageStatic({
         url: this.zoomify.thumb(url),
-        imageExtent: extent
+        imageExtent: extent,
+        crossOrigin: 'Anonymous'
       })
     });
     this.view.addLayer(iLayer);
@@ -595,7 +598,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
         url: url,
         imageSize: [width, height],
         // projection: projection,
-        imageExtent: extent
+        imageExtent: extent,
+        crossOrigin: 'Anonymous'
       })
     });
 

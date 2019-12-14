@@ -23,7 +23,7 @@ export class ZoomifyService {
   }
 
   thumb(url): string {
-    return `${url}/'TileGroup0/0-0-0.jpg`;
+    return `${url}/TileGroup0/0-0-0.jpg`;
   }
 
 
