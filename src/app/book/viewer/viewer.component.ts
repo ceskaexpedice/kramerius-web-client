@@ -12,6 +12,7 @@ import { forkJoin} from 'rxjs/observable/forkJoin';
 import { IiifService } from '../../services/iiif.service';
 import { ZoomifyService } from '../../services/zoomify.service';
 import { AltoService } from '../../services/alto-service';
+import { LoggerService } from '../../services/logger.service';
 
 declare var ol: any;
 
@@ -20,7 +21,7 @@ declare var ol: any;
   templateUrl: './viewer.component.html'
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-
+  
   private view;
   private imageLayer;
   private zoomifyLayer;
@@ -52,7 +53,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.init();
-    console.log('ViewerComponent init')
+    this.logger.info('ViewerComponent init')
     this.pageSubscription = this.bookService.watchViewerData().subscribe(
       (data: ViewerData) => {
         this.updateImage(data);
@@ -73,6 +74,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
               public appSettings: AppSettings,
               private http: HttpClient,
               private iiif: IiifService,
+              private logger: LoggerService,
               private zoomify: ZoomifyService,
               private alto: AltoService,
               private krameriusApi: KrameriusApiService,
@@ -271,7 +273,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.watermark) {
       this.watermark.getSource().clear();
     }
-    console.log('this.extent', this.extent);
     let watermarkText: string;
     if (this.bookService.dnntMode && this.authService.isLoggedIn()) {
       watermarkText = this.authService.user.name;
@@ -351,7 +352,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     image.onerror = ((error) => {
         this.onImageFailure();
         image.onerror = null;
-        console.log('on error', error);
+        this.logger.info('on error', error);
     });
     image.src = url;
   }
@@ -474,7 +475,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateImage(data: ViewerData) {
-    console.log('updateImage', data);
+    this.logger.info('updateImage', data);
     if (this.data && this.data.equals(data)) {
       return;
     }
@@ -494,11 +495,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
         break;
       case ViewerImageType.JPEG: 
         this.updateJpegImage(data.uuid1, data.uuid2);
-        // this.updateJpegImage(data.uuid1, data.uuid2, true);
         break;
     }
-    // this.updateIiifImage(data.url1, data.url2);
-    // this.updateZoomifyImage(image1.zoomify, image2 ? image2.zoomify : null);
   }
 
   addIIIFImage(data, width, height, url, type) {

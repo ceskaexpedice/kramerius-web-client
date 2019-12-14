@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { LoggerService } from './logger.service';
 
 @Injectable()
 export class ZoomifyService {
 
-  constructor() {
+  constructor(private logger: LoggerService) {
   }
 
   properties(url: string): string {
@@ -11,7 +12,7 @@ export class ZoomifyService {
   }
 
   parseProperties(data: string) {
-    console.log('data', data);
+    this.logger.info('data', data);
     const a = data.toLowerCase().split('"');
     const width = parseInt(a[1], 10);
     const height = parseInt(a[3], 10);

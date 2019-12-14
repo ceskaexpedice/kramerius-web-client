@@ -137,6 +137,7 @@ import { MapBrowseComponent } from './map/browse/map-browse.component';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { IiifService } from './services/iiif.service';
 import { ZoomifyService } from './services/zoomify.service';
+import { LoggerService } from './services/logger.service';
 
 
 export function hljsLanguages() {
@@ -323,6 +324,7 @@ export function hljsLanguages() {
     AngularTokenModule,
     IiifService,
     ZoomifyService,
+    LoggerService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

@@ -29,6 +29,7 @@ import { Translator } from 'angular-translator';
 import { AnalyticsService } from './analytics.service';
 import { DialogPdfGeneratorComponent } from '../dialog/dialog-pdf-generator/dialog-pdf-generator.component';
 import { IiifService } from './iiif.service';
+import { LoggerService } from './logger.service';
 
 
 
@@ -89,6 +90,7 @@ export class BookService {
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
         private iiif: IiifService,
+        private logger: LoggerService,
         private modsParserService: ModsParserService,
         private translator: Translator,
         private solrService: SolrService,
@@ -1063,7 +1065,7 @@ export class BookService {
     }
 
     private publishNewPages(state: BookPageState) {
-        console.log('publishNewPages');
+        this.logger.info('publishNewPages');
         const leftPage = this.getPage();
         const rightPage = this.getRightPage();
         if (state !== BookPageState.Success) {
