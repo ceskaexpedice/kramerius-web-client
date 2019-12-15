@@ -51,7 +51,9 @@ export class SearchQuery {
         query.setFiled(query.locations, 'locations', params);
         query.setFiled(query.geonames, 'geonames', params);
         query.setFiled(query.collections, 'collections', params);
-        query.setCustomField(params);
+        if (!query.query) {
+            query.setCustomField(params);
+        }
         query.setOrdering(params['sort']);
         if (query.availableFilters.indexOf('accessibility') > -1) {
             query.setAccessibility(params['accessibility']);

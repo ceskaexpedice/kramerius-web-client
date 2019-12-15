@@ -170,8 +170,12 @@ export class KrameriusApiService {
     }
 
     getFulltextUuidList(uuid, query) {
-        const text = query.toLowerCase().trim()
-        .replace(/"/g, '\\"').replace(/~/g, '\\~')
+        let text = query.toLowerCase().trim();
+        const inQuotes = text.startsWith('"') && text.endsWith('"');
+        if (!inQuotes) {
+            text = text.replace(/"/g, '\\"');
+        }
+        text = text.replace(/~/g, '\\~')
         .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
         const url = this.getApiUrl() + '/search/?fl=PID&q=parent_pid:"'
             + uuid + '"'

@@ -201,6 +201,9 @@ export class SolrService {
                 item.title = doc['root_title'];
                 item.doctype = dp.substring(0, dp.indexOf('/'));
                 params['fulltext'] = query.getRawQ();
+                if (query.isCustomFieldSet()) {
+                    params['fulltext'] = query.getCustomValue();
+                }
                 item.hits = doclist['numFound'];
             } else {
                 item.doctype = dp;
