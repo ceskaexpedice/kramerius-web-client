@@ -307,9 +307,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   updateJpegImage(uuid1: string, uuid2: string) {
     this.onImageLoading();
     const rq = [];
-    rq.push(this.http.head(this.krameriusApi.getScaledJpegUrl(uuid1, 3000)));
+    rq.push(this.http.head(this.krameriusApi.getFullJpegUrl(uuid1)));
     if (uuid2) {
-      rq.push(this.http.head(this.krameriusApi.getScaledJpegUrl(uuid1, 3000)));
+      rq.push(this.http.head(this.krameriusApi.getFullJpegUrl(uuid1)));
     }
     forkJoin(rq).subscribe(
       (results) => {
@@ -599,8 +599,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
         url: url,
         imageSize: [width, height],
         // projection: projection,
-        imageExtent: extent,
-        crossOrigin: 'Anonymous'
+        imageExtent: extent
+        // crossOrigin: 'Anonymous'
       })
     });
 
