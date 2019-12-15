@@ -1,5 +1,4 @@
 import { Utils } from '../services/utils.service';
-import { runInThisContext } from 'vm';
 
 export class SearchQuery {
 
@@ -268,14 +267,14 @@ export class SearchQuery {
         this.value = null;
     }
 
-    private addCustomFieldToQuery() {
-        if (this.isCustomFieldSet()) {
-            let field = SearchQuery.getSolrCustomField(this.field);
-            let value = this.value;
-            return ' AND ' + field + ':' + value; 
-        }
-        return '';
-     }
+    // private addCustomFieldToQuery() {
+    //     if (this.isCustomFieldSet()) {
+    //         let field = SearchQuery.getSolrCustomField(this.field);
+    //         let value = this.value;
+    //         return ' AND ' + field + ':' + value; 
+    //     }
+    //     return '';
+    //  }
 
     buildQuery(facet: string): string {
         let qString = this.getQ();
