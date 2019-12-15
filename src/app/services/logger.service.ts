@@ -9,7 +9,7 @@ export class LoggerService {
 
   constructor() {
     this.logInfo = !environment.production;
-    this.logInfo = true;
+    this.logError = true;
   }
 
   info(message?: any, ...optionalParams: any[]) {
