@@ -28,7 +28,7 @@
   </mz-collapsible>
 
    
-  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.doctypes.length && filters.indexOf('doctypes') > -1" class="hide-on-large-only">
+  <mz-collapsible [mode]="'expandable'" *ngIf="searchService.doctypes.length && filters.indexOf('doctypes') > -1">
     <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
         {{ 'search.doctypes' | translate }}   

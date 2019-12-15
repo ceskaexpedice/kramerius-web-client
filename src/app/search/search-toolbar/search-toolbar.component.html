@@ -1,39 +1,36 @@
 <div class="row app-clean-mg">
-  <!-- Show just for medium devices and up -->
-  <div class="col s8 app-col-left hide-on-med-only hide-on-med-and-down">
+
+
+
+  
+    <div class="col app-col app-col-left">
+      <ul>
+        <li class="hide-on-med-and-up">
+          <a (click)="toggleFilters()">
+            <i *ngIf="searchService.activeMobilePanel == 'results'" mz-icon-mdi [icon]="'filter'"></i>
+            <i *ngIf="searchService.activeMobilePanel == 'filters'" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
+          </a>
+        </li>
+        <li>
+            <span *ngIf="appSettings.k3"><a [href]="searchService.buildK3Link()" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
+          </li>
+      </ul>
+    </div>
+
+
+
+  <div class="col app-col app-col-right">
     <ul>
-      <li *ngFor="let doctype of searchService.doctypes" [ngClass]="{'active' : searchService.highlightDoctype(doctype.value), 'disable' : doctype.count == 0}" class="{{doctype.value}}">
-        <span (click)="searchService.toggleFilter(searchService.query.doctypes, doctype.value);analytics.sendEvent('search', 'doctype', doctype.value);" mz-tooltip [tooltip]="'model_plural.' + doctype.value | translate" [position]="'top'" class="app-cursor-pointer">
-          <i [class]="'app-mdi-' + doctype.value"></i> {{doctype.count}}
+      <li *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('grid')" class="serch-content-type-button" [class.active]="searchService.contentType == 'grid'">
+        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_cards' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-view-grid"></i>
         </span>
       </li>
-    </ul>
-    <span *ngIf="appSettings.k3" style="margin-left: 20px;"><a [href]="searchService.buildK3Link()" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a>
-    </span>
-  </div>
-  <!-- Show just for small devices -->
-  <div class="col s2 app-col-left hide-on-med-and-up">
-    <a (click)="toggleFilters()">
-      <i *ngIf="searchService.activeMobilePanel == 'results'" mz-icon-mdi [icon]="'filter'"></i>
-      <i *ngIf="searchService.activeMobilePanel == 'filters'" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
-    </a>
-  </div>
-  <div class="col s10 m12 l4 xl4 app-col-right">
-    <ul class="right">
-
-        <li  *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('grid')" class="serch-content-type-button" [class.active]="searchService.contentType == 'grid'">
-            <span mz-tooltip [tooltip]="'toolbar.tooltip_display_cards' | translate" [position]="'top'" class="app-cursor-pointer">
-              <i class="app-mdi-view-grid"></i>
-            </span>
-          </li>
-          <li *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('map')" class="serch-content-type-button" [class.active]="searchService.contentType == 'map'">
-            <span mz-tooltip [tooltip]="'toolbar.tooltip_display_map' | translate" [position]="'top'" class="app-cursor-pointer">
-              <i class="app-mdi-view-map"></i>
-            </span>
-          </li>
-
-
-
+      <li *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('map')" class="serch-content-type-button" [class.active]="searchService.contentType == 'map'">
+        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_map' | translate" [position]="'top'" class="app-cursor-pointer">
+          <i class="app-mdi-view-map"></i>
+        </span>
+      </li>
       <li *ngIf="searchService.contentType == 'grid'">
         <span class="app-cursor-pointer app-mdi-in">
           <label>{{ 'search.ordering.label' | translate }}: </label>
@@ -47,41 +44,8 @@
           </mz-dropdown>
         </span>
       </li>
-
-      <!-- <li [class.active]="state.showingChartBar">
-        <span (click)="toggleElement('app-chart-bar')">
-          <i *ngIf="!state.showingChartBar" mz-tooltip [tooltip]="'toolbar.tooltip_show_chartbar' | translate" [position]="'top'" class="app-mdi-chart-bar app-cursor-pointer"></i>
-          <i *ngIf="state.showingChartBar" mz-tooltip [tooltip]="'toolbar.tooltip_hide_chartbar' | translate" [position]="'top'" class="app-mdi-chart-bar app-cursor-pointer"></i>
-        </span>
-      </li>
-      <li [class.active]="state.showingCalendar">
-        <span (click)="toggleElement('app-calendar')">
-          <i *ngIf="!state.showingCalendar" mz-tooltip [tooltip]="'toolbar.tooltip_show_date' | translate" [position]="'top'" class="app-mdi-calendar-range app-cursor-pointer"></i>
-          <i *ngIf="state.showingCalendar" mz-tooltip [tooltip]="'toolbar.tooltip_hide_date' | translate" [position]="'top'" class="app-mdi-calendar-range app-cursor-pointer"></i>
-        </span>
-      </li> -->
     </ul>
   </div>
+
+
 </div>
-
-<!-- Show / hide buttons -->
-<!-- temporary commented -> original buttons for responsive behavior of filters - vertical collapsing
-<span *ngIf="!state.showingFilters"
-      class="app-handle valign-wrapper hide-on-med-and-up"
-      (click)="hideFilters()"
-      mz-tooltip 
-      [tooltip]="'filters.btn_hide_filters' | translate" 
-      [position]="'right'">
-      <i class="app-mdi-menu-left"></i>
-</span>
-
-<span *ngIf="state.showingFilters"
-      class="app-handle valign-wrapper hide-on-med-and-up"
-      (click)="hideFilters()"
-      mz-tooltip 
-      [tooltip]="'filters.btn_show_filters' | translate" 
-      [position]="'right'">
-      <i class="app-mdi-menu-right"></i>
-</span>
--->
-
