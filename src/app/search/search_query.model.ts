@@ -263,6 +263,11 @@ export class SearchQuery {
         return !!this.field && !!this.value;
     }
 
+    public removeCustomField() {
+        this.field = null;
+        this.value = null;
+    }
+
     private addCustomFieldToQuery() {
         if (this.isCustomFieldSet()) {
             let field = SearchQuery.getSolrCustomField(this.field);
@@ -274,14 +279,17 @@ export class SearchQuery {
 
     buildQuery(facet: string): string {
         let qString = this.getQ();
+        let value = qString;
         let q = 'q=';
         if (this.isBoundingBoxSet()) {
             q += `{!field f=range score=overlapRatio}Intersects(ENVELOPE(${this.west},${this.east},${this.north},${this.south}))&fq=`;
         }
         if (this.isCustomFieldSet()) {
-            qString = this.value;
+            value = this.value;
             // q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
-            q +=  '_query_:"{!edismax qf=\'' + SearchQuery.getSolrCustomField(this.field) + '\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
+            // q +=  '_query_:"{!edismax qf=\'' + SearchQuery.getSolrCustomField(this.field) + '\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
+            q +=  SearchQuery.getSolrCustomField(this.field) + ':' + this.value;
+            q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page OR fedora.model:article)';
         } else if (qString) {
             q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
             q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page OR fedora.model:article)';
@@ -303,7 +311,7 @@ export class SearchQuery {
             const from = this.from === 0 ? 1 : this.from;
             q += ' AND (rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))';
         }
-        q += this.addCustomFieldToQuery();
+        // q += this.addCustomFieldToQuery();
         q += this.addToQuery('keywords', this.keywords, facet)
            + this.addToQuery('doctypes', this.doctypes, facet)
            + this.addToQuery('authors', this.authors, facet)
@@ -318,7 +326,7 @@ export class SearchQuery {
             // q += '&defType=edismax'
             //    + '&qf=dc.title^10 dc.creator^2 keywords text^0.1'
             //    + '&bq=(level:0)^10&bq=(dostupnost:public)^2'
-            q += '&q1=' + qString
+            q += '&q1=' + value
                + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
             // if (environment.solr.facetTruncate) {
             q += '&group.truncate=true';
@@ -481,6 +489,7 @@ export class SearchQuery {
         this.languages = [];
         this.locations = [];
         this.geonames = [];
+        this.removeCustomField();
         this.clearYearRange();
     }
 
@@ -493,6 +502,9 @@ export class SearchQuery {
 
     public anyFilter() {
         if (this.hasQueryString()) {
+            return true;
+        }
+        if (this.isCustomFieldSet()) {
             return true;
         }
         if (this.accessibility && this.accessibility !== 'all') {

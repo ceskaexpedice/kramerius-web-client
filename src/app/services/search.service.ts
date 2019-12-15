@@ -183,6 +183,11 @@ export class SearchService {
         this.reload(false);
     }
 
+    public removeCustomField() {
+        this.query.removeCustomField();
+        this.reload(false);
+    }
+
     public getNumberOfResults(): number {
         return this.numberOfResults;
     }
