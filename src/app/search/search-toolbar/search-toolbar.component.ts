@@ -17,21 +17,6 @@ export class SearchToolbarComponent implements OnInit {
   ngOnInit() {
   }
 
-
-  // toggleElement(id) {
-  //   if (id === 'app-chart-bar') {
-  //     this.state.chartBarToggle();
-  //     this.state.showingCalendar = false;
-  //     $('#app-calendar').hide();
-  //   } else if (id === 'app-calendar') {
-  //     this.state.calendarToggle();
-  //     this.state.showingChartBar = false;
-  //     $('#app-chart-bar').hide();
-  //   }
-  //   $('#' + id).toggleClass('active');
-  //   $('#' + id).slideToggle('fast');
-  // }
-
   toggleFilters() {
     if (this.searchService.activeMobilePanel === 'results') {
       this.searchService.activeMobilePanel = 'filters';

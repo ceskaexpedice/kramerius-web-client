@@ -15,7 +15,7 @@
           <span *ngIf="appSettings.k3"><a [href]="searchService.buildK3Link()" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
         </li>
         <li>
-          <span class="app-btn-txt" (click)="searchService.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
+          <span *ngIf="appSettings.advancedSearch"class="app-btn-txt" (click)="searchService.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
         </li>
       </ul>
     </div>

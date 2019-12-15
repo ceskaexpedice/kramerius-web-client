@@ -40,6 +40,7 @@ export class AppSettings {
   public dnntEnabled = APP_GLOBAL.dnnt;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
+  public advancedSearch = APP_GLOBAL.advancedSearch;
   public aboutPage = APP_GLOBAL.aboutPage;
   public footer = APP_GLOBAL.footer;
   public cloudEnabled = APP_GLOBAL.cloudEnabled;
