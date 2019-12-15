@@ -221,6 +221,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   private fitToScreen() {
+    this.view.updateSize();
     this.view.getView().setRotation(0);
     this.view.getView().fit(this.extent);
   }
