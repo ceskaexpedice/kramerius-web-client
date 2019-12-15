@@ -63,6 +63,7 @@
   },
   "search": {
     "k3": "Hledat ve staré digitalizaci",
+    "advanced": "Porkočilé hledání",
     "results": "Výsledky",
     "keywords": "Klíčové slovo",
     "doctypes": "Typ dokumentu",
@@ -98,6 +99,28 @@
       "from": "Od",
       "to": "Do",
       "apply": "Použít"
+    }
+  },
+  "advanced_search": {
+    "title": "Pokročilé vyhledávání",
+    "field": {
+      "tab": "Pole",
+      "field": "V čem hledat?",
+      "value": "Dotaz",
+      "value_placeholder": "Zadejte hledaný dotaz",
+      "all": "Vše",
+      "title": "Název",
+      "author": "Autor",
+      "keyword": "Klčové slovo",
+      "issn": "ISSN",
+      "isbn": "ISBN",
+      "ddt": "DDT",
+      "mdt": "MDT",
+      "geoname": "Geografický název",
+      "search": "Vyhledat"
+    },
+    "query": {
+      "tab": "Dotaz"
     }
   },
   "browse": {

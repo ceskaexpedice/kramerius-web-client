@@ -19,7 +19,6 @@ app-search-toolbar {
         float: right;
       }
       ul {
-        background: green;
         @extend .app-clean-mg;
         li {
           float: left;
@@ -29,12 +28,17 @@ app-search-toolbar {
           }
 
           span {
+            &.app-btn-txt {
+              &:hover {
+                color: $primary-color;
+              }
+              color: $primary-color;
+              cursor: pointer;
+            }
             padding: 0 0.8rem;
-
             &.app-mdi-in {
               padding-right: 0.4rem;
             }
-
             label {
               font-size: inherit;
               
@@ -46,7 +50,7 @@ app-search-toolbar {
           }
 
           &:not(.active) {
-            span {
+            span.app-btn-icon {
               &:hover {
                 color: $app-grey-d-1;
               } 

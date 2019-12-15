@@ -1,4 +1,5 @@
 import { Utils } from '../services/utils.service';
+import { runInThisContext } from 'vm';
 
 export class SearchQuery {
 
@@ -17,6 +18,9 @@ export class SearchQuery {
     geonames: string[] = [];
     doctypes: string[] = [];
     collections: string[] = [];
+
+    field: string;
+    value: string;
 
     availableFilters: string[];
 
@@ -40,7 +44,6 @@ export class SearchQuery {
     public static fromParams(params, filters: string[], dnntFilterEnabled: boolean): SearchQuery {
         const query = new SearchQuery(filters, dnntFilterEnabled);
         query.query = params['q'];
-        query.setOrdering(params['sort']);
         query.setPage(params['page']);
         query.setFiled(query.keywords, 'keywords', params);
         query.setFiled(query.doctypes, 'doctypes', params);
@@ -49,6 +52,8 @@ export class SearchQuery {
         query.setFiled(query.locations, 'locations', params);
         query.setFiled(query.geonames, 'geonames', params);
         query.setFiled(query.collections, 'collections', params);
+        query.setCustomField(params);
+        query.setOrdering(params['sort']);
         if (query.availableFilters.indexOf('accessibility') > -1) {
             query.setAccessibility(params['accessibility']);
         }
@@ -81,6 +86,33 @@ export class SearchQuery {
         }
         return '';
     }
+
+
+    public static getSolrCustomField(field): string {
+        if (field === 'author') {
+            return 'dc.creator';
+        } else if (field === 'title') {
+            return 'dc.title';
+        } else if (field === 'keyword') {
+            return 'keywords';
+        } else if (field === 'geoname') {
+            return 'geographic_names';
+        } else if (field === 'issn') {
+            return 'issn';
+        } else if (field === 'isbn') {
+            return 'dc.identifier';
+        } else if (field === 'ddt') {
+            return 'ddt';
+        } else if (field === 'mdt') {
+            return 'mdt';
+        } else if (field === 'all') {
+            return 'text';
+        }
+        return '';
+    }
+
+
+
 
 
     public setAccessibility(accessibility: string) {
@@ -128,6 +160,13 @@ export class SearchQuery {
         return this.north != null;
     }
 
+    private setCustomField(params) {
+        if (params['field'] && params['value'] && SearchQuery.getSolrCustomField(params['field'])) {
+            this.field = params['field'];
+            this.value = params['value'];
+        }
+    }
+
     private setFiled(fieldValues: string[], field: string, params) {
         const input = params[field];
         if (input && this.availableFilters.indexOf(field) > -1) {
@@ -137,14 +176,18 @@ export class SearchQuery {
         }
     }
 
+    public relevanceOrderingEnabled(): boolean {
+        return this.hasQueryString() || this.isCustomFieldSet();
+    }
+
     public setOrdering(ordering: string) {
         if (ordering) {
-            if (ordering === 'relevance' && !this.hasQueryString()) {
+            if (ordering === 'relevance' && !this.relevanceOrderingEnabled()) {
                 this.ordering = 'newest';
             } else {
                 this.ordering = ordering;
             }
-        } else if (this.query) {
+        } else if (this.query || this.isCustomFieldSet()) {
             this.ordering = 'relevance';
         } else {
             this.ordering = 'newest';
@@ -208,13 +251,38 @@ export class SearchQuery {
     }
 
 
+    public getCustomField(): string {
+        return this.field;
+    }
+
+    public getCustomValue(): string {
+        return this.value;
+    }
+
+    public isCustomFieldSet(): boolean {
+        return !!this.field && !!this.value;
+    }
+
+    private addCustomFieldToQuery() {
+        if (this.isCustomFieldSet()) {
+            let field = SearchQuery.getSolrCustomField(this.field);
+            let value = this.value;
+            return ' AND ' + field + ':' + value; 
+        }
+        return '';
+     }
+
     buildQuery(facet: string): string {
-        const qString = this.getQ();
+        let qString = this.getQ();
         let q = 'q=';
         if (this.isBoundingBoxSet()) {
             q += `{!field f=range score=overlapRatio}Intersects(ENVELOPE(${this.west},${this.east},${this.north},${this.south}))&fq=`;
         }
-        if (qString) {
+        if (this.isCustomFieldSet()) {
+            qString = this.value;
+            // q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
+            q +=  '_query_:"{!edismax qf=\'' + SearchQuery.getSolrCustomField(this.field) + '\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
+        } else if (qString) {
             q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
             q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page OR fedora.model:article)';
         } else {
@@ -235,6 +303,7 @@ export class SearchQuery {
             const from = this.from === 0 ? 1 : this.from;
             q += ' AND (rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))';
         }
+        q += this.addCustomFieldToQuery();
         q += this.addToQuery('keywords', this.keywords, facet)
            + this.addToQuery('doctypes', this.doctypes, facet)
            + this.addToQuery('authors', this.authors, facet)
@@ -245,7 +314,7 @@ export class SearchQuery {
            if (!this.isBoundingBoxSet()) {
             q += this.getDateOrderingRestriction();
            }
-        if (qString) {
+        if (qString || this.isCustomFieldSet()) {
             // q += '&defType=edismax'
             //    + '&qf=dc.title^10 dc.creator^2 keywords text^0.1'
             //    + '&bq=(level:0)^10&bq=(dostupnost:public)^2'
@@ -260,6 +329,9 @@ export class SearchQuery {
         } else {
             q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
         }
+        // if (this.isCustomFieldSet()) {
+        //     q += '&q1=' + this.value;
+        // }
         if (this.dnntFilterEnabled) {
             q += ',dnnt';
         }
@@ -335,6 +407,10 @@ export class SearchQuery {
         }
         if (this.collections.length > 0) {
             params['collections'] = this.collections.join(',,');
+        }
+        if (this.isCustomFieldSet()) {
+            params['field'] = this.field;
+            params['value'] = this.value;
         }
         if (this.isYearRangeSet()) {
             params['from'] = this.from;

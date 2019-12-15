@@ -1,0 +1,54 @@
+mz-modal.app-dialog-advanced-search {
+
+  .app-advanced-search-tabs {
+    border-width: 0 0 1px;
+    border-style: solid;
+    border-color: #ebebeb;
+    .app-tab {
+      width: 50%; //33.33333333%;
+      cursor: pointer;
+      transition: border-bottom .4s ease-in-out;
+      border-bottom: 2px solid transparent;
+      display: inline-block;
+      text-align: center;
+      line-height: 48px;
+      height: 48px;
+      padding: 0;
+      margin: 0;
+      text-transform: uppercase;
+      &.active {
+        @include set-border(bottom, 2, solid, $primary-color-light);
+      }
+    }
+  }
+
+  .modal {
+    max-height: calc(100% - 130px);
+    height: calc(100% - 130px);
+    max-width: 800px;
+    width: calc(100% - 130px);
+    top: 65px !important;
+  }
+
+  .app-tab-content-wrapper {
+    height: calc(100% - 30px);
+    overflow: scroll;
+    margin-top: 10px;
+    .app-tab-content {
+      padding: 0.5rem;
+      overflow: auto;
+      display: block;
+      .app-form-item {
+        label {
+          margin-top: 16px;
+          display: block;
+          font-size: 0.9rem;
+        }
+        .input-field {
+          margin-top: -4px;
+        }
+      }
+    }
+  }
+
+}

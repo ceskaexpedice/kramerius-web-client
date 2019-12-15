@@ -12,8 +12,11 @@
           </a>
         </li>
         <li>
-            <span *ngIf="appSettings.k3"><a [href]="searchService.buildK3Link()" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
-          </li>
+          <span *ngIf="appSettings.k3"><a [href]="searchService.buildK3Link()" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
+        </li>
+        <li>
+          <span class="app-btn-txt" (click)="searchService.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
+        </li>
       </ul>
     </div>
 
@@ -22,21 +25,21 @@
   <div class="col app-col app-col-right">
     <ul>
       <li *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('grid')" class="serch-content-type-button" [class.active]="searchService.contentType == 'grid'">
-        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_cards' | translate" [position]="'top'" class="app-cursor-pointer">
+        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_cards' | translate" [position]="'top'" class="app-cursor-pointer app-btn-icon">
           <i class="app-mdi-view-grid"></i>
         </span>
       </li>
       <li *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('map')" class="serch-content-type-button" [class.active]="searchService.contentType == 'map'">
-        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_map' | translate" [position]="'top'" class="app-cursor-pointer">
+        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_map' | translate" [position]="'top'" class="app-cursor-pointer app-btn-icon">
           <i class="app-mdi-view-map"></i>
         </span>
       </li>
       <li *ngIf="searchService.contentType == 'grid'">
-        <span class="app-cursor-pointer app-mdi-in">
+        <span class="app-cursor-pointer app-mdi-in app-btn-icon">
           <label>{{ 'search.ordering.label' | translate }}: </label>
           <a id="app-btn-sort" href="#">{{ 'search.ordering.' + searchService.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
           <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-            <mz-dropdown-item *ngIf="searchService.query.hasQueryString()"><a (click)="searchService.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item *ngIf="searchService.query.relevanceOrderingEnabled()"><a (click)="searchService.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('newest')">{{ 'search.ordering.newest' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('latest')">{{ 'search.ordering.latest' | translate }}</a></mz-dropdown-item>

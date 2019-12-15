@@ -8,6 +8,8 @@ import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
+import { MzModalService } from 'ngx-materialize';
+import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/dialog-advanced-search.component';
 
 
 @Injectable()
@@ -40,7 +42,9 @@ export class SearchService {
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
-        private appSettings: AppSettings) {
+        private appSettings: AppSettings,
+        private modalService: MzModalService) {
+
     }
 
     public init(params) {
@@ -68,6 +72,15 @@ export class SearchService {
             this.query.clearBoundingBox();
         }
         this.reload(false);
+    }
+
+
+    public showAdvancedSearchDialog() {
+        const options = {
+            fieldType: this.query.isCustomFieldSet() ? this.query.getCustomField() : 'all',
+            fieldValue: this.query.isCustomFieldSet() ? this.query.getCustomValue() : '',
+        };
+        this.modalService.open(DialogAdvancedSearchComponent,  options );
     }
 
     public reload(preservePage: boolean) {
@@ -275,7 +288,7 @@ export class SearchService {
     }
 
     private handleResponse(response) {
-        if (this.query.getRawQ()) {
+        if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
             this.numberOfResults = this.solrService.numberOfSearchResults(response);
             this.results = this.solrService.searchResultItems(response, this.query);
         } else {

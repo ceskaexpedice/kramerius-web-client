@@ -61,6 +61,7 @@
   },
   "search": {
     "k3": "Search in the old digitization",
+    "advanced": "Advanced Search",
     "results": "Results",
     "keywords": "Keyword",
     "doctypes": "Document Type",   

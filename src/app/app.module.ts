@@ -138,6 +138,7 @@ import { CollectionComponent } from './collections/collection/collection.compone
 import { IiifService } from './services/iiif.service';
 import { ZoomifyService } from './services/zoomify.service';
 import { LoggerService } from './services/logger.service';
+import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/dialog-advanced-search.component';
 
 
 export function hljsLanguages() {
@@ -229,7 +230,8 @@ export function hljsLanguages() {
     OmniauthComponent,
     DialogAdminMetadataComponent,
     MapBrowseComponent,
-    PresentationComponent
+    PresentationComponent,
+    DialogAdvancedSearchComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -240,7 +242,8 @@ export function hljsLanguages() {
     DialogAuthosComponent,
     DialogMetadataComponent,
     DialogPdfGeneratorComponent,
-    DialogAdminMetadataComponent
+    DialogAdminMetadataComponent,
+    DialogAdvancedSearchComponent
   ],
   imports: [
     BrowserModule,
