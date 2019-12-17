@@ -95,7 +95,6 @@ import { PeriodicalSearchComponent } from './periodical/periodical-filters/perio
 import { PeriodicalFiltersComponent } from './periodical/periodical-filters/periodical-filters.component';
 
 import { NgxGalleryModule } from 'ngx-gallery';
-import { DialogMetadataComponent } from './dialog/dialog-metadata/dialog-metadata.component';
 import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
 import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
 import { CollectionsComponent } from './collections/collections.component';
@@ -196,7 +195,6 @@ export function hljsLanguages() {
     DialogShareComponent,
     DialogCitationComponent,
     DialogAuthosComponent,
-    DialogMetadataComponent,
     LogoComponent,
     HomeLogoComponent,
     BookSearchComponent,
@@ -240,7 +238,6 @@ export function hljsLanguages() {
     DialogCitationComponent,
     SimpleDialogComponent,
     DialogAuthosComponent,
-    DialogMetadataComponent,
     DialogPdfGeneratorComponent,
     DialogAdminMetadataComponent,
     DialogAdvancedSearchComponent

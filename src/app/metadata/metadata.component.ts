@@ -5,7 +5,6 @@ import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { MzModalService } from 'ngx-materialize';
-import { DialogMetadataComponent } from '../dialog/dialog-metadata/dialog-metadata.component';
 import { AnalyticsService } from '../services/analytics.service';
 import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.component';
 import { DialogAdminMetadataComponent } from '../dialog/dialog-admin-metadata/dialog-admin-metadata.component';
@@ -37,11 +36,6 @@ export class MetadataComponent implements OnInit {
 
   openInProarc() {
     window.open(this.metadata.proarcLink(), '_blank');
-  }
-
-  showModsDialog() {
-    this.analytics.sendEvent('metadata', 'mods');
-    this.modalService.open(DialogMetadataComponent, { map: this.metadata.modsMap} );
   }
 
   showAuthors() {
