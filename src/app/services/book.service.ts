@@ -433,7 +433,7 @@ export class BookService {
                 const page = new Page();
                 page.uuid = p['pid'];
                 page.supplementUuid = p['supplement_uuid'];
-                page.policy = p['policy'];
+                page.public = p['policy'] === 'public';
                 const details = p['details'];
                 if (details) {
                     page.type = details['type'];

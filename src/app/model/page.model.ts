@@ -5,7 +5,6 @@ export class Page {
     loaded = false;
     uuid: string;
     supplementUuid: string;
-    policy: string;
     type: string;
     number: string;
     index: number;
@@ -22,6 +21,8 @@ export class Page {
     dnntFlag = false;
 
     originUrl: string;
+    public: boolean;
+
 
     constructor() {
     }
