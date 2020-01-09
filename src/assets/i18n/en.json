@@ -499,7 +499,6 @@
     "HBG001" : "Regional Library of Highlands",
     "KOE801" : "Regional Museum in Kolin",
     "OPE301" : "Library Silesian Museum",
-
     "HKE302" : "Museum of East Bohemia in Hradec Kralove",
     "HKG001" : "Municipal Library of Hradec Kralove",
     "JCG001" : "Municipal Library in Jicin",
@@ -517,7 +516,10 @@
     "ABD134" : "Charles University - First Faculty of Medicine",
     "PNE303" : "Museum of West Bohemia in Pilsen",
     "OPD001" : "Silesian university in Opava",
-    "JHE301" : "Museum of Jindrichuv Hradec Region"
+    "JHE301" : "Museum of Jindrichuv Hradec Region",
+    "JCE301" : "Regional Museum and Gallery in Jicin",
+    "NAE802" : "Town Museum Jaromer",
+    "TUE301" : "Museum Podkrkonosi in Trutnov"
   },
   "language" : {
     "aar" : "Afar",

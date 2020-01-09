@@ -518,7 +518,10 @@
     "ABD134" : "Univerzita Karlova v Praze - 1. lékařská fakulta",
     "PNE303" : "Západočeské muzeum v Plzni",
     "OPD001" : "Slezská univerzita v Opavě",
-    "JHE301" : "Muzeum Jindřichohradecka"
+    "JHE301" : "Muzeum Jindřichohradecka",
+    "JCE301" : "Regionální muzeum a galerie v Jičíně - Muzeum hry",
+    "NAE802" : "Městské muzeum v Jaroměři",
+    "TUE301" : "Muzeum Podkrkonoší v Trutnově"
   },
   "language" : {
     "aar" : "afarština",
