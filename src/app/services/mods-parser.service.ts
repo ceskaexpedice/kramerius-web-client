@@ -23,6 +23,7 @@ export class ModsParserService {
     private createMetadata(mods, uuid: string): Metadata {
         const metadata = new Metadata();
         metadata.uuid = uuid;
+        console.log('mods', mods);
         const root = mods['modsCollection']['mods'][0];
         this.processTitles(root['titleInfo'], metadata);
         this.processAuthors(root['name'], metadata);
@@ -39,6 +40,7 @@ export class ModsParserService {
         this.processSimpleArray(root['tableOfContents'], metadata.contents, null);
         this.processSimpleArray(root['abstract'], metadata.abstracts, null);
         this.processSimpleArray(root['genre'], metadata.genres, { key: 'authority', value: 'czenas' });
+        console.log('metadata', metadata);
         return metadata;
     }
 
@@ -349,15 +351,19 @@ export class ModsParserService {
         }
         for (const item of array) {
             if (item.topic) {
-                const text = this.getText(item.topic);
-                if (text && metadata.keywords.indexOf(text) < 0) {
-                    metadata.keywords.push(text);
+                for (const topic of item.topic) {
+                    const text = this.getText(topic);
+                    if (text && metadata.keywords.indexOf(text) < 0) {
+                        metadata.keywords.push(text);
+                    }
                 }
             }
             if (item.geographic) {
-                const text = this.getText(item.geographic);
-                if (text && metadata.geonames.indexOf(text) < 0) {
-                    metadata.geonames.push(text);
+                for (const geographic of item.geographic) {
+                    const text = this.getText(geographic);
+                    if (text && metadata.geonames.indexOf(text) < 0) {
+                        metadata.geonames.push(text);
+                    }
                 }
             }
             if (item.cartographics) {
@@ -380,6 +386,7 @@ export class ModsParserService {
                 }
             }
         }
+
     }
 
     private processLanguages(array, metadata: Metadata) {
