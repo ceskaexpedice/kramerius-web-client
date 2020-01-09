@@ -323,7 +323,7 @@ export class BookService {
                     pages.push(p);
                 }
             }
-            this.onDataLoaded(pages, doctype, pageUuid, articleUuid, internalPartUuid);
+            this.addSupplementPages(pages, supplements, doctype, pageUuid, articleUuid, internalPartUuid);
         });
     }
 
