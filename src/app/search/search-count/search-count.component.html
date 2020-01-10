@@ -1,3 +1,7 @@
 <mz-collection>
-  <mz-collection-item>{{ 'search.results' | translate }}: {{ searchService.getResultIndexFrom() }} - {{ searchService.getResultIndexTo() }} <span class="grey-text text-lighten-2">/</span> <span class="app-font-bold">{{searchService.getNumberOfResults()}}</span></mz-collection-item>
+  <mz-collection-item>
+    <span>{{ 'search.results' | translate }}: {{ searchService.getResultIndexFrom() }} - {{ searchService.getResultIndexTo() }}</span>
+    <span class="grey-text text-lighten-2 app-divider">/</span>
+    <span class="app-font-bold">{{searchService.getNumberOfResults()}}</span>
+  </mz-collection-item>
 </mz-collection>
