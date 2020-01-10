@@ -461,7 +461,7 @@ export class BookService {
                     firstBackSingle = index;
                 } else if (page.type === 'titlepage') {
                     titlePage = index;
-                } else if (titlePage === -1 && (page.type === 'frontcover'
+                } else if (titlePage === -1 && index < pages.length - 2 && (page.type === 'frontcover'
                             || page.type === 'cover'
                             || page.type === 'frontjacket'
                             || page.type === 'jacket'
