@@ -220,30 +220,16 @@ export class SearchQuery {
         }
         let q = this.query;
         if (!Utils.inQuotes(q)) {
-            q = q.trim(); // .replace(/:|\?|,|=|;|{|}|&|\[|\]|\[|!/g, ' ').replace(/-/g, '//-').replace(/\./g, '//.');
+            q = q.trim();
             while (q.indexOf('  ') > 0) {
                 q = q.replace(/  /g, ' ');
             }
-            // q = '("' + q + '" OR ' + q2 + ')';
-            // q = q.split(' ').join(' AND ');
         }
-        // q = q.replace(/"/g, '').replace(/-/g, '\\-');
-
-        // if (q.indexOf(':') > -1 || q.indexOf('[') > -1 || q.indexOf(']') > -1 || q.indexOf('!') > -1) {
-        //     q = '"' + q + '"';
-        // }
-        // if (q.startsWith('"') && q.endsWith('"')) {
-
-        // } else {
-        //     // q = q.replace(/ /g, '%2B');
-        // }
         return q;
     }
 
 
     isYearRangeSet(): boolean {
-        // console.log('isYearRangeSet');
-        // console.log('this.from', this.from);
         return this.from !== SearchQuery.YEAR_FROM || this.to !== SearchQuery.YEAR_TO;
     }
 
@@ -305,8 +291,6 @@ export class SearchQuery {
         }
         if (this.isCustomFieldSet()) {
             value = this.value;
-            // q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
-            // q +=  '_query_:"{!edismax qf=\'' + SearchQuery.getSolrCustomField(this.field) + '\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
             q +=  SearchQuery.getSolrCustomField(this.field) + ':' + this.value;
             q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page OR fedora.model:article)';
         } else if (qString) {
@@ -315,59 +299,18 @@ export class SearchQuery {
         } else {
           q += '(fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
         }
-
-
-        // if (facet !== 'accessibility' && this.availableFilters.indexOf('accessibility') > -1) {
-        //     if (this.accessibility === 'public') {
-        //         q += ' AND dostupnost:public';
-        //     } else if (this.accessibility === 'private') {
-        //         q += ' AND dostupnost:private';
-        //     } else if (this.dnntFilterEnabled && this.accessibility === 'dnnt') {
-        //         q += ' AND dnnt:true';
-        //     } else if (!facet) {
-        //         // q += ' AND (dostupnost:public^999 OR dostupnost:private)';
-        //     }
-        // }
-        // if (this.isYearRangeSet()) {
-        //     const from = this.from === 0 ? 1 : this.from;
-        //     q += ' AND (rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))';
-        // }
-        // // q += this.addCustomFieldToQuery();
-        // q += this.addToQuery('keywords', this.keywords, facet)
-        //    + this.addToQuery('doctypes', this.doctypes, facet)
-        //    + this.addToQuery('authors', this.authors, facet)
-        //    + this.addToQuery('languages', this.languages, facet)
-        //    + this.addToQuery('locations', this.locations, facet)
-        //    + this.addToQuery('geonames', this.geonames, facet)
-        //    + this.addToQuery('collections', this.collections, facet);
-        // if (!this.isBoundingBoxSet()) {
-        //     q += this.getDateOrderingRestriction();
-        // }
-
-
         const fq = this.buildFilterQuery(facet);
         if (fq) {
             q += '&fq=' + fq;
         }
 
         if (qString || this.isCustomFieldSet()) {
-            // q += '&defType=edismax'
-            //    + '&qf=dc.title^10 dc.creator^2 keywords text^0.1'
-            //    + '&bq=(level:0)^10&bq=(dostupnost:public)^2'
-            q += '&q1=' + value
-               + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
-            // if (environment.solr.facetTruncate) {
+            q += '&q1=' + value + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
             q += '&group.truncate=true';
-            //  } else {
-            //    q += '&group.facet=true';
-            //    }
             q += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score';
         } else {
             q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
         }
-        // if (this.isCustomFieldSet()) {
-        //     q += '&q1=' + this.value;
-        // }
         if (this.dnntFilterEnabled) {
             q += ',dnnt';
         }

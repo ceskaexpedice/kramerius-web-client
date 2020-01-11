@@ -604,10 +604,6 @@ export class BookService {
             if (result.length > 1) {
                 options['ocr2'] = result[1];
             }
-            // const citation = this.citationService.generateCitation(this.metadata, null, CitationService.LEVEL_PAGE);
-            // if (citation) {
-                // options['citation'] = citation;
-            // }
             this.modalService.open(DialogOcrComponent, options);
         });
     }
@@ -618,17 +614,14 @@ export class BookService {
         this.krameriusApiService.getAlto(uuid).subscribe(
             result => {
                 const text = this.altoService.getTextInBox(result, extent, width, height);
-                // const citation = this.citationService.generateCitation(this.metadata, null, CitationService.LEVEL_PAGE);
                 const options = {
                     ocr: text,
                     uuid: this.getPage().uuid
-                    // citation: citation
                 };
                 this.modalService.open(DialogOcrComponent, options);
             },
             error => {
                 if (error instanceof NotFoundError) {
-                    // console.log('not found error', error);
                     this.modalService.open(SimpleDialogComponent, {
                         title: 'common.warning',
                         message: 'dialogs.missing_alto.message',
@@ -848,10 +841,6 @@ export class BookService {
             this.metadata.pageSupplementMetadata = null;
         }
 
-
-
-
-
         let pages = page.number + '';
         const rightPage = this.getRightPage();
         let cached = page.loaded;
@@ -864,7 +853,6 @@ export class BookService {
             this.metadata.activePages = pages;
             this.metadata.activePage = page;
         }
-        // if (!this.article) {
         let urlQuery = 'page=' + page.uuid;
         if (this.fulltextQuery) {
             urlQuery += '&fulltext=' + this.fulltextQuery;
@@ -874,7 +862,6 @@ export class BookService {
         } else {
             this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         }
-        // }
         this.lastIndex = index;
         if (!cached) {
             this.publishNewPages(BookPageState.Loading);
@@ -920,18 +907,12 @@ export class BookService {
         if (tab === 'pages') {
             this.article = null;
             this.internalPart = null;
-            // if (this.activeNavigationTab === 'articles') {
-            //     this.refreshPages();
-            //     this.goToPageOnIndex(0);
-            // }
         } else if (tab === 'articles') {
             this.fulltextQuery = null;
             this.fulltextAllPages = false;
-            // this.onArticleSelected(this.articles[0]);
         } else if (tab === 'internalparts') {
             this.fulltextQuery = null;
             this.fulltextAllPages = false;
-            // this.onInternalPartSelected(this.internalParts[0]);
         }
         this.activeNavigationTab = tab;
     }

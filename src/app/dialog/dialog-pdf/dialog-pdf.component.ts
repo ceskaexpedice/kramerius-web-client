@@ -43,13 +43,11 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
     }
     const subscription = this.krameriusInfo.data$.subscribe(
       info => {
-        // console.log('info', info);
         this.maxPageCount = info.pdfMaxRange;
         this.inProgress = false;
         subscription.unsubscribe();
       },
       error => {
-        // console.log('error while getting info');
         this.maxPageCount = 30;
         this.inProgress = false;
         subscription.unsubscribe();

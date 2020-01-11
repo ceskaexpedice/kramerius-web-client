@@ -23,7 +23,6 @@ export class ModsParserService {
     private createMetadata(mods, uuid: string): Metadata {
         const metadata = new Metadata();
         metadata.uuid = uuid;
-        console.log('mods', mods);
         const root = mods['modsCollection']['mods'][0];
         this.processTitles(root['titleInfo'], metadata);
         this.processAuthors(root['name'], metadata);
@@ -40,7 +39,6 @@ export class ModsParserService {
         this.processSimpleArray(root['tableOfContents'], metadata.contents, null);
         this.processSimpleArray(root['abstract'], metadata.abstracts, null);
         this.processSimpleArray(root['genre'], metadata.genres, { key: 'authority', value: 'czenas' });
-        console.log('metadata', metadata);
         return metadata;
     }
 

@@ -88,25 +88,6 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-    // getSearchResults(query: SearchQuery) {
-    //     let url = this.API_URL + '/search?'
-    //         + query.buildQuery(null);
-
-    //     const ordering = query.getOrderingValue();
-    //     if (ordering) {
-    //         url += '&sort=' + ordering;
-    //     }
-    //     url += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,datum_str,img_full_mime';
-    //     url += '&group=true&group.field=root_pid&group.ngroups=true&group.truncate=true&group.facet=true';
-    //     url += '&facet=true&facet.mincount=1';
-    //     url += '&facet.field=model_path&facet.field=dostupnost&facet.field=collection&facet.field=facet_autor&facet.field=keywords&facet.field=language';
-    //     url += '&rows=' + query.getRows();
-    //     url += '&start=' + query.getStart();
-    //     return this.doGet(url)
-    //         .map(response => response.json())
-    //         .catch(this.handleError);
-    // }
-
     getBrowseResults(query: BrowseQuery) {
         const url = this.getApiUrl() + '/search?'
             + query.buildQuery();
@@ -114,29 +95,7 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-    // getFacetList(query: SearchQuery, field: string) {
-    //     let url = this.API_URL + '/search?'
-    //             + query.buildQuery(field);
-    //     url += '&facet=true&facet.field=' + SearchQuery.getSolrField(field)
-    //         + '&facet.limit=50'
-    //         + '&rows=0&facet.mincount=1';
-
-    //     return this.doGet(url)
-    //         .map(response => {
-    //             if (field === 'accessibility') {
-    //                 return this.solrService.facetAccessibilityList(response.json());
-    //             // } else if (field === 'keywords') {
-    //                 // return this.solrService.facetList(response.json(), field, query.keywords);
-    //             } else {
-    //                 return this.solrService.facetList(response.json(), SearchQuery.getSolrField(field), query[field], field !== 'doctypes');
-    //             }
-    //         })
-    //         .catch(this.handleError);
-    // }
-
-
     getUserInfo(username: string, password: string): Observable<User> {
-        // console.log('getUserInfo: ' + username + ',' + password);
         const url = this.getApiUrl() + '/user';
 
         const headerParams = {
@@ -436,20 +395,5 @@ export class KrameriusApiService {
         return this.doGet(url)
         .catch(this.handleError);
     }
-
-    // getZoomifyRootUrl(uuid: string): string {
-    //     return `${this.getbaseUrl()}/search/zoomify/${uuid}/`;
-    // }
-
-    // getZoomifyProperties(uuid: string) {
-    //     const url = `${this.getZoomifyRootUrl(uuid)}ImageProperties.xml`;
-    //     return this.doGetText(url)
-    //         .catch(this.handleError);
-    // }
-
-    // getZoomifyProperties(url: string) {
-    //     return this.doGetText(`${url}/ImageProperties.xml`)
-    //         .catch(this.handleError);
-    // }
 
 }

@@ -12,9 +12,7 @@ export class CachingInterceptor implements HttpInterceptor {
   constructor(private cache: HttpRequestCache, private appSettings: AppSettings) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    // console.log('req', req.url);
     if (environment.cloudApiBase && req.url.startsWith(environment.cloudApiBase)) {
-      // console.log('do not cache');
       return next.handle(req);
     }
     const cachedResponse = this.cache.get(req);

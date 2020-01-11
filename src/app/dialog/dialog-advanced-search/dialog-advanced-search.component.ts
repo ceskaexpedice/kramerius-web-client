@@ -10,8 +10,6 @@ import { Router } from '@angular/router';
 })
 export class DialogAdvancedSearchComponent extends MzBaseModal implements OnInit {
 
-
-
   @Input() fieldType = 'all';
   @Input() fieldValue = '';
 
@@ -31,7 +29,6 @@ export class DialogAdvancedSearchComponent extends MzBaseModal implements OnInit
 
   onKeydown(event) {
     if (event.key === "Enter") {
-      console.log(event);
       if (this.fieldValue) {
         this.onSearch();
       }
