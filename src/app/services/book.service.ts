@@ -111,10 +111,10 @@ export class BookService {
         }
         this.pdf = this.krameriusApiService.getPdfUrl(uuid);
         let url = 'assets/pdf/viewer.html?file=' + this.pdf;
+        url += '&lang=' + this.translator.language;
         if (this.fulltextQuery) {
             url += '&query=' + this.fulltextQuery;
         }
-        url += '&lang=' + this.translator.language;
         this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 
