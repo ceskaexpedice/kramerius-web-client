@@ -6,6 +6,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AppState } from './../../app.state';
 import { AnalyticsService } from '../../services/analytics.service';
 import { CompleterCmp } from 'ng2-completer';
+import { Translator } from 'angular-translator';
 
 @Component({
   selector: 'app-navbar-search-bar',
@@ -24,6 +25,7 @@ export class NavbarSearchBarComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private state: AppState,
+    public translator: Translator,
     public analytics: AnalyticsService,
     private localStorageService: LocalStorageService,
     private searchService: SearchService,
@@ -62,6 +64,18 @@ export class NavbarSearchBarComponent implements OnInit {
       this.analytics.sendEvent('search phrase', 'navbar-by-return', this.searchStr);
       this.search();
     }
+  }
+
+
+  getPlaceholder(): string {
+    if (!this.state.atSearchScreen()) {
+      if (this.localStorageService.publicFilterChecked()) {
+        return String(this.translator.instant('searchbar.main.public'));
+      } else {
+        return String(this.translator.instant('searchbar.main.all'));
+      }
+    }
+    return this.searchService.buildPlaceholderText();
   }
 
   search() {

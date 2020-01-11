@@ -114,7 +114,8 @@ app-home-search-bar {
 app-navbar-search-bar {
   @media #{$extra-large-and-up} {
     .app-search-bar-wrapper {
-      width: 600px;
+      // width: 600px;
+      width: calc(100% - 450px);
     }
   }
 

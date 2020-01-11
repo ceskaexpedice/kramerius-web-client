@@ -112,10 +112,6 @@ export class SearchQuery {
         return '';
     }
 
-
-
-
-
     public setAccessibility(accessibility: string) {
         if (accessibility === 'private') {
             this.accessibility = 'private';
@@ -501,14 +497,14 @@ export class SearchQuery {
         return false;
     }
 
-    public anyFilter() {
-        if (this.hasQueryString()) {
+    public anyFilter(forPlaceholder: boolean = false) {
+        if (!forPlaceholder && this.hasQueryString()) {
             return true;
         }
         if (this.isCustomFieldSet()) {
             return true;
         }
-        if (this.accessibility && this.accessibility !== 'all') {
+        if (!forPlaceholder && this.accessibility && this.accessibility !== 'all') {
             return true;
         }
         if (this.keywords && this.keywords.length > 0) {
@@ -536,6 +532,10 @@ export class SearchQuery {
             return true;
         }
         return false;
+    }
+
+    public onlyPublicFilterChecked(): boolean {
+        return !this.anyFilter(true) && this.accessibility === 'public';
     }
 
 }

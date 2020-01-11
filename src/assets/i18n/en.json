@@ -37,7 +37,11 @@
     "main_navigation": "Main navigation"
   },
   "searchbar": {
-    "library": "Search in digital library ...",
+    "main": {
+      "all": "Search in whole digital library",
+      "public": "Search in public documents in the digital library",
+      "filters": "search with filters"
+    },
     "document": "Search in document  ...",
     "delete_query": "Delete query"
   },

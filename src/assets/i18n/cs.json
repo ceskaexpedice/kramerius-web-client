@@ -37,7 +37,11 @@
     "main_navigation": "Hlavní navigace"
   },
   "searchbar": {
-    "library": "Hledat v digitální knihovně ...",
+    "main": {
+      "all": "Hledat v celé digitální knihovně",
+      "public": "Hledat ve veřejných dokumentech digitální knihovny",
+      "filters": "Hledat s filtry"
+    },
     "document": "Hledat v dokumentu ...",
     "delete_query": "Vymazat dotaz"
   },

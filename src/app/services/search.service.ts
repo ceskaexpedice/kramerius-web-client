@@ -10,6 +10,7 @@ import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
 import { MzModalService } from 'ngx-materialize';
 import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/dialog-advanced-search.component';
+import { Translator } from 'angular-translator';
 
 
 @Injectable()
@@ -37,6 +38,7 @@ export class SearchService {
 
     constructor(
         private router: Router,
+        private translator: Translator,
         private collectionService: CollectionService,
         private solrService: SolrService,
         private analytics: AnalyticsService,
@@ -63,6 +65,47 @@ export class SearchService {
         }
         this.search();
     }
+
+
+
+
+    public buildPlaceholderText(): string {
+        const q = this.query;
+        if (!q.anyFilter()) {
+            return String(this.translator.instant('searchbar.main.all'));
+        }
+        if (q.onlyPublicFilterChecked()) {
+            return String(this.translator.instant('searchbar.main.public'));
+        }
+        let filters = [];
+        if (q.accessibility !== 'all') {
+            filters.push(this.translator.instant('search.accessibility.' + q.accessibility));
+        }
+        for (const item of q.doctypes) {
+            filters.push(this.translator.instant('model.' + item));
+        }
+        filters = filters.concat(q.authors);
+        if (q.isYearRangeSet()) {
+            filters.push(q.from + ' - ' + q.to);
+        }
+        filters = filters.concat(q.keywords);
+        filters = filters.concat(q.geonames);
+        filters = filters.concat(q.collections);
+        for (const item of q.languages) {
+            filters.push(this.translator.instant('language.' + item));
+        }
+        if (q.isCustomFieldSet()) {
+            filters.push(q.getCustomValue());
+        }
+        for (const item of q.locations) {
+            filters.push(this.translator.instant('sigla.' + item.toUpperCase()));
+        }
+        return this.translator.instant('searchbar.main.filters') + ' ' + filters.join(', ');
+    }
+
+
+
+
 
     selectContentType(contentType: string) {
         this.contentType = contentType;

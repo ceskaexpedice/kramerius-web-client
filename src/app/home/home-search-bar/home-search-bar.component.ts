@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { CompleterCmp } from 'ng2-completer';
+import { Translator } from 'angular-translator';
 
 @Component({
   selector: 'app-home-search-bar',
@@ -22,6 +23,7 @@ export class HomeSearchBarComponent implements OnInit {
 
   constructor(
     public router: Router,
+    private translator: Translator,
     public appSettings: AppSettings,
     public analytics: AnalyticsService,
     private localStorageService: LocalStorageService,
@@ -41,6 +43,14 @@ export class HomeSearchBarComponent implements OnInit {
       this.analytics.sendEvent('search phrase', 'home-by-selection', this.searchStr);
       this.search();
     }
+  }
+
+  getPlaceholder(): string {
+      if (this.accessibilityFilter) {
+        return String(this.translator.instant('searchbar.main.public'));
+      } else {
+        return String(this.translator.instant('searchbar.main.all'));
+      }
   }
 
   cleanQuery() {
