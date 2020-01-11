@@ -311,20 +311,10 @@
     "title": "Metadata pro"
   },
   "citation-dialog": {
-    "title": "Citace",
-    "level-0": "celého dokumentu",
-    "level-1": "ročníku periodika",
-    "level-2": "čísla periodika",
-    "level-3": "článku",
-    "level-4": "vybrané stránky"
+    "title": "Citace"
   },
   "share-dialog": {
     "title": "Sdílet",
-    "level-0": "dokument",
-    "level-1": "ročník",
-    "level-2": "výtisk",
-    "level-3": "článek",
-    "level-4": "vybranou stránku",
     "link": "Odkaz pro sdílení",
     "social": "Sdílet na sociálních sítích"
   },
@@ -367,6 +357,46 @@
     "internalpart" : "Kapitola",
     "soundunit" : "Album",
     "track" : "Nahrávka"
+  },
+  "model_2p" : {
+    "monograph" : "Knihy",
+    "monographunit" : "Knihy",
+    "monographbundle" : "Svazku knih",
+    "periodical" : "Periodika",
+    "map" : "Mapy",
+    "sheetmusic" : "Hudebniny",
+    "graphic" : "Grafiky",
+    "archive" : "Archiválie",
+    "soundrecording" : "Zvukové nahrávky",
+    "periodicalvolume" : "Ročníku periodika",
+    "periodicalitem" : "Čísla periodika",
+    "manuscript" : "Rukopisu",
+    "page" : "Stránky",
+    "supplement" : "Přílohy",
+    "article" : "Článku",
+    "internalpart" : "Kapitoly",
+    "soundunit" : "Alba",
+    "track" : "Nahrávky"
+  },
+  "model_4p" : {
+    "monograph" : "Knihu",
+    "monographunit" : "Knihu",
+    "monographbundle" : "Svazek knih",
+    "periodical" : "Periodikum",
+    "map" : "Mapu",
+    "sheetmusic" : "Hudebniny",
+    "graphic" : "Grafiku",
+    "archive" : "Archiválii",
+    "soundrecording" : "Zvukovou nahrávku",
+    "periodicalvolume" : "Ročník periodika",
+    "periodicalitem" : "Číslo periodika",
+    "manuscript" : "Rukopis",
+    "page" : "Stránku",
+    "supplement" : "Přílohu",
+    "article" : "Článek",
+    "internalpart" : "Kapitolu",
+    "soundunit" : "Album",
+    "track" : "Nahrávku"
   },
   "model_plural" : {
     "monograph" : "Knihy",

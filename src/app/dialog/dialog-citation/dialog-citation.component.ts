@@ -18,20 +18,20 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
   selection;
 
   doctypes = [
-    ['article', 3],
-    ['periodicalitem', 2],
-    ['periodicalvolume', 1],
-    ['periodical', 0],
-    ['monographbundle', 0],
-    ['monograph', 0],
-    ['map', 0],
-    ['sheetmusic', 0],
-    ['graphic', 0],
-    ['archive', 0],
-    ['soundrecording', 0],
-    ['manuscript', 0]
-  ];
-
+    'article', 
+    'periodicalitem',
+    'periodicalvolume',
+    'periodical',
+    'monographbundle',
+    'monograph',
+    'monographunit',
+    'map',
+    'sheetmusic',
+    'graphic',
+    'archive',
+    'soundrecording',
+    'manuscript'
+];
 
   constructor(private cloudApi: CloudApiService, private shareService: ShareService) {
     super();
@@ -39,17 +39,17 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
 
   ngOnInit(): void {
     for (const doctype of this.doctypes) {
-      if (this.metadata.modsMap[doctype[0]]) {
+      if (this.metadata.modsMap[doctype]) {
         this.data.push({
-          level:  Number(doctype[1]),
+          type: doctype,
           citation: null,
-          uuid: this.metadata.modsMap[doctype[0]].uuid
+          uuid: this.metadata.modsMap[doctype].uuid
         });
       }
     }
     if (this.metadata.activePage) {
       this.data.push({
-        level: 4,
+        type: 'page',
         citation: null,
         uuid: this.metadata.activePage.uuid
       });

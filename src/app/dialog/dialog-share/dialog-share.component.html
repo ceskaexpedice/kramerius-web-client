@@ -3,9 +3,9 @@
   <mz-modal-header>
     <div class="app-tabs" *ngIf="selection">
       <div class="app-dialog-title">{{ 'share-dialog.title' | translate }}</div>
-      <div *ngFor="let item of data" class="app-tab" [class.active]="selection.level === item.level"
+      <div *ngFor="let item of data" class="app-tab" [class.active]="selection.type === item.type"
         (click)="changeTab(item)">
-        {{ 'share-dialog.level-' + item.level | translate }}
+        {{ 'model_4p.' + item.type | translate | lowercase }}
       </div>
     </div>
   </mz-modal-header>

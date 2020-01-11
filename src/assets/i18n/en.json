@@ -314,12 +314,7 @@
     "title": "Metadata for"
   },
   "citation-dialog": {
-    "title": "Citation of the",
-    "level-0": "whole document",
-    "level-1": "periodical volume",
-    "level-2": "periodical issue",
-    "level-3": "article",
-    "level-4": "selected page"
+    "title": "Citation of the"
   },
   "share-dialog": {
     "title": "Share",
@@ -347,6 +342,46 @@
     }
   },
   "model" : {
+    "monograph" : "Book",
+    "monographunit" : "Book",
+    "monographbundle" : "Book Bundle",
+    "periodical" : "Newspaper",
+    "map" : "Map",
+    "sheetmusic" : "Sheet Music",
+    "graphic" : "Graphic",
+    "archive" : "Archive",
+    "soundrecording" : "Sound Recording",
+    "periodicalvolume" : "Periodical Volume",
+    "periodicalitem" : "Periodical Issue",
+    "manuscript" : "Manuscript",
+    "page" : "Page",
+    "supplement" : "Supplement",
+    "article" : "Article",
+    "internalpart" : "Chapter",
+    "soundunit" : "Sound Unit",
+    "track" : "Track"
+  },
+  "model_2p" : {
+    "monograph" : "Book",
+    "monographunit" : "Book",
+    "monographbundle" : "Book Bundle",
+    "periodical" : "Newspaper",
+    "map" : "Map",
+    "sheetmusic" : "Sheet Music",
+    "graphic" : "Graphic",
+    "archive" : "Archive",
+    "soundrecording" : "Sound Recording",
+    "periodicalvolume" : "Periodical Volume",
+    "periodicalitem" : "Periodical Issue",
+    "manuscript" : "Manuscript",
+    "page" : "Page",
+    "supplement" : "Supplement",
+    "article" : "Article",
+    "internalpart" : "Chapter",
+    "soundunit" : "Sound Unit",
+    "track" : "Track"
+  },
+  "model_4p" : {
     "monograph" : "Book",
     "monographunit" : "Book",
     "monographbundle" : "Book Bundle",

@@ -15,20 +15,20 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
   selection;
 
   doctypes = [
-    ['article', 3],
-    ['periodicalitem', 2],
-    ['periodicalvolume', 1],
-    ['periodical', 0],
-    ['monographbundle', 0],
-    ['monograph', 0],
-    ['map', 0],
-    ['sheetmusic', 0],
-    ['graphic', 0],
-    ['archive', 0],
-    ['soundrecording', 0],
-    ['manuscript', 0]
+    'article', 
+    'periodicalitem',
+    'periodicalvolume',
+    'periodical',
+    'monographbundle',
+    'monograph',
+    'monographunit',
+    'map',
+    'sheetmusic',
+    'graphic',
+    'archive',
+    'soundrecording',
+    'manuscript'
 ];
-
 
   constructor(private toastService: MzToastService,
               private shareService: ShareService,
@@ -39,16 +39,16 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
   ngOnInit(): void {
     if (this.metadata.activePages) {
       this.data.push({
-        level: 4,
+        type: 'page',
         link: this.shareService.getPersistentLinkByUrl()
       });
     }
     for (const doctype of this.doctypes) {
-      if (this.metadata.modsMap[doctype[0]]) {
-        const uuid = this.metadata.modsMap[doctype[0]].uuid;
+      if (this.metadata.modsMap[doctype]) {
+        const uuid = this.metadata.modsMap[doctype].uuid;
         if (uuid) {
           this.data.push({
-            level: doctype[1],
+            type: doctype,
             link: this.shareService.getPersistentLink(uuid)
           });
         }
