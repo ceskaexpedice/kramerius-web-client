@@ -9,7 +9,8 @@
   .app-page-content {
     max-width: 1000px;
     margin: 0 auto;
-    padding-bottom: 20px;
+    // padding-bottom: 20px;
+    padding: 0 20px 10px;
     color: #444;
     h1,h2,h3,h4,h5 {
       line-height: 120%;
@@ -40,5 +41,15 @@
       list-style-type: none;
       margin-top: 5px;
     }
+  }
+  .app-version {
+    position: absolute; 
+    display: inline-block;
+    background: #ffffff66;
+    color: #777;
+    right: 10px; 
+    bottom: 4px; 
+    padding: 1px;
+    font-size: 11px;
   }
 }
