@@ -307,9 +307,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   updateJpegImage(uuid1: string, uuid2: string) {
     this.onImageLoading();
     const rq = [];
-    rq.push(this.http.head(this.krameriusApi.getFullJpegUrl(uuid1)));
+    rq.push(this.http.get(this.krameriusApi.getFullJpegUrl(uuid1), { observe: 'response', responseType: 'blob' }));
     if (uuid2) {
-      rq.push(this.http.head(this.krameriusApi.getFullJpegUrl(uuid1)));
+      rq.push(this.http.get(this.krameriusApi.getFullJpegUrl(uuid1), { observe: 'response', responseType: 'blob' }));
     }
     forkJoin(rq).subscribe(
       (results) => {
@@ -326,7 +326,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   
   loadJpegImage(uuid1: string, uuid2: string, left: boolean, thumb: boolean) {
     const uuid = left ? uuid1 : uuid2;
-    const url = this.krameriusApi.getScaledJpegUrl(uuid, 3000);
+    const url = this.krameriusApi.getFullJpegUrl(uuid);
     const image = new Image();
     image.onload = (() => {
         if (left && uuid2) {
@@ -336,7 +336,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
         } else {
           if (!left) {
             this.setDimensions(this.imageWidth, this.imageHeight, image.width, image.height);
-            const url1 = this.krameriusApi.getScaledJpegUrl(uuid1, 3000);
+            const url1 = this.krameriusApi.getFullJpegUrl(uuid1);
             const thumb1 = this.krameriusApi.getThumbUrl(uuid1);
             this.addStaticImage(this.imageWidth, this.imageHeight, thumb ? thumb1 : url1, 1);
             const url2 = url;
