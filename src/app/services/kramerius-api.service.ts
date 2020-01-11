@@ -277,7 +277,7 @@ export class KrameriusApiService {
     }
 
 
-    getSearchAutocompleteUrl(term: string, onlyPublic: boolean = false): string {
+    getSearchAutocompleteUrl(term: string, fq: string = null): string {
         const searchField = this.appSettings.lemmatization ? 'title_lemmatized_ascii' : 'dc.title';
         const query = term.toLowerCase().trim()
                         .replace(/"/g, '\\"').replace(/~/g, '\\~')
@@ -286,12 +286,8 @@ export class KrameriusApiService {
         let result = this.getApiUrl() + '/search/?fl=PID,dc.title&q='
         + '(fedora.model:monograph^5 OR fedora.model:periodical^4 OR fedora.model:map '
         + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic OR fedora.model:soundrecording OR fedora.model:article)';
-        if (onlyPublic) {
-            result += ' AND dostupnost:public';
-        } else {
-            result += ' AND (dostupnost:public^5 OR dostupnost:private)';
+        result += ' AND (dostupnost:public^5 OR dostupnost:private)';
 
-        }
         if (this.appSettings.lemmatization) {
             result += ' AND ((' + searchField + ':'  + query;
             if (!term.endsWith(' ') && !term.endsWith(':')) {
@@ -305,6 +301,9 @@ export class KrameriusApiService {
                 result += '*';
             }
         }
+        if (fq) {
+            result += '&fq=' + fq;
+        }
         result += '&rows=30';
         return result;
     }
@@ -315,8 +314,8 @@ export class KrameriusApiService {
         return result;
     }
 
-    getSearchAutocomplete(term: string, onlyPublic: boolean = false): Observable<any[]> {
-        const url = this.getSearchAutocompleteUrl(term, onlyPublic);
+    getSearchAutocomplete(term: string, fq: string = null): Observable<any[]> {
+        const url = this.getSearchAutocompleteUrl(term, fq);
         return this.doGet(url)
             .map(res => <any> res['response']['docs'])
           .catch(this.handleError);

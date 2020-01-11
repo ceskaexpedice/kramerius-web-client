@@ -2,15 +2,28 @@ import { KrameriusApiService } from './kramerius-api.service';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { CompleterItem, CompleterData } from 'ng2-completer';
+import { LocalStorageService } from './local-storage.service';
+import { AppState } from '../app.state';
+import { SearchService } from './search.service';
 
 @Injectable()
 export class LibrarySearchService extends Subject<CompleterItem[]> implements CompleterData {
 
-    constructor(private krameriusApiService: KrameriusApiService) {
+    constructor(
+        private krameriusApiService: KrameriusApiService,
+        private state: AppState,
+        private searchService: SearchService,
+        private localStorageService: LocalStorageService) {
         super();
     }
     public search(term: string): void {
-        this.krameriusApiService.getSearchAutocomplete(term).subscribe(results => {
+        let fq = null;
+        if (this.state.atSearchScreen()) {
+            fq = this.searchService.query.buildFilterQuery();
+        } else if (this.localStorageService.publicFilterChecked()) {
+            fq = 'dostupnost:public';
+        }
+        this.krameriusApiService.getSearchAutocomplete(term, fq).subscribe(results => {
             const items = [];
             const cache = {};
             for (const item of results) {

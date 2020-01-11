@@ -78,6 +78,15 @@ export class HomeSearchBarComponent implements OnInit {
     this.search();
   }
 
+
+  onAccessibilityFilterChanged() {
+    if (this.appSettings.availableFilter('accessibility')) {
+      this.analytics.sendEvent('home', 'accessibility', this.accessibilityFilter + '');
+      this.localStorageService.setPublicFilter(this.accessibilityFilter);
+    }
+  }
+
+
   private search() {
     let q = this.searchStr;
     if (q == null) {
@@ -85,7 +94,6 @@ export class HomeSearchBarComponent implements OnInit {
     }
     const params = { q: q };
     if (this.appSettings.availableFilter('accessibility')) {
-      this.localStorageService.setPublicFilter(this.accessibilityFilter);
       if (this.accessibilityFilter) {
         params['accessibility'] = 'public';
       }

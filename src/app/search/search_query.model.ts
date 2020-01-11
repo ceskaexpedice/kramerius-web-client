@@ -265,14 +265,36 @@ export class SearchQuery {
         this.value = null;
     }
 
-    // private addCustomFieldToQuery() {
-    //     if (this.isCustomFieldSet()) {
-    //         let field = SearchQuery.getSolrCustomField(this.field);
-    //         let value = this.value;
-    //         return ' AND ' + field + ':' + value; 
-    //     }
-    //     return '';
-    //  }
+    buildFilterQuery(facet: string = null): string {
+        let fqFilters = [];
+        if (facet !== 'accessibility' && this.availableFilters.indexOf('accessibility') > -1) {
+            if (this.accessibility === 'public') {
+                fqFilters.push('dostupnost:public');
+            } else if (this.accessibility === 'private') {
+                fqFilters.push('dostupnost:private');
+            } else if (this.dnntFilterEnabled && this.accessibility === 'dnnt') {
+                fqFilters.push('dnnt:true');
+            }
+        }
+        if (this.isYearRangeSet()) {
+            const from = this.from === 0 ? 1 : this.from;
+            fqFilters.push('(rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))');
+        }
+        fqFilters.push(this.buildFacetFilter('keywords', this.keywords, facet));
+        fqFilters.push(this.buildFacetFilter('doctypes', this.doctypes, facet));
+        fqFilters.push(this.buildFacetFilter('authors', this.authors, facet));
+        fqFilters.push(this.buildFacetFilter('languages', this.languages, facet));
+        fqFilters.push(this.buildFacetFilter('locations', this.locations, facet));
+        fqFilters.push(this.buildFacetFilter('geonames', this.geonames, facet));
+        fqFilters.push(this.buildFacetFilter('collections', this.collections, facet));
+        if (!this.isBoundingBoxSet()) {
+            fqFilters.push(this.getDateOrderingRestriction());
+        }
+        fqFilters = fqFilters.filter( (el) => {
+            return el != null && el !== '';
+        });
+        return fqFilters.join(' AND ');
+    }
 
     buildQuery(facet: string): string {
         let qString = this.getQ();
@@ -293,32 +315,41 @@ export class SearchQuery {
         } else {
           q += '(fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
         }
-        if (facet !== 'accessibility' && this.availableFilters.indexOf('accessibility') > -1) {
-            if (this.accessibility === 'public') {
-                q += ' AND dostupnost:public';
-            } else if (this.accessibility === 'private') {
-                q += ' AND dostupnost:private';
-            } else if (this.dnntFilterEnabled && this.accessibility === 'dnnt') {
-                q += ' AND dnnt:true';
-            } else if (!facet) {
-                // q += ' AND (dostupnost:public^999 OR dostupnost:private)';
-            }
+
+
+        // if (facet !== 'accessibility' && this.availableFilters.indexOf('accessibility') > -1) {
+        //     if (this.accessibility === 'public') {
+        //         q += ' AND dostupnost:public';
+        //     } else if (this.accessibility === 'private') {
+        //         q += ' AND dostupnost:private';
+        //     } else if (this.dnntFilterEnabled && this.accessibility === 'dnnt') {
+        //         q += ' AND dnnt:true';
+        //     } else if (!facet) {
+        //         // q += ' AND (dostupnost:public^999 OR dostupnost:private)';
+        //     }
+        // }
+        // if (this.isYearRangeSet()) {
+        //     const from = this.from === 0 ? 1 : this.from;
+        //     q += ' AND (rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))';
+        // }
+        // // q += this.addCustomFieldToQuery();
+        // q += this.addToQuery('keywords', this.keywords, facet)
+        //    + this.addToQuery('doctypes', this.doctypes, facet)
+        //    + this.addToQuery('authors', this.authors, facet)
+        //    + this.addToQuery('languages', this.languages, facet)
+        //    + this.addToQuery('locations', this.locations, facet)
+        //    + this.addToQuery('geonames', this.geonames, facet)
+        //    + this.addToQuery('collections', this.collections, facet);
+        // if (!this.isBoundingBoxSet()) {
+        //     q += this.getDateOrderingRestriction();
+        // }
+
+
+        const fq = this.buildFilterQuery(facet);
+        if (fq) {
+            q += '&fq=' + fq;
         }
-        if (this.isYearRangeSet()) {
-            const from = this.from === 0 ? 1 : this.from;
-            q += ' AND (rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))';
-        }
-        // q += this.addCustomFieldToQuery();
-        q += this.addToQuery('keywords', this.keywords, facet)
-           + this.addToQuery('doctypes', this.doctypes, facet)
-           + this.addToQuery('authors', this.authors, facet)
-           + this.addToQuery('languages', this.languages, facet)
-           + this.addToQuery('locations', this.locations, facet)
-           + this.addToQuery('geonames', this.geonames, facet)
-           + this.addToQuery('collections', this.collections, facet);
-           if (!this.isBoundingBoxSet()) {
-            q += this.getDateOrderingRestriction();
-           }
+
         if (qString || this.isCustomFieldSet()) {
             // q += '&defType=edismax'
             //    + '&qf=dc.title^10 dc.creator^2 keywords text^0.1'
@@ -433,11 +464,10 @@ export class SearchQuery {
 
     private getDateOrderingRestriction() {
         if (this.ordering === 'latest') {
-            return ' AND datum_begin: [1 TO 3000]';
+            return 'datum_begin: [1 TO 3000]';
         } else if (this.ordering === 'earliest') {
-            return ' AND datum_end: [1 TO 3000]';
+            return 'datum_end: [1 TO 3000]';
         }
-        return '';
     }
 
 
@@ -459,20 +489,18 @@ export class SearchQuery {
     }
 
 
-    private addToQuery(field, values, skip) {
-        let q = '';
+    private buildFacetFilter(field, values, skip) {
         if (skip !== field) {
             if (values.length > 0) {
                 if (this.availableFilters.indexOf(field) > -1) {
                     if (field === 'doctypes' && this.hasQueryString()) {
-                        q = ' AND (model_path:' + values.join('* OR model_path:') + '*)';
+                        return '(model_path:' + values.join('* OR model_path:') + '*)';
                     } else {
-                        q = ' AND (' + SearchQuery.getSolrField(field) + ':"' + values.join('" OR ' + SearchQuery.getSolrField(field) + ':"') + '")';
+                        return '(' + SearchQuery.getSolrField(field) + ':"' + values.join('" OR ' + SearchQuery.getSolrField(field) + ':"') + '")';
                     }
                 }
             }
         }
-        return q;
     }
 
     public removeAllFilters() {
