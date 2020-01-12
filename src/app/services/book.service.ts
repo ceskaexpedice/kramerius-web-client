@@ -565,7 +565,7 @@ export class BookService {
 
     cropEnabled(): boolean {
         const page = this.getPage();
-        return page && page.imageType === PageImageType.ZOOMIFY;
+        return page && page.imageType === PageImageType.IIIF;
     }
 
     hasNext() {
