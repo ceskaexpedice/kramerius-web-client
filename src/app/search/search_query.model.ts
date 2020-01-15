@@ -1,4 +1,5 @@
 import { Utils } from '../services/utils.service';
+import { AppSettings } from '../services/app-settings';
 
 export class SearchQuery {
 
@@ -21,8 +22,6 @@ export class SearchQuery {
     field: string;
     value: string;
 
-    availableFilters: string[];
-
     from = -1;
     to = -1;
 
@@ -31,17 +30,14 @@ export class SearchQuery {
     east: number = null;
     west: number = null;
 
-    solrConfig;
+    settings: AppSettings;
 
-    dnntFilterEnabled = false;
-
-    constructor(filters: string[], dnntFilterEnabled: boolean) {
-        this.availableFilters = filters || [];
-        this.dnntFilterEnabled = dnntFilterEnabled;
+    constructor(settings: AppSettings) {
+        this.settings = settings;
     }
 
-    public static fromParams(params, filters: string[], dnntFilterEnabled: boolean): SearchQuery {
-        const query = new SearchQuery(filters, dnntFilterEnabled);
+    public static fromParams(params, settings: AppSettings): SearchQuery {
+        const query = new SearchQuery(settings);
         query.query = params['q'];
         query.setPage(params['page']);
         query.setFiled(query.keywords, 'keywords', params);
@@ -55,7 +51,7 @@ export class SearchQuery {
             query.setCustomField(params);
         }
         query.setOrdering(params['sort']);
-        if (query.availableFilters.indexOf('accessibility') > -1) {
+        if (settings.filters.indexOf('accessibility') > -1) {
             query.setAccessibility(params['accessibility']);
         }
         query.setYearRange(parseInt(params['from'], 10), parseInt(params['to'], 10));
@@ -166,7 +162,7 @@ export class SearchQuery {
 
     private setFiled(fieldValues: string[], field: string, params) {
         const input = params[field];
-        if (input && this.availableFilters.indexOf(field) > -1) {
+        if (input && this.settings.filters.indexOf(field) > -1) {
             input.split(',,').forEach(function(a) {
                 fieldValues.push(a);
             });
@@ -253,12 +249,18 @@ export class SearchQuery {
 
     buildFilterQuery(facet: string = null): string {
         let fqFilters = [];
-        if (facet !== 'accessibility' && this.availableFilters.indexOf('accessibility') > -1) {
+        if (this.getQ() || this.isCustomFieldSet()) {
+            fqFilters.push('(' + this.settings.topLevelFilter + ' OR fedora.model:page OR fedora.model:article)');
+        } else {
+            fqFilters.push('(' + this.settings.topLevelFilter + ')');
+        }
+        fqFilters.push()
+        if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
             if (this.accessibility === 'public') {
                 fqFilters.push('dostupnost:public');
             } else if (this.accessibility === 'private') {
                 fqFilters.push('dostupnost:private');
-            } else if (this.dnntFilterEnabled && this.accessibility === 'dnnt') {
+            } else if (this.settings.dnntEnabled && this.accessibility === 'dnnt') {
                 fqFilters.push('dnnt:true');
             }
         }
@@ -292,18 +294,15 @@ export class SearchQuery {
         if (this.isCustomFieldSet()) {
             value = this.value;
             q +=  SearchQuery.getSolrCustomField(this.field) + ':' + this.value;
-            q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page OR fedora.model:article)';
         } else if (qString) {
-            q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^10\' bq=\'(dostupnost:public)^2\' v=$q1}\"';
-            q += ' AND (fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:page OR fedora.model:article)';
+            q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^20\' bq=\'(dostupnost:public)^2\' bq=\'(fedora.model:page)^0.1\' v=$q1}\"';
         } else {
-          q += '(fedora.model:monograph^5 OR fedora.model:periodical^5 OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
+            q += '*:*';
         }
         const fq = this.buildFilterQuery(facet);
         if (fq) {
             q += '&fq=' + fq;
         }
-
         if (qString || this.isCustomFieldSet()) {
             q += '&q1=' + value + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
             q += '&group.truncate=true';
@@ -311,7 +310,7 @@ export class SearchQuery {
         } else {
             q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
         }
-        if (this.dnntFilterEnabled) {
+        if (this.settings.dnntEnabled) {
             q += ',dnnt';
         }
         if (this.isBoundingBoxSet()) {
@@ -326,7 +325,7 @@ export class SearchQuery {
            + this.addFacetToQuery(facet, 'collections', 'collection', this.collections.length === 0)
            + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
            + this.addFacetToQuery(facet, 'accessibility', 'dostupnost', this.accessibility === 'all');
-        if (this.dnntFilterEnabled) {
+        if (this.settings.dnntEnabled) {
             q += '&facet.field=dnnt';
         }
         if (facet) {
@@ -344,7 +343,7 @@ export class SearchQuery {
     }
 
     private addFacetToQuery(facet: string, currentFacet: string, field: string, apply: boolean): string {
-        if (this.availableFilters.indexOf(currentFacet) > -1) {
+        if (this.settings.filters.indexOf(currentFacet) > -1) {
             if ((!facet && apply) || currentFacet === facet) {
                 return '&facet.field=' + field;
             }
@@ -435,7 +434,7 @@ export class SearchQuery {
     private buildFacetFilter(field, values, skip) {
         if (skip !== field) {
             if (values.length > 0) {
-                if (this.availableFilters.indexOf(field) > -1) {
+                if (this.settings.filters.indexOf(field) > -1) {
                     if (field === 'doctypes' && this.hasQueryString()) {
                         return '(model_path:' + values.join('* OR model_path:') + '*)';
                     } else {

@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MzBaseModal } from 'ngx-materialize';
 import { Metadata } from '../../model/metadata.model';
 import { CloudApiService } from '../../services/cloud-api.service';
+import { SolrService } from '../../services/solr.service';
 
 @Component({
   selector: 'app-dialog-citation',
@@ -17,28 +18,12 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
   data = [];
   selection;
 
-  doctypes = [
-    'article', 
-    'periodicalitem',
-    'periodicalvolume',
-    'periodical',
-    'monographbundle',
-    'monograph',
-    'monographunit',
-    'map',
-    'sheetmusic',
-    'graphic',
-    'archive',
-    'soundrecording',
-    'manuscript'
-];
-
   constructor(private cloudApi: CloudApiService, private shareService: ShareService) {
     super();
   }
 
   ngOnInit(): void {
-    for (const doctype of this.doctypes) {
+    for (const doctype of SolrService.allDoctypes) {
       if (this.metadata.modsMap[doctype]) {
         this.data.push({
           type: doctype,
@@ -54,6 +39,7 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
         uuid: this.metadata.activePage.uuid
       });
     }
+    this.data.reverse();
     if (this.data.length > 0) {
       this.changeTab(this.data[0]);
     }

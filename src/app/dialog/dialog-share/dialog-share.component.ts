@@ -3,6 +3,7 @@ import { MzBaseModal, MzToastService } from 'ngx-materialize';
 import { Translator } from 'angular-translator';
 import { Metadata } from '../../model/metadata.model';
 import { ShareService } from '../../services/share.service';
+import { SolrService } from '../../services/solr.service';
 
 @Component({
   selector: 'app-dialog-share',
@@ -14,21 +15,6 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
   data = [];
   selection;
 
-  doctypes = [
-    'article', 
-    'periodicalitem',
-    'periodicalvolume',
-    'periodical',
-    'monographunit',
-    'monograph',
-    'monographbundle',
-    'map',
-    'sheetmusic',
-    'graphic',
-    'archive',
-    'soundrecording',
-    'manuscript'
-];
 
   constructor(private toastService: MzToastService,
               private shareService: ShareService,
@@ -37,13 +23,7 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.metadata.activePages) {
-      this.data.push({
-        type: 'page',
-        link: this.shareService.getPersistentLinkByUrl()
-      });
-    }
-    for (const doctype of this.doctypes) {
+    for (const doctype of SolrService.allDoctypes) {
       if (this.metadata.modsMap[doctype]) {
         const uuid = this.metadata.modsMap[doctype].uuid;
         if (uuid) {
@@ -54,6 +34,13 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
         }
       }
     }
+    if (this.metadata.activePages) {
+      this.data.push({
+        type: 'page',
+        link: this.shareService.getPersistentLinkByUrl()
+      });
+    }
+    this.data.reverse();
     if (this.data.length > 0) {
       this.selection = this.data[0];
     }

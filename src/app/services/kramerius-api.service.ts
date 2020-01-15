@@ -28,12 +28,12 @@ export class KrameriusApiService {
 
     constructor(private http: HttpClient,
         private utils: Utils,
-        private appSettings: AppSettings,
+        private settings: AppSettings,
         private solrService: SolrService) {
     }
 
     private getbaseUrl(): string {
-        return this.appSettings.url;
+        return this.settings.url;
     }
 
     private getApiUrl(): string {
@@ -122,7 +122,7 @@ export class KrameriusApiService {
 
 
     getNewest() {
-        const url = this.getApiUrl() + '/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=24&start=0';
+        const url = `${this.getApiUrl()}/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=dostupnost:public&fq=${this.settings.topLevelFilter}&sort=created_date desc&rows=24&start=0`;
         return this.doGet(url)
             .map(response => this.solrService.documentItems(response))
             .catch(this.handleError);
@@ -237,33 +237,31 @@ export class KrameriusApiService {
 
 
     getSearchAutocompleteUrl(term: string, fq: string = null): string {
-        const searchField = this.appSettings.lemmatization ? 'title_lemmatized_ascii' : 'dc.title';
+        const searchField = this.settings.lemmatization ? 'title_lemmatized_ascii' : 'dc.title';
         const query = term.toLowerCase().trim()
                         .replace(/"/g, '\\"').replace(/~/g, '\\~')
                         .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!')
                         .split(' ').join(' AND ' + searchField + ':');
-        let result = this.getApiUrl() + '/search/?fl=PID,dc.title&q='
-        + '(fedora.model:monograph^5 OR fedora.model:periodical^4 OR fedora.model:map '
-        + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic OR fedora.model:soundrecording OR fedora.model:article)';
-        result += ' AND (dostupnost:public^5 OR dostupnost:private)';
-
-        if (this.appSettings.lemmatization) {
-            result += ' AND ((' + searchField + ':'  + query;
+        let result = this.getApiUrl() + '/search?defType=edismax&fl=PID,dc.title,score&q='
+        if (this.settings.lemmatization) {
+            result += '((' + searchField + ':'  + query;
             if (!term.endsWith(' ') && !term.endsWith(':')) {
                 result += ') OR (' + searchField + ':'  + query + '*))';
             } else {
                 result += '))';
             }
         } else {
-            result += ' AND ' + searchField + ':'  + query;
+            result += '' + searchField + ':'  + query;
             if (!term.endsWith(' ') && !term.endsWith(':')) {
                 result += '*';
             }
         }
+        result += ' AND (' + this.settings.topLevelFilter + ')';
         if (fq) {
             result += '&fq=' + fq;
         }
-        result += '&rows=30';
+        result += '&bq=fedora.model:monograph^5&bq=fedora.model:periodical^5&bq=dostupnost:public^5';
+        result += '&rows=50';
         return result;
     }
 

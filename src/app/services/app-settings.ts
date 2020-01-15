@@ -30,6 +30,8 @@ export class AppSettings {
   public dnntFilter: boolean;
   public originLink: boolean;
   public mapSearch: boolean;
+  public topLevelFilter: string;
+
 
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -90,7 +92,7 @@ export class AppSettings {
     this.richCollections = kramerius.richCollections;
     this.joinedDoctypes = kramerius.joinedDoctypes;
     this.doctypes = kramerius.doctypes;
-    this.filters = kramerius.filters;
+    this.filters = kramerius.filters || [];
     this.lemmatization = kramerius.lemmatization;
     this.iiifEnabled = kramerius.iiif;
     this.k3 = kramerius.k3;
@@ -100,6 +102,7 @@ export class AppSettings {
     this.mapSearch = kramerius.mapSearch || false;
     this.currentCode = this.code;
     // this.krameriusInfoService.reload();
+    this.topLevelFilter = 'fedora.model:' + this.doctypes.join(' OR fedora.model:');
     this.listner.next(kramerius);
   }
 

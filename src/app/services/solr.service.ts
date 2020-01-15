@@ -9,6 +9,12 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SolrService {
 
+    public static allDoctypes = ['periodical', 'monographbundle', 'monograph', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
+    'archive', 'soundrecording', 'manuscript', 'monographunit',
+    'soundunit', 'track', 'periodicalvolume', 'periodicalitem',
+    'article', 'internalpart', 'supplement', 'page'];
+
+
     constructor(private appSettings: AppSettings) {
     }
 

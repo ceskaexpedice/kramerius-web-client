@@ -53,11 +53,11 @@ export class SearchService {
         this.results = [];
         this.keywords = [];
         this.doctypes = [];
-        this.collections = [];
+        this.collections =[];
         this.accessibility = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = SearchQuery.fromParams(params, this.appSettings.filters, this.appSettings.dnntFilter);
+        this.query = SearchQuery.fromParams(params, this.appSettings);
         if (this.query.isBoundingBoxSet()) {
             this.contentType = 'map';
         } else {

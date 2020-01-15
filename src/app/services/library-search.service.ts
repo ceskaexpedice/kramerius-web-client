@@ -5,6 +5,7 @@ import { CompleterItem, CompleterData } from 'ng2-completer';
 import { LocalStorageService } from './local-storage.service';
 import { AppState } from '../app.state';
 import { SearchService } from './search.service';
+import { AppSettings } from './app-settings';
 
 @Injectable()
 export class LibrarySearchService extends Subject<CompleterItem[]> implements CompleterData {
@@ -13,6 +14,7 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
         private krameriusApiService: KrameriusApiService,
         private state: AppState,
         private searchService: SearchService,
+        private settings: AppSettings,
         private localStorageService: LocalStorageService) {
         super();
     }
@@ -21,7 +23,9 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
         if (this.state.atSearchScreen()) {
             fq = this.searchService.query.buildFilterQuery();
         } else if (this.localStorageService.publicFilterChecked()) {
-            fq = 'dostupnost:public';
+            fq = 'dostupnost:public AND (' + this.settings.topLevelFilter + ')';
+        } else {
+            fq = this.settings.topLevelFilter;
         }
         this.krameriusApiService.getSearchAutocomplete(term, fq).subscribe(results => {
             const items = [];
@@ -44,7 +48,9 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
                 if (a.index > b.index) {
                     return 1;
                 }
-                return 0;
+                if (a.index === b.index) {
+                    return a.item['dc.title'].length - b.item['dc.title'].length;
+                }
             });
             const matches: CompleterItem[] = [];
             for (const item of items) {

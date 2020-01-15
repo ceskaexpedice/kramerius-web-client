@@ -3,6 +3,7 @@ import { MzBaseModal } from 'ngx-materialize';
 import { Metadata } from '../../model/metadata.model';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { parseString, processors, Builder } from 'xml2js';
+import { SolrService } from '../../services/solr.service';
 
 
 @Component({
@@ -11,10 +12,6 @@ import { parseString, processors, Builder } from 'xml2js';
 })
 export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit {
   @Input() metadata: Metadata;
-  doctypes = ['periodical', 'monographbundle', 'monograph', 'map', 'sheetmusic', 'graphic',
-              'archive', 'soundrecording', 'manuscript', 'monographunit',
-              'soundunit', 'track', 'periodicalvolume', 'periodicalitem',
-              'article', 'internalpart', 'supplement', 'page'];
   data = [];
   selection;
 
@@ -25,7 +22,7 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
   }
 
   ngOnInit(): void {
-    for (const doctype of this.doctypes) {
+    for (const doctype of SolrService.allDoctypes) {
       if (this.metadata.modsMap[doctype]) {
         this.data.push({
           tab: doctype,
@@ -39,6 +36,7 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
         uuid: this.metadata.activePage.uuid
       });
     }
+    this.data.reverse();
     if (this.data.length > 0) {
       this.changeTab(this.data[0]);
     }
