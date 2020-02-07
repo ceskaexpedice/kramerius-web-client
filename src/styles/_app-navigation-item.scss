@@ -29,8 +29,8 @@
     }
     .app-lock {
       background: #fff;
-      height: 36px;
-      width: 36px;
+      height: 26px;
+      width: 26px;
       display: block;
       border-radius: 50%;
       text-align: center;
@@ -42,6 +42,9 @@
       left: 0;
       bottom: 0;
       right: 0;
+      &:before {
+        font-size: 17px;
+      }
     }
   }
   .app-item-title {
