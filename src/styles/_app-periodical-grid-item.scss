@@ -100,6 +100,9 @@ app-periodical-grid-item {
             opacity: 0.8;
             margin: auto;
             top: 0; left: 0; bottom: 0; right: 0;
+            &.app-dnnt {
+              color: $app-dnnt;
+            }
           }
 
         }

@@ -82,7 +82,7 @@ app-document-card {
                 margin: auto;
                 top: 0; left: 0; bottom: 0; right: 0;
                 &.app-dnnt {
-                  color: #d27e0f;
+                  color: $app-dnnt;
                 }
               }
             }

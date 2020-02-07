@@ -24,6 +24,7 @@ export class SolrService {
         item.uuid = doc['PID'];
         item.public = doc['dostupnost'] === 'public';
         item.doctype = doc['fedora.model'];
+        item.dnnt = !!doc['dnnt'];
         const details = doc['details'];
         if (item.doctype === 'periodicalvolume') {
             if (details && details[0]) {
@@ -66,9 +67,7 @@ export class SolrService {
           } else {
                 item.subtitle = '';
           }
-    }
-
-
+        }
         return item;
     }
 

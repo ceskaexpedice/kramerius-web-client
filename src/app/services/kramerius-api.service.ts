@@ -171,7 +171,11 @@ export class KrameriusApiService {
 
     private getPeriodicalItems(pidPath: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean) {
         const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
-        let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:'
+        let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details'
+        if (this.settings.dnntEnabled) {
+            url += ',dnnt';
+        }
+        url += '&q=pid_path:'
                 + pidPath.toLowerCase() + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
         if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
             url += ' AND dostupnost:' + query.accessibility;
