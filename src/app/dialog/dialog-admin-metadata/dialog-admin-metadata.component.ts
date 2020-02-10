@@ -53,6 +53,10 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
   }
 
   reload() {
+    if (this.selection.tab === 'page' && this.resource === 'alto') {
+      this.selection[this.resource] = `Objekt ${this.selection.tab.toUpperCase()} neobsahuje ${this.resource.toUpperCase()}`;
+      return;
+    } 
     if (!this.selection[this.resource]) {
       this.getRequest(this.selection.uuid).subscribe((result: string) => {
         if (this.resource === 'dc' || this.resource === 'mods' || this.resource === 'alto' || this.resource === 'foxml') {
