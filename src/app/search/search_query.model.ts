@@ -260,7 +260,7 @@ export class SearchQuery {
                 fqFilters.push('dostupnost:public');
             } else if (this.accessibility === 'private') {
                 fqFilters.push('dostupnost:private');
-            } else if (this.settings.dnntEnabled && this.accessibility === 'dnnt') {
+            } else if (this.settings.dnntFilter && this.accessibility === 'dnnt') {
                 fqFilters.push('dnnt:true');
             }
         }
@@ -310,7 +310,7 @@ export class SearchQuery {
         } else {
             q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
         }
-        if (this.settings.dnntEnabled) {
+        if (this.settings.dnntFilter) {
             q += ',dnnt';
         }
         if (this.isBoundingBoxSet()) {
@@ -325,7 +325,7 @@ export class SearchQuery {
            + this.addFacetToQuery(facet, 'collections', 'collection', this.collections.length === 0)
            + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
            + this.addFacetToQuery(facet, 'accessibility', 'dostupnost', this.accessibility === 'all');
-        if (this.settings.dnntEnabled) {
+        if (this.settings.dnntFilter) {
             q += '&facet.field=dnnt';
         }
         if (facet) {
