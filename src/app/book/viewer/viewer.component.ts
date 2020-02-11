@@ -427,6 +427,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.onImageFailure();
         if (error && error.status === 403) {
           this.bookService.onInaccessibleImage();
+        } else if (error && error.status === 404) {
+          this.updateZoomifyImage(uuid1, uuid2);
         }
       }
     );
