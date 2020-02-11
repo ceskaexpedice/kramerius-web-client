@@ -88,7 +88,7 @@ export class BookService {
         private pageTitle: PageTitleService,
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
-        private krameriusApiService: KrameriusApiService,
+        private api: KrameriusApiService,
         private iiif: IiifService,
         private logger: LoggerService,
         private modsParserService: ModsParserService,
@@ -109,7 +109,7 @@ export class BookService {
             this.pdfPath = null;
             return;
         }
-        this.pdf = this.krameriusApiService.getPdfUrl(uuid);
+        this.pdf = this.api.getPdfUrl(uuid);
         let url = 'assets/pdf/viewer.html?file=' + this.pdf;
         url += '&lang=' + this.translator.language;
         if (this.fulltextQuery) {
@@ -124,7 +124,7 @@ export class BookService {
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.appSettings.iiifEnabled;
-        this.krameriusApiService.getItem(params.uuid).subscribe((item: DocumentItem) => {
+        this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
             if (item.doctype === 'article') {
                 if (params.articleUuid) {
                     return;
@@ -144,7 +144,7 @@ export class BookService {
                 return;
             }
             this.isPrivate = !item.public;
-            this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
+            this.api.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response, item.root_uuid);
                 this.metadata.isPublic = item.public;
                 this.metadata.model = item.doctype;
@@ -176,7 +176,7 @@ export class BookService {
                     this.showNavigationPanel = false;
                     this.assignPdfPath(params.uuid);
                 } else {
-                    this.krameriusApiService.getChildren(params.uuid).subscribe(children => {
+                    this.api.getChildren(params.uuid).subscribe(children => {
                         if (children && children.length > 0) {
                             this.onDataLoaded(children, item.doctype, params.pageUuid, params.articleUuid, params.internalPartUuid);
                         } else {
@@ -204,10 +204,10 @@ export class BookService {
     }
 
     private loadVolume(uuid: string) {
-        this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+        this.api.getItem(uuid).subscribe((item: DocumentItem) => {
             this.metadata.assignVolume(item);
         });
-        this.krameriusApiService.getMods(uuid).subscribe(mods => {
+        this.api.getMods(uuid).subscribe(mods => {
             this.metadata.addMods('periodicalvolume', uuid, mods);
             const metadata = this.modsParserService.parse(mods, uuid, 'volume');
             this.metadata.volumeMetadata = metadata;
@@ -218,7 +218,7 @@ export class BookService {
 
 
     private loadIssues(periodicalUuid: string, volumeUuid: string, issueUuid: string) {
-        this.krameriusApiService.getPeriodicalIssues(periodicalUuid, volumeUuid, null).subscribe(response => {
+        this.api.getPeriodicalIssues(periodicalUuid, volumeUuid, null).subscribe(response => {
             const issues = this.solrService.periodicalItems(response, 'periodicalitem');
             if (!issues || issues.length < 1) {
                 return;
@@ -241,7 +241,7 @@ export class BookService {
             if (index < issues.length - 1) {
                 this.metadata.nextIssue = issues[index + 1];
             }
-            this.krameriusApiService.getMods(issueUuid).subscribe(mods => {
+            this.api.getMods(issueUuid).subscribe(mods => {
                 this.metadata.addMods('periodicalitem', issueUuid, mods);
                 const metadata = this.modsParserService.parse(mods, issueUuid, 'issue');
                 this.metadata.currentIssue.metadata = metadata;
@@ -251,7 +251,7 @@ export class BookService {
 
 
     private loadVolumes(periodicalUuid: string, volumeUuid: string) {
-        this.krameriusApiService.getPeriodicalVolumes(periodicalUuid, null).subscribe(response => {
+        this.api.getPeriodicalVolumes(periodicalUuid, null).subscribe(response => {
             const volumes = this.solrService.periodicalItems(response, 'periodicalvolume');
             if (!volumes || volumes.length < 1) {
                 return;
@@ -278,7 +278,7 @@ export class BookService {
     }
 
     private loadMonographUnits(monographUuid: string, unitUud: string) {
-        this.krameriusApiService.getMonographUnits(monographUuid, null).subscribe(response => {
+        this.api.getMonographUnits(monographUuid, null).subscribe(response => {
             const units = this.solrService.periodicalItems(response, 'monographunit');
             if (!units || units.length < 1) {
                 return;
@@ -301,7 +301,7 @@ export class BookService {
             if (index < units.length - 1) {
                 this.metadata.nextUnit = units[index + 1];
             }
-            this.krameriusApiService.getMods(unitUud).subscribe(mods => {
+            this.api.getMods(unitUud).subscribe(mods => {
                 this.metadata.addMods('monographunit', unitUud, mods);
                 const metadata = this.modsParserService.parse(mods, unitUud);
                 this.metadata.currentUnit.metadata = metadata;
@@ -316,7 +316,7 @@ export class BookService {
             return;
         }
         const supplement = supplements.shift();
-        this.krameriusApiService.getChildren(supplement['pid']).subscribe(children => {
+        this.api.getChildren(supplement['pid']).subscribe(children => {
             for (const p of children) {
                 if (p['model'] === 'page') {
                     p['supplement_uuid'] = supplement['pid'];
@@ -447,7 +447,7 @@ export class BookService {
                 if (!page.number) {
                     page.number = p['title'];
                 }
-                page.thumb = this.krameriusApiService.getThumbUrl(page.uuid);
+                page.thumb = this.api.getThumbUrl(page.uuid);
                 page.position = PagePosition.Single;
                 if (page.type === 'spine') {
                     spines.push(page);
@@ -565,7 +565,7 @@ export class BookService {
 
     cropEnabled(): boolean {
         const page = this.getPage();
-        return page && page.imageType === PageImageType.IIIF;
+        return page && this.iiifEnabled && page.imageType === PageImageType.TILES;
     }
 
     hasNext() {
@@ -592,9 +592,9 @@ export class BookService {
     }
     showOcr() {
         const requests = [];
-        requests.push(this.krameriusApiService.getOcr(this.getPage().uuid));
+        requests.push(this.api.getOcr(this.getPage().uuid));
         if (this.getRightPage()) {
-            requests.push(this.krameriusApiService.getOcr(this.getRightPage().uuid));
+            requests.push(this.api.getOcr(this.getRightPage().uuid));
         }
         forkJoin(requests).subscribe(result => {
             const options = {
@@ -611,7 +611,7 @@ export class BookService {
 
     showTextSelection(extent, width: number, height: number, right: boolean) {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
-        this.krameriusApiService.getAlto(uuid).subscribe(
+        this.api.getAlto(uuid).subscribe(
             result => {
                 const text = this.altoService.getTextInBox(result, extent, width, height);
                 const options = {
@@ -639,12 +639,9 @@ export class BookService {
                 message: 'dialogs.private_document_jpeg.message',
                 button: 'common.close'
             });
-        } else if (this.pageState === BookPageState.Success) {
-            const iiif = right ? this.getRightPage().iiif : this.getPage().iiif;
-            if (!iiif) {
-                return;
-            }
-            const url = this.iiif.imageCrop(iiif, extent[0], extent[1], extent[2], extent[3]);
+        } else if (this.pageState === BookPageState.Success && this.iiifEnabled) {
+            const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+            const url = this.iiif.imageCrop(this.api.getIiifBaseUrl(uuid), extent[0], extent[1], extent[2], extent[3]);
             if (url) {
                 window.open(url, '_blank');
             }
@@ -659,9 +656,9 @@ export class BookService {
                 button: 'common.close'
             });
         } else if (this.pageState === BookPageState.Success) {
-            window.open(this.krameriusApiService.getFullJpegUrl(this.getPage().uuid), '_blank');
+            window.open(this.api.getFullJpegUrl(this.getPage().uuid), '_blank');
             if (this.getRightPage()) {
-                window.open(this.krameriusApiService.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+                window.open(this.api.getFullJpegUrl(this.getRightPage().uuid), '_blank');
             }
         }
     }
@@ -736,7 +733,7 @@ export class BookService {
             this.cancelFulltext();
             return;
         }
-        this.krameriusApiService.getFulltextUuidList(this.uuid, query).subscribe(result => {
+        this.api.getFulltextUuidList(this.uuid, query).subscribe(result => {
             this.ftPages = [];
             let index = 0;
             for (const page of this.allPages) {
@@ -831,7 +828,7 @@ export class BookService {
 
         if (page.supplementUuid) {
             const uuid = page.supplementUuid;
-            this.krameriusApiService.getMods(uuid).subscribe(mods => {
+            this.api.getMods(uuid).subscribe(mods => {
                 if (uuid === this.getPage().supplementUuid) {
                     const metadata = this.modsParserService.parse(mods, uuid, 'supplement');
                     this.metadata.pageSupplementMetadata = metadata;
@@ -923,7 +920,7 @@ export class BookService {
         this.pageState = BookPageState.Loading;
         this.internalPart = internalPart;
         if (!internalPart.metadata) {
-            forkJoin([this.krameriusApiService.getItem(internalPart.uuid), this.krameriusApiService.getMods(internalPart.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
+            forkJoin([this.api.getItem(internalPart.uuid), this.api.getMods(internalPart.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 if (this.metadata) {
                     this.metadata.addMods('internalpart', internalPart.uuid, mods);
                 }
@@ -942,7 +939,7 @@ export class BookService {
             this.goToPageWithUuid(internalPart.firstPageUuid);
         } else {
             this.publishNewPages(BookPageState.Loading);
-            this.krameriusApiService.getChildren(internalPart.uuid).subscribe(children => {
+            this.api.getChildren(internalPart.uuid).subscribe(children => {
                 if (children && children.length > 0) {
                     internalPart.firstPageUuid = children[0]['pid'];
                 }
@@ -959,7 +956,7 @@ export class BookService {
         this.pageState = BookPageState.Loading;
         this.article = article;
         if (article.type === 'none') {
-            forkJoin([this.krameriusApiService.getItem(article.uuid), this.krameriusApiService.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
+            forkJoin([this.api.getItem(article.uuid), this.api.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 if (this.metadata) {
                     this.metadata.addMods('article', article.uuid, mods);
                 }
@@ -987,7 +984,7 @@ export class BookService {
                 this.goToPageWithUuid(article.firstPageUuid);
             } else {
                 this.publishNewPages(BookPageState.Loading);
-                this.krameriusApiService.getChildren(article.uuid).subscribe(children => {
+                this.api.getChildren(article.uuid).subscribe(children => {
                     if (children && children.length > 0) {
                         article.firstPageUuid = children[0]['pid'];
                     }
@@ -1000,15 +997,16 @@ export class BookService {
 
     private fetchPageData(leftPage: Page, rightPage: Page) {
         const itemRequests = [];
-        itemRequests.push(this.krameriusApiService.getRawItem(leftPage.uuid));
+        itemRequests.push(this.api.getRawItem(leftPage.uuid));
         if (rightPage) {
-            itemRequests.push(this.krameriusApiService.getRawItem(rightPage.uuid));
+            itemRequests.push(this.api.getRawItem(rightPage.uuid));
         }
         forkJoin(itemRequests).subscribe(result => {
-            leftPage.assignPageData(result[0], this.iiifEnabled);
+            leftPage.assignPageData(result[0]);
             if (rightPage) {
-                rightPage.assignPageData(result[1], this.iiifEnabled);
+                rightPage.assignPageData(result[1]);
             }
+            console.log('leftpage', leftPage);
             this.dnntMode = leftPage.providedByDnnt || (rightPage && rightPage.providedByDnnt);
             this.dnntFlag = leftPage.dnntFlag || (rightPage && rightPage.dnntFlag);
             if (leftPage.imageType === PageImageType.None) {
@@ -1058,7 +1056,6 @@ export class BookService {
             }
         }
         this.pageState = state;
-       
         this.subject.next(this.getViewerData());
         this.subjectPages.next([leftPage, rightPage]);
     }
@@ -1068,15 +1065,17 @@ export class BookService {
         const data = new ViewerData();
         const leftPage = this.getPage();
         const rightPage = this.getRightPage();
-        if (!leftPage) {
+        if (!leftPage || !leftPage.viewable()) {
             return null;
         }
-        data.url1 = leftPage.getImageUrl()
-        data.imageType = leftPage.getViewerImageType();
+        if (leftPage.imageType === PageImageType.TILES) {
+            data.imageType = this.iiifEnabled ? ViewerImageType.IIIF : ViewerImageType.ZOOMIFY;
+        } else {
+            data.imageType = ViewerImageType.JPEG;
+        }
         data.query = this.fulltextQuery;
         data.uuid1 = leftPage.uuid;
         if (rightPage) {
-            data.url2 = rightPage.getImageUrl()
             data.uuid2 = rightPage.uuid;
         }
         return data;
@@ -1188,15 +1187,13 @@ export enum ViewerImageType {
   }
   
   export class ViewerData {
-    url1: string;
-    url2: string;
     uuid1: string;
     uuid2: string;
     imageType: ViewerImageType;
     query: string;
   
     doublePage(): boolean {
-      return !!this.url2 && !!this.uuid2;
+      return !!this.uuid2;
     }
   
     equals(to: ViewerData): boolean {

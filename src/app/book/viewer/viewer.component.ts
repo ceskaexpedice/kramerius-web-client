@@ -77,7 +77,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
               private logger: LoggerService,
               private zoomify: ZoomifyService,
               private alto: AltoService,
-              private krameriusApi: KrameriusApiService,
+              private api: KrameriusApiService,
               public krameriusInfo: KrameriusInfoService,
               public controlsService: ViewerControlsService) {
     this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
@@ -231,7 +231,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (!this.data.query) {
       return;
     }
-    this.krameriusApi.getAlto(this.data.uuid1).subscribe(response => {
+    this.api.getAlto(this.data.uuid1).subscribe(response => {
           const boxes = this.alto.getBoxes(response, this.data.query, this.imageWidth, this.imageHeight);
           for (let i = 0; i < boxes.length; i++) {
             const ring = boxes[i];
@@ -307,9 +307,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   updateJpegImage(uuid1: string, uuid2: string) {
     this.onImageLoading();
     const rq = [];
-    rq.push(this.http.get(this.krameriusApi.getFullJpegUrl(uuid1), { observe: 'response', responseType: 'blob' }));
+    rq.push(this.http.get(this.api.getFullJpegUrl(uuid1), { observe: 'response', responseType: 'blob' }));
     if (uuid2) {
-      rq.push(this.http.get(this.krameriusApi.getFullJpegUrl(uuid1), { observe: 'response', responseType: 'blob' }));
+      rq.push(this.http.get(this.api.getFullJpegUrl(uuid1), { observe: 'response', responseType: 'blob' }));
     }
     forkJoin(rq).subscribe(
       (results) => {
@@ -326,7 +326,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   
   loadJpegImage(uuid1: string, uuid2: string, left: boolean, thumb: boolean) {
     const uuid = left ? uuid1 : uuid2;
-    const url = this.krameriusApi.getFullJpegUrl(uuid);
+    const url = this.api.getFullJpegUrl(uuid);
     const image = new Image();
     image.onload = (() => {
         if (left && uuid2) {
@@ -336,15 +336,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
         } else {
           if (!left) {
             this.setDimensions(this.imageWidth, this.imageHeight, image.width, image.height);
-            const url1 = this.krameriusApi.getFullJpegUrl(uuid1);
-            const thumb1 = this.krameriusApi.getThumbUrl(uuid1);
+            const url1 = this.api.getFullJpegUrl(uuid1);
+            const thumb1 = this.api.getThumbUrl(uuid1);
             this.addStaticImage(this.imageWidth, this.imageHeight, thumb ? thumb1 : url1, 1);
             const url2 = url;
-            const thumb2 = this.krameriusApi.getThumbUrl(uuid2);
+            const thumb2 = this.api.getThumbUrl(uuid2);
             this.addStaticImage(image.width, image.height, thumb ? thumb2 : url2,  2);
           } else {
             this.setDimensions(image.width, image.height, null, null);
-            const thumb1 = this.krameriusApi.getThumbUrl(uuid1);
+            const thumb1 = this.api.getThumbUrl(uuid1);
             this.addStaticImage(image.width, image.height, thumb ? thumb1 : url, 0);
           }
           this.onImageSuccess();
@@ -359,7 +359,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
 
-  updateZoomifyImage(url1: string, url2: string) {
+  updateZoomifyImage(uuid1: string, uuid2: string) {
+    const url1 = this.api.getIiifBaseUrl(uuid1);
+    const url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
     this.onImageLoading();
     const rq = [];
     let w1, w2, h1, h2;
@@ -395,7 +397,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
 
-  updateIiifImage(url1: string, url2: string) {
+  updateIiifImage(uuid1: string, uuid2: string) {
+    const url1 = this.api.getIiifBaseUrl(uuid1);
+    const url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
     this.onImageLoading();
     const rq = [];
     let w1, w2, h1, h2;
@@ -476,7 +480,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateImage(data: ViewerData) {
-    this.logger.info('updateImage', data);
+    if (!data) {
+      return;
+    }
     if (this.data && this.data.equals(data)) {
       return;
     }
@@ -485,14 +491,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.removeLayer(this.imageLayer2);
     this.view.removeLayer(this.zoomifyLayer2);
     this.view.removeLayer(this.vectorLayer);
-
     this.data = data;
     switch (data.imageType) {
       case ViewerImageType.IIIF: 
-        this.updateIiifImage(data.url1, data.url2);
+        this.updateIiifImage(data.uuid1, data.uuid2);
         break;
       case ViewerImageType.ZOOMIFY: 
-        this.updateZoomifyImage(data.url1, data.url2);
+        this.updateZoomifyImage(data.uuid1, data.uuid2);
         break;
       case ViewerImageType.JPEG: 
         this.updateJpegImage(data.uuid1, data.uuid2);

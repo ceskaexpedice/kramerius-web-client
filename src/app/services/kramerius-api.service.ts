@@ -15,6 +15,7 @@ import { Response } from '@angular/http/src/static_response';
 import { AppSettings } from './app-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user.model';
+import { Page } from '../model/page.model';
 
 @Injectable()
 export class KrameriusApiService {
@@ -377,6 +378,14 @@ export class KrameriusApiService {
         const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
         return this.doGet(url)
           .catch(this.handleError);
+    }
+
+    getZoomifyBaseUrl(uuid: string): string {
+        return this.getbaseUrl() + '/search/zoomif/' + uuid;
+    }
+
+    getIiifBaseUrl(uuid: string): string {
+        return this.getbaseUrl() + '/search/iiif/' + uuid;
     }
 
     getSiblings(uuid: string) {
