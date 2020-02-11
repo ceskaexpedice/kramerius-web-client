@@ -381,7 +381,7 @@ export class KrameriusApiService {
     }
 
     getZoomifyBaseUrl(uuid: string): string {
-        return this.getbaseUrl() + '/search/zoomif/' + uuid;
+        return this.getbaseUrl() + '/search/zoomify/' + uuid;
     }
 
     getIiifBaseUrl(uuid: string): string {

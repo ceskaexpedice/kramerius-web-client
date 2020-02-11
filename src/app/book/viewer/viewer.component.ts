@@ -360,8 +360,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateZoomifyImage(uuid1: string, uuid2: string) {
-    const url1 = this.api.getIiifBaseUrl(uuid1);
-    const url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
+    const url1 = this.api.getZoomifyBaseUrl(uuid1);
+    const url2 = !!uuid2 ? this.api.getZoomifyBaseUrl(uuid2) : null;
     this.onImageLoading();
     const rq = [];
     let w1, w2, h1, h2;
