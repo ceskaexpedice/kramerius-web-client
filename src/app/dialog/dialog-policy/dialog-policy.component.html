@@ -1,0 +1,16 @@
+<mz-modal #modal [fixedFooter]="false" class="app-dialog-policy">
+  <mz-modal-content>
+    <mz-input-container>
+      <div *ngIf="!appSettings.customRightMessage" class="app-text">
+        {{ 'alert.inaccessible_document_description' | translate }}
+      </div>
+      <div *ngIf="appSettings.customRightMessage" class="app-html"
+      [innerHTML]="(krameriusInfo.data$ | async).rightMsg">
+      </div>
+    </mz-input-container>
+
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>{{ 'common.close' | translate }}</button>
+  </mz-modal-footer>
+</mz-modal>

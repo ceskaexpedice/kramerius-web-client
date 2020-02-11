@@ -227,7 +227,9 @@
     "btn_show_metadata": "Zobrazit metadata",
     "btn_hide_metadata": "Skrýt metadata",
     "authors_info": "Více o autorech",
-    "donator": "S podporou"
+    "donator": "S podporou",
+    "policy_private": "Dokument není veřejně přístupný",
+    "policy_dnnt": "Dílo nedostupné na trhu"
   },
   "donator": {
     "norway": {

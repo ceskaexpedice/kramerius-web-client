@@ -62,6 +62,11 @@
 
     </ng-container>
 
+    <div *ngIf="!metadata.isPublic" class="app-policy">
+      <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock'"></i>
+      <span class="app-message">{{ 'metadata.policy_private' | translate }} (<span><i (click)="showPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
+      <div class="divider"></div>
+    </div>
 
     <div *ngIf="metadata.getPrimaryAuthors().length > 0">
       <label>{{ 'metadata.author' | translate }}</label>

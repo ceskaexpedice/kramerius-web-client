@@ -225,7 +225,9 @@
     "btn_show_metadata": "Show metadata",
     "btn_hide_metadata": "Hide metadata",
     "authors_info": "More about authors",
-    "donator": "Supported by"
+    "donator": "Supported by",
+    "policy_private": "Not publicly accessible document",
+    "policy_dnnt": "Dílo nedostupné na trhu"
   },
   "donator": {
     "norway": {

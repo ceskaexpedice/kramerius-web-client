@@ -8,6 +8,7 @@ import { MzModalService } from 'ngx-materialize';
 import { AnalyticsService } from '../services/analytics.service';
 import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.component';
 import { DialogAdminMetadataComponent } from '../dialog/dialog-admin-metadata/dialog-admin-metadata.component';
+import { DialogPolicyComponent } from '../dialog/dialog-policy/dialog-policy.component';
 
 @Component({
   selector: 'app-metadata',
@@ -41,6 +42,10 @@ export class MetadataComponent implements OnInit {
   showAuthors() {
     this.analytics.sendEvent('metadata', 'authors');
     this.modalService.open(DialogAuthosComponent, { authors: this.metadata.authors} );
+  }
+
+  showPolicyPrivateDialog() {
+    this.modalService.open(DialogPolicyComponent, { type: 'private' } );
   }
 
   showCitation() {

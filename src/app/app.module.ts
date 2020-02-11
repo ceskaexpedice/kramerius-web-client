@@ -138,6 +138,7 @@ import { IiifService } from './services/iiif.service';
 import { ZoomifyService } from './services/zoomify.service';
 import { LoggerService } from './services/logger.service';
 import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/dialog-advanced-search.component';
+import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.component';
 
 
 export function hljsLanguages() {
@@ -229,7 +230,8 @@ export function hljsLanguages() {
     DialogAdminMetadataComponent,
     MapBrowseComponent,
     PresentationComponent,
-    DialogAdvancedSearchComponent
+    DialogAdvancedSearchComponent,
+    DialogPolicyComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -240,7 +242,8 @@ export function hljsLanguages() {
     DialogAuthosComponent,
     DialogPdfGeneratorComponent,
     DialogAdminMetadataComponent,
-    DialogAdvancedSearchComponent
+    DialogAdvancedSearchComponent,
+    DialogPolicyComponent
   ],
   imports: [
     BrowserModule,

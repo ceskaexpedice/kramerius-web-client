@@ -145,6 +145,22 @@ app-metadata {
         font-size: 15px;
         color: $app-grey-d-2;
       }
+      .app-policy {
+        .app-lock {
+          color: $app-grey-d-2;
+          margin-right: 4px;
+          &.app-dnnt {
+            color: $app-dnnt;
+          }
+        }
+        .app-message {
+          color: $app-grey-d-2;
+        }
+        .app-help {
+          color: $primary-color;
+          cursor: pointer;
+        }
+      }
     }
   }
 
