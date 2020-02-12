@@ -31,6 +31,7 @@ export class Metadata {
     public volume: Volume;
 
     public isPublic = true;
+    public isDnnt = false;
 
     public currentIssue: PeriodicalItem;
     public nextIssue: PeriodicalItem;
@@ -63,9 +64,12 @@ export class Metadata {
 
     public assignDocument(item: DocumentItem) {
         this.isPublic = item.public;
+        this.isDnnt = item.dnnt;
         this.model = item.doctype;
         this.donator = item.donator;
         this.originUrl = item.originUrl;
+        console.log('assignDocument item', item);
+        console.log('assignDocument data', this);
     }
 
     public getOriginUrl() {

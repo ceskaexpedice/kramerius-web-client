@@ -63,8 +63,14 @@
     </ng-container>
 
     <div *ngIf="!metadata.isPublic" class="app-policy">
-      <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock'"></i>
-      <span class="app-message">{{ 'metadata.policy_private' | translate }} (<span><i (click)="showPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
+      <ng-container *ngIf="metadata.isDnnt">
+        <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock app-dnnt'"></i>
+        <span class="app-message">{{ 'metadata.policy_dnnt' | translate }} (<span><i (click)="showPolicyDnntDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
+      </ng-container>
+      <ng-container *ngIf="!metadata.isDnnt">
+        <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock'"></i>
+        <span class="app-message">{{ 'metadata.policy_private' | translate }} (<span><i (click)="showPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
+      </ng-container>
       <div class="divider"></div>
     </div>
 

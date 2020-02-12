@@ -146,9 +146,7 @@ export class BookService {
             this.isPrivate = !item.public;
             this.api.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response, item.root_uuid);
-                this.metadata.isPublic = item.public;
-                this.metadata.model = item.doctype;
-                this.metadata.donator = item.donator;
+                this.metadata.assignDocument(item);
                 this.analytics.sendEvent('viewer', 'open', this.metadata.getShortTitle());
                 this.pageTitle.setTitle(null, this.metadata.getShortTitle());
                 if (item.doctype) {

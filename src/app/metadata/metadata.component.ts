@@ -48,6 +48,10 @@ export class MetadataComponent implements OnInit {
     this.modalService.open(DialogPolicyComponent, { type: 'private' } );
   }
 
+  showPolicyDnntDialog() {
+    this.modalService.open(DialogPolicyComponent, { type: 'dnnt' } );
+  }
+
   showCitation() {
     this.analytics.sendEvent('metadata', 'citation');
     this.modalService.open(DialogCitationComponent, { metadata: this.metadata });
