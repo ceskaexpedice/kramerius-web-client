@@ -173,7 +173,7 @@ export class KrameriusApiService {
     private getPeriodicalItems(pidPath: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean) {
         const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
         let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details'
-        if (this.settings.dnntEnabled) {
+        if (this.settings.dnntFilter) {
             url += ',dnnt';
         }
         url += '&q=pid_path:'

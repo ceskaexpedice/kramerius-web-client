@@ -14,7 +14,7 @@ export class AuthService {
     user: User = null;
 
     constructor(private appSettings: AppSettings, private krameriusApi: KrameriusApiService, private cache: HttpRequestCache) {
-        console.log('AuthService initialized');
+        // console.log('AuthService initialized');
         if (appSettings.dnntEnabled) {
             this.login(null, null);
         }

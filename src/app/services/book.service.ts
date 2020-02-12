@@ -1004,7 +1004,6 @@ export class BookService {
             if (rightPage) {
                 rightPage.assignPageData(result[1]);
             }
-            console.log('leftpage', leftPage);
             this.dnntMode = leftPage.providedByDnnt || (rightPage && rightPage.providedByDnnt);
             this.dnntFlag = leftPage.dnntFlag || (rightPage && rightPage.dnntFlag);
             if (leftPage.imageType === PageImageType.None) {

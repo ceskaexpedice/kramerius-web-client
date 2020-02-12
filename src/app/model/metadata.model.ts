@@ -68,8 +68,6 @@ export class Metadata {
         this.model = item.doctype;
         this.donator = item.donator;
         this.originUrl = item.originUrl;
-        console.log('assignDocument item', item);
-        console.log('assignDocument data', this);
     }
 
     public getOriginUrl() {
