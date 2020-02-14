@@ -22,6 +22,7 @@ app-document-card {
     .app-card-mark,
     .app-card-doctype {
       &.monograph {background-color: $app-type-monograph}
+      &.monographunit {background-color: $app-type-monograph}
       &.periodical {background-color: $app-type-periodical}
       &.soundrecording {background-color: $app-type-soundrecording}
       &.map {background-color: $app-type-map}

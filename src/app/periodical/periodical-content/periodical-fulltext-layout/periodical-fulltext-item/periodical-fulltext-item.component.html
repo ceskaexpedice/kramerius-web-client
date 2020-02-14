@@ -45,7 +45,7 @@
         <ng-container *ngIf="item.type === 'page' || item.type === 'monograph_unit_page'">
           <div class="app-card-row">
             <div class="app-card-row-right"></div>
-            <div class="app-card-row-left">{{ 'metadata.page' | translate }} {{item.page}}</div>
+            <div class="app-card-row-left" *ngIf="item.page">{{ 'metadata.page' | translate }} {{item.page}}</div>
           </div>
           <div class="app-card-ocr" [innerHTML]="item.text"></div>
         </ng-container>

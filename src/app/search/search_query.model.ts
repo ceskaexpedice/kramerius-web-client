@@ -22,6 +22,8 @@ export class SearchQuery {
     field: string;
     value: string;
 
+    dsq: string;
+
     from = -1;
     to = -1;
 
@@ -39,6 +41,7 @@ export class SearchQuery {
     public static fromParams(params, settings: AppSettings): SearchQuery {
         const query = new SearchQuery(settings);
         query.query = params['q'];
+        query.dsq = params['dsq'];
         query.setPage(params['page']);
         query.setFiled(query.keywords, 'keywords', params);
         query.setFiled(query.doctypes, 'doctypes', params);
@@ -254,7 +257,6 @@ export class SearchQuery {
         } else {
             fqFilters.push('(' + this.settings.topLevelFilter + ')');
         }
-        fqFilters.push()
         if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
             if (this.accessibility === 'public') {
                 fqFilters.push('dostupnost:public');
@@ -288,6 +290,9 @@ export class SearchQuery {
         let qString = this.getQ();
         let value = qString;
         let q = 'q=';
+        if (this.dsq) {
+            q += this .dsq + ' AND '
+        }
         if (this.isBoundingBoxSet()) {
             q += `{!field f=range score=overlapRatio}Intersects(ENVELOPE(${this.west},${this.east},${this.north},${this.south}))&fq=`;
         }
@@ -358,6 +363,9 @@ export class SearchQuery {
         }
         if (this.accessibility === 'public' || this.accessibility === 'private' || this.accessibility === 'dnnt') {
             params['accessibility'] = this.accessibility;
+        }
+        if (this.dsq) {
+            params['dsq'] = this.dsq;
         }
         if (this.query) {
             params['q'] = this.query;
@@ -435,8 +443,13 @@ export class SearchQuery {
         if (skip !== field) {
             if (values.length > 0) {
                 if (this.settings.filters.indexOf(field) > -1) {
-                    if (field === 'doctypes' && this.hasQueryString()) {
-                        return '(model_path:' + values.join('* OR model_path:') + '*)';
+                    if (field === 'doctypes') {
+                        if (this.hasQueryString()) {
+                            return ('(model_path:' + values.join('* OR model_path:') + '*)')
+                        } else {
+                            return ('(model_path:' + values.join(' OR model_path:') + ')')
+                                        .replace(/model_path:monograph/, 'model_path:monograph OR model_path:monographunit');
+                        }
                     } else {
                         return '(' + SearchQuery.getSolrField(field) + ':"' + values.join('" OR ' + SearchQuery.getSolrField(field) + ':"') + '")';
                     }

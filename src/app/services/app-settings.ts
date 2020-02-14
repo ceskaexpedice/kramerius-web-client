@@ -102,7 +102,8 @@ export class AppSettings {
     this.mapSearch = kramerius.mapSearch || false;
     this.currentCode = this.code;
     // this.krameriusInfoService.reload();
-    this.topLevelFilter = 'fedora.model:' + this.doctypes.join(' OR fedora.model:');
+    this.topLevelFilter = (`fedora.model:${this.doctypes.join(' OR fedora.model:')}`)
+        .replace(/fedora.model:monograph/, 'fedora.model:monograph OR fedora.model:monographunit');
     this.listner.next(kramerius);
   }
 
