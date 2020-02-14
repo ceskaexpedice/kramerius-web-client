@@ -28,6 +28,14 @@
     </span>
   </mz-collection-item>
 
+  <mz-collection-item *ngIf="searchService.query.accessibility === 'dnnt'">
+    <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ 'search.accessibility.dnnt' | translate }}
+    </span>
+  </mz-collection-item>
+
   <mz-collection-item *ngIf="searchService.query.accessibility === 'private'">
     <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
