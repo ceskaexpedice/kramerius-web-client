@@ -516,11 +516,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else if (type === 2) {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
-    var options = new ol.format.IIIFInfo(data).getTileSourceOptions();
+    const options = new ol.format.IIIFInfo(data).getTileSourceOptions();
     if (options === undefined || options.version === undefined) {
       // Invalid IIIF
       return;
     }
+    options.quality = 'default';
     options.zDirection = -1;
     options.extent = extent;
     options.crossOrigin = 'Anonymous';
