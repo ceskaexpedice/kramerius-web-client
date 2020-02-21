@@ -139,6 +139,8 @@ import { ZoomifyService } from './services/zoomify.service';
 import { LoggerService } from './services/logger.service';
 import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/dialog-advanced-search.component';
 import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.component';
+import { LandingComponent } from './landing/landing.component';
+import { LibrariesComponent } from './libraries/libraries.component';
 
 
 export function hljsLanguages() {
@@ -231,7 +233,9 @@ export function hljsLanguages() {
     MapBrowseComponent,
     PresentationComponent,
     DialogAdvancedSearchComponent,
-    DialogPolicyComponent
+    DialogPolicyComponent,
+    LandingComponent,
+    LibrariesComponent
   ],
   entryComponents: [
     DialogOcrComponent,

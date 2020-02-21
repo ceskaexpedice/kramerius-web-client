@@ -46,6 +46,7 @@ export class AppSettings {
   public aboutPage = APP_GLOBAL.aboutPage;
   public footer = APP_GLOBAL.footer;
   public cloudEnabled = APP_GLOBAL.cloudEnabled;
+  public landingPage = APP_GLOBAL.landingPage
   public krameriusList: KrameriusData[];
 
   constructor(private collectionsService: CollectionService) {

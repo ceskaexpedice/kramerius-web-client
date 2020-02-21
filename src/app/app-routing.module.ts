@@ -20,10 +20,11 @@ import { RegisterComponent } from './account/register/register.component';
 import { ResetPasswordComponent } from './account/reset-password/reset-password.component';
 import { OmniauthComponent } from './account/omniauth/omniauth.component';
 import { PresentationComponent } from './presentation/presentation.component';
+import { LandingComponent } from './landing/landing.component';
 
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
-    { path: '', component: HomeComponent, canActivate: [ RoutingGuardService ] },
+    { path: '', component: LandingComponent },
     { path: 'about', component: AboutComponent, canActivate: [ RoutingGuardService ] },
     { path: 'login', component: LoginComponent, canActivate: [ RoutingGuardService ] },
     { path: 'register', component: RegisterComponent, canActivate: [ RoutingGuardService ] },

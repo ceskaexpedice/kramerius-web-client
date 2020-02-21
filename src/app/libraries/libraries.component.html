@@ -1,0 +1,24 @@
+<div class="app-content-wrapper">
+<div class="container app-libraries">
+
+  <div class="row app-libraries-title">{{ 'libraries.title' | translate }}</div>
+
+  <div class="row app-libraries-message">{{ 'libraries.message' | translate }}</div>
+
+  <div class="row">
+
+    <div class="app-library-card col s12 l6 xl4" *ngFor="let kramerius of appSettings.krameriusList">
+      <a [routerLink]="['/' + kramerius.code]" (click)="analytics.sendEvent('landing', 'kramerius', kramerius.title);">
+        <mz-card [hoverable]="true">
+          <mz-card-content>
+            <div class="app-library-logo" [style.background-image]="getThumb(kramerius)"></div>
+            <div class="app-librar-title">{{ kramerius.title }}</div>
+          </mz-card-content>
+        </mz-card>
+      </a>
+    </div>
+
+  </div>
+
+</div>
+</div>

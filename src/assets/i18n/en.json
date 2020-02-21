@@ -26,6 +26,10 @@
     "browse": "Browse",
     "collections": "Collections"
   },
+  "libraries": {
+    "title": "Digital Library",
+    "message": "Thousands of digitized documents from Czech libraries in one place."
+  },
   "navbar": {
     "collections": "Collections",
     "browse": "Browse",

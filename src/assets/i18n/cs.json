@@ -26,6 +26,10 @@
     "browse": "Procházení",
     "collections": "Sbírky"
   },
+  "libraries": {
+    "title": "Digitální knihovna",
+    "message": "Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě."
+  },
   "navbar": {
     "collections": "Sbírky",
     "browse": "Procházet",

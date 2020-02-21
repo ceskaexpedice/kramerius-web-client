@@ -37,6 +37,18 @@ app-root {
       background-color: $app-grey-l-5;
       @include set-border(right, 1, solid, $app-grey-l-2);
     }
+
+
+    // libraries
+    app-libraries {
+      .app-content-wrapper {
+        flex: 1;
+        height: 100%;
+        overflow: auto;
+        background-color: $app-grey-l-4;
+      }
+      @import "styles/app-libraries";
+    }
     
     // home
     app-home {
