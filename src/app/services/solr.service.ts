@@ -345,7 +345,31 @@ export class SolrService {
             }
             list.push(item);
         }
+        if (field === 'fedora.model') {
+            this.mergeBrowseMonographsAndMonographUnits(list);
+        }
         return list;
+    }
+
+
+    private mergeBrowseMonographsAndMonographUnits(list: any[]) {
+        let monograph;
+        let monographunit;
+        for (const item of list) {
+            if (item.value === 'monograph') {
+                monograph = item;
+            } else if (item.value === 'monographunit') {
+                monographunit = item;
+            }
+        }
+        if (monographunit) {
+            if (!monograph) {
+                list.push( {'value' : 'monograph', 'count': monographunit.count, name: 'monograph' } );
+            } else {
+                monograph.count += monographunit.count;
+                list.splice(list.indexOf(monographunit), 1);
+            }
+        }
     }
 
 
