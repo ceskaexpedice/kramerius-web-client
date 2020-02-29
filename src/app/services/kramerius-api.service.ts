@@ -15,7 +15,7 @@ import { Response } from '@angular/http/src/static_response';
 import { AppSettings } from './app-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user.model';
-import { Page } from '../model/page.model';
+import { DocumentItem } from '../model/document_item.model';
 
 @Injectable()
 export class KrameriusApiService {
@@ -30,20 +30,65 @@ export class KrameriusApiService {
     constructor(private http: HttpClient,
         private utils: Utils,
         private settings: AppSettings,
-        private solrService: SolrService) {
+        private solr: SolrService) {
     }
 
     private getbaseUrl(): string {
         return this.settings.url;
     }
 
-    private getApiUrl(): string {
-        return this.getbaseUrl() + '/search/api/v5.0';
+    private getApiUrlForBaseUrl(url: string): string {
+        return `${url}/search/api/v${this.settings.apiVersion}`;
     }
 
-    private getApiUrlForKramerius(url: string): string {
-        return url + '/search/api/v5.0';
+    private getApiUrl(): string {
+        return this.getApiUrlForBaseUrl(this.getbaseUrl());
     }
+
+    private getSolrUrl(): string {
+        return this.getApiUrl() + '/search';
+    }
+
+
+    private doGet(url: string): Observable<Object> {
+        return this.http.get(encodeURI(url));
+    }
+
+
+    getNewest(): Observable<DocumentItem[]> {
+        const url = `${this.getSolrUrl()}?${this.solr.getNewestQuery()}`;
+        return this.doGet(url)
+            .map(response => this.solr.documentItems(response))
+            .catch(this.handleError);
+    }
+
+    private getItemUrl(uuid: string) {
+        return this.getApiUrl().replace(/6.0/, '5.0') + '/item/' + uuid;
+    }
+
+    private getItemUrlForKramerius(uuid: string, url: string) {
+        return this.getApiUrlForBaseUrl(url) + '/item/' + uuid;
+    }
+
+    getThumbUrl(uuid: string): string {
+        return this.getItemUrl(uuid) + '/thumb';
+    }
+
+    getThumbUrlForKramerius(uuid: string, url: string): string {
+        return this.getItemUrlForKramerius(uuid, url) + '/thumb';
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -60,17 +105,6 @@ export class KrameriusApiService {
         return this.getItemUrl(uuid) + '/streams/' + stream;
     }
 
-    private getItemUrl(uuid: string) {
-        return this.getApiUrl() + '/item/' + uuid;
-    }
-
-    private getItemUrlForKramerius(uuid: string, url: string) {
-        return this.getApiUrlForKramerius(url) + '/item/' + uuid;
-    }
-
-    private doGet(url: string): Observable<Object> {
-        return this.http.get(encodeURI(url));
-    }
 
     private doGetBlob(url: string): Observable<Blob> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'blob' })
@@ -121,14 +155,6 @@ export class KrameriusApiService {
     }
 
 
-
-    getNewest() {
-        const url = `${this.getApiUrl()}/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=dostupnost:public&fq=${this.settings.topLevelFilter}&sort=created_date desc&rows=24&start=0`;
-        return this.doGet(url)
-            .map(response => this.solrService.documentItems(response))
-            .catch(this.handleError);
-    }
-
     getFulltextUuidList(uuid, query) {
         let text = query.toLowerCase().trim();
         const inQuotes = text.startsWith('"') && text.endsWith('"');
@@ -144,7 +170,7 @@ export class KrameriusApiService {
             + text
             + '&rows=200';
         return this.doGet(url)
-            .map(response => this.solrService.uuidList(response))
+            .map(response => this.solr.uuidList(response))
             .catch(this.handleError);
     }
 
@@ -261,7 +287,7 @@ export class KrameriusApiService {
                 result += '*';
             }
         }
-        result += ' AND (' + this.settings.topLevelFilter + ')';
+        result += ' AND (' + this.solr.buildTopLevelFilter() + ')';
         if (fq) {
             result += '&fq=' + fq;
         }
@@ -288,15 +314,6 @@ export class KrameriusApiService {
         return this.doGet(url)
             .map(res => <any> res)
           .catch(this.handleError);
-    }
-
-
-    getThumbUrl(uuid: string) {
-        return this.getItemUrl(uuid) + '/thumb';
-    }
-
-    getThumbUrlForKramerius(uuid: string, url: string) {
-        return this.getItemUrlForKramerius(uuid, url) + '/thumb';
     }
 
     getFullJpegUrl(uuid: string): string {
@@ -406,5 +423,7 @@ export class KrameriusApiService {
         return this.doGet(url)
         .catch(this.handleError);
     }
+
+
 
 }

@@ -18,6 +18,9 @@ export class AppSettings {
   public logo: string;
   public logoHome: string;
   public url: string;
+  public apiVersion: string;
+  public schemaVersion: string;
+  public solrVersion: string;
   public code: string;
   public richCollections: boolean;
   public joinedDoctypes: boolean;
@@ -30,7 +33,7 @@ export class AppSettings {
   public dnntFilter: boolean;
   public originLink: boolean;
   public mapSearch: boolean;
-  public topLevelFilter: string;
+  // public topLevelFilter: string;
 
 
   public share_url = APP_GLOBAL.share_url;
@@ -88,7 +91,9 @@ export class AppSettings {
     this.code = kramerius.code;
     this.title = kramerius.title;
     this.url = kramerius.url;
-    this.logo = kramerius.logo;
+    this.apiVersion = kramerius.apiVersion || '5.0';
+    this.schemaVersion = kramerius.schemaVersion || '1.0';
+    this.logo = kramerius.logo || 'assets/img/logo.png'
     this.logoHome = kramerius.logoHome || this.logo;
     this.richCollections = kramerius.richCollections;
     this.joinedDoctypes = kramerius.joinedDoctypes;
@@ -102,9 +107,9 @@ export class AppSettings {
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = kramerius.mapSearch || false;
     this.currentCode = this.code;
-    // this.krameriusInfoService.reload();
-    this.topLevelFilter = (`fedora.model:${this.doctypes.join(' OR fedora.model:')}`)
-        .replace(/fedora.model:monograph/, 'fedora.model:monograph OR fedora.model:monographunit');
+    if (this.apiVersion === '5.0') {
+
+    }
     this.listner.next(kramerius);
   }
 
@@ -148,6 +153,8 @@ interface KrameriusData {
   logo: string;
   logoHome: string;
   url: string;
+  apiVersion: string;
+  schemaVersion: string;
   richCollections: boolean;
   joinedDoctypes: boolean;
   doctypes: string[];

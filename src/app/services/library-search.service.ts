@@ -5,7 +5,7 @@ import { CompleterItem, CompleterData } from 'ng2-completer';
 import { LocalStorageService } from './local-storage.service';
 import { AppState } from '../app.state';
 import { SearchService } from './search.service';
-import { AppSettings } from './app-settings';
+import { SolrService } from './solr.service';
 
 @Injectable()
 export class LibrarySearchService extends Subject<CompleterItem[]> implements CompleterData {
@@ -14,18 +14,18 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
         private krameriusApiService: KrameriusApiService,
         private state: AppState,
         private searchService: SearchService,
-        private settings: AppSettings,
+        private solr: SolrService,
         private localStorageService: LocalStorageService) {
         super();
     }
     public search(term: string): void {
         let fq = null;
         if (this.state.atSearchScreen()) {
-            fq = this.searchService.query.buildFilterQuery();
+            fq = this.solr.buildFilterQuery(this.searchService.query);
         } else if (this.localStorageService.publicFilterChecked()) {
-            fq = 'dostupnost:public AND (' + this.settings.topLevelFilter + ')';
+            fq = 'dostupnost:public AND (' + this.solr.buildTopLevelFilter() + ')';
         } else {
-            fq = this.settings.topLevelFilter;
+            fq = this.solr.buildTopLevelFilter();
         }
         this.krameriusApiService.getSearchAutocomplete(term, fq).subscribe(results => {
             const items = [];

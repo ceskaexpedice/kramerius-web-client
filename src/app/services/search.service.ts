@@ -27,6 +27,7 @@ export class SearchService {
     locations: any[] = [];
     geonames: any[] = [];
     collections: any[] = [];
+    publishers: any[] = [];
 
     loading = false;
 
@@ -40,7 +41,7 @@ export class SearchService {
         private router: Router,
         private translator: Translator,
         private collectionService: CollectionService,
-        private solrService: SolrService,
+        private solr: SolrService,
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
@@ -90,6 +91,7 @@ export class SearchService {
         }
         filters = filters.concat(q.keywords);
         filters = filters.concat(q.geonames);
+        filters = filters.concat(q.publishers);
         filters = filters.concat(q.collections);
         for (const item of q.languages) {
             filters.push(this.translator.instant('language.' + item));
@@ -249,7 +251,7 @@ export class SearchService {
 
     private search() {
         this.loading = true;
-        this.krameriusApiService.getSearchResults(this.query.buildQuery(null)).subscribe(response => {
+        this.krameriusApiService.getSearchResults(this.solr.buildSearchQuery(this.query, null)).subscribe(response => {
             this.handleResponse(response);
             this.loading = false;
         });
@@ -263,35 +265,24 @@ export class SearchService {
     private handleFacetResponse(response, facet) {
         switch (facet) {
             case 'accessibility': {
-                this.accessibility = this.solrService.facetAccessibilityList(response);
+                this.accessibility = this.solr.facetAccessibilityList(response);
                 break;
             }
             case 'doctypes': {
-                this.doctypes = this.solrService.facetDoctypeList(response, this.appSettings.joinedDoctypes, this.appSettings.doctypes);
+                this.doctypes = this.solr.facetDoctypeList(response, this.appSettings.joinedDoctypes, this.appSettings.doctypes);
                 break;
             }
-            case 'authors': {
-                this.authors = this.solrService.facetList(response, SearchQuery.getSolrField('authors'), this.query['authors'], true);
-                break;
-            }
-            case 'keywords': {
-                this.keywords = this.solrService.facetList(response, SearchQuery.getSolrField('keywords'), this.query['keywords'], true);
-                break;
-            }
-            case 'languages': {
-                this.languages = this.solrService.facetList(response, SearchQuery.getSolrField('languages'), this.query['languages'], true);
-                break;
-            }
-            case 'locations': {
-                this.locations = this.solrService.facetList(response, SearchQuery.getSolrField('locations'), this.query['locations'], true);
-                break;
-            }
-            case 'geonames': {
-                this.geonames = this.solrService.facetList(response, SearchQuery.getSolrField('geonames'), this.query['geonames'], true);
+            case 'authors':
+            case 'keywords':
+            case 'languages':
+            case 'locations':
+            case 'geonames':
+            case 'publishers': {
+                this[facet] = this.solr.facetList(response, this.solr.getFilterField(facet), this.query[facet], true);
                 break;
             }
             case 'collections': {
-                this.collections = this.solrService.facetList(response, SearchQuery.getSolrField('collections'), this.query['collections'], true);
+                this.collections = this.solr.facetList(response, this.solr.getFilterField('collections'), this.query['collections'], true);
                 if (this.collectionService.ready()) {
                     this.dropEmptyCollections();
                 } else {
@@ -319,7 +310,7 @@ export class SearchService {
     }
 
     private makeFacetRequest(facet: string) {
-        this.krameriusApiService.getSearchResults(this.query.buildQuery(facet)).subscribe(response => {
+        this.krameriusApiService.getSearchResults(this.solr.buildSearchQuery(this.query, facet)).subscribe(response => {
             this.handleFacetResponse(response, facet);
         });
     }
@@ -337,11 +328,11 @@ export class SearchService {
 
     private handleResponse(response) {
         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
-            this.numberOfResults = this.solrService.numberOfSearchResults(response);
-            this.results = this.solrService.searchResultItems(response, this.query);
+            this.numberOfResults = this.solr.numberOfSearchResults(response);
+            this.results = this.solr.searchResultItems(response, this.query);
         } else {
-            this.numberOfResults = this.solrService.numberOfResults(response);
-            this.results = this.solrService.documentItems(response);
+            this.numberOfResults = this.solr.numberOfResults(response);
+            this.results = this.solr.documentItems(response);
         }
         this.checkFacet(this.query.accessibility === 'all', response, 'accessibility');
         this.checkFacet(this.query.doctypes.length === 0, response, 'doctypes');
@@ -350,6 +341,7 @@ export class SearchService {
         this.checkFacet(this.query.languages.length === 0, response, 'languages');
         this.checkFacet(this.query.locations.length === 0, response, 'locations');
         this.checkFacet(this.query.geonames.length === 0, response, 'geonames');
+        this.checkFacet(this.query.publishers.length === 0, response, 'publishers');
         this.checkFacet(this.query.collections.length === 0, response, 'collections');
     }
 

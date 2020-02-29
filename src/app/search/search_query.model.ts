@@ -18,6 +18,7 @@ export class SearchQuery {
     geonames: string[] = [];
     doctypes: string[] = [];
     collections: string[] = [];
+    publishers: string[] = [];
 
     field: string;
     value: string;
@@ -50,6 +51,8 @@ export class SearchQuery {
         query.setFiled(query.locations, 'locations', params);
         query.setFiled(query.geonames, 'geonames', params);
         query.setFiled(query.collections, 'collections', params);
+        query.setFiled(query.publishers, 'publishers', params);
+
         if (!query.query) {
             query.setCustomField(params);
         }
@@ -64,28 +67,28 @@ export class SearchQuery {
         return query;
     }
 
-    public static getSolrField(field): string {
-        if (field === 'keywords') {
-            return 'keywords';
-        } else if (field === 'authors') {
-            return 'facet_autor';
-        } else if (field === 'doctypes') {
-            return 'fedora.model';
-        } else if (field === 'categories') {
-            return 'document_type';
-        } else if (field === 'languages') {
-            return 'language';
-        } else if (field === 'locations') {
-            return 'mods.physicalLocation';
-        } else if (field === 'geonames') {
-            return 'geographic_names';
-        } else if (field === 'collections') {
-            return 'collection';
-        } else if (field === 'accessibility') {
-            return 'dostupnost';
-        }
-        return '';
-    }
+    // public static getSolrField(field): string {
+    //     if (field === 'keywords') {
+    //         return 'keywords';
+    //     } else if (field === 'authors') {
+    //         return 'facet_autor';
+    //     } else if (field === 'doctypes') {
+    //         return 'fedora.model';
+    //     } else if (field === 'categories') {
+    //         return 'document_type';
+    //     } else if (field === 'languages') {
+    //         return 'language';
+    //     } else if (field === 'locations') {
+    //         return 'mods.physicalLocation';
+    //     } else if (field === 'geonames') {
+    //         return 'geographic_names';
+    //     } else if (field === 'collections') {
+    //         return 'collection';
+    //     } else if (field === 'accessibility') {
+    //         return 'dostupnost';
+    //     }
+    //     return '';
+    // }
 
 
     public static getSolrCustomField(field): string {
@@ -250,111 +253,111 @@ export class SearchQuery {
         this.value = null;
     }
 
-    buildFilterQuery(facet: string = null): string {
-        let fqFilters = [];
-        if (this.getQ() || this.isCustomFieldSet()) {
-            fqFilters.push('(' + this.settings.topLevelFilter + ' OR fedora.model:page OR fedora.model:article)');
-        } else {
-            fqFilters.push('(' + this.settings.topLevelFilter + ')');
-        }
-        if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
-            if (this.accessibility === 'public') {
-                fqFilters.push('dostupnost:public');
-            } else if (this.accessibility === 'private') {
-                fqFilters.push('dostupnost:private');
-            } else if (this.settings.dnntFilter && this.accessibility === 'dnnt') {
-                fqFilters.push('dnnt:true');
-            }
-        }
-        if (this.isYearRangeSet()) {
-            const from = this.from === 0 ? 1 : this.from;
-            fqFilters.push('(rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))');
-        }
-        fqFilters.push(this.buildFacetFilter('keywords', this.keywords, facet));
-        fqFilters.push(this.buildFacetFilter('doctypes', this.doctypes, facet));
-        fqFilters.push(this.buildFacetFilter('authors', this.authors, facet));
-        fqFilters.push(this.buildFacetFilter('languages', this.languages, facet));
-        fqFilters.push(this.buildFacetFilter('locations', this.locations, facet));
-        fqFilters.push(this.buildFacetFilter('geonames', this.geonames, facet));
-        fqFilters.push(this.buildFacetFilter('collections', this.collections, facet));
-        if (!this.isBoundingBoxSet()) {
-            fqFilters.push(this.getDateOrderingRestriction());
-        }
-        fqFilters = fqFilters.filter( (el) => {
-            return el != null && el !== '';
-        });
-        return fqFilters.join(' AND ');
-    }
+    // buildFilterQuery(facet: string = null): string {
+    //     let fqFilters = [];
+    //     if (this.getQ() || this.isCustomFieldSet()) {
+    //         fqFilters.push('(' + this.settings.topLevelFilter + ' OR fedora.model:page OR fedora.model:article)');
+    //     } else {
+    //         fqFilters.push('(' + this.settings.topLevelFilter + ')');
+    //     }
+    //     if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
+    //         if (this.accessibility === 'public') {
+    //             fqFilters.push('dostupnost:public');
+    //         } else if (this.accessibility === 'private') {
+    //             fqFilters.push('dostupnost:private');
+    //         } else if (this.settings.dnntFilter && this.accessibility === 'dnnt') {
+    //             fqFilters.push('dnnt:true');
+    //         }
+    //     }
+    //     if (this.isYearRangeSet()) {
+    //         const from = this.from === 0 ? 1 : this.from;
+    //         fqFilters.push('(rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))');
+    //     }
+    //     fqFilters.push(this.buildFacetFilter('keywords', this.keywords, facet));
+    //     fqFilters.push(this.buildFacetFilter('doctypes', this.doctypes, facet));
+    //     fqFilters.push(this.buildFacetFilter('authors', this.authors, facet));
+    //     fqFilters.push(this.buildFacetFilter('languages', this.languages, facet));
+    //     fqFilters.push(this.buildFacetFilter('locations', this.locations, facet));
+    //     fqFilters.push(this.buildFacetFilter('geonames', this.geonames, facet));
+    //     fqFilters.push(this.buildFacetFilter('collections', this.collections, facet));
+    //     if (!this.isBoundingBoxSet()) {
+    //         fqFilters.push(this.getDateOrderingRestriction());
+    //     }
+    //     fqFilters = fqFilters.filter( (el) => {
+    //         return el != null && el !== '';
+    //     });
+    //     return fqFilters.join(' AND ');
+    // }
 
-    buildQuery(facet: string): string {
-        let qString = this.getQ();
-        let value = qString;
-        let q = 'q=';
-        if (this.dsq) {
-            q += this .dsq + ' AND '
-        }
-        if (this.isBoundingBoxSet()) {
-            q += `{!field f=range score=overlapRatio}Intersects(ENVELOPE(${this.west},${this.east},${this.north},${this.south}))&fq=`;
-        }
-        if (this.isCustomFieldSet()) {
-            value = this.value;
-            q +=  SearchQuery.getSolrCustomField(this.field) + ':' + this.value;
-        } else if (qString) {
-            q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^20\' bq=\'(dostupnost:public)^2\' bq=\'(fedora.model:page)^0.1\' v=$q1}\"';
-        } else {
-            q += '*:*';
-        }
-        const fq = this.buildFilterQuery(facet);
-        if (fq) {
-            q += '&fq=' + fq;
-        }
-        if (qString || this.isCustomFieldSet()) {
-            q += '&q1=' + value + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
-            q += '&group.truncate=true';
-            q += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score';
-        } else {
-            q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
-        }
-        if (this.settings.dnntFilter) {
-            q += ',dnnt';
-        }
-        if (this.isBoundingBoxSet()) {
-            q += ',location,geographic_names';
-        }
-        q += '&facet=true&facet.mincount=1'
-           + this.addFacetToQuery(facet, 'keywords', 'keywords', this.keywords.length === 0)
-           + this.addFacetToQuery(facet, 'languages', 'language', this.languages.length === 0)
-           + this.addFacetToQuery(facet, 'locations', 'mods.physicalLocation', this.locations.length === 0)
-           + this.addFacetToQuery(facet, 'geonames', 'geographic_names', this.geonames.length === 0)
-           + this.addFacetToQuery(facet, 'authors', 'facet_autor', this.authors.length === 0)
-           + this.addFacetToQuery(facet, 'collections', 'collection', this.collections.length === 0)
-           + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
-           + this.addFacetToQuery(facet, 'accessibility', 'dostupnost', this.accessibility === 'all');
-        if (this.settings.dnntFilter) {
-            q += '&facet.field=dnnt';
-        }
-        if (facet) {
-            q += '&rows=0';
-        } else if (this.isBoundingBoxSet()) {
-            q += '&rows=' + '100' + '&start=' + '0';
-        } else {
-            const ordering = this.getOrderingValue();
-            if (ordering) {
-                q += '&sort=' + ordering;
-            }
-            q += '&rows=' + this.getRows() + '&start=' + this.getStart();
-        }
-        return q;
-    }
+    // buildQuery(facet: string): string {
+    //     let qString = this.getQ();
+    //     let value = qString;
+    //     let q = 'q=';
+    //     if (this.dsq) {
+    //         q += this .dsq + ' AND '
+    //     }
+    //     if (this.isBoundingBoxSet()) {
+    //         q += `{!field f=range score=overlapRatio}Intersects(ENVELOPE(${this.west},${this.east},${this.north},${this.south}))&fq=`;
+    //     }
+    //     if (this.isCustomFieldSet()) {
+    //         value = this.value;
+    //         q +=  SearchQuery.getSolrCustomField(this.field) + ':' + this.value;
+    //     } else if (qString) {
+    //         q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^20\' bq=\'(dostupnost:public)^2\' bq=\'(fedora.model:page)^0.1\' v=$q1}\"';
+    //     } else {
+    //         q += '*:*';
+    //     }
+    //     const fq = this.buildFilterQuery(facet);
+    //     if (fq) {
+    //         q += '&fq=' + fq;
+    //     }
+    //     if (qString || this.isCustomFieldSet()) {
+    //         q += '&q1=' + value + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
+    //         q += '&group.truncate=true';
+    //         q += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score';
+    //     } else {
+    //         q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
+    //     }
+    //     if (this.settings.dnntFilter) {
+    //         q += ',dnnt';
+    //     }
+    //     if (this.isBoundingBoxSet()) {
+    //         q += ',location,geographic_names';
+    //     }
+    //     q += '&facet=true&facet.mincount=1'
+    //        + this.addFacetToQuery(facet, 'keywords', 'keywords', this.keywords.length === 0)
+    //        + this.addFacetToQuery(facet, 'languages', 'language', this.languages.length === 0)
+    //        + this.addFacetToQuery(facet, 'locations', 'mods.physicalLocation', this.locations.length === 0)
+    //        + this.addFacetToQuery(facet, 'geonames', 'geographic_names', this.geonames.length === 0)
+    //        + this.addFacetToQuery(facet, 'authors', 'facet_autor', this.authors.length === 0)
+    //        + this.addFacetToQuery(facet, 'collections', 'collection', this.collections.length === 0)
+    //        + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
+    //        + this.addFacetToQuery(facet, 'accessibility', 'dostupnost', this.accessibility === 'all');
+    //     if (this.settings.dnntFilter) {
+    //         q += '&facet.field=dnnt';
+    //     }
+    //     if (facet) {
+    //         q += '&rows=0';
+    //     } else if (this.isBoundingBoxSet()) {
+    //         q += '&rows=' + '100' + '&start=' + '0';
+    //     } else {
+    //         const ordering = this.getOrderingValue();
+    //         if (ordering) {
+    //             q += '&sort=' + ordering;
+    //         }
+    //         q += '&rows=' + this.getRows() + '&start=' + this.getStart();
+    //     }
+    //     return q;
+    // }
 
-    private addFacetToQuery(facet: string, currentFacet: string, field: string, apply: boolean): string {
-        if (this.settings.filters.indexOf(currentFacet) > -1) {
-            if ((!facet && apply) || currentFacet === facet) {
-                return '&facet.field=' + field;
-            }
-        }
-        return '';
-    }
+    // private addFacetToQuery(facet: string, currentFacet: string, field: string, apply: boolean): string {
+    //     if (this.settings.filters.indexOf(currentFacet) > -1) {
+    //         if ((!facet && apply) || currentFacet === facet) {
+    //             return '&facet.field=' + field;
+    //         }
+    //     }
+    //     return '';
+    // }
 
     toUrlParams() {
         const params = {};
@@ -388,6 +391,9 @@ export class SearchQuery {
         if (this.geonames.length > 0) {
             params['geonames'] = this.geonames.join(',,');
         }
+        if (this.publishers.length > 0) {
+            params['publishers'] = this.publishers.join(',,');
+        }
         if (this.doctypes.length > 0) {
             params['doctypes'] = this.doctypes.join(',,');
         }
@@ -412,51 +418,51 @@ export class SearchQuery {
     }
 
 
-    private getDateOrderingRestriction() {
-        if (this.ordering === 'latest') {
-            return 'datum_begin: [1 TO 3000]';
-        } else if (this.ordering === 'earliest') {
-            return 'datum_end: [1 TO 3000]';
-        }
-    }
+    // private getDateOrderingRestriction() {
+    //     if (this.ordering === 'latest') {
+    //         return 'datum_begin: [1 TO 3000]';
+    //     } else if (this.ordering === 'earliest') {
+    //         return 'datum_end: [1 TO 3000]';
+    //     }
+    // }
 
 
-    public getOrderingValue(): string {
-        if (this.ordering === 'newest') {
-            return 'created_date desc';
-        } else if (this.ordering === 'latest') {
-           return 'datum_end desc';
-        } else if (this.ordering === 'earliest') {
-           return 'datum_begin asc';
-        } else if (this.ordering === 'alphabetical') {
-            if (this.getRawQ()) {
-                return 'root_title asc';
-            } else {
-                return 'title_sort asc';
-            }
-        }
-        return null;
-    }
+    // public getOrderingValue(): string {
+    //     if (this.ordering === 'newest') {
+    //         return 'created_date desc';
+    //     } else if (this.ordering === 'latest') {
+    //        return 'datum_end desc';
+    //     } else if (this.ordering === 'earliest') {
+    //        return 'datum_begin asc';
+    //     } else if (this.ordering === 'alphabetical') {
+    //         if (this.getRawQ()) {
+    //             return 'root_title asc';
+    //         } else {
+    //             return 'title_sort asc';
+    //         }
+    //     }
+    //     return null;
+    // }
 
 
-    private buildFacetFilter(field, values, skip) {
-        if (skip !== field) {
-            if (values.length > 0) {
-                if (this.settings.filters.indexOf(field) > -1) {
-                    if (field === 'doctypes') {
-                        if (this.hasQueryString()) {
-                            return ('(model_path:' + values.join('* OR model_path:') + '*)')
-                        } else {
-                            return ('(model_path:' + values.join(' OR model_path:') + ')')
-                                        .replace(/model_path:monograph/, 'model_path:monograph OR model_path:monographunit');
-                        }
-                    } else {
-                        return '(' + SearchQuery.getSolrField(field) + ':"' + values.join('" OR ' + SearchQuery.getSolrField(field) + ':"') + '")';
-                    }
-                }
-            }
-        }
-    }
+    // private buildFacetFilter(field, values, skip) {
+    //     if (skip !== field) {
+    //         if (values.length > 0) {
+    //             if (this.settings.filters.indexOf(field) > -1) {
+    //                 if (field === 'doctypes') {
+    //                     if (this.hasQueryString()) {
+    //                         return ('(model_path:' + values.join('* OR model_path:') + '*)')
+    //                     } else {
+    //                         return ('(model_path:' + values.join(' OR model_path:') + ')')
+    //                                     .replace(/model_path:monograph/, 'model_path:monograph OR model_path:monographunit');
+    //                     }
+    //                 } else {
+    //                     return '(' + SearchQuery.getSolrField(field) + ':"' + values.join('" OR ' + SearchQuery.getSolrField(field) + ':"') + '")';
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     public removeAllFilters() {
         this.accessibility = 'all';
@@ -469,6 +475,7 @@ export class SearchQuery {
         this.languages = [];
         this.locations = [];
         this.geonames = [];
+        this.publishers = [];
         this.removeCustomField();
         this.clearYearRange();
     }
@@ -506,6 +513,9 @@ export class SearchQuery {
             return true;
         }
         if (this.geonames && this.geonames.length > 0) {
+            return true;
+        }
+        if (this.publishers && this.publishers.length > 0) {
             return true;
         }
         if (this.collections && this.collections.length > 0) {
