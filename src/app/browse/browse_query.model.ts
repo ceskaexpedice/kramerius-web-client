@@ -23,26 +23,26 @@ export class BrowseQuery {
         return query;
     }
 
-    public getSolrField(): string {
-        if (this.category === 'keywords') {
-            return 'keywords';
-        } else if (this.category === 'authors') {
-            return 'facet_autor';
-        } else if (this.category === 'doctypes') {
-            return 'fedora.model';
-        } else if (this.category === 'categories') {
-            return 'document_type';
-        } else if (this.category === 'languages') {
-            return 'language';
-        } else if (this.category === 'locations') {
-            return 'mods.physicalLocation';
-        } else if (this.category === 'geonames') {
-            return 'geographic_names';
-        } else if (this.category === 'collections') {
-            return 'collection';
-        }
-        return '';
-    }
+    // public getSolrField(): string {
+    //     if (this.category === 'keywords') {
+    //         return 'keywords';
+    //     } else if (this.category === 'authors') {
+    //         return 'facet_autor';
+    //     } else if (this.category === 'doctypes') {
+    //         return 'fedora.model';
+    //     } else if (this.category === 'categories') {
+    //         return 'document_type';
+    //     } else if (this.category === 'languages') {
+    //         return 'language';
+    //     } else if (this.category === 'locations') {
+    //         return 'mods.physicalLocation';
+    //     } else if (this.category === 'geonames') {
+    //         return 'geographic_names';
+    //     } else if (this.category === 'collections') {
+    //         return 'collection';
+    //     }
+    //     return '';
+    // }
 
     public setAccessibility(accessibility: string) {
         if (accessibility === 'private') {
@@ -106,39 +106,39 @@ export class BrowseQuery {
         return this.text;
     }
 
-    buildQuery(): string {
-        let q = 'q=(' + this.settings.topLevelFilter + ')';
-        if (this.accessibility === 'public' && this.settings.filters.includes('accessibility')) {
-            q += ' AND dostupnost:public';
-        } else if (this.accessibility === 'private') {
-            q += ' AND dostupnost:private';
-        }
-        if (this.text) {
-            if (this.category === 'keywords') {
-                q += ' AND keywords:*' + this.text.toLowerCase() + '*';
-            } else if (this.category === 'authors') {
-                q += ' AND dc.creator:*' + this.text.toLowerCase() + '*';
-            }
-        }
-        q += '&facet=true&facet.field=' + this.getSolrField()
-           + '&facet.mincount=1'
-           + '&facet.sort=' + this.getOrderingValue()
-           + '&facet.limit=' + this.getRows()
-           + '&facet.offset=' + this.getStart()
-           + '&rows=0';
+    // buildQuery(): string {
+    //     let q = 'q=(' + this.settings.topLevelFilter + ')';
+    //     if (this.accessibility === 'public' && this.settings.filters.includes('accessibility')) {
+    //         q += ' AND dostupnost:public';
+    //     } else if (this.accessibility === 'private') {
+    //         q += ' AND dostupnost:private';
+    //     }
+    //     if (this.text) {
+    //         if (this.category === 'keywords') {
+    //             q += ' AND keywords:*' + this.text.toLowerCase() + '*';
+    //         } else if (this.category === 'authors') {
+    //             q += ' AND dc.creator:*' + this.text.toLowerCase() + '*';
+    //         }
+    //     }
+    //     q += '&facet=true&facet.field=' + this.getSolrField()
+    //        + '&facet.mincount=1'
+    //        + '&facet.sort=' + this.getOrderingValue()
+    //        + '&facet.limit=' + this.getRows()
+    //        + '&facet.offset=' + this.getStart()
+    //        + '&rows=0';
 
-        if (this.text) {
-            if (this.category === 'keywords') {
-                q += '&facet.contains=' + this.getText();
-            } else if (this.category === 'authors') {
-                const text = this.getText().substring(0, 1).toUpperCase() + this.getText().substring(1);
-                q += '&facet.contains=' + text;
-            }
-        }
-         q += '&json.facet={x:"unique(' + this.getSolrField() + ')"}';
+    //     if (this.text) {
+    //         if (this.category === 'keywords') {
+    //             q += '&facet.contains=' + this.getText();
+    //         } else if (this.category === 'authors') {
+    //             const text = this.getText().substring(0, 1).toUpperCase() + this.getText().substring(1);
+    //             q += '&facet.contains=' + text;
+    //         }
+    //     }
+    //      q += '&json.facet={x:"unique(' + this.getSolrField() + ')"}';
 
-        return q;
-    }
+    //     return q;
+    // }
 
     toUrlParams() {
         const params = {};
@@ -160,14 +160,6 @@ export class BrowseQuery {
         return params;
     }
 
-
-    public getOrderingValue(): string {
-        if (this.ordering === 'alphabetical' && this.category !== 'collections') {
-            return 'index';
-        } else {
-            return 'count';
-        }
-    }
 
 
 

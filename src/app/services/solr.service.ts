@@ -4,6 +4,7 @@ import { PeriodicalFtItem } from './../model/periodicalftItem.model';
 import { DocumentItem } from './../model/document_item.model';
 import { PeriodicalItem } from './../model/periodicalItem.model';
 import { Injectable } from '@angular/core';
+import { BrowseQuery } from '../browse/browse_query.model';
 
 
 @Injectable()
@@ -193,6 +194,47 @@ export class SolrService {
         }
         return null;
     }
+
+
+
+    buildBrowseQuery(query: BrowseQuery): string {
+        let q = 'q=(' + this.buildTopLevelFilter() + ')';
+        if (query.accessibility === 'public' && this.settings.filters.includes('accessibility')) {
+            q += ` AND ${this.field('accessibility')}:public`;
+        } else if (query.accessibility === 'private') {
+            q += ` AND ${this.field('accessibility')}:private`;
+        }
+        if (query.text) {
+            if (query.category === 'keywords' || query.category === 'authors') {
+                q += ` AND ${this.getFilterField(query.category)}:*${query.text.toLowerCase()}*`;
+            }
+        }
+        let ordering = 'count';
+        if (query.ordering === 'alphabetical' && query.category !== 'collections') {
+            ordering = 'index';
+        } 
+        q += '&facet=true&facet.field=' + this.getFilterField(query.category)
+           + '&facet.mincount=1'
+           + '&facet.sort=' + ordering
+           + '&facet.limit=' + query.getRows()
+           + '&facet.offset=' + query.getStart()
+           + '&rows=0';
+        if (query.text) {
+            if (query.category === 'keywords') {
+                q += '&facet.contains=' + query.getText();
+            } else if (query.category === 'authors') {
+                const text = query.getText().substring(0, 1).toUpperCase() + query.getText().substring(1);
+                q += '&facet.contains=' + text;
+            }
+        }
+         q += '&json.facet={x:"unique(' + this.getFilterField(query.category) + ')"}';
+
+        return q;
+    }
+
+
+
+
 
 
     buildSearchQuery(query: SearchQuery, facet: string = null) {
@@ -710,7 +752,8 @@ export class SolrService {
         return list;
     }
 
-    browseFacetList(solr, field) {
+    browseFacetList(solr, categry) {
+        const field = this.getFilterField(categry);
         const list = [];
         const facetFields = solr['facet_counts']['facet_fields'][field];
         for (let i = 0; i < facetFields.length; i += 2) {

@@ -78,7 +78,19 @@ export class KrameriusApiService {
         return this.getItemUrlForKramerius(uuid, url) + '/thumb';
     }
 
+    // getBrowseResults(query: BrowseQuery) {
+    //     const url = this.getApiUrl() + '/search?'
+    //         + query.buildQuery();
+    //     return this.doGet(url)
+    //         .catch(this.handleError);
+    // }
 
+    getSearchResults(query: string) {
+        const url = this.getApiUrl() + '/search?'
+            + query;
+        return this.doGet(url)
+            .catch(this.handleError);
+    }
 
 
 
@@ -116,19 +128,6 @@ export class KrameriusApiService {
         .map(response => response['body']);
     }
 
-    getSearchResults(query: string) {
-        const url = this.getApiUrl() + '/search?'
-            + query;
-        return this.doGet(url)
-            .catch(this.handleError);
-    }
-
-    getBrowseResults(query: BrowseQuery) {
-        const url = this.getApiUrl() + '/search?'
-            + query.buildQuery();
-        return this.doGet(url)
-            .catch(this.handleError);
-    }
 
     getUserInfo(username: string, password: string): Observable<User> {
         const url = this.getApiUrl() + '/user';

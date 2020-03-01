@@ -25,7 +25,7 @@ export class BrowseService {
         private router: Router,
         private translator: Translator,
         private collectionService: CollectionService,
-        private solrService: SolrService,
+        private solr: SolrService,
         private appSettings: AppSettings,
         private analytics: AnalyticsService,
         private krameriusApiService: KrameriusApiService) {
@@ -118,9 +118,9 @@ export class BrowseService {
 
     private search() {
         this.loading = true;
-        this.krameriusApiService.getBrowseResults(this.query).subscribe(response => {
-            this.numberOfResults = this.solrService.numberOfFacets(response);
-            this.results = this.solrService.browseFacetList(response, this.query.getSolrField());
+        this.krameriusApiService.getSearchResults(this.solr.buildBrowseQuery(this.query)).subscribe(response => {
+            this.numberOfResults = this.solr.numberOfFacets(response);
+            this.results = this.solr.browseFacetList(response, this.query.category);
             this.backupResults = this.results;
             this.translateResults();
         });
