@@ -5,6 +5,8 @@ import { DocumentItem } from './../model/document_item.model';
 import { PeriodicalItem } from './../model/periodicalItem.model';
 import { Injectable } from '@angular/core';
 import { BrowseQuery } from '../browse/browse_query.model';
+import { PeriodicalQuery } from '../periodical/periodical_query.model';
+import { Utils } from './utils.service';
 
 
 @Injectable()
@@ -150,6 +152,10 @@ export class SolrService {
         "date_year_to": {
             '1.0': 'datum_begin',
             '2.0': 'n.date_range_end.year'
+        },
+        "parent_pid": {
+            '1.0': 'parent_pid',
+            '2.0': 'n.own_parent.pid'
         }
     }
 
@@ -159,11 +165,15 @@ export class SolrService {
     'article', 'internalpart', 'supplement', 'page'];
 
 
-    constructor(private settings: AppSettings) {
+    constructor(private settings: AppSettings, private utils: Utils) {
     }
 
     version(): string {
         return this.settings.schemaVersion;
+    }
+
+    private oldSchema(): boolean {
+        return this.version() === '1.0';
     }
 
     field(name: string): string {
@@ -203,6 +213,53 @@ export class SolrService {
         return null;
     }
 
+
+
+
+    private buildPeriodicalQuery(parent: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean): string {
+        const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
+        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('id')},${this.field('title')},${this.field('date')}`;
+        if (this.oldSchema()) {
+            q += ',details';
+        }
+        if (this.settings.dnntFilter) {
+            q += `,${this.field('dnnt')}`;
+        }
+        // q += `&q=${this.field('parent_pid')}:${parent}/* AND ${this.field('level')}:${level} AND (${modelRestriction})`;
+        q += `&q=${this.field('parent_pid')}:${parent} AND (${modelRestriction})`;
+        if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
+            q += ` AND ${this.field('accessibility')}: ${query.accessibility}`;
+        }
+        if (query && applyYear && query.isYearRangeSet()) {
+            q += `(${this.field('date_year')}:[${query.from} TO ${query.to}] OR (${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *]))`
+        }
+        q += '&sort=';
+        if (level > 1) {
+            q += this.oldSchema() ? 'datum asc,' : `${this.field('date_from')} asc,`;
+        }
+        q += `${this.field('date')} asc,${this.field('model')} asc,${this.field('title')} asc&rows=1500&start=0`;
+        return q;
+    }
+
+
+
+    buildPeriodicalVolumesQuery(uuid: string, query: PeriodicalQuery) {
+        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 1, ['periodicalvolume'], query, true);
+    }
+
+    // buildPeriodicalIssuesQuery(periodicalUuid: string, volumeUuid: string, query: PeriodicalQuery) {
+    //     const pidPath = this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid);
+    //     return this.buildPeriodicalQuery(pidPath, 2, ['periodicalitem', 'supplement', 'page'], query, false);
+    // }
+
+
+    buildPeriodicalIssuesQuery(uuid: string, query: PeriodicalQuery) {
+        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 2, ['periodicalitem', 'supplement', 'page'], query, false);
+    }
+
+    buildMonographUnitsQuery(uuid: string, query: PeriodicalQuery) {
+        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 1, ['monographunit', 'page'], query, false);
+    }
 
 
     buildBrowseQuery(query: BrowseQuery): string {
@@ -278,7 +335,7 @@ export class SolrService {
             q += `,${this.field('dnnt')}`;
         }
         if (query.isBoundingBoxSet()) {
-            if (this.version() === '1.0') {
+            if (this.oldSchema()) {
                 q += `,${this.field('coords_location')}`;
             } else {
                 q += `,${this.field('coords_corner_ne')},${this.field('coords_corner_sw')}`;
@@ -342,7 +399,7 @@ export class SolrService {
         fqFilters.push(this.buildFacetFilter(withQueryString, 'collections', query.collections, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'publishers', query.publishers, facet));
 
-        if (!query.isBoundingBoxSet() && this.version() === '1.0') {
+        if (!query.isBoundingBoxSet() && this.oldSchema()) {
             fqFilters.push(this.getDateOrderingRestriction(query));
         }
         fqFilters = fqFilters.filter( (el) => {
@@ -437,7 +494,7 @@ export class SolrService {
             item.authors = doc[this.field('authors')];
             item.dnnt = !!doc[this.field('dnnt')];
             item.geonames = doc[this.field('geonames_facet')];
-            if (this.version() === '1.0') {
+            if (this.oldSchema()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
             } else {
                 this.parseLocation(doc[this.field('coords_corner_ne')], doc[this.field('coords_corner_sw')], item);
@@ -613,7 +670,7 @@ export class SolrService {
             item.authors = doc[this.field('authors')];
             item.dnnt = !!doc[this.field('dnnt')];
             item.geonames = doc[this.field('geonames_facet')];
-            if (this.version() === '1.0') {
+            if (this.oldSchema()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
             } else {
                 this.parseLocation(doc[this.field('coords_corner_ne')], doc[this.field('coords_corner_sw')], item);

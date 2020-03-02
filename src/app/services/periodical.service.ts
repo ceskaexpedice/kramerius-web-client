@@ -52,16 +52,17 @@ export class PeriodicalService {
     private analytics: AnalyticsService,
     private modsParserService: ModsParserService,
     private localStorageService: LocalStorageService,
-    private krameriusApiService: KrameriusApiService) {
+    private solr: SolrService,
+    private api: KrameriusApiService) {
   }
 
   init(query: PeriodicalQuery) {
     this.clear();
     this.query = query;
     this.state = PeriodicalState.Loading;
-    this.krameriusApiService.getItem(query.uuid).subscribe((item: DocumentItem) => {
+    this.api.getItem(query.uuid).subscribe((item: DocumentItem) => {
       this.document = item;
-      this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
+      this.api.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
         this.pageTitle.setTitle(null, this.metadata.getShortTitle());
         this.metadata.assignDocument(this.document);
@@ -72,7 +73,7 @@ export class PeriodicalService {
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.krameriusApiService.getChildren(query.uuid).subscribe(children => {
+            this.api.getChildren(query.uuid).subscribe(children => {
               this.assignItems(this.utilsService.parseMonographBundleChildren(children, query.accessibility));
               this.initMonographUnit();
             });
@@ -84,7 +85,7 @@ export class PeriodicalService {
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.krameriusApiService.getPeriodicalVolumes(query.uuid, query).subscribe(volumes => {
+            this.api.getSearchResults(this.solr.buildPeriodicalVolumesQuery(query.uuid, query)).subscribe(volumes => {
               this.assignItems(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
               this.initPeriodical();
             });
@@ -94,10 +95,10 @@ export class PeriodicalService {
           this.metadata.addMods('periodical', this.document.root_uuid, response);
           this.metadata.assignVolume(this.document);
           this.pageTitle.setTitle(null, this.metadata.getShortTitlwWithVolume());
-          this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid, query).subscribe(volumes => {
+          this.api.getSearchResults(this.solr.buildPeriodicalVolumesQuery(this.document.root_uuid, query)).subscribe(volumes => {
             this.assignVolumeDetails(this.solrService.periodicalItems(volumes, 'periodicalvolume'));
           });
-          this.krameriusApiService.getMods(query.uuid).subscribe(mods => {
+          this.api.getMods(query.uuid).subscribe(mods => {
             if (this.metadata) {
               const metadata = this.modsParserService.parse(mods, query.uuid, 'volume');
               this.metadata.addMods('periodicalvolume', query.uuid, mods);
@@ -107,7 +108,7 @@ export class PeriodicalService {
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.krameriusApiService.getPeriodicalIssues(this.document.root_uuid, query.uuid, query).subscribe(issues => {
+            this.api.getSearchResults(this.solr.buildPeriodicalIssuesQuery(query.uuid, query)).subscribe(issues => {
               this.assignItems(this.solrService.periodicalItems(issues, 'periodicalitem', query.uuid));
               this.initPeriodicalVolume();
             });
@@ -261,7 +262,7 @@ export class PeriodicalService {
       return;
     }
     for (const item of this.items) {
-      item.thumb = this.krameriusApiService.getThumbUrl(item.uuid);
+      item.thumb = this.api.getThumbUrl(item.uuid);
     }
   }
 
@@ -297,14 +298,14 @@ export class PeriodicalService {
     }
     const uuid1 = this.isPeriodicalVolume() ? this.document.root_uuid : this.query.uuid;
     const uuid2 = this.isPeriodicalVolume() ? this.query.uuid : null;
-    this.krameriusApiService.getPeriodicalFulltextPages(uuid1, uuid2, this.fulltext.getOffset(), this.fulltext.limit, this.query).subscribe(response => {
+    this.api.getPeriodicalFulltextPages(uuid1, uuid2, this.fulltext.getOffset(), this.fulltext.limit, this.query).subscribe(response => {
       this.fulltext.pages = this.solrService.periodicalFtItems(response, this.fulltext.query);
       this.fulltext.results = this.solrService.numberOfResults(response);
       const issuePids = [];
       const volumePids = [];
       const unintPids = [];
       for (const item of this.fulltext.pages) {
-        item.thumb = this.krameriusApiService.getThumbUrl(item.uuid);
+        item.thumb = this.api.getThumbUrl(item.uuid);
         if (item.type === 'monograph_unit') {
           continue;
         }
@@ -326,7 +327,7 @@ export class PeriodicalService {
         }
       }
       if (this.isMonograph()) {
-      this.krameriusApiService.getPeriodicalItemDetails(unintPids).subscribe(items => {
+      this.api.getPeriodicalItemDetails(unintPids).subscribe(items => {
         for (const item of items['response']['docs']) {
           const detail = this.solrService.periodicalItem(item);
           for (const page of this.fulltext.pages) {
@@ -339,7 +340,7 @@ export class PeriodicalService {
         }
       });
     } else {
-      this.krameriusApiService.getPeriodicalItemDetails(volumePids).subscribe(items => {
+      this.api.getPeriodicalItemDetails(volumePids).subscribe(items => {
         for (const item of items['response']['docs']) {
           const detail = this.solrService.periodicalItem(item);
           for (const page of this.fulltext.pages) {
@@ -350,7 +351,7 @@ export class PeriodicalService {
           }
         }
       });
-      this.krameriusApiService.getPeriodicalItemDetails(issuePids).subscribe(items => {
+      this.api.getPeriodicalItemDetails(issuePids).subscribe(items => {
         for (const item of items['response']['docs']) {
           const detail = this.solrService.periodicalItem(item);
           for (const page of this.fulltext.pages) {

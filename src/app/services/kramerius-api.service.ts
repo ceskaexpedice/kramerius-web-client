@@ -78,13 +78,6 @@ export class KrameriusApiService {
         return this.getItemUrlForKramerius(uuid, url) + '/thumb';
     }
 
-    // getBrowseResults(query: BrowseQuery) {
-    //     const url = this.getApiUrl() + '/search?'
-    //         + query.buildQuery();
-    //     return this.doGet(url)
-    //         .catch(this.handleError);
-    // }
-
     getSearchResults(query: string) {
         const url = this.getApiUrl() + '/search?'
             + query;
@@ -98,9 +91,42 @@ export class KrameriusApiService {
 
 
 
+    // private getPeriodicalItems(pidPath: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean) {
+    //     const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
+    //     let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details'
+    //     if (this.settings.dnntFilter) {
+    //         url += ',dnnt';
+    //     }
+    //     url += '&q=pid_path:'
+    //             + pidPath.toLowerCase() + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
+    //     if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
+    //         url += ' AND dostupnost:' + query.accessibility;
+    //     }
+    //     if (query && applyYear && query.isYearRangeSet()) {
+    //         url += ' AND (rok:[' + query.from + ' TO ' + query.to + '] OR (datum_begin:[* TO ' + query.to + '] AND datum_end:[' + query.from + ' TO *]))';
+    //     }
+    //     url += '&sort=';
+    //     if (level > 1) {
+    //         url += 'datum asc,';
+    //     }
+    //     url += 'datum_str asc,fedora.model asc,dc.title asc&rows=1500&start=0';
+    //     // url += '&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
+    //     return this.doGet(url)
+    //         .catch(this.handleError);
+    // }
 
+    // getMonographUnits(uuid: string, query: PeriodicalQuery) {
+    //     return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['monographunit', 'page'], query, false);
+    // }
 
+    // getPeriodicalVolumes(uuid: string, query: PeriodicalQuery) {
+    //     return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['periodicalvolume'], query, true);
+    // }
 
+    // getPeriodicalIssues(periodicalUuid: string, volumeUuid: string, query: PeriodicalQuery) {
+    //     const pidPath = this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid);
+    //     return this.getPeriodicalItems(pidPath, 2, ['periodicalitem', 'supplement', 'page'], query, false);
+    // }
 
 
 
@@ -194,43 +220,6 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-
-    private getPeriodicalItems(pidPath: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean) {
-        const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
-        let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details'
-        if (this.settings.dnntFilter) {
-            url += ',dnnt';
-        }
-        url += '&q=pid_path:'
-                + pidPath.toLowerCase() + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
-        if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
-            url += ' AND dostupnost:' + query.accessibility;
-        }
-        if (query && applyYear && query.isYearRangeSet()) {
-            url += ' AND (rok:[' + query.from + ' TO ' + query.to + '] OR (datum_begin:[* TO ' + query.to + '] AND datum_end:[' + query.from + ' TO *]))';
-        }
-        url += '&sort=';
-        if (level > 1) {
-            url += 'datum asc,';
-        }
-        url += 'datum_str asc,fedora.model asc,dc.title asc&rows=1500&start=0';
-        // url += '&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
-        return this.doGet(url)
-            .catch(this.handleError);
-    }
-
-    getMonographUnits(uuid: string, query: PeriodicalQuery) {
-        return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['monographunit', 'page'], query, false);
-    }
-
-    getPeriodicalVolumes(uuid: string, query: PeriodicalQuery) {
-        return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['periodicalvolume'], query, true);
-    }
-
-    getPeriodicalIssues(periodicalUuid: string, volumeUuid: string, query: PeriodicalQuery) {
-        const pidPath = this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid);
-        return this.getPeriodicalItems(pidPath, 2, ['periodicalitem', 'supplement', 'page'], query, false);
-    }
 
     getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery) {
         let url = this.getApiUrl() + '/search?fl=PID,fedora.model,details,dc.creator,root_pid,model_path,pid_path,dostupnost,dc.title,parent_pid&q=';
