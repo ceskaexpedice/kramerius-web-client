@@ -37,23 +37,23 @@ export class SolrService {
         },
         'keywords_facet': {
             '1.0': 'keywords',
-            '2.0': 'n.keyword.facet'
+            '2.0': 'n.keywords.facet'
         },
         'languages_facet': {
             '1.0': 'language',
-            '2.0': 'n.language.facet'
+            '2.0': 'n.languages.facet'
         },
         'locations_facet': {
             '1.0': 'mods.physicalLocation',
-            '2.0': 'n.physical_location.facet'
+            '2.0': 'n.physical_locations.facet'
         },
         'geonames_facet': {
             '1.0': 'geographic_names',
-            '2.0': 'n.geographic_name.facet'
+            '2.0': 'n.geographic_names.facet'
         },
         'publishers_facet': {
             '1.0': '',
-            '2.0': 'n.publisher.facet'
+            '2.0': 'n.publishers.facet'
         },
         'title': {
             '1.0': 'dc.title',
@@ -85,7 +85,7 @@ export class SolrService {
         },
         "coords_range": {
             '1.0': 'range',
-            '2.0': 'n.coords.range'
+            '2.0': 'n.coords.bbox'
         },
         "coords_center": {
             '1.0': 'center',
