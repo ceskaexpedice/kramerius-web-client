@@ -329,8 +329,8 @@ export class SolrService {
         fqFilters.push(this.buildFacetFilter(withQueryString, 'collections', query.collections, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'publishers', query.publishers, facet));
 
-        if (!query.isBoundingBoxSet()) {
-            // fqFilters.push(this.getDateOrderingRestriction(query));
+        if (!query.isBoundingBoxSet() && this.version() === '1.0') {
+            fqFilters.push(this.getDateOrderingRestriction(query));
         }
         fqFilters = fqFilters.filter( (el) => {
             return el != null && el !== '';
@@ -342,7 +342,8 @@ export class SolrService {
     private addFacetToQuery(facet: string, field: string, apply: boolean): string {
         if (this.settings.filters.indexOf(field) > -1) {
             if ((!facet && apply) || field === facet) {
-                return '&facet.field=' + this.getFilterField(field);
+                const f = field === 'doctypes' ? this.field('model_path') : this.getFilterField(field);
+                return '&facet.field=' + f;
             }
         }
         return '';
@@ -391,7 +392,7 @@ export class SolrService {
         } else if (field === 'authors') {
             return this.field('authors_facet');
         } else if (field === 'doctypes') {
-            return this.field('model_path');
+            return this.field('model');
         } else if (field === 'categories') {
             return 'document_type';
         } else if (field === 'languages') {
@@ -458,12 +459,14 @@ export class SolrService {
             if (!value) {
                 continue;
             }
-            // if (SearchQuery.getSolrField('locations') === field) {
-            //     value = value.toUpperCase();
-            //     if (!/^[A-Z]{3}[0-9]{3}$/.test(value)) {
-            //         continue;
-            //     }
-            // }
+            if (this.getFilterField('locations') === field) {
+                if (/^[a-z]{3}[0-9]{3}$/.test(value)) {
+                   value = value.toUpperCase();
+                }
+                if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(value)) {
+                    continue;
+                }
+            }
             const count = facetFields[i + 1];
             const selected = usedFiltes && usedFiltes.indexOf(value) >= 0;
             if (!selected) {

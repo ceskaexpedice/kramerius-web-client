@@ -26,7 +26,7 @@ export class BrowseService {
         private translator: Translator,
         private collectionService: CollectionService,
         private solr: SolrService,
-        private appSettings: AppSettings,
+        private settings: AppSettings,
         private analytics: AnalyticsService,
         private krameriusApiService: KrameriusApiService) {
             translator.languageChanged.subscribe(() => {
@@ -38,8 +38,17 @@ export class BrowseService {
         this.results = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = BrowseQuery.fromParams(params, this.appSettings);
+        this.query = BrowseQuery.fromParams(params, this.getDefaultCategory());
         this.search();
+    }
+
+
+    private getDefaultCategory(): string {
+        for (const cat of this.settings.filters) {
+            if (cat !== 'accessibility') {
+                return cat;
+            }
+        }
     }
 
     public reload(preservePage: boolean) {
@@ -169,11 +178,13 @@ export class BrowseService {
             this.translator.waitForTranslation().then(() => {
                 const filteredResults = [];
                 for (const item of this.backupResults) {
-                    item['value'] = item['value'].toUpperCase();
+                    if (/^[a-z]{3}[0-9]{3}$/.test(item['value'])) {
+                        item['value'] = item['value'].toUpperCase();
+                    }
                     item['name'] = this.translator.instant('sigla.' + item['value']);
                     if (item['name'].startsWith('sigla.')) {
-                        if (!/^[A-Z]{3}[0-9]{3}$/.test(item['value'])) {
-                            continue;
+                        if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(item['value'])) {
+                             continue;
                         }
                         item['name'] = item['name'].substring(6);
                     }

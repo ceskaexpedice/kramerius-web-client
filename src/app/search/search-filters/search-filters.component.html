@@ -196,7 +196,7 @@
           <mz-collection-item *ngIf="searchService.locations.length > 6">
               <span class="app-row">
                 <a class="light-blue-text text-darken-3" *ngIf="!locationsExpanded" (click)="locationsExpanded = true">{{'filters.btn_show_more' | translate}}</a>  
-                <a class="light-blue-text text-darken-3" *ngIf="locationsExpanded" (click)="llocationsExpanded = false">{{'filters.btn_show_less' | translate}}</a>
+                <a class="light-blue-text text-darken-3" *ngIf="locationsExpanded" (click)="locationsExpanded = false">{{'filters.btn_show_less' | translate}}</a>
               </span>
             </mz-collection-item>
         </ng-container>
