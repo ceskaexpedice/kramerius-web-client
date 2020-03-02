@@ -81,7 +81,15 @@ export class SolrService {
         },
         "coords_location": {
             '1.0': 'location',
-            '2.0': 'n.coords.location'
+            '2.0': ''
+        },
+        "coords_corner_ne": {
+            '1.0': '',
+            '2.0': 'n.coords.bbox.corner_ne'
+        },
+        "coords_corner_sw": {
+            '1.0': '',
+            '2.0': 'n.coords.bbox.corner_sw'
         },
         "coords_range": {
             '1.0': 'range',
@@ -270,7 +278,12 @@ export class SolrService {
             q += `,${this.field('dnnt')}`;
         }
         if (query.isBoundingBoxSet()) {
-            q += `,${this.field('coords_location')},${this.field('geonames_facet')}`;
+            if (this.version() === '1.0') {
+                q += `,${this.field('coords_location')}`;
+            } else {
+                q += `,${this.field('coords_corner_ne')},${this.field('coords_corner_sw')}`;
+            }
+            q += `,${this.field('geonames_facet')}`;
         }
         q += '&facet=true&facet.mincount=1'
            + this.addFacetToQuery(facet, 'keywords', query.keywords.length === 0)
@@ -409,9 +422,6 @@ export class SolrService {
         return '';
     }
 
-
-
-
     documentItems(json): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const doc of json['response']['docs']) {
@@ -427,14 +437,18 @@ export class SolrService {
             item.authors = doc[this.field('authors')];
             item.dnnt = !!doc[this.field('dnnt')];
             item.geonames = doc[this.field('geonames_facet')];
-            this.parseLocation(doc[this.field('coords_location')], item);
+            if (this.version() === '1.0') {
+                this.parseLocationOld(doc[this.field('coords_location')], item);
+            } else {
+                this.parseLocation(doc[this.field('coords_corner_ne')], doc[this.field('coords_corner_sw')], item);
+            }
             item.resolveUrl(this.settings.getPathPrefix());
             items.push(item);
         }
         return items;
     }
 
-    private parseLocation(location: string, document: DocumentItem) {
+    private parseLocationOld(location: string, document: DocumentItem) {
         if (!location || !location[0] || !location[1] || location[0].indexOf(',') < 0 || location[1].indexOf(',') < 0) {
             return;
         }
@@ -442,6 +456,16 @@ export class SolrService {
         document.north = +location[1].split(',')[0];
         document.west = +location[0].split(',')[1];
         document.east = +location[1].split(',')[1];
+    }
+
+    private parseLocation(ne: string, sw: string, document: DocumentItem) {
+        if (!ne || !sw || ne.indexOf(',') < 0 || sw.indexOf(',') < 0) {
+            return;
+        }
+        document.south = +sw.split(',')[0];
+        document.north = +ne.split(',')[0];
+        document.west = +sw.split(',')[1];
+        document.east = +ne.split(',')[1];
     }
 
 
@@ -589,30 +613,18 @@ export class SolrService {
             item.authors = doc[this.field('authors')];
             item.dnnt = !!doc[this.field('dnnt')];
             item.geonames = doc[this.field('geonames_facet')];
-            this.parseLocation(doc[this.field('locations_facet')], item);
+            if (this.version() === '1.0') {
+                this.parseLocationOld(doc[this.field('coords_location')], item);
+            } else {
+                this.parseLocation(doc[this.field('coords_corner_ne')], doc[this.field('coords_corner_sw')], item);
+            }
+
             item.resolveUrl(this.settings.getPathPrefix());
             item.params = params;
             items.push(item);
         }
         return items;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
