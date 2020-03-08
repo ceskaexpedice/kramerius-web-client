@@ -55,11 +55,20 @@ export class BrowseQuery {
         }
     }
 
+
+    textSearch(): boolean {
+       return !!this.text && ['keywords', 'genres', 'geonames', 'authors', 'publishers'].indexOf(this.category) >= 0;
+    }
+
+
     getRows(): number {
+        if (!!this.text) {
+            return 10000;
+        }
         if (this.category === 'languages') {
             return 1000;
         } else {
-            return 100;
+            return 200;
         }
     }
 

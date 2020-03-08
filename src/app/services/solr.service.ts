@@ -30,7 +30,7 @@ export class SolrService {
             '2.0': 'n.authors'
         },
         'authors_search': {
-            '1.0': 'search_autor',
+            '1.0': 'dc.creator',
             '2.0': 'n.authors.search'
         },
         'authors_facet': {
@@ -335,9 +335,9 @@ export class SolrService {
         } else if (query.accessibility === 'private') {
             q += ` AND ${this.field('accessibility')}:private`;
         }
-        if (query.text) {
-            if (query.category === 'keywords' || query.category === 'authors') {
-                q += ` AND ${this.getSearchField(query.category)}:*${query.text}*`;
+        if (query.textSearch()) {
+            for (const word of query.text.split(' ')) {
+                q += ` AND ${this.getSearchField(query.category)}:${word.trim()}*`;
             }
         }
         let ordering = 'count';
@@ -351,18 +351,48 @@ export class SolrService {
            + '&facet.offset=' + query.getStart()
            + '&rows=0';
         if (query.text) {
-            if (query.category === 'keywords') {
-                q += '&facet.contains=' + query.getText();
-            } else if (query.category === 'authors') {
-                const text = query.getText().substring(0, 1).toUpperCase() + query.getText().substring(1);
-                q += '&facet.contains=' + text;
-            }
+            const firstWord = query.text.split(" ")[0].trim();
+            q += '&facet.contains=' + firstWord + '&facet.contains.ignoreCase=true';
         }
          q += '&json.facet={x:"unique(' + this.getFilterField(query.category) + ')"}';
 
         return q;
     }
 
+
+    browseFacetList(solr, query: BrowseQuery) {
+        const field = this.getFilterField(query.category);
+        const list = [];
+        const facetFields = solr['facet_counts']['facet_fields'][field];
+        for (let i = 0; i < facetFields.length; i += 2) {
+            const value = facetFields[i];
+            if (!value) {
+                continue;
+            }
+            let check = true;
+            if (query.textSearch()) {
+                for (const word of query.text.split(' ')) {
+                    if (value.toLowerCase().indexOf(word.toLowerCase()) < 0) {
+                        check = false;
+                        continue;
+                    }
+                }
+            }
+            if (!check) {
+                continue;
+            }
+            const count = facetFields[i + 1];
+            const item = {'value' : value, 'count': count, name: value};
+            if (field === 'language' || field === 'fedora.model' || field === 'collection') {
+                item['name'] = '';
+            }
+            list.push(item);
+        }
+        if (field === 'fedora.model') {
+            this.mergeBrowseMonographsAndMonographUnits(list);
+        }
+        return list;
+    }
 
 
 
@@ -967,24 +997,7 @@ export class SolrService {
         return list;
     }
 
-    browseFacetList(solr, categry) {
-        const field = this.getFilterField(categry);
-        const list = [];
-        const facetFields = solr['facet_counts']['facet_fields'][field];
-        for (let i = 0; i < facetFields.length; i += 2) {
-            const value = facetFields[i];
-            const count = facetFields[i + 1];
-            const item = {'value' : value, 'count': count, name: value};
-            if (field === 'language' || field === 'fedora.model' || field === 'collection') {
-                item['name'] = '';
-            }
-            list.push(item);
-        }
-        if (field === 'fedora.model') {
-            this.mergeBrowseMonographsAndMonographUnits(list);
-        }
-        return list;
-    }
+
 
 
     private mergeBrowseMonographsAndMonographUnits(list: any[]) {

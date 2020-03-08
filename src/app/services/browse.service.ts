@@ -128,8 +128,12 @@ export class BrowseService {
     private search() {
         this.loading = true;
         this.krameriusApiService.getSearchResults(this.solr.buildBrowseQuery(this.query)).subscribe(response => {
-            this.numberOfResults = this.solr.numberOfFacets(response);
-            this.results = this.solr.browseFacetList(response, this.query.category);
+            this.results = this.solr.browseFacetList(response, this.query);
+            if (this.query.textSearch()) {
+                this.numberOfResults = this.results.length;
+            } else {
+                this.numberOfResults = this.solr.numberOfFacets(response);
+            }
             this.backupResults = this.results;
             this.translateResults();
         });
