@@ -191,7 +191,11 @@ export class SolrService {
         },
         "volume_number": {
             '1.0': '',
-            '2.0': 'n.volume.number'
+            '2.0': 'n.volume.number.str'
+        },
+        "volume_number_sort": {
+            '1.0': '',
+            '2.0': 'n.volume.number.int'
         },
         "issue_date": {
             '1.0': '',
@@ -199,13 +203,21 @@ export class SolrService {
         },
         "issue_number": {
             '1.0': '',
-            '2.0': 'n.issue.number'
+            '2.0': 'n.issue.number.str'
+        },
+        "issue_number_sort": {
+            '1.0': '',
+            '2.0': 'n.issue.number.int'
         },
         "unit_name": {
             '1.0': '',
             '2.0': 'n.unit.name'
         },
         "unit_number": {
+            '1.0': '',
+            '2.0': 'n.unit.number'
+        },
+        "unit_number_sort": {
             '1.0': '',
             '2.0': 'n.unit.number'
         },
