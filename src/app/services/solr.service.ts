@@ -156,6 +156,34 @@ export class SolrService {
         "parent_pid": {
             '1.0': 'parent_pid',
             '2.0': 'n.own_parent.pid'
+        },
+        "volume_year": {
+            '1.0': '',
+            '2.0': 'n.volume.year'
+        },
+        "volume_number": {
+            '1.0': '',
+            '2.0': 'n.volume.number'
+        },
+        "issue_date": {
+            '1.0': '',
+            '2.0': 'n.issue.date'
+        },
+        "issue_number": {
+            '1.0': '',
+            '2.0': 'n.issue.number'
+        },
+        "unit_name": {
+            '1.0': '',
+            '2.0': 'n.unit.name'
+        },
+        "unit_number": {
+            '1.0': '',
+            '2.0': 'n.unit.number'
+        },
+        "rels_ext_index": {
+            '1.0': 'rels_ext_index',
+            '2.0': 'n.rels_ext_index.sort'
         }
     }
 
@@ -218,9 +246,19 @@ export class SolrService {
 
     private buildPeriodicalQuery(parent: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean): string {
         const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
-        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('id')},${this.field('title')},${this.field('date')}`;
+        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('date')}`;
         if (this.oldSchema()) {
             q += ',details';
+        } else {
+            if (models.indexOf('periodicalvolume') > -1) {
+                q += `,${this.field('volume_year')},${this.field('volume_number')}`;
+            }            
+            if (models.indexOf('periodicalitem') > -1) {
+                q += `,${this.field('issue_date')},${this.field('issue_number')}`;
+            }        
+            if (models.indexOf('monographunit') > -1) {
+                q += `,${this.field('unit_name')},${this.field('unit_number')}`;
+            }
         }
         if (this.settings.dnntFilter) {
             q += `,${this.field('dnnt')}`;
@@ -632,6 +670,128 @@ export class SolrService {
 
 
 
+
+
+
+
+    periodicalItems(solr, doctype: string, uuid: string = null): PeriodicalItem[] {
+        let hasVirtualIssue = false;
+        let virtualIssuePublic: boolean;
+        const items: PeriodicalItem[] = [];
+        for (const doc of solr['response']['docs']) {
+            if (doc[this.field('model')] === 'page') {
+                hasVirtualIssue = true;
+                virtualIssuePublic = doc[this.field('accessibility')] === 'public';
+                continue;
+            }
+            items.push(this.periodicalItem(doc));
+        }
+        if (hasVirtualIssue) {
+            const item = new PeriodicalItem();
+            item.uuid = uuid;
+            item.public = virtualIssuePublic;
+            item.doctype = doctype;
+            item.virtual = true;
+            items.push(item);
+        }
+        return items;
+    }
+
+
+
+
+    periodicalItem(doc): PeriodicalItem {
+        const item = new PeriodicalItem();
+        item.uuid = doc[this.field('id')];
+        item.public = doc[this.field('accessibility')] === 'public';
+        item.doctype = doc[this.field('model')];
+        item.dnnt = !!doc[this.field('dnnt')];
+        if (this.oldSchema()) {
+            this.periodicalItemOld(doc, item);
+            return item;
+        }
+        if (item.doctype === 'periodicalvolume') {
+            item.title = doc[this.field('volume_year')] || doc[this.field('date')];
+            item.subtitle = doc[this.field('volume_number')];
+        } else if (item.doctype === 'periodicalitem') {
+            item.title = doc[this.field('issue_date')] || doc[this.field('date')];
+            item.subtitle = doc[this.field('issue_number')];
+        } else if (item.doctype === 'monographunit') {
+            item.title = doc[this.field('unit_name')];
+            item.subtitle = doc[this.field('unit_number')];
+        }
+        // TODO
+        // if (item.doctype === 'supplement') {
+        //     if (item.subtitle && item.subtitle.indexOf('.')) {
+        //         item.subtitle = item.subtitle.substring(item.subtitle.indexOf('.') + 1);
+        //   } else {
+        //         item.subtitle = '';
+        //   }
+        // }
+        return item;
+    }
+
+
+
+
+    periodicalItemOld(doc, item: PeriodicalItem) {
+        const details = doc['details'];
+        if (item.doctype === 'periodicalvolume') {
+            if (details && details[0]) {
+                const parts = details[0].split('##');
+                if (parts.length >= 2) {
+                    item.title = parts[0];
+                    item.subtitle = parts[1];
+                }
+            }
+        } else if (item.doctype === 'periodicalitem') {
+            if (details && details[0]) {
+                const parts = details[0].split('##');
+                if (parts.length === 4) {
+                    item.title = parts[2];
+                    item.subtitle = parts[1];
+                    if (!item.subtitle) {
+                        item.subtitle = parts[3];
+                    }
+                }
+            }
+        } else if (item.doctype === 'monographunit') {
+            if (details && details[0]) {
+                const parts = details[0].split('##');
+                if (parts.length === 2) {
+                    item.title = parts[1];
+                    item.subtitle = parts[0];
+                }
+            }
+        }
+
+        if (!item.title) {
+            item.title = doc['datum_str'];
+        }
+        if (!item.subtitle) {
+            item.subtitle = doc['dc.title'];
+        }
+        if (item.doctype === 'supplement') {
+            if (item.subtitle && item.subtitle.indexOf('.')) {
+                item.subtitle = item.subtitle.substring(item.subtitle.indexOf('.') + 1);
+          } else {
+                item.subtitle = '';
+          }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     searchResultItems(solr, query: SearchQuery): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const group of solr['grouped'][this.field('root_pid')]['groups']) {
@@ -683,82 +843,6 @@ export class SolrService {
         return items;
     }
 
-
-
-    periodicalItem(doc): PeriodicalItem {
-        const item = new PeriodicalItem();
-        item.uuid = doc['PID'];
-        item.public = doc['dostupnost'] === 'public';
-        item.doctype = doc['fedora.model'];
-        item.dnnt = !!doc['dnnt'];
-        const details = doc['details'];
-        if (item.doctype === 'periodicalvolume') {
-            if (details && details[0]) {
-                const parts = details[0].split('##');
-                if (parts.length >= 2) {
-                    item.title = parts[0];
-                    item.subtitle = parts[1];
-                }
-            }
-        } else if (item.doctype === 'periodicalitem') {
-            if (details && details[0]) {
-                const parts = details[0].split('##');
-                if (parts.length === 4) {
-                    item.title = parts[2];
-                    item.subtitle = parts[1];
-                    if (!item.subtitle) {
-                        item.subtitle = parts[3];
-                    }
-                }
-            }
-        } else if (item.doctype === 'monographunit') {
-            if (details && details[0]) {
-                const parts = details[0].split('##');
-                if (parts.length === 2) {
-                    item.title = parts[1];
-                    item.subtitle = parts[0];
-                }
-            }
-        }
-
-        if (!item.title) {
-            item.title = doc['datum_str'];
-        }
-        if (!item.subtitle) {
-            item.subtitle = doc['dc.title'];
-        }
-        if (item.doctype === 'supplement') {
-            if (item.subtitle && item.subtitle.indexOf('.')) {
-                item.subtitle = item.subtitle.substring(item.subtitle.indexOf('.') + 1);
-          } else {
-                item.subtitle = '';
-          }
-        }
-        return item;
-    }
-
-    periodicalItems(solr, doctype: string, uuid: string = null): PeriodicalItem[] {
-        let hasVirtualIssue = false;
-        let virtualIssuePublic: boolean;
-        const items: PeriodicalItem[] = [];
-        for (const doc of solr['response']['docs']) {
-            if (doc['fedora.model'] === 'page') {
-                hasVirtualIssue = true;
-                virtualIssuePublic = doc['dostupnost'] === 'public';
-                continue;
-            }
-            items.push(this.periodicalItem(doc));
-        }
-        if (hasVirtualIssue) {
-            const item = new PeriodicalItem();
-            item.uuid = uuid;
-            item.public = virtualIssuePublic;
-            item.doctype = doctype;
-            item.virtual = true;
-            items.push(item);
-        }
-        return items;
-    }
 
 
     periodicalFtItems(solr, query: string): PeriodicalFtItem[] {

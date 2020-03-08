@@ -93,7 +93,7 @@ export class BookService {
         private logger: LoggerService,
         private modsParserService: ModsParserService,
         private translator: Translator,
-        private solrService: SolrService,
+        private solr: SolrService,
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
@@ -216,8 +216,8 @@ export class BookService {
 
 
     private loadIssues(periodicalUuid: string, volumeUuid: string, issueUuid: string) {
-        this.api.getPeriodicalIssues(periodicalUuid, volumeUuid, null).subscribe(response => {
-            const issues = this.solrService.periodicalItems(response, 'periodicalitem');
+        this.api.getSearchResults(this.solr.buildPeriodicalIssuesQuery(volumeUuid, null)).subscribe(response => {
+            const issues = this.solr.periodicalItems(response, 'periodicalitem');
             if (!issues || issues.length < 1) {
                 return;
             }
@@ -249,8 +249,8 @@ export class BookService {
 
 
     private loadVolumes(periodicalUuid: string, volumeUuid: string) {
-        this.api.getPeriodicalVolumes(periodicalUuid, null).subscribe(response => {
-            const volumes = this.solrService.periodicalItems(response, 'periodicalvolume');
+        this.api.getSearchResults(this.solr.buildPeriodicalVolumesQuery(periodicalUuid, null)).subscribe(response => {
+            const volumes = this.solr.periodicalItems(response, 'periodicalvolume');
             if (!volumes || volumes.length < 1) {
                 return;
             }
@@ -276,8 +276,8 @@ export class BookService {
     }
 
     private loadMonographUnits(monographUuid: string, unitUud: string) {
-        this.api.getMonographUnits(monographUuid, null).subscribe(response => {
-            const units = this.solrService.periodicalItems(response, 'monographunit');
+        this.api.getSearchResults(this.solr.buildMonographUnitsQuery(monographUuid, null)).subscribe(response => {
+            const units = this.solr.periodicalItems(response, 'monographunit');
             if (!units || units.length < 1) {
                 return;
             }

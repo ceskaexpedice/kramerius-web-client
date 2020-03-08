@@ -521,6 +521,7 @@ export class PeriodicalService {
       }
       let ok = false;
       if (c && c.length === 3) {
+        console.log('sdfds');
         const d = c[0] + '';
         const m = c[1];
         let month = parseInt(m, 0);
