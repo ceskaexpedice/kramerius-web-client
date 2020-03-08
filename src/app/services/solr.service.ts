@@ -12,7 +12,7 @@ import { Utils } from './utils.service';
 @Injectable()
 export class SolrService {
 
-    static readonly fields = {
+    private static fields = {
         'model': {
             '1.0': 'fedora.model',
             '2.0': 'n.model'
@@ -37,25 +37,53 @@ export class SolrService {
             '1.0': 'facet_autor',
             '2.0': 'n.authors.facet'
         },
+        'keywords_search': {
+            '1.0': 'keywords',
+            '2.0': 'n.keywords.search'
+        },
         'keywords_facet': {
             '1.0': 'keywords',
             '2.0': 'n.keywords.facet'
+        },
+        'languages_search': {
+            '1.0': 'language',
+            '2.0': 'n.languages.facet'
         },
         'languages_facet': {
             '1.0': 'language',
             '2.0': 'n.languages.facet'
         },
+        'locations_search': {
+            '1.0': 'mods.physicalLocation',
+            '2.0': 'n.physical_locations.facet'
+        },
         'locations_facet': {
             '1.0': 'mods.physicalLocation',
             '2.0': 'n.physical_locations.facet'
+        },
+        'geonames_search': {
+            '1.0': 'geographic_names',
+            '2.0': 'n.geographic_names.search'
         },
         'geonames_facet': {
             '1.0': 'geographic_names',
             '2.0': 'n.geographic_names.facet'
         },
+        'publishers_search': {
+            '1.0': '',
+            '2.0': 'n.publishers.search'
+        },
         'publishers_facet': {
             '1.0': '',
             '2.0': 'n.publishers.facet'
+        },
+        'genres_search': {
+            '1.0': '',
+            '2.0': 'n.genres.search'
+        },
+        'genres_facet': {
+            '1.0': '',
+            '2.0': 'n.genres.facet'
         },
         'title': {
             '1.0': 'dc.title',
@@ -309,7 +337,7 @@ export class SolrService {
         }
         if (query.text) {
             if (query.category === 'keywords' || query.category === 'authors') {
-                q += ` AND ${this.getFilterField(query.category)}:*${query.text.toLowerCase()}*`;
+                q += ` AND ${this.getSearchField(query.category)}:*${query.text}*`;
             }
         }
         let ordering = 'count';
@@ -387,7 +415,9 @@ export class SolrService {
            + this.addFacetToQuery(facet, 'geonames', query.geonames.length === 0)
            + this.addFacetToQuery(facet, 'authors', query.authors.length === 0)
            + this.addFacetToQuery(facet, 'collections', query.collections.length === 0)
+           + this.addFacetToQuery(facet, 'publishers', query.collections.length === 0)
            + this.addFacetToQuery(facet, 'doctypes', query.doctypes.length === 0)
+           + this.addFacetToQuery(facet, 'genres', query.genres.length === 0)
            + this.addFacetToQuery(facet, 'accessibility',  query.accessibility === 'all');
         if (this.settings.dnntFilter) {
             q += '&facet.field=dnnt';
@@ -436,7 +466,7 @@ export class SolrService {
         fqFilters.push(this.buildFacetFilter(withQueryString, 'geonames', query.geonames, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'collections', query.collections, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'publishers', query.publishers, facet));
-
+        fqFilters.push(this.buildFacetFilter(withQueryString, 'genres', query.genres, facet));
         if (!query.isBoundingBoxSet() && this.oldSchema()) {
             fqFilters.push(this.getDateOrderingRestriction(query));
         }
@@ -482,7 +512,7 @@ export class SolrService {
                     return `(${filter})`;
                 }
             } else {
-                return `(${this.getFilterField(field)}:"${values.join(`" OR ${this.getFilterField(field)}:"`)}")`;
+                return `(${this.getSearchField(field)}:"${values.join(`" OR ${this.getSearchField(field)}:"`)}")`;
             }
         }
     }
@@ -496,7 +526,7 @@ export class SolrService {
         if (field === 'keywords') {
             return this.field('keywords_facet');
         } else if (field === 'publishers') {
-            return this.field('authors_facet');
+            return this.field('publishers_facet');
         } else if (field === 'authors') {
             return this.field('authors_facet');
         } else if (field === 'doctypes') {
@@ -509,6 +539,35 @@ export class SolrService {
             return this.field('locations_facet');
         } else if (field === 'geonames') {
             return this.field('geonames_facet');
+        } else if (field === 'genres') {
+            return this.field('genres_facet');
+        } else if (field === 'collections') {
+            return 'collection';
+        } else if (field === 'accessibility') {
+            return this.field('accessibility');
+        }
+        return '';
+    }
+
+    getSearchField(field): string {
+        if (field === 'keywords') {
+            return this.field('keywords_search');
+        } else if (field === 'publishers') {
+            return this.field('publishers_search');
+        } else if (field === 'authors') {
+            return this.field('authors_search');
+        } else if (field === 'doctypes') {
+            return this.field('model');
+        } else if (field === 'categories') {
+            return 'document_type';
+        } else if (field === 'languages') {
+            return this.field('languages_search');
+        } else if (field === 'locations') {
+            return this.field('locations_search');
+        } else if (field === 'geonames') {
+            return this.field('geonames_search');
+        } else if (field === 'genres') {
+            return this.field('genres_search');
         } else if (field === 'collections') {
             return 'collection';
         } else if (field === 'accessibility') {

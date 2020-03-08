@@ -233,7 +233,14 @@
 
     <div *ngIf="metadata.genres.length > 0">
       <label>{{ 'metadata.genres' | translate }}</label>
-      <div *ngFor="let genre of metadata.genres" class="app-value" >{{ genre | appUpcase }}</div>
+      <div *ngFor="let genre of metadata.genres">
+        <ng-container *ngIf="appSettings.availableFilter('genres'); else noLinkGenre" >
+          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{genres: genre }" (click)="analytics.sendEvent('metadata', 'link', 'genre');">{{ genre | appUpcase}}</a>
+        </ng-container>
+        <ng-template #noLinkGenre>
+          <div class="app-value">{{ genre }}</div>
+        </ng-template>
+      </div>
       <div class="divider"></div>
     </div>
 

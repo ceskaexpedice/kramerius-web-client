@@ -17,7 +17,7 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
 
   resource = 'mods';
 
-  constructor(private api: KrameriusApiService) {
+  constructor(private api: KrameriusApiService, private solr: SolrService) {
     super();
   }
 
@@ -86,7 +86,7 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
     switch (this.resource) {
       case 'mods': return this.api.getMods(uuid);
       case 'dc': return this.api.getDc(uuid);
-      case 'solr': return this.api.getSearchResults(`q=PID:"${uuid}"`);
+      case 'solr': return this.api.getSearchResults(`q=${this.solr.field('id')}:"${uuid}"`);
       case 'alto': return this.api.getAlto(uuid);
       case 'ocr': return this.api.getOcr(uuid);
       case 'foxml': return this.api.getFoxml(uuid);

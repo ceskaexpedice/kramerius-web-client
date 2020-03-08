@@ -28,6 +28,7 @@ export class SearchService {
     geonames: any[] = [];
     collections: any[] = [];
     publishers: any[] = [];
+    genres: any[] = [];
 
     loading = false;
 
@@ -92,6 +93,7 @@ export class SearchService {
         filters = filters.concat(q.keywords);
         filters = filters.concat(q.geonames);
         filters = filters.concat(q.publishers);
+        filters = filters.concat(q.genres);
         filters = filters.concat(q.collections);
         for (const item of q.languages) {
             filters.push(this.translator.instant('language.' + item));
@@ -277,6 +279,7 @@ export class SearchService {
             case 'languages':
             case 'locations':
             case 'geonames':
+            case 'genres':
             case 'publishers': {
                 this[facet] = this.solr.facetList(response, this.solr.getFilterField(facet), this.query[facet], true);
                 break;
@@ -342,6 +345,7 @@ export class SearchService {
         this.checkFacet(this.query.locations.length === 0, response, 'locations');
         this.checkFacet(this.query.geonames.length === 0, response, 'geonames');
         this.checkFacet(this.query.publishers.length === 0, response, 'publishers');
+        this.checkFacet(this.query.genres.length === 0, response, 'genres');
         this.checkFacet(this.query.collections.length === 0, response, 'collections');
     }
 

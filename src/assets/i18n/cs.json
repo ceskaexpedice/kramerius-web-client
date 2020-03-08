@@ -79,7 +79,8 @@
     "languages": "Jazyk",
     "locations": "Místo uložení",
     "geonames": "Geografický název",
-    "publishers": "Nakladatelé",
+    "publishers": "Nakladatel",
+    "genres": "Žánr",
     "authors": "Autor",
     "inaccessible_document": "Dokument není veřejně přístupný",
     "dnnt_document": "Dokument podléhá režimu děl nedostupných na trhu",
@@ -141,17 +142,20 @@
       "collections": "Sbírky",
       "keywords": "Klíčová slova",
       "languages": "Jazyky",
+      "genres": "Žánry",
       "locations": "Místa uložení",
       "geonames": "Geografické názvy"
     },
     "search": {
       "doctypes": "Vyhledat typ dokumentu",
       "authors": "Vyhledat autora",
+      "publishers": "Vyhledat nakladatele",
       "collections": "Vyhledat sbírku",
       "keywords": "Vyhledat klíčové slovo", 
       "languages": "Vyhledat jazyk",
+      "genres": "Vyhledat žánr",
       "locations": "Vyhledat místo uložení",
-      "geonames": "Vyhledat Geografický název"
+      "geonames": "Vyhledat geografický název"
     },
     "ordering": {
       "label": "Řazení",      

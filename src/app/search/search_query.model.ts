@@ -19,6 +19,7 @@ export class SearchQuery {
     doctypes: string[] = [];
     collections: string[] = [];
     publishers: string[] = [];
+    genres: string[] = [];
 
     field: string;
     value: string;
@@ -52,6 +53,7 @@ export class SearchQuery {
         query.setFiled(query.geonames, 'geonames', params);
         query.setFiled(query.collections, 'collections', params);
         query.setFiled(query.publishers, 'publishers', params);
+        query.setFiled(query.genres, 'genres', params);
 
         if (!query.query) {
             query.setCustomField(params);
@@ -66,30 +68,6 @@ export class SearchQuery {
         }
         return query;
     }
-
-    // public static getSolrField(field): string {
-    //     if (field === 'keywords') {
-    //         return 'keywords';
-    //     } else if (field === 'authors') {
-    //         return 'facet_autor';
-    //     } else if (field === 'doctypes') {
-    //         return 'fedora.model';
-    //     } else if (field === 'categories') {
-    //         return 'document_type';
-    //     } else if (field === 'languages') {
-    //         return 'language';
-    //     } else if (field === 'locations') {
-    //         return 'mods.physicalLocation';
-    //     } else if (field === 'geonames') {
-    //         return 'geographic_names';
-    //     } else if (field === 'collections') {
-    //         return 'collection';
-    //     } else if (field === 'accessibility') {
-    //         return 'dostupnost';
-    //     }
-    //     return '';
-    // }
-
 
     public static getSolrCustomField(field): string {
         if (field === 'author') {
@@ -394,6 +372,9 @@ export class SearchQuery {
         if (this.publishers.length > 0) {
             params['publishers'] = this.publishers.join(',,');
         }
+        if (this.genres.length > 0) {
+            params['genres'] = this.genres.join(',,');
+        }
         if (this.doctypes.length > 0) {
             params['doctypes'] = this.doctypes.join(',,');
         }
@@ -476,6 +457,7 @@ export class SearchQuery {
         this.locations = [];
         this.geonames = [];
         this.publishers = [];
+        this.genres = [];
         this.removeCustomField();
         this.clearYearRange();
     }
@@ -516,6 +498,9 @@ export class SearchQuery {
             return true;
         }
         if (this.publishers && this.publishers.length > 0) {
+            return true;
+        }
+        if (this.genres && this.genres.length > 0) {
             return true;
         }
         if (this.collections && this.collections.length > 0) {

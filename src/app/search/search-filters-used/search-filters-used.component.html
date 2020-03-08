@@ -69,6 +69,22 @@
     </span>
   </mz-collection-item>
 
+  <mz-collection-item *ngFor="let publisher of searchService.query.publishers">
+    <span (click)="searchService.removeFilter(searchService.query.publishers, publisher)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'account-multiple'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ publisher | appUpcase }}
+    </span>
+  </mz-collection-item>
+
+  <mz-collection-item *ngFor="let genre of searchService.query.genres">
+    <span (click)="searchService.removeFilter(searchService.query.genres, genre)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'book-variant'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ genre | appUpcase }}
+    </span>
+  </mz-collection-item>
+
   <mz-collection-item *ngFor="let geoname of searchService.query.geonames">
     <span (click)="searchService.removeFilter(searchService.query.geonames, geoname)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'map'" [class]="'app-clean-mg'"></i>

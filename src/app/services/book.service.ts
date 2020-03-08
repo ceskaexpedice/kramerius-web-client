@@ -455,7 +455,7 @@ export class BookService {
                 if (uuid === page.uuid) {
                     currentPage = index;
                 }
-                if ((page.type === 'backcover' || p['supplement_uuid']) && firstBackSingle === -1) {
+                if ((page.type === 'backcover' || page.supplementUuid) && firstBackSingle === -1) {
                     firstBackSingle = index;
                 } else if (page.type === 'titlepage') {
                     titlePage = index;
