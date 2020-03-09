@@ -415,13 +415,63 @@ export class SolrService {
 
 
 
-    buildSearchAutocompleteQuery(term: string, fq: string): string {
-        const query = term.toLowerCase().trim()
+    buildFulltextSearchAutocompleteQuery(term: string, uuid: string): string {
+        const query = term.toLowerCase().trim() + '*';
+        return `fl=${this.field('id')}&hl=true&hl.fl=${this.field('text_ocr')}&hl.fragsize=1&hl.simple.post=<<&hl.simple.pre=>>&hl.snippets=10&q=${this.field('parent_pid')}:"${uuid}"+AND+${this.field('text_ocr')}:${query}&rows=20`;
+    }
+
+    fulltextSearchAutocompleteResults(solr): CompleterItem[] {
+        const items = [];
+        if (solr && solr['highlighting']) {
+            for (const [key, value] of Object.entries(solr['highlighting'])) {
+                if (value[this.field('text_ocr')]) {
+                    for (const ocr of value[this.field('text_ocr')]) {
+                        const i1 = ocr.indexOf('>>');
+                        const i2 = ocr.indexOf('<<');
+                        if (i1 > -1 && i2 > -1) {
+                            const text = ocr.substring(i1 + 2, i2).toLowerCase();
+                            if (items.indexOf(text) < 0) {
+                                items.push(text);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        items.sort(function(a, b) {
+            if (a < b) {
+                return -1;
+            }
+            if (a > b) {
+                return 1;
+            }
+            return 0;
+        });
+        const results: CompleterItem[] = [];
+        for (const item of items) {
+            results.push({
+                title: item,
+                originalObject: item
+            });
+        }
+        return results;
+    }
+
+    buildSearchAutocompleteQuery(term: string, query: SearchQuery, publicOnly: boolean): string {
+        let fq = null;
+        if (query) {
+            fq = this.buildFilterQuery(query);
+        } else if (publicOnly) {
+            fq = `${this.field('accessibility')}:public AND (${this.buildTopLevelFilter()})`;
+        } else {
+            fq = this.buildTopLevelFilter();
+        }
+        const t = term.toLowerCase().trim()
                         .replace(/"/g, '\\"').replace(/~/g, '\\~')
                         .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[')
                         .replace(/\]/g, '\\]').replace(/!/g, '\\!');
         const searchField = this.field('title');
-        let q = `defType=edismax&fl=${this.field('id')},${this.field('title')}&q=${searchField}:${query.split(' ').join(` AND  ${searchField}:`)}`;
+        let q = `defType=edismax&fl=${this.field('id')},${this.field('title')}&q=${searchField}:${t.split(' ').join(` AND  ${searchField}:`)}`;
         if (!term.endsWith(' ') && !term.endsWith(':')) {
             q+='*';
         }
@@ -431,10 +481,7 @@ export class SolrService {
         return q;
     }
 
-
-
-
-    autocompleteResults(solr, term: string): CompleterItem[] {
+    searchAutocompleteResults(solr, term: string): CompleterItem[] {
         const items = [];
         const cache = {};
         const titleFiled = this.field('title');

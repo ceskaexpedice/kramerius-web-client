@@ -1,6 +1,5 @@
 import { KrameriusInfo } from './../model/krameriusInfo.model';
 import { PeriodicalQuery } from './../periodical/periodical_query.model';
-import { BrowseQuery } from './../browse/browse_query.model';
 import { SolrService } from './solr.service';
 import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
@@ -16,6 +15,8 @@ import { AppSettings } from './app-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user.model';
 import { DocumentItem } from '../model/document_item.model';
+import { CompleterItem } from 'ng2-completer';
+import { SearchQuery } from '../search/search_query.model';
 
 @Injectable()
 export class KrameriusApiService {
@@ -86,59 +87,15 @@ export class KrameriusApiService {
     }
 
 
-
-    getSearchAutocomplete(term: string, fq: string = null): Observable<any[]> {
-        const url = this.getSearchAutocompleteUrl(term, fq);
-        return this.doGet(url)
-            .map(res => <any> res['response']['docs'])
-          .catch(this.handleError);
+    getFulltextSearchAutocomplete(term: string, uuid: string): Observable<CompleterItem[]> {
+        return this.getSearchResults(this.solr.buildFulltextSearchAutocompleteQuery(term, uuid))
+                    .map(response => this.solr.fulltextSearchAutocompleteResults(response));
     }
 
-
-
-
-
-
-
-
-    // private getPeriodicalItems(pidPath: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean) {
-    //     const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
-    //     let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details'
-    //     if (this.settings.dnntFilter) {
-    //         url += ',dnnt';
-    //     }
-    //     url += '&q=pid_path:'
-    //             + pidPath.toLowerCase() + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
-    //     if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
-    //         url += ' AND dostupnost:' + query.accessibility;
-    //     }
-    //     if (query && applyYear && query.isYearRangeSet()) {
-    //         url += ' AND (rok:[' + query.from + ' TO ' + query.to + '] OR (datum_begin:[* TO ' + query.to + '] AND datum_end:[' + query.from + ' TO *]))';
-    //     }
-    //     url += '&sort=';
-    //     if (level > 1) {
-    //         url += 'datum asc,';
-    //     }
-    //     url += 'datum_str asc,fedora.model asc,dc.title asc&rows=1500&start=0';
-    //     // url += '&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
-    //     return this.doGet(url)
-    //         .catch(this.handleError);
-    // }
-
-    // getMonographUnits(uuid: string, query: PeriodicalQuery) {
-    //     return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['monographunit', 'page'], query, false);
-    // }
-
-    // getPeriodicalVolumes(uuid: string, query: PeriodicalQuery) {
-    //     return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['periodicalvolume'], query, true);
-    // }
-
-    // getPeriodicalIssues(periodicalUuid: string, volumeUuid: string, query: PeriodicalQuery) {
-    //     const pidPath = this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid);
-    //     return this.getPeriodicalItems(pidPath, 2, ['periodicalitem', 'supplement', 'page'], query, false);
-    // }
-
-
+    getSearchAutocomplete(term: string, query: SearchQuery, publicOnly: boolean): Observable<CompleterItem[]> {
+        return this.getSearchResults(this.solr.buildSearchAutocompleteQuery(term, query, publicOnly))
+                    .map(response => this.solr.searchAutocompleteResults(response, term));
+    }
 
     private handleError(error: Response) {
         if (error.status === 404) {
@@ -262,19 +219,6 @@ export class KrameriusApiService {
         const url = this.getApiUrl() + '/search?fl=PID,details,dostupnost,fedora.model,dc.title,datum_str&q=PID:"' + uuids.join('" OR PID:"') + '"&rows=50';
         return this.doGet(url)
             .catch(this.handleError);
-    }
-
-    getDocumentSearchAutocompleteUrl(term: string, uuid: string): string {
-        const query = term.toLowerCase().trim() + '*';
-        const result = this.getApiUrl() + `/search/?fl=PID&hl=true&hl.fl=text_ocr&hl.fragsize=1&hl.simple.post=<<&hl.simple.pre=>>&hl.snippets=10&q=parent_pid:"${uuid}"+AND+text_ocr:${query}&rows=20`;
-        return result;
-    }
-
-    getDocumentSearchAutocomplete(term: string, uuid: string): Observable<any[]> {
-        const url = this.getDocumentSearchAutocompleteUrl(term, uuid);
-        return this.doGet(url)
-            .map(res => <any> res)
-          .catch(this.handleError);
     }
 
     getFullJpegUrl(uuid: string): string {

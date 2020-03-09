@@ -18,17 +18,15 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
         private localStorageService: LocalStorageService) {
         super();
     }
+
     public search(term: string): void {
-        let fq = null;
+        let query = null;
+        let publicOnly = this.localStorageService.publicFilterChecked();
         if (this.state.atSearchScreen()) {
-            fq = this.solr.buildFilterQuery(this.searchService.query);
-        } else if (this.localStorageService.publicFilterChecked()) {
-            fq = `${this.solr.field('accessibility')}:public AND (${this.solr.buildTopLevelFilter()})`;
-        } else {
-            fq = this.solr.buildTopLevelFilter();
+            query = this.searchService.query;
         }
-        this.api.getSearchResults(this.solr.buildSearchAutocompleteQuery(term, fq)).subscribe(response => {
-            this.next(this.solr.autocompleteResults(response, term));
+        this.api.getSearchAutocomplete(term, query, publicOnly).subscribe((results: CompleterItem[]) => {
+            this.next(results);
         });
     }
 
