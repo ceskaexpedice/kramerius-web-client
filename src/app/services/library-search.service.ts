@@ -11,7 +11,7 @@ import { SolrService } from './solr.service';
 export class LibrarySearchService extends Subject<CompleterItem[]> implements CompleterData {
 
     constructor(
-        private krameriusApiService: KrameriusApiService,
+        private api: KrameriusApiService,
         private state: AppState,
         private searchService: SearchService,
         private solr: SolrService,
@@ -23,40 +23,12 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
         if (this.state.atSearchScreen()) {
             fq = this.solr.buildFilterQuery(this.searchService.query);
         } else if (this.localStorageService.publicFilterChecked()) {
-            fq = 'dostupnost:public AND (' + this.solr.buildTopLevelFilter() + ')';
+            fq = `${this.solr.field('accessibility')}:public AND (${this.solr.buildTopLevelFilter()})`;
         } else {
             fq = this.solr.buildTopLevelFilter();
         }
-        this.krameriusApiService.getSearchAutocomplete(term, fq).subscribe(results => {
-            const items = [];
-            const cache = {};
-            for (const item of results) {
-                if (cache[item['dc.title']]) {
-                    continue;
-                }
-                let index = item['dc.title'].toLowerCase().indexOf(term.toLowerCase());
-                if (index < 0) {
-                    index = 1000 + item['dc.title'].length;
-                }
-                items.push({index: index, item: item});
-                cache[item['dc.title']]  = true;
-            }
-            items.sort(function(a, b) {
-                if (a.index < b.index) {
-                    return -1;
-                }
-                if (a.index > b.index) {
-                    return 1;
-                }
-                if (a.index === b.index) {
-                    return a.item['dc.title'].length - b.item['dc.title'].length;
-                }
-            });
-            const matches: CompleterItem[] = [];
-            for (const item of items) {
-                matches.push(this.convertToItem(item.item));
-            }
-            this.next(matches);
+        this.api.getSearchResults(this.solr.buildSearchAutocompleteQuery(term, fq)).subscribe(response => {
+            this.next(this.solr.autocompleteResults(response, term));
         });
     }
 
@@ -70,7 +42,7 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
         }
         // data will be string if an initial value is set
         return {
-            title: data['dc.title'],
+            title: data[this.solr.field('title')],
             // image : this.krameriusApiService.getThumbUrl(data.PID),
             originalObject: data
         } as CompleterItem;

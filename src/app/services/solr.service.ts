@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { BrowseQuery } from '../browse/browse_query.model';
 import { PeriodicalQuery } from '../periodical/periodical_query.model';
 import { Utils } from './utils.service';
+import { CompleterItem } from 'ng2-completer';
 
 
 @Injectable()
@@ -224,6 +225,10 @@ export class SolrService {
         "rels_ext_index": {
             '1.0': 'rels_ext_index',
             '2.0': 'n.rels_ext_index.sort'
+        },
+        "text_ocr": {
+            '1.0': 'text_ocr',
+            '2.0': 'n.text_ocr'
         }
     }
 
@@ -407,6 +412,61 @@ export class SolrService {
     }
 
 
+
+
+
+    buildSearchAutocompleteQuery(term: string, fq: string): string {
+        const query = term.toLowerCase().trim()
+                        .replace(/"/g, '\\"').replace(/~/g, '\\~')
+                        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[')
+                        .replace(/\]/g, '\\]').replace(/!/g, '\\!');
+        const searchField = this.field('title');
+        let q = `defType=edismax&fl=${this.field('id')},${this.field('title')}&q=${searchField}:${query.split(' ').join(` AND  ${searchField}:`)}`;
+        if (!term.endsWith(' ') && !term.endsWith(':')) {
+            q+='*';
+        }
+        q += '&fq=' + fq;
+        q += `&bq=${this.field('model')}:monograph^5&bq=${this.field('model')}:periodical^5&bq=${this.field('accessibility')}:public^5`;
+        q += '&rows=50';
+        return q;
+    }
+
+
+
+
+    autocompleteResults(solr, term: string): CompleterItem[] {
+        const items = [];
+        const cache = {};
+        const titleFiled = this.field('title');
+        for (const item of solr['response']['docs']) {
+            const title = item[titleFiled];
+            if (!title || cache[title]) {
+                continue;
+            }
+            let index = title.toLowerCase().indexOf(term.toLowerCase());
+            if (index < 0) {
+                index = 1000 + title.length;
+            }
+            items.push({index: index, title: title});
+            cache[title]  = true;
+        }
+        items.sort(function(a, b) {
+            if (a.index < b.index) {
+                return -1;
+            }
+            if (a.index > b.index) {
+                return 1;
+            }
+            if (a.index === b.index) {
+                return a.title.length - b.title.length;
+            }
+        });
+        const result: CompleterItem[] = [];
+        for (const item of items) {
+            result.push( { title: item.title, originalObject: item. title} );
+        }
+        return result;
+    }
 
 
 

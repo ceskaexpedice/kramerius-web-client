@@ -87,6 +87,16 @@ export class KrameriusApiService {
 
 
 
+    getSearchAutocomplete(term: string, fq: string = null): Observable<any[]> {
+        const url = this.getSearchAutocompleteUrl(term, fq);
+        return this.doGet(url)
+            .map(res => <any> res['response']['docs'])
+          .catch(this.handleError);
+    }
+
+
+
+
 
 
 
@@ -254,47 +264,10 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-
-    getSearchAutocompleteUrl(term: string, fq: string = null): string {
-        const searchField = this.settings.lemmatization ? 'title_lemmatized_ascii' : 'dc.title';
-        const query = term.toLowerCase().trim()
-                        .replace(/"/g, '\\"').replace(/~/g, '\\~')
-                        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!')
-                        .split(' ').join(' AND ' + searchField + ':');
-        let result = this.getApiUrl() + '/search?defType=edismax&fl=PID,dc.title,score&q='
-        if (this.settings.lemmatization) {
-            result += '((' + searchField + ':'  + query;
-            if (!term.endsWith(' ') && !term.endsWith(':')) {
-                result += ') OR (' + searchField + ':'  + query + '*))';
-            } else {
-                result += '))';
-            }
-        } else {
-            result += '' + searchField + ':'  + query;
-            if (!term.endsWith(' ') && !term.endsWith(':')) {
-                result += '*';
-            }
-        }
-        result += ' AND (' + this.solr.buildTopLevelFilter() + ')';
-        if (fq) {
-            result += '&fq=' + fq;
-        }
-        result += '&bq=fedora.model:monograph^5&bq=fedora.model:periodical^5&bq=dostupnost:public^5';
-        result += '&rows=50';
-        return result;
-    }
-
     getDocumentSearchAutocompleteUrl(term: string, uuid: string): string {
         const query = term.toLowerCase().trim() + '*';
         const result = this.getApiUrl() + `/search/?fl=PID&hl=true&hl.fl=text_ocr&hl.fragsize=1&hl.simple.post=<<&hl.simple.pre=>>&hl.snippets=10&q=parent_pid:"${uuid}"+AND+text_ocr:${query}&rows=20`;
         return result;
-    }
-
-    getSearchAutocomplete(term: string, fq: string = null): Observable<any[]> {
-        const url = this.getSearchAutocompleteUrl(term, fq);
-        return this.doGet(url)
-            .map(res => <any> res['response']['docs'])
-          .catch(this.handleError);
     }
 
     getDocumentSearchAutocomplete(term: string, uuid: string): Observable<any[]> {
