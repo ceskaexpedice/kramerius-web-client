@@ -1,12 +1,12 @@
 import { Translator } from 'angular-translator';
 import { KrameriusApiService } from './kramerius-api.service';
-import { SolrService } from './solr.service';
 import { Router } from '@angular/router';
 import { BrowseQuery } from './../browse/browse_query.model';
 import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
+import { BrowseItem } from '../model/browse_item.model';
 
 
 @Injectable()
@@ -25,10 +25,9 @@ export class BrowseService {
         private router: Router,
         private translator: Translator,
         private collectionService: CollectionService,
-        private solr: SolrService,
         private settings: AppSettings,
         private analytics: AnalyticsService,
-        private krameriusApiService: KrameriusApiService) {
+        private api: KrameriusApiService) {
             translator.languageChanged.subscribe(() => {
                 this.translateResults();
             });
@@ -127,13 +126,9 @@ export class BrowseService {
 
     private search() {
         this.loading = true;
-        this.krameriusApiService.getSearchResults(this.solr.buildBrowseQuery(this.query)).subscribe(response => {
-            this.results = this.solr.browseFacetList(response, this.query);
-            if (this.query.textSearch()) {
-                this.numberOfResults = this.results.length;
-            } else {
-                this.numberOfResults = this.solr.numberOfFacets(response);
-            }
+        this.api.getBrowseItems(this.query).subscribe( ([items, count]: [BrowseItem[], number]) => {
+            this.results = items;
+            this.numberOfResults = count;
             this.backupResults = this.results;
             this.translateResults();
         });
@@ -223,7 +218,7 @@ export class BrowseService {
                 this.loading = false;
             } else {
                 this.loading = true;
-                this.krameriusApiService.getCollections().subscribe(
+                this.api.getCollections().subscribe(
                     results => {
                         this.collectionService.assign(results);
                         this.translateResults();

@@ -246,17 +246,11 @@
     }
   },
   "periodical": {
-    "volume": "Volume {{volume}}",
-    "issue": "Issue {{issue}}",
-    "unit": "Unit {{unit}}",
-    "supplement": "Supplement {{supplement}}",
+    "periodicalvolume": "Volume {{part}}",
+    "periodicalitem": "Issue {{part}}",
+    "unmonograpunitit": "Unit {{part}}",
+    "supplement": "Supplement {{part}}",
     "virtual_issue": "Uncategorized",
-    "volume_unknown": "-",
-    "issue_unknown": "-",
-    "date_unknown": "-",
-    "year_unknown": "-",
-    "unit_title_unknown": "-",
-    "unit_number_unknown": "-",
     "previous_volume": "Previous Volume",   
     "next_volume": "Next Volume",
     "volume_list": "Volume list"

@@ -7,7 +7,7 @@ import { InternalPart } from './internal_part.model';
 export class Metadata {
 
 
-    public modsMap = {};
+    public context = {};
 
     public uuid: string;
     public titles: TitleInfo[] = [];
@@ -81,8 +81,8 @@ export class Metadata {
         return `http://proarc.kramerius.org/documents/${this.uuid}`;
     }
 
-    public addMods(doctype: string, uuid: string, mods: string) {
-        this.modsMap[doctype] = { uuid: uuid, mods: mods.trim() };
+    public addToContext(doctype: string, uuid: string) {
+        this.context[doctype] = uuid;
     }
 
     public getYearRange() {
@@ -137,16 +137,16 @@ export class Metadata {
 
     public getShortTitleWithUnit(): string {
         let title = this.getShortTitle();
-        if (this.currentUnit && this.currentUnit.title) {
-            title = this.currentUnit.title + ' | ' + title;
+        if (this.currentUnit && this.currentUnit.name) {
+            title = this.currentUnit.name + ' | ' + title;
         }
         return title;
     }
 
     public getShortTitleWithIssue(): string {
         let title = this.getShortTitle();
-        if (this.currentIssue && this.currentIssue.title) {
-            title += ' ' + this.currentIssue.title;
+        if (this.currentIssue && this.currentIssue.date) {
+            title += ' ' + this.currentIssue.date;
         }
         return title;
     }

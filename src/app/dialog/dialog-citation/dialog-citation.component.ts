@@ -24,11 +24,11 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
 
   ngOnInit(): void {
     for (const doctype of SolrService.allDoctypes) {
-      if (this.metadata.modsMap[doctype]) {
+      if (this.metadata.context[doctype]) {
         this.data.push({
           type: doctype,
           citation: null,
-          uuid: this.metadata.modsMap[doctype].uuid
+          uuid: this.metadata.context[doctype]
         });
       }
     }

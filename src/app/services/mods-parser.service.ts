@@ -11,7 +11,7 @@ export class ModsParserService {
         const ctx = this;
         let metadata: Metadata;
         parseString(mods, data, function (err, result) {
-            if (type === 'full') {
+            if (!type || type === 'full') {
                 metadata = ctx.createMetadata(result, uuid);
             } else {
                 metadata = ctx.createPlainMetadata(result, uuid);

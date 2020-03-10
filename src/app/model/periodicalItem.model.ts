@@ -1,8 +1,9 @@
 import { Metadata } from './metadata.model';
 
 export class PeriodicalItem {
-    title: string;
-    subtitle: string;
+    date: string;
+    name: string;
+    number: string;
     doctype: string;
     public: boolean;
     uuid: string;
@@ -20,6 +21,19 @@ export class PeriodicalItem {
         } else {
             return 'view/' + this.uuid;
         }
+    }
+
+    getTitle(): string {
+        const title = this.doctype === 'monographunit' ? this.name : this.date;
+        return title || '-';
+    }
+
+
+    getPart(): string {
+        if (!this.number) {
+            return '';
+        }
+        return this.number;
     }
 
 }

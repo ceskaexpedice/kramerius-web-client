@@ -24,8 +24,8 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
 
   ngOnInit(): void {
     for (const doctype of SolrService.allDoctypes) {
-      if (this.metadata.modsMap[doctype]) {
-        const uuid = this.metadata.modsMap[doctype].uuid;
+      if (this.metadata.context[doctype]) {
+        const uuid = this.metadata.context[doctype];
         if (uuid) {
           this.data.push({
             type: doctype,

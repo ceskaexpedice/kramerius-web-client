@@ -17,6 +17,12 @@ import { User } from '../model/user.model';
 import { DocumentItem } from '../model/document_item.model';
 import { CompleterItem } from 'ng2-completer';
 import { SearchQuery } from '../search/search_query.model';
+import { PeriodicalFtItem } from '../model/periodicalftItem.model';
+import { PeriodicalItem } from '../model/periodicalItem.model';
+import { BrowseItem } from '../model/browse_item.model';
+import { BrowseQuery } from '../browse/browse_query.model';
+import { Metadata } from '../model/metadata.model';
+import { ModsParserService } from './mods-parser.service';
 
 @Injectable()
 export class KrameriusApiService {
@@ -31,6 +37,7 @@ export class KrameriusApiService {
     constructor(private http: HttpClient,
         private utils: Utils,
         private settings: AppSettings,
+        private mods: ModsParserService,
         private solr: SolrService) {
     }
 
@@ -46,21 +53,8 @@ export class KrameriusApiService {
         return this.getApiUrlForBaseUrl(this.getbaseUrl());
     }
 
-    private getSolrUrl(): string {
-        return this.getApiUrl() + '/search';
-    }
-
-
     private doGet(url: string): Observable<Object> {
         return this.http.get(encodeURI(url));
-    }
-
-
-    getNewest(): Observable<DocumentItem[]> {
-        const url = `${this.getSolrUrl()}?${this.solr.getNewestQuery()}`;
-        return this.doGet(url)
-            .map(response => this.solr.documentItems(response))
-            .catch(this.handleError);
     }
 
     private getItemUrl(uuid: string) {
@@ -86,6 +80,10 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
+    getNewest(): Observable<DocumentItem[]> {
+        return this.getSearchResults(this.solr.getNewestQuery())
+            .map(response => this.solr.documentItems(response));
+    }
 
     getFulltextSearchAutocomplete(term: string, uuid: string): Observable<CompleterItem[]> {
         return this.getSearchResults(this.solr.buildFulltextSearchAutocompleteQuery(term, uuid))
@@ -96,6 +94,102 @@ export class KrameriusApiService {
         return this.getSearchResults(this.solr.buildSearchAutocompleteQuery(term, query, publicOnly))
                     .map(response => this.solr.searchAutocompleteResults(response, term));
     }
+
+    getPeriodicalFulltext(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery): Observable<[PeriodicalFtItem[], number]> {
+        return this.getSearchResults(this.solr.buildPeriodicalFulltextSearchQuery(periodicalUuid, volumeUuid, offset, limit, query))
+                    .map(response => [this.solr.periodicalFullTextItems(response, query.fulltext), this.solr.numberOfResults(response)]);
+    }
+
+    getPeriodicalItemsDetails(uuids: string[]): Observable<PeriodicalItem[]> {
+        return this.getSearchResults(this.solr.buildPeriodicalItemsDetailsQuery(uuids))
+            .map(response => this.solr.periodicalItemsDetails(response));
+    }
+
+    getPeriodicalVolumes(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
+        return this.getSearchResults(this.solr.buildPeriodicalVolumesQuery(uuid, query))
+            .map(response => this.solr.periodicalItems(response, 'periodicalvolume'));
+    }
+
+    getPeriodicalIssues(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
+        return this.getSearchResults(this.solr.buildPeriodicalIssuesQuery(uuid, query))
+            .map(response => this.solr.periodicalItems(response, 'periodicalitem'));
+    }
+
+    getMonographUnits(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
+        return this.getSearchResults(this.solr.buildMonographUnitsQuery(uuid, query))
+            .map(response => this.solr.periodicalItems(response, 'monographunit'));
+    }
+
+
+    getBrowseItems(query: BrowseQuery): Observable<[BrowseItem[], number]> { 
+        return this.getSearchResults(this.solr.buildBrowseQuery(query))
+            .map(response => this.solr.browseItems(response, query));
+    }
+
+    getFulltextUuidList(uuid: string, query: string): Observable<string[]> {
+        return this.getSearchResults(this.solr.buildFulltextUuidList(uuid, query))
+            .map(response => this.solr.uuidList(response));
+    }
+
+
+
+    getMetadata(uuid: string, type: string = 'full'): Observable<Metadata> {
+        return this.getMods(uuid).map( mods => this.mods.parse(mods, uuid, type));
+    }
+
+
+
+    // getFulltextUuidList(uuid, query) {
+    //     let text = query.toLowerCase().trim();
+    //     const inQuotes = text.startsWith('"') && text.endsWith('"');
+    //     if (!inQuotes) {
+    //         text = text.replace(/"/g, '\\"');
+    //     }
+    //     text = text.replace(/~/g, '\\~')
+    //     .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
+    //     const url = this.getApiUrl() + '/search/?fl=PID&q=parent_pid:"'
+    //         + uuid + '"'
+    //         + ' AND fedora.model:page'
+    //         + ' AND text:'
+    //         + text
+    //         + '&rows=200';
+    //     return this.doGet(url)
+    //         .map(response => this.solr.uuidList(response))
+    //         .catch(this.handleError);
+    // }
+
+    //  getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery) {
+    //     let url = this.getApiUrl() + '/search?fl=PID,fedora.model,details,dc.creator,root_pid,model_path,pid_path,dostupnost,dc.title,parent_pid&q=';
+    //     if (volumeUuid) {
+    //         url += 'pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*';
+    //     } else {
+    //         url += 'root_pid:"' + periodicalUuid + '"';
+    //     }
+    //     if (query.accessibility === 'public' || query.accessibility === 'private') {
+    //         url += ' AND dostupnost:' + query.accessibility;
+    //     }
+    //     if (query.isYearRangeSet()) {
+    //         url += ' AND (rok:[' + query.from + ' TO ' + query.to + '])';
+    //     }
+    //     const text = query.fulltext.toLowerCase().trim()
+    //                     .replace(/"/g, '\\"').replace(/~/g, '\\~')
+    //                     .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
+    //     url += ' AND (fedora.model:article || fedora.model:monographunit || fedora.model:page) AND text:' + text;
+    //     if (query.ordering === 'latest') {
+    //         url += '&sort=datum desc, datum_str desc';
+    //     } else if (query.ordering === 'earliest') {
+    //         url += '&sort=datum asc, datum_str asc';
+    //     }
+    //     url += '&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
+    //     return this.doGet(url)
+    //         .catch(this.handleError);
+    // }
+
+
+
+
+
+
 
     private handleError(error: Response) {
         if (error.status === 404) {
@@ -147,25 +241,6 @@ export class KrameriusApiService {
     }
 
 
-    getFulltextUuidList(uuid, query) {
-        let text = query.toLowerCase().trim();
-        const inQuotes = text.startsWith('"') && text.endsWith('"');
-        if (!inQuotes) {
-            text = text.replace(/"/g, '\\"');
-        }
-        text = text.replace(/~/g, '\\~')
-        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
-        const url = this.getApiUrl() + '/search/?fl=PID&q=parent_pid:"'
-            + uuid + '"'
-            + ' AND fedora.model:page'
-            + ' AND text:'
-            + text
-            + '&rows=200';
-        return this.doGet(url)
-            .map(response => this.solr.uuidList(response))
-            .catch(this.handleError);
-    }
-
     getRecommended() {
         const url = this.getApiUrl() + '/feed/custom';
         return this.doGet(url)
@@ -184,40 +259,6 @@ export class KrameriusApiService {
         const url = this.getApiUrl() + '/info?language=' + language;
         return this.doGet(url)
             .map(response => KrameriusInfo.fromJson(response))
-            .catch(this.handleError);
-    }
-
-
-    getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery) {
-        let url = this.getApiUrl() + '/search?fl=PID,fedora.model,details,dc.creator,root_pid,model_path,pid_path,dostupnost,dc.title,parent_pid&q=';
-        if (volumeUuid) {
-            url += 'pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*';
-        } else {
-            url += 'root_pid:"' + periodicalUuid + '"';
-        }
-        if (query.accessibility === 'public' || query.accessibility === 'private') {
-            url += ' AND dostupnost:' + query.accessibility;
-        }
-        if (query.isYearRangeSet()) {
-            url += ' AND (rok:[' + query.from + ' TO ' + query.to + '])';
-        }
-        const text = query.fulltext.toLowerCase().trim()
-                        .replace(/"/g, '\\"').replace(/~/g, '\\~')
-                        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
-        url += ' AND (fedora.model:article || fedora.model:monographunit || fedora.model:page) AND text:' + text;
-        if (query.ordering === 'latest') {
-            url += '&sort=datum desc, datum_str desc';
-        } else if (query.ordering === 'earliest') {
-            url += '&sort=datum asc, datum_str asc';
-        }
-        url += '&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
-        return this.doGet(url)
-            .catch(this.handleError);
-    }
-
-    getPeriodicalItemDetails(uuids: string[]) {
-        const url = this.getApiUrl() + '/search?fl=PID,details,dostupnost,fedora.model,dc.title,datum_str&q=PID:"' + uuids.join('" OR PID:"') + '"&rows=50';
-        return this.doGet(url)
             .catch(this.handleError);
     }
 

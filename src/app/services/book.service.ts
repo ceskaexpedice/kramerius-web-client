@@ -1,7 +1,5 @@
 import { AccountService } from './account.service';
 import { AppSettings } from './app-settings';
-import { SolrService } from './solr.service';
-import { ModsParserService } from './mods-parser.service';
 import { DocumentItem } from './../model/document_item.model';
 import { Metadata } from './../model/metadata.model';
 import { AltoService } from './alto-service';
@@ -30,6 +28,7 @@ import { AnalyticsService } from './analytics.service';
 import { DialogPdfGeneratorComponent } from '../dialog/dialog-pdf-generator/dialog-pdf-generator.component';
 import { IiifService } from './iiif.service';
 import { LoggerService } from './logger.service';
+import { PeriodicalItem } from '../model/periodicalItem.model';
 
 
 
@@ -79,9 +78,6 @@ export class BookService {
     public dnntFlag = false;
     public iiifEnabled = false;
 
-
-
-
     constructor(private location: Location,
         private altoService: AltoService,
         private appSettings: AppSettings,
@@ -91,9 +87,7 @@ export class BookService {
         private api: KrameriusApiService,
         private iiif: IiifService,
         private logger: LoggerService,
-        private modsParserService: ModsParserService,
         private translator: Translator,
-        private solr: SolrService,
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
@@ -144,8 +138,8 @@ export class BookService {
                 return;
             }
             this.isPrivate = !item.public;
-            this.api.getMods(item.root_uuid).subscribe(response => {
-                this.metadata = this.modsParserService.parse(response, item.root_uuid);
+            this.api.getMetadata(item.root_uuid).subscribe((metadata: Metadata) => {
+                this.metadata = metadata;
                 this.metadata.assignDocument(item);
                 this.analytics.sendEvent('viewer', 'open', this.metadata.getShortTitle());
                 this.pageTitle.setTitle(null, this.metadata.getShortTitle());
@@ -158,7 +152,7 @@ export class BookService {
                         this.metadata.doctype = item.doctype;
                     }
                 }
-                this.metadata.addMods(this.metadata.doctype, this.metadata.uuid, response);
+                this.metadata.addToContext(this.metadata.doctype, this.metadata.uuid);
                 if (item.doctype === 'periodicalitem' || item.doctype === 'supplement') {
                     const volumeUuid = item.getUuidFromContext('periodicalvolume');
                     this.loadVolume(volumeUuid);
@@ -205,9 +199,8 @@ export class BookService {
         this.api.getItem(uuid).subscribe((item: DocumentItem) => {
             this.metadata.assignVolume(item);
         });
-        this.api.getMods(uuid).subscribe(mods => {
-            this.metadata.addMods('periodicalvolume', uuid, mods);
-            const metadata = this.modsParserService.parse(mods, uuid, 'volume');
+        this.api.getMetadata(uuid, 'volume').subscribe((metadata: Metadata) => {
+            this.metadata.addToContext('periodicalvolume', uuid);
             this.metadata.volumeMetadata = metadata;
         });
     }
@@ -216,8 +209,7 @@ export class BookService {
 
 
     private loadIssues(periodicalUuid: string, volumeUuid: string, issueUuid: string) {
-        this.api.getSearchResults(this.solr.buildPeriodicalIssuesQuery(volumeUuid, null)).subscribe(response => {
-            const issues = this.solr.periodicalItems(response, 'periodicalitem');
+        this.api.getPeriodicalIssues(volumeUuid, null).subscribe((issues: PeriodicalItem[]) => {
             if (!issues || issues.length < 1) {
                 return;
             }
@@ -239,9 +231,8 @@ export class BookService {
             if (index < issues.length - 1) {
                 this.metadata.nextIssue = issues[index + 1];
             }
-            this.api.getMods(issueUuid).subscribe(mods => {
-                this.metadata.addMods('periodicalitem', issueUuid, mods);
-                const metadata = this.modsParserService.parse(mods, issueUuid, 'issue');
+            this.api.getMetadata(issueUuid, 'issue').subscribe((metadata: Metadata) => {
+                this.metadata.addToContext('periodicalitem', issueUuid);
                 this.metadata.currentIssue.metadata = metadata;
             });
         });
@@ -249,8 +240,7 @@ export class BookService {
 
 
     private loadVolumes(periodicalUuid: string, volumeUuid: string) {
-        this.api.getSearchResults(this.solr.buildPeriodicalVolumesQuery(periodicalUuid, null)).subscribe(response => {
-            const volumes = this.solr.periodicalItems(response, 'periodicalvolume');
+        this.api.getPeriodicalVolumes(periodicalUuid, null).subscribe((volumes: PeriodicalItem[]) => {
             if (!volumes || volumes.length < 1) {
                 return;
             }
@@ -276,8 +266,7 @@ export class BookService {
     }
 
     private loadMonographUnits(monographUuid: string, unitUud: string) {
-        this.api.getSearchResults(this.solr.buildMonographUnitsQuery(monographUuid, null)).subscribe(response => {
-            const units = this.solr.periodicalItems(response, 'monographunit');
+        this.api.getMonographUnits(monographUuid, null).subscribe((units: PeriodicalItem[]) => {
             if (!units || units.length < 1) {
                 return;
             }
@@ -299,9 +288,8 @@ export class BookService {
             if (index < units.length - 1) {
                 this.metadata.nextUnit = units[index + 1];
             }
-            this.api.getMods(unitUud).subscribe(mods => {
-                this.metadata.addMods('monographunit', unitUud, mods);
-                const metadata = this.modsParserService.parse(mods, unitUud);
+            this.api.getMetadata(unitUud).subscribe((metadata: Metadata) => {
+                this.metadata.addToContext('monographunit', unitUud);
                 this.metadata.currentUnit.metadata = metadata;
             });
         });
@@ -731,12 +719,12 @@ export class BookService {
             this.cancelFulltext();
             return;
         }
-        this.api.getFulltextUuidList(this.uuid, query).subscribe(result => {
+        this.api.getFulltextUuidList(this.uuid, query).subscribe((list: string[]) => {
             this.ftPages = [];
             let index = 0;
             for (const page of this.allPages) {
                 page.hidden = true;
-                for (const uuid of result) {
+                for (const uuid of list) {
                     if (uuid === page.uuid) {
                         page.selected = false;
                         page.index = index;
@@ -822,13 +810,10 @@ export class BookService {
         const page = this.getPage();
         page.selected = true;
 
-
-
         if (page.supplementUuid) {
             const uuid = page.supplementUuid;
-            this.api.getMods(uuid).subscribe(mods => {
+            this.api.getMetadata(uuid, 'supplement').subscribe((metadata: Metadata) => {
                 if (uuid === this.getPage().supplementUuid) {
-                    const metadata = this.modsParserService.parse(mods, uuid, 'supplement');
                     this.metadata.pageSupplementMetadata = metadata;
                 }
             });
@@ -918,12 +903,12 @@ export class BookService {
         this.pageState = BookPageState.Loading;
         this.internalPart = internalPart;
         if (!internalPart.metadata) {
-            forkJoin([this.api.getItem(internalPart.uuid), this.api.getMods(internalPart.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
+            forkJoin([this.api.getItem(internalPart.uuid), this.api.getMetadata(internalPart.uuid)]).subscribe(([item, metadata]: [DocumentItem, Metadata]) => {
                 if (this.metadata) {
-                    this.metadata.addMods('internalpart', internalPart.uuid, mods);
+                    this.metadata.addToContext('internalpart', internalPart.uuid);
                 }
                 this.onInternalPartLoaded(internalPart);
-                internalPart.metadata = this.modsParserService.parse(mods, internalPart.uuid);
+                internalPart.metadata = metadata;
             });
         } else {
             this.onInternalPartLoaded(internalPart);
@@ -954,13 +939,13 @@ export class BookService {
         this.pageState = BookPageState.Loading;
         this.article = article;
         if (article.type === 'none') {
-            forkJoin([this.api.getItem(article.uuid), this.api.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
+            forkJoin([this.api.getItem(article.uuid), this.api.getMetadata(article.uuid)]).subscribe(([item, metadata]: [DocumentItem, Metadata]) => {
                 if (this.metadata) {
-                    this.metadata.addMods('article', article.uuid, mods);
+                    this.metadata.addToContext('article', article.uuid);
                 }
                 article.type = item.pdf ? 'pdf' : 'pages';
                 this.onArticleLoaded(article);
-                article.metadata = this.modsParserService.parse(mods, article.uuid);
+                article.metadata = metadata;
             });
         } else {
             this.onArticleLoaded(article);
