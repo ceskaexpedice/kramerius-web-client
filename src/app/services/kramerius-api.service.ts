@@ -115,7 +115,7 @@ export class KrameriusApiService {
 
     getPeriodicalFulltext(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery): Observable<[PeriodicalFtItem[], number]> {
         return this.getSearchResults(this.solr.buildPeriodicalFulltextSearchQuery(periodicalUuid, volumeUuid, offset, limit, query))
-                    .map(response => [this.solr.periodicalFullTextItems(response, query.fulltext), this.solr.numberOfResults(response)]);
+                    .map(response => [this.solr.periodicalFullTextItems(response, query.fulltext), this.solr.numberOfResults(response)] as [PeriodicalFtItem[], number]);
     }
 
     getPeriodicalItemsDetails(uuids: string[]): Observable<PeriodicalItem[]> {
