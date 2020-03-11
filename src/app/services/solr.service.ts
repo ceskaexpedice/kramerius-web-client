@@ -153,11 +153,11 @@ export class SolrService {
         },
         "model_path": {
             '1.0': 'model_path',
-            '2.0': 'model_path'
+            '2.0': 'n.own_model_path'
         },
         "pid_path": {
             '1.0': 'pid_path',
-            '2.0': 'pid_path'
+            '2.0': 'n.own_pid_path'
         },
         'date': {
             '1.0': 'datum_str',
@@ -267,7 +267,7 @@ export class SolrService {
     }
 
     private oldSchema(): boolean {
-        return this.version() === '1.0';
+        return this.settings.oldSchema();
     }
 
     field(name: string): string {
@@ -305,7 +305,7 @@ export class SolrService {
     }
 
 
-    private buildPeriodicalQuery(parent: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean): string {
+    private buildPeriodicalQuery(parent: string, type: string, models: string[], query: PeriodicalQuery, applyYear: boolean): string {
         const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('date')}`;
         if (this.oldSchema()) {
@@ -324,25 +324,36 @@ export class SolrService {
             q += `(${this.field('date_year')}:[${query.from} TO ${query.to}] OR (${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *]))`
         }
         q += '&sort=';
-        if (level > 1) {
-            q += `${this.field('date_from_sort')} asc,`;
+        if (this.oldSchema()) {
+            // OLD SCHEMA
+            if (type === 'issue') {
+                q += 'datum asc,';
+            }
+            q += `datum_str asc,fedora.model asc,dc.title asc`;
+            //===========
+        } else {
+            if (type === 'unit') {
+                q += `${this.field('rels_ext_index')} asc`;
+            } else {
+                q += `${this.field('date_from_sort')} asc`;
+            }
         }
-        q += `${this.field('date')} asc,${this.field('model')} asc,${this.field('title')} asc&rows=1500&start=0`;
+        q += '&rows=1500&start=0';
         return q;
     }
 
 
 
     buildPeriodicalVolumesQuery(uuid: string, query: PeriodicalQuery) {
-        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 1, ['periodicalvolume'], query, true);
+        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 'volume', ['periodicalvolume'], query, true);
     }
 
     buildPeriodicalIssuesQuery(uuid: string, query: PeriodicalQuery) {
-        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 2, ['periodicalitem', 'supplement', 'page'], query, false);
+        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 'issue', ['periodicalitem', 'supplement', 'page'], query, false);
     }
 
     buildMonographUnitsQuery(uuid: string, query: PeriodicalQuery) {
-        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 1, ['monographunit', 'page'], query, false);
+        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 'unit', ['monographunit', 'page'], query, false);
     }
 
     buildPeriodicalItemsDetailsQuery(uuids: string[]) {
@@ -992,11 +1003,11 @@ export class SolrService {
         if (!path) {
             return null;
         }
-       // if (this.oldSchema()) {
+        if (this.oldSchema()) {
             return path.length > 0 ? path[0] : null;
-        // } else {
-        //     return path;
-        // }
+        } else {
+            return path;
+        }
     }
 
     private getPidPath(doc) {

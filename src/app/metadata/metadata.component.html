@@ -107,13 +107,13 @@
 
       <div *ngIf="metadata.previousVolume">
           <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.previousVolume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'previous volume');">
-            {{ 'metadata.previous_volume' | translate }} {{ metadata.previousVolume.subtitle }} ({{ metadata.previousVolume.title }})
+            {{ 'metadata.previous_volume' | translate }} {{ metadata.previousVolume.prettyName() }}
           </a>
         </div>
   
         <div *ngIf="metadata.nextVolume">
           <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.nextVolume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'next volume');">
-            {{ 'metadata.next_volume' | translate }} {{ metadata.nextVolume.subtitle }} ({{ metadata.nextVolume.title }})
+            {{ 'metadata.next_volume' | translate }} {{ metadata.nextVolume.prettyName() }}
           </a>
         </div>
 
@@ -122,18 +122,18 @@
 
     <div *ngIf="metadata.currentIssue">
       <label>{{ 'metadata.issue' | translate }}</label>
-      <div class="app-value">{{ 'metadata.issue_date' | translate }} <strong>{{ metadata.currentIssue.title }}</strong></div>
-      <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.subtitle }}</strong></div>
+      <div class="app-value">{{ 'metadata.issue_date' | translate }} <strong>{{ metadata.currentIssue.getDate() }}</strong></div>
+      <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.getPart() }}</strong></div>
       
       <div *ngIf="metadata.previousIssue">
         <a [routerLink]="[appSettings.getRouteFor('view'), metadata.previousIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'previous issue');">
-          {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.subtitle }} ({{ metadata.previousIssue.title }})
+          {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.prettyName() }}
         </a>
       </div>
 
       <div *ngIf="metadata.nextIssue">
         <a [routerLink]="[appSettings.getRouteFor('view'), metadata.nextIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'next issue');">
-          {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.subtitle }} ({{ metadata.nextIssue.title }})
+          {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.prettyName() }}
         </a>
       </div>
 
@@ -146,24 +146,19 @@
 
     <div *ngIf="metadata.currentUnit">
       <label>{{ 'metadata.unit' | translate }}</label>
-      <!-- <div class="app-value"><strong>{{ metadata.currentUnit.title }}</strong></div>
-      <div class="app-value" >{{ 'metadata.unit_number' | translate }} <strong>{{ metadata.currentUnit.subtitle }}</strong></div>
-       -->
       <div *ngIf="metadata.currentUnit.metadata" >
         <app-metadata [metadata]="metadata.currentUnit.metadata" class="app-nested" [showControls]="false"></app-metadata>
       </div>
-
       <div *ngIf="metadata.previousUnit">
         <a [routerLink]="[appSettings.getRouteFor('view'), metadata.previousUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'previous unit');">
-          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.subtitle }} ({{ metadata.previousUnit.title }})
+          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.prettyName() }}
         </a>
       </div>
       <div *ngIf="metadata.nextUnit">
         <a [routerLink]="[appSettings.getRouteFor('view'), metadata.nextUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'next unit');">
-          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.subtitle }} ({{ metadata.nextUnit.title }})
+          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.prettyName() }}
         </a>
       </div>
-
       <div class="divider"></div>
     </div>
 

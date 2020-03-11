@@ -248,7 +248,7 @@
   "periodical": {
     "periodicalvolume": "Volume {{part}}",
     "periodicalitem": "Issue {{part}}",
-    "unmonograpunitit": "Unit {{part}}",
+    "monographunit": "Unit {{part}}",
     "supplement": "Supplement {{part}}",
     "virtual_issue": "Uncategorized",
     "previous_volume": "Previous Volume",   

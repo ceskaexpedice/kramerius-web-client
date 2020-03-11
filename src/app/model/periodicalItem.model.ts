@@ -28,6 +28,24 @@ export class PeriodicalItem {
         return title || '-';
     }
 
+    getDate(): string {
+        return this.date || '-';
+    }
+
+    prettyName() {
+        let result = this.number;
+        let n = this.doctype === 'monographunit' ? this.name : this.date;
+        if (this.number && n) {
+            return `${this.number} (${n})`;
+        }
+        if (this.number) {
+            return this.number;
+        }
+        if (n) {
+            return n;
+        }
+        return '';
+    }
 
     getPart(): string {
         if (!this.number) {

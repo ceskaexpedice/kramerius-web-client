@@ -44,7 +44,7 @@ export class PeriodicalService {
   constructor(
     private utilsService: Utils,
     private router: Router,
-    private appSettings: AppSettings,
+    private settings: AppSettings,
     private history: HistoryService,
     private pageTitle: PageTitleService,
     private analytics: AnalyticsService,
@@ -69,10 +69,17 @@ export class PeriodicalService {
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            this.api.getChildren(query.uuid).subscribe(children => {
-              this.assignItems(this.utilsService.parseMonographBundleChildren(children, query.accessibility));
-              this.initMonographUnit();
-            });
+            if (this.settings.oldSchema()) {
+              this.api.getChildren(query.uuid).subscribe(children => {
+                this.assignItems(this.utilsService.parseMonographBundleChildren(children, query.accessibility));
+                this.initMonographUnit();
+              });
+            } else {
+              this.api.getMonographUnits(query.uuid, query).subscribe((units: PeriodicalItem[]) => {
+                this.assignItems(units);
+                this.initMonographUnit();
+              });
+            }
           }
         } else if (this.isPeriodical()) {
           this.metadata.doctype = 'periodical';
@@ -266,8 +273,8 @@ export class PeriodicalService {
     this.gridLayoutEnabled = true;
     const year = this.document.volumeYear;
     const prefLayout = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_ISSUES_LAYOUT);
-    this.activeLayout = prefLayout ? prefLayout : this.appSettings.defaultPeriodicalIsssuesLayout;
-    if (this.appSettings.enablePeriodicalIsssuesCalendarLayout && year && !isNaN(year as any)) {
+    this.activeLayout = prefLayout ? prefLayout : this.settings.defaultPeriodicalIsssuesLayout;
+    if (this.settings.enablePeriodicalIsssuesCalendarLayout && year && !isNaN(year as any)) {
       this.calendarLayoutEnabled = true;
       if (!this.calcCalender(year)) {
         this.activeLayout = 'grid';
@@ -537,7 +544,7 @@ export class PeriodicalService {
     }
     this.gridLayoutEnabled = true;
     this.calendarLayoutEnabled = false;
-    if (!this.appSettings.enablePeriodicalVolumesYearsLayout) {
+    if (!this.settings.enablePeriodicalVolumesYearsLayout) {
       this.yearsLayoutEnabled = false;
       this.activeLayout = 'grid';
       this.state = PeriodicalState.Success;
@@ -561,7 +568,7 @@ export class PeriodicalService {
     }
     this.yearsLayoutEnabled = true;
     const prefLayout = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_VOLUMES_LAYOUT);
-    this.activeLayout = prefLayout ? prefLayout : this.appSettings.defaultPeriodicalVolumesLayout;
+    this.activeLayout = prefLayout ? prefLayout : this.settings.defaultPeriodicalVolumesLayout;
     this.calcYearItems();
     this.state = PeriodicalState.Success;
   }

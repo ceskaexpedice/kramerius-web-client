@@ -250,7 +250,7 @@
   "periodical": {
     "periodicalvolume": "Ročník {{part}}",
     "periodicalitem": "Číslo {{part}}",
-    "monograpunit": "Část {{part}}",
+    "monographunit": "Část {{part}}",
     "supplement": "Příloha {{part}}",
     "virtual_issue": "Nezařazené",
     "previous_volume": "Předchozi ročník",   

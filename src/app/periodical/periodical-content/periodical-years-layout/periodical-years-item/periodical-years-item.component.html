@@ -1,7 +1,7 @@
 <a *ngIf="item.uuid; else missing" [routerLink]="appSettings.getRouteFor(item.getPath())" [queryParams]="periodicalService.getUrlParams()" (click)="analytics.sendEvent('periodical', 'open from', 'year');">
   <mz-card  [hoverable]="true">
     <mz-card-content>
-      {{item.title}}
+      {{ item.date }}
       <i *ngIf="!item.public" 
         mz-icon-mdi 
         [icon]="'lock'" 
@@ -17,7 +17,7 @@
 <ng-template #missing>
   <mz-card  [hoverable]="true" class="app-missing">
     <mz-card-content>
-      {{item.title}}
+      {{ item.date }}
     </mz-card-content>
   </mz-card>
 </ng-template>

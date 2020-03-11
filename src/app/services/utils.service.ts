@@ -72,8 +72,8 @@ export class Utils {
                 item.doctype = json['model'];
                 item.uuid = json['pid'];
                 if (json['details']) {
-                    item.title = json['details']['title'];
-                    item.subtitle = json['details']['partNumber'];
+                    item.name = json['details']['title'];
+                    item.number = json['details']['partNumber'];
                 }
                 items.push(item);
             }

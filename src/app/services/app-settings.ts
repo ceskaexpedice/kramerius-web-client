@@ -144,6 +144,11 @@ export class AppSettings {
     return this.filters.indexOf(filter) > -1;
   }
 
+  public oldSchema(): boolean {
+    return this.schemaVersion === '1.0';
+}
+
+
 }
 
 
