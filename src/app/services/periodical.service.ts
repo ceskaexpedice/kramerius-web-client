@@ -337,7 +337,7 @@ export class PeriodicalService {
           volumePids.push(volume);
         }
       }
-      if (this.isMonograph()) {
+      if (this.isMonograph() && unitPids.length > 0) {
         this.api.getPeriodicalItemsDetails(unitPids).subscribe((items: PeriodicalItem[]) => {
           for (const item of items) {
             for (const page of this.fulltext.pages) {
@@ -350,30 +350,33 @@ export class PeriodicalService {
           }
         });
       } else {
-        this.api.getPeriodicalItemsDetails(volumePids).subscribe((items: PeriodicalItem[]) => {
-          console.log('asaf', items);
-          for (const item of items) {
-            for (const page of this.fulltext.pages) {
-              if (item.uuid === page.context['periodicalvolume']) {
-                page.year = item.date;
-                page.volume = item.number;
+        if (volumePids.length > 0) {
+          this.api.getPeriodicalItemsDetails(volumePids).subscribe((items: PeriodicalItem[]) => {
+            for (const item of items) {
+              for (const page of this.fulltext.pages) {
+                if (item.uuid === page.context['periodicalvolume']) {
+                  page.year = item.date;
+                  page.volume = item.number;
+                }
               }
             }
-          }
-        });
-        this.api.getPeriodicalItemsDetails(issuePids).subscribe((items: PeriodicalItem[]) => {
-          for (const item of items) {
-            for (const page of this.fulltext.pages) {
-              if (item.uuid === page.context['periodicalitem']) {
-                page.date = item.date;
-                page.issue = item.number;
-              } else if (item.uuid === page.context['supplement']) {
-                page.date = item.date;
-                page.supplement = item.number;
+          });
+        }
+        if (issuePids.length > 0) {
+          this.api.getPeriodicalItemsDetails(issuePids).subscribe((items: PeriodicalItem[]) => {
+            for (const item of items) {
+              for (const page of this.fulltext.pages) {
+                if (item.uuid === page.context['periodicalitem']) {
+                  page.date = item.date;
+                  page.issue = item.number;
+                } else if (item.uuid === page.context['supplement']) {
+                  page.date = item.date;
+                  page.supplement = item.number;
+                }
               }
             }
-          }
-        });
+          });
+        }
       }
       this.state = PeriodicalState.Success;
     });

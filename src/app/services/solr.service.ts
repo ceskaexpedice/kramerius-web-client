@@ -476,9 +476,8 @@ export class SolrService {
         const text = query.fulltext.toLowerCase().trim()
                         .replace(/"/g, '\\"').replace(/~/g, '\\~')
                         .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
-        q += ` AND (${this.field('model')}:article OR ${this.field('model')}:monographunit OR ${this.field('model')}:page) AND (${this.field('text_ocr')}:${text})`;
-        
-        
+        // q += ` AND (${this.field('model')}:article OR ${this.field('model')}:monographunit OR ${this.field('model')}:page) AND (${this.field('text_ocr')}:${text})`;
+        q += ` AND ((${this.field('model')}:page AND ${this.field('text_ocr')}:${text}) OR ((${this.field('model')}:monographunit OR ${this.field('model')}:article) AND (${this.field('titles_search')}:${text} OR ${this.field('authors_search')}:${text} OR ${this.field('keywords_search')}:${text})))`;
         if (query.ordering === 'latest') {
             q += `&sort=${this.field('date_to_sort')} desc, ${this.field('date')} desc`;
         } else if (query.ordering === 'earliest') {
@@ -605,7 +604,7 @@ export class SolrService {
             value = query.value;
             q +=  SearchQuery.getSolrCustomField(query.field) + ':' + query.value;
         } else if (qString) {
-            q += `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('authors_search')}^2 ${this.field('text')}^0.1 ${this.field('shelf_locator')}\' bq=\'(${this.field('level')}:0)^20\' bq=\'(${this.field('accessibility')}:public)^2\' bq=\'(${this.field('model')}:page)^0.1\' v=$q1}\"`;
+            q += `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('authors_search')}^2 ${this.field('keywords_search')} ${this.field('text_ocr')}^0.1 ${this.field('shelf_locator')}\' bq=\'(${this.field('level')}:0)^20\' bq=\'(${this.field('accessibility')}:public)^2\' bq=\'(${this.field('model')}:page)^0.1\' v=$q1}\"`;
         } else {
             q += '*:*';
         }
@@ -1134,7 +1133,7 @@ export class SolrService {
             const item = new DocumentItem();
             item.uuid = doc[this.field('root_pid')];
             item.public = doc[this.field('accessibility')] === 'public';
-            const dp = doc[this.field('model_path')][0];
+            const dp = this.getPath('model', doc);
             const params = {};
             item.title = doc[this.field('title')];
             if (dp.indexOf('/') > 0) {
