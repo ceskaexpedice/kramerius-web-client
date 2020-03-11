@@ -254,7 +254,11 @@ export class SolrService {
         "parent_collections": {
             '1.0': '',
             '2.0': 'n.collections.direct'
-        }
+        },
+        "collection_description": {
+            '1.0': '',
+            '2.0': 'n.collection.desc'
+        },
     }
 
     public static allDoctypes = ['periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
@@ -291,7 +295,12 @@ export class SolrService {
     }
 
     getNewestQuery(): string {
-        return `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('title')},${this.field('date')},${this.field('model')}&q=${this.field('accessibility')}:public&fq=${this.buildTopLevelFilter()}&sort=${this.field('created_at')} desc&rows=24&start=0`;
+        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('title')},${this.field('date')},${this.field('model')}`;
+        if (!this.oldSchema()) {
+            q += `,${this.field('collection_description')}`;
+        }
+        q += `&q=${this.field('accessibility')}:public&fq=${this.buildTopLevelFilter()}&sort=${this.field('created_at')} desc&rows=24&start=0`;
+        return q;
     }
 
     private getOrderingValue(query: SearchQuery): string {
@@ -662,6 +671,9 @@ export class SolrService {
         } else {
             q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('title')},${this.field('date')}`;
         }
+        if (!this.oldSchema()) {
+            q += `,${this.field('collection_description')}`;
+        }
         if (this.settings.dnntFilter) {
             q += `,${this.field('dnnt')}`;
         }
@@ -864,6 +876,7 @@ export class SolrService {
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
             item.dnnt = !!doc[this.field('dnnt')];
+            item.description = doc[this.field('collection_description')];
             item.geonames = doc[this.field('geonames_facet')];
             if (this.oldSchema()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
@@ -930,7 +943,9 @@ export class SolrService {
 
     facetDoctypeList(solr, joinedDocytypes: boolean, doctypes: string[]) {
         const map = {};
-        for (const doctype of doctypes) {
+
+        const types = this.oldSchema() ? doctypes : doctypes.concat(['collection']);
+        for (const doctype of types) {
             map[doctype] = 0;
         }
         const list = [];
@@ -948,7 +963,7 @@ export class SolrService {
                 }
             }
         }
-        for (const doctype of doctypes) {
+        for (const doctype of types) {
             list.push({'value' : doctype, 'count': map[doctype]});
         }
         return list;
@@ -1211,6 +1226,7 @@ export class SolrService {
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
             item.dnnt = !!doc[this.field('dnnt')];
+            item.description = doc[this.field('collection_description')];
             item.geonames = doc[this.field('geonames_facet')];
             if (this.oldSchema()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);

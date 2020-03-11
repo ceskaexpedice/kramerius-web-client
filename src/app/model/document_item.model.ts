@@ -8,6 +8,7 @@ export class DocumentItem {
     root_uuid: string;
     public: boolean;
     url: string;
+    description: string;
     volumeNumber: string;
     volumeYear: string;
     pdf = false;

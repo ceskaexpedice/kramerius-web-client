@@ -27,6 +27,13 @@
           <i mz-icon-mdi [icon]="'calendar-check'" [class]="'app-clean-mg'"></i>
           {{item.date}}
         </div>
+
+
+        <div *ngIf="item.description" class="app-card-description">
+          {{ item.description }}
+        </div>
+
+
         <div *ngIf="item.hits" class="app-card-hits">
           <strong>{{item.hits}}</strong> {{ 'common.n_occurrences' | translate: { count: item.hits } }}
         </div>

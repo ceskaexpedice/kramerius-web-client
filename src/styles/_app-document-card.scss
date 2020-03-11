@@ -121,6 +121,15 @@ app-document-card {
               display: -webkit-box;
               text-overflow: ellipsis;
             }
+            .app-card-description {
+              overflow: hidden;
+              line-height: 1.1rem;
+              height: 2.2rem;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+              display: -webkit-box;
+              text-overflow: ellipsis;
+            }
 
             .app-card-doctype {
               position: absolute;
