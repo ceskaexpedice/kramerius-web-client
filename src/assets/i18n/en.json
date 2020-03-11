@@ -46,7 +46,7 @@
       "public": "Search in public documents in the digital library",
       "filters": "search with filters"
     },
-    "document": "Search in document  ...",
+    "document": "Search in document",
     "delete_query": "Delete query"
   },
   "filters": {
@@ -253,7 +253,13 @@
     "virtual_issue": "Uncategorized",
     "previous_volume": "Previous Volume",   
     "next_volume": "Next Volume",
-    "volume_list": "Volume list"
+    "volume_list": "Volume list",
+    "search": {
+      "none": "Search",
+      "periodical": "Search in periodical",
+      "periodicalvolume": "Search in volume",
+      "monograph": "Search in monograph bundle"
+    }
   },
   "view_controls": {
     "tooltip_zoom_in": "Zoom in",

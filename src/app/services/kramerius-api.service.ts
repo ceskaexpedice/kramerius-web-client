@@ -41,6 +41,24 @@ export class KrameriusApiService {
         private solr: SolrService) {
     }
 
+    private handleError(error: Response) {
+        if (error.status === 404) {
+            return throwError(new NotFoundError());
+        } else if (error.status === 401 || error.status === 403) {
+            return throwError(new UnauthorizedError());
+        }
+        return throwError(new AppError(error));
+    }
+
+    private doGet(url: string): Observable<Object> {
+        return this.http.get(encodeURI(url)).catch(this.handleError);
+    }
+
+    private doGetText(url: string): Observable<string> {
+        return this.http.get(encodeURI(url), { observe: 'response', responseType: 'text' })
+        .map(response => response['body']).catch(this.handleError);
+    }
+
     private getbaseUrl(): string {
         return this.settings.url;
     }
@@ -53,10 +71,6 @@ export class KrameriusApiService {
         return this.getApiUrlForBaseUrl(this.getbaseUrl());
     }
 
-    private doGet(url: string): Observable<Object> {
-        return this.http.get(encodeURI(url));
-    }
-
     private getItemUrl(uuid: string) {
         return this.getApiUrl().replace(/6.0/, '5.0') + '/item/' + uuid;
     }
@@ -64,6 +78,11 @@ export class KrameriusApiService {
     private getItemUrlForKramerius(uuid: string, url: string) {
         return this.getApiUrlForBaseUrl(url) + '/item/' + uuid;
     }
+
+    private getItemStreamUrl(uuid: string, stream: string) {
+        return this.getItemUrl(uuid) + '/streams/' + stream;
+    }
+
 
     getThumbUrl(uuid: string): string {
         return this.getItemUrl(uuid) + '/thumb';
@@ -76,8 +95,7 @@ export class KrameriusApiService {
     getSearchResults(query: string) {
         const url = this.getApiUrl() + '/search?'
             + query;
-        return this.doGet(url)
-            .catch(this.handleError);
+        return this.doGet(url);
     }
 
     getNewest(): Observable<DocumentItem[]> {
@@ -120,7 +138,6 @@ export class KrameriusApiService {
             .map(response => this.solr.periodicalItems(response, 'monographunit'));
     }
 
-
     getBrowseItems(query: BrowseQuery): Observable<[BrowseItem[], number]> { 
         return this.getSearchResults(this.solr.buildBrowseQuery(query))
             .map(response => this.solr.browseItems(response, query));
@@ -131,11 +148,61 @@ export class KrameriusApiService {
             .map(response => this.solr.uuidList(response));
     }
 
-
-
     getMetadata(uuid: string, type: string = 'full'): Observable<Metadata> {
         return this.getMods(uuid).map( mods => this.mods.parse(mods, uuid, type));
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    getOcr(uuid: string): Observable<string> {
+        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR));
+    }
+
+    getDc(uuid: string) {
+        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC));
+    }
+
+    getAlto(uuid: string) {
+        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO));
+    }
+
+    getMods(uuid: string): Observable<string> {
+        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS));
+    }
+
+    getFoxml(uuid: string): Observable<string> {
+        return this.doGetText(this.getItemUrl(uuid) + '/foxml');
+    }
+
+
+
+
+    getZoomifyBaseUrl(uuid: string): string {
+        return this.getbaseUrl() + '/search/zoomify/' + uuid;
+    }
+
+    getIiifBaseUrl(uuid: string): string {
+        return this.getbaseUrl() + '/search/iiif/' + uuid;
+    }
+
+    getIiifPresentation(uuid: string): Observable<any> {
+        const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
+        return this.doGet(url);
+    }
+
+
+
 
 
 
@@ -191,27 +258,9 @@ export class KrameriusApiService {
 
 
 
-    private handleError(error: Response) {
-        if (error.status === 404) {
-            return throwError(new NotFoundError());
-        } else if (error.status === 401 || error.status === 403) {
-            return throwError(new UnauthorizedError());
-        }
-        return throwError(new AppError(error));
-    }
-
-    private getItemStreamUrl(uuid: string, stream: string) {
-        return this.getItemUrl(uuid) + '/streams/' + stream;
-    }
-
 
     private doGetBlob(url: string): Observable<Blob> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'blob' })
-        .map(response => response['body']);
-    }
-
-    private doGetText(url: string): Observable<string> {
-        return this.http.get(encodeURI(url), { observe: 'response', responseType: 'text' })
         .map(response => response['body']);
     }
 
@@ -230,8 +279,7 @@ export class KrameriusApiService {
             headers: new HttpHeaders(headerParams)
           };
         return this.http.get(url, httpOptions)
-            .map(response => User.fromJson(response, username, password))
-            .catch(this.handleError);
+            .map(response => User.fromJson(response, username, password));
     }
 
 
@@ -244,22 +292,19 @@ export class KrameriusApiService {
     getRecommended() {
         const url = this.getApiUrl() + '/feed/custom';
         return this.doGet(url)
-            .map(response => this.utils.parseRecommended(response))
-            .catch(this.handleError);
+            .map(response => this.utils.parseRecommended(response));
     }
 
     getCollections() {
         const url = this.getApiUrl() + '/vc';
         return this.doGet(url)
-            .map(response => response)
-            .catch(this.handleError);
+            .map(response => response);
     }
 
     getKrameriusInfo(language: string): Observable<KrameriusInfo> {
         const url = this.getApiUrl() + '/info?language=' + language;
         return this.doGet(url)
-            .map(response => KrameriusInfo.fromJson(response))
-            .catch(this.handleError);
+            .map(response => KrameriusInfo.fromJson(response));
     }
 
     getFullJpegUrl(uuid: string): string {
@@ -300,76 +345,38 @@ export class KrameriusApiService {
         return this.doGetBlob(url);
     }
 
-    getOcr(uuid: string): Observable<string> {
-        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);
-        return this.doGetText(url)
-            .catch(this.handleError);
-    }
 
-    getDc(uuid: string) {
-        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
-        return this.doGetText(url)
-          .catch(this.handleError);
-    }
-
-    getAlto(uuid: string) {
-        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO);
-        return this.doGetText(url)
-          .catch(this.handleError);
-    }
-
-    getMods(uuid: string): Observable<string> {
-        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
-        return this.doGetText(url)
-          .catch(this.handleError);
-    }
-
-    getFoxml(uuid: string): Observable<string> {
-        const url = this.getItemUrl(uuid) + '/foxml';
-        return this.doGetText(url)
-          .catch(this.handleError);
-    }
 
     getChildren(uuid: string): Observable<any[]> {
         const url = this.getItemUrl(uuid) + '/children';
         return this.doGet(url)
-            .map(res => <any[]> res)
-          .catch(this.handleError);
+            .map(res => <any[]> res);
     }
 
-    getIiifPresentation(uuid: string): Observable<any> {
-        const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
-        return this.doGet(url)
-          .catch(this.handleError);
-    }
-
-    getZoomifyBaseUrl(uuid: string): string {
-        return this.getbaseUrl() + '/search/zoomify/' + uuid;
-    }
-
-    getIiifBaseUrl(uuid: string): string {
-        return this.getbaseUrl() + '/search/iiif/' + uuid;
-    }
-
-    getSiblings(uuid: string) {
-        const url = this.getItemUrl(uuid) + '/siblings';
-        return this.doGet(url)
-          .catch(this.handleError);
-    }
 
     getItem(uuid: string) {
         const url = this.getItemUrl(uuid);
         return this.doGet(url)
-        .map(response => this.utils.parseItem(response))
-        .catch(this.handleError);
+        .map(response => this.utils.parseItem(response));
     }
 
     getRawItem(uuid: string) {
         const url = this.getItemUrl(uuid);
-        return this.doGet(url)
-        .catch(this.handleError);
+        return this.doGet(url);
     }
 
+
+
+
+
+
+
+
+        // getSiblings(uuid: string) {
+    //     const url = this.getItemUrl(uuid) + '/siblings';
+    //     return this.doGet(url)
+    //       .catch(this.handleError);
+    // }
 
 
 }

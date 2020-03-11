@@ -46,7 +46,7 @@
       "public": "Hledat ve veřejných dokumentech digitální knihovny",
       "filters": "Hledat s filtry"
     },
-    "document": "Hledat v dokumentu ...",
+    "document": "Hledat v dokumentu",
     "delete_query": "Vymazat dotaz"
   },
   "filters": {
@@ -255,7 +255,13 @@
     "virtual_issue": "Nezařazené",
     "previous_volume": "Předchozi ročník",   
     "next_volume": "Následující ročník",
-    "volume_list": "Seznam ročníků"
+    "volume_list": "Seznam ročníků",
+    "search": {
+      "none": "Hledat",
+      "periodical": "Hledat v periodiku",
+      "periodicalvolume": "Hledat v ročníku",
+      "monograph": "Hledat ve svazku knih"
+    }
   },
   "view_controls": {
     "tooltip_zoom_in": "Přiblížit",

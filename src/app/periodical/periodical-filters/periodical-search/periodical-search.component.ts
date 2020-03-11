@@ -40,6 +40,7 @@ export class PeriodicalSearchComponent implements OnInit {
   }
 
   cleanQuery() {
+    this.query = null;
     this.analytics.sendEvent('periodical', 'cancel search');
     this.periodicalService.changeSearchQuery(null);
   }

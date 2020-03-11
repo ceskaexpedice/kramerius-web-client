@@ -120,7 +120,7 @@ export class PeriodicalService {
     },
       error => {
         if (error instanceof NotFoundError) {
-          this.router.navigateByUrl(this.appSettings.getRouteFor('404'), { skipLocationChange: true });
+          this.router.navigateByUrl(this.settings.getRouteFor('404'), { skipLocationChange: true });
         }
       });
   }
@@ -202,6 +202,13 @@ export class PeriodicalService {
 
   isMonograph(): boolean {
     return this.document && this.document.doctype === 'monograph';
+  }
+
+  getType(): string {
+    if (!this.document) {
+      return 'none';
+    }
+    return this.document.doctype;
   }
 
   isStateSuccess(): boolean {

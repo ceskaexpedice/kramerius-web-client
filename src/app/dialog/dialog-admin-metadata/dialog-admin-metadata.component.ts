@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MzBaseModal } from 'ngx-materialize';
 import { Metadata } from '../../model/metadata.model';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
-import { parseString, processors, Builder } from 'xml2js';
+import { parseString, Builder } from 'xml2js';
 import { SolrService } from '../../services/solr.service';
 
 
@@ -92,7 +92,6 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
       case 'foxml': return this.api.getFoxml(uuid);
       case 'item': return this.api.getRawItem(uuid);
       case 'children': return this.api.getChildren(uuid);
-      case 'siblings': return this.api.getSiblings(uuid);
       case 'iiif': return this.api.getIiifPresentation(uuid);
 
     }
