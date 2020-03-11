@@ -8,6 +8,27 @@
 </app-alert>
 
 
+
+<ng-container *ngIf="searchService.collection">
+        <div style="    padding: 16px;
+        font-size: 15px;
+        font-weight: 300;
+        color: #555;
+        line-height: 22px;">
+
+
+                Brno (německy Brünn, latinsky Bruna, maďarsky Berén, v jidiš ברין‎‎ Brin) je statutární město, počtem obyvatel i rozlohou druhé největší město v České republice, největší město na Moravě a bývalé hlavní město Moravy. Je sídlem Jihomoravského kraje, v jehož centrální části tvoří samostatný okres Brno-město. Město leží na soutoku řek Svratky a Svitavy, má přibližně 381 tisíc[4] obyvatel a v jeho metropolitní oblasti žije asi 600 tisíc obyvatel.[6]
+
+                Brno je centrem soudní moci České republiky, stalo se totiž sídlem jak Ústavního soudu, tak Nejvyššího soudu, Nejvyššího správního soudu i Nejvyššího státního zastupitelství. Kromě toho je celkově významným administrativním střediskem, protože zde sídlí státní orgány s celostátní kontrolní působností a další důležité instituce. Za zmínku stojí například Úřad pro ochranu hospodářské soutěže,[7] veřejný ochránce práv[8] nebo Státní zemědělská a potravinářská inspekce.[9] Od roku 1777 je Brno také sídlem římskokatolické brněnské diecéze, biskupským chrámem je katedrála svatého Petra a Pavla na Petrově.
+                
+                Město je významným střediskem vysokého školství s 34 fakultami čtrnácti univerzit a dalších vysokých škol s více než 83 000 studenty.[10] V Brně je zákonem zřízeno studio České televize[11] a Českého rozhlasu.[12][pozn. 1]
+                
+                Na Brněnském výstavišti jsou tradičně konány velké mezinárodní výstavy a veletrhy. Rozsáhlý areál výstaviště započal svůj provoz již roku 1928 a dnes je považován také za jednu z kulturních památek města. Největší zde pořádanou událostí je Mezinárodní strojírenský veletrh. Brno proslulo i coby dějiště velkých motoristických závodů konaných na blízkém Masarykově okruhu, tato tradice sahá až do třicátých let 20. století.[13] K nejprestižnějším závodům patří Grand Prix ČR, součást seriálu Mistrovství světa silničních motocyklů.[14] Brno také každoročně hostí mezinárodní přehlídku ohňostrojů Ignis Brunensis, pořádanou od roku 1998.[15] Návštěvnost této události se typicky pohybuje mezi jedním až dvěma sty tisíci návštěvníků po každý den jejího konání.[16]
+
+        </div>
+      </ng-container>
+
+
 <app-document-card *ngFor="let item of searchService.results" [in]="'search'" [item]="item"></app-document-card>
 <div class="clearfix"></div>
 

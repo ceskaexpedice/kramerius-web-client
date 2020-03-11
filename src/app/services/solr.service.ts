@@ -1,7 +1,7 @@
 import { AppSettings } from './app-settings';
 import { SearchQuery } from './../search/search_query.model';
 import { PeriodicalFtItem } from './../model/periodicalftItem.model';
-import { DocumentItem } from './../model/document_item.model';
+import { DocumentItem, Context } from './../model/document_item.model';
 import { PeriodicalItem } from './../model/periodicalItem.model';
 import { Injectable } from '@angular/core';
 import { BrowseQuery } from '../browse/browse_query.model';
@@ -247,13 +247,17 @@ export class SolrService {
             '1.0': '',
             '2.0': 'n.part.number.str'
         },
-        "part_number_sort": {
+        "collections": {
             '1.0': '',
-            '2.0': 'n.part.number.int'
+            '2.0': 'n.collections'
+        },
+        "parent_collections": {
+            '1.0': '',
+            '2.0': 'n.collections.direct'
         }
     }
 
-    public static allDoctypes = ['periodical', 'monographbundle', 'monograph', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
+    public static allDoctypes = ['periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
     'archive', 'soundrecording', 'manuscript', 'monographunit',
     'soundunit', 'track', 'periodicalvolume', 'periodicalitem',
     'article', 'internalpart', 'supplement', 'page'];
@@ -276,9 +280,12 @@ export class SolrService {
 
     buildTopLevelFilter(): string {
         const field = this.field('model');
-        let filter =  `${field}:${this.settings.doctypes.join(` OR ${field}:`)}`;
+        let filter = `${field}:${this.settings.doctypes.join(` OR ${field}:`)}`;
         if (this.settings.doctypes.indexOf('monograph') >= 0) {
             filter = `${filter} OR ${field}:monographunit`
+        }
+        if (!this.oldSchema()) {
+            filter = `${filter} OR (${field}:collection AND !${this.field('parent_collections')}:['' TO *])`;
         }
         return filter;
     }
@@ -487,6 +494,42 @@ export class SolrService {
         return q;
     }
 
+    buildDocumentQuery(uuid: string): string {
+        return `q=${this.field('id')}:"${uuid}"&rows=1`;
+    }
+
+    documentItem(solr): DocumentItem {
+        if (!solr['response']['docs'] || solr['response']['docs'].lenght < 1) {
+            return null;
+        }
+        const doc = solr['response']['docs'][0];
+        const item = new DocumentItem();
+        item.uuid = doc[this.field('id')];
+        item.title = doc[this.field('title')];
+        item.public = doc[this.field('accessibility')] === 'public';
+        item.doctype = doc[this.field('model')];
+        item.date = doc[this.field('date')];
+        item.authors = doc[this.field('authors')];
+        item.dnnt = !!doc[this.field('dnnt')];
+        item.root_uuid = doc[this.field('root_pid')];
+        if (item.doctype === 'periodicalvolume') {
+            item.volumeNumber = doc[this.field('part_number')];
+            item.volumeYear = item.date;
+        }
+        const pidPath = this.getPidPath(doc);
+        const modelPath = this.getModelPath(doc);
+        if (pidPath && modelPath) {
+            const pids = pidPath.split('/');
+            const models = modelPath.split('/');
+            for (let i = 0; i < models.length; i++) {
+                const model = models[i];
+                item.context.push(new Context(pids[i], model));            
+            }
+        }
+        item.resolveUrl(this.settings.getPathPrefix());
+        return item;
+    }
+
 
     buildFulltextSearchAutocompleteQuery(term: string, uuid: string): string {
         const query = term.toLowerCase().trim() + '*';
@@ -661,10 +704,18 @@ export class SolrService {
 
     buildFilterQuery(query: SearchQuery, facet: string = null): string {
         let fqFilters = [];
-        if (query.getQ() || query.isCustomFieldSet()) {
-            fqFilters.push(`(${this.buildTopLevelFilter()} OR ${this.field('model')}:page OR ${this.field('model')}:article)`);
+        if (query.collection) {
+            if (query.getQ() || query.isCustomFieldSet()) {
+                fqFilters.push(`((${this.field('parent_collections')}:"${query.collection}") OR ((${this.field('model')}:page OR ${this.field('model')}:article) AND ${this.field('collections')}:"${query.collection}"))`);
+            } else {
+                fqFilters.push(`(${this.field('parent_collections')}:"${query.collection}")`);
+            }
         } else {
-            fqFilters.push(`(${this.buildTopLevelFilter()})`);
+            if (query.getQ() || query.isCustomFieldSet()) {
+                fqFilters.push(`(${this.buildTopLevelFilter()} OR ${this.field('model')}:page OR ${this.field('model')}:article)`);
+            } else {
+                fqFilters.push(`(${this.buildTopLevelFilter()})`);
+            }
         }
         if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
             if (query.accessibility === 'public') {
@@ -723,10 +774,11 @@ export class SolrService {
     private buildFacetFilter(withQueryString: boolean, field: string, values: string[], skip: string) {
         if (skip !== field  && values.length > 0 && this.settings.filters.indexOf(field) > -1) {
             if (field === 'doctypes') {
-                const field = this.field('model');
                 if (withQueryString) {
+                    const field = this.field('model_path');
                     return  `(${field}:${values.join(`* OR ${field}:`)}*)`;
                 } else {
+                    const field = this.field('model');
                     let filter = `${field}:${values.join(` OR ${field}:`)}`;
                     if (values.indexOf('monograph') >= 0) {
                         filter = `${filter} OR ${field}:monographunit`
@@ -843,9 +895,6 @@ export class SolrService {
         document.west = +sw.split(',')[1];
         document.east = +ne.split(',')[1];
     }
-
-
-
 
 
     facetList(json, field: string, usedFiltes: any[], skipSelected: boolean) {

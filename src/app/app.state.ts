@@ -30,7 +30,10 @@ export class AppState {
   }
 
   atSearchScreen(): boolean {
-    return (!this.appSettings.multiKramerius && this.pageUrl.startsWith('/search')) || (this.appSettings.multiKramerius && /^\/[a-z0-9]*\/search.*$/.test(this.pageUrl));
+    return (!this.appSettings.multiKramerius && this.pageUrl.startsWith('/search')) 
+    || (this.appSettings.multiKramerius && /^\/[a-z0-9]*\/search.*$/.test(this.pageUrl))
+    || (!this.appSettings.multiKramerius && this.pageUrl.startsWith('/collection')) 
+    || (this.appSettings.multiKramerius && /^\/[a-z0-9]*\/collection.*$/.test(this.pageUrl))
   }
 
 }

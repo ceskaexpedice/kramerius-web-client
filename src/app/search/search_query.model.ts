@@ -36,11 +36,13 @@ export class SearchQuery {
 
     settings: AppSettings;
 
+    collection: string;
+
     constructor(settings: AppSettings) {
         this.settings = settings;
     }
 
-    public static fromParams(params, settings: AppSettings): SearchQuery {
+    public static fromParams(params, context, settings: AppSettings): SearchQuery {
         const query = new SearchQuery(settings);
         query.query = params['q'];
         query.dsq = params['dsq'];
@@ -65,6 +67,9 @@ export class SearchQuery {
         query.setYearRange(parseInt(params['from'], 10), parseInt(params['to'], 10));
         if (params['north']) {
             query.setBoundingBox(parseFloat(params['north']), parseFloat(params['south']), parseFloat(params['west']), parseFloat(params['east']));
+        }
+        if (context.key === 'collection') {
+            query.collection = context.value;
         }
         return query;
     }

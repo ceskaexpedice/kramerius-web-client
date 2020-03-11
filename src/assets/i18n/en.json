@@ -372,7 +372,8 @@
     "article" : "Article",
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
-    "track" : "Track"
+    "track" : "Track",
+    "collection" : "Collection"
   },
   "model_2p" : {
     "monograph" : "Book",
@@ -393,7 +394,8 @@
     "article" : "Article",
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
-    "track" : "Track"
+    "track" : "Track",
+    "collection" : "Collection"
   },
   "model_4p" : {
     "monograph" : "Book",
@@ -414,7 +416,8 @@
     "article" : "Article",
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
-    "track" : "Track"
+    "track" : "Track",
+    "collection" : "Collection"
   },
   "model_plural" : {
     "monograph" : "Books",
@@ -434,7 +437,8 @@
     "article" : "Articles",
     "internalpart" : "Chapters",
     "soundunit" : "Sound Units",
-    "track" : "Tracks"
+    "track" : "Tracks",
+    "collection" : "Collections"
   },
   "page_type" : {
     "unknown" : "page",

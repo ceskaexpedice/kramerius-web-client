@@ -4,6 +4,16 @@
 
   
     <div class="col app-col app-col-left">
+      <ng-container *ngIf="searchService.collection">
+        <span style="color: #757575;
+      height: 55px;
+      line-height: 55px;
+      overflow: hidden;
+      font-size: 1.4rem;">
+        {{ searchService.collection.getTitle() }}
+        </span>
+      </ng-container>
+
       <ul>
         <li class="hide-on-med-and-up">
           <a (click)="toggleFilters()">

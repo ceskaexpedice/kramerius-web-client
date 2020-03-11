@@ -44,7 +44,9 @@
     "main": {
       "all": "Hledat v celé digitální knihovně",
       "public": "Hledat ve veřejných dokumentech digitální knihovny",
-      "filters": "Hledat s filtry"
+      "filters": "Hledat s filtry",
+      "collection": "Hledat ve sbírce",
+      "collection_with_filters": "Hledat ve sbírce s filtry"
     },
     "document": "Hledat v dokumentu",
     "delete_query": "Vymazat dotaz"
@@ -369,7 +371,8 @@
     "article" : "Článek",
     "internalpart" : "Kapitola",
     "soundunit" : "Album",
-    "track" : "Nahrávka"
+    "track" : "Nahrávka",
+    "collection": "Sbírka"
   },
   "model_2p" : {
     "monograph" : "Knihy",
@@ -390,7 +393,8 @@
     "article" : "Článku",
     "internalpart" : "Kapitoly",
     "soundunit" : "Alba",
-    "track" : "Nahrávky"
+    "track" : "Nahrávky",
+    "collection": "Sbírky"
   },
   "model_4p" : {
     "monograph" : "Knihu",
@@ -411,7 +415,8 @@
     "article" : "Článek",
     "internalpart" : "Kapitolu",
     "soundunit" : "Album",
-    "track" : "Nahrávku"
+    "track" : "Nahrávku",
+    "collection": "Sbírku"
   },
   "model_plural" : {
     "monograph" : "Knihy",
@@ -431,7 +436,8 @@
     "article" : "Články",
     "internalpart" : "Kapitoly",
     "soundunit" : "Alba",
-    "track" : "Nahrávky"
+    "track" : "Nahrávky",
+    "collection": "Sbírky"
   },
   "page_type": {
     "unknown" : "strana",

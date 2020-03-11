@@ -59,9 +59,9 @@ export class MusicService {
     this.state = MusicState.Loading;
     this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
       this.document = item;
-      this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
-        this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
-        this.metadata.addMods('soundrecording', this.metadata.uuid, response);
+      this.krameriusApiService.getMetadata(this.document.root_uuid).subscribe((metadata: Metadata) => {
+        this.metadata = metadata
+        this.metadata.addToContext('soundrecording', this.metadata.uuid);
         this.metadata.assignDocument(item);
         this.metadata.doctype = 'soundrecording';
         this.pageTitle.setTitle(null, this.metadata.getShortTitle());

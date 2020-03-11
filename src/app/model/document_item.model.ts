@@ -29,6 +29,8 @@ export class DocumentItem {
             this.url = prefix + '/periodical/' + this.uuid;
         } else if (this.doctype === 'soundrecording') {
             this.url = prefix + '/music/' + this.uuid;
+        } else if (this.doctype === 'collection') {
+            this.url = prefix + '/collection/' + this.uuid;
         } else if (this.doctype === 'page') {
             this.url = prefix + '/uuid/' + this.uuid;
         } else {

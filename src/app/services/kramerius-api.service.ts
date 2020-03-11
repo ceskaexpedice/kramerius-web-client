@@ -134,7 +134,7 @@ export class KrameriusApiService {
     }
 
     getMonographUnits(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
-        return this.getSearchResults(this.solr.buildMonographUnitsQuery(uuid, query))
+    return this.getSearchResults(this.solr.buildMonographUnitsQuery(uuid, query))
             .map(response => this.solr.periodicalItems(response, 'monographunit'));
     }
 
@@ -158,6 +158,15 @@ export class KrameriusApiService {
 
 
 
+
+
+    getItem(uuid: string): Observable<DocumentItem> {
+        if (this.settings.oldSchema()) {
+            return this.doGet(this.getItemUrl(uuid)).map(response => this.utils.parseItem(response));
+        } else {
+            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).map(response => this.solr.documentItem(response));
+        }
+    }
 
 
 
@@ -353,12 +362,6 @@ export class KrameriusApiService {
             .map(res => <any[]> res);
     }
 
-
-    getItem(uuid: string) {
-        const url = this.getItemUrl(uuid);
-        return this.doGet(url)
-        .map(response => this.utils.parseItem(response));
-    }
 
     getRawItem(uuid: string) {
         const url = this.getItemUrl(uuid);

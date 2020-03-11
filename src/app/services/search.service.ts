@@ -11,6 +11,7 @@ import { AnalyticsService } from './analytics.service';
 import { MzModalService } from 'ngx-materialize';
 import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/dialog-advanced-search.component';
 import { Translator } from 'angular-translator';
+import { Metadata } from '../model/metadata.model';
 
 
 @Injectable()
@@ -38,6 +39,8 @@ export class SearchService {
 
     contentType = 'grid'; // 'grid' | 'map'
 
+    collection: Metadata;
+
     constructor(
         private router: Router,
         private translator: Translator,
@@ -45,13 +48,13 @@ export class SearchService {
         private solr: SolrService,
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
-        private krameriusApiService: KrameriusApiService,
+        private api: KrameriusApiService,
         private appSettings: AppSettings,
         private modalService: MzModalService) {
-
     }
 
-    public init(params) {
+    public init(context, params) {
+        this.collection = null;
         this.results = [];
         this.keywords = [];
         this.doctypes = [];
@@ -59,7 +62,7 @@ export class SearchService {
         this.accessibility = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = SearchQuery.fromParams(params, this.appSettings);
+        this.query = SearchQuery.fromParams(params, context, this.appSettings);
         if (this.query.isBoundingBoxSet()) {
             this.contentType = 'map';
         } else {
@@ -74,9 +77,13 @@ export class SearchService {
     public buildPlaceholderText(): string {
         const q = this.query;
         if (!q.anyFilter()) {
-            return String(this.translator.instant('searchbar.main.all'));
+            if (q.collection) {
+                return String(this.translator.instant('searchbar.main.collection'));
+            } else {
+                return String(this.translator.instant('searchbar.main.all'));
+            }
         }
-        if (q.onlyPublicFilterChecked()) {
+        if (!q.collection && q.onlyPublicFilterChecked()) {
             return String(this.translator.instant('searchbar.main.public'));
         }
         let filters = [];
@@ -104,7 +111,8 @@ export class SearchService {
         for (const item of q.locations) {
             filters.push(this.translator.instant('sigla.' + item.toUpperCase()));
         }
-        return this.translator.instant('searchbar.main.filters') + ' ' + filters.join(', ');
+        const key = q.collection ? 'collection_with_filters' : 'filters';
+        return this.translator.instant('searchbar.main.' + key) + ' ' + filters.join(', ');
     }
 
 
@@ -134,7 +142,14 @@ export class SearchService {
         if (!preservePage) {
             this.query.setPage(1);
         }
-        this.router.navigate(['search'],  { queryParams: this.query.toUrlParams() });
+        const nav = [];
+        if (this.query.collection) {
+            nav.push('collection');
+            nav.push(this.query.collection);
+        } else {
+            nav.push('search');
+        }
+        this.router.navigate(nav,  { queryParams: this.query.toUrlParams() });
     }
 
     public toggleFilter(values: string[], value: string) {
@@ -253,11 +268,15 @@ export class SearchService {
 
     private search() {
         this.loading = true;
-        this.krameriusApiService.getSearchResults(this.solr.buildSearchQuery(this.query, null)).subscribe(response => {
+        this.api.getSearchResults(this.solr.buildSearchQuery(this.query, null)).subscribe(response => {
             this.handleResponse(response);
             this.loading = false;
         });
-
+        if (this.query.collection) {
+            this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
+                this.collection = metadata;
+            })
+        }
     }
 
     public highlightDoctype(doctype: string) {
@@ -289,7 +308,7 @@ export class SearchService {
                 if (this.collectionService.ready()) {
                     this.dropEmptyCollections();
                 } else {
-                    this.krameriusApiService.getCollections().subscribe(
+                    this.api.getCollections().subscribe(
                         results => {
                             this.collectionService.assign(results);
                             this.dropEmptyCollections();
@@ -313,7 +332,7 @@ export class SearchService {
     }
 
     private makeFacetRequest(facet: string) {
-        this.krameriusApiService.getSearchResults(this.solr.buildSearchQuery(this.query, facet)).subscribe(response => {
+        this.api.getSearchResults(this.solr.buildSearchQuery(this.query, facet)).subscribe(response => {
             this.handleFacetResponse(response, facet);
         });
     }

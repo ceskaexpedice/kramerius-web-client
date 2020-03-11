@@ -21,18 +21,19 @@ app-document-card {
     // set type of document color
     .app-card-mark,
     .app-card-doctype {
-      &.monograph {background-color: $app-type-monograph}
-      &.monographunit {background-color: $app-type-monograph}
-      &.periodical {background-color: $app-type-periodical}
-      &.soundrecording {background-color: $app-type-soundrecording}
-      &.map {background-color: $app-type-map}
-      &.graphic {background-color: $app-type-graphic}
-      &.sheetmusic {background-color: $app-type-sheetmusic}
-      &.archive {background-color: $app-type-archive}
-      &.manuscript {background-color: $app-type-manuscript}
-      &.clippingsvolume {background-color: $app-type-clippingsvolume}
-      &.article {background-color: $app-type-article}
-      &.page {background-color: $app-type-page}
+      &.app-doctype-monograph {background-color: $app-type-monograph}
+      &.app-doctype-monographunit {background-color: $app-type-monograph}
+      &.app-doctype-periodical {background-color: $app-type-periodical}
+      &.app-doctype-soundrecording {background-color: $app-type-soundrecording}
+      &.app-doctype-map {background-color: $app-type-map}
+      &.app-doctype-graphic {background-color: $app-type-graphic}
+      &.app-doctype-sheetmusic {background-color: $app-type-sheetmusic}
+      &.app-doctype-archive {background-color: $app-type-archive}
+      &.app-doctype-manuscript {background-color: $app-type-manuscript}
+      &.app-doctype-clippingsvolume {background-color: $app-type-clippingsvolume}
+      &.app-doctype-collection {background-color: $app-type-collection}
+      &.app-doctype-article {background-color: $app-type-article}
+      &.app-doctype-page {background-color: $app-type-page}
     }
 
     &>div {

@@ -156,7 +156,7 @@ export class BookService {
                 if (item.doctype === 'periodicalitem' || item.doctype === 'supplement') {
                     const volumeUuid = item.getUuidFromContext('periodicalvolume');
                     this.loadVolume(volumeUuid);
-                    this.loadIssues(item.root_uuid, volumeUuid, this.uuid);
+                    this.loadIssues(volumeUuid, this.uuid);
                 } else if (item.doctype === 'monographunit') {
                     this.loadMonographUnits(item.root_uuid, this.uuid);
                 } else if (item.doctype === 'periodicalvolume') {
@@ -208,7 +208,7 @@ export class BookService {
 
 
 
-    private loadIssues(periodicalUuid: string, volumeUuid: string, issueUuid: string) {
+    private loadIssues(volumeUuid: string, issueUuid: string) {
         this.api.getPeriodicalIssues(volumeUuid, null).subscribe((issues: PeriodicalItem[]) => {
             if (!issues || issues.length < 1) {
                 return;
