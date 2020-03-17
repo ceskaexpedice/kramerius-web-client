@@ -21,8 +21,10 @@ import { ResetPasswordComponent } from './account/reset-password/reset-password.
 import { OmniauthComponent } from './account/omniauth/omniauth.component';
 import { PresentationComponent } from './presentation/presentation.component';
 import { LandingComponent } from './landing/landing.component';
+import { CrisisComponent } from './crisis/crisis.component';
 
 const ROUTES: Routes = [
+    { path: 'podminky-zpristupneni', component: CrisisComponent},
     { path: '404', component: NotFoundComponent},
     { path: '', component: LandingComponent },
     { path: 'about', component: AboutComponent, canActivate: [ RoutingGuardService ] },

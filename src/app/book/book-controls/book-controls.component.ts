@@ -1,6 +1,7 @@
 import { BookService } from './../../services/book.service';
 import { Component, OnInit, Input} from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
+import { AppSettings } from '../../services/app-settings';
 
 @Component({
   selector: 'app-book-controls',
@@ -8,7 +9,7 @@ import { AnalyticsService } from '../../services/analytics.service';
 export class BookControlsComponent implements OnInit {
 
 
-  constructor(public bookService: BookService, public analytics: AnalyticsService) {
+  constructor(public bookService: BookService, public analytics: AnalyticsService, public settings: AppSettings) {
   }
 
   ngOnInit() {

@@ -141,6 +141,9 @@ import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/d
 import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.component';
 import { LandingComponent } from './landing/landing.component';
 import { LibrariesComponent } from './libraries/libraries.component';
+import { CrisisComponent } from './crisis/crisis.component';
+import { CrisisService } from './services/crisis.service';
+
 
 
 export function hljsLanguages() {
@@ -235,7 +238,8 @@ export function hljsLanguages() {
     DialogAdvancedSearchComponent,
     DialogPolicyComponent,
     LandingComponent,
-    LibrariesComponent
+    LibrariesComponent,
+    CrisisComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -332,6 +336,7 @@ export function hljsLanguages() {
     IiifService,
     ZoomifyService,
     LoggerService,
+    CrisisService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 <mz-collection>
-  <mz-collection-item *ngIf="!bookService.dnntMode">
+  <mz-collection-item *ngIf="!bookService.dnntMode && (!settings.crisis || !bookService.isPrivate)">
     <i class="app-mdi-book-print app-cursor-pointer" (click)="bookService.prepareToPrint();analytics.sendEvent('viewer', 'action', 'print');"
        mz-tooltip [tooltip]="'book_controls.tooltip_print' | translate" [position]="'bottom'"></i>
     <i class="app-mdi-book-pdf app-cursor-pointer" (click)="bookService.generatePdf();analytics.sendEvent('viewer', 'action', 'pdf');"

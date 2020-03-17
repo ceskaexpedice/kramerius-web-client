@@ -1,6 +1,7 @@
 import { AppSettings } from './../services/app-settings';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CrisisService } from '../services/crisis.service';
 
 @Component({
   selector: 'app-landing',
@@ -10,7 +11,7 @@ export class LandingComponent implements OnInit {
 
   page = 'none';
 
-  constructor(private appSettings: AppSettings, private router: Router) {
+  constructor(private appSettings: AppSettings, private router: Router, private crisis: CrisisService) {
   }
 
   ngOnInit() {
@@ -22,7 +23,9 @@ export class LandingComponent implements OnInit {
         this.router.navigateByUrl(url);
       }
     }  else {
-      this.page = 'home';
+      if (this.crisis.checkApproval('/')) {
+        this.page = 'home';
+      }
     }
   }
 

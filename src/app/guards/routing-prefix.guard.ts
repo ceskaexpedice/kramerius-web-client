@@ -1,6 +1,7 @@
 import { AppSettings } from './../services/app-settings';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { CrisisService } from '../services/crisis.service';
 
 @Injectable()
 
@@ -8,7 +9,7 @@ export class RoutingPrefixGuardService implements CanActivate {
 
   constructor(
       private router: Router,
-      private appSettings: AppSettings) {
+      private appSettings: AppSettings, private crisis: CrisisService) {
   }
 
   canActivate(
@@ -23,6 +24,6 @@ export class RoutingPrefixGuardService implements CanActivate {
           this.router.navigateByUrl('/404');
           return false;
         }
-        return true;
+        return this.crisis.checkApproval(state.url);
     }
 }

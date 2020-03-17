@@ -31,6 +31,7 @@ export class AppSettings {
   public originLink: boolean;
   public mapSearch: boolean;
   public topLevelFilter: string;
+  public crisis: boolean;
 
 
   public share_url = APP_GLOBAL.share_url;
@@ -101,6 +102,7 @@ export class AppSettings {
     this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = kramerius.mapSearch || false;
+    this.crisis = kramerius.crisis || false;
     this.currentCode = this.code;
     // this.krameriusInfoService.reload();
     this.topLevelFilter = (`fedora.model:${this.doctypes.join(' OR fedora.model:')}`)
@@ -159,4 +161,5 @@ interface KrameriusData {
   originLink: boolean;
   customRightMessage: boolean;
   mapSearch: boolean;
+  crisis: boolean;
 }

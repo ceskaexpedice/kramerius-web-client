@@ -7,7 +7,7 @@
       <i class="app-mdi-quote app-cursor-pointer" (click)="showCitation()"
         mz-tooltip [tooltip]="'book_controls.tooltip_citation' | translate"  [position]="'bottom'">
       </i>
-      <i class="app-mdi-metadata app-cursor-pointer" (click)="showAdminMetadata()"
+      <i *ngIf="!appSettings.crisis || (metadata && metadata.isPublic)" class="app-mdi-metadata app-cursor-pointer" (click)="showAdminMetadata()"
         mz-tooltip [tooltip]="'book_controls.tooltip_metadata' | translate"  [position]="'bottom'">
       </i>
       <ng-container *ngIf="account.serviceEnabled() && account.isLoggedIn()">

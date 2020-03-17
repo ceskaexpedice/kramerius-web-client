@@ -1,4 +1,4 @@
-<mz-navbar class="clearfix">
+<mz-navbar class="clearfix" *ngIf="!state.atCrisis()">
   <div *ngIf="!state.atHome()" class="col app-col-left" [class.app-col-hidden]="mobileSearchBarExpanded">
     <a class="app-arrow-left" (click)="goBack()">
       <i mz-icon-mdi [icon]="'arrow-left'" [align]="'left'" mz-tooltip [tooltip]="'navbar.back' | translate" [position]="'right'" ></i>
