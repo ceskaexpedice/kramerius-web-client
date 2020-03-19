@@ -1,21 +1,22 @@
 <div class="app-crisis">
 
-  <div class="app-content">
+  
+  <div class="app-content" *ngIf="!loading">
 
-    <p>
-      Na základě dohody mezi Národní knihovnou ČR a Dilia, z. s. byly pro studenty a pedagogy vysokých škol zpřístupněny všechny digitalizované tituly digitální knihovny Kramerius. Z důvodu eliminace šíření nelegálních kopií bylo přistoupeno k omezení, kdy není možné digitalizáty stahovat nebo tisknout. Podrobné podmínky zpřístupnění naleznete 
-      <a href="http://kramerius-vs.nkp.cz/Dohoda_NK_Dilia.pdf" target="_blank">zde</a>.
-     </p>
-     <p>
-      Použitím aplikace Kramerius udělujete souhlas se zaznamenáním vaší IP adresy.
-     </p>
-
+     <div [innerHTML]="data"></div>
 
      <button mz-button (click)="approve()">
         Pokračovat
      </button>
 
-
   </div>
+
+
+  <mz-spinner *ngIf="loading"
+        class="medium-centered-spinner" 
+        [color]="'blue'"
+        [size]="'medium'">
+  </mz-spinner>
+  
 
 </div>
