@@ -39,7 +39,7 @@ const ROUTES: Routes = [
     { path: 'favourites', component: FavouritesComponent, canActivate: [ RoutingGuardService ] },
     { path: 'collections', component: CollectionsComponent, canActivate: [ RoutingGuardService ] },
     { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingGuardService ] },
-    { path: 'collection/:uuid', component: PresentationComponent, canActivate: [ RoutingGuardService ] },
+    // { path: 'collection/:uuid', component: PresentationComponent, canActivate: [ RoutingGuardService ] },
     { path: 'music/:uuid', component: MusicComponent, canActivate: [ RoutingGuardService ] },
     { path: 'uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view/:uuid', component: BookComponent, canActivate: [ RoutingGuardService ] },
