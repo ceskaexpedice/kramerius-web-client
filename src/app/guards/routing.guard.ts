@@ -15,7 +15,6 @@ export class RoutingGuardService implements CanActivate {
   canActivate(
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot): boolean {
-          console.log("asdasd");
           if (this.appSettings.multiKramerius) {
             const url = '/' + this.appSettings.code + state.url;
             this.router.navigateByUrl(url);

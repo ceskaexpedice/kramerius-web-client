@@ -23,9 +23,9 @@ export class LandingComponent implements OnInit {
         this.router.navigateByUrl(url);
       }
     }  else {
-      if (this.crisis.checkApproval('/')) {
+      // if (this.crisis.checkApproval('/')) {
         this.page = 'home';
-      }
+      // }
     }
   }
 

@@ -24,6 +24,10 @@ export class RoutingPrefixGuardService implements CanActivate {
           this.router.navigateByUrl('/404');
           return false;
         }
-        return this.crisis.checkApproval(state.url);
+        if (url && url.indexOf('/') >= 0) {
+          return this.crisis.checkApproval(state.url);
+        } else {
+          return true;
+        }
     }
 }
