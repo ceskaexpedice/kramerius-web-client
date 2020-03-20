@@ -1,7 +1,6 @@
 import { AppSettings } from './../services/app-settings';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { CrisisService } from '../services/crisis.service';
 
 @Injectable()
 

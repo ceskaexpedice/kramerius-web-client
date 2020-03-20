@@ -15,6 +15,7 @@ export class AppSettings {
   public currentCode: string;
 
   public title: string;
+  public subtitle: string;
   public logo: string;
   public logoHome: string;
   public url: string;
@@ -90,6 +91,7 @@ export class AppSettings {
     this.collectionsService.clear();
     this.code = kramerius.code;
     this.title = kramerius.title;
+    this.subtitle = kramerius.subtitle;
     this.url = kramerius.url;
     this.logo = kramerius.logo;
     this.logoHome = kramerius.logoHome || this.logo;
@@ -153,6 +155,7 @@ export class AppSettings {
 interface KrameriusData {
   code: string;
   title: string;
+  subtitle: string;
   logo: string;
   logoHome: string;
   url: string;
