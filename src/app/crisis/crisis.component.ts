@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AppSettings } from '../services/app-settings';
 import { Translator } from 'angular-translator';
@@ -16,20 +15,24 @@ export class CrisisComponent implements OnInit {
   data = '';
   dataCs = '';
   dataEn = '';
+  buttonLabel = '';
+  buttonLabelCs = '';
+  buttonLabelEn = '';
   loading: boolean;
 
-  constructor(private router: Router, private http: HttpClient, private appSettings: AppSettings, private translator: Translator) {
-
-   }
+  constructor(private http: HttpClient, private settings: AppSettings, private translator: Translator) {
+  }
 
   ngOnInit() {
+    this.buttonLabelCs = this.settings.crisisButtonLabel['cs'];
+    this.buttonLabelEn = this.settings.crisisButtonLabel['en'];
     this.loading = true;
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();
     });
-    const reqCs = this.http.get(this.appSettings.crisisInfo['cs'], { observe: 'response', responseType: 'text' })
+    const reqCs = this.http.get(this.settings.crisisText['cs'], { observe: 'response', responseType: 'text' })
     .map(response => response['body']);
-    const reqEn = this.http.get(this.appSettings.crisisInfo['en'], { observe: 'response', responseType: 'text' })
+    const reqEn = this.http.get(this.settings.crisisText['en'], { observe: 'response', responseType: 'text' })
     .map(response => response['body']);
     forkJoin([reqCs, reqEn])
     .subscribe( result => {
@@ -43,20 +46,21 @@ export class CrisisComponent implements OnInit {
     });
   }
 
-
   private localeChanged() {
     if (this.translator.language === 'cs') {
       this.data = this.dataCs;
+      this.buttonLabel = this.buttonLabelCs;
     } else {
       this.data = this.dataEn;
+      this.buttonLabel = this.buttonLabelEn;
     }
   }
 
-
   approve() {
-    localStorage.setItem("crisis_approved", "yes");
-    const url = localStorage.getItem("crisis_url") || '/';
-    this.router.navigateByUrl(url);
+    // localStorage.setItem("crisis_approved", "yes");
+    // const url = localStorage.getItem("crisis_url") || '/';
+    // this.router.navigateByUrl(url); 
+    window.open(this.settings.crisisButtonLabel);
   }
 
 }

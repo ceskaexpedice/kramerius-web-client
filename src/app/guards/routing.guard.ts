@@ -9,7 +9,7 @@ export class RoutingGuardService implements CanActivate {
 
   constructor(
       private router: Router,
-      private appSettings: AppSettings, private crisis: CrisisService) {
+      private appSettings: AppSettings) {
   }
 
   canActivate(
@@ -20,7 +20,7 @@ export class RoutingGuardService implements CanActivate {
             this.router.navigateByUrl(url);
             return false;
           } else {
-             return this.crisis.checkApproval(state.url);
+             return true; // this.crisis.checkApproval(state.url);
           }
   }
 }
