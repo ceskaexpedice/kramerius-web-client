@@ -24,10 +24,5 @@ export class RoutingPrefixGuardService implements CanActivate {
           return false;
         }
         return true;
-        // if (url && url.indexOf('/') >= 0) {
-        //   return this.crisis.checkApproval(state.url);
-        // } else {
-        //   return true;
-        // }
     }
 }

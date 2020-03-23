@@ -7,7 +7,7 @@
       <i class="app-mdi-quote app-cursor-pointer" (click)="showCitation()"
         mz-tooltip [tooltip]="'book_controls.tooltip_citation' | translate"  [position]="'bottom'">
       </i>
-      <i *ngIf="!appSettings.crisis || (metadata && metadata.isPublic)" class="app-mdi-metadata app-cursor-pointer" (click)="showAdminMetadata()"
+      <i *ngIf="metadata && appSettings.showMetadata" class="app-mdi-metadata app-cursor-pointer" (click)="showAdminMetadata()"
         mz-tooltip [tooltip]="'book_controls.tooltip_metadata' | translate"  [position]="'bottom'">
       </i>
       <ng-container *ngIf="account.serviceEnabled() && account.isLoggedIn()">
@@ -62,7 +62,7 @@
 
     </ng-container>
 
-    <div *ngIf="!metadata.isPublic" class="app-policy">
+    <div *ngIf="!appSettings.hiddenLocks && !metadata.isPublic" class="app-policy">
       <ng-container *ngIf="metadata.isDnnt">
         <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock app-dnnt'"></i>
         <span class="app-message">{{ 'metadata.policy_dnnt' | translate }} (<span><i (click)="showPolicyDnntDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>

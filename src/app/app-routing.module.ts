@@ -19,12 +19,9 @@ import { SigninComponent } from './account/signin/signin.component';
 import { RegisterComponent } from './account/register/register.component';
 import { ResetPasswordComponent } from './account/reset-password/reset-password.component';
 import { OmniauthComponent } from './account/omniauth/omniauth.component';
-import { PresentationComponent } from './presentation/presentation.component';
 import { LandingComponent } from './landing/landing.component';
-import { CrisisComponent } from './crisis/crisis.component';
 
 const ROUTES: Routes = [
-    { path: 'podminky-zpristupneni', component: CrisisComponent},
     { path: '404', component: NotFoundComponent},
     { path: '', component: LandingComponent },
     { path: 'about', component: AboutComponent, canActivate: [ RoutingGuardService ] },
@@ -39,7 +36,6 @@ const ROUTES: Routes = [
     { path: 'favourites', component: FavouritesComponent, canActivate: [ RoutingGuardService ] },
     { path: 'collections', component: CollectionsComponent, canActivate: [ RoutingGuardService ] },
     { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingGuardService ] },
-    // { path: 'collection/:uuid', component: PresentationComponent, canActivate: [ RoutingGuardService ] },
     { path: 'music/:uuid', component: MusicComponent, canActivate: [ RoutingGuardService ] },
     { path: 'uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view/:uuid', component: BookComponent, canActivate: [ RoutingGuardService ] },
@@ -56,7 +52,6 @@ const ROUTES: Routes = [
     { path: ':k/favourites', component: FavouritesComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collections', component: CollectionsComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingPrefixGuardService ] },
-    // { path: ':k/collection/:uuid', component: PresentationComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/music/:uuid', component: MusicComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/view/:uuid', component: BookComponent, canActivate: [ RoutingPrefixGuardService ] },

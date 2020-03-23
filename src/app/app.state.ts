@@ -25,10 +25,6 @@ export class AppState {
     return (this.appSettings.multiKramerius && this.appSettings.landingPage && this.pageUrl === '/');
   }
 
-  atCrisis(): boolean {
-    return (this.pageUrl === '/podminky-zpristupneni');
-  }
-
   atHome(): boolean {
     return (!this.appSettings.multiKramerius && this.pageUrl === '/') || (this.appSettings.multiKramerius && /^\/[a-z0-9]*\/?$/.test(this.pageUrl));
   }

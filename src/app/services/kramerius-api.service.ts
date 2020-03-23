@@ -291,12 +291,20 @@ export class KrameriusApiService {
     }
 
 
+    // getThumbUrl(uuid: string) {
+    //     return this.getItemUrl(uuid) + '/thumb';
+    // }
+
+    // getThumbUrlForKramerius(uuid: string, url: string) {
+    //     return this.getItemUrlForKramerius(uuid, url) + '/thumb';
+    // }
+
     getThumbUrl(uuid: string) {
-        return this.getItemUrl(uuid) + '/thumb';
+        return this.getbaseUrl() + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
     }
 
     getThumbUrlForKramerius(uuid: string, url: string) {
-        return this.getItemUrlForKramerius(uuid, url) + '/thumb';
+        return url + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
     }
 
     getFullJpegUrl(uuid: string): string {

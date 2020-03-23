@@ -80,11 +80,9 @@ export class BookService {
     public iiifEnabled = false;
 
 
-
-
     constructor(private location: Location,
         private altoService: AltoService,
-        private appSettings: AppSettings,
+        private settings: AppSettings,
         private pageTitle: PageTitleService,
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
@@ -123,7 +121,7 @@ export class BookService {
         this.uuid = params.uuid;
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
-        this.iiifEnabled =  this.appSettings.iiifEnabled;
+        this.iiifEnabled =  this.settings.iiifEnabled;
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
             if (item.doctype === 'article') {
                 if (params.articleUuid) {
@@ -186,7 +184,7 @@ export class BookService {
         },
         error => {
             if (error instanceof NotFoundError) {
-                this.router.navigateByUrl(this.appSettings.getRouteFor('404'), { skipLocationChange: true });
+                this.router.navigateByUrl(this.settings.getRouteFor('404'), { skipLocationChange: true });
             }
         });
 
@@ -431,7 +429,7 @@ export class BookService {
                 const page = new Page();
                 page.uuid = p['pid'];
                 page.supplementUuid = p['supplement_uuid'];
-                page.public = p['policy'] === 'public';
+                page.public = p['policy'] === 'public' || this.settings.hiddenLocks;
                 const details = p['details'];
                 if (details) {
                     page.type = details['type'];
@@ -705,7 +703,7 @@ export class BookService {
             this.pages = this.ftPages;
         }
         if (this.pages.length < 1) {
-            this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, 'fulltext=' + this.fulltextQuery);
+            this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, 'fulltext=' + this.fulltextQuery);
             this.publishNewPages(BookPageState.NoResults);
         } else {
             let index = 0;
@@ -853,9 +851,9 @@ export class BookService {
             urlQuery += '&fulltext=' + this.fulltextQuery;
         }
         if (replaceState) {
-            this.location.replaceState(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+            this.location.replaceState(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         } else {
-            this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+            this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         }
         this.lastIndex = index;
         if (!cached) {
@@ -974,7 +972,7 @@ export class BookService {
             if (this.fulltextQuery) {
                 urlQuery += '&fulltext=' + this.fulltextQuery;
             }
-            this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+            this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
             this.assignPdfPath(article.uuid);
         } else if (article.type === 'pages') {
             if (article.firstPageUuid) {

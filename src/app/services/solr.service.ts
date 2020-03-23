@@ -15,14 +15,14 @@ export class SolrService {
     'article', 'internalpart', 'supplement', 'page'];
 
 
-    constructor(private appSettings: AppSettings) {
+    constructor(private settings: AppSettings) {
     }
 
 
     periodicalItem(doc): PeriodicalItem {
         const item = new PeriodicalItem();
         item.uuid = doc['PID'];
-        item.public = doc['dostupnost'] === 'public';
+        item.public = doc['dostupnost'] === 'public' || this.settings.hiddenLocks;
         item.doctype = doc['fedora.model'];
         item.dnnt = !!doc['dnnt'];
         const details = doc['details'];
@@ -78,7 +78,7 @@ export class SolrService {
         for (const doc of solr['response']['docs']) {
             if (doc['fedora.model'] === 'page') {
                 hasVirtualIssue = true;
-                virtualIssuePublic = doc['dostupnost'] === 'public';
+                virtualIssuePublic = doc['dostupnost'] === 'public' || this.settings.hiddenLocks;
                 continue;
             }
             items.push(this.periodicalItem(doc));
@@ -100,7 +100,7 @@ export class SolrService {
         for (const doc of solr['response']['docs']) {
             const item = new PeriodicalFtItem();
             item.uuid = doc['PID'];
-            item.public = doc['dostupnost'] === 'public';
+            item.public = doc['dostupnost'] === 'public' || this.settings.hiddenLocks;
             if (doc['fedora.model'] === 'article') {
                 item.type = 'article';
                 item.authors = doc['dc.creator'];
@@ -172,14 +172,14 @@ export class SolrService {
                 item.title = '-';
             }
             item.uuid = doc['PID'];
-            item.public = doc['dostupnost'] === 'public';
+            item.public = doc['dostupnost'] === 'public' || this.settings.hiddenLocks;
             item.doctype = doc['fedora.model'];
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
             item.dnnt = !!doc['dnnt'];
             item.geonames = doc['geographic_names'];
             this.parseLocation(doc['location'], item);
-            item.resolveUrl(this.appSettings.getPathPrefix());
+            item.resolveUrl(this.settings.getPathPrefix());
             items.push(item);
         }
         return items;
@@ -197,7 +197,7 @@ export class SolrService {
             const doc = doclist['docs'][0];
             const item = new DocumentItem();
             item.uuid = doc['root_pid'];
-            item.public = doc['dostupnost'] === 'public';
+            item.public = doc['dostupnost'] === 'public' || this.settings.hiddenLocks;
             const dp = doc['model_path'][0];
             const params = {};
             item.title = doc['dc.title'];
@@ -229,7 +229,7 @@ export class SolrService {
             item.dnnt = !!doc['dnnt'];
             item.geonames = doc['geographic_names'];
             this.parseLocation(doc['location'], item);
-            item.resolveUrl(this.appSettings.getPathPrefix());
+            item.resolveUrl(this.settings.getPathPrefix());
             item.params = params;
             items.push(item);
         }
@@ -319,7 +319,7 @@ export class SolrService {
         list.push({'value' : 'public', 'count': publicDocs});
         list.push({'value' : 'private', 'count': privateDocs});
         list.push({'value' : 'all', 'count': allDocs});
-        if (this.appSettings.dnntFilter) {
+        if (this.settings.dnntFilter) {
             const dnnt = solr['facet_counts']['facet_fields']['dnnt'];
             let dnntCount = 0;
             for (let i = 0; i < dnnt.length; i += 2) {

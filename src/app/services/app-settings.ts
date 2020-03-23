@@ -32,10 +32,8 @@ export class AppSettings {
   public originLink: boolean;
   public mapSearch: boolean;
   public topLevelFilter: string;
-  public crisis: boolean;
-  public crisisText: any;
-  public crisisButtonLabel: any;
-  public crisisButtonLink: string;
+  public hiddenLocks: boolean;
+  public hiddenDownload: boolean;
 
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -48,9 +46,13 @@ export class AppSettings {
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public advancedSearch = APP_GLOBAL.advancedSearch;
   public aboutPage = APP_GLOBAL.aboutPage;
+  public faqPage = APP_GLOBAL.faqPage;
   public footer = APP_GLOBAL.footer;
   public cloudEnabled = APP_GLOBAL.cloudEnabled;
-  public landingPage = APP_GLOBAL.landingPage
+  public landingPage = APP_GLOBAL.landingPage;
+  public showMetadata = !!APP_GLOBAL.showMetadata
+  public logoutUrl = APP_GLOBAL.logoutUrl
+
   public krameriusList: KrameriusData[];
 
   constructor(private collectionsService: CollectionService) {
@@ -106,11 +108,9 @@ export class AppSettings {
     this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = kramerius.mapSearch || false;
-    this.crisis = kramerius.crisis || false;
-    this.crisisText = kramerius.crisisText;
-    this.crisisButtonLabel = kramerius.crisisButtonLabel;
-    this.crisisButtonLink = kramerius.crisisButtonLink;
-    
+    this.hiddenLocks = !!kramerius.hiddenLocks;
+    this.hiddenDownload = !!kramerius.hiddenDownload;
+
     this.currentCode = this.code;
     // this.krameriusInfoService.reload();
     this.topLevelFilter = (`fedora.model:${this.doctypes.join(' OR fedora.model:')}`)
@@ -170,8 +170,6 @@ interface KrameriusData {
   originLink: boolean;
   customRightMessage: boolean;
   mapSearch: boolean;
-  crisis: boolean;
-  crisisText: any;
-  crisisButtonLabel: any;
-  crisisButtonLink: string;
+  hiddenLocks: boolean;
+  hiddenDownload: boolean;
 }

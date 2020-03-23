@@ -64,14 +64,4 @@ app-logo {
       } 
     }
   }
-  &.app-crisis {
-    .brand-logo {
-      margin-left: 10px;
-    }
-    pointer-events: none;
-    user-select: none;
-    img {
-      border: none !important;
-    }
-  }
 }

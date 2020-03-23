@@ -8,7 +8,7 @@ import { PeriodicalItem } from '../model/periodicalItem.model';
 export class Utils {
 
 
-    constructor(private appSettings: AppSettings) {}
+    constructor(private settings: AppSettings) {}
 
     static inQuotes(text: string): boolean {
         return text && text.startsWith('"') && text.endsWith('"');
@@ -38,7 +38,7 @@ export class Utils {
             item.donator = json['donator'].substring(8);
         }
         item.root_uuid = json['root_pid'];
-        item.public = json['policy'] === 'public';
+        item.public = json['policy'] === 'public' || this.settings.hiddenLocks;
         item.doctype = json['model'];
         item.dnnt = json['dnnt'];
         item.date = json['datumstr'];
@@ -58,7 +58,7 @@ export class Utils {
         if (json['pdf'] && json['pdf']['url']) {
             item.pdf = true;
         }
-        item.resolveUrl(this.appSettings.getPathPrefix());
+        item.resolveUrl(this.settings.getPathPrefix());
         return item;
     }
 
@@ -68,7 +68,7 @@ export class Utils {
             if (accessibility === 'all' || accessibility === json['policy']) {
                 const item = new PeriodicalItem();
                 item.uuid = json['pid'];
-                item.public = json['policy'] === 'public';
+                item.public = json['policy'] === 'public' || this.settings.hiddenLocks;
                 item.doctype = json['model'];
                 item.uuid = json['pid'];
                 if (json['details']) {
