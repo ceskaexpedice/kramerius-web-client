@@ -112,42 +112,44 @@ app-home-search-bar {
 
 // navbar
 app-navbar-search-bar {
-  @media #{$extra-large-and-up} {
-    .app-search-bar-wrapper {
-      // width: 600px;
-      width: calc(100% - 450px);
-    }
-  }
+  flex: 1;
+  flex-direction: row;
+  // @media #{$extra-large-and-up} {
+  //   .app-search-bar-wrapper {
+  //     // width: 600px;
+  //     width: calc(100% - 455px);
+  //   }
+  // }
 
-  @media only screen and (max-width: 1300px) {
-    .app-search-bar-wrapper {
-      width: 500px;
-    }
-  }
+  // @media only screen and (max-width: 1300px) {
+  //   .app-search-bar-wrapper {
+  //     width: 430px;
+  //   }
+  // }
 
-  @media only screen and (max-width: 1190px) {
-    .app-search-bar-wrapper {
-      width: 400px;
-    }
-  }
+  // @media only screen and (max-width: 1190px) {
+  //   .app-search-bar-wrapper {
+  //     width: 355px;
+  //   }
+  // }
 
-  @media only screen and (max-width: 1090px) {
-    .app-search-bar-wrapper {
-      width: 350px;
-    }
-  }
+  // @media only screen and (max-width: 1090px) {
+  //   .app-search-bar-wrapper {
+  //     width: 310px;
+  //   }
+  // }
 
-  @media only screen and (max-width: 1040px) {
-    .app-search-bar-wrapper {
-      width: 300px;
-    }
-  }
+  // @media only screen and (max-width: 1040px) {
+  //   .app-search-bar-wrapper {
+  //     width: 270px;
+  //   }
+  // }
 
-  @media only screen and (max-width: 991px) {
-    .app-search-bar-wrapper {
-      width: calc(100% - 16px);
-    }
-  }
+  // @media only screen and (max-width: 991px) {
+  //   .app-search-bar-wrapper {
+  //     width: calc(100% - 16px);
+  //   }
+  // }
 
 
 
