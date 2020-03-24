@@ -66,11 +66,11 @@ app-root {
       @import "styles/app-help";
     }
 
-    // about
-    app-about {
+    // about, faq
+    app-about, app-faq {
       @import "styles/app-about";
     }
-        
+    
     // search
     app-search {
       @import "styles/app-search-count";

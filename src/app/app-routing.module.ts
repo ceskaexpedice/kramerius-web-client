@@ -20,11 +20,13 @@ import { RegisterComponent } from './account/register/register.component';
 import { ResetPasswordComponent } from './account/reset-password/reset-password.component';
 import { OmniauthComponent } from './account/omniauth/omniauth.component';
 import { LandingComponent } from './landing/landing.component';
+import { FaqComponent } from './faq/faq.component';
 
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
     { path: '', component: LandingComponent },
     { path: 'about', component: AboutComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'faq', component: FaqComponent, canActivate: [ RoutingGuardService ] },
     { path: 'login', component: LoginComponent, canActivate: [ RoutingGuardService ] },
     { path: 'register', component: RegisterComponent, canActivate: [ RoutingGuardService ] },
     { path: 'signin', component: SigninComponent, canActivate: [ RoutingGuardService ] },
@@ -41,6 +43,7 @@ const ROUTES: Routes = [
     { path: 'view/:uuid', component: BookComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view', component: BookComponent, canActivate: [ RoutingGuardService ] },
     { path: ':k/about', component: AboutComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/faq', component: FaqComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/login', component: LoginComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/register', component: RegisterComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/signin', component: SigninComponent, canActivate: [ RoutingPrefixGuardService ] },
