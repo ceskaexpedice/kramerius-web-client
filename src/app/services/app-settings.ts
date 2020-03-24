@@ -52,6 +52,7 @@ export class AppSettings {
   public landingPage = APP_GLOBAL.landingPage;
   public showMetadata = !!APP_GLOBAL.showMetadata
   public logoutUrl = APP_GLOBAL.logoutUrl
+  public newestAll = !!APP_GLOBAL.newestAll
 
   public krameriusList: KrameriusData[];
 

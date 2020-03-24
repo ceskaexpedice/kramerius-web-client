@@ -123,7 +123,8 @@ export class KrameriusApiService {
 
 
     getNewest() {
-        const url = `${this.getApiUrl()}/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=dostupnost:public&fq=${this.settings.topLevelFilter}&sort=created_date desc&rows=24&start=0`;
+        const filter = this.settings.newestAll ? '*:*' : 'dostupnost:public';
+        const url = `${this.getApiUrl()}/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=${filter}&fq=${this.settings.topLevelFilter}&sort=created_date desc&rows=24&start=0`;
         return this.doGet(url)
             .map(response => this.solrService.documentItems(response))
             .catch(this.handleError);
