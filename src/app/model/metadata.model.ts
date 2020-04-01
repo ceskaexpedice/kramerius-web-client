@@ -77,9 +77,9 @@ export class Metadata {
         return this.originUrl;
     }
 
-    public proarcLink(): string {
-        return `http://proarc.kramerius.org/documents/${this.uuid}`;
-    }
+    // public proarcLink(): string {
+    //     return `http://proarc.kramerius.org/documents/${this.uuid}`;
+    // }
 
     public addMods(doctype: string, uuid: string, mods: string) {
         this.modsMap[doctype] = { uuid: uuid, mods: mods.trim() };

@@ -1,5 +1,5 @@
 import { BookService } from './../../services/book.service';
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AppSettings } from '../../services/app-settings';
 
@@ -15,8 +15,24 @@ export class BookControlsComponent implements OnInit {
   ngOnInit() {
   }
 
-  isAvailable(): boolean {
-    return this.settings.showDownload === 'allways' || (this.settings.showDownload === 'public' && !this.bookService.isPrivate);
+  showPdfGeneration(): boolean {
+    return this.show(this.settings.showPdfGeneration);
+  }
+
+  showPrintPreparation(): boolean {
+    return this.show(this.settings.showPrintPreparation);
+  }
+
+  showPageJpeg(): boolean {
+    return this.show(this.settings.showPageJpeg);
+  }
+
+  showPageOcr(): boolean {
+    return this.show(this.settings.showPageOcr);
+  }
+
+  private show(value: string): boolean {
+    return value === 'allways' || (value === 'public' && !this.bookService.isPrivate);
   }
 
 }

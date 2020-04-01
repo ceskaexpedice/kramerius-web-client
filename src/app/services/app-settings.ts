@@ -50,9 +50,19 @@ export class AppSettings {
   public footer = APP_GLOBAL.footer;
   public cloudEnabled = APP_GLOBAL.cloudEnabled;
   public landingPage = APP_GLOBAL.landingPage;
-  public showMetadata = !!APP_GLOBAL.showMetadata
-  public logoutUrl = APP_GLOBAL.logoutUrl
-  public newestAll = !!APP_GLOBAL.newestAll
+
+  public showMetadata = APP_GLOBAL.showMetadata || 'allways';
+  public showCitation = APP_GLOBAL.showCitation || 'allways';
+  public showSharing = APP_GLOBAL.showSharing || 'allways';
+  public showPdfGeneration = APP_GLOBAL.showPdfGeneration || 'allways';
+  public showPrintPreparation = APP_GLOBAL.showPrintPreparation || 'allways';
+  public showPageJpeg = APP_GLOBAL.showPageJpeg || 'allways';
+  public showPageOcr = APP_GLOBAL.showPageOcr || 'allways';
+  public showTextSelection = APP_GLOBAL.showTextSelection || 'allways';
+  public showImageCrop = APP_GLOBAL.showImageCrop || 'allways';
+
+  public logoutUrl = APP_GLOBAL.logoutUrl;
+  public newestAll = !!APP_GLOBAL.newestAll;
 
   public krameriusList: KrameriusData[];
 
@@ -110,7 +120,6 @@ export class AppSettings {
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = kramerius.mapSearch || false;
     this.hiddenLocks = !!kramerius.hiddenLocks;
-    this.showDownload = kramerius.showDownload || 'allways';
 
     this.currentCode = this.code;
     // this.krameriusInfoService.reload();
@@ -172,5 +181,4 @@ interface KrameriusData {
   customRightMessage: boolean;
   mapSearch: boolean;
   hiddenLocks: boolean;
-  showDownload: string;
 }
