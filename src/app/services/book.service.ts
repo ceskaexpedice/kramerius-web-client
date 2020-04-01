@@ -429,7 +429,7 @@ export class BookService {
                 const page = new Page();
                 page.uuid = p['pid'];
                 page.supplementUuid = p['supplement_uuid'];
-                page.public = p['policy'] === 'public' || this.settings.hiddenLocks;
+                page.public = p['policy'] === 'public';
                 const details = p['details'];
                 if (details) {
                     page.type = details['type'];

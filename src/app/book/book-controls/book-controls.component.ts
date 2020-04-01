@@ -9,10 +9,15 @@ import { AppSettings } from '../../services/app-settings';
 export class BookControlsComponent implements OnInit {
 
 
-  constructor(public bookService: BookService, public analytics: AnalyticsService, public settings: AppSettings) {
+  constructor(public bookService: BookService, public analytics: AnalyticsService, private settings: AppSettings) {
   }
 
   ngOnInit() {
   }
 
+  isAvailable(): boolean {
+    return this.settings.showDownload === 'allways' || (this.settings.showDownload === 'public' && !this.bookService.isPrivate);
+  }
+
 }
+

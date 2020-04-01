@@ -1,4 +1,4 @@
-<a [routerLink]="appSettings.getRouteFor(item.getPath())" [queryParams]="periodicalService.getUrlParams()" (click)="analytics.sendEvent('periodical', 'open from', 'grid');">
+<a [routerLink]="settings.getRouteFor(item.getPath())" [queryParams]="periodicalService.getUrlParams()" (click)="analytics.sendEvent('periodical', 'open from', 'grid');">
   <mz-card  [hoverable]="true">
     <mz-card-content>
       <div class="app-card-content center-align" *ngIf="item.doctype === 'periodicalvolume'" >
@@ -9,7 +9,7 @@
           {{ 'periodical.year_unknown' | translate }}
         </div>
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
-          <i *ngIf="!item.public" 
+          <i *ngIf="!item.public && !settings.hiddenLocks" 
             mz-icon-mdi 
             [icon]="'lock'" 
             class="app-lock" 
@@ -38,7 +38,7 @@
           {{ 'periodical.virtual_issue' | translate }}
         </div>
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
-          <i *ngIf="!item.public" 
+          <i *ngIf="!item.public && !settings.hiddenLocks"
             mz-icon-mdi 
             [icon]="'lock'" 
             class="app-lock" 
@@ -64,7 +64,7 @@
           {{ 'periodical.date_unknown' | translate }}
         </div>
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
-          <i *ngIf="!item.public" 
+          <i *ngIf="!item.public && !settings.hiddenLocks"
             mz-icon-mdi 
             [icon]="'lock'" 
             class="app-lock" 

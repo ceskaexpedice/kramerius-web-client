@@ -22,6 +22,7 @@ export class DocumentItem {
     east: number;
     dnnt = false;
     originUrl: string;
+    
 
 
     resolveUrl(prefix: string) {

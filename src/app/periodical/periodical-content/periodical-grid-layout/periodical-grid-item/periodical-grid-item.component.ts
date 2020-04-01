@@ -14,7 +14,7 @@ export class PeriodicalGridItemComponent implements OnInit {
 
   constructor(public periodicalService: PeriodicalService,
               public analytics: AnalyticsService,
-              public appSettings: AppSettings) { }
+              public settings: AppSettings) { }
 
   ngOnInit() {
   }

@@ -38,7 +38,7 @@ export class Utils {
             item.donator = json['donator'].substring(8);
         }
         item.root_uuid = json['root_pid'];
-        item.public = json['policy'] === 'public' || this.settings.hiddenLocks;
+        item.public = json['policy'] === 'public';
         item.doctype = json['model'];
         item.dnnt = json['dnnt'];
         item.date = json['datumstr'];
@@ -68,7 +68,7 @@ export class Utils {
             if (accessibility === 'all' || accessibility === json['policy']) {
                 const item = new PeriodicalItem();
                 item.uuid = json['pid'];
-                item.public = json['policy'] === 'public' || this.settings.hiddenLocks;
+                item.public = json['policy'] === 'public';
                 item.doctype = json['model'];
                 item.uuid = json['pid'];
                 if (json['details']) {

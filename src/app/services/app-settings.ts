@@ -33,7 +33,7 @@ export class AppSettings {
   public mapSearch: boolean;
   public topLevelFilter: string;
   public hiddenLocks: boolean;
-  public hiddenDownload: boolean;
+  public showDownload: string;
 
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -110,7 +110,7 @@ export class AppSettings {
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = kramerius.mapSearch || false;
     this.hiddenLocks = !!kramerius.hiddenLocks;
-    this.hiddenDownload = !!kramerius.hiddenDownload;
+    this.showDownload = kramerius.showDownload || 'allways';
 
     this.currentCode = this.code;
     // this.krameriusInfoService.reload();
@@ -172,5 +172,5 @@ interface KrameriusData {
   customRightMessage: boolean;
   mapSearch: boolean;
   hiddenLocks: boolean;
-  hiddenDownload: boolean;
+  showDownload: string;
 }

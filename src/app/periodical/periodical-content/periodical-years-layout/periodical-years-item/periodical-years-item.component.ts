@@ -13,7 +13,7 @@ export class PeriodicalYearsItemComponent implements OnInit {
 
   constructor(public periodicalService: PeriodicalService,
               public analytics: AnalyticsService,
-              public appSettings: AppSettings) { }
+              public settings: AppSettings) { }
 
   ngOnInit() {
   }

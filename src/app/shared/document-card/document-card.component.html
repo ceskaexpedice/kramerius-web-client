@@ -4,7 +4,7 @@
       <div class="app-card-mark {{item.doctype}}"></div>
       <div class="app-card-media">
         <div class="app-card-thumb" [style.background-image]="thumb">
-          <i *ngIf="!item.public" 
+          <i *ngIf="!item.public && !settings.hiddenLocks"
              mz-icon-mdi 
              [icon]="'lock'" 
              class="app-lock" 
@@ -30,7 +30,7 @@
         <div *ngIf="item.hits" class="app-card-hits">
           <strong>{{item.hits}}</strong> {{ 'common.n_occurrences' | translate: { count: item.hits } }}
         </div>
-        <img *ngIf="item.library" class="app-card-logo" src="{{ appSettings.getLogoByCode(item.library) }}" >
+        <img *ngIf="item.library" class="app-card-logo" src="{{ settings.getLogoByCode(item.library) }}" >
         <div *ngIf="item.doctype" class="app-card-doctype {{item.doctype}}">
           {{ 'model.' + item.doctype | translate }}
         </div>

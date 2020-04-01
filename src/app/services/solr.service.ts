@@ -22,7 +22,7 @@ export class SolrService {
     periodicalItem(doc): PeriodicalItem {
         const item = new PeriodicalItem();
         item.uuid = doc['PID'];
-        item.public = doc['dostupnost'] === 'public' || this.settings.hiddenLocks;
+        item.public = doc['dostupnost'] === 'public';
         item.doctype = doc['fedora.model'];
         item.dnnt = !!doc['dnnt'];
         const details = doc['details'];
@@ -78,7 +78,7 @@ export class SolrService {
         for (const doc of solr['response']['docs']) {
             if (doc['fedora.model'] === 'page') {
                 hasVirtualIssue = true;
-                virtualIssuePublic = doc['dostupnost'] === 'public' || this.settings.hiddenLocks;
+                virtualIssuePublic = doc['dostupnost'] === 'public';
                 continue;
             }
             items.push(this.periodicalItem(doc));
@@ -100,7 +100,7 @@ export class SolrService {
         for (const doc of solr['response']['docs']) {
             const item = new PeriodicalFtItem();
             item.uuid = doc['PID'];
-            item.public = doc['dostupnost'] === 'public' || this.settings.hiddenLocks;
+            item.public = doc['dostupnost'] === 'public';
             if (doc['fedora.model'] === 'article') {
                 item.type = 'article';
                 item.authors = doc['dc.creator'];
@@ -172,7 +172,7 @@ export class SolrService {
                 item.title = '-';
             }
             item.uuid = doc['PID'];
-            item.public = doc['dostupnost'] === 'public' || this.settings.hiddenLocks;
+            item.public = doc['dostupnost'] === 'public';
             item.doctype = doc['fedora.model'];
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
@@ -197,7 +197,7 @@ export class SolrService {
             const doc = doclist['docs'][0];
             const item = new DocumentItem();
             item.uuid = doc['root_pid'];
-            item.public = doc['dostupnost'] === 'public' || this.settings.hiddenLocks;
+            item.public = doc['dostupnost'] === 'public';
             const dp = doc['model_path'][0];
             const params = {};
             item.title = doc['dc.title'];
