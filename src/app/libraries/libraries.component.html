@@ -1,24 +1,61 @@
 <div class="app-content-wrapper">
-<div class="container app-libraries">
+<div class="container app-dk">
 
-  <div class="row app-libraries-title">{{ 'libraries.title' | translate }}</div>
+  <div class="row dk-logo">
+    <img [src]="'dk.logo' | translate" [alt]="'dk.title' | translate">
+  </div>
 
-  <div class="row app-libraries-message">{{ 'libraries.message' | translate }}</div>
+
+
+
+  <div class="row dk-message">{{ 'dk.message' | translate }}</div>
+
+
+
 
   <div class="row">
-
-    <div class="app-library-card col s12 l6 xl4" *ngFor="let kramerius of appSettings.krameriusList">
-      <a [routerLink]="['/' + kramerius.code]" (click)="analytics.sendEvent('landing', 'kramerius', kramerius.title);">
+    <div class="dk-section-title">{{ 'dk.vs_title' | translate }}</div>
+    <div class="dk-section-subtitle">{{ 'dk.vs_subtitle' | translate }}</div>
+    <div class="dk-library-card col s12 l6">
+      <a href="https://kramerius-vs.mzk.cz" (click)="analytics.sendEvent('landing', 'kramerius', 'mzk-vs');">
         <mz-card [hoverable]="true">
           <mz-card-content>
-            <div class="app-library-logo" [style.background-image]="getThumb(kramerius)"></div>
-            <div class="app-librar-title">{{ kramerius.title }}</div>
+            <div class="dk-library-logo" [style.background-image]="getThumb(settings.findCrameriusByCode('mzk'))"></div>
+              <div class="dk-library-title">{{ 'dk.vs_title' | translate }}<br/>Moravská zemská knihovna</div>
+          </mz-card-content>
+        </mz-card>
+      </a>
+    </div>
+
+    <div class="dk-library-card col s12 l6">
+      <a href="https://kramerius-vs.nkp.cz" (click)="analytics.sendEvent('landing', 'kramerius', 'nkp-vs');">
+        <mz-card [hoverable]="true">
+          <mz-card-content>
+            <div class="dk-library-logo" [style.background-image]="getThumb(settings.findCrameriusByCode('nkp'))"></div>
+              <div class="dk-library-title">{{ 'dk.vs_title' | translate }}<br/>Národní knihovna České republiky</div>
           </mz-card-content>
         </mz-card>
       </a>
     </div>
 
   </div>
+
+
+
+  <div class="row" *ngFor="let category of categories">
+    <div class="dk-section-title">{{ 'dk.category.' + category | translate }}</div>
+    <div class="dk-library-card col s12 l6 xl4" *ngFor="let kramerius of libraries[category]">
+      <a [routerLink]="['/' + kramerius.code]" (click)="analytics.sendEvent('landing', 'kramerius', kramerius.title);">
+        <mz-card [hoverable]="true">
+          <mz-card-content>
+            <div class="dk-library-logo" [style.background-image]="getThumb(kramerius)"></div>
+            <div class="dk-library-title">{{ kramerius.title }}</div>
+          </mz-card-content>
+        </mz-card>
+      </a>
+    </div>
+  </div>
+
 
 </div>
 </div>

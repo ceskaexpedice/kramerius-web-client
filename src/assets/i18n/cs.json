@@ -26,9 +26,20 @@
     "browse": "Procházení",
     "collections": "Sbírky"
   },
-  "libraries": {
+  "dk": {
     "title": "Digitální knihovna",
-    "message": "Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě."
+    "logo": "/assets/shared/logo-dk.png",
+    "message": "Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě.",
+    "vs_title": "Národní digitální knihovna pro VŠ",
+    "vs_subtitle": "Dočasný přístup pro pedagogy, vědecké pracovníky institucí na úrovni vysokých škol a jejich studenty, zřízený pro překlenutí koronavirové krize.",
+    "category": {
+      "major": "Hlavní knihovny",
+      "regional": "Krajské knihovny",
+      "university": "Vysoké školy",
+      "museum": "Muzea",
+      "archive": "Archivy",
+      "other": "Další instituce a projekty"
+    }
   },
   "navbar": {
     "collections": "Sbírky",

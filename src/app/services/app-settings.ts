@@ -48,8 +48,8 @@ export class AppSettings {
   public aboutPage = APP_GLOBAL.aboutPage;
   public faqPage = APP_GLOBAL.faqPage;
   public footer = APP_GLOBAL.footer;
-  public cloudEnabled = APP_GLOBAL.cloudEnabled;
-  public landingPage = APP_GLOBAL.landingPage;
+  public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
+  public landingPage = !!APP_GLOBAL.landingPage;
 
   public showMetadata = APP_GLOBAL.showMetadata || 'allways';
   public showCitation = APP_GLOBAL.showCitation || 'allways';
@@ -118,7 +118,7 @@ export class AppSettings {
     this.dnntFilter = kramerius.dnntFilter;
     this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
-    this.mapSearch = kramerius.mapSearch || false;
+    this.mapSearch = !!kramerius.mapSearch;
     this.hiddenLocks = !!kramerius.hiddenLocks;
 
     this.currentCode = this.code;
@@ -181,4 +181,5 @@ interface KrameriusData {
   customRightMessage: boolean;
   mapSearch: boolean;
   hiddenLocks: boolean;
+  type: string;
 }

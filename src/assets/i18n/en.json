@@ -26,9 +26,20 @@
     "browse": "Browse",
     "collections": "Collections"
   },
-  "libraries": {
+  "dk": {
     "title": "Digital Library",
-    "message": "Thousands of digitized documents from Czech libraries in one place."
+    "logo": "/assets/shared/logo-dk-en.png",
+    "message": "Thousands of digitized documents from Czech libraries, all in one place.",
+    "vs_title": "National digital library for Universities",
+    "vs_subtitle": "Temporary access for academic staff in research institutions and university students, created specifically to weather  the coronavirus crisis.",
+    "category": {
+      "major": "Major Libraries",
+      "regional": "Regional Libraries",
+      "university": "Universities",
+      "museum": "Museums",
+      "archive": "Archives",
+      "other": "Other institutions and projects"
+    }
   },
   "navbar": {
     "collections": "Collections",
