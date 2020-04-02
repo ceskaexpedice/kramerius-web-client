@@ -8,15 +8,17 @@ agm-map {
     height: 100%;
     overflow-y: auto;
     float: right;
-    background: #d6d6d6;
+    background: #ffffff;
+    border-left: 1px solid #e0e0e0;
     .app-list-item {
         overflow: hidden;
         background: #fff;
-        margin: 2px;
+        padding: 5px;
+        border-bottom: 1px solid #e0e0e0;
         padding: 3px;
         display: block;
         &:hover {
-            background: #d6d6d6;
+            background: #d9e6ef;
             cursor: pointer;
         }
 
