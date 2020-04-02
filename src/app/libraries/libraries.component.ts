@@ -6,7 +6,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-libraries',
-  templateUrl: './libraries.component.html'
+  templateUrl: './libraries.component.html',
+  styleUrls: ['./libraries.component.scss']
 })
 export class LibrariesComponent implements OnInit {
 

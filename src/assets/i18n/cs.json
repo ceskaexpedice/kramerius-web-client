@@ -39,6 +39,14 @@
       "museum": "Muzea",
       "archive": "Archivy",
       "other": "Další instituce a projekty"
+    },
+    "footer": {
+      "logo": "/assets/shared/logo-mzk.png",
+      "contact": "Provozovatel",
+      "contact_name": "Moravská zemská knihovna v Brně",
+      "contact_address1": "Kounicova 65a",
+      "contact_address2": "601 87 Brno",
+      "contact_address3": " "
     }
   },
   "navbar": {
