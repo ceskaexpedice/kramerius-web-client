@@ -5,7 +5,7 @@
     color: #555;
     margin: 25px 0 10px;
     img {
-      height: 120px;
+      height: 100px;
       @media only screen and (max-width: 500px) {
         height: 90px;        
       }
@@ -25,12 +25,14 @@
   .dk-section-title {
     font-size: 15px;
     padding-left: 10px;
+    text-align: center;
     color: #555;
   }
 
   .dk-section-subtitle {
     font-size: 14px;
     padding-left: 10px;
+    text-align: center;
     color: #999;
   }
 
@@ -85,7 +87,7 @@
 
 
   .dk-footer {
-    background: black;
+    background: #444;
     overflow: hidden;
     .dk-footer-col {
       float: left;

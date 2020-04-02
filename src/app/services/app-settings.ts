@@ -87,7 +87,7 @@ export class AppSettings {
     return false;
   }
 
-  private findCrameriusByCode(code: string): KrameriusData {
+  public findCrameriusByCode(code: string): KrameriusData {
     for (const k of this.krameriusList) {
       if (k.code === code) {
         return k;
