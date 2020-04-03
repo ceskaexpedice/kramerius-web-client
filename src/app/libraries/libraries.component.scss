@@ -25,17 +25,26 @@
   .dk-section-title {
     font-size: 15px;
     padding-left: 10px;
-    text-align: center;
     color: #555;
   }
 
   .dk-section-subtitle {
-    font-size: 14px;
+    font-size: 13px;
     padding-left: 10px;
-    text-align: center;
     color: #999;
   }
-
+  @media only screen and (min-width: 1350px) {
+    .dk-section {
+      overflow: hidden;
+      .dk-section-title {
+        padding-right: 10px;
+        float: left;
+      }
+      .dk-section-subtitle {
+        padding-top: 2px;
+      }
+    }
+  }
   .dk-library-card-wrapper {
     padding: 8px 10px 8px;
     .dk-library-card {
