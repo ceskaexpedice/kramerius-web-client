@@ -524,18 +524,21 @@ export class ViewerComponent implements OnInit, OnDestroy {
     options.quality = 'default';
     options.zDirection = -1;
     options.extent = extent;
-    options.crossOrigin = 'Anonymous';
+    const thumbUrl = this.iiif.image(url, options.sizes[0][0], options.sizes[0][1]);
+    const imageOptions = {
+      url: thumbUrl,
+      imageExtent: extent
+    };
+    if (this.appSettings.crossOrigin) {
+      options.crossOrigin = 'Anonymous';
+      imageOptions['crossOrigin'] = 'Anonymous';
+    }
     const iiifTileSource = new ol.source.IIIF(options);
     const zLayer = new ol.layer.Tile({
       source: iiifTileSource,
     });
-    const thumbUrl = this.iiif.image(url, options.sizes[0][0], options.sizes[0][1]);
     const iLayer = new ol.layer.Image({
-      source: new ol.source.ImageStatic({
-        url: thumbUrl,
-        imageExtent: extent,
-        crossOrigin: 'Anonymous'
-      })
+      source: new ol.source.ImageStatic(imageOptions)
     });
     this.view.addLayer(iLayer);
     this.view.addLayer(zLayer);
@@ -557,23 +560,27 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else if (type === 2) {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
+    const zoomifyOptions = {
+      tileSize: 256,
+      tilePixelRatio: 1,
+      url: url + '/',
+      size: [width, height],
+      tierSizeCalculation: 'truncated',
+      extent: extent
+    };
+    const imageOptions = {
+        url: this.zoomify.thumb(url),
+        imageExtent: extent
+    };
+    if (this.appSettings.crossOrigin) {
+      zoomifyOptions['crossOrigin'] = 'Anonymous';
+      imageOptions['crossOrigin'] = 'Anonymous';
+    }
     const zLayer = new ol.layer.Tile({
-      source: new ol.source.Zoomify({
-        tileSize: 256,
-        tilePixelRatio: 1,
-        url: url + '/',
-        size: [width, height],
-        tierSizeCalculation: 'truncated',
-        crossOrigin: 'Anonymous',
-        extent: extent
-      })
+      source: new ol.source.Zoomify(zoomifyOptions)
     });    
     const iLayer = new ol.layer.Image({
-      source: new ol.source.ImageStatic({
-        url: this.zoomify.thumb(url),
-        imageExtent: extent,
-        crossOrigin: 'Anonymous'
-      })
+      source: new ol.source.ImageStatic(imageOptions)
     });
     this.view.addLayer(iLayer);
     this.view.addLayer(zLayer);
@@ -585,7 +592,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.zoomifyLayer = zLayer;
     }
   }
-
 
   addStaticImage(width, height, url, type) {
     let extent;
