@@ -28,8 +28,8 @@ export class LibrariesComponent implements OnInit {
   }
 
 
-  getThumb(kramerius) {
-    return this._sanitizer.bypassSecurityTrustStyle(`url(${kramerius.logo})`);
+  getThumb(url) {
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
   }
 
 

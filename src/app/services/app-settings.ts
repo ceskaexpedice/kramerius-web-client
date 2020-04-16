@@ -64,8 +64,9 @@ export class AppSettings {
   public logoutUrl = APP_GLOBAL.logoutUrl;
   public newestAll = !!APP_GLOBAL.newestAll;
   public crossOrigin = !!APP_GLOBAL.crossOrigin;
-  
+
   public krameriusList: KrameriusData[];
+  public krameriusVsList = APP_GLOBAL.krameriusVsList;
 
   constructor(private collectionsService: CollectionService) {
     this.krameriusList = [];
