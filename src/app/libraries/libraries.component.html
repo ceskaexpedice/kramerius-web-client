@@ -13,7 +13,7 @@
       <div class="dk-section-subtitle">{{ 'dk.vs_subtitle' | translate }}</div>
     </div>
 
-    <div class="dk-library-card-wrapper col s12 l6 xl4" *ngFor="let kramerius of settings.krameriusVsList">
+    <div class="dk-library-card-wrapper dk-library-card-wrapper-vs col" *ngFor="let kramerius of settings.krameriusVsList">
       <a class="dk-library-card" [href]="kramerius.url" (click)="analytics.sendEvent('landing', 'kramerius', kramerius.code);">
         <div class="dk-library-card-content">
           <div class="dk-library-logo" [style.background-image]="getThumb(kramerius.logo)"></div>
