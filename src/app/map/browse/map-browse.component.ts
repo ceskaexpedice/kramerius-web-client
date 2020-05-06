@@ -4,11 +4,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { SearchService } from '../../services/search.service';
 import { DocumentItem } from '../../model/document_item.model';
+import { AppSettings } from '../../services/app-settings';
 
 @Component({
   selector: 'app-map-browse',
-  templateUrl: './map-browse.component.html',
-  styleUrls: ['./map-browse.component.scss']
+  templateUrl: './map-browse.component.html'
 })
 export class MapBrowseComponent implements OnInit {
 
@@ -20,7 +20,10 @@ export class MapBrowseComponent implements OnInit {
 
   focusedItem: DocumentItem;
 
-  constructor(private api: KrameriusApiService, public searchService: SearchService, private _sanitizer: DomSanitizer) { }
+  constructor(private api: KrameriusApiService, 
+    public searchService: SearchService, 
+    public settings: AppSettings,
+    private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
   }
