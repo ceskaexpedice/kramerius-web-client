@@ -56,6 +56,7 @@ export class Metadata {
 
     public activePages: string;
     public activePage: Page;
+    public activePageRight: Page;
 
     public originUrl: string;
 

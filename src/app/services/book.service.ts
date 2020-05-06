@@ -443,6 +443,8 @@ export class BookService {
                 if (!page.number) {
                     page.number = p['title'];
                 }
+                page.setTitle(p['title']);
+
                 page.thumb = this.api.getThumbUrl(page.uuid);
                 page.position = PagePosition.Single;
                 if (page.type === 'spine') {
@@ -841,10 +843,15 @@ export class BookService {
             rightPage.selected = true;
             cached = cached && rightPage.loaded;
             pages += '-' + rightPage.number;
-        }
+        } 
         if (this.metadata) {
             this.metadata.activePages = pages;
             this.metadata.activePage = page;
+            if (rightPage) {
+                this.metadata.activePageRight = rightPage;
+            } else {
+                this.metadata.activePageRight = null;
+            }
         }
         let urlQuery = 'page=' + page.uuid;
         if (this.fulltextQuery) {

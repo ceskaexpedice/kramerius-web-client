@@ -16,8 +16,16 @@ export class Page {
     dnntFlag = false;
     originUrl: string;
     public: boolean;
+    title: string;
 
     constructor() {
+    }
+
+    setTitle(title: string) {
+        title = title.trim();
+        if (this.number.trim() != title) {
+            this.title = title;
+        }
     }
 
     public assignPageData(data) {

@@ -322,6 +322,17 @@
   <div *ngIf="metadata.review && metadata.review" >
     <label>{{ 'metadata.review_of' | translate }}</label>
     <app-metadata [metadata]="metadata.review" class="app-nested" [showControls]="false"></app-metadata>
+    <div class="divider"></div>
+  </div>
+
+
+  <div *ngIf="metadata.activePage">
+    <label>{{ 'metadata.page' | translate }}</label>
+    <div class="app-value" >
+      {{ metadata.activePage.number }} {{ metadata.activePage.title }}
+    <span *ngIf="metadata.activePageRight"> - {{ metadata.activePageRight.number }} {{ metadata.activePageRight.title }}</span>
+    </div>
+    <div class="divider"></div>
   </div>
 
 
