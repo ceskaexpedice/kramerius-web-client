@@ -15,23 +15,10 @@
       &.app-desc {
         font-size: 0.8rem !important;
         color: $app-grey-l-1;
-        
         span {
-          &:first-child {
-            color: $app-grey-d-2;
-          }
-          &:last-child {
-            color: $app-grey;
-          }
-        }
-        
-        span {
-          &.badge {
-            float: none;
-            display: inline-block;
-            background-color: $app-grey-d-4;
-            color: $app-white;
-          }
+          display: block;
+          min-height: 8px;
+          color: $app-grey;
         }
       }
     }

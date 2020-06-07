@@ -50,10 +50,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getSubtitle(): string {
-    return this.settings.subtitle;
-  }
-
   private reloadData() {
     this.getVisited();
     this.getNewest();
