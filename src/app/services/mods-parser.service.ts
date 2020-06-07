@@ -209,7 +209,15 @@ export class ModsParserService {
         }
         for (const item of array) {
             if (item['$'] && item['$']['type']) {
-                metadata.identifiers[item['$']['type']] = item['_'];
+                const type = item['$']['type'];
+                let value = String(item['_']);
+                if (!type || !value) {
+                    continue;
+                }
+                if (type == 'doi' && !value.startsWith('http')) {
+                    value = 'http://dx.doi.org/' + value;
+                }
+                metadata.identifiers[type] = value;
             }
         }
     }

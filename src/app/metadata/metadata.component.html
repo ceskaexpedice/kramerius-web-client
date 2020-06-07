@@ -45,6 +45,10 @@
         ISBN {{ metadata.identifiers['isbn'] }}
       </div>
 
+      <div *ngIf="metadata.hasIdentifier('doi')" class="app-identifier">
+        DOI: {{ metadata.identifiers['doi'] }}
+      </div>
+
       <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
       
       <div *ngIf="metadata.currentUnit">
