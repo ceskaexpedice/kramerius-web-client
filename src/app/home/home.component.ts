@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   constructor(
     public state: AppState,
     private route: ActivatedRoute,
-    private settings: AppSettings,
+    public settings: AppSettings,
     private krameriusApiService: KrameriusApiService,
     private localStorageService: LocalStorageService,
     public analytics: AnalyticsService,
