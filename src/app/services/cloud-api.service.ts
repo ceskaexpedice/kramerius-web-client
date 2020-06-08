@@ -11,11 +11,12 @@ import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { Response } from '@angular/http/src/static_response';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppSettings } from './app-settings';
+import { Translator } from 'angular-translator';
 
 @Injectable()
 export class CloudApiService {
 
-    constructor(private http: HttpClient, private appSettings: AppSettings) {
+    constructor(private http: HttpClient, private appSettings: AppSettings, private translator: Translator) {
     }
 
     private doGet(path: string, params: any = {}): Observable<Object> {
@@ -80,7 +81,8 @@ export class CloudApiService {
     }
 
     getCitation(uuid: string): Observable<string> {
-        const url =  `https://citace.kramerius.cloud/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html`;
+        const lang = this.translator.language;
+        const url = `https://citace.kramerius.cloud/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html&lang=${lang}`;
         return this.doGetText(url).catch(this.handleError);
     }
 
