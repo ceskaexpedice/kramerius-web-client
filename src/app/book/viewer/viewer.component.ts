@@ -519,6 +519,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     options.quality = 'default';
     options.zDirection = -1;
     options.extent = extent;
+    options.url = url;
     const thumbUrl = this.iiif.image(url, options.sizes[0][0], options.sizes[0][1]);
     const imageOptions = {
       url: thumbUrl,
