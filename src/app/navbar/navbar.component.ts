@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit {
     this.analytics.sendEvent('navbar', 'dnnt-logout');
     if (this.appSettings.dnnt) {
       this.authService.logout().subscribe(() => {
-        const url = `${this.appSettings.dnnt.logoutUrl}?target=${window.location.pathname}${window.location.search}`;
+        const url = `${this.appSettings.dnnt.logoutUrl}?return=${window.location.pathname}${window.location.search}`;
         window.open(url, '_top');
       });
     }
