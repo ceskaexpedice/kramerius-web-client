@@ -33,7 +33,6 @@ export class AppSettings {
   public mapSearch: boolean;
   public topLevelFilter: string;
   public hiddenLocks: boolean;
-  public showDownload: string;
 
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -41,7 +40,7 @@ export class AppSettings {
   public defaultPeriodicalVolumesLayout = APP_GLOBAL.defaultPeriodicalVolumesLayout;
   public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
   public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
-  public dnntEnabled = APP_GLOBAL.dnnt;
+  public dnnt = APP_GLOBAL.dnnt;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public advancedSearch = APP_GLOBAL.advancedSearch;
@@ -61,7 +60,6 @@ export class AppSettings {
   public showTextSelection = APP_GLOBAL.showTextSelection || 'allways';
   public showImageCrop = APP_GLOBAL.showImageCrop || 'allways';
 
-  public logoutUrl = APP_GLOBAL.logoutUrl;
   public newestAll = !!APP_GLOBAL.newestAll;
   public crossOrigin = !!APP_GLOBAL.crossOrigin;
 

@@ -15,7 +15,7 @@ export class AuthService {
 
     constructor(private appSettings: AppSettings, private krameriusApi: KrameriusApiService, private cache: HttpRequestCache) {
         // console.log('AuthService initialized');
-        if (appSettings.dnntEnabled) {
+        if (appSettings.dnnt) {
             this.login(null, null);
         }
     }
@@ -44,4 +44,11 @@ export class AuthService {
         return this.user && this.user.isLoggedIn();
     }
 
+
+    getUserId(): string {
+        if (!this.user) {
+            return '';
+        }
+        return this.user.code;
+    }
 }

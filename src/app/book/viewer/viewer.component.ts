@@ -244,23 +244,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   buildWatermarkLayer(text: string) {
-    const font = '13px roboto,sans-serif';
+    const font = this.appSettings.dnnt.watermarkFontSize + 'px roboto,sans-serif';
     this.watermark = new ol.layer.Vector({
       name: 'watermark',
       source: new ol.source.Vector(),
       style: new ol.style.Style({
-        fill: new ol.style.Fill({
-          color: 'rgba(244, 81, 30, 0.20)'
-        }),
-        stroke: new ol.style.Stroke({
-          color: '#F4511E',
-          width: 2
-        }),
         text: new ol.style.Text({
           font: font,
           text: text,
           fill: new ol.style.Fill({
-            color: 'rgba(0, 0, 0, 0.2)'
+            color:  this.appSettings.dnnt.watermarkColor
           }),
           textAlign: 'left',
         })
@@ -276,9 +269,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
     let watermarkText: string;
     if (this.bookService.dnntMode && this.authService.isLoggedIn()) {
-      watermarkText = this.authService.user.name;
+      watermarkText = this.authService.getUserId();
     } else {
-      // watermarkText = 'Josef Novák';
+      // watermarkText = '1185@mzk.cz';
     }
     if (!watermarkText) {
       return;
@@ -291,15 +284,17 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const sw = this.extent[0];
     const width = this.extent[2] - this.extent[0];
     if (this.extent[0] < 0) {
-      cw = 6;
+      cw = cw * 2;
     }
     const height = -this.extent[1];
     for (let i = 0; i < cw; i ++) {
      for (let j = 0; j < ch; j ++) {
-       const x = sw + (i/(cw*1.0))*width + width/20.0;
-       const y = (j/(ch*1.0)) * height + height/30.0*i + 70;
-       var point = new ol.Feature(new ol.geom.Point([x, -y]));
+       if (Math.floor((Math.random() * 100)) < 100) {
+        const x = sw + (i/(cw*1.0))*width + width/cw/3;
+        const y = (j/(ch*1.0)) * height + height/ch/2;// + height/30.0*i; + 70;
+        var point = new ol.Feature(new ol.geom.Point([x, -y]));
         this.watermark.getSource().addFeature(point);
+      }
      }
     }
   }

@@ -84,7 +84,7 @@
 
   <div *ngIf="bookService.dnntMode && authService.isLoggedIn()" class="app-dnnt">
       <span class="app-info">DÍLO NEDOSTUPNÉ NA TRHU</span>
-      <span class="app-user">{{ authService.user.name }} | {{ today() }}</span>
+      <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
 
   </div>
 

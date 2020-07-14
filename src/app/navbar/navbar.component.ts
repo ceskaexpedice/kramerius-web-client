@@ -58,12 +58,20 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  krameriusLogout() {
-    this.analytics.sendEvent('navbar', 'kramerius-logout');
-    if (this.appSettings.dnntEnabled) {
+  dnntLogout() {
+    this.analytics.sendEvent('navbar', 'dnnt-logout');
+    if (this.appSettings.dnnt) {
       this.authService.logout().subscribe(() => {
-        this.router.navigate(['/']);
+        window.open(this.appSettings.dnnt.logoutUrl, '_top');
       });
+    }
+  }
+
+
+  dnntLogin() {
+    this.analytics.sendEvent('navbar', 'dnnt-login');
+    if (this.appSettings.dnnt) {
+      window.open(this.appSettings.dnnt.loginUrl, '_top');
     }
   }
 
