@@ -62,17 +62,17 @@ export class NavbarComponent implements OnInit {
     this.analytics.sendEvent('navbar', 'dnnt-logout');
     if (this.appSettings.dnnt) {
       this.authService.logout().subscribe(() => {
-        window.open(this.appSettings.dnnt.logoutUrl, '_top');
+        const url = `${this.appSettings.dnnt.logoutUrl}?target=${window.location.pathname}${window.location.search}`;
+        window.open(url, '_top');
       });
     }
   }
 
-
   dnntLogin() {
+    this.analytics.sendEvent('navbar', 'dnnt-login');
     if (this.appSettings.dnnt) {
       const url = `${this.appSettings.dnnt.loginUrl}?target=${window.location.pathname}${window.location.search}`;
-      this.analytics.sendEvent('navbar', 'dnnt-login');
-      window.open(this.appSettings.dnnt.loginUrl, '_top');
+      window.open(url, '_top');
     }
  }
 
