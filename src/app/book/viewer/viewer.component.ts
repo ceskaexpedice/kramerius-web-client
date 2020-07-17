@@ -271,7 +271,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.bookService.dnntMode && this.authService.isLoggedIn()) {
       watermarkText = this.authService.getUserId();
     } else {
-      // watermarkText = '1185@mzk.cz';
+      // watermarkText = 'test';
     }
     if (!watermarkText) {
       return;
@@ -279,17 +279,18 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (!this.watermark) {
       this.buildWatermarkLayer(watermarkText);
     }
-    let cw = 3;
-    const ch = 4;
+    let cw = this.appSettings.dnnt.watermarkRowCount;
+    const ch = this.appSettings.dnnt.watermarkColCount;
     const sw = this.extent[0];
     const width = this.extent[2] - this.extent[0];
     if (this.extent[0] < 0) {
       cw = cw * 2;
     }
     const height = -this.extent[1];
+    const p = this.appSettings.dnnt.watermarkProbability;
     for (let i = 0; i < cw; i ++) {
      for (let j = 0; j < ch; j ++) {
-       if (Math.floor((Math.random() * 100)) < 100) {
+       if (Math.floor((Math.random() * 100)) < p) {
         const x = sw + (i/(cw*1.0))*width + width/cw/3;
         const y = (j/(ch*1.0)) * height + height/ch/2;// + height/30.0*i; + 70;
         var point = new ol.Feature(new ol.geom.Point([x, -y]));
