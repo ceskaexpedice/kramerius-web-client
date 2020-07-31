@@ -26,9 +26,9 @@
   <div class="app-metadata-content">
 
     <ng-container *ngIf="metadata.getTitle()">
-      <h5 [class.app-cut]="metadata.getTitle().length > 75 && showingTitle == false">
+      <h1 [class.app-cut]="metadata.getTitle().length > 75 && showingTitle == false">
         {{ metadata.getTitle() }}
-      </h5>
+      </h1>
       <i *ngIf="metadata.getTitle().length > 75 && showingTitle == false" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.show_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
       <i *ngIf="metadata.getTitle().length > 75 && showingTitle == true" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.hide_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
       <div class="app-subtitle">{{metadata.titles[0].subTitle}}</div>

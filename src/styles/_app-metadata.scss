@@ -83,9 +83,10 @@ app-metadata {
       font-weight: 300;
       overflow: auto;
       height: calc(100% - 55px);
-      h5 {
+      h1 {
         font-size: 1.1rem;
         line-height: 1.6rem;
+        font-weight: 400;
         @extend .app-clean-mg;
         color: $app-grey-d-2;
         
