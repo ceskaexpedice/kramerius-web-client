@@ -74,7 +74,7 @@ import { HomeSearchBarComponent } from './home/home-search-bar/home-search-bar.c
 import { NavbarSearchBarComponent } from './navbar/navbar-search-bar/navbar-search-bar.component';
 import { SearchChartBarComponent } from './search/search-chart-bar/search-chart-bar.component';
 import { SearchCalendarComponent } from './search/search-calendar/search-calendar.component';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.component';
 import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
 import { LogoComponent } from './logo/logo.component';
@@ -259,7 +259,9 @@ export function hljsLanguages() {
     FormsModule,
     DatepickerModule,
     Ng2CompleterModule,
-    LazyLoadImageModule,
+    LazyLoadImageModule.forRoot({
+      preset: intersectionObserverPreset
+    }),
     AppRoutingModule,
     NgxGalleryModule,
     TranslatorModule.forRoot({
