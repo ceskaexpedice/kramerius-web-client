@@ -4,6 +4,12 @@ mz-modal.app-dialog-pdf-generator {
     height: calc(100% - 50px);
     max-height: 100%;
     top: 25px !important;
+    .modal-content {
+      padding: 10px;
+    }
+    .modal-footer {
+      height: 60px;
+    }
   }
   input {
     width: 100px;
