@@ -266,7 +266,10 @@ export function hljsLanguages() {
     NgxGalleryModule,
     TranslatorModule.forRoot({
       providedLanguages: ['en', 'cs'],
-      defaultLanguage: 'cs'
+      defaultLanguage: 'cs',
+      loaderOptions: {
+        path: 'assets/i18n/{{language}}.json?v1.7.7'
+      }
     }),
     MzButtonModule,
     MzInputModule,
