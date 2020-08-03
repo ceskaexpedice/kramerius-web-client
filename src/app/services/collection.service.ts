@@ -69,6 +69,13 @@ export class CollectionService {
                 col.description = col.descriptionEn;
             }
         }
+        this.sortCollections();
+    }
+
+    private sortCollections() {
+        this.collections.sort((a: Collection, b: Collection): number => {
+            return  a.title.localeCompare(b.title);
+        });
     }
 
 }
