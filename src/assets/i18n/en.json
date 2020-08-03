@@ -344,7 +344,8 @@
     "action_prepare": "Prepare to print"
   },
   "metadata-dialog": {
-    "title": "Metadata for"
+    "title": "Metadata for",
+    "missing": "Object {{ model }} does not contain {{ resource }}"
   },
   "citation-dialog": {
     "title": "Citation of the"

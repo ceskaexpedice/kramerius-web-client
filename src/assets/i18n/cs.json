@@ -341,7 +341,8 @@
     "action_prepare": "Připravit k tisku"
   },
   "metadata-dialog": {
-    "title": "Metadata pro"
+    "title": "Metadata pro",
+    "missing": "Objekt {{ model }} neobsahuje {{ resource }}"
   },
   "citation-dialog": {
     "title": "Citace"
