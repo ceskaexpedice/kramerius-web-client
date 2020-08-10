@@ -22,7 +22,10 @@ export class Page {
     }
 
     setTitle(title: string) {
-        title = title.trim();
+        if (!title) {
+            title = "";
+        }
+        title = String(title).trim();
         if (this.number.trim() != title) {
             this.title = title;
         }
