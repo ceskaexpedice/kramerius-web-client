@@ -26,15 +26,35 @@
     "browse": "Browse",
     "collections": "Collections"
   },
-  "libraries": {
+  "dk": {
     "title": "Digital Library",
-    "message": "Thousands of digitized documents from Czech libraries in one place."
+    "logo": "/assets/shared/logo-dk-en.png",
+    "message": "Thousands of digitized documents from Czech libraries, all in one place.",
+    "vs_title": "National digital library for Universities",
+    "vs_subtitle": "Temporary access for academic staff in research institutions and university students, created specifically to weather  the coronavirus crisis.",
+    "category": {
+      "major": "Major Libraries",
+      "regional": "Regional Libraries",
+      "university": "Universities",
+      "museum": "Museums",
+      "archive": "Archives",
+      "other": "Other institutions and projects"
+    },
+    "footer": {
+      "logo": "/assets/shared/logo-mzk.png",
+      "contact": "Impressum",
+      "contact_name": "Moravian Library in Brno",
+      "contact_address1": "Kounicova 65a",
+      "contact_address2": "601 87 Brno",
+      "contact_address3": "Czech Republic"
+    }
   },
   "navbar": {
     "collections": "Collections",
     "browse": "Browse",
     "help": "Help",
     "about": "About",
+    "faq": "FAQ",
     "back": "Back for previous page",
     "home": "Home page",
     "checkbox_label": "only public",
@@ -243,6 +263,10 @@
     "norway": {
       "url": "http://www.eeagrants.org",
       "name": "Norway grants"
+    },
+    "k3tok5": {
+      "url": "",
+      "name": "K3 to K5"
     }
   },
   "periodical": {
@@ -314,16 +338,20 @@
     "title_generate": "Prepare to download",
     "title_prepare": "Prepare to print",
     "tip_shift": "Hint: with pressed Shift key you can select multiple pages at once",
+    "selection1": " ",
+    "selection2": "{{ num == 1 ? 'page' : 'pages' }} selected",
+    "selection": "No page selected",
+    "select_all": "Select all",
+    "deselect_all": "Cancel selection",
     "warning_too_manny_pages": "The maximum number of pages is exceeded",
-    "warning_number_of_pages": "you have {{num}} pages selected",
-    "warning_no_page": "No page selected",
     "warning_generate": "Creating the PDF document can take several minutes depending on the number of selected pages.",
     "error_generate": "Failed to download PDF document",
     "action_generate": "Download PDF",
     "action_prepare": "Prepare to print"
   },
   "metadata-dialog": {
-    "title": "Metadata for"
+    "title": "Metadata for",
+    "missing": "Object {{ model }} does not contain {{ resource }}"
   },
   "citation-dialog": {
     "title": "Citation of the"

@@ -43,7 +43,8 @@ app-navbar {
         
         &.app-col-right {
           width: calc(100% - #{$app-side-col-width});
-          
+          display: flex;
+          flex-direction: row;
           .app-btn-search-bar {
             display: none;
             margin-right: 12px;
@@ -75,6 +76,7 @@ app-navbar {
         }        
         &.app-col-right-home {
           width: 100%;
+          display: block;
           $large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
           .app-buttons {
             display: initial;

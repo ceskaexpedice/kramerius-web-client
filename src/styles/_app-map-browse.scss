@@ -1,0 +1,160 @@
+// --- SEARCH RESULTS --
+
+app-map-browse {
+  display: block;
+  height: calc(100% - #{$app-toolbar-height});
+  overflow: auto;
+  background-color: $app-grey-l-4;
+  
+  &.app-map-browse-no-toolbar {
+    height: 100%;
+  }
+
+
+  .app-map-browse {
+    // flex: 1;
+    height: 100%;
+    agm-map {
+        height: 100%;
+        // width: 100%;
+        width: calc(100% - 320px);
+    }
+
+    .app-list {
+        width: 320px;
+        height: 100%;
+        overflow-y: auto;
+        float: right;
+        background: #ffffff;
+        border-left: 1px solid #e0e0e0;
+        .app-list-item {
+            overflow: hidden;
+            background: #fff;
+            padding: 5px;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 3px;
+            display: block;
+            &:hover {
+                background: #d9e6ef;
+                cursor: pointer;
+            }
+            .app-item-title {
+                font-weight: 400;
+                font-size: 18px;
+                margin-bottom: 5px;
+                color: #4e4e4e;
+                overflow: hidden;
+                line-height: 20px;
+                height: 40px;
+                -webkit-line-clamp: 2;
+                display: -webkit-box;
+                text-overflow: ellipsis;
+            }
+            
+            .app-item-date {
+                overflow: hidden;
+                line-height: 20px;
+                height: 20px;
+                font-size: 14px;
+                color: #666;
+                -webkit-line-clamp: 1;
+                display: -webkit-box;
+                text-overflow: ellipsis;
+            }
+            
+            .app-item-authors {
+                overflow: hidden;
+                line-height: 20px;
+                height: 20px;
+                font-size: 14px;
+                color: #666;
+                -webkit-line-clamp: 1;
+                display: -webkit-box;
+                text-overflow: ellipsis;
+            }
+            
+            .app-item-geonames {
+                overflow: hidden;
+                line-height: 20px;
+                height: 20px;
+                font-size: 14px;
+                color: #666;
+                -webkit-line-clamp: 1;
+                display: -webkit-box;
+                text-overflow: ellipsis;
+            }
+            
+            .app-item-thumb {
+                margin-right: 6px;
+                background-repeat: no-repeat;
+                width: 110px;
+                height: 110px;
+                float: left;
+                position: relative;
+                background-size: contain;
+                background-position-x: right;
+                .app-lock {
+                  @extend .z-depth-2;
+                  background: color("shades", "white");
+                  height: 30px;
+                  width: 30px;
+                  display: block;
+                  border-radius: 50%;
+                  text-align: center;
+                  position: absolute;
+                  color: $app-grey-d-2;
+                  opacity: 0.8;
+                  margin: auto;
+                  top: 0; left: 0; bottom: 0; right: 0;
+                  &.app-dnnt {
+                    color: $app-dnnt;
+                  }
+                  &:before {
+                      font-size: 20px;
+                  }
+                }
+            }
+        }
+
+
+    }
+
+
+    .app-marker-title {
+        font-size: 17px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .app-marker-date {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 5px;
+    }
+
+    .app-marker-authors {
+        font-size: 13px;
+        color: #555;
+        margin-bottom: 3px;
+    }
+
+    .app-marker-geonames {
+        font-size: 13px;
+        color: #555;
+    }
+
+    .app-marker-thumb {
+        margin-left: 10px;
+        background-repeat: no-repeat;
+        width: 120px;
+        height: 120px;
+        float: right;
+        overflow: hidden;
+        background-size: contain;
+        background-position-x: center;
+        background-position-y: top;
+    }
+}
+
+
+}

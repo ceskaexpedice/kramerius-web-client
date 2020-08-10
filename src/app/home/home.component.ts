@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   constructor(
     public state: AppState,
     private route: ActivatedRoute,
-    private appSettings: AppSettings,
+    public settings: AppSettings,
     private krameriusApiService: KrameriusApiService,
     private localStorageService: LocalStorageService,
     public analytics: AnalyticsService,
@@ -37,8 +37,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.pageTitle.setTitle(null, null);
-    this.showFooter = !!this.appSettings.footer;
-    if (this.appSettings.multiKramerius) {
+    this.showFooter = !!this.settings.footer;
+    if (this.settings.multiKramerius) {
       this.route.params.subscribe(params => {
         if (params && params['k'] && params['k'] !== this.lastCode) {
           this.lastCode = params['k'];

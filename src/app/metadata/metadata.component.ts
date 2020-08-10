@@ -26,7 +26,7 @@ export class MetadataComponent implements OnInit {
   constructor(private modalService: MzModalService,
               public analytics: AnalyticsService,
               public account: AccountService,
-              public appSettings: AppSettings) { }
+              public settings: AppSettings) { }
 
   ngOnInit() {
   }
@@ -35,24 +35,36 @@ export class MetadataComponent implements OnInit {
     this.showingTitle = !this.showingTitle;
   }
 
-  openInProarc() {
-    window.open(this.metadata.proarcLink(), '_blank');
+  showMetadata() {
+    return this.show(this.settings.showMetadata);
   }
 
-  showAuthors() {
+  showSharing() {
+    return this.show(this.settings.showSharing);
+  }
+
+  showCitation() {
+    return this.show(this.settings.showCitation);
+  }
+
+  // openInProarc() {
+  //   window.open(this.metadata.proarcLink(), '_blank');
+  // }
+
+  onShowAuthors() {
     this.analytics.sendEvent('metadata', 'authors');
     this.modalService.open(DialogAuthosComponent, { authors: this.metadata.authors} );
   }
 
-  showPolicyPrivateDialog() {
+  onShowPolicyPrivateDialog() {
     this.modalService.open(DialogPolicyComponent, { type: 'private' } );
   }
 
-  showPolicyDnntDialog() {
+  onShowPolicyDnntDialog() {
     this.modalService.open(DialogPolicyComponent, { type: 'dnnt' } );
   }
 
-  showCitation() {
+  onShowCitation() {
     this.analytics.sendEvent('metadata', 'citation');
     this.modalService.open(DialogCitationComponent, { metadata: this.metadata });
   }
@@ -62,9 +74,14 @@ export class MetadataComponent implements OnInit {
     this.modalService.open(DialogShareComponent, { metadata: this.metadata });
   }
 
-  showAdminMetadata() {
+  onShowMetadata() {
     this.analytics.sendEvent('metadata', 'admin-metadata');
     this.modalService.open(DialogAdminMetadataComponent, { metadata: this.metadata } );
+  }
+
+
+  private show(value: string): boolean {
+    return value === 'allways' || (value === 'public' && this.metadata.isPublic);
   }
 
 }

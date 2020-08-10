@@ -1,6 +1,6 @@
 // --- ABOUT ---
 
-.app-about {
+.app-about, .app-faq {
 
   flex: 1;
   width: 100%;
@@ -37,8 +37,14 @@
       font-weight: 600;
     }
     ul {
-      padding-left: 0;
-      list-style-type: none;
+      padding-left: 1em;
+      margin-top: 5px;
+      li {
+      list-style-type: disc;
+      }
+    }
+    ol {
+      padding-left: 1em;
       margin-top: 5px;
     }
   }

@@ -8,7 +8,7 @@ import { PeriodicalItem } from '../model/periodicalItem.model';
 export class Utils {
 
 
-    constructor(private appSettings: AppSettings) {}
+    constructor(private settings: AppSettings) {}
 
     static inQuotes(text: string): boolean {
         return text && text.startsWith('"') && text.endsWith('"');
@@ -58,7 +58,7 @@ export class Utils {
         if (json['pdf'] && json['pdf']['url']) {
             item.pdf = true;
         }
-        item.resolveUrl(this.appSettings.getPathPrefix());
+        item.resolveUrl(this.settings.getPathPrefix());
         return item;
     }
 

@@ -244,23 +244,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   buildWatermarkLayer(text: string) {
-    const font = '13px roboto,sans-serif';
+    const font = this.appSettings.dnnt.watermarkFontSize + 'px roboto,sans-serif';
     this.watermark = new ol.layer.Vector({
       name: 'watermark',
       source: new ol.source.Vector(),
       style: new ol.style.Style({
-        fill: new ol.style.Fill({
-          color: 'rgba(244, 81, 30, 0.20)'
-        }),
-        stroke: new ol.style.Stroke({
-          color: '#F4511E',
-          width: 2
-        }),
         text: new ol.style.Text({
           font: font,
           text: text,
           fill: new ol.style.Fill({
-            color: 'rgba(0, 0, 0, 0.2)'
+            color:  this.appSettings.dnnt.watermarkColor
           }),
           textAlign: 'left',
         })
@@ -276,9 +269,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
     let watermarkText: string;
     if (this.bookService.dnntMode && this.authService.isLoggedIn()) {
-      watermarkText = this.authService.user.name;
+      watermarkText = this.authService.getUserId();
     } else {
-      // watermarkText = 'Josef Novák';
+      // watermarkText = 'test';
     }
     if (!watermarkText) {
       return;
@@ -286,20 +279,23 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (!this.watermark) {
       this.buildWatermarkLayer(watermarkText);
     }
-    let cw = 3;
-    const ch = 4;
+    let cw = this.appSettings.dnnt.watermarkRowCount;
+    const ch = this.appSettings.dnnt.watermarkColCount;
     const sw = this.extent[0];
     const width = this.extent[2] - this.extent[0];
     if (this.extent[0] < 0) {
-      cw = 6;
+      cw = cw * 2;
     }
     const height = -this.extent[1];
+    const p = this.appSettings.dnnt.watermarkProbability;
     for (let i = 0; i < cw; i ++) {
      for (let j = 0; j < ch; j ++) {
-       const x = sw + (i/(cw*1.0))*width + width/20.0;
-       const y = (j/(ch*1.0)) * height + height/30.0*i + 70;
-       var point = new ol.Feature(new ol.geom.Point([x, -y]));
+       if (Math.floor((Math.random() * 100)) < p) {
+        const x = sw + (i/(cw*1.0))*width + width/cw/3;
+        const y = (j/(ch*1.0)) * height + height/ch/2;// + height/30.0*i; + 70;
+        var point = new ol.Feature(new ol.geom.Point([x, -y]));
         this.watermark.getSource().addFeature(point);
+      }
      }
     }
   }
@@ -524,18 +520,22 @@ export class ViewerComponent implements OnInit, OnDestroy {
     options.quality = 'default';
     options.zDirection = -1;
     options.extent = extent;
-    options.crossOrigin = 'Anonymous';
+    options.url = url;
+    const thumbUrl = this.iiif.image(url, options.sizes[0][0], options.sizes[0][1]);
+    const imageOptions = {
+      url: thumbUrl,
+      imageExtent: extent
+    };
+    if (this.appSettings.crossOrigin) {
+      options.crossOrigin = 'Anonymous';
+      imageOptions['crossOrigin'] = 'Anonymous';
+    }
     const iiifTileSource = new ol.source.IIIF(options);
     const zLayer = new ol.layer.Tile({
       source: iiifTileSource,
     });
-    const thumbUrl = this.iiif.image(url, options.sizes[0][0], options.sizes[0][1]);
     const iLayer = new ol.layer.Image({
-      source: new ol.source.ImageStatic({
-        url: thumbUrl,
-        imageExtent: extent,
-        crossOrigin: 'Anonymous'
-      })
+      source: new ol.source.ImageStatic(imageOptions)
     });
     this.view.addLayer(iLayer);
     this.view.addLayer(zLayer);
@@ -557,23 +557,27 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else if (type === 2) {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
+    const zoomifyOptions = {
+      tileSize: 256,
+      tilePixelRatio: 1,
+      url: url + '/',
+      size: [width, height],
+      tierSizeCalculation: 'truncated',
+      extent: extent
+    };
+    const imageOptions = {
+        url: this.zoomify.thumb(url),
+        imageExtent: extent
+    };
+    if (this.appSettings.crossOrigin) {
+      zoomifyOptions['crossOrigin'] = 'Anonymous';
+      imageOptions['crossOrigin'] = 'Anonymous';
+    }
     const zLayer = new ol.layer.Tile({
-      source: new ol.source.Zoomify({
-        tileSize: 256,
-        tilePixelRatio: 1,
-        url: url + '/',
-        size: [width, height],
-        tierSizeCalculation: 'truncated',
-        crossOrigin: 'Anonymous',
-        extent: extent
-      })
+      source: new ol.source.Zoomify(zoomifyOptions)
     });    
     const iLayer = new ol.layer.Image({
-      source: new ol.source.ImageStatic({
-        url: this.zoomify.thumb(url),
-        imageExtent: extent,
-        crossOrigin: 'Anonymous'
-      })
+      source: new ol.source.ImageStatic(imageOptions)
     });
     this.view.addLayer(iLayer);
     this.view.addLayer(zLayer);
@@ -585,7 +589,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.zoomifyLayer = zLayer;
     }
   }
-
 
   addStaticImage(width, height, url, type) {
     let extent;

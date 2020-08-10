@@ -1,8 +1,8 @@
-<a *ngIf="item.uuid; else missing" [routerLink]="appSettings.getRouteFor(item.getPath())" [queryParams]="periodicalService.getUrlParams()" (click)="analytics.sendEvent('periodical', 'open from', 'year');">
+<a *ngIf="item.uuid; else missing" [routerLink]="settings.getRouteFor(item.getPath())" [queryParams]="periodicalService.getUrlParams()" (click)="analytics.sendEvent('periodical', 'open from', 'year');">
   <mz-card  [hoverable]="true">
     <mz-card-content>
-      {{ item.date }}
-      <i *ngIf="!item.public" 
+      {{ item.getDate() }}
+      <i *ngIf="!item.public && !settings.hiddenLocks"
         mz-icon-mdi 
         [icon]="'lock'" 
         class="app-lock" 

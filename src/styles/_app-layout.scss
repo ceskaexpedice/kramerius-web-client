@@ -47,7 +47,6 @@ app-root {
         overflow: auto;
         background-color: $app-grey-l-4;
       }
-      @import "styles/app-libraries";
     }
     
     // home
@@ -66,11 +65,11 @@ app-root {
       @import "styles/app-help";
     }
 
-    // about
-    app-about {
+    // about, faq
+    app-about, app-faq {
       @import "styles/app-about";
     }
-        
+    
     // search
     app-search {
       @import "styles/app-search-count";
@@ -85,6 +84,7 @@ app-root {
         @import "styles/app-search-chart-bar";
         @import "styles/app-search-calendar";
         @import "styles/app-search-results";
+        @import "styles/app-map-browse";
       }
     }
 

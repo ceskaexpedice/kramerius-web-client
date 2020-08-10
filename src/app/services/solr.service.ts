@@ -299,7 +299,8 @@ export class SolrService {
         if (!this.oldSchema()) {
             q += `,${this.field('collection_description')}`;
         }
-        q += `&q=${this.field('accessibility')}:public&fq=${this.buildTopLevelFilter()}&sort=${this.field('created_at')} desc&rows=24&start=0`;
+        const pf = this.settings.newestAll ? '*:*' : `${this.field('accessibility')}:public`;
+        q += `&q=${pf}&fq=${this.buildTopLevelFilter()}&sort=${this.field('created_at')} desc&rows=24&start=0`;
         return q;
     }
 

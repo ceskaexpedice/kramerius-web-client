@@ -15,7 +15,7 @@
       <span class="app-brand-img app-brand-top">
         <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
       </span>
-      <span class="app-brand-text app-brand-top">{{ appSettings.title }}</span>
+      <span *ngIf="!appSettings.hideHomeTitle" class="app-brand-text app-brand-top">{{ appSettings.title }}</span>
       <i mz-icon-mdi [icon]="'chevron-down'" class="app-clean-mg app-brand-handle"></i>
     </span>
   </a>
@@ -30,7 +30,7 @@
       <span class="app-brand-img app-brand-top">
         <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
       </span>
-      <span class="app-brand-text app-brand-top">{{ appSettings.title }}</span>
+      <span *ngIf="!appSettings.hideHomeTitle" class="app-brand-text app-brand-top">{{ appSettings.title }}</span>
       <i mz-icon-mdi [icon]="'chevron-down'" class="app-clean-mg app-brand-handle"></i>
     </span>
   </div>

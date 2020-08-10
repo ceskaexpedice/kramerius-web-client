@@ -74,7 +74,7 @@ import { HomeSearchBarComponent } from './home/home-search-bar/home-search-bar.c
 import { NavbarSearchBarComponent } from './navbar/navbar-search-bar/navbar-search-bar.component';
 import { SearchChartBarComponent } from './search/search-chart-bar/search-chart-bar.component';
 import { SearchCalendarComponent } from './search/search-calendar/search-calendar.component';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.component';
 import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
 import { LogoComponent } from './logo/logo.component';
@@ -141,6 +141,8 @@ import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/d
 import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.component';
 import { LandingComponent } from './landing/landing.component';
 import { LibrariesComponent } from './libraries/libraries.component';
+import { FaqComponent } from './faq/faq.component';
+
 
 
 export function hljsLanguages() {
@@ -221,6 +223,7 @@ export function hljsLanguages() {
     RemovePrefixPipe,
     UpcasePipe,
     AboutComponent,
+    FaqComponent,
     HomeFooterComponent,
     FavouritesComponent,
     LoginComponent,
@@ -256,12 +259,17 @@ export function hljsLanguages() {
     FormsModule,
     DatepickerModule,
     Ng2CompleterModule,
-    LazyLoadImageModule,
+    LazyLoadImageModule.forRoot({
+      preset: intersectionObserverPreset
+    }),
     AppRoutingModule,
     NgxGalleryModule,
     TranslatorModule.forRoot({
       providedLanguages: ['en', 'cs'],
-      defaultLanguage: 'cs'
+      defaultLanguage: 'cs',
+      loaderOptions: {
+        path: 'assets/i18n/{{language}}.json?v1.7.8'
+      }
     }),
     MzButtonModule,
     MzInputModule,

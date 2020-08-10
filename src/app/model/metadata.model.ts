@@ -56,6 +56,7 @@ export class Metadata {
 
     public activePages: string;
     public activePage: Page;
+    public activePageRight: Page;
 
     public originUrl: string;
 
@@ -77,9 +78,9 @@ export class Metadata {
         return this.originUrl;
     }
 
-    public proarcLink(): string {
-        return `http://proarc.kramerius.org/documents/${this.uuid}`;
-    }
+    // public proarcLink(): string {
+    //     return `http://proarc.kramerius.org/documents/${this.uuid}`;
+    // }
 
     public addToContext(doctype: string, uuid: string) {
         this.context[doctype] = uuid;

@@ -26,15 +26,35 @@
     "browse": "Procházení",
     "collections": "Sbírky"
   },
-  "libraries": {
+  "dk": {
     "title": "Digitální knihovna",
-    "message": "Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě."
+    "logo": "/assets/shared/logo-dk.png",
+    "message": "Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě.",
+    "vs_title": "Digitální knihovny pro VŠ",
+    "vs_subtitle": "Dočasný přístup pro pedagogy, vědecké pracovníky institucí na úrovni vysokých škol a jejich studenty, zřízený pro překlenutí koronavirové krize.",
+    "category": {
+      "major": "Hlavní knihovny",
+      "regional": "Krajské knihovny",
+      "university": "Vysoké školy",
+      "museum": "Muzea",
+      "archive": "Archivy",
+      "other": "Další instituce a projekty"
+    },
+    "footer": {
+      "logo": "/assets/shared/logo-mzk.png",
+      "contact": "Provozovatel",
+      "contact_name": "Moravská zemská knihovna v Brně",
+      "contact_address1": "Kounicova 65a",
+      "contact_address2": "601 87 Brno",
+      "contact_address3": " "
+    }
   },
   "navbar": {
     "collections": "Sbírky",
     "browse": "Procházet",
     "help": "Nápověda",
     "about": "Informace",
+    "faq": "FAQ",
     "back": "Zpět na předchozí stránku",
     "home": "Domovská stránka",
     "checkbox_label": "pouze veřejné",
@@ -247,6 +267,10 @@
     "norway": {
       "url": "http://www.eeagrants.org",
       "name": "Norské fondy"
+    },
+    "k3tok5": {
+      "url": "",
+      "name": "K3 to K5"
     }
   },
   "periodical": {
@@ -313,16 +337,20 @@
     "title_generate": "Příprava ke stažení",
     "title_prepare": "Příprava k tisku",
     "tip_shift": "Tip: přes stisknutou klávesu Shift můžete vybrat více stránek naráz",
+    "selection1": "Máte {{ num == 1 ? 'vybranou' : ( num < 5 ? 'vybrané' : 'vybraných') }}",
+    "selection2": "{{ num == 1 ? 'stranu' : ( num < 5 ? 'strany' : 'stran') }}",
+    "selection": "Nemáte vybranou žádnou stranu",
+    "select_all": "Vybrat vše",
+    "deselect_all": "Zrušit výběr",
     "warning_too_manny_pages": "Je překročen maximální počet stran",
-    "warning_number_of_pages": "máte vybráno {{num}} stran",
-    "warning_no_page": "Není vybraná žádná stránka",
     "warning_generate": "Vytváření PDF dokumentu může trvat několik minut v závislosti na počtu vybraných stránek.",
     "error_generate": "PDF dokument se nepodařilo stáhnout",
     "action_generate": "Stáhnout PDF",
     "action_prepare": "Připravit k tisku"
   },
   "metadata-dialog": {
-    "title": "Metadata pro"
+    "title": "Metadata pro",
+    "missing": "Objekt {{ model }} neobsahuje {{ resource }}"
   },
   "citation-dialog": {
     "title": "Citace"

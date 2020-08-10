@@ -4,6 +4,7 @@ import { Metadata } from '../../model/metadata.model';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { parseString, Builder } from 'xml2js';
 import { SolrService } from '../../services/solr.service';
+import { Translator } from 'angular-translator';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
 
   resource = 'mods';
 
-  constructor(private api: KrameriusApiService, private solr: SolrService) {
+  constructor(private api: KrameriusApiService, private solr: SolrService,private translator: Translator) {
     super();
   }
 
@@ -53,8 +54,12 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
   }
 
   reload() {
-    if (this.selection.tab === 'page' && this.resource === 'alto') {
-      this.selection[this.resource] = `Objekt ${this.selection.tab.toUpperCase()} neobsahuje ${this.resource.toUpperCase()}`;
+    if (this.selection.tab === 'page' && this.resource === 'alto' && !this.metadata.isPublic) {
+      this.selection[this.resource] = String(this.translator.instant('metadata-dialog.missing', 
+      { 
+        model: this.selection.tab.toUpperCase(),
+        resource: this.resource.toUpperCase()
+      }));
       return;
     } 
     if (!this.selection[this.resource]) {
@@ -76,7 +81,11 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
         }
       },
       () => {
-        this.selection[this.resource] = `Objekt ${this.selection.tab.toUpperCase()} neobsahuje ${this.resource.toUpperCase()}`;
+        this.selection[this.resource] = String(this.translator.instant('metadata-dialog.missing', 
+        { 
+          model: this.selection.tab.toUpperCase(),
+          resource: this.resource.toUpperCase()
+        }));
       });
     }
   }

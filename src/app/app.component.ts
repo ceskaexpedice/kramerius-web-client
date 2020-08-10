@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.appSettings.dnntEnabled) {
+    if (this.appSettings.dnnt) {
       this.auth.login('', '').subscribe(user => {
       });
     }

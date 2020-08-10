@@ -6,13 +6,15 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-libraries',
-  templateUrl: './libraries.component.html'
+  templateUrl: './libraries.component.html',
+  styleUrls: ['./libraries.component.scss']
 })
 export class LibrariesComponent implements OnInit {
 
-
+  libraries = {};
+  categories = ['major', 'regional', 'university', 'museum', 'archive', 'other'];
   constructor(
-    public appSettings: AppSettings,
+    public settings: AppSettings,
     public analytics: AnalyticsService,
     private pageTitle: PageTitleService,
     private _sanitizer: DomSanitizer
@@ -22,14 +24,24 @@ export class LibrariesComponent implements OnInit {
 
   ngOnInit() {
     this.pageTitle.setLandingPageTitle();
+    this.categorize();
   }
 
 
-  getThumb(kramerius) {
-    return this._sanitizer.bypassSecurityTrustStyle(`url(${kramerius.logo})`);
+  getThumb(url) {
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
   }
 
 
-
+  private categorize() {
+    for (const kramerius of this.settings.krameriusList) {
+      const type = kramerius.type || 'other';
+      if (!this.libraries[type]) {
+        this.libraries[type] = [kramerius];
+      } else {
+        this.libraries[type].push(kramerius);
+      }
+    }
+  }
 
 }

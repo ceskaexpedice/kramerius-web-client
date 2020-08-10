@@ -1,8 +1,19 @@
+<div class="app-map-browse">
 
 <div class="app-list" (mouseleave)="focusedItem = null">
 
         <a class="app-list-item" *ngFor="let item of searchService.results" routerLink="{{item.url}}" (mouseenter)="focusedItem = item">
-            <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)"></div>
+            <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)">
+                    <i *ngIf="!item.public && !settings.hiddenLocks"
+                      mz-icon-mdi 
+                      [icon]="'lock'" 
+                      class="app-lock" 
+                      [class.app-dnnt]="item.dnnt" 
+                      mz-tooltip 
+                      [tooltip]="(item.dnnt ? 'search.dnnt_document' : 'search.inaccessible_document') | translate" 
+                      [position]="'top'">
+                    </i>
+            </div>
             <div class="app-item-title">{{item.title}}</div>
             <div *ngIf="item.date" class="app-item-date">{{item.date}}</div>
             <div *ngIf="item.authors" class="app-item-authors">{{item.authors}}</div>
@@ -71,3 +82,4 @@
 </agm-map>
 
 
+</div>

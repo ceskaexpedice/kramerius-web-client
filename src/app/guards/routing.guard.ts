@@ -19,7 +19,7 @@ export class RoutingGuardService implements CanActivate {
             this.router.navigateByUrl(url);
             return false;
           } else {
-              return true;
+             return true;
           }
   }
 }

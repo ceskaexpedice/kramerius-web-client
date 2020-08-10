@@ -1,13 +1,13 @@
 <div class="app-metadata-wrapper" *ngIf="metadata">
 
   <div class="app-metadata-controls" *ngIf="controlsEnabled">
-      <i class="app-mdi-share app-cursor-pointer" (click)="onShare()"
+      <i *ngIf="showSharing()" class="app-mdi-share app-cursor-pointer" (click)="onShare()"
           mz-tooltip [tooltip]="'book_controls.tooltip_share' | translate" [position]="'bottom'">
       </i>
-      <i class="app-mdi-quote app-cursor-pointer" (click)="showCitation()"
+      <i *ngIf="showCitation()" class="app-mdi-quote app-cursor-pointer" (click)="onShowCitation()"
         mz-tooltip [tooltip]="'book_controls.tooltip_citation' | translate"  [position]="'bottom'">
       </i>
-      <i class="app-mdi-metadata app-cursor-pointer" (click)="showAdminMetadata()"
+      <i *ngIf="showMetadata()" class="app-mdi-metadata app-cursor-pointer" (click)="onShowMetadata()"
         mz-tooltip [tooltip]="'book_controls.tooltip_metadata' | translate"  [position]="'bottom'">
       </i>
       <ng-container *ngIf="account.serviceEnabled() && account.isLoggedIn()">
@@ -17,18 +17,18 @@
         <i *ngIf="account.isFavourited(metadata.uuid)" class="app-mdi-favourite-on app-cursor-pointer app-favourite" (click)="account.unmarkFavourite(metadata.uuid, null)"
           mz-tooltip [tooltip]="'book_controls.tooltip_unmark_favourite' | translate"  [position]="'bottom'">
         </i>
-        <i *ngIf="account.hasRole('proarc')" class="app-mdi-edit app-cursor-pointer app" target="_blank" (click)="openInProarc()"
+        <!-- <i *ngIf="account.hasRole('proarc')" class="app-mdi-edit app-cursor-pointer app" target="_blank" (click)="openInProarc()"
           mz-tooltip [tooltip]="'book_controls.tooltip_edit' | translate"  [position]="'bottom'">
-        </i>
+        </i> -->
       </ng-container>
   </div>
 
   <div class="app-metadata-content">
 
     <ng-container *ngIf="metadata.getTitle()">
-      <h5 [class.app-cut]="metadata.getTitle().length > 75 && showingTitle == false">
+      <h1 [class.app-cut]="metadata.getTitle().length > 75 && showingTitle == false">
         {{ metadata.getTitle() }}
-      </h5>
+      </h1>
       <i *ngIf="metadata.getTitle().length > 75 && showingTitle == false" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.show_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
       <i *ngIf="metadata.getTitle().length > 75 && showingTitle == true" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showTitle()" mz-tooltip [tooltip]="'common.hide_whole_title' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
       <div class="app-subtitle">{{metadata.titles[0].subTitle}}</div>
@@ -45,15 +45,19 @@
         ISBN {{ metadata.identifiers['isbn'] }}
       </div>
 
-      <a *ngIf="appSettings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
+      <div *ngIf="metadata.hasIdentifier('doi')" class="app-identifier">
+        DOI: {{ metadata.identifiers['doi'] }}
+      </div>
+
+      <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
       
       <div *ngIf="metadata.currentUnit">
-        <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'unit list');">
+        <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'unit list');">
           {{ 'metadata.unit_list' | translate }}
         </a>
       </div>
       <div *ngIf="metadata.volume">
-        <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'volume list');">
+        <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'volume list');">
           {{ 'metadata.volume_list' | translate }}
         </a>
       </div>
@@ -62,14 +66,14 @@
 
     </ng-container>
 
-    <div *ngIf="!metadata.isPublic" class="app-policy">
+    <div *ngIf="!settings.hiddenLocks && !metadata.isPublic" class="app-policy">
       <ng-container *ngIf="metadata.isDnnt">
         <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock app-dnnt'"></i>
-        <span class="app-message">{{ 'metadata.policy_dnnt' | translate }} (<span><i (click)="showPolicyDnntDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
+        <span class="app-message">{{ 'metadata.policy_dnnt' | translate }} (<span><i (click)="onShowPolicyDnntDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
       </ng-container>
       <ng-container *ngIf="!metadata.isDnnt">
         <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock'"></i>
-        <span class="app-message">{{ 'metadata.policy_private' | translate }} (<span><i (click)="showPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
+        <span class="app-message">{{ 'metadata.policy_private' | translate }} (<span><i (click)="onShowPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
       </ng-container>
       <div class="divider"></div>
     </div>
@@ -77,18 +81,18 @@
     <div *ngIf="metadata.getPrimaryAuthors().length > 0">
       <label>{{ 'metadata.author' | translate }}</label>
       <div *ngFor="let author of metadata.getPrimaryAuthors(); let index=index" class="app-value">
-          <a *ngIf="index < 3" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
+          <a *ngIf="index < 3" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
       </div>
-      <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showAuthors()" mz-tooltip [tooltip]="'metadata.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
+      <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="onShowAuthors()" mz-tooltip [tooltip]="'metadata.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
       <div class="divider"></div>
     </div>
 
     <div *ngIf="metadata.getOtherAuthors().length > 0">
       <label>{{ 'metadata.author_other' | translate }}</label>
       <div *ngFor="let author of metadata.getOtherAuthors(); let index=index" class="app-value">
-          <a *ngIf="index < 3" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
+          <a *ngIf="index < 3" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
       </div>
-      <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="showAuthors()" mz-tooltip [tooltip]="'metadata.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
+      <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="onShowAuthors()" mz-tooltip [tooltip]="'metadata.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
       <div class="divider"></div>
     </div>
     
@@ -97,7 +101,7 @@
       <div class="app-value">{{ 'metadata.volume_year' | translate }} <strong>{{ metadata.volume.year }}</strong></div>
       <div class="app-value">{{ 'metadata.volume' | translate }} <strong>{{ metadata.volume.number }}</strong></div>
       <div *ngIf="metadata.currentIssue">
-        <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.volume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'issue list');">
+        <a [routerLink]="[settings.getRouteFor('periodical'), metadata.volume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'issue list');">
           {{ 'metadata.issue_list' | translate }}
         </a>
       </div>
@@ -106,13 +110,13 @@
       </div>
 
       <div *ngIf="metadata.previousVolume">
-          <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.previousVolume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'previous volume');">
-            {{ 'metadata.previous_volume' | translate }} {{ metadata.previousVolume.prettyName() }}
+          <a [routerLink]="[settings.getRouteFor('periodical'), metadata.previousVolume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'previous volume');">
+            {{ 'metadata.previous_volume' | translate }}{{ metadata.previousVolume.prettyName() }}
           </a>
         </div>
   
         <div *ngIf="metadata.nextVolume">
-          <a [routerLink]="[appSettings.getRouteFor('periodical'), metadata.nextVolume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'next volume');">
+          <a [routerLink]="[settings.getRouteFor('periodical'), metadata.nextVolume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'next volume');">
             {{ 'metadata.next_volume' | translate }} {{ metadata.nextVolume.prettyName() }}
           </a>
         </div>
@@ -126,13 +130,13 @@
       <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.getPart() }}</strong></div>
       
       <div *ngIf="metadata.previousIssue">
-        <a [routerLink]="[appSettings.getRouteFor('view'), metadata.previousIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'previous issue');">
+        <a [routerLink]="[settings.getRouteFor('view'), metadata.previousIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'previous issue');">
           {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.prettyName() }}
         </a>
       </div>
 
       <div *ngIf="metadata.nextIssue">
-        <a [routerLink]="[appSettings.getRouteFor('view'), metadata.nextIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'next issue');">
+        <a [routerLink]="[settings.getRouteFor('view'), metadata.nextIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'next issue');">
           {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.prettyName() }}
         </a>
       </div>
@@ -150,12 +154,12 @@
         <app-metadata [metadata]="metadata.currentUnit.metadata" class="app-nested" [showControls]="false"></app-metadata>
       </div>
       <div *ngIf="metadata.previousUnit">
-        <a [routerLink]="[appSettings.getRouteFor('view'), metadata.previousUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'previous unit');">
+        <a [routerLink]="[settings.getRouteFor('view'), metadata.previousUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'previous unit');">
           {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.prettyName() }}
         </a>
       </div>
       <div *ngIf="metadata.nextUnit">
-        <a [routerLink]="[appSettings.getRouteFor('view'), metadata.nextUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'next unit');">
+        <a [routerLink]="[settings.getRouteFor('view'), metadata.nextUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'next unit');">
           {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.prettyName() }}
         </a>
       </div>
@@ -210,7 +214,7 @@
     <div *ngIf="metadata.doctype">
       <label>{{ 'metadata.doctype' | translate }}</label>
       <div class="app-value" *ngIf="metadata.doctype !== 'monographbundle'">
-          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: metadata.doctype }" (click)="analytics.sendEvent('metadata', 'link', 'doctype');">{{ 'model.' + metadata.doctype | translate }}</a>
+          <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{doctypes: metadata.doctype }" (click)="analytics.sendEvent('metadata', 'link', 'doctype');">{{ 'model.' + metadata.doctype | translate }}</a>
       </div>
       <div class="app-value" *ngIf="metadata.doctype === 'monographbundle'">
         {{ 'model.' + metadata.doctype | translate }}
@@ -221,7 +225,7 @@
     <div *ngIf="metadata.keywords.length > 0">
       <label>{{ 'metadata.keywords' | translate }}</label>
       <div *ngFor="let keyword of metadata.keywords" class="app-value" >
-          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{keywords: keyword }" (click)="analytics.sendEvent('metadata', 'link', 'keyword');">{{ keyword | appUpcase }}</a>
+          <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{keywords: keyword }" (click)="analytics.sendEvent('metadata', 'link', 'keyword');">{{ keyword | appUpcase }}</a>
       </div>
       <div class="divider"></div>
     </div>
@@ -229,8 +233,8 @@
     <div *ngIf="metadata.genres.length > 0">
       <label>{{ 'metadata.genres' | translate }}</label>
       <div *ngFor="let genre of metadata.genres">
-        <ng-container *ngIf="appSettings.availableFilter('genres'); else noLinkGenre" >
-          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{genres: genre }" (click)="analytics.sendEvent('metadata', 'link', 'genre');">{{ genre | appUpcase}}</a>
+        <ng-container *ngIf="settings.availableFilter('genres'); else noLinkGenre" >
+          <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{genres: genre }" (click)="analytics.sendEvent('metadata', 'link', 'genre');">{{ genre | appUpcase}}</a>
         </ng-container>
         <ng-template #noLinkGenre>
           <div class="app-value">{{ genre }}</div>
@@ -242,8 +246,8 @@
     <div *ngIf="metadata.geonames.length > 0">
       <label>{{ 'metadata.geonames' | translate }}</label>
       <div *ngFor="let geoname of metadata.geonames">
-        <ng-container *ngIf="appSettings.availableFilter('geonames'); else noLinkGeoname" >
-          <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{geonames: geoname }" (click)="analytics.sendEvent('metadata', 'link', 'geoname');">{{ geoname | appUpcase}}</a>
+        <ng-container *ngIf="settings.availableFilter('geonames'); else noLinkGeoname" >
+          <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{geonames: geoname }" (click)="analytics.sendEvent('metadata', 'link', 'geoname');">{{ geoname | appUpcase}}</a>
         </ng-container>
         <ng-template #noLinkGeoname>
           <div class="app-value">{{ geoname }}</div>
@@ -255,7 +259,7 @@
     <div *ngIf="metadata.languages.length > 0">
       <label>{{ 'metadata.languages' | translate }}</label>
       <div *ngFor="let language of metadata.languages" class="app-value" >
-        <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{languages: language }" (click)="analytics.sendEvent('metadata', 'link', 'language');">{{ 'language.' + language | translate | appUpcase }}</a>
+        <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{languages: language }" (click)="analytics.sendEvent('metadata', 'link', 'language');">{{ 'language.' + language | translate | appUpcase }}</a>
       </div>
       <div class="divider"></div>
     </div>
@@ -263,8 +267,8 @@
     <div *ngIf="metadata.locations.length > 0">
       <label>{{ 'metadata.location' | translate }}</label>
       <div *ngFor="let location of metadata.locations">
-        <ng-container *ngIf="appSettings.availableFilter('locations'); else noLinkLocation" >
-          <a *ngIf="location.physicalLocation" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{locations: location.physicalLocation }" (click)="analytics.sendEvent('metadata', 'link', 'location');">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</a>
+        <ng-container *ngIf="settings.availableFilter('locations'); else noLinkLocation" >
+          <a *ngIf="location.physicalLocation" [routerLink]="settings.getRouteFor('search')" [queryParams]="{locations: location.physicalLocation }" (click)="analytics.sendEvent('metadata', 'link', 'location');">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</a>
         </ng-container>
         <ng-template #noLinkLocation>
           <div class="app-value" *ngIf="location.physicalLocation">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</div>
@@ -324,6 +328,17 @@
   <div *ngIf="metadata.review && metadata.review" >
     <label>{{ 'metadata.review_of' | translate }}</label>
     <app-metadata [metadata]="metadata.review" class="app-nested" [showControls]="false"></app-metadata>
+    <div class="divider"></div>
+  </div>
+
+
+  <div *ngIf="metadata.activePage">
+    <label>{{ 'metadata.page' | translate }}</label>
+    <div class="app-value" >
+      {{ metadata.activePage.number }} {{ metadata.activePage.title }}
+    <span *ngIf="metadata.activePageRight"> - {{ metadata.activePageRight.number }} {{ metadata.activePageRight.title }}</span>
+    </div>
+    <div class="divider"></div>
   </div>
 
 

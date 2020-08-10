@@ -36,6 +36,8 @@ export class DialogPdfGeneratorComponent extends MzBaseModal implements OnInit {
 
   numberOfPages = 0;
 
+  selectedPages = 0;
+
   constructor(private krameriusApi: KrameriusApiService,
               private krameriusInfo: KrameriusInfoService,
               private _sanitizer: DomSanitizer,
@@ -72,6 +74,36 @@ export class DialogPdfGeneratorComponent extends MzBaseModal implements OnInit {
       this.lastIndex = page.index;
       this.selection[page.uuid] = this.lastState;
     }
+    let count = 0;
+    for (const key in this.selection) {
+      if (this.selection[key]) {
+        count += 1;
+      }
+    }
+    this.setNumberOfSelectedPages(count);
+  }
+
+  selectAll() {
+    for (const page of this.pages) {
+      this.selection[page.uuid] = true;
+    }
+    this.setNumberOfSelectedPages(this.pageCount);
+  }
+
+  deselectAll() {
+    for (const key in this.selection) {
+      this.selection[key] = false;
+    }
+    this.setNumberOfSelectedPages(0);
+  }
+
+  private setNumberOfSelectedPages(count: number) {
+    this.selectedPages = count;
+    if (this.selectedPages > this.maxPageCount) {
+      this.errorId = 'warning_too_manny_pages';
+    } else {
+      this.errorId = null;
+    }
   }
 
   thumb(page: Page) {
@@ -89,13 +121,6 @@ export class DialogPdfGeneratorComponent extends MzBaseModal implements OnInit {
       }
     }
     this.numberOfPages = uuids.length;
-    if (this.numberOfPages > this.maxPageCount) {
-      this.errorId = 'warning_too_manny_pages';
-      return;
-    } else if (this.numberOfPages === 0) {
-      this.errorId = 'warning_no_page';
-      return;
-    }
     if (this.type === 'prepare') {
       this.prepareToPrint(uuids);
     } else if (this.type === 'generate') {

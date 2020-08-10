@@ -15,6 +15,7 @@ export class AppSettings {
   public currentCode: string;
 
   public title: string;
+  public subtitle: string;
   public logo: string;
   public logoHome: string;
   public url: string;
@@ -34,7 +35,7 @@ export class AppSettings {
   public originLink: boolean;
   public mapSearch: boolean;
   // public topLevelFilter: string;
-
+  public hiddenLocks: boolean;
 
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -42,15 +43,31 @@ export class AppSettings {
   public defaultPeriodicalVolumesLayout = APP_GLOBAL.defaultPeriodicalVolumesLayout;
   public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
   public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
-  public dnntEnabled = APP_GLOBAL.dnnt;
+  public dnnt = APP_GLOBAL.dnnt;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public advancedSearch = APP_GLOBAL.advancedSearch;
   public aboutPage = APP_GLOBAL.aboutPage;
+  public faqPage = APP_GLOBAL.faqPage;
   public footer = APP_GLOBAL.footer;
-  public cloudEnabled = APP_GLOBAL.cloudEnabled;
-  public landingPage = APP_GLOBAL.landingPage
+  public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
+  public landingPage = !!APP_GLOBAL.landingPage;
+
+  public showMetadata = APP_GLOBAL.showMetadata || 'allways';
+  public showCitation = APP_GLOBAL.showCitation || 'allways';
+  public showSharing = APP_GLOBAL.showSharing || 'allways';
+  public showPdfGeneration = APP_GLOBAL.showPdfGeneration || 'allways';
+  public showPrintPreparation = APP_GLOBAL.showPrintPreparation || 'allways';
+  public showPageJpeg = APP_GLOBAL.showPageJpeg || 'allways';
+  public showPageOcr = APP_GLOBAL.showPageOcr || 'allways';
+  public showTextSelection = APP_GLOBAL.showTextSelection || 'allways';
+  public showImageCrop = APP_GLOBAL.showImageCrop || 'allways';
+
+  public newestAll = !!APP_GLOBAL.newestAll;
+  public crossOrigin = !!APP_GLOBAL.crossOrigin;
+
   public krameriusList: KrameriusData[];
+  public krameriusVsList = APP_GLOBAL.krameriusVsList;
 
   constructor(private collectionsService: CollectionService) {
     this.krameriusList = [];
@@ -73,7 +90,7 @@ export class AppSettings {
     return false;
   }
 
-  private findCrameriusByCode(code: string): KrameriusData {
+  public findCrameriusByCode(code: string): KrameriusData {
     for (const k of this.krameriusList) {
       if (k.code === code) {
         return k;
@@ -90,6 +107,7 @@ export class AppSettings {
     this.collectionsService.clear();
     this.code = kramerius.code;
     this.title = kramerius.title;
+    this.subtitle = kramerius.subtitle;
     this.url = kramerius.url;
     this.apiVersion = kramerius.apiVersion || '5.0';
     this.schemaVersion = kramerius.schemaVersion || '1.0';
@@ -105,7 +123,9 @@ export class AppSettings {
     this.dnntFilter = kramerius.dnntFilter;
     this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
-    this.mapSearch = kramerius.mapSearch || false;
+    this.mapSearch = !!kramerius.mapSearch;
+    this.hiddenLocks = !!kramerius.hiddenLocks;
+
     this.currentCode = this.code;
     if (this.apiVersion === '5.0') {
 
@@ -146,7 +166,7 @@ export class AppSettings {
 
   public oldSchema(): boolean {
     return this.schemaVersion === '1.0';
-}
+  }
 
 
 }
@@ -155,6 +175,7 @@ export class AppSettings {
 interface KrameriusData {
   code: string;
   title: string;
+  subtitle: string;
   logo: string;
   logoHome: string;
   url: string;
@@ -171,4 +192,6 @@ interface KrameriusData {
   originLink: boolean;
   customRightMessage: boolean;
   mapSearch: boolean;
+  hiddenLocks: boolean;
+  type: string;
 }

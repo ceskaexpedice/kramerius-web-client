@@ -92,6 +92,15 @@ export class KrameriusApiService {
         return this.getItemUrlForKramerius(uuid, url) + '/thumb';
     }
 
+    // getThumbUrl(uuid: string) {
+    //     return this.getbaseUrl() + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
+    // }
+
+    // getThumbUrlForKramerius(uuid: string, url: string) {
+    //     return url + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
+    // }
+
+
     getSearchResults(query: string) {
         const url = this.getApiUrl() + '/search?'
             + query;
@@ -151,14 +160,6 @@ export class KrameriusApiService {
     getMetadata(uuid: string, type: string = 'full'): Observable<Metadata> {
         return this.getMods(uuid).map( mods => this.mods.parse(mods, uuid, type));
     }
-
-
-
-
-
-
-
-
 
     getItem(uuid: string): Observable<DocumentItem> {
         if (this.settings.oldSchema()) {

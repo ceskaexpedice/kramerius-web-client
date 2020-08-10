@@ -16,7 +16,7 @@ export class DocumentCardComponent implements OnInit {
   public thumb;
 
   constructor(private krameriusApiService: KrameriusApiService,
-              public appSettings: AppSettings,
+              public settings: AppSettings,
               public analytics: AnalyticsService,
               private _sanitizer: DomSanitizer) { }
 
@@ -27,7 +27,7 @@ export class DocumentCardComponent implements OnInit {
   private setThumb() {
     let url = '';
     if (this.item.library) {
-      const krameriusUrl = this.appSettings.getUrlByCode(this.item.library);
+      const krameriusUrl = this.settings.getUrlByCode(this.item.library);
       url = this.krameriusApiService.getThumbUrlForKramerius(this.item.uuid, krameriusUrl);
     } else {
        url = this.krameriusApiService.getThumbUrl(this.item.uuid);

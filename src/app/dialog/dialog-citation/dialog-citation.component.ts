@@ -4,6 +4,7 @@ import { MzBaseModal } from 'ngx-materialize';
 import { Metadata } from '../../model/metadata.model';
 import { CloudApiService } from '../../services/cloud-api.service';
 import { SolrService } from '../../services/solr.service';
+import { Translator } from 'angular-translator';
 
 @Component({
   selector: 'app-dialog-citation',
@@ -18,7 +19,7 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
   data = [];
   selection;
 
-  constructor(private cloudApi: CloudApiService, private shareService: ShareService) {
+  constructor(private cloudApi: CloudApiService, private shareService: ShareService, private translator: Translator) {
     super();
   }
 
@@ -50,9 +51,13 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
     if (!this.selection.citation) {
       this.cloudApi.getCitation(item.uuid).subscribe( (citation: string) => {
         const link = this.shareService.getPersistentLink(item.uuid);
-        item.citation = `${citation} Dostupné také z: ${link}`;
+        item.citation = `${citation} ${this.getLocalizedAvailability()}: ${link}`;
       });
     }
+  }
+
+  private getLocalizedAvailability(): string {
+    return this.translator.language === 'cs' ? 'Dostupné také z' : 'Available also from';
   }
 
 }

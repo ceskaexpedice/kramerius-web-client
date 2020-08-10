@@ -58,11 +58,16 @@ app-periodical-toolbar {
       
       .app-volume-title {
         color: $app-grey-d-1;
-        font-size: 1.4rem;
-        margin: 0 10px;
+        font-size: 1.3rem;
+        margin: 0 5px;
         height: $app-toolbar-height;
         line-height: $app-toolbar-height;
-        
+        float: left;
+        max-width: calc(100% - 58px);
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         @media #{$small-400-and-down} {
           margin: 0;
         }
@@ -70,8 +75,10 @@ app-periodical-toolbar {
 
       a {
         color: $app-grey;
-        display: inline-block;
-
+        display: block;
+        width: 24px;
+        float: left;
+        margin-top: 15px;
         &:before {
           vertical-align: bottom !important;
         }

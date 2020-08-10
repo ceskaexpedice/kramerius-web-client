@@ -10,19 +10,19 @@ export class LandingComponent implements OnInit {
 
   page = 'none';
 
-  constructor(private appSettings: AppSettings, private router: Router) {
+  constructor(private settings: AppSettings, private router: Router) {
   }
 
   ngOnInit() {
-    if (this.appSettings.multiKramerius) {
-      if (this.appSettings.landingPage) {
+    if (this.settings.multiKramerius) {
+      if (this.settings.landingPage) {
         this.page = 'libraries';
       } else {
-        const url = '/' + this.appSettings.code;
+        const url = '/' + this.settings.code;
         this.router.navigateByUrl(url);
       }
     }  else {
-      this.page = 'home';
+        this.page = 'home';
     }
   }
 
