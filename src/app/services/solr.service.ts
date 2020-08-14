@@ -253,7 +253,15 @@ export class SolrService {
         },
         "parent_collections": {
             '1.0': '',
-            '2.0': 'n.collections.direct'
+            '2.0': 'n.in_collections.direct'
+        },
+        "ancestor_collections": {
+            '1.0': '',
+            '2.0': 'n.in_collections'
+        },
+        "is_top_collection": {
+            '1.0': '',
+            '2.0': 'n.collection.is_standalone'
         },
         "collection_description": {
             '1.0': '',
@@ -289,7 +297,7 @@ export class SolrService {
             filter = `${filter} OR ${field}:monographunit`
         }
         if (!this.oldSchema()) {
-            filter = `${filter} OR (${field}:collection AND !${this.field('parent_collections')}:['' TO *])`;
+            filter = `${filter} OR (${field}:collection AND ${this.field('is_top_collection')}:true)`;
         }
         return filter;
     }

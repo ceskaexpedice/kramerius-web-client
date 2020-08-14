@@ -53,15 +53,15 @@ export class AppSettings {
   public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
   public landingPage = !!APP_GLOBAL.landingPage;
 
-  public showMetadata = APP_GLOBAL.showMetadata || 'allways';
-  public showCitation = APP_GLOBAL.showCitation || 'allways';
-  public showSharing = APP_GLOBAL.showSharing || 'allways';
-  public showPdfGeneration = APP_GLOBAL.showPdfGeneration || 'allways';
-  public showPrintPreparation = APP_GLOBAL.showPrintPreparation || 'allways';
-  public showPageJpeg = APP_GLOBAL.showPageJpeg || 'allways';
-  public showPageOcr = APP_GLOBAL.showPageOcr || 'allways';
-  public showTextSelection = APP_GLOBAL.showTextSelection || 'allways';
-  public showImageCrop = APP_GLOBAL.showImageCrop || 'allways';
+  public showMetadata = APP_GLOBAL.showMetadata || 'always';
+  public showCitation = APP_GLOBAL.showCitation || 'always';
+  public showSharing = APP_GLOBAL.showSharing || 'always';
+  public showPdfGeneration = APP_GLOBAL.showPdfGeneration || 'always';
+  public showPrintPreparation = APP_GLOBAL.showPrintPreparation || 'always';
+  public showPageJpeg = APP_GLOBAL.showPageJpeg || 'always';
+  public showPageOcr = APP_GLOBAL.showPageOcr || 'always';
+  public showTextSelection = APP_GLOBAL.showTextSelection || 'always';
+  public showImageCrop = APP_GLOBAL.showImageCrop || 'always';
 
   public newestAll = !!APP_GLOBAL.newestAll;
   public crossOrigin = !!APP_GLOBAL.crossOrigin;

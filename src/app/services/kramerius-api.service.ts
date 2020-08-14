@@ -64,7 +64,10 @@ export class KrameriusApiService {
     }
 
     private getApiUrlForBaseUrl(url: string): string {
-        return `${url}/search/api/v${this.settings.apiVersion}`;
+        if (this.settings.apiVersion == '5.0') {
+            return `${url}/search/api/v5.0`;
+        }
+        return `${url}/search/api/client/v6.0`;
     }
 
     private getApiUrl(): string {
@@ -72,7 +75,8 @@ export class KrameriusApiService {
     }
 
     private getItemUrl(uuid: string) {
-        return this.getApiUrl().replace(/6.0/, '5.0') + '/item/' + uuid;
+        // return this.getApiUrl().replace(/6.0/, '5.0') + '/item/' + uuid;
+        return this.getApiUrl() + '/item/' + uuid;
     }
 
     private getItemUrlForKramerius(uuid: string, url: string) {

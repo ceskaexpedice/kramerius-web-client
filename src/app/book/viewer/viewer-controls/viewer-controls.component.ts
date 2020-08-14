@@ -44,7 +44,7 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   private show(value: string): boolean {
-    return value === 'allways' || (value === 'public' && !this.bookService.isPrivate);
+    return value === 'always' || (value === 'public' && !this.bookService.isPrivate);
   }
   
 }

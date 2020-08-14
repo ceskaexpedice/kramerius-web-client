@@ -81,7 +81,7 @@ export class MetadataComponent implements OnInit {
 
 
   private show(value: string): boolean {
-    return value === 'allways' || (value === 'public' && this.metadata.isPublic);
+    return value === 'always' || (value === 'public' && this.metadata.isPublic);
   }
 
 }
