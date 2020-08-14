@@ -142,6 +142,7 @@ import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.comp
 import { LandingComponent } from './landing/landing.component';
 import { LibrariesComponent } from './libraries/libraries.component';
 import { FaqComponent } from './faq/faq.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
 
 
@@ -238,7 +239,8 @@ export function hljsLanguages() {
     DialogAdvancedSearchComponent,
     DialogPolicyComponent,
     LandingComponent,
-    LibrariesComponent
+    LibrariesComponent,
+    SafeHtmlPipe
   ],
   entryComponents: [
     DialogOcrComponent,

@@ -2,12 +2,12 @@
 <app-search-calendar *ngIf="searchService.getNumberOfResults()"></app-search-calendar>
 
 <ng-container *ngIf="searchService.collection">
-        <div style="    padding: 16px;
+        <div style="padding: 16px;
         font-size: 15px;
         font-weight: 300;
         color: #555;
-        line-height: 22px;">
-{{ searchService.collection.notes }}
+        line-height: 22px;"
+        [innerHTML]="searchService.collection.notes[0] | safeHtml">
         </div>
       </ng-container>
 

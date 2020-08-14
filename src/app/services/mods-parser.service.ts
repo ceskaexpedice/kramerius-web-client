@@ -420,9 +420,10 @@ export class ModsParserService {
         for (const item of array) {
             const text = item['_'];
             if (text && objects.indexOf(text) < 0 && (!param || (item['$'] && item['$'][param['key']] ===  param['value']))) {
-                objects.push(text);
+                objects.push(text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'));
             }
         }
+        objects.push("<h3>Kolekce map a grafik na území České Republiky</h3><p><strong>Kolekce</strong> map a <i>grafik</i> na území České Republiky bla bla</p>")
     }
 
 
