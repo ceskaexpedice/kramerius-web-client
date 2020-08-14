@@ -104,11 +104,8 @@ export class KrameriusApiService {
     //     return url + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
     // }
 
-
     getSearchResults(query: string) {
-        const url = this.getApiUrl() + '/search?'
-            + query;
-        return this.doGet(url);
+        return this.doGet(this.getSearchResultsUrl(query));
     }
 
     getNewest(): Observable<DocumentItem[]> {
@@ -192,7 +189,7 @@ export class KrameriusApiService {
     }
 
     getMods(uuid: string): Observable<string> {
-        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS));
+        return this.doGetText(this.getModsUrl(uuid));
     }
 
     getFoxml(uuid: string): Observable<string> {
@@ -213,6 +210,17 @@ export class KrameriusApiService {
     getIiifPresentation(uuid: string): Observable<any> {
         const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
         return this.doGet(url);
+    }
+
+
+
+
+    getModsUrl(uuid: string): string {
+        return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
+    }
+
+    getSearchResultsUrl(query: string): string {
+        return this.getApiUrl() + '/search?' + query;
     }
 
 

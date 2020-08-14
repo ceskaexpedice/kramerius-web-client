@@ -15,6 +15,7 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
   @Input() metadata: Metadata;
   data = [];
   selection;
+  url: string;
 
   resource = 'mods';
 
@@ -54,6 +55,7 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
   }
 
   reload() {
+    this.url = this.getUrl(this.selection.uuid);
     if (this.selection.tab === 'page' && this.resource === 'alto' && !this.metadata.isPublic) {
       this.selection[this.resource] = String(this.translator.instant('metadata-dialog.missing', 
       { 
@@ -102,7 +104,14 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
       case 'item': return this.api.getRawItem(uuid);
       case 'children': return this.api.getChildren(uuid);
       case 'iiif': return this.api.getIiifPresentation(uuid);
+    }
+  }
 
+  private getUrl(uuid: string): string {
+    switch (this.resource) {
+      case 'mods': return this.api.getModsUrl(uuid);
+      case 'solr': return this.api.getSearchResultsUrl(`q=${this.solr.field('id')}:"${uuid}"`);
+      default: return null;
     }
   }
 
