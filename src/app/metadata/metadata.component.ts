@@ -9,6 +9,7 @@ import { AnalyticsService } from '../services/analytics.service';
 import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.component';
 import { DialogAdminMetadataComponent } from '../dialog/dialog-admin-metadata/dialog-admin-metadata.component';
 import { DialogPolicyComponent } from '../dialog/dialog-policy/dialog-policy.component';
+import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.component';
 
 @Component({
   selector: 'app-metadata',
@@ -50,6 +51,10 @@ export class MetadataComponent implements OnInit {
   // openInProarc() {
   //   window.open(this.metadata.proarcLink(), '_blank');
   // }
+
+  onAdminActions() {
+    this.modalService.open(DialogAdminComponent, { metadata: this.metadata } );
+  }
 
   onShowAuthors() {
     this.analytics.sendEvent('metadata', 'authors');

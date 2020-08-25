@@ -24,6 +24,8 @@ app-document-card {
       &.app-doctype-monograph {background-color: $app-type-monograph}
       &.app-doctype-monographunit {background-color: $app-type-monograph}
       &.app-doctype-periodical {background-color: $app-type-periodical}
+      &.app-doctype-periodicalvolume {background-color: $app-type-periodical}
+      &.app-doctype-periodicalitem {background-color: $app-type-periodical}
       &.app-doctype-soundrecording {background-color: $app-type-soundrecording}
       &.app-doctype-map {background-color: $app-type-map}
       &.app-doctype-graphic {background-color: $app-type-graphic}
@@ -124,9 +126,9 @@ app-document-card {
             .app-card-description {
               overflow: hidden;
               line-height: 1.1rem;
-              height: 2.2rem;
+              height: 3.3rem;
               -webkit-box-orient: vertical;
-              -webkit-line-clamp: 2;
+              -webkit-line-clamp: 3;
               display: -webkit-box;
               text-overflow: ellipsis;
             }

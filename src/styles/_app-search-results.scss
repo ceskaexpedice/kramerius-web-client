@@ -31,4 +31,29 @@ app-search-results {
     }
   }
 
+  .app-collection-description {
+    padding: 10px;
+    font-size: 15px;
+    color: #555;
+    line-height: 21px;
+    h2 {
+      color: #333;
+      font-size: 22px;
+      padding: 0;
+      margin: 8px 0 5px;
+    }
+    h3 {
+      color: #333;
+      font-size: 20px;
+      padding: 0;
+      margin: 8px 0 5px;
+    }
+    h4 {
+      color: #555;
+      font-size: 16px;
+      padding: 0;
+      margin: 5px 0 3px;
+    }
+  }
+
 }

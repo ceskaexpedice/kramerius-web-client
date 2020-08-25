@@ -143,6 +143,8 @@ import { LandingComponent } from './landing/landing.component';
 import { LibrariesComponent } from './libraries/libraries.component';
 import { FaqComponent } from './faq/faq.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { DialogAdminComponent } from './dialog/dialog-admin/dialog-admin.component';
+import { AdminApiService } from './services/admin-api.service';
 
 
 
@@ -240,7 +242,8 @@ export function hljsLanguages() {
     DialogPolicyComponent,
     LandingComponent,
     LibrariesComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    DialogAdminComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -252,7 +255,8 @@ export function hljsLanguages() {
     DialogPdfGeneratorComponent,
     DialogAdminMetadataComponent,
     DialogAdvancedSearchComponent,
-    DialogPolicyComponent
+    DialogPolicyComponent,
+    DialogAdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -342,6 +346,7 @@ export function hljsLanguages() {
     IiifService,
     ZoomifyService,
     LoggerService,
+    AdminApiService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

@@ -174,6 +174,7 @@ export class BookService {
                             this.onDataLoaded(children, item.doctype, params.pageUuid, params.articleUuid, params.internalPartUuid);
                         } else {
                             // TODO: Empty document
+                            this.onDataLoaded(children, item.doctype, params.pageUuid, params.articleUuid, params.internalPartUuid);
                         }
                     });
                 }

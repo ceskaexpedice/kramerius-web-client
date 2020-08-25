@@ -7,6 +7,9 @@ declare var APP_GLOBAL: any;
 @Injectable()
 export class AppSettings {
 
+
+  adminApiBaseUrl = 'https://kramerius.dev.digitallibrary.cz/search/api/admin/v1.0';
+
   private listner = new Subject<KrameriusData>();
   kramerius$ = this.listner.asObservable();
 

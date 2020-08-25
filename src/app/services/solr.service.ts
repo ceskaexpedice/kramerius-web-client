@@ -290,14 +290,18 @@ export class SolrService {
         return SolrService.fields[name][this.version()];
     }
 
-    buildTopLevelFilter(): string {
+    private buildTopLevelFilter(topLevelCollectionsOnly: boolean): string {
         const field = this.field('model');
         let filter = `${field}:${this.settings.doctypes.join(` OR ${field}:`)}`;
         if (this.settings.doctypes.indexOf('monograph') >= 0) {
             filter = `${filter} OR ${field}:monographunit`
         }
         if (!this.oldSchema()) {
-            filter = `${filter} OR (${field}:collection AND ${this.field('is_top_collection')}:true)`;
+            if (topLevelCollectionsOnly) {
+                filter = `${filter} OR (${field}:collection AND ${this.field('is_top_collection')}:true)`;                
+            } else {
+                filter = `${filter} OR ${field}:collection`;
+            }
         }
         return filter;
     }
@@ -308,7 +312,7 @@ export class SolrService {
             q += `,${this.field('collection_description')}`;
         }
         const pf = this.settings.newestAll ? '*:*' : `${this.field('accessibility')}:public`;
-        q += `&q=${pf}&fq=${this.buildTopLevelFilter()}&sort=${this.field('created_at')} desc&rows=24&start=0`;
+        q += `&q=${pf}&fq=${this.buildTopLevelFilter(true)}&sort=${this.field('created_at')} desc&rows=24&start=0`;
         return q;
     }
 
@@ -415,7 +419,7 @@ export class SolrService {
 
 
     buildBrowseQuery(query: BrowseQuery): string {
-        let q = 'q=(' + this.buildTopLevelFilter() + ')';
+        let q = 'q=(' + this.buildTopLevelFilter(true) + ')';
         if (query.accessibility === 'public' && this.settings.filters.includes('accessibility')) {
             q += ` AND ${this.field('accessibility')}:public`;
         } else if (query.accessibility === 'private') {
@@ -594,11 +598,11 @@ export class SolrService {
     buildSearchAutocompleteQuery(term: string, query: SearchQuery, publicOnly: boolean): string {
         let fq = null;
         if (query) {
-            fq = this.buildFilterQuery(query);
+            fq = this.buildFilterQuery(query, null, true);
         } else if (publicOnly) {
-            fq = `${this.field('accessibility')}:public AND (${this.buildTopLevelFilter()})`;
+            fq = `${this.field('accessibility')}:public AND (${this.buildTopLevelFilter(false)})`;
         } else {
-            fq = this.buildTopLevelFilter();
+            fq = this.buildTopLevelFilter(false);
         }
         const t = term.toLowerCase().trim()
                         .replace(/"/g, '\\"').replace(/~/g, '\\~')
@@ -723,7 +727,7 @@ export class SolrService {
     }
 
 
-    buildFilterQuery(query: SearchQuery, facet: string = null): string {
+    private buildFilterQuery(query: SearchQuery, facet: string = null, fromAutocomplete = false): string {
         let fqFilters = [];
         if (query.collection) {
             if (query.getQ() || query.isCustomFieldSet()) {
@@ -733,9 +737,9 @@ export class SolrService {
             }
         } else {
             if (query.getQ() || query.isCustomFieldSet()) {
-                fqFilters.push(`(${this.buildTopLevelFilter()} OR ${this.field('model')}:page OR ${this.field('model')}:article)`);
+                fqFilters.push(`(${this.buildTopLevelFilter(false)} OR ${this.field('model')}:page OR ${this.field('model')}:article)`);
             } else {
-                fqFilters.push(`(${this.buildTopLevelFilter()})`);
+                fqFilters.push(`(${this.buildTopLevelFilter(!fromAutocomplete)})`);
             }
         }
         if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {

@@ -17,9 +17,9 @@
         <i *ngIf="account.isFavourited(metadata.uuid)" class="app-mdi-favourite-on app-cursor-pointer app-favourite" (click)="account.unmarkFavourite(metadata.uuid, null)"
           mz-tooltip [tooltip]="'book_controls.tooltip_unmark_favourite' | translate"  [position]="'bottom'">
         </i>
-        <!-- <i *ngIf="account.hasRole('proarc')" class="app-mdi-edit app-cursor-pointer app" target="_blank" (click)="openInProarc()"
+        <i *ngIf="account.hasRole('kramerius_admin')" class="app-mdi-edit app-cursor-pointer" target="_blank" (click)="onAdminActions()"
           mz-tooltip [tooltip]="'book_controls.tooltip_edit' | translate"  [position]="'bottom'">
-        </i> -->
+        </i> 
       </ng-container>
   </div>
 
