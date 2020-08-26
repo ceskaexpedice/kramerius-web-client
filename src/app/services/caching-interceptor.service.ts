@@ -7,18 +7,19 @@ import { tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { HttpRequestCache } from './http-request-cache.service';
 import { AngularTokenService } from 'angular-token';
+import { AdminApiService } from './admin-api.service';
 
 @Injectable()
 export class CachingInterceptor implements HttpInterceptor {
   constructor(private cache: HttpRequestCache, 
     private tokenService: AngularTokenService,
-    private appSettings: AppSettings) {}
+    private adminApi: AdminApiService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     if (environment.cloudApiBase && req.url.startsWith(environment.cloudApiBase)) {
       return next.handle(req);
     }
-    if (req.url.startsWith(this.appSettings.adminApiBaseUrl)) {
+    if (req.url.startsWith(this.adminApi.getBaseUrl())) {
       const data = this.tokenService.currentAuthData;
       if (data) {
         req = req.clone({
@@ -31,7 +32,6 @@ export class CachingInterceptor implements HttpInterceptor {
       }
       return next.handle(req);
     }
-
     const cachedResponse = this.cache.get(req);
     return cachedResponse ? of(cachedResponse) : this.sendRequest(req, next, this.cache);
   }

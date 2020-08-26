@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AppSettings } from './app-settings';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AdminApiService {
 
-  private baseUrl: string;
-
   constructor(private http: HttpClient, private appSettings: AppSettings) {
-    this.baseUrl = this.appSettings.adminApiBaseUrl;
+  }
+
+  getBaseUrl(): string {
+    return `${this.appSettings.url}/search/api/admin/v1.0`;
   }
 
   private doGet(path: string, params, type = 'json'): Observable<Object> {
@@ -21,7 +22,7 @@ export class AdminApiService {
       options['responseType'] = 'text';
       options['observe'] = 'response';
     }
-    return this.http.get(this.baseUrl + path, options);
+    return this.http.get(this.getBaseUrl() + path, options);
   }
 
   private get(path: string, params = {}): Observable<Object> {
@@ -33,15 +34,15 @@ export class AdminApiService {
   }
 
   private post(path: string, body, options = {}): Observable<Object> {
-    return this.http.post(this.baseUrl + path, body, options);
+    return this.http.post(this.getBaseUrl() + path, body, options);
   }
 
   private delete(path: string): Observable<Object> {
-    return this.http.delete(this.baseUrl + path, {});
+    return this.http.delete(this.getBaseUrl() + path, {});
   }
 
   private put(path: string, body: any, options: any = {}): Observable<Object> {
-    return this.http.put(this.baseUrl + path, body, options);
+    return this.http.put(this.getBaseUrl() + path, body, options);
   }
 
   

@@ -7,9 +7,6 @@ declare var APP_GLOBAL: any;
 @Injectable()
 export class AppSettings {
 
-
-  adminApiBaseUrl = 'https://kramerius.dev.digitallibrary.cz/search/api/admin/v1.0';
-
   private listner = new Subject<KrameriusData>();
   kramerius$ = this.listner.asObservable();
 
@@ -129,6 +126,7 @@ export class AppSettings {
     this.mapSearch = !!kramerius.mapSearch;
     this.hiddenLocks = !!kramerius.hiddenLocks;
 
+    
     this.currentCode = this.code;
     if (this.apiVersion === '5.0') {
 
