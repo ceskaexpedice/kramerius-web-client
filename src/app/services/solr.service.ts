@@ -267,6 +267,10 @@ export class SolrService {
             '1.0': '',
             '2.0': 'n.collection.desc'
         },
+        'donators': {
+            '1.0': '',
+            '2.0': 'n.donator'
+        },
     }
 
     public static allDoctypes = ['periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
@@ -532,6 +536,8 @@ export class SolrService {
         item.doctype = doc[this.field('model')];
         item.date = doc[this.field('date')];
         item.authors = doc[this.field('authors')];
+        item.donators = doc[this.field('donators')];
+        console.log('item.donators', item.donators);
         item.dnnt = !!doc[this.field('dnnt')];
         item.root_uuid = doc[this.field('root_pid')];
         if (item.doctype === 'periodicalvolume') {

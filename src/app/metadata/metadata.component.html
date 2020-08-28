@@ -197,10 +197,10 @@
 
 
 
-    <div *ngIf="metadata.donator">
+    <div *ngIf="metadata.donators">
       <label>{{ 'metadata.donator' | translate }}</label>
-      <a style="display:block" target="_blank" href="{{ 'donator.' + metadata.donator + '.url' | translate }}" (click)="analytics.sendEvent('metadata', 'link', 'donator');">
-        <img src="assets/img/donator_{{metadata.donator}}.png" >
+      <a *ngFor="let donator of metadata.donators" style="display:block" target="_blank" href="{{ 'donator.' + donator + '.url' | translate }}" (click)="analytics.sendEvent('metadata', 'link', 'donator');">
+        <img src="assets/img/donator_{{donator}}.png" >
       </a>
     </div>
 

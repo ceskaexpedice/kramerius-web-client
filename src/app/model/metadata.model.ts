@@ -52,7 +52,7 @@ export class Metadata {
     public pageSupplementMetadata: Metadata;
 
     public mainTitle: string;
-    public donator: string;
+    public donators: string[];
 
     public activePages: string;
     public activePage: Page;
@@ -67,7 +67,7 @@ export class Metadata {
         this.isPublic = item.public;
         this.isDnnt = item.dnnt;
         this.model = item.doctype;
-        this.donator = item.donator;
+        this.donators = item.donators;
         this.originUrl = item.originUrl;
     }
 

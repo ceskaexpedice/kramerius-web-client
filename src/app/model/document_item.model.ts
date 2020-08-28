@@ -15,7 +15,7 @@ export class DocumentItem {
     hits: number;
     context: Context[] = [];
     library: string;
-    donator: string;
+    donators: string[];
     params;
     north: number;
     south: number;
