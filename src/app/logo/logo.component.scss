@@ -1,0 +1,16 @@
+.app-logo {
+    position: relative;
+    margin-left: 30px;
+    .app-dropdown-selector {  
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: 0px;
+        padding: 0 1px 0 5px;
+        color: #888;
+        cursor: pointer;
+        &:before {
+            font-size: 22px;
+        }
+    }
+}

@@ -356,6 +356,33 @@ export class SearchQuery {
         return '';
     }
 
+    
+    getChangeLibraryUrlParams() {
+        const params = {};
+        if (this.accessibility === 'public' || this.accessibility === 'private' || this.accessibility === 'dnnt') {
+            params['accessibility'] = this.accessibility;
+        }
+        if (this.query) {
+            params['q'] = this.query;
+        }
+        if (this.ordering) {
+            params['sort'] = this.ordering;
+        }
+        if (this.doctypes.length > 0) {
+            params['doctypes'] = this.doctypes.join(',,');
+        }
+        if (this.isCustomFieldSet()) {
+            params['field'] = this.field;
+            params['value'] = this.value;
+        }
+        if (this.isYearRangeSet()) {
+            params['from'] = this.from;
+            params['to'] = this.to;
+        }
+        return params;
+    }
+
+
     toUrlParams() {
         const params = {};
         if (this.page && this.page > 1) {

@@ -36,3 +36,20 @@
 @import "styles/app-dialog-policy";
 @import "styles/app-page-not-found";
 @import "styles/app-login";
+
+
+#app-search-library-dropdown {
+    overflow: auto !important;
+    .app-search-dropdown-library {
+        .app-library-icon {
+            float: left;
+            margin-right: 10px;
+            width: 24px;
+            margin-left: -2px;
+        }
+        .app-library-name {
+            font-size: 14px;
+            color: #777;
+        }
+    }
+}

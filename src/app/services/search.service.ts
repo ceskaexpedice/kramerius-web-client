@@ -103,10 +103,6 @@ export class SearchService {
         return this.translator.instant('searchbar.main.filters') + ' ' + filters.join(', ');
     }
 
-
-
-
-
     selectContentType(contentType: string) {
         this.contentType = contentType;
         if (this.contentType === 'map') {
@@ -116,7 +112,6 @@ export class SearchService {
         }
         this.reload(false);
     }
-
 
     public showAdvancedSearchDialog() {
         const options = {
@@ -131,6 +126,10 @@ export class SearchService {
             this.query.setPage(1);
         }
         this.router.navigate(['search'],  { queryParams: this.query.toUrlParams() });
+    }
+
+    getChangeLibraryUrlParams() {
+        return this.query.getChangeLibraryUrlParams();
     }
 
     public toggleFilter(values: string[], value: string) {

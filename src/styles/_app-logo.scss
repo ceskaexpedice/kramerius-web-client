@@ -7,7 +7,7 @@ app-logo {
     display: table;
     line-height: normal;
     height: $navbar-height;
-    
+    left: initial !important;
     // mq
     @media #{$medium-and-down} {
       transform: none;
