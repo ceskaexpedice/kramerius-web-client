@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit {
     this.analytics.sendEvent('navbar', 'dnnt-logout');
     if (this.appSettings.dnnt) {
       this.authService.logout().subscribe(() => {
-        const url = `${this.appSettings.dnnt.logoutUrl}?return=${window.location.pathname}${window.location.search}`;
+        const url = `${this.appSettings.dnnt.logoutUrl}?return=${window.location.href}`;
         window.open(url, '_top');
       });
     }
@@ -71,7 +71,7 @@ export class NavbarComponent implements OnInit {
   dnntLogin() {
     this.analytics.sendEvent('navbar', 'dnnt-login');
     if (this.appSettings.dnnt) {
-      const url = `${this.appSettings.dnnt.loginUrl}?target=${window.location.pathname}${window.location.search}`;
+      const url = `${this.appSettings.dnnt.loginUrl}?target=${window.location.href}`;
       window.open(url, '_top');
     }
  }
