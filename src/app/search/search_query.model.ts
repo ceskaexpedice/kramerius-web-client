@@ -118,6 +118,8 @@ export class SearchQuery {
             this.accessibility = 'public';
         } else if (accessibility === 'dnnt') {
             this.accessibility = 'dnnt';
+        } else if (accessibility === 'accessible') {
+            this.accessibility = 'accessible';
         } else {
             this.accessibility = 'all';
         }
@@ -257,13 +259,17 @@ export class SearchQuery {
         } else {
             fqFilters.push('(' + this.settings.topLevelFilter + ')');
         }
-        if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
+        if (facet == 'accessible') {
+            fqFilters.push('(dnnt:true OR dostupnost:public)');
+        } else if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
             if (this.accessibility === 'public') {
                 fqFilters.push('dostupnost:public');
             } else if (this.accessibility === 'private') {
                 fqFilters.push('dostupnost:private');
             } else if (this.settings.dnntFilter && this.accessibility === 'dnnt') {
                 fqFilters.push('dnnt:true');
+            } else if (this.settings.dnntFilter && this.accessibility === 'accessible') {
+                fqFilters.push('(dnnt:true OR dostupnost:public)');
             }
         }
         if (this.isYearRangeSet()) {
@@ -331,7 +337,7 @@ export class SearchQuery {
            + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
            + this.addFacetToQuery(facet, 'accessibility', 'dostupnost', this.accessibility === 'all');
         if (this.settings.dnntFilter) {
-            q += '&facet.field=dnnt';
+            q += "&facet.field=dnnt";
         }
         if (facet) {
             q += '&rows=0';
@@ -359,7 +365,7 @@ export class SearchQuery {
     
     getChangeLibraryUrlParams() {
         const params = {};
-        if (this.accessibility === 'public' || this.accessibility === 'private' || this.accessibility === 'dnnt') {
+        if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
             params['accessibility'] = this.accessibility;
         }
         if (this.query) {
@@ -388,7 +394,7 @@ export class SearchQuery {
         if (this.page && this.page > 1) {
             params['page'] = this.page;
         }
-        if (this.accessibility === 'public' || this.accessibility === 'private' || this.accessibility === 'dnnt') {
+        if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
             params['accessibility'] = this.accessibility;
         }
         if (this.dsq) {

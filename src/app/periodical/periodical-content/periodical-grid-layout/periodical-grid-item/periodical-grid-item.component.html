@@ -11,7 +11,7 @@
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
           <i *ngIf="!item.public && !settings.hiddenLocks" 
             mz-icon-mdi 
-            [icon]="'lock'" 
+            [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'" 
             class="app-lock" 
             [class.app-dnnt]="item.dnnt" 
             mz-tooltip 
@@ -40,7 +40,7 @@
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
           <i *ngIf="!item.public && !settings.hiddenLocks"
             mz-icon-mdi 
-            [icon]="'lock'" 
+            [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'" 
             class="app-lock" 
             [class.app-dnnt]="item.dnnt" 
             mz-tooltip 
@@ -66,7 +66,7 @@
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
           <i *ngIf="!item.public && !settings.hiddenLocks"
             mz-icon-mdi 
-            [icon]="'lock'" 
+            [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'" 
             class="app-lock" 
             [class.app-dnnt]="item.dnnt" 
             mz-tooltip 

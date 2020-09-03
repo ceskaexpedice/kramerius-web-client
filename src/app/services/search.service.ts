@@ -11,6 +11,7 @@ import { AnalyticsService } from './analytics.service';
 import { MzModalService } from 'ngx-materialize';
 import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/dialog-advanced-search.component';
 import { Translator } from 'angular-translator';
+import { AuthService } from './auth.service';
 
 
 @Injectable()
@@ -38,6 +39,7 @@ export class SearchService {
 
     constructor(
         private router: Router,
+        public auth: AuthService,
         private translator: Translator,
         private collectionService: CollectionService,
         private solrService: SolrService,
@@ -252,7 +254,6 @@ export class SearchService {
             this.handleResponse(response);
             this.loading = false;
         });
-
     }
 
     public highlightDoctype(doctype: string) {
@@ -263,6 +264,18 @@ export class SearchService {
         switch (facet) {
             case 'accessibility': {
                 this.accessibility = this.solrService.facetAccessibilityList(response);
+                if (this.appSettings.dnntFilter && this.auth.isLoggedIn()) {
+                    this.krameriusApiService.getSearchResults(this.query.buildQuery('accessible')).subscribe(response => {
+                        let count = 0;
+                        if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
+                            count = this.solrService.numberOfSearchResults(response);
+                        } else {
+                            count = this.solrService.numberOfResults(response);
+                        }
+
+                        this.accessibility.splice( this.accessibility.length - 1, 0,  { 'value' : 'accessible', 'count': count } );
+                    });
+                }
                 break;
             }
             case 'doctypes': {

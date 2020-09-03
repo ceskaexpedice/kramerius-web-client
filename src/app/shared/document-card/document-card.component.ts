@@ -4,6 +4,7 @@ import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Component, OnInit, Input } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-document-card',
@@ -17,6 +18,7 @@ export class DocumentCardComponent implements OnInit {
 
   constructor(private krameriusApiService: KrameriusApiService,
               public settings: AppSettings,
+              public auth: AuthService,
               public analytics: AnalyticsService,
               private _sanitizer: DomSanitizer) { }
 

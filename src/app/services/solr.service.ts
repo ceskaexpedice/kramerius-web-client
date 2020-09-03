@@ -318,7 +318,6 @@ export class SolrService {
         }
         list.push({'value' : 'public', 'count': publicDocs});
         list.push({'value' : 'private', 'count': privateDocs});
-        list.push({'value' : 'all', 'count': allDocs});
         if (this.settings.dnntFilter) {
             const dnnt = solr['facet_counts']['facet_fields']['dnnt'];
             let dnntCount = 0;
@@ -328,8 +327,9 @@ export class SolrService {
                 }
             }
             list.push({'value' : 'dnnt', 'count': dnntCount});
-
+            // list.push({'value' : 'accessible', 'count': dnntCount + publicDocs});
         }
+        list.push({'value' : 'all', 'count': allDocs});
         return list;
     }
 

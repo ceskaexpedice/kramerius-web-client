@@ -115,6 +115,7 @@
       "public": "Pouze veřejné",
       "private": "Pouze neveřejné",
       "dnnt": "Díla nedostupná na trhu",
+      "accessible": "Všechny dostupné dokumenty",
       "all": "Vše"
     },
     "datepicker": {

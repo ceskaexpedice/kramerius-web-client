@@ -113,6 +113,7 @@
       "public": "Public",
       "private": "Private",
       "dnnt": "Díla nedostupná na trhu",
+      "accessible": "All accessible documents",
       "all": "All"
     },
     "datepicker": {

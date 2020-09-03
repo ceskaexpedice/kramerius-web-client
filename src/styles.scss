@@ -40,6 +40,10 @@
 
 #app-search-library-dropdown {
     overflow: auto !important;
+    margin-left: 28px !important;
+    li {
+        transition: none;
+    }
     .app-search-dropdown-library {
         .app-library-icon {
             float: left;
