@@ -124,7 +124,7 @@ export class KrameriusApiService {
 
     getNewest() {
         const filter = this.settings.newestAll ? '*:*' : 'dostupnost:public';
-        const url = `${this.getApiUrl()}/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=${filter}&fq=${this.settings.topLevelFilter}&sort=created_date desc&rows=24&start=0`;
+        const url = `${this.getApiUrl()}/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime${this.settings.dnntFilter ? ',dnnt' : ''}&q=${filter}&fq=${this.settings.topLevelFilter}&sort=created_date desc&rows=24&start=0`;
         return this.doGet(url)
             .map(response => this.solrService.documentItems(response))
             .catch(this.handleError);
