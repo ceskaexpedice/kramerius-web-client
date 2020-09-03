@@ -130,8 +130,11 @@ export class SearchService {
         this.router.navigate(['search'],  { queryParams: this.query.toUrlParams() });
     }
 
-    getChangeLibraryUrlParams() {
-        return this.query.getChangeLibraryUrlParams();
+    changeLibrary(kramerius) {
+        const qp = this.query.getChangeLibraryUrlParams();
+        this.appSettings.assignKramerius(kramerius);
+        qp['l'] = kramerius.code;
+        this.router.navigate(['search'],  { queryParams: qp });
     }
 
     public toggleFilter(values: string[], value: string) {

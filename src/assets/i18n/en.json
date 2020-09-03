@@ -58,7 +58,9 @@
     "back": "Back for previous page",
     "home": "Home page",
     "checkbox_label": "only public",
-    "main_navigation": "Main navigation"
+    "main_navigation": "Main navigation",
+    "login": "Log in",
+    "logout": "Log out"
   },
   "searchbar": {
     "main": {

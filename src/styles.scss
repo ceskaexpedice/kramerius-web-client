@@ -55,5 +55,18 @@
             font-size: 14px;
             color: #777;
         }
+        @media only screen and (max-width: 600px) {
+            padding: 10px 0;
+            text-align: center;
+            .app-library-icon {
+                float: none;
+                margin: 0;
+                width: 30px;
+            }
+            .app-library-name {
+                display: none;
+            }
+        }
+
     }
 }

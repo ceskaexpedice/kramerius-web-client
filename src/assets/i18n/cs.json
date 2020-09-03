@@ -58,7 +58,9 @@
     "back": "Zpět na předchozí stránku",
     "home": "Domovská stránka",
     "checkbox_label": "pouze veřejné",
-    "main_navigation": "Hlavní navigace"
+    "main_navigation": "Hlavní navigace",
+    "login": "Přihlásit",
+    "logout": "Odhlásit"
   },
   "searchbar": {
     "main": {
