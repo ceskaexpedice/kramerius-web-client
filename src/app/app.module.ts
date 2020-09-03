@@ -268,7 +268,7 @@ export function hljsLanguages() {
       providedLanguages: ['en', 'cs'],
       defaultLanguage: 'cs',
       loaderOptions: {
-        path: 'assets/i18n/{{language}}.json?v1.7.9'
+        path: 'assets/i18n/{{language}}.json?v1.7.10'
       }
     }),
     MzButtonModule,
