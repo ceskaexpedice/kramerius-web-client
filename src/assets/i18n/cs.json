@@ -30,8 +30,8 @@
     "title": "Digitální knihovna",
     "logo": "/assets/shared/logo-dk.png",
     "message": "Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě.",
-    "vs_title": "Digitální knihovny pro VŠ",
-    "vs_subtitle": "Dočasný přístup pro pedagogy, vědecké pracovníky institucí na úrovni vysokých škol a jejich studenty, zřízený pro překlenutí koronavirové krize.",
+    "vs_title": "Národní digitální knihovna",
+    "vs_subtitle": "Zpřístupnění digitalizovaných dokumentů včetně autorsky chráněných děl nedostupných na trhu pro uživatele knihoven.",
     "category": {
       "major": "Hlavní knihovny",
       "regional": "Krajské knihovny",
@@ -58,7 +58,9 @@
     "back": "Zpět na předchozí stránku",
     "home": "Domovská stránka",
     "checkbox_label": "pouze veřejné",
-    "main_navigation": "Hlavní navigace"
+    "main_navigation": "Hlavní navigace",
+    "login": "Přihlásit",
+    "logout": "Odhlásit"
   },
   "searchbar": {
     "main": {
@@ -119,6 +121,7 @@
       "public": "Pouze veřejné",
       "private": "Pouze neveřejné",
       "dnnt": "Díla nedostupná na trhu",
+      "accessible": "Všechny dostupné dokumenty",
       "all": "Vše"
     },
     "datepicker": {

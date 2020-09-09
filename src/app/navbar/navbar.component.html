@@ -31,10 +31,10 @@
 
       <ng-container *ngIf="appSettings.dnnt">
         <mz-navbar-item *ngIf="authService.isLoggedIn()">
-          <a (click)="dnntLogout()">Odhlásit</a>
+          <a (click)="dnntLogout()">{{ 'navbar.logout' | translate }}</a>
         </mz-navbar-item>
         <mz-navbar-item *ngIf="!authService.isLoggedIn()">
-          <a (click)="dnntLogin()">Přihlásit</a>
+          <a (click)="dnntLogin()">{{ 'navbar.login' | translate }}</a>
         </mz-navbar-item>
       </ng-container>
 
@@ -72,13 +72,13 @@
           <mz-dropdown-item><div class="app-profile-name">{{ account.getName() }}</div></mz-dropdown-item>
           <mz-dropdown-item><a [routerLink]="appSettings.getRouteFor('favourites')">Oblíbené</a></mz-dropdown-item>
           <mz-dropdown-divider></mz-dropdown-divider>
-          <mz-dropdown-item><a (click)="logout()">Odhlásit</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="logout()">{{ 'navbar.logout' | translate }}</a></mz-dropdown-item>
         </mz-dropdown>
 
 
         </mz-navbar-item>
         <mz-navbar-item *ngIf="!account.isLoggedIn()">
-            <a [routerLink]="appSettings.getRouteFor('signin')">Přihlásit</a>
+            <a [routerLink]="appSettings.getRouteFor('signin')">{{ 'navbar.login' | translate }}</a>
           </mz-navbar-item>  
 
 

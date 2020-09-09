@@ -10,6 +10,7 @@ import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.compon
 import { DialogAdminMetadataComponent } from '../dialog/dialog-admin-metadata/dialog-admin-metadata.component';
 import { DialogPolicyComponent } from '../dialog/dialog-policy/dialog-policy.component';
 import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-metadata',
@@ -27,6 +28,7 @@ export class MetadataComponent implements OnInit {
   constructor(private modalService: MzModalService,
               public analytics: AnalyticsService,
               public account: AccountService,
+              public auth: AuthService,
               public settings: AppSettings) { }
 
   ngOnInit() {

@@ -12,6 +12,7 @@ import { MzModalService } from 'ngx-materialize';
 import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/dialog-advanced-search.component';
 import { Translator } from 'angular-translator';
 import { Metadata } from '../model/metadata.model';
+import { AuthService } from './auth.service';
 
 
 @Injectable()
@@ -43,6 +44,7 @@ export class SearchService {
 
     constructor(
         private router: Router,
+        public auth: AuthService,
         private translator: Translator,
         private collectionService: CollectionService,
         private solr: SolrService,
@@ -115,10 +117,6 @@ export class SearchService {
         return this.translator.instant('searchbar.main.' + key) + ' ' + filters.join(', ');
     }
 
-
-
-
-
     selectContentType(contentType: string) {
         this.contentType = contentType;
         if (this.contentType === 'map') {
@@ -128,7 +126,6 @@ export class SearchService {
         }
         this.reload(false);
     }
-
 
     public showAdvancedSearchDialog() {
         const options = {
@@ -150,6 +147,14 @@ export class SearchService {
             nav.push('search');
         }
         this.router.navigate(nav,  { queryParams: this.query.toUrlParams() });
+    }
+
+    changeLibrary(kramerius) {
+        this.analytics.sendEvent('home', 'change-library', kramerius.title);
+        const qp = this.query.getChangeLibraryUrlParams();
+        this.appSettings.assignKramerius(kramerius);
+        qp['l'] = kramerius.code;
+        this.router.navigate(['search'],  { queryParams: qp });
     }
 
     public toggleFilter(values: string[], value: string) {
@@ -287,6 +292,18 @@ export class SearchService {
         switch (facet) {
             case 'accessibility': {
                 this.accessibility = this.solr.facetAccessibilityList(response);
+                if (this.appSettings.dnntFilter && this.auth.isLoggedIn()) {
+                    this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
+                        let count = 0;
+                        if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
+                            count = this.solr.numberOfSearchResults(response);
+                        } else {
+                            count = this.solr.numberOfResults(response);
+                        }
+
+                        this.accessibility.splice( this.accessibility.length - 1, 0,  { 'value' : 'accessible', 'count': count } );
+                    });
+                }
                 break;
             }
             case 'doctypes': {

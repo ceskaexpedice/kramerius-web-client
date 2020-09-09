@@ -104,6 +104,8 @@ export class SearchQuery {
             this.accessibility = 'public';
         } else if (accessibility === 'dnnt') {
             this.accessibility = 'dnnt';
+        } else if (accessibility === 'accessible') {
+            this.accessibility = 'accessible';
         } else {
             this.accessibility = 'all';
         }
@@ -236,118 +238,39 @@ export class SearchQuery {
         this.value = null;
     }
 
-    // buildFilterQuery(facet: string = null): string {
-    //     let fqFilters = [];
-    //     if (this.getQ() || this.isCustomFieldSet()) {
-    //         fqFilters.push('(' + this.settings.topLevelFilter + ' OR fedora.model:page OR fedora.model:article)');
-    //     } else {
-    //         fqFilters.push('(' + this.settings.topLevelFilter + ')');
-    //     }
-    //     if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
-    //         if (this.accessibility === 'public') {
-    //             fqFilters.push('dostupnost:public');
-    //         } else if (this.accessibility === 'private') {
-    //             fqFilters.push('dostupnost:private');
-    //         } else if (this.settings.dnntFilter && this.accessibility === 'dnnt') {
-    //             fqFilters.push('dnnt:true');
-    //         }
-    //     }
-    //     if (this.isYearRangeSet()) {
-    //         const from = this.from === 0 ? 1 : this.from;
-    //         fqFilters.push('(rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))');
-    //     }
-    //     fqFilters.push(this.buildFacetFilter('keywords', this.keywords, facet));
-    //     fqFilters.push(this.buildFacetFilter('doctypes', this.doctypes, facet));
-    //     fqFilters.push(this.buildFacetFilter('authors', this.authors, facet));
-    //     fqFilters.push(this.buildFacetFilter('languages', this.languages, facet));
-    //     fqFilters.push(this.buildFacetFilter('locations', this.locations, facet));
-    //     fqFilters.push(this.buildFacetFilter('geonames', this.geonames, facet));
-    //     fqFilters.push(this.buildFacetFilter('collections', this.collections, facet));
-    //     if (!this.isBoundingBoxSet()) {
-    //         fqFilters.push(this.getDateOrderingRestriction());
-    //     }
-    //     fqFilters = fqFilters.filter( (el) => {
-    //         return el != null && el !== '';
-    //     });
-    //     return fqFilters.join(' AND ');
-    // }
+    
+    getChangeLibraryUrlParams() {
+        const params = {};
+        if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
+            params['accessibility'] = this.accessibility;
+        }
+        if (this.query) {
+            params['q'] = this.query;
+        }
+        if (this.ordering) {
+            params['sort'] = this.ordering;
+        }
+        if (this.doctypes.length > 0) {
+            params['doctypes'] = this.doctypes.join(',,');
+        }
+        if (this.isCustomFieldSet()) {
+            params['field'] = this.field;
+            params['value'] = this.value;
+        }
+        if (this.isYearRangeSet()) {
+            params['from'] = this.from;
+            params['to'] = this.to;
+        }
+        return params;
+    }
 
-    // buildQuery(facet: string): string {
-    //     let qString = this.getQ();
-    //     let value = qString;
-    //     let q = 'q=';
-    //     if (this.dsq) {
-    //         q += this .dsq + ' AND '
-    //     }
-    //     if (this.isBoundingBoxSet()) {
-    //         q += `{!field f=range score=overlapRatio}Intersects(ENVELOPE(${this.west},${this.east},${this.north},${this.south}))&fq=`;
-    //     }
-    //     if (this.isCustomFieldSet()) {
-    //         value = this.value;
-    //         q +=  SearchQuery.getSolrCustomField(this.field) + ':' + this.value;
-    //     } else if (qString) {
-    //         q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^20\' bq=\'(dostupnost:public)^2\' bq=\'(fedora.model:page)^0.1\' v=$q1}\"';
-    //     } else {
-    //         q += '*:*';
-    //     }
-    //     const fq = this.buildFilterQuery(facet);
-    //     if (fq) {
-    //         q += '&fq=' + fq;
-    //     }
-    //     if (qString || this.isCustomFieldSet()) {
-    //         q += '&q1=' + value + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
-    //         q += '&group.truncate=true';
-    //         q += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score';
-    //     } else {
-    //         q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
-    //     }
-    //     if (this.settings.dnntFilter) {
-    //         q += ',dnnt';
-    //     }
-    //     if (this.isBoundingBoxSet()) {
-    //         q += ',location,geographic_names';
-    //     }
-    //     q += '&facet=true&facet.mincount=1'
-    //        + this.addFacetToQuery(facet, 'keywords', 'keywords', this.keywords.length === 0)
-    //        + this.addFacetToQuery(facet, 'languages', 'language', this.languages.length === 0)
-    //        + this.addFacetToQuery(facet, 'locations', 'mods.physicalLocation', this.locations.length === 0)
-    //        + this.addFacetToQuery(facet, 'geonames', 'geographic_names', this.geonames.length === 0)
-    //        + this.addFacetToQuery(facet, 'authors', 'facet_autor', this.authors.length === 0)
-    //        + this.addFacetToQuery(facet, 'collections', 'collection', this.collections.length === 0)
-    //        + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
-    //        + this.addFacetToQuery(facet, 'accessibility', 'dostupnost', this.accessibility === 'all');
-    //     if (this.settings.dnntFilter) {
-    //         q += '&facet.field=dnnt';
-    //     }
-    //     if (facet) {
-    //         q += '&rows=0';
-    //     } else if (this.isBoundingBoxSet()) {
-    //         q += '&rows=' + '100' + '&start=' + '0';
-    //     } else {
-    //         const ordering = this.getOrderingValue();
-    //         if (ordering) {
-    //             q += '&sort=' + ordering;
-    //         }
-    //         q += '&rows=' + this.getRows() + '&start=' + this.getStart();
-    //     }
-    //     return q;
-    // }
-
-    // private addFacetToQuery(facet: string, currentFacet: string, field: string, apply: boolean): string {
-    //     if (this.settings.filters.indexOf(currentFacet) > -1) {
-    //         if ((!facet && apply) || currentFacet === facet) {
-    //             return '&facet.field=' + field;
-    //         }
-    //     }
-    //     return '';
-    // }
 
     toUrlParams() {
         const params = {};
         if (this.page && this.page > 1) {
             params['page'] = this.page;
         }
-        if (this.accessibility === 'public' || this.accessibility === 'private' || this.accessibility === 'dnnt') {
+        if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
             params['accessibility'] = this.accessibility;
         }
         if (this.dsq) {

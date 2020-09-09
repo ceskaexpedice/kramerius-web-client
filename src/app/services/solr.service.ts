@@ -309,11 +309,14 @@ export class SolrService {
         }
         return filter;
     }
-
+    // ${this.settings.dnntFilter ? ',dnnt' : ''}
     getNewestQuery(): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('title')},${this.field('date')},${this.field('model')}`;
         if (!this.oldSchema()) {
             q += `,${this.field('collection_description')}`;
+        }
+        if (this.settings.dnnt) {
+            q += `,${this.field('dnnt')}`;
         }
         const pf = this.settings.newestAll ? '*:*' : `${this.field('accessibility')}:public`;
         q += `&q=${pf}&fq=${this.buildTopLevelFilter(true)}&sort=${this.field('created_at')} desc&rows=24&start=0`;
@@ -716,7 +719,7 @@ export class SolrService {
            + this.addFacetToQuery(facet, 'genres', query.genres.length === 0)
            + this.addFacetToQuery(facet, 'accessibility',  query.accessibility === 'all');
         if (this.settings.dnntFilter) {
-            q += '&facet.field=dnnt';
+            q += `&facet.field=${this.field('geonames_facet')}`;
         }
         if (facet) {
             q += '&rows=0';
@@ -748,14 +751,18 @@ export class SolrService {
                 fqFilters.push(`(${this.buildTopLevelFilter(!fromAutocomplete)})`);
             }
         }
-        if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
+        if (facet == 'accessible') {
+            fqFilters.push('(dnnt:true OR dostupnost:public)');
+        } else if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
             if (query.accessibility === 'public') {
                 fqFilters.push(`${this.field('accessibility')}:public`);
             } else if (query.accessibility === 'private') {
                 fqFilters.push(`${this.field('accessibility')}:private`);
             } else if (this.settings.dnntFilter && query.accessibility === 'dnnt') {
                 fqFilters.push(`${this.field('dnnt')}:true`);
-            }
+            } else if (this.settings.dnntFilter && query.accessibility === 'accessible') {
+                fqFilters.push(`(${this.field('dnnt')}:true OR ${this.field('accessibility')}:public)`);
+            }	            
         }
         if (query.isYearRangeSet()) {
             const from = query.from === 0 ? 1 : query.from;
@@ -1004,7 +1011,6 @@ export class SolrService {
         }
         list.push({'value' : 'public', 'count': publicDocs});
         list.push({'value' : 'private', 'count': privateDocs});
-        list.push({'value' : 'all', 'count': allDocs});
         if (this.settings.dnntFilter) {
             const dnnt = solr['facet_counts']['facet_fields'][this.field('dnnt')];
             let dnntCount = 0;
@@ -1014,8 +1020,9 @@ export class SolrService {
                 }
             }
             list.push({'value' : 'dnnt', 'count': dnntCount});
-
+            // list.push({'value' : 'accessible', 'count': dnntCount + publicDocs});
         }
+        list.push({'value' : 'all', 'count': allDocs});
         return list;
     }
 
