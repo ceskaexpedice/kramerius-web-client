@@ -131,6 +131,7 @@ export class SearchService {
     }
 
     changeLibrary(kramerius) {
+        this.analytics.sendEvent('home', 'change-library', kramerius.title);
         const qp = this.query.getChangeLibraryUrlParams();
         this.appSettings.assignKramerius(kramerius);
         qp['l'] = kramerius.code;
