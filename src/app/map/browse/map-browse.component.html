@@ -28,6 +28,7 @@
         [latitude]="lat" 
         [longitude]="lng" 
         [zoom]="zoom" 
+        (mapReady)="onMapReady($event)"
         [streetViewControl]="false"
         (boundsChange)="onBoundsChange($event)" 
         (idle)="onIdle()">
