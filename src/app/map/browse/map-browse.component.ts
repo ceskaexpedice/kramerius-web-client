@@ -6,6 +6,8 @@ import { SearchService } from '../../services/search.service';
 import { DocumentItem } from '../../model/document_item.model';
 import { AppSettings } from '../../services/app-settings';
 import { AuthService } from '../../services/auth.service';
+import { ControlPosition, ZoomControlStyle } from '@agm/core/services/google-maps-types';
+
 
 @Component({
   selector: 'app-map-browse',
@@ -29,6 +31,17 @@ export class MapBrowseComponent implements OnInit {
 
   ngOnInit() {
   }
+
+
+  onMapReady(map) {
+    map.setOptions({
+        zoomControl: 'true',
+        zoomControlOptions: {
+            position: ControlPosition.RIGHT_TOP,
+            style: ZoomControlStyle.DEFAULT
+        }
+    });
+}
 
   onBoundsChange(bounds: LatLngBounds) {
     this.bounds = bounds;
