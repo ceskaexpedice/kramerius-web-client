@@ -271,6 +271,14 @@ export class SolrService {
             '1.0': '',
             '2.0': 'n.donator'
         },
+        'page_type': {
+            '1.0': '',
+            '2.0': 'n.page.type'
+        },
+        'has_tiles': {
+            '1.0': '',
+            '2.0': 'n.has_tile'
+        }
     }
 
     public static allDoctypes = ['periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
@@ -340,6 +348,16 @@ export class SolrService {
         return null;
     }
 
+    buildBookChildrenQuery(parent: string): string {
+        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('page_type')}`;
+        if (this.settings.dnntFilter) {
+            q += `,${this.field('dnnt')}`;
+        }
+        q += `&q=${this.field('parent_pid')}:"${parent}"`;
+        q += `&sort=${this.field('rels_ext_index')} asc`;
+        q += '&rows=2000&start=0';
+        return q;
+    }
 
     private buildPeriodicalQuery(parent: string, type: string, models: string[], query: PeriodicalQuery, applyYear: boolean): string {
         const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
@@ -1140,7 +1158,20 @@ export class SolrService {
     }
 
 
-
+    bookChildItems(solr): any[] {
+        const items = [];
+        for (const doc of solr['response']['docs']) {
+            items.push({
+                model: doc[this.field('model')],
+                pid: doc[this.field('id')],
+                type: doc[this.field('page_type')],
+                dnnt: !!doc[this.field('dnnt')],
+                title: doc[this.field('title')],
+                policy: doc[this.field('accessibility')]
+            });
+        }
+        return items;
+    }
 
     periodicalItem(doc): PeriodicalItem {
         const item = new PeriodicalItem();

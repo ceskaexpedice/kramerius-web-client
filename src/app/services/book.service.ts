@@ -422,21 +422,12 @@ export class BookService {
                 page.uuid = p['pid'];
                 page.supplementUuid = p['supplement_uuid'];
                 page.public = p['policy'] === 'public';
-                const details = p['details'];
-                if (details) {
-                    page.type = details['type'];
-                    if (page.type) {
-                        page.type = page.type.toLowerCase();
-                    } else {
-                        page.type = 'unknown';
-                    }
-                    page.number = details['pagenumber'] ? details['pagenumber'].trim() : '';
-                }
+                page.type = p['type'] ? p['type'].toLowerCase() : '';
+                page.number = p['number'];
                 if (!page.number) {
                     page.number = p['title'];
                 }
                 page.setTitle(p['title']);
-
                 page.thumb = this.api.getThumbUrl(page.uuid);
                 page.position = PagePosition.Single;
                 if (page.type === 'spine') {
@@ -989,9 +980,9 @@ export class BookService {
 
     private fetchPageData(leftPage: Page, rightPage: Page) {
         const itemRequests = [];
-        itemRequests.push(this.api.getRawItem(leftPage.uuid));
+        itemRequests.push(this.api.getItemInfo(leftPage.uuid));
         if (rightPage) {
-            itemRequests.push(this.api.getRawItem(rightPage.uuid));
+            itemRequests.push(this.api.getItemInfo(rightPage.uuid));
         }
         forkJoin(itemRequests).subscribe(result => {
             leftPage.assignPageData(result[0]);

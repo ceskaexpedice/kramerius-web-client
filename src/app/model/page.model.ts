@@ -45,13 +45,12 @@ export class Page {
         if (data['replicatedFrom'] && data['replicatedFrom'].length > 0) {
             this.originUrl = data['replicatedFrom'][0];
         }
-        if (data['zoom'] && data['zoom']['url']) {
+        if (data['imageType'] == 'tiles') {
             this.imageType = PageImageType.TILES;
-        } else if (data['pdf'] && data['pdf']['url']) {
-            this.imageType = PageImageType.PDF;
-            this.pdf = data['pdf']['url'];
-        } else {
+        } else if (data['imageType'] == 'jpeg') {
             this.imageType = PageImageType.JPEG;
+        } else if (data['imageType'] == 'pdf') {
+            this.imageType = PageImageType.PDF;
         }
     }
 
@@ -62,7 +61,7 @@ export class Page {
     public clear() {
         this.pdf = null;
         this.loaded = false;
-        this.imageType = PageImageType.None;
+        // this.imageType = PageImageType.None;
     }
 }
 

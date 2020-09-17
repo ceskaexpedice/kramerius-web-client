@@ -75,7 +75,6 @@ export class KrameriusApiService {
     }
 
     private getItemUrl(uuid: string) {
-        // return this.getApiUrl().replace(/6.0/, '5.0') + '/item/' + uuid;
         return this.getApiUrl() + '/item/' + uuid;
     }
 
@@ -87,13 +86,28 @@ export class KrameriusApiService {
         return this.getItemUrl(uuid) + '/streams/' + stream;
     }
 
+    getFullJpegUrl(uuid: string): string {
+        if (this.settings.apiVersion == '5.0') {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
+        } else {
+            return this.getItemUrl(uuid) + '/image/full';
+        }
+    }
 
     getThumbUrl(uuid: string): string {
-        return this.getItemUrl(uuid) + '/thumb';
+        if (this.settings.apiVersion == '5.0') {
+            return this.getItemUrl(uuid) + '/thumb';
+        } else {
+            return this.getItemUrl(uuid) + '/image/thumb';
+        }
     }
 
     getThumbUrlForKramerius(uuid: string, url: string): string {
-        return this.getItemUrlForKramerius(uuid, url) + '/thumb';
+        if (this.settings.apiVersion == '5.0') {
+            return this.getItemUrlForKramerius(uuid, url) + '/thumb';
+        } else {
+            return this.getItemUrlForKramerius(uuid, url) + '/image/thumb';
+        }
     }
 
     // getThumbUrl(uuid: string) {
@@ -213,11 +227,14 @@ export class KrameriusApiService {
     }
 
 
-
-
     getModsUrl(uuid: string): string {
-        return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
+        if (this.settings.apiVersion == '5.0') {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
+        } else {
+            return this.getItemUrl(uuid) + '/metadata/mods';
+        }
     }
+
 
     getSearchResultsUrl(query: string): string {
         return this.getApiUrl() + '/search?' + query;
@@ -329,10 +346,6 @@ export class KrameriusApiService {
             .map(response => KrameriusInfo.fromJson(response));
     }
 
-    getFullJpegUrl(uuid: string): string {
-        return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
-    }
-
     getPdfUrl(uuid: string): string {
         return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
     }
@@ -369,18 +382,60 @@ export class KrameriusApiService {
 
 
 
-    getChildren(uuid: string): Observable<any[]> {
-        const url = this.getItemUrl(uuid) + '/children';
-        return this.doGet(url)
-            .map(res => <any[]> res);
+    // getChildren(uuid: string): Observable<any[]> {
+    //     return this.doGet(this.getItemUrl(uuid) + '/children')
+    //         .map(res => <any[]> res);
+    // }
+
+    
+    getChildren(uuid: string): Observable<any> {
+        if (this.settings.apiVersion == '5.0') {
+            return this.doGet(this.getItemUrl(uuid) + '/children')
+            .map(response => this.utils.parseBookChild(response));
+        } else {
+            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid))
+            .map(response => this.solr.bookChildItems(response));
+        }
     }
 
 
-    getRawItem(uuid: string) {
+    getRawItem(uuid: string): Observable<any> {
         const url = this.getItemUrl(uuid);
         return this.doGet(url);
     }
 
+    getItemInfo(uuid: string): Observable<any> {
+        if (this.settings.apiVersion == '5.0') {
+            return this.doGet(this.getItemUrl(uuid))
+                .map(response => this.parseItemInfoForPage(response));
+        } else {
+            return this.doGet(this.getItemUrl(uuid) + '/info')
+                .map(response => this.parseItemInfoForPage(response));       
+        }
+    }
+
+    private parseItemInfoForPage(json) {
+        if (this.settings.apiVersion == '5.0') {
+            let imageType = 'none';
+            if (json['zoom'] && json['zoom']['url']) {
+                imageType = 'tiles';
+            } else if (json['pdf'] && json['pdf']['url']) {
+                imageType = 'pdf';
+            } else {
+                imageType = 'jpeg';
+            }
+            return {
+                dnnt: json['dnnt'],
+                providedByDnnt: json['providedByDnnt'],
+                replicatedFrom: json['replicatedFrom'],
+                imageType: imageType
+            }
+        } else {
+            return {
+                imageType: json['image-source']['type']
+            }   
+        }
+    }
 
 
 
