@@ -97,7 +97,7 @@ export class SolrService {
         },
         'title_sort': {
             '1.0': 'title_sort',
-            '2.0': 'n.title.sort'
+            '2.0': 'n.root_title.sort'
         },
         'created_at': {
             '1.0': 'created_date',
@@ -278,6 +278,10 @@ export class SolrService {
         'has_tiles': {
             '1.0': '',
             '2.0': 'n.has_tile'
+        },
+        'img_full_mime': {
+            '1.0': 'img_full_mime',
+            '2.0': 'n.ds.img_full.mime'
         }
     }
 
@@ -558,6 +562,7 @@ export class SolrService {
         item.date = doc[this.field('date')];
         item.authors = doc[this.field('authors')];
         item.donators = doc[this.field('donators')];
+        item.pdf = doc[this.field('img_full_mime')] == "application/pdf";
         console.log('item.donators', item.donators);
         item.dnnt = !!doc[this.field('dnnt')];
         item.root_uuid = doc[this.field('root_pid')];

@@ -88,9 +88,12 @@ export class KrameriusApiService {
 
     getFullJpegUrl(uuid: string): string {
         if (this.settings.apiVersion == '5.0') {
+            // return 'https://kramerius.dev.digitallibrary.cz/search/img?pid=uuid:4873e8c7-5967-4003-8544-96f64ca55da7&stream=IMG_FULL&action=GETRAW';
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
         } else {
+            // return 'https://kramerius.dev.digitallibrary.cz/search/img?pid=uuid:4873e8c7-5967-4003-8544-96f64ca55da7&stream=IMG_FULL&action=GETRAW';
             return this.getItemUrl(uuid) + '/image/full';
+            // return 'https://kramerius.dev.digitallibrary.cz/search/api/v5.0/item/uuid:4873e8c7-5967-4003-8544-96f64ca55da7/streams/IMG_FULL';
         }
     }
 
@@ -184,14 +187,16 @@ export class KrameriusApiService {
         }
     }
 
-
-
-
-
-
+    getOcrUrl(uuid: string): string {
+        if (this.settings.apiVersion == '5.0') {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);
+        } else {
+            return this.getItemUrl(uuid) + '/ocr/text';
+        }
+    }
 
     getOcr(uuid: string): Observable<string> {
-        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR));
+        return this.doGetText(this.getOcrUrl(uuid));
     }
 
     getDc(uuid: string) {
@@ -347,7 +352,7 @@ export class KrameriusApiService {
     }
 
     getPdfUrl(uuid: string): string {
-        return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
+        return this.getFullJpegUrl(uuid);
     }
 
     getMp3Url(uuid: string): string {

@@ -105,7 +105,7 @@ export class BookService {
             return;
         }
         this.pdf = this.api.getPdfUrl(uuid);
-        let url = 'assets/pdf/viewer.html?file=' + this.pdf;
+        let url = 'assets/pdf/viewer.html?file=' + encodeURIComponent(this.pdf);
         url += '&lang=' + this.translator.language;
         if (this.fulltextQuery) {
             url += '&query=' + this.fulltextQuery;
