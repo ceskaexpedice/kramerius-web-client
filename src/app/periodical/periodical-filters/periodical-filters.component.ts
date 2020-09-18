@@ -1,5 +1,6 @@
 import { PeriodicalService } from './../../services/periodical.service';
 import { Component, OnInit } from '@angular/core';
+import { AppSettings } from '../../services/app-settings';
 import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
@@ -11,13 +12,11 @@ export class PeriodicalFiltersComponent implements OnInit {
   yearFrom: number;
   yearTo: number;
 
-  constructor(public periodicalService: PeriodicalService, public analytics: AnalyticsService) {
+  constructor(public periodicalService: PeriodicalService, public analytics: AnalyticsService, public appSettings: AppSettings) {
   }
 
   ngOnInit() {
-
     this.yearFrom = this.periodicalService.query.from;
-    if(this.yearFrom==0) {this.yearFrom=1612;}
     this.yearTo = this.periodicalService.query.to;
 
     setTimeout(() => {
@@ -27,10 +26,8 @@ export class PeriodicalFiltersComponent implements OnInit {
 
 
   onYearFromValueChanged() {
-
     if (!this.yearFrom || this.yearFrom < 0) {
       this.yearFrom = 0;
-      if(this.periodicalService.minYear!=null) {this.yearFrom = this.periodicalService.minYear;}
     } else if (this.yearFrom > this.yearTo) {
       this.yearFrom = this.yearTo;
     }

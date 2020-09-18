@@ -1,4 +1,4 @@
-import { CitationService } from './citation.service';
+import { AccountService } from './account.service';
 import { AppSettings } from './app-settings';
 import { SolrService } from './solr.service';
 import { ModsParserService } from './mods-parser.service';
@@ -6,7 +6,6 @@ import { DocumentItem } from './../model/document_item.model';
 import { Metadata } from './../model/metadata.model';
 import { AltoService } from './alto-service';
 import { LocalStorageService } from './local-storage.service';
-import { DialogPdfComponent } from './../dialog/dialog-pdf/dialog-pdf.component';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { UnauthorizedError } from './../common/errors/unauthorized-error';
 import { AppError } from './../common/errors/app-error';
@@ -28,6 +27,9 @@ import { PageTitleService } from './page-title.service';
 import { InternalPart } from '../model/internal_part.model';
 import { Translator } from 'angular-translator';
 import { AnalyticsService } from './analytics.service';
+import { DialogPdfGeneratorComponent } from '../dialog/dialog-pdf-generator/dialog-pdf-generator.component';
+import { IiifService } from './iiif.service';
+import { LoggerService } from './logger.service';
 
 
 
@@ -37,7 +39,8 @@ export class BookService {
     private fulltextQuery = null;
 
     private uuid;
-    private subject = new Subject<Page[]>();
+    private subject = new Subject<ViewerData>();
+    private subjectPages = new Subject<Page[]>();
 
     private activePageIndex = 0;
     public allPages: Page[] = [];
@@ -77,20 +80,24 @@ export class BookService {
     public iiifEnabled = false;
 
 
+
+
     constructor(private location: Location,
         private altoService: AltoService,
-        private appSettings: AppSettings,
+        private settings: AppSettings,
         private pageTitle: PageTitleService,
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
-        private krameriusApiService: KrameriusApiService,
+        private api: KrameriusApiService,
+        private iiif: IiifService,
+        private logger: LoggerService,
         private modsParserService: ModsParserService,
         private translator: Translator,
         private solrService: SolrService,
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
-        private citationService: CitationService,
+        private account: AccountService,
         private modalService: MzModalService) {
     }
 
@@ -102,12 +109,12 @@ export class BookService {
             this.pdfPath = null;
             return;
         }
-        this.pdf = this.krameriusApiService.getPdfUrl(uuid);
+        this.pdf = this.api.getPdfUrl(uuid);
         let url = 'assets/pdf/viewer.html?file=' + this.pdf;
+        url += '&lang=' + this.translator.language;
         if (this.fulltextQuery) {
             url += '&query=' + this.fulltextQuery;
         }
-        url += '&lang=' + this.translator.language;
         this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 
@@ -116,8 +123,8 @@ export class BookService {
         this.uuid = params.uuid;
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
-        this.iiifEnabled =  this.appSettings.iiifEnabled;
-        this.krameriusApiService.getItem(params.uuid).subscribe((item: DocumentItem) => {
+        this.iiifEnabled =  this.settings.iiifEnabled;
+        this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
             if (item.doctype === 'article') {
                 if (params.articleUuid) {
                     return;
@@ -137,10 +144,9 @@ export class BookService {
                 return;
             }
             this.isPrivate = !item.public;
-            this.krameriusApiService.getMods(item.root_uuid).subscribe(response => {
+            this.api.getMods(item.root_uuid).subscribe(response => {
                 this.metadata = this.modsParserService.parse(response, item.root_uuid);
-                this.metadata.model = item.doctype;
-                this.metadata.donator = item.donator;
+                this.metadata.assignDocument(item);
                 this.analytics.sendEvent('viewer', 'open', this.metadata.getShortTitle());
                 this.pageTitle.setTitle(null, this.metadata.getShortTitle());
                 if (item.doctype) {
@@ -152,7 +158,7 @@ export class BookService {
                         this.metadata.doctype = item.doctype;
                     }
                 }
-                this.metadata.addMods(this.metadata.doctype, response);
+                this.metadata.addMods(this.metadata.doctype, this.metadata.uuid, response);
                 if (item.doctype === 'periodicalitem' || item.doctype === 'supplement') {
                     const volumeUuid = item.getUuidFromContext('periodicalvolume');
                     this.loadVolume(volumeUuid);
@@ -168,7 +174,7 @@ export class BookService {
                     this.showNavigationPanel = false;
                     this.assignPdfPath(params.uuid);
                 } else {
-                    this.krameriusApiService.getChildren(params.uuid).subscribe(children => {
+                    this.api.getChildren(params.uuid).subscribe(children => {
                         if (children && children.length > 0) {
                             this.onDataLoaded(children, item.doctype, params.pageUuid, params.articleUuid, params.internalPartUuid);
                         } else {
@@ -180,26 +186,37 @@ export class BookService {
         },
         error => {
             if (error instanceof NotFoundError) {
-                this.router.navigateByUrl(this.appSettings.getRouteFor('404'), { skipLocationChange: true });
+              this.router.navigateByUrl(this.settings.getRouteFor('404'), { skipLocationChange: true });
             }
         });
 
     }
 
+
+    getUuid(): string {
+        return this.uuid;
+    }
+
+    getQuery(): string {
+        return this.fulltextQuery;
+    }
+
     private loadVolume(uuid: string) {
-        this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+        this.api.getItem(uuid).subscribe((item: DocumentItem) => {
             this.metadata.assignVolume(item);
         });
-        this.krameriusApiService.getMods(uuid).subscribe(mods => {
-            this.metadata.addMods('periodicalvolume', mods);
+        this.api.getMods(uuid).subscribe(mods => {
+            this.metadata.addMods('periodicalvolume', uuid, mods);
             const metadata = this.modsParserService.parse(mods, uuid, 'volume');
             this.metadata.volumeMetadata = metadata;
         });
     }
 
 
+
+
     private loadIssues(periodicalUuid: string, volumeUuid: string, issueUuid: string) {
-        this.krameriusApiService.getPeriodicalIssues(periodicalUuid, volumeUuid, null).subscribe(response => {
+        this.api.getPeriodicalIssues(periodicalUuid, volumeUuid, null).subscribe(response => {
             const issues = this.solrService.periodicalItems(response, 'periodicalitem');
             if (!issues || issues.length < 1) {
                 return;
@@ -222,8 +239,8 @@ export class BookService {
             if (index < issues.length - 1) {
                 this.metadata.nextIssue = issues[index + 1];
             }
-            this.krameriusApiService.getMods(issueUuid).subscribe(mods => {
-                this.metadata.addMods('periodicalitem', mods);
+            this.api.getMods(issueUuid).subscribe(mods => {
+                this.metadata.addMods('periodicalitem', issueUuid, mods);
                 const metadata = this.modsParserService.parse(mods, issueUuid, 'issue');
                 this.metadata.currentIssue.metadata = metadata;
             });
@@ -232,7 +249,7 @@ export class BookService {
 
 
     private loadVolumes(periodicalUuid: string, volumeUuid: string) {
-        this.krameriusApiService.getPeriodicalVolumes(periodicalUuid, null).subscribe(response => {
+        this.api.getPeriodicalVolumes(periodicalUuid, null).subscribe(response => {
             const volumes = this.solrService.periodicalItems(response, 'periodicalvolume');
             if (!volumes || volumes.length < 1) {
                 return;
@@ -259,7 +276,7 @@ export class BookService {
     }
 
     private loadMonographUnits(monographUuid: string, unitUud: string) {
-        this.krameriusApiService.getMonographUnits(monographUuid, null).subscribe(response => {
+        this.api.getMonographUnits(monographUuid, null).subscribe(response => {
             const units = this.solrService.periodicalItems(response, 'monographunit');
             if (!units || units.length < 1) {
                 return;
@@ -282,8 +299,8 @@ export class BookService {
             if (index < units.length - 1) {
                 this.metadata.nextUnit = units[index + 1];
             }
-            this.krameriusApiService.getMods(unitUud).subscribe(mods => {
-                this.metadata.addMods('monographunit', mods);
+            this.api.getMods(unitUud).subscribe(mods => {
+                this.metadata.addMods('monographunit', unitUud, mods);
                 const metadata = this.modsParserService.parse(mods, unitUud);
                 this.metadata.currentUnit.metadata = metadata;
             });
@@ -297,14 +314,14 @@ export class BookService {
             return;
         }
         const supplement = supplements.shift();
-        this.krameriusApiService.getChildren(supplement['pid']).subscribe(children => {
+        this.api.getChildren(supplement['pid']).subscribe(children => {
             for (const p of children) {
                 if (p['model'] === 'page') {
-                    p['is_supplement'] = true;
+                    p['supplement_uuid'] = supplement['pid'];
                     pages.push(p);
                 }
             }
-            this.onDataLoaded(pages, doctype, pageUuid, articleUuid, internalPartUuid);
+            this.addSupplementPages(pages, supplements, doctype, pageUuid, articleUuid, internalPartUuid);
         });
     }
 
@@ -375,6 +392,15 @@ export class BookService {
                 this.fulltextChanged(this.fulltextQuery, pageUuid);
             } else {
                 this.goToPageOnIndex(pageIndex, true);
+                if (pageIndex === 0) {
+                    if (this.account.serviceEnabled()) {
+                        this.account.getLastPageIndex(this.uuid, (index: number) => {
+                            if (this.activePageIndex === 0 && index && index !== 0) {
+                                this.goToPageOnIndex(index);
+                            }
+                        });
+                    }
+                }
             }
         }
     }
@@ -404,7 +430,8 @@ export class BookService {
             } else if (p['model'] === 'page') {
                 const page = new Page();
                 page.uuid = p['pid'];
-                page.policy = p['policy'];
+                page.supplementUuid = p['supplement_uuid'];
+                page.public = p['policy'] === 'public';
                 const details = p['details'];
                 if (details) {
                     page.type = details['type'];
@@ -418,7 +445,8 @@ export class BookService {
                 if (!page.number) {
                     page.number = p['title'];
                 }
-                page.thumb = this.krameriusApiService.getThumbUrl(page.uuid);
+                page.setTitle(p['title']);
+                page.thumb = this.api.getThumbUrl(page.uuid);
                 page.position = PagePosition.Single;
                 if (page.type === 'spine') {
                     spines.push(page);
@@ -428,11 +456,11 @@ export class BookService {
                 if (uuid === page.uuid) {
                     currentPage = index;
                 }
-                if ((page.type === 'backcover' || p['is_supplement']) && firstBackSingle === -1) {
+                if ((page.type === 'backcover' || p['supplement_uuid']) && firstBackSingle === -1) {
                     firstBackSingle = index;
                 } else if (page.type === 'titlepage') {
                     titlePage = index;
-                } else if (titlePage === -1 && (page.type === 'frontcover'
+                } else if (titlePage === -1 && index < pages.length - 2 && (page.type === 'frontcover'
                             || page.type === 'cover'
                             || page.type === 'frontjacket'
                             || page.type === 'jacket'
@@ -485,12 +513,19 @@ export class BookService {
         }
     }
 
-    watchPage(): Observable<Page[]> {
+    watchViewerData(): Observable<ViewerData> {
         return this.subject.asObservable();
+    }
+
+    watchPage(): Observable<Page[]> {
+        return this.subjectPages.asObservable();
     }
 
     goToPage(page: Page) {
         this.goToPageOnIndex(page.index);
+        if (this.account.serviceEnabled()) {
+            this.account.setLastPageIndex(this.uuid, page.index, null);
+        }
     }
 
     goToPageWithUuid(uuid: string) {
@@ -505,18 +540,31 @@ export class BookService {
     goToNext() {
         if (this.hasNext()) {
             const n = this.doublePage ? 2 : 1;
-            this.goToPageOnIndex(this.activePageIndex + n);
+            const index = this.activePageIndex + n;
+            this.goToPageOnIndex(index);
+            if (this.account.serviceEnabled()) {
+                this.account.setLastPageIndex(this.uuid, index, null);
+            }
         }
     }
 
     goToPrevious() {
         if (this.hasPrevious()) {
-            this.goToPageOnIndex(this.activePageIndex - 1);
+            const index = this.activePageIndex - 1;
+            this.goToPageOnIndex(index);
+            if (this.account.serviceEnabled()) {
+                this.account.setLastPageIndex(this.uuid, index, null);
+            }
         }
     }
 
     isEmpty(): boolean {
         return this.pages === null || this.pages.length === 0;
+    }
+
+    cropEnabled(): boolean {
+        const page = this.getPage();
+        return page && this.iiifEnabled && page.imageType === PageImageType.TILES;
     }
 
     hasNext() {
@@ -543,22 +591,18 @@ export class BookService {
     }
     showOcr() {
         const requests = [];
-        requests.push(this.krameriusApiService.getOcr(this.getPage().uuid));
-        let citPages = this.getPage().number + '';
+        requests.push(this.api.getOcr(this.getPage().uuid));
         if (this.getRightPage()) {
-            requests.push(this.krameriusApiService.getOcr(this.getRightPage().uuid));
-            citPages += '-' + this.getRightPage().number;
+            requests.push(this.api.getOcr(this.getRightPage().uuid));
         }
         forkJoin(requests).subscribe(result => {
             const options = {
-                ocr: result[0]
+                ocr: result[0],
+                uuid: this.getPage().uuid,
+                metadata: this.metadata
             };
             if (result.length > 1) {
                 options['ocr2'] = result[1];
-            }
-            const citation = this.citationService.generateCitation(this.metadata, CitationService.LEVEL_PAGE);
-            if (citation) {
-                options['citation'] = citation;
             }
             this.modalService.open(DialogOcrComponent, options);
         });
@@ -567,15 +611,26 @@ export class BookService {
 
     showTextSelection(extent, width: number, height: number, right: boolean) {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
-        this.krameriusApiService.getAlto(uuid).subscribe(result => {
-            const text = this.altoService.getTextInBox(result, extent, width, height);
-            const citation = this.citationService.generateCitation(this.metadata, CitationService.LEVEL_PAGE);
-            const options = {
-                ocr: text,
-                citation: citation
-            };
-            this.modalService.open(DialogOcrComponent, options);
-        });
+        this.api.getAlto(uuid).subscribe(
+            result => {
+                const text = this.altoService.getTextInBox(result, extent, width, height);
+                const options = {
+                    ocr: text,
+                    uuid: this.getPage().uuid,
+                    metadata: this.metadata
+                };
+                this.modalService.open(DialogOcrComponent, options);
+            },
+            error => {
+                if (error instanceof NotFoundError) {
+                    this.modalService.open(SimpleDialogComponent, {
+                        title: 'common.warning',
+                        message: 'dialogs.missing_alto.message',
+                        button: 'common.close'
+                    });
+                }
+            }
+        );
     }
 
     showImageCrop(extent, right: boolean) {
@@ -585,12 +640,9 @@ export class BookService {
                 message: 'dialogs.private_document_jpeg.message',
                 button: 'common.close'
             });
-        } else if (this.pageState === BookPageState.Success) {
-            const iiif = right ? this.getRightPage().iiif : this.getPage().iiif;
-            if (!iiif) {
-                return;
-            }
-            const url = this.krameriusApiService.getImageSelection(iiif, extent[0], extent[1], extent[2], extent[3]);
+        } else if (this.pageState === BookPageState.Success && this.iiifEnabled) {
+            const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+            const url = this.iiif.imageCrop(this.api.getIiifBaseUrl(uuid), extent[0], extent[1], extent[2], extent[3]);
             if (url) {
                 window.open(url, '_blank');
             }
@@ -605,14 +657,13 @@ export class BookService {
                 button: 'common.close'
             });
         } else if (this.pageState === BookPageState.Success) {
+            if (this.getRightPage()) {
+                  window.open('downloadIMG.html#'+this.getPage().uuid+'#'+this.getRightPage().uuid, '_blank');
+            } else {
+                  window.open('downloadIMG.html#'+this.getPage().uuid, '_blank');
+            }
 
-          if (this.getRightPage()) {
-            window.open('downloadIMG.html#'+this.getPage().uuid+'#'+this.getRightPage().uuid, '_blank');
-          } else {
-            window.open('downloadIMG.html#'+this.getPage().uuid, '_blank');
-          }
-          /*
-            window.open(this.krameriusApiService.getFullJpegUrl(this.getPage().uuid), '_blank');
+            /*window.open(this.krameriusApiService.getFullJpegUrl(this.getPage().uuid), '_blank');
             if (this.getRightPage()) {
                 window.open(this.krameriusApiService.getFullJpegUrl(this.getRightPage().uuid), '_blank');
             }*/
@@ -663,7 +714,7 @@ export class BookService {
             this.pages = this.ftPages;
         }
         if (this.pages.length < 1) {
-            this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, 'fulltext=' + this.fulltextQuery);
+            this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, 'fulltext=' + this.fulltextQuery);
             this.publishNewPages(BookPageState.NoResults);
         } else {
             let index = 0;
@@ -689,7 +740,7 @@ export class BookService {
             this.cancelFulltext();
             return;
         }
-        this.krameriusApiService.getFulltextUuidList(this.uuid, query).subscribe(result => {
+        this.api.getFulltextUuidList(this.uuid, query).subscribe(result => {
             this.ftPages = [];
             let index = 0;
             for (const page of this.allPages) {
@@ -724,14 +775,14 @@ export class BookService {
                 button: 'common.close'
             });
         } else {
-            this.modalService.open(DialogPdfComponent, {
+            this.modalService.open(DialogPdfGeneratorComponent, {
                 pageCount: this.getPageCount(),
                 currentPage: this.getPage().index,
                 doublePage: this.doublePage,
-                maxPageCount: 60,
-                uuids: this.uuids(),
+                pages: this.pages,
                 type: type,
-                name: this.metadata.getShortTitle()
+                name: this.metadata.getShortTitle(),
+                uuid: this.getUuid()
             });
         }
     }
@@ -780,28 +831,47 @@ export class BookService {
         }
         const page = this.getPage();
         page.selected = true;
+
+
+
+        if (page.supplementUuid) {
+            const uuid = page.supplementUuid;
+            this.api.getMods(uuid).subscribe(mods => {
+                if (uuid === this.getPage().supplementUuid) {
+                    const metadata = this.modsParserService.parse(mods, uuid, 'supplement');
+                    this.metadata.pageSupplementMetadata = metadata;
+                }
+            });
+        } else {
+            this.metadata.pageSupplementMetadata = null;
+        }
+
         let pages = page.number + '';
         const rightPage = this.getRightPage();
-        let cached = page.cached();
+        let cached = page.loaded;
         if (rightPage) {
             rightPage.selected = true;
-            cached = cached && rightPage.cached();
+            cached = cached && rightPage.loaded;
             pages += '-' + rightPage.number;
         }
         if (this.metadata) {
             this.metadata.activePages = pages;
+            this.metadata.activePage = page;
+            if (rightPage) {
+                this.metadata.activePageRight = rightPage;
+            } else {
+                this.metadata.activePageRight = null;
+            }
         }
-        // if (!this.article) {
         let urlQuery = 'page=' + page.uuid;
         if (this.fulltextQuery) {
             urlQuery += '&fulltext=' + this.fulltextQuery;
         }
         if (replaceState) {
-            this.location.replaceState(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+            this.location.replaceState(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         } else {
-            this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+            this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         }
-        // }
         this.lastIndex = index;
         if (!cached) {
             this.publishNewPages(BookPageState.Loading);
@@ -847,18 +917,12 @@ export class BookService {
         if (tab === 'pages') {
             this.article = null;
             this.internalPart = null;
-            // if (this.activeNavigationTab === 'articles') {
-            //     this.refreshPages();
-            //     this.goToPageOnIndex(0);
-            // }
         } else if (tab === 'articles') {
             this.fulltextQuery = null;
             this.fulltextAllPages = false;
-            // this.onArticleSelected(this.articles[0]);
         } else if (tab === 'internalparts') {
             this.fulltextQuery = null;
             this.fulltextAllPages = false;
-            // this.onInternalPartSelected(this.internalParts[0]);
         }
         this.activeNavigationTab = tab;
     }
@@ -869,9 +933,9 @@ export class BookService {
         this.pageState = BookPageState.Loading;
         this.internalPart = internalPart;
         if (!internalPart.metadata) {
-            forkJoin([this.krameriusApiService.getItem(internalPart.uuid), this.krameriusApiService.getMods(internalPart.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
+            forkJoin([this.api.getItem(internalPart.uuid), this.api.getMods(internalPart.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 if (this.metadata) {
-                    this.metadata.addMods('internalpart', mods);
+                    this.metadata.addMods('internalpart', internalPart.uuid, mods);
                 }
                 this.onInternalPartLoaded(internalPart);
                 internalPart.metadata = this.modsParserService.parse(mods, internalPart.uuid);
@@ -888,7 +952,7 @@ export class BookService {
             this.goToPageWithUuid(internalPart.firstPageUuid);
         } else {
             this.publishNewPages(BookPageState.Loading);
-            this.krameriusApiService.getChildren(internalPart.uuid).subscribe(children => {
+            this.api.getChildren(internalPart.uuid).subscribe(children => {
                 if (children && children.length > 0) {
                     internalPart.firstPageUuid = children[0]['pid'];
                 }
@@ -905,9 +969,9 @@ export class BookService {
         this.pageState = BookPageState.Loading;
         this.article = article;
         if (article.type === 'none') {
-            forkJoin([this.krameriusApiService.getItem(article.uuid), this.krameriusApiService.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
+            forkJoin([this.api.getItem(article.uuid), this.api.getMods(article.uuid)]).subscribe(([item, mods]: [DocumentItem, any]) => {
                 if (this.metadata) {
-                    this.metadata.addMods('article', mods);
+                    this.metadata.addMods('article', article.uuid, mods);
                 }
                 article.type = item.pdf ? 'pdf' : 'pages';
                 this.onArticleLoaded(article);
@@ -925,7 +989,7 @@ export class BookService {
             if (this.fulltextQuery) {
                 urlQuery += '&fulltext=' + this.fulltextQuery;
             }
-            this.location.go(this.appSettings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+            this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
             this.assignPdfPath(article.uuid);
         } else if (article.type === 'pages') {
             if (article.firstPageUuid) {
@@ -933,7 +997,7 @@ export class BookService {
                 this.goToPageWithUuid(article.firstPageUuid);
             } else {
                 this.publishNewPages(BookPageState.Loading);
-                this.krameriusApiService.getChildren(article.uuid).subscribe(children => {
+                this.api.getChildren(article.uuid).subscribe(children => {
                     if (children && children.length > 0) {
                         article.firstPageUuid = children[0]['pid'];
                     }
@@ -946,9 +1010,9 @@ export class BookService {
 
     private fetchPageData(leftPage: Page, rightPage: Page) {
         const itemRequests = [];
-        itemRequests.push(this.krameriusApiService.getPageItem(leftPage.uuid));
+        itemRequests.push(this.api.getRawItem(leftPage.uuid));
         if (rightPage) {
-            itemRequests.push(this.krameriusApiService.getPageItem(rightPage.uuid));
+            itemRequests.push(this.api.getRawItem(rightPage.uuid));
         }
         forkJoin(itemRequests).subscribe(result => {
             leftPage.assignPageData(result[0]);
@@ -957,15 +1021,12 @@ export class BookService {
             }
             this.dnntMode = leftPage.providedByDnnt || (rightPage && rightPage.providedByDnnt);
             this.dnntFlag = leftPage.dnntFlag || (rightPage && rightPage.dnntFlag);
-            // this.iiifEnabled = !!leftPage.iiif;
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {
                 this.onPdfPageSelected(leftPage, rightPage);
-            } else if (leftPage.imageType === PageImageType.ZOOMIFY) {
-                this.fetchZoomifyData(leftPage, rightPage);
-            } else if (leftPage.imageType === PageImageType.JPEG) {
-                this.fetchJpegData(leftPage, rightPage, true);
+            } else {
+                this.publishNewPages(BookPageState.Success);
             }
         },
         (error: AppError)  => {
@@ -977,7 +1038,6 @@ export class BookService {
         });
     }
 
-
     private onPdfPageSelected(leftPage: Page, rightPage: Page) {
         if (rightPage) {
             rightPage.selected = false;
@@ -986,65 +1046,19 @@ export class BookService {
         this.assignPdfPath(leftPage.uuid);
     }
 
-
-    private fetchJpegData(leftPage: Page, rightPage: Page, left: boolean) {
-        const page = left ? leftPage : rightPage;
-        const url = this.krameriusApiService.getScaledJpegUrl(page.uuid, 3000);
-        const image = new Image();
-        image.onload = (() => {
-            page.assignJpegData(image.width, image.height, url);
-            if (left && rightPage && rightPage.imageType === PageImageType.JPEG) {
-                this.fetchJpegData(leftPage, rightPage, false);
-            } else {
-                this.publishNewPages(BookPageState.Success);
-
-            }
-        });
-        image.onerror = (() => {
-            image.onerror = null;
+    public onInaccessibleImage() {
+        if (this.doublePage && this.getRightPage()) {
+            this.doublePageEnabled = false;
+            this.goToPageOnIndex(this.lastIndex);
+        } else {
             this.publishNewPages(BookPageState.Inaccessible);
-        });
-        image.src = url;
-    }
-
-
-    private fetchZoomifyData(leftPage: Page, rightPage: Page) {
-        const zRequests = [];
-        zRequests.push(this.krameriusApiService.getZoomifyProperties(leftPage.url));
-        if (rightPage && rightPage.imageType === PageImageType.ZOOMIFY) {
-            zRequests.push(this.krameriusApiService.getZoomifyProperties(rightPage.url));
         }
-        forkJoin(zRequests).subscribe(zResult => {
-            leftPage.assignZoomifyData(zResult[0]);
-            if (rightPage && zResult.length >= 2) {
-                rightPage.assignZoomifyData(zResult[1]);
-            }
-            this.publishNewPages(BookPageState.Success);
-        },
-        (error: AppError)  => {
-            if (error instanceof UnauthorizedError) {
-                if (this.doublePage && rightPage) {
-                    this.doublePageEnabled = false;
-                    this.goToPageOnIndex(this.lastIndex);
-                } else {
-                    this.publishNewPages(BookPageState.Inaccessible);
-                }
-            } else {
-                this.publishNewPages(BookPageState.Failure);
-            }
-        });
     }
-
 
     private publishNewPages(state: BookPageState) {
+        this.logger.info('publishNewPages');
         const leftPage = this.getPage();
         const rightPage = this.getRightPage();
-        if (leftPage) {
-            leftPage.altoBoxes = null;
-        }
-        if (rightPage) {
-            rightPage.altoBoxes = null;
-        }
         if (state !== BookPageState.Success) {
             if (leftPage) {
                 leftPage.clear();
@@ -1054,17 +1068,29 @@ export class BookService {
             }
         }
         this.pageState = state;
-        if (state === BookPageState.Success && this.fulltextQuery) {
-            this.krameriusApiService.getAlto(leftPage.uuid).subscribe(response => {
-                const boxes = this.altoService.getBoxes(response, this.fulltextQuery, leftPage.width, leftPage.height);
-                leftPage.altoBoxes = boxes;
-                this.subject.next([leftPage, rightPage]);
-            }, error => {
-                this.subject.next([leftPage, rightPage]);
-            });
-        } else {
-            this.subject.next([leftPage, rightPage]);
+        this.subject.next(this.getViewerData());
+        this.subjectPages.next([leftPage, rightPage]);
+    }
+
+
+    public getViewerData(): ViewerData {
+        const data = new ViewerData();
+        const leftPage = this.getPage();
+        const rightPage = this.getRightPage();
+        if (!leftPage || !leftPage.viewable()) {
+            return null;
         }
+        if (leftPage.imageType === PageImageType.TILES) {
+            data.imageType = this.iiifEnabled ? ViewerImageType.IIIF : ViewerImageType.ZOOMIFY;
+        } else {
+            data.imageType = ViewerImageType.JPEG;
+        }
+        data.query = this.fulltextQuery;
+        data.uuid1 = leftPage.uuid;
+        if (rightPage) {
+            data.uuid2 = rightPage.uuid;
+        }
+        return data;
     }
 
 
@@ -1166,3 +1192,27 @@ export interface BookParams {
     internalPartUuid: string;
     fulltext: string;
 }
+
+
+export enum ViewerImageType {
+    IIIF, ZOOMIFY, JPEG
+  }
+
+  export class ViewerData {
+    uuid1: string;
+    uuid2: string;
+    imageType: ViewerImageType;
+    query: string;
+
+    doublePage(): boolean {
+      return !!this.uuid2;
+    }
+
+    equals(to: ViewerData): boolean {
+        if (!to) {
+            return false;
+        }
+        return this.uuid1 === to.uuid1 && this.uuid2 === to.uuid2 && this.query === to.query && this.imageType === to.imageType;
+    }
+
+  }

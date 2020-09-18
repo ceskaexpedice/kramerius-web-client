@@ -1,3 +1,5 @@
+import { environment } from './../../environments/environment.prod';
+import { AppSettings } from './app-settings';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpResponse, HttpInterceptor, HttpHandler } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
@@ -7,9 +9,12 @@ import { HttpRequestCache } from './http-request-cache.service';
 
 @Injectable()
 export class CachingInterceptor implements HttpInterceptor {
-  constructor(private cache: HttpRequestCache) {}
+  constructor(private cache: HttpRequestCache, private appSettings: AppSettings) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
+    if (environment.cloudApiBase && req.url.startsWith(environment.cloudApiBase)) {
+      return next.handle(req);
+    }
     const cachedResponse = this.cache.get(req);
     return cachedResponse ? of(cachedResponse) : this.sendRequest(req, next, this.cache);
   }

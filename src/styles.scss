@@ -23,13 +23,133 @@
 @import "styles/app-ng-datepicker";
 @import "styles/app-document-card";
 @import "styles/app-paginator";
+@import "styles/app-dialog";
 @import "styles/app-dialog-pdf";
+@import "styles/app-dialog-pdf-generator";
 @import "styles/app-dialog-share";
 @import "styles/app-dialog-citation";
 @import "styles/app-dialog-metadata";
+@import "styles/app-dialog-admin-metadata";
+@import "styles/app-dialog-advanced-search";
 @import "styles/app-dialog-authors";
 @import "styles/app-dialog-sheetmusic-warning";
+@import "styles/app-dialog-policy";
 @import "styles/app-page-not-found";
 @import "styles/app-login";
-@import "styles/loading";
-@import "styles/styles";
+
+
+#app-search-library-dropdown {
+    overflow: auto !important;
+    margin-left: 28px !important;
+    li {
+        transition: none;
+    }
+    .app-search-dropdown-library {
+        .app-library-icon {
+            float: left;
+            margin-right: 10px;
+            width: 24px;
+            margin-left: -2px;
+        }
+        .app-library-name {
+            font-size: 14px;
+            color: #777;
+        }
+        @media only screen and (max-width: 600px) {
+          padding: 10px 0;
+          text-align: center;
+          .app-library-icon {
+              float: none;
+              margin: 0;
+              width: 30px;
+          }
+          .app-library-name {
+              display: none;
+          }
+      }
+    }
+}
+
+.alert-warning span { font-size:20px !important; } 
+.dnntLink a { font-size:20px !important; }
+
+#kramerius-notify {
+  text-align:center;
+  font-size:19px;
+  font-weight:normal;
+  letter-spacing: 1px;
+  padding:10px;
+  color: #058ba8;
+}
+
+#nk-footer {
+  width: 100%;
+  margin: 40px auto 0px auto;
+  text-align:center;
+}
+
+#nk-footer-left {
+  float:left;
+  background-color:white;
+}
+
+#nk-footer-right {
+  float:right;
+}
+
+#nk-footer-right h3 {
+  margin:0px;
+  padding:0px;
+  font-size:1.2em;
+  font-weight: bold;
+}
+
+#nk-footer-social {
+  float:left;
+  width:100%;
+  margin-top:0px;
+}
+
+
+.app-footer img {
+    height: 70px;
+    opacity:0.6;
+    margin:0px 50px 20px 50px;
+}
+.app-footer img:hover {
+    opacity: 1;
+}
+.app-footer a {
+    text-align: center;
+}
+.app-content {
+    margin:auto;
+    text-align: center;
+    font-size: 19px;
+}
+
+#nk-footer-social img {
+  height:auto;
+  margin:auto;
+}
+
+@media(max-width: 1195px)  {
+  #nk-footer { max-width:700px; }
+}
+
+@media(max-width: 600px) {
+   #nk-footer {
+     width:auto;
+   }
+   #nk-footer img {
+     display:block;
+   }
+
+   #nk-footer-social {
+     width:auto;
+   }
+
+   #nk-footer-right {
+     display:none;
+   }
+}

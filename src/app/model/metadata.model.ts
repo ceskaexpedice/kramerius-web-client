@@ -1,7 +1,7 @@
+import { Page } from './page.model';
 import { Article } from './article.model';
 import { DocumentItem } from './document_item.model';
 import { PeriodicalItem } from './periodicalItem.model';
-import beautify from 'xml-beautifier';
 import { InternalPart } from './internal_part.model';
 
 export class Metadata {
@@ -22,12 +22,16 @@ export class Metadata {
     public abstracts: string[] = [];
     public genres: string[] = [];
     public contents: string[] = [];
+    public cartographicData: CartographicData[] = [];
     public physicalDescriptions: PhysicalDescription[] = [];
     public identifiers = {};
 
     public model: string;
     public doctype: string;
     public volume: Volume;
+
+    public isPublic = true;
+    public isDnnt = false;
 
     public currentIssue: PeriodicalItem;
     public nextIssue: PeriodicalItem;
@@ -45,18 +49,41 @@ export class Metadata {
     public internalPart: InternalPart;
     public review: Metadata;
     public volumeMetadata: Metadata;
+    public pageSupplementMetadata: Metadata;
 
     public mainTitle: string;
     public donator: string;
 
     public activePages: string;
+    public activePage: Page;
+    public activePageRight: Page;
+
+    public originUrl: string;
 
     constructor() {
     }
 
+    public assignDocument(item: DocumentItem) {
+        this.isPublic = item.public;
+        this.isDnnt = item.dnnt;
+        this.model = item.doctype;
+        this.donator = item.donator;
+        this.originUrl = item.originUrl;
+    }
 
-    public addMods(doctype: string, mods: string) {
-        this.modsMap[doctype] = beautify(mods);
+    public getOriginUrl() {
+        if (this.activePage) {
+            return this.activePage.originUrl;
+        }
+        return this.originUrl;
+    }
+
+  //  public proarcLink(): string {
+  //      return `http://proarc.kramerius.org/documents/${this.uuid}`;
+  //  }
+
+    public addMods(doctype: string, uuid: string, mods: string) {
+        this.modsMap[doctype] = { uuid: uuid, mods: mods.trim() };
     }
 
     public getYearRange() {
@@ -132,9 +159,35 @@ export class Metadata {
         }
         return title;
     }
+    public getVolumeYear(): string {
+      if (this.volume && this.volume.year) {
+          return this.volume.year;
+      }
+      return "";
+    }
 
     public hasIdentifier(type: string): boolean {
         return !!this.identifiers[type];
+    }
+
+    public getPrimaryAuthors() {
+        const result = [];
+        for (const author of this.authors) {
+            if (author.primary) {
+                result.push(author);
+            }
+        }
+        return result;
+    }
+
+    public getOtherAuthors() {
+        const result = [];
+        for (const author of this.authors) {
+            if (!author.primary) {
+                result.push(author);
+            }
+        }
+        return result;
     }
 
 }
@@ -179,13 +232,17 @@ export class Volume {
 }
 
 export class Author {
+    public type: string;
+    public usage: string;
     public name: string;
     public date: string;
     public roles: string[];
+    public primary = false;
 
     constructor() {
         this.roles = [];
     }
+
 }
 
 export class Location {
@@ -197,12 +254,19 @@ export class Location {
     }
 }
 
-
 export class PhysicalDescription {
-    public extent;
-    public note;
+    constructor(public note?: string, public extent?: string) {}
     empty() {
         return !(this.extent || this. note);
+    }
+}
+
+export class CartographicData {
+    public scale: string;
+    public coordinates: string;
+
+    empty() {
+        return !(this.scale || this.coordinates);
     }
 }
 

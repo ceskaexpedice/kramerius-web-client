@@ -1,7 +1,7 @@
 <div class="app-search-bar-wrapper" [class.app-hover]="searchStr">
   <div class="input-field">
     <ng2-completer  #completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="searchStr" [matchClass]="'highlight'"
-    [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="'searchbar.library' | translate" [inputName]="'autocomplete-input'">
+    [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="getPlaceholder()" [inputName]="'autocomplete-input'">
     </ng2-completer>
   </div>
   <i mz-icon-mdi [icon]="'magnify'" (click)="onMagnifyIconClick()" class="app-cursor-pointer"></i>

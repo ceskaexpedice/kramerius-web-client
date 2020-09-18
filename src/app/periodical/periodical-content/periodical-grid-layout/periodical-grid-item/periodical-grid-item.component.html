@@ -9,7 +9,15 @@
           {{ 'periodical.year_unknown' | translate }}
         </div>
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
-          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+          <i *ngIf="!item.public && !appSettings.hiddenLocks"
+            mz-icon-mdi
+            [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'"
+            class="app-lock"
+            [class.app-dnnt]="item.dnnt"
+            mz-tooltip
+            [tooltip]="(item.dnnt ? 'search.dnnt_document' : 'search.inaccessible_document') | translate"
+            [position]="'top'">
+          </i>
         </div>
         <div *ngIf="item.subtitle" class="app-card-subtitle">
           {{ 'periodical.volume' | translate: { volume: item.subtitle } }}
@@ -30,7 +38,15 @@
           {{ 'periodical.virtual_issue' | translate }}
         </div>
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
-          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+          <i *ngIf="!item.public && !appSettings.hiddenLocks"
+            mz-icon-mdi
+            [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'"
+            class="app-lock"
+            [class.app-dnnt]="item.dnnt"
+            mz-tooltip
+            [tooltip]="(item.dnnt ? 'search.dnnt_document' : 'search.inaccessible_document') | translate"
+            [position]="'top'">
+          </i>
         </div>
         <div *ngIf="item.subtitle" class="app-card-subtitle">
           {{ 'periodical.issue' | translate: { issue: item.subtitle } }}
@@ -48,7 +64,15 @@
           {{ 'periodical.date_unknown' | translate }}
         </div>
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
-          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+          <i *ngIf="!item.public && !appSettings.hiddenLocks"
+            mz-icon-mdi
+            [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'" 
+            class="app-lock"
+            [class.app-dnnt]="item.dnnt"
+            mz-tooltip
+            [tooltip]="(item.dnnt ? 'search.dnnt_document' : 'search.inaccessible_document') | translate"
+            [position]="'top'">
+          </i>
         </div>
         <div class="app-card-subtitle">
           {{ 'periodical.supplement' | translate: { supplement: item.subtitle } }}
@@ -63,7 +87,7 @@
           {{ 'periodical.unit_title_unknown' | translate }}
         </div>
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
-          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+          <i *ngIf="!item.public && !appSettings.hiddenLocks" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
         </div>
         <div *ngIf="item.subtitle" class="app-card-subtitle">
           {{ 'periodical.unit' | translate: { unit: item.subtitle } }}

@@ -2,7 +2,7 @@ import { AppSettings } from './services/app-settings';
 import { HistoryService } from './services/history.service';
 import { Component, OnInit } from '@angular/core';
 import { Translator } from 'angular-translator';
-import { Router, NavigationEnd} from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AppState } from './app.state';
 import { Location } from '@angular/common';
 import { AuthService } from './services/auth.service';
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.appSettings.dnntEnabled) {
+    if (this.appSettings.dnnt) {
       this.auth.login('', '').subscribe(user => {
       });
     }

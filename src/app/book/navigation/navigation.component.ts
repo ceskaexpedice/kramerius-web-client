@@ -5,7 +5,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AnalyticsService } from '../../services/analytics.service';
 
-
 declare var $: any;
 
 @Component({

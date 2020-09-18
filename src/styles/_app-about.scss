@@ -1,6 +1,6 @@
 // --- ABOUT ---
 
-.app-about {
+.app-about, .app-faq {
 
   flex: 1;
   width: 100%;
@@ -9,7 +9,8 @@
   .app-page-content {
     max-width: 1000px;
     margin: 0 auto;
-    padding-bottom: 20px;
+    // padding-bottom: 20px;
+    padding: 0 20px 10px;
     color: #444;
     h1,h2,h3,h4,h5 {
       line-height: 120%;
@@ -36,9 +37,25 @@
       font-weight: 600;
     }
     ul {
-      padding-left: 0;
-      list-style-type: none;
+      padding-left: 1em;
+      margin-top: 5px;
+      li {
+      list-style-type: disc;
+      }
+    }
+    ol {
+      padding-left: 1em;
       margin-top: 5px;
     }
+  }
+  .app-version {
+    position: absolute;
+    display: inline-block;
+    background: #ffffff66;
+    color: #777;
+    right: 10px;
+    bottom: 4px;
+    padding: 1px;
+    font-size: 11px;
   }
 }

@@ -3,7 +3,7 @@
     <mz-card-content>
       <div class="app-card-media">
         <div class="app-card-thumb" [style.background-image]="getThumb()">
-          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+          <i *ngIf="!item.public && !appSettings.hiddenLocks" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
         </div>
       </div>
 
@@ -45,7 +45,7 @@
         <ng-container *ngIf="item.type === 'page' || item.type === 'monograph_unit_page'">
           <div class="app-card-row">
             <div class="app-card-row-right"></div>
-            <div class="app-card-row-left">{{ 'metadata.page' | translate }} {{item.page}}</div>
+            <div class="app-card-row-left" *ngIf="item.page">{{ 'metadata.page' | translate }} {{item.page}}</div>
           </div>
           <div class="app-card-ocr" [innerHTML]="item.text"></div>
         </ng-container>

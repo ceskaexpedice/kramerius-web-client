@@ -1,6 +1,9 @@
+import { PresentationComponent } from './presentation/presentation.component';
+import { DialogPdfGeneratorComponent } from './dialog/dialog-pdf-generator/dialog-pdf-generator.component';
+import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
+import { SigninComponent } from './account/signin/signin.component';
+import { AccountService } from './services/account.service';
 import { DialogCitationComponent } from './dialog/dialog-citation/dialog-citation.component';
-import { AuthInterceptor } from './services/auth-interceptor.service';
-import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
 import { SimpleDialogComponent } from './dialog/simple-dialog/simple-dialog.component';
 import { AppSettings } from './services/app-settings';
@@ -20,7 +23,7 @@ import { PaginatorComponent } from './shared/paginator/paginator.component';
 import { BrowseResultsComponent } from './browse/browse-results/browse-results.component';
 import { BrowseCountComponent } from './browse/browse-count/browse-count.component';
 import { BrowseService } from './services/browse.service';
-import { ViewerControlsService } from './services/viewre-controls.service.';
+import { ViewerControlsService } from './services/viewer-controls.service';
 import { ViewerControlsComponent } from './book/viewer/viewer-controls/viewer-controls.component';
 import { SearchService } from './services/search.service';
 import { LocalStorageService } from './services/local-storage.service';
@@ -92,11 +95,9 @@ import { PeriodicalSearchComponent } from './periodical/periodical-filters/perio
 import { PeriodicalFiltersComponent } from './periodical/periodical-filters/periodical-filters.component';
 
 import { NgxGalleryModule } from 'ngx-gallery';
-import { DialogMetadataComponent } from './dialog/dialog-metadata/dialog-metadata.component';
 import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
 import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
 import { CollectionsComponent } from './collections/collections.component';
-import { CollectionComponent } from './collections/collection/collection.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeLogoComponent } from './home-logo/home-logo.component';
 import { HttpRequestCache } from './services/http-request-cache.service';
@@ -108,13 +109,48 @@ import { RemovePrefixPipe } from './pipes/remove-prefix.pipe';
 import { UpcasePipe } from './pipes/upcase.pipe';
 
 import { CookieService } from 'ngx-cookie-service';
-import { CitationService } from './services/citation.service';
 import { ShareService } from './services/share.service';
 import { AboutComponent } from './about/about.component';
 import { AnalyticsService } from './services/analytics.service';
 import { DatepickerModule } from './datepicker';
+import { HomeFooterComponent } from './home/home-footer/home-footer.component';
+import { KrameriusInfoService } from './services/kramerius-info.service';
+import { CloudApiService } from './services/cloud-api.service';
+import { AngularTokenModule } from 'angular-token';
+import { environment } from '../environments/environment';
+import { FavouritesComponent } from './favourites/favourites.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './account/register/register.component';
+import { ResetPasswordComponent } from './account/reset-password/reset-password.component';
+import { OmniauthComponent } from './account/omniauth/omniauth.component';
+import { DocumentSearchService } from './services/document-search.service';
 
-import { ResultCardComponent }  from './search/search-results/result-card/result-card.component';
+import { AgmCoreModule } from '@agm/core';
+
+
+import { HighlightModule } from 'ngx-highlightjs';
+import xml from 'highlight.js/lib/languages/xml';
+import json from 'highlight.js/lib/languages/json';
+import { DialogAdminMetadataComponent } from './dialog/dialog-admin-metadata/dialog-admin-metadata.component';
+import { MapBrowseComponent } from './map/browse/map-browse.component';
+import { CollectionComponent } from './collections/collection/collection.component';
+import { IiifService } from './services/iiif.service';
+import { ZoomifyService } from './services/zoomify.service';
+import { LoggerService } from './services/logger.service';
+import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/dialog-advanced-search.component';
+import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.component';
+import { LandingComponent } from './landing/landing.component';
+import { LibrariesComponent } from './libraries/libraries.component';
+import { FaqComponent } from './faq/faq.component';
+
+
+
+export function hljsLanguages() {
+  return [
+    {name: 'json', func: json},
+    {name: 'xml', func: xml}
+  ];
+}
 
 @NgModule({
   declarations: [
@@ -160,10 +196,10 @@ import { ResultCardComponent }  from './search/search-results/result-card/result
     BookControlsComponent,
     DialogOcrComponent,
     DialogPdfComponent,
+    DialogPdfGeneratorComponent,
     DialogShareComponent,
     DialogCitationComponent,
     DialogAuthosComponent,
-    DialogMetadataComponent,
     LogoComponent,
     HomeLogoComponent,
     BookSearchComponent,
@@ -186,9 +222,23 @@ import { ResultCardComponent }  from './search/search-results/result-card/result
     NotFoundComponent,
     RemovePrefixPipe,
     UpcasePipe,
-    LoginComponent,
     AboutComponent,
-    ResultCardComponent
+    FaqComponent,
+    HomeFooterComponent,
+    FavouritesComponent,
+    LoginComponent,
+    SigninComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    OmniauthComponent,
+    DialogAdminMetadataComponent,
+    MapBrowseComponent,
+    PresentationComponent,
+    DialogAdvancedSearchComponent,
+    DialogPolicyComponent,
+    LandingComponent,
+    LibrariesComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -197,7 +247,10 @@ import { ResultCardComponent }  from './search/search-results/result-card/result
     DialogCitationComponent,
     SimpleDialogComponent,
     DialogAuthosComponent,
-    DialogMetadataComponent
+    DialogPdfGeneratorComponent,
+    DialogAdminMetadataComponent,
+    DialogAdvancedSearchComponent,
+    DialogPolicyComponent
   ],
   imports: [
     BrowserModule,
@@ -211,7 +264,10 @@ import { ResultCardComponent }  from './search/search-results/result-card/result
     NgxGalleryModule,
     TranslatorModule.forRoot({
       providedLanguages: ['en', 'cs'],
-      defaultLanguage: 'cs'
+      defaultLanguage: 'cs',
+      loaderOptions: {
+        path: 'assets/i18n/{{language}}.json'
+      }
     }),
     MzButtonModule,
     MzInputModule,
@@ -231,7 +287,23 @@ import { ResultCardComponent }  from './search/search-results/result-card/result
     MzDropdownModule,
     MzCheckboxModule,
     MzDatepickerModule,
-    ClipboardModule
+    ClipboardModule,
+    AngularTokenModule.forRoot({
+      apiBase: environment.cloudApiBase,
+      oAuthBase: environment.cloudApiBase,
+      oAuthCallbackPath: 'omniauth',
+      oAuthPaths: {
+        google: 'auth/google_oauth2',
+        facebook: 'auth/facebook'
+      },
+      oAuthWindowType: 'newWindow'
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapsApiKey
+    }),
+    HighlightModule.forRoot({
+      languages: hljsLanguages
+    }),
   ],
   providers: [
     AppState,
@@ -241,6 +313,7 @@ import { ResultCardComponent }  from './search/search-results/result-card/result
     SolrService,
     ModsParserService,
     LibrarySearchService,
+    DocumentSearchService,
     LocalStorageService,
     SearchService,
     BrowseService,
@@ -256,10 +329,15 @@ import { ResultCardComponent }  from './search/search-results/result-card/result
     AuthService,
     PageTitleService,
     CookieService,
-    CitationService,
     ShareService,
     AnalyticsService,
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    KrameriusInfoService,
+    CloudApiService,
+    AccountService,
+    AngularTokenModule,
+    IiifService,
+    ZoomifyService,
+    LoggerService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

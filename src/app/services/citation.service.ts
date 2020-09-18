@@ -1,9 +1,6 @@
 import { Metadata, Author } from './../model/metadata.model';
 import { Injectable } from '@angular/core';
-import { MzModalService } from 'ngx-materialize';
 import { ShareService } from './share.service';
-import { DialogCitationComponent } from '../dialog/dialog-citation/dialog-citation.component';
-
 
 
 @Injectable()
@@ -16,14 +13,13 @@ export class CitationService {
   public static LEVEL_PAGE = 4;
 
 
-  constructor(private modalService: MzModalService,
-    private shareService: ShareService) { }
+  constructor(private shareService: ShareService) { }
 
-  public generateCitation(metadata: Metadata, level: number = CitationService.LEVEL_DOCUMENT): string {
+  public generateCitation(metadata: Metadata, uuid: string, level: number = CitationService.LEVEL_DOCUMENT): string {
     if (!metadata) {
       return null;
     }
-    const link = this.shareService.getPagePersistentLink();
+    const link = !!uuid ? this.shareService.getPersistentLink(uuid) : this.shareService.getPersistentLinkByUrl();
     let c = '';
     if (metadata.doctype !== 'periodical') {
       c += this.writeAuthors(metadata);
@@ -160,14 +156,5 @@ export class CitationService {
       return fullname;
     }
   }
-
-
-  public showCitation(metadata: Metadata) {
-    const options = {
-      metadata: metadata
-    };
-    this.modalService.open(DialogCitationComponent, options);
-  }
-
 
 }

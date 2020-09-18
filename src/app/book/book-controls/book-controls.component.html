@@ -1,12 +1,12 @@
 <mz-collection>
-  <mz-collection-item *ngIf="!bookService.dnntMode">
-    <i class="app-mdi-book-print app-cursor-pointer" (click)="bookService.prepareToPrint();analytics.sendEvent('viewer', 'action', 'print');"
+  <mz-collection-item>
+    <i *ngIf="showPrintPreparation()" class="app-mdi-book-print app-cursor-pointer" (click)="bookService.prepareToPrint();analytics.sendEvent('viewer', 'action', 'print');"
        mz-tooltip [tooltip]="'book_controls.tooltip_print' | translate" [position]="'bottom'"></i>
-    <i class="app-mdi-book-pdf app-cursor-pointer" (click)="bookService.generatePdf();analytics.sendEvent('viewer', 'action', 'pdf');"
+    <i *ngIf="showPdfGeneration()" class="app-mdi-book-pdf app-cursor-pointer" (click)="bookService.generatePdf();analytics.sendEvent('viewer', 'action', 'pdf');"
        mz-tooltip [tooltip]="'book_controls.tooltip_pdf' | translate" [position]="'bottom'"></i>
-    <i class="app-mdi-book-jpg app-cursor-pointer"  (click)="bookService.showJpeg();analytics.sendEvent('viewer', 'action', 'jpeg');"
+    <i *ngIf="showPageJpeg()" class="app-mdi-book-jpg app-cursor-pointer"  (click)="bookService.showJpeg();analytics.sendEvent('viewer', 'action', 'jpeg');"
        mz-tooltip [tooltip]="'book_controls.tooltip_jpg' | translate" [position]="'bottom'"></i>
-    <i class="app-mdi-book-ocr app-cursor-pointer" (click)="bookService.showOcr();analytics.sendEvent('viewer', 'action', 'ocr');"
+    <i *ngIf="showPageOcr()" class="app-mdi-book-ocr app-cursor-pointer" (click)="bookService.showOcr();analytics.sendEvent('viewer', 'action', 'ocr');"
        mz-tooltip [tooltip]="'book_controls.tooltip_ocr' | translate" [position]="'bottom'"></i>
   </mz-collection-item>
 </mz-collection>

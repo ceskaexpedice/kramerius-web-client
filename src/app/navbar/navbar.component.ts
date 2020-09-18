@@ -1,3 +1,4 @@
+import { AccountService } from './../services/account.service';
 import { AnalyticsService } from './../services/analytics.service';
 import { AuthService } from './../services/auth.service';
 import { AppSettings } from './../services/app-settings';
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
     public translator: Translator,
     public router: Router,
     public authService: AuthService,
+    public account: AccountService,
     public appSettings: AppSettings,
     private history: HistoryService,
     public service: LibrarySearchService,
@@ -49,9 +51,30 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.analytics.sendEvent('navbar', 'logout');
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['/']);
-    });
+    if (this.account.serviceEnabled()) {
+      this.account.logout(() => {
+        this.router.navigate(['/']);
+      });
+    }
   }
+
+  dnntLogout() {
+    this.analytics.sendEvent('navbar', 'dnnt-logout');
+    if (this.appSettings.dnnt) {
+      this.authService.logout().subscribe(() => {
+        const url = `${this.appSettings.dnnt.logoutUrl}?return=${window.location.href}`;
+        window.open(url, '_top');
+      });
+    }
+  }
+
+  dnntLogin() {
+    this.analytics.sendEvent('navbar', 'dnnt-login');
+    if (this.appSettings.dnnt) {
+      const url = `${this.appSettings.dnnt.loginUrl}?target=${window.location.href}`;
+      window.open(url, '_top');
+    }
+ }
+
 
 }

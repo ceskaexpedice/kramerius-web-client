@@ -18,7 +18,7 @@
     height: 120px;
     overflow: hidden;
     // background-size: cover;
-    // background-position-x: center;    
+    // background-position-x: center;
     background-color: #c5c5c5;
     border: solid 1px #adadad;
     background-size: contain;
@@ -26,6 +26,25 @@
     background-position-y: center;
     &.hidden {
       opacity: 0.1;
+    }
+    .app-lock {
+      background: #fff;
+      height: 26px;
+      width: 26px;
+      display: block;
+      border-radius: 50%;
+      text-align: center;
+      position: absolute;
+      color: #616161;
+      opacity: .8;
+      margin: auto;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      &:before {
+        font-size: 17px;
+      }
     }
   }
   .app-item-title {
@@ -38,6 +57,17 @@
     background: rgba(255, 255, 255, 0.6);
     color: color("shades", "black");
   }
+  .app-item-name {
+    position: absolute;
+    font-size: 12px;
+    bottom: 0.5rem;
+    padding: 2px;
+    width: calc(100% - 1rem);
+    display: none;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    color: color("shades", "black");
+  }
   .app-item-type {
     position: absolute;
     font-size: 12px;
@@ -46,16 +76,18 @@
     width: calc(100% - 1rem);
     display: none;
     text-align: center;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.8);
     color: color("shades", "black");
   }
-
   &.active {
     background: $app-grey-d-1;
   }
-  
+
   &:hover {
     .app-item-type {
+      display: block;
+    }
+    .app-item-name {
       display: block;
     }
   }

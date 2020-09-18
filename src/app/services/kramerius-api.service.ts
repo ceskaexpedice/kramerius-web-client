@@ -1,3 +1,4 @@
+import { KrameriusInfo } from './../model/krameriusInfo.model';
 import { PeriodicalQuery } from './../periodical/periodical_query.model';
 import { BrowseQuery } from './../browse/browse_query.model';
 import { SolrService } from './solr.service';
@@ -14,11 +15,12 @@ import { Response } from '@angular/http/src/static_response';
 import { AppSettings } from './app-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user.model';
+import { Page } from '../model/page.model';
 
 @Injectable()
 export class KrameriusApiService {
 
-    // private static STREAM_DC = 'DC';
+    private static STREAM_DC = 'DC';
     private static STREAM_MODS = 'BIBLIO_MODS';
     private static STREAM_OCR = 'TEXT_OCR';
     private static STREAM_JPEG = 'IMG_FULL';
@@ -27,12 +29,12 @@ export class KrameriusApiService {
 
     constructor(private http: HttpClient,
         private utils: Utils,
-        private appSettings: AppSettings,
+        private settings: AppSettings,
         private solrService: SolrService) {
     }
 
     private getbaseUrl(): string {
-        return this.appSettings.url;
+        return this.settings.url;
     }
 
     private getApiUrl(): string {
@@ -78,7 +80,6 @@ export class KrameriusApiService {
     private doGetText(url: string): Observable<string> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'text' })
         .map(response => response['body']);
-
     }
 
     getSearchResults(query: string) {
@@ -88,26 +89,6 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-
-    // getSearchResults(query: SearchQuery) {
-    //     let url = this.API_URL + '/search?'
-    //         + query.buildQuery(null);
-
-    //     const ordering = query.getOrderingValue();
-    //     if (ordering) {
-    //         url += '&sort=' + ordering;
-    //     }
-    //     url += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,datum_str,img_full_mime';
-    //     url += '&group=true&group.field=root_pid&group.ngroups=true&group.truncate=true&group.facet=true';
-    //     url += '&facet=true&facet.mincount=1';
-    //     url += '&facet.field=model_path&facet.field=dostupnost&facet.field=collection&facet.field=facet_autor&facet.field=keywords&facet.field=language';
-    //     url += '&rows=' + query.getRows();
-    //     url += '&start=' + query.getStart();
-    //     return this.doGet(url)
-    //         .map(response => response.json())
-    //         .catch(this.handleError);
-    // }
-
     getBrowseResults(query: BrowseQuery) {
         const url = this.getApiUrl() + '/search?'
             + query.buildQuery();
@@ -115,35 +96,18 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-    // getFacetList(query: SearchQuery, field: string) {
-    //     let url = this.API_URL + '/search?'
-    //             + query.buildQuery(field);
-    //     url += '&facet=true&facet.field=' + SearchQuery.getSolrField(field)
-    //         + '&facet.limit=50'
-    //         + '&rows=0&facet.mincount=1';
-
-    //     return this.doGet(url)
-    //         .map(response => {
-    //             if (field === 'accessibility') {
-    //                 return this.solrService.facetAccessibilityList(response.json());
-    //             // } else if (field === 'keywords') {
-    //                 // return this.solrService.facetList(response.json(), field, query.keywords);
-    //             } else {
-    //                 return this.solrService.facetList(response.json(), SearchQuery.getSolrField(field), query[field], field !== 'doctypes');
-    //             }
-    //         })
-    //         .catch(this.handleError);
-    // }
-
-
     getUserInfo(username: string, password: string): Observable<User> {
-        // console.log('getUserInfo: ' + username + ',' + password);
         const url = this.getApiUrl() + '/user';
+
+        const headerParams = {
+            'Content-Type':  'application/json',
+        };
+        if (username && password) {
+            headerParams['Authorization'] = 'Basic ' + btoa(username + ':' + password);
+        }
+
         const httpOptions = {
-            headers: new HttpHeaders({
-              'Content-Type':  'application/json',
-              'Authorization': 'Basic ' + btoa(username + ':' + password)
-            })
+            headers: new HttpHeaders(headerParams)
           };
         return this.http.get(url, httpOptions)
             .map(response => User.fromJson(response, username, password))
@@ -159,15 +123,20 @@ export class KrameriusApiService {
 
 
     getNewest() {
-        const url = this.getApiUrl() + '/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)+AND+dostupnost:public&sort=created_date desc&rows=24&start=0';
+        const filter = this.settings.newestAll ? '*:*' : 'dostupnost:public';
+        const url = `${this.getApiUrl()}/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime${this.settings.dnntFilter ? ',dnnt' : ''}&q=${filter}&fq=${this.settings.topLevelFilter}&sort=created_date desc&rows=24&start=0`;
         return this.doGet(url)
             .map(response => this.solrService.documentItems(response))
             .catch(this.handleError);
     }
 
     getFulltextUuidList(uuid, query) {
-        const text = query.toLowerCase().trim()
-        .replace(/"/g, '\\"').replace(/~/g, '\\~')
+        let text = query.toLowerCase().trim();
+        const inQuotes = text.startsWith('"') && text.endsWith('"');
+        if (!inQuotes) {
+            text = text.replace(/"/g, '\\"');
+        }
+        text = text.replace(/~/g, '\\~')
         .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
         const url = this.getApiUrl() + '/search/?fl=PID&q=parent_pid:"'
             + uuid + '"'
@@ -194,10 +163,21 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
+    getKrameriusInfo(language: string): Observable<KrameriusInfo> {
+        const url = this.getApiUrl() + '/info?language=' + language;
+        return this.doGet(url)
+            .map(response => KrameriusInfo.fromJson(response))
+            .catch(this.handleError);
+    }
+
 
     private getPeriodicalItems(pidPath: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean) {
         const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
-        let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details&q=pid_path:'
+        let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details'
+        if (this.settings.dnntFilter) {
+            url += ',dnnt';
+        }
+        url += '&q=pid_path:'
                 + pidPath.toLowerCase() + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
         if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
             url += ' AND dostupnost:' + query.accessibility;
@@ -262,52 +242,62 @@ export class KrameriusApiService {
     }
 
 
-    getSearchAutocompleteUrl(term: string, onlyPublic: boolean = false): string {
-        const searchField = this.appSettings.lemmatization ? 'title_lemmatized_ascii' : 'dc.title';
+    getSearchAutocompleteUrl(term: string, fq: string = null): string {
+        const searchField = this.settings.lemmatization ? 'title_lemmatized_ascii' : 'dc.title';
         const query = term.toLowerCase().trim()
                         .replace(/"/g, '\\"').replace(/~/g, '\\~')
                         .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!')
                         .split(' ').join(' AND ' + searchField + ':');
-        let result = this.getApiUrl() + '/search/?fl=PID,dc.title&q='
-        + '(fedora.model:monograph^5 OR fedora.model:periodical^4 OR fedora.model:map '
-        + 'OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic OR fedora.model:soundrecording OR fedora.model:article)';
-        if (onlyPublic) {
-            result += ' AND dostupnost:public';
-        } else {
-            result += ' AND (dostupnost:public^5 OR dostupnost:private)';
-
-        }
-        if (this.appSettings.lemmatization) {
-            result += ' AND ((' + searchField + ':'  + query;
+        let result = this.getApiUrl() + '/search?defType=edismax&fl=PID,dc.title,score&q='
+        if (this.settings.lemmatization) {
+            result += '((' + searchField + ':'  + query;
             if (!term.endsWith(' ') && !term.endsWith(':')) {
                 result += ') OR (' + searchField + ':'  + query + '*))';
             } else {
                 result += '))';
             }
         } else {
-            result += ' AND ' + searchField + ':'  + query;
+            result += '' + searchField + ':'  + query;
             if (!term.endsWith(' ') && !term.endsWith(':')) {
                 result += '*';
             }
         }
-        result += '&rows=30';
+        result += ' AND (' + this.settings.topLevelFilter + ')';
+        if (fq) {
+            result += '&fq=' + fq;
+        }
+        result += '&bq=fedora.model:monograph^5&bq=fedora.model:periodical^5&bq=dostupnost:public^5';
+        result += '&rows=50';
         return result;
     }
 
-    getSearchAutocomplete(term: string, onlyPublic: boolean = false): Observable<any[]> {
-        const url = this.getSearchAutocompleteUrl(term, onlyPublic);
+    getDocumentSearchAutocompleteUrl(term: string, uuid: string): string {
+        const query = term.toLowerCase().trim() + '*';
+        const result = this.getApiUrl() + `/search/?fl=PID&hl=true&hl.fl=text_ocr&hl.fragsize=1&hl.simple.post=<<&hl.simple.pre=>>&hl.snippets=10&q=parent_pid:"${uuid}"+AND+text_ocr:${query}&rows=20`;
+        return result;
+    }
+
+    getSearchAutocomplete(term: string, fq: string = null): Observable<any[]> {
+        const url = this.getSearchAutocompleteUrl(term, fq);
         return this.doGet(url)
             .map(res => <any> res['response']['docs'])
           .catch(this.handleError);
     }
 
+    getDocumentSearchAutocomplete(term: string, uuid: string): Observable<any[]> {
+        const url = this.getDocumentSearchAutocompleteUrl(term, uuid);
+        return this.doGet(url)
+            .map(res => <any> res)
+          .catch(this.handleError);
+    }
+
 
     getThumbUrl(uuid: string) {
-        return this.getItemUrl(uuid) + '/thumb';
+        return this.getbaseUrl() + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
     }
 
     getThumbUrlForKramerius(uuid: string, url: string) {
-        return this.getItemUrlForKramerius(uuid, url) + '/thumb';
+        return url + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
     }
 
     getFullJpegUrl(uuid: string): string {
@@ -343,8 +333,8 @@ export class KrameriusApiService {
 
     downloadPdf(uuids: string[], language: string = 'cs') {
         const url = this.getApiUrl() + '/pdf/selection'
-              + '?pids=' + uuids.join(',')
-              + '&language=' + language;
+                + '?pids=' + uuids.join(',')
+                + '&language=' + language;
         return this.doGetBlob(url);
     }
 
@@ -354,11 +344,11 @@ export class KrameriusApiService {
             .catch(this.handleError);
     }
 
-    // getDc(uuid: string) {
-    //     const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
-    //     return this.doGet(url)
-    //       .catch(this.handleError);
-    // }
+    getDc(uuid: string) {
+        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
+        return this.doGetText(url)
+          .catch(this.handleError);
+    }
 
     getAlto(uuid: string) {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO);
@@ -372,11 +362,31 @@ export class KrameriusApiService {
           .catch(this.handleError);
     }
 
+    getFoxml(uuid: string): Observable<string> {
+        const url = this.getItemUrl(uuid) + '/foxml';
+        return this.doGetText(url)
+          .catch(this.handleError);
+    }
+
     getChildren(uuid: string): Observable<any[]> {
         const url = this.getItemUrl(uuid) + '/children';
         return this.doGet(url)
             .map(res => <any[]> res)
           .catch(this.handleError);
+    }
+
+    getIiifPresentation(uuid: string): Observable<any> {
+        const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
+        return this.doGet(url)
+          .catch(this.handleError);
+    }
+
+    getZoomifyBaseUrl(uuid: string): string {
+        return this.getbaseUrl() + '/search/zoomify/' + uuid;
+    }
+
+    getIiifBaseUrl(uuid: string): string {
+        return this.getbaseUrl() + '/search/iiif/' + uuid;
     }
 
     getSiblings(uuid: string) {
@@ -392,53 +402,10 @@ export class KrameriusApiService {
         .catch(this.handleError);
     }
 
-    getPageItem(uuid: string) {
+    getRawItem(uuid: string) {
         const url = this.getItemUrl(uuid);
         return this.doGet(url)
         .catch(this.handleError);
     }
-
-    // getZoomifyRootUrl(uuid: string): string {
-    //     return `${this.getbaseUrl()}/search/zoomify/${uuid}/`;
-    // }
-
-    // getZoomifyProperties(uuid: string) {
-    //     const url = `${this.getZoomifyRootUrl(uuid)}ImageProperties.xml`;
-    //     return this.doGetText(url)
-    //         .catch(this.handleError);
-    // }
-
-    getZoomifyProperties(url: string) {
-        return this.doGetText(`${url}/ImageProperties.xml`)
-            .catch(this.handleError);
-    }
-
-
-
-    getImageSelection = function(iiif: string, x1: number, y1: number, x2: number, y2: number) {
-        if (x1 < 0) {
-            x1 = 0;
-        }
-        if (x2 < 0) {
-            if (x1 === 0) {
-                return;
-            }
-            x2 = 0;
-        }
-        if (y1 > 0) {
-            y1 = 0;
-        }
-        if (y2 > 0) {
-            if (y1 === 0) {
-                return;
-            }
-            y2 = 0;
-        }
-        const a = Math.max(Math.round(x1), 0);
-        const b = Math.round(Math.abs(y2));
-        const c = Math.max(Math.round(x2 - x1), 0);
-        const d = Math.max(Math.round(Math.abs(y1) - Math.abs(y2)), 0);
-        return iiif + '/' + a + ',' + b + ',' + c + ',' + d + '/full/0/default.jpg';
-    };
 
 }

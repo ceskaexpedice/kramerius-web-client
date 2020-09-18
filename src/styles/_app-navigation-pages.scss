@@ -10,11 +10,11 @@
   &.app-hidden {
     display: none;
   }
-  
+
   // mq
   @media #{$small-and-down} {
     height: calc(#{$app-mobile-panel-height} - 44px - 43px - 20px - 48px);
-  
+
     &.app-is-query {
       height: calc(#{$app-mobile-panel-height} - 44px - 43px - 20px - 53px - 48px);
     }

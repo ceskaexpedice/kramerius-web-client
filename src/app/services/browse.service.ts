@@ -38,7 +38,7 @@ export class BrowseService {
         this.results = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = BrowseQuery.fromParams(params, this.appSettings.filters);
+        this.query = BrowseQuery.fromParams(params, this.appSettings);
         this.search();
     }
 

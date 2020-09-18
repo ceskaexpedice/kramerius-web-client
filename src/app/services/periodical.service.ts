@@ -64,11 +64,10 @@ export class PeriodicalService {
       this.krameriusApiService.getMods(this.document.root_uuid).subscribe(response => {
         this.metadata = this.modsParserService.parse(response, this.document.root_uuid);
         this.pageTitle.setTitle(null, this.metadata.getShortTitle());
-        this.metadata.model = item.doctype;
-        this.metadata.donator = item.donator;
+        this.metadata.assignDocument(this.document);
         if (this.isMonograph()) {
           this.metadata.doctype = 'monographbundle';
-          this.metadata.addMods('monographbundle', response);
+          this.metadata.addMods('monographbundle', query.uuid, response);
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (query.fulltext) {
             this.initFulltext();
@@ -80,7 +79,7 @@ export class PeriodicalService {
           }
         } else if (this.isPeriodical()) {
           this.metadata.doctype = 'periodical';
-          this.metadata.addMods('periodical', response);
+          this.metadata.addMods('periodical', query.uuid, response);
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (query.fulltext) {
             this.initFulltext();
@@ -92,7 +91,7 @@ export class PeriodicalService {
           }
         } else if (this.isPeriodicalVolume()) {
           this.metadata.doctype = 'periodical';
-          this.metadata.addMods('periodical', response);
+          this.metadata.addMods('periodical', this.document.root_uuid, response);
           this.metadata.assignVolume(this.document);
           this.pageTitle.setTitle(null, this.metadata.getShortTitlwWithVolume());
           this.krameriusApiService.getPeriodicalVolumes(this.document.root_uuid, query).subscribe(volumes => {
@@ -101,7 +100,7 @@ export class PeriodicalService {
           this.krameriusApiService.getMods(query.uuid).subscribe(mods => {
             if (this.metadata) {
               const metadata = this.modsParserService.parse(mods, query.uuid, 'volume');
-              this.metadata.addMods('periodicalvolume', mods);
+              this.metadata.addMods('periodicalvolume', query.uuid, mods);
               this.metadata.volumeMetadata = metadata;
             }
           });

@@ -2,7 +2,15 @@
   <mz-card  [hoverable]="true">
     <mz-card-content>
       {{item.title}}
-      <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+      <i *ngIf="!item.public && !appSettings.hiddenLocks"
+        mz-icon-mdi
+        [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'" 
+        class="app-lock"
+        [class.app-dnnt]="item.dnnt"
+        mz-tooltip
+        [tooltip]="item.dnnt ? 'search.dnnt_document' : 'search.inaccessible_document' | translate"
+        [position]="'top'">
+      </i>
     </mz-card-content>
   </mz-card>
 </a>

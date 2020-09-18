@@ -3,6 +3,7 @@ import { PeriodicalItem } from './../../../../model/periodicalItem.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { AppSettings } from '../../../../services/app-settings';
 import { AnalyticsService } from '../../../../services/analytics.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-periodical-years-item',
@@ -13,6 +14,7 @@ export class PeriodicalYearsItemComponent implements OnInit {
 
   constructor(public periodicalService: PeriodicalService,
               public analytics: AnalyticsService,
+              public auth: AuthService,
               public appSettings: AppSettings) { }
 
   ngOnInit() {

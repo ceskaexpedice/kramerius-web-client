@@ -2,16 +2,31 @@
   <span class="app-brand-img app-brand-top">
     <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
   </span>
-  <span class="app-brand-text app-brand-top app-single-kramerius">{{ appSettings.title }}</span>
+  <span [class.app-brand-text-hide]="appSettings.hideHomeTitle" class="app-brand-text app-brand-top app-single-kramerius">{{ appSettings.title }}</span>
 </div>
 
-<div class="brand-logo" [class.app-logo-big]="appSettings.bigHomeLogo" *ngIf="appSettings.multiKramerius">
+
+
+<div class="brand-logo" [class.app-logo-big]="appSettings.bigHomeLogo" *ngIf="appSettings.multiKramerius && appSettings.landingPage">
+  <a mz-tooltip [tooltip]="'home.select_library' | translate" [position]="'top'" [routerLink]="['/']" (click)="analytics.sendEvent('home', 'landing', appSettings.code);">
+    <span>
+      <span class="app-brand-img app-brand-top">
+        <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
+      </span>
+      <span *ngIf="!appSettings.hideHomeTitle" class="app-brand-text app-brand-top">{{ appSettings.title }}</span>
+      <i mz-icon-mdi [icon]="'chevron-down'" class="app-clean-mg app-brand-handle"></i>
+    </span>
+  </a>
+</div>
+
+
+<div class="brand-logo" [class.app-logo-big]="appSettings.bigHomeLogo" *ngIf="appSettings.multiKramerius && !appSettings.landingPage">
   <div id="app-logo-dropdown-selector" mz-tooltip [tooltip]="'home.select_library' | translate" [position]="'top'">
     <span>
       <span class="app-brand-img app-brand-top">
         <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
       </span>
-      <span class="app-brand-text app-brand-top">{{ appSettings.title }}</span>
+      <span *ngIf="!appSettings.hideHomeTitle" class="app-brand-text app-brand-top">{{ appSettings.title }}</span>
       <i mz-icon-mdi [icon]="'chevron-down'" class="app-clean-mg app-brand-handle"></i>
     </span>
   </div>

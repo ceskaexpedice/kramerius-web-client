@@ -1,3 +1,4 @@
+<ng-container *ngIf="!bookService.isPageInaccessible()">
 <div class="app-view-controls">
   <i class="app-mdi-page-left" (click)="bookService.goToPrevious();analytics.sendEvent('viewer', 'controls', 'previous page');" [class.app-inactive]="!bookService.hasPrevious()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_left' | translate" [position]="'top'"></i>
@@ -13,14 +14,15 @@
     mz-tooltip [tooltip]="'view_controls.tooltip_exit_fullscreen' | translate" [position]="'top'"></i>
   <i class="app-mdi-rotate-right hide-on-small-only" (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate');"
     mz-tooltip [tooltip]="'view_controls.tooltip_rotate_right' | translate" [position]="'top'"></i>
-  <i class="app-mdi-double-page hide-on-small-only" *ngIf="bookService.doublePageSupported() && bookService.doublePageEnabled" (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page off');" style="padding-top:5px;"
+  <i class="app-mdi-double-page hide-on-small-only" *ngIf="showDoublePageOff()" (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page off');" style="padding-top:5px;"
     mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_off' | translate" [position]="'top'"></i>
-  <i class="app-mdi-double-page hide-on-small-only" *ngIf="bookService.doublePageSupported() && !bookService.doublePageEnabled" (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page on');" style="padding-top:5px;"
+  <i class="app-mdi-double-page hide-on-small-only" *ngIf="showDoublePageOn()" (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page on');" style="padding-top:5px;"
     mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_on' | translate" [position]="'top'"></i>
-  <i class="app-mdi-select-text hide-on-small-only" (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text');"
+  <i class="app-mdi-select-text hide-on-small-only" *ngIf="showSelectText()" (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text');"
     mz-tooltip [tooltip]="'view_controls.tooltip_select_text' | translate" [position]="'top'"></i>
-  <i class="app-mdi-crop-image hide-on-small-only" (click)="controlsService.cropImage();analytics.sendEvent('viewer', 'controls', 'crop image');" *ngIf="bookService.iiifEnabled"
+  <i class="app-mdi-crop-image hide-on-small-only" *ngIf="showImageCrop()" (click)="onCropImageClicked()" [class.app-inactive]="!bookService.cropEnabled()"
     mz-tooltip [tooltip]="'view_controls.tooltip_crop_image' | translate" [position]="'top'"></i>
   <i disabled class="app-mdi-page-right" (click)="bookService.goToNext();analytics.sendEvent('viewer', 'controls', 'next page');" [class.app-inactive]="!bookService.hasNext()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_right' | translate" [position]="'top'"></i>
 </div>
+</ng-container>

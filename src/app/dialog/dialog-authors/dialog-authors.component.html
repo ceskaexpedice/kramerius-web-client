@@ -12,7 +12,9 @@
           <div class="app-cell app-role">{{ 'authors-dialog.role' | translate }}</div>
         </div>
         <div class="app-row" *ngFor="let author of authors; let even=even;" [ngClass]="{ even: even }">
-            <div class="app-cell app-name">{{ author.name }}</div>
+            <div class="app-cell app-name">
+                <a mz-modal-close [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author-from-dialog');">{{ author.name }}</a>
+            </div>
             <div class="app-cell app-date">{{ author.date }}</div>
             <div class="app-cell app-role">
               <span *ngFor="let role of author.roles; let last=last">

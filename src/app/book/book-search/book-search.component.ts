@@ -1,9 +1,10 @@
 import { Subscription } from 'rxjs/Subscription';
 import { BookService } from './../../services/book.service';
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { AnalyticsService } from '../../services/analytics.service';
-
+import { CompleterCmp } from 'ng2-completer';
+import { DocumentSearchService } from '../../services/document-search.service';
 
 @Component({
   selector: 'app-book-search',
@@ -14,7 +15,12 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   // allPages: boolean;
   pageSubscription: Subscription;
 
-  constructor(public bookService: BookService, public analytics: AnalyticsService) {
+  @ViewChild('completer') completer: CompleterCmp;
+
+
+  constructor(public bookService: BookService,
+              public service: DocumentSearchService,
+              public analytics: AnalyticsService) {
   }
 
   ngOnInit() {
@@ -23,8 +29,17 @@ export class BookSearchComponent implements OnInit, OnDestroy {
         this.fulltextQuery = this.bookService.getFulltextQuery();
       }
     );
+    this.completer.fillHighlighted = false;
   }
 
+  onSelected(event) {
+    if (event) {
+      const title = event['title'];
+      this.fulltextQuery = title;
+      this.analytics.sendEvent('search phrase', 'viewer-by-return', this.fulltextQuery);
+      this.changeQuery();
+    }
+  }
 
   onKeyUp(event) {
     if (event.keyCode === 13) {

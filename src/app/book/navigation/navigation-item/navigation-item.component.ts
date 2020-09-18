@@ -1,5 +1,6 @@
 import { Page } from './../../../model/page.model';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AppSettings } from './../../../services/app-settings';
 
 @Component({
   selector: 'app-navigation-item',
@@ -10,7 +11,7 @@ export class NavigationItemComponent implements OnInit {
   @Input() container;
   @Output() pageSelected = new EventEmitter();
 
-  constructor() {
+  constructor(public settings: AppSettings) {
   }
 
   ngOnInit() {

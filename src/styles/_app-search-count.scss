@@ -18,6 +18,9 @@ app-periodical-count {
     
     .collection-item {
       padding: 15px 20px;
+      .app-divider {
+        padding: 0 3px;
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Metadata, TitleInfo, Author, Publisher, Location, PhysicalDescription } from './../model/metadata.model';
+import { Metadata, TitleInfo, Author, Publisher, Location, PhysicalDescription, CartographicData } from './../model/metadata.model';
 import { Injectable } from '@angular/core';
 import { parseString, processors, Builder } from 'xml2js';
 
@@ -130,6 +130,7 @@ export class ModsParserService {
         if (!array) {
             return;
         }
+        let anyPrimary = false;
         for (const item of array) {
             const author = new Author();
             let given;
@@ -137,6 +138,13 @@ export class ModsParserService {
             let termsOfAddress;
             if (!item.namePart) {
                 continue;
+            }
+            if (item['$'] && item['$']['type']) {
+                author.type = item['$']['type'];
+            }
+            if (item['$'] && item['$']['usage'] === 'primary') {
+                anyPrimary = true;
+                author.primary = true;
             }
             for (const partName of item.namePart) {
                 if (partName['$'] && partName['$']['type']) {
@@ -187,6 +195,11 @@ export class ModsParserService {
             }
             metadata.authors.push(author);
         }
+        if (!anyPrimary) {
+            for (const author of metadata.authors) {
+                author.primary = true;
+            }
+        }
     }
 
 
@@ -196,7 +209,15 @@ export class ModsParserService {
         }
         for (const item of array) {
             if (item['$'] && item['$']['type']) {
-                metadata.identifiers[item['$']['type']] = item['_'];
+              const type = item['$']['type'];
+              let value = String(item['_']);
+              if (!type || !value) {
+                  continue;
+              }
+              if (type == 'doi' && !value.startsWith('http')) {
+                  value = 'http://dx.doi.org/' + value;
+              }
+              metadata.identifiers[type] = value;
             }
         }
     }
@@ -314,11 +335,17 @@ export class ModsParserService {
             return;
         }
         for (const item of array) {
-            const desc = new PhysicalDescription();
-            desc.extent = this.getText(item.extent);
-            desc.note = this.getText(item.note);
+            const desc = new PhysicalDescription(this.getText(item.note), this.getText(item.extent));
             if (!desc.empty()) {
                 metadata.physicalDescriptions.push(desc);
+            }
+            if (item.note && Array.isArray(item.note) && item.note.length > 1) {
+                for (let i = 1; i < item.note.length; i++) {
+                    const note = this.getText(item.note[i]);
+                    if (note) {
+                        metadata.physicalDescriptions.push(new PhysicalDescription(note));
+                    }
+                }
             }
         }
     }
@@ -330,18 +357,42 @@ export class ModsParserService {
         }
         for (const item of array) {
             if (item.topic) {
-                const text = this.getText(item.topic);
-                if (text && metadata.keywords.indexOf(text) < 0) {
-                    metadata.keywords.push(text);
+                for (const topic of item.topic) {
+                    const text = this.getText(topic);
+                    if (text && metadata.keywords.indexOf(text) < 0) {
+                        metadata.keywords.push(text);
+                    }
                 }
             }
             if (item.geographic) {
-                const text = this.getText(item.geographic);
-                if (text && metadata.geonames.indexOf(text) < 0) {
-                    metadata.geonames.push(text);
+                for (const geographic of item.geographic) {
+                    const text = this.getText(geographic);
+                    if (text && metadata.geonames.indexOf(text) < 0) {
+                        metadata.geonames.push(text);
+                    }
+                }
+            }
+            if (item.cartographics) {
+                const cartographics = item.cartographics;
+                const cd = new CartographicData();
+                if (Array.isArray(cartographics)) {
+                    for (const c of cartographics) {
+                        const scale = this.getText(c.scale);
+                        const coordinates = this.getText(c.coordinates);
+                        if (scale) {
+                            cd.scale = scale;
+                        }
+                        if (coordinates) {
+                            cd.coordinates = coordinates;
+                        }
+                    }
+                }
+                if (!cd.empty()) {
+                    metadata.cartographicData.push(cd);
                 }
             }
         }
+
     }
 
     private processLanguages(array, metadata: Metadata) {

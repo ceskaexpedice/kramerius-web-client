@@ -8,6 +8,10 @@ import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
+import { MzModalService } from 'ngx-materialize';
+import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/dialog-advanced-search.component';
+import { Translator } from 'angular-translator';
+import { AuthService } from './auth.service';
 
 
 @Injectable()
@@ -31,26 +35,94 @@ export class SearchService {
 
     activeMobilePanel: String;
 
+    contentType = 'grid'; // 'grid' | 'map'
+
     constructor(
         private router: Router,
+        public auth: AuthService,
+        private translator: Translator,
         private collectionService: CollectionService,
         private solrService: SolrService,
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
         private krameriusApiService: KrameriusApiService,
-        private appSettings: AppSettings) {
+        private appSettings: AppSettings,
+        private modalService: MzModalService) {
+
     }
 
     public init(params) {
         this.results = [];
         this.keywords = [];
         this.doctypes = [];
-        this.collections = [];
+        this.collections =[];
         this.accessibility = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = SearchQuery.fromParams(params, this.appSettings.filters);
+        this.query = SearchQuery.fromParams(params, this.appSettings);
+        if (this.query.isBoundingBoxSet()) {
+            this.contentType = 'map';
+        } else {
+            this.contentType = 'grid';
+        }
         this.search();
+    }
+
+
+
+
+    public buildPlaceholderText(): string {
+        const q = this.query;
+        if (!q.anyFilter()) {
+            return String(this.translator.instant('searchbar.main.all'));
+        }
+        if (q.onlyPublicFilterChecked()) {
+            return String(this.translator.instant('searchbar.main.public'));
+        }
+        let filters = [];
+          if (q.accessibility !== 'all' && q.accessibility != undefined) {                    //q.accessibility != undefined <= vypisovalo "Hledat s filtry search.accessibility.undefined"
+            filters.push(this.translator.instant('search.accessibility.' + q.accessibility));
+        }
+        for (const item of q.doctypes) {
+            filters.push(this.translator.instant('model.' + item));
+        }
+        filters = filters.concat(q.authors);
+        if (q.isYearRangeSet()) {
+            filters.push(q.from + ' - ' + q.to);
+        }
+        filters = filters.concat(q.keywords);
+        filters = filters.concat(q.geonames);
+        filters = filters.concat(q.collections);
+        for (const item of q.languages) {
+            filters.push(this.translator.instant('language.' + item));
+        }
+        if (q.isCustomFieldSet()) {
+            filters.push(q.getCustomValue());
+        }
+        for (const item of q.locations) {
+            filters.push(this.translator.instant('sigla.' + item.toUpperCase()));
+        }
+        return this.translator.instant('searchbar.main.filters') + ' ' + filters.join(', ');
+    }
+
+
+    selectContentType(contentType: string) {
+        this.contentType = contentType;
+        if (this.contentType === 'map') {
+            this.query.setBoundingBox(50.7278, 48.707, 12.7476, 18.9549);
+        } else {
+            this.query.clearBoundingBox();
+        }
+        this.reload(false);
+    }
+
+
+    public showAdvancedSearchDialog() {
+        const options = {
+            fieldType: this.query.isCustomFieldSet() ? this.query.getCustomField() : 'all',
+            fieldValue: this.query.isCustomFieldSet() ? this.query.getCustomValue() : '',
+        };
+        this.modalService.open(DialogAdvancedSearchComponent,  options );
     }
 
     public reload(preservePage: boolean) {
@@ -58,6 +130,14 @@ export class SearchService {
             this.query.setPage(1);
         }
         this.router.navigate(['search'],  { queryParams: this.query.toUrlParams() });
+    }
+
+    changeLibrary(kramerius) {
+        this.analytics.sendEvent('home', 'change-library', kramerius.title);
+        const qp = this.query.getChangeLibraryUrlParams();
+        this.appSettings.assignKramerius(kramerius);
+        qp['l'] = kramerius.code;
+        this.router.navigate(['search'],  { queryParams: qp });
     }
 
     public toggleFilter(values: string[], value: string) {
@@ -85,6 +165,11 @@ export class SearchService {
             return this.appSettings.k3 + 'Welcome.do';
 
         }
+    }
+
+    public setBoundingBox(north: number, south: number, west: number, east: number) {
+        this.query.setBoundingBox(north, south, west, east);
+        this.reload(false);
     }
 
     public changeOrdering(ordering: string) {
@@ -148,6 +233,11 @@ export class SearchService {
         this.reload(false);
     }
 
+    public removeCustomField() {
+        this.query.removeCustomField();
+        this.reload(false);
+    }
+
     public getNumberOfResults(): number {
         return this.numberOfResults;
     }
@@ -180,7 +270,19 @@ export class SearchService {
     private handleFacetResponse(response, facet) {
         switch (facet) {
             case 'accessibility': {
-                this.accessibility = this.solrService.facetAccessibilityList(response);
+              this.accessibility = this.solrService.facetAccessibilityList(response);
+              if (this.appSettings.dnntFilter && !this.appSettings.dnntUrl || this.appSettings.dnntFilter && this.auth.isLoggedIn()) {  
+                  this.krameriusApiService.getSearchResults(this.query.buildQuery('accessible')).subscribe(response => {
+                      let count = 0;
+                      if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
+                          count = this.solrService.numberOfSearchResults(response);
+                      } else {
+                          count = this.solrService.numberOfResults(response);
+                      }
+
+                      this.accessibility.splice( this.accessibility.length - 1, 0,  { 'value' : 'accessible', 'count': count } );
+                  });
+              }
                 break;
             }
             case 'doctypes': {
@@ -221,7 +323,6 @@ export class SearchService {
                 }
                 break;
             }
-
         }
     }
 
@@ -253,7 +354,7 @@ export class SearchService {
     }
 
     private handleResponse(response) {
-        if (this.query.getRawQ()) {
+        if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
             this.numberOfResults = this.solrService.numberOfSearchResults(response);
             this.results = this.solrService.searchResultItems(response, this.query);
         } else {

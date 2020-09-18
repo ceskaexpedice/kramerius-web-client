@@ -3,18 +3,19 @@
 app-viewer {
   flex: 1;
   height: 100%;
-  
+
   .app-viewer-wrapper {
     width: 100%;
     height: 100%;
-    background-color: $app-grey-l-4;    
+    overflow: hidden;
+    background-color: $app-grey-l-4;
     position: relative;
 
     .app-dnnt {
       position: absolute;
       top: 0;
       height: 32px;
-      background: #435cadd6;
+      background: rgba(5,139,168, 0.6);
       width: 100%;
       z-index: 12;
       .app-info {
@@ -55,13 +56,13 @@ app-viewer {
       background: rgba(255, 255, 255, 0.9);
       color: $app-grey;
       cursor: pointer;
-      
+
       &.app-left-handle {
         left: 0;
         @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
         border-top-right-radius: $app-border-radius-sidebar;
         border-bottom-right-radius: $app-border-radius-sidebar;
-      
+
         @media #{$medium-and-down} {
           .app-mdi-tablet {
             &:before {
@@ -75,13 +76,13 @@ app-viewer {
           }
         }
       }
-      
+
       &.app-right-handle {
         right: 0;
         @include set-border(left-top-bottom, 1, solid, #{$app-grey-l-2});
         border-top-left-radius: $app-border-radius-sidebar;
         border-bottom-left-radius: $app-border-radius-sidebar;
-    
+
         @media #{$medium-and-down} {
           .app-mdi-tablet {
             &:before {
@@ -95,9 +96,9 @@ app-viewer {
           }
         }
       }
-  
+
       &:hover {
-        color: color("shades", "black");  
+        color: color("shades", "black");
         background: $app-grey-l-2;
       }
     }

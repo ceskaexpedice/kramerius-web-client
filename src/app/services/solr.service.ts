@@ -9,7 +9,13 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SolrService {
 
-    constructor(private appSettings: AppSettings) {
+    public static allDoctypes = ['periodical', 'monographbundle', 'monograph', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
+    'archive', 'soundrecording', 'manuscript', 'monographunit',
+    'soundunit', 'track', 'periodicalvolume', 'periodicalitem',
+    'article', 'internalpart', 'supplement', 'page'];
+
+
+    constructor(private settings: AppSettings) {
     }
 
 
@@ -18,6 +24,7 @@ export class SolrService {
         item.uuid = doc['PID'];
         item.public = doc['dostupnost'] === 'public';
         item.doctype = doc['fedora.model'];
+        item.dnnt = !!doc['dnnt'];
         const details = doc['details'];
         if (item.doctype === 'periodicalvolume') {
             if (details && details[0]) {
@@ -60,9 +67,7 @@ export class SolrService {
           } else {
                 item.subtitle = '';
           }
-    }
-
-
+        }
         return item;
     }
 
@@ -171,7 +176,10 @@ export class SolrService {
             item.doctype = doc['fedora.model'];
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
-            item.resolveUrl(this.appSettings.getPathPrefix());
+            item.dnnt = !!doc['dnnt'];
+            item.geonames = doc['geographic_names'];
+            this.parseLocation(doc['location'], item);
+            item.resolveUrl(this.settings.getPathPrefix());
             items.push(item);
         }
         return items;
@@ -188,20 +196,24 @@ export class SolrService {
             const doclist = group['doclist'];
             const doc = doclist['docs'][0];
             const item = new DocumentItem();
-            item.title = doc['root_title'];
-            if (item.title === 'null') {
-                item.title = '-';
-            }
             item.uuid = doc['root_pid'];
             item.public = doc['dostupnost'] === 'public';
             const dp = doc['model_path'][0];
             const params = {};
+            item.title = doc['dc.title'];
             if (dp.indexOf('/') > 0) {
+                item.title = doc['root_title'];
                 item.doctype = dp.substring(0, dp.indexOf('/'));
                 params['fulltext'] = query.getRawQ();
+                if (query.isCustomFieldSet()) {
+                    params['fulltext'] = query.getCustomValue();
+                }
                 item.hits = doclist['numFound'];
             } else {
                 item.doctype = dp;
+            }
+            if (item.title === 'null') {
+                item.title = '-';
             }
             if (item.doctype === 'periodical') {
                 if (query.accessibility !== 'all') {
@@ -214,12 +226,27 @@ export class SolrService {
             }
             item.date = doc['datum_str'];
             item.authors = doc['dc.creator'];
-            item.resolveUrl(this.appSettings.getPathPrefix());
+            item.dnnt = !!doc['dnnt'];
+            item.geonames = doc['geographic_names'];
+            this.parseLocation(doc['location'], item);
+            item.resolveUrl(this.settings.getPathPrefix());
             item.params = params;
             items.push(item);
         }
         return items;
     }
+
+
+    private parseLocation(location: string, document: DocumentItem) {
+        if (!location || !location[0] || !location[1] || location[0].indexOf(',') < 0 || location[1].indexOf(',') < 0) {
+            return;
+        }
+        document.south = +location[0].split(',')[0];
+        document.north = +location[1].split(',')[0];
+        document.west = +location[0].split(',')[1];
+        document.east = +location[1].split(',')[1];
+    }
+
 
     facetList(solr, field, usedFiltes: any[], skipSelected: boolean) {
         const list = [];
@@ -291,6 +318,18 @@ export class SolrService {
         }
         list.push({'value' : 'public', 'count': publicDocs});
         list.push({'value' : 'private', 'count': privateDocs});
+        if (this.settings.dnntFilter) {
+            const dnnt = solr['facet_counts']['facet_fields']['dnnt'];
+            let dnntCount = 0;
+            for (let i = 0; i < dnnt.length; i += 2) {
+                if (dnnt[i] === 'true') {
+                    dnntCount = dnnt[i + 1];
+                }
+            }
+            list.push({'value' : 'dnnt', 'count': dnntCount});
+            //if (!this.settings.dnntUrl) { list.push({'value' : 'accessible', 'count': dnntCount + publicDocs}); }
+
+        }
         list.push({'value' : 'all', 'count': allDocs});
         return list;
     }
@@ -307,7 +346,31 @@ export class SolrService {
             }
             list.push(item);
         }
+        if (field === 'fedora.model') {
+           this.mergeBrowseMonographsAndMonographUnits(list);
+        }
         return list;
+    }
+
+
+    private mergeBrowseMonographsAndMonographUnits(list: any[]) {
+        let monograph;
+        let monographunit;
+        for (const item of list) {
+            if (item.value === 'monograph') {
+                monograph = item;
+            } else if (item.value === 'monographunit') {
+                monographunit = item;
+            }
+        }
+        if (monographunit) {
+            if (!monograph) {
+                list.push( {'value' : 'monograph', 'count': monographunit.count, name: 'monograph' } );
+            } else {
+                monograph.count += monographunit.count;
+                list.splice(list.indexOf(monographunit), 1);
+            }
+        }
     }
 
 

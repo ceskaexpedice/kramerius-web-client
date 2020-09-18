@@ -1,10 +1,9 @@
-import { ViewerControlsService } from './../services/viewre-controls.service.';
+import { ViewerControlsService } from '../services/viewer-controls.service';
 import { BookService } from './../services/book.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { AnalyticsService } from '../services/analytics.service';
-
 
 @Component({
   selector: 'app-book',

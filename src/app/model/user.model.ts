@@ -1,4 +1,3 @@
-
 export class User {
 
   // public static DUMMY_USER = new User(-1);
@@ -7,6 +6,8 @@ export class User {
   name: string;
   username: string;
   password: string;
+  code: string;
+
 
   static fromJson(json, username, passwod): User {
     if (json) {
@@ -14,6 +15,7 @@ export class User {
       if (id && id > -1) {
         const user = new User(id);
         user.name = json['firstname'] + ' ' + json['surname'];
+        user.code = json['session'] ? json['session']['session_eppn'] : '';
         user.username = username;
         user.password = passwod;
         return user;

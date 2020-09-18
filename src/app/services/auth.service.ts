@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
 import { HttpRequestCache } from './http-request-cache.service';
+import { AppSettings } from './app-settings';
 
 
 @Injectable()
@@ -12,7 +13,11 @@ export class AuthService {
 
     user: User = null;
 
-    constructor(private krameriusApi: KrameriusApiService, private cache: HttpRequestCache) {
+    constructor(private appSettings: AppSettings, private krameriusApi: KrameriusApiService, private cache: HttpRequestCache) {
+        // console.log('AuthService initialized');
+        if (appSettings.dnnt) {
+            this.login(null, null);
+        }
     }
 
     login(username: string, password: string) {
@@ -39,4 +44,11 @@ export class AuthService {
         return this.user && this.user.isLoggedIn();
     }
 
+
+    getUserId(): string {
+        if (!this.user) {
+            return '';
+        }
+        return this.user.code;
+    }
 }

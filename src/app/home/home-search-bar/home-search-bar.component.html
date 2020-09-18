@@ -3,15 +3,15 @@
     <div class="app-search-bar-wrapper left-align" [class.app-hover]="searchStr">
       <div class="input-field">
         <ng2-completer #completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="searchStr" [matchClass]="'highlight'"
-        [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="'searchbar.library' | translate" [inputName]="'autocomplete-input'">
+        [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="getPlaceholder()" [inputName]="'autocomplete-input'">
         </ng2-completer>
       </div>
       <i mz-icon-mdi [icon]="'magnify'" (click)="onMagnifyIconClick()" class="app-cursor-pointer"></i>
       <i *ngIf="searchStr" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
     </div>
     <mz-checkbox-container [class.app-hide-filter]="!appSettings.availableFilter('accessibility')">
-      <input mz-checkbox [(ngModel)]="accessibilityFilter" [label]="'navbar.checkbox_label' | translate" id="checkbox-id" type="checkbox" (change)="analytics.sendEvent('home', 'accessibility', accessibilityFilter + '');">
-    </mz-checkbox-container>
+      <input mz-checkbox [(ngModel)]="accessibilityFilter" [label]="'navbar.checkbox_label' | translate" id="checkbox-id" type="checkbox" (change)="onAccessibilityFilterChanged()">
+    </mz-checkbox-container> 
   </div>
 </div>
 <div class="row">

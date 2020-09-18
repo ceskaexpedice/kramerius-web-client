@@ -3,6 +3,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MzBaseModal, MzModalComponent } from 'ngx-materialize';
 import { saveAs } from 'file-saver';
 import { Translator } from 'angular-translator';
+import { KrameriusInfoService } from '../../services/kramerius-info.service';
 
 @Component({
   selector: 'app-dialog-pdf',
@@ -13,28 +14,45 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
   @Input() pageCount: number;
   @Input() currentPage: number;
   @Input() doublePage: boolean;
-  @Input() maxPageCount: number;
   @Input() uuids: string[];
   @Input() type: string;
   @Input() name: string;
 
+  maxPageCount: number;
+
   pageFrom: number;
   pageTo: number;
 
-  inProgress = false;
+  inProgress: boolean;
+  showWarningMessage: boolean;
   downloadError: boolean;
 
-  constructor(private krameriusApi: KrameriusApiService, private translator: Translator) {
+
+  constructor(private krameriusApi: KrameriusApiService, private krameriusInfo: KrameriusInfoService, private translator: Translator) {
     super();
   }
 
   ngOnInit(): void {
+    this.inProgress = true;
+    this.showWarningMessage = false;
     this.pageFrom = this.currentPage + 1;
     this.pageTo = this.pageFrom;
     this.downloadError = false;
     if (this.doublePage) {
       this.pageTo += 1;
     }
+    const subscription = this.krameriusInfo.data$.subscribe(
+      info => {
+        this.maxPageCount = info.pdfMaxRange;
+        this.inProgress = false;
+        subscription.unsubscribe();
+      },
+      error => {
+        this.maxPageCount = 30;
+        this.inProgress = false;
+        subscription.unsubscribe();
+      }
+    );
   }
 
   onFromValueChanged() {
@@ -82,17 +100,19 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
   }
 
   generatePdf(uuids: string[]) {
-    const language = this.translator.language === 'cs' ? 'cs' : 'en';
+    this.showWarningMessage = true;
     this.inProgress = true;
     this.downloadError = false;
-    this.krameriusApi.downloadPdf(uuids, language).subscribe(
+    this.krameriusApi.downloadPdf(uuids, this.getLanguage()).subscribe(
       blob => {
         saveAs(blob, this.name + '.pdf');
         this.inProgress = false;
+        this.showWarningMessage = false;
         this.modal.closeModal();
       },
       error => {
         this.downloadError = true;
+        this.showWarningMessage = false;
         this.inProgress = false;
       }
     );
@@ -103,5 +123,10 @@ export class DialogPdfComponent extends MzBaseModal implements OnInit {
     this.modal.closeModal();
   }
 
+
+
+  private getLanguage(): string {
+    return this.translator.language === 'cs' ? 'cs' : 'en';
+  }
 
 }

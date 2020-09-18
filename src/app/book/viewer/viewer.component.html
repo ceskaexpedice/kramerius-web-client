@@ -37,58 +37,62 @@
         <i class="app-mdi-menu-left"></i>
   </span>
 
-  <app-alert *ngIf="!bookService.dnntFlag && bookService.isPageInaccessible()"
-             type="warning"
-             title="alert.warning"
-             message="alert.inaccessible_document"
-             description="alert.inaccessible_document_description">
-  </app-alert>
-
-  <div *ngIf="bookService.isPageInaccessible()" style="width:90%;margin:auto;position:relative;top:140px;z-index:999;">
-          <p>{{ 'inaccessible_document.text1' | translate }}</p>
-          <br><p style="font-weight:bold;">{{ 'inaccessible_document.title1' | translate }}</p>
-          <p>{{ 'inaccessible_document.text2' | translate }}</p>
-          <p>{{ 'inaccessible_document.text3' | translate }}</p>
-
-          <br><p style="font-weight:bold;">{{ 'inaccessible_document.title2' | translate }}</p>
-          <p>{{ 'inaccessible_document.text4' | translate }}<a href="{{ 'inaccessible_document.order_link' | translate }}" target="_blank"><font color="blue">{{ 'inaccessible_document.form' | translate }}</font></a>. {{ 'inaccessible_document.text5' | translate }} <a href="http://dds.nkp.cz:8080/vpk/dds.Mindex"  target="_blank"><font color="blue">eDDO</font></a>{{ 'inaccessible_document.text6' | translate }} <a href="http://www.nkp.cz/sluzby/edodo"  target="_blank"><font color="blue">{{ 'inaccessible_document.web_nk' | translate }}</font></a>.</p>
-
-          <br><p style="font-weight:bold;">{{ 'inaccessible_document.title3' | translate }}</p>
-          <p><a href="{{ 'inaccessible_document.copyright_link' | translate }}" target="_blank"><font color="blue">{{ 'inaccessible_document.copyright_law' | translate }}</font></a> {{ 'inaccessible_document.text7' | translate }} <strong><i>{{ 'inaccessible_document.email' | translate }}</i></strong>. {{ 'inaccessible_document.text8' | translate }}</p>
-</div>
 
 
+  <ng-container *ngIf="bookService.isPageInaccessible()">
+      <ng-container *ngIf="!bookService.dnntFlag">
+            <app-alert *ngIf="this.dnntLink!=''"
+                  type="warning"
+                  label="alert.warning"
+                  message="alert.inaccessible_document_dnnt"
+                  [html]="'<br><div class=\'dnntLink\'><a href=\''+this.dnntLink+'\'>'+ ('dialogs.dnntLink' | translate) +'</a></div><br>'+ ('alert.inaccessible_document_dnnt_description' | translate)">
+            </app-alert>
+            <app-alert *ngIf="!appSettings.customRightMessage && this.dnntLink==''"
+                  type="warning"
+                  label="alert.warning"
+                  message="alert.inaccessible_document"
+                  description="alert.inaccessible_document_description">
+            </app-alert>
+            <app-alert *ngIf="appSettings.customRightMessage && this.dnntLink==''"
+                  type="warning"
+                  label="alert.warning"
+                  message="alert.inaccessible_document"
+                  [html]="(krameriusInfo.data$ | async).rightMsg">
+            </app-alert>
+      </ng-container>
 
-  <app-alert *ngIf="bookService.dnntFlag && bookService.isPageInaccessible()"
-      type="warning"
-      title="alert.warning"
-      message="alert.inaccessible_document_dnnt"
-      description="alert.inaccessible_document_dnnt_description">
-  </app-alert>
+      <app-alert *ngIf="bookService.dnntFlag"
+            type="warning"
+            label="alert.warning"
+            message="alert.inaccessible_document_dnnt"
+            description="alert.inaccessible_document_dnnt_description">
+      </app-alert>
+  </ng-container>
+
 
   <app-alert *ngIf="bookService.isPageFailure()"
               type="danger"
-              title="alert.error"
+              label="alert.error"
               message="alert.failed_to_load_image">
   </app-alert>
 
 
   <app-alert *ngIf="bookService.noFulltextResults()"
              type="warning"
-             title="alert.warning"
+             label="alert.warning"
              message="alert.book_no_results">
   </app-alert>
 
-  <mz-spinner *ngIf="bookService.isPageLoading()"
+  <mz-spinner *ngIf="bookService.isPageLoading() || imageLoading"
               class="medium-centered-spinner"
               [color]="'blue'"
               [size]="'medium'">
   </mz-spinner>
 
 
-  <div *ngIf="bookService.dnntMode && authService.isLoggedIn()" class="app-dnnt">
+  <div *ngIf="bookService.dnntMode" class="app-dnnt">
       <span class="app-info">DÍLO NEDOSTUPNÉ NA TRHU</span>
-      <span class="app-user">{{ authService.user.name }} | {{ today() }}</span>
+      <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
 
   </div>
 

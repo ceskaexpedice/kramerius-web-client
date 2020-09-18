@@ -52,3 +52,12 @@
     }
   }
 }
+
+.app-book-search-bar {
+  .completer-dropdown-holder {
+    margin-top: 7px;
+    .completer-dropdown {
+      max-height: 300px;
+    }
+  }
+}

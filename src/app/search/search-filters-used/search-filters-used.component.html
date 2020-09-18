@@ -12,7 +12,15 @@
     </span>
   </mz-collection-item>
 
-  <mz-collection-item *ngIf="searchService.query.accessibility === 'public'">
+  <mz-collection-item *ngIf="searchService.query.isCustomFieldSet()">
+      <span (click)="searchService.removeCustomField()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+        <i mz-icon-mdi [icon]="'magnify'" [class]="'app-clean-mg'"></i>
+        <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+        {{ searchService.query.getCustomValue() }}
+      </span>
+  </mz-collection-item>
+
+  <mz-collection-item *ngIf="searchService.query.accessibility === 'public' || appSettings.hiddenLocks">
     <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'lock-open'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
@@ -20,7 +28,15 @@
     </span>
   </mz-collection-item>
 
-  <mz-collection-item *ngIf="searchService.query.accessibility === 'private'">
+  <mz-collection-item *ngIf="searchService.query.accessibility === 'dnnt' && !appSettings.hiddenLocks">
+    <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ 'search.accessibility.dnnt' | translate }}
+    </span>
+  </mz-collection-item>
+
+  <mz-collection-item *ngIf="searchService.query.accessibility === 'private' && !appSettings.hiddenLocks">
     <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>

@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MzBaseModal } from 'ngx-materialize';
 import { Author } from '../../model/metadata.model';
+import { AnalyticsService } from '../../services/analytics.service';
+import { AppSettings } from '../../services/app-settings';
 
 @Component({
   selector: 'app-dialog-authors',
@@ -9,9 +11,13 @@ import { Author } from '../../model/metadata.model';
 export class DialogAuthosComponent extends MzBaseModal implements OnInit {
   @Input() authors: Author[];
 
-  ngOnInit(): void {
-
+  constructor(public analytics: AnalyticsService, public appSettings: AppSettings) {
+    super();
   }
+
+  ngOnInit(): void {
+  }
+
 
 
 }

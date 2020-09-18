@@ -2,43 +2,63 @@
 
 app-periodical-grid-item {
   float: left;
-  width:10%;
-  
-  @media (max-width: 1760px) {
-    width:11.11110%;
+  width: 5.88235%;
+  @media (max-width: 2800px) {
+    width: 6.25%;
+  }
+  @media (max-width: 2650px) {
+    width: 6.6666%;
+  }
+  @media (max-width: 2510px) {
+    width: 7.142857%;
+  }
+  @media (max-width: 2370px) {
+    width: 7.6923%;
+  }
+  @media (max-width: 2230px) {
+    width: 8.3333%;
+  }
+  @media (max-width: 2090px) {
+    width: 9.0909%;
+  }
+  @media (max-width: 1950px) {
+    width: 10%;
+  }
+  @media (max-width: 1810px) {
+    width: 11.11110%;
   }
   @media (max-width: 1690px) {
-    width:12.5%;
+    width: 12.5%;
   }
   @media (max-width: 1580px) {
-    width:14.2857%;
+    width: 14.2857%;
   }
   @media (max-width: 1430px) {
-    width:16.66666%;
+    width: 16.66666%;
   }
   @media (max-width: 1320px) {
-    width:20%;
+    width: 20%;
   }
   @media (max-width: 1210px) {
-    width:25%;
+    width: 25%;
   }
   @media (max-width: 1100px) {
-    width:33.33333%;
+    width: 33.33333%;
   }
   @media (max-width: 992px) {
-    width:25%;
+    width: 25%;
   }
   @media (max-width: 780px) {
-    width:33.33333%;
+    width: 33.33333%;
   }
   @media (max-width: 690px) {
-    width:50%;
+    width: 50%;
   }
   @media (max-width: 600px) {
-    width:33.33333%;
+    width: 33.33333%;
   }
   @media (max-width: 400px) {
-    width:50%;
+    width: 50%;
   }
   
   .card {
@@ -100,6 +120,9 @@ app-periodical-grid-item {
             opacity: 0.8;
             margin: auto;
             top: 0; left: 0; bottom: 0; right: 0;
+            &.app-dnnt {
+              color: $app-dnnt;
+            }
           }
 
         }

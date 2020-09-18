@@ -1,10 +1,18 @@
-import { ViewerControlsService, ViewerActions } from './../../services/viewre-controls.service.';
-import { Page, PageImageType } from './../../model/page.model';
-import { BookService } from './../../services/book.service';
+import { AppSettings } from './../../services/app-settings';
+import { ViewerControlsService, ViewerActions } from '../../services/viewer-controls.service';
+import { BookService, ViewerData, ViewerImageType } from './../../services/book.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { interval } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { KrameriusInfoService } from '../../services/kramerius-info.service';
+import { KrameriusApiService } from '../../services/kramerius-api.service';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin} from 'rxjs/observable/forkJoin';
+import { IiifService } from '../../services/iiif.service';
+import { ZoomifyService } from '../../services/zoomify.service';
+import { AltoService } from '../../services/alto-service';
+import { LoggerService } from '../../services/logger.service';
 
 declare var ol: any;
 
@@ -20,15 +28,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private imageLayer2;
   private zoomifyLayer2;
   private vectorLayer;
+  private watermark;
+  private extent;
+  private dnntApi;
+  private dnntLink;
 
   private imageWidth = 0;
   private imageWidth1 = 0;
   private imageHeight = 0;
-
-  private maxResolution = 0;
-  private minResolution = 0;
-
-  private zoomFactor = 1.5;
 
   private lastRotateTime = 0;
 
@@ -42,18 +49,19 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private selectionInteraction;
   private selectionType: SelectionType;
 
+  private data: ViewerData;
+
+  public imageLoading = false;
+
   ngOnInit() {
     this.init();
-    this.pageSubscription = this.bookService.watchPage().subscribe(
-      pages => {
-        this.updateView(pages[0], pages[1]);
+    this.logger.info('ViewerComponent init')
+    this.pageSubscription = this.bookService.watchViewerData().subscribe(
+      (data: ViewerData) => {
+        this.updateImage(data);
       }
     );
-    const lPage = this.bookService.getPage();
-    const rPage = this.bookService.getRightPage();
-    if (lPage) {
-      this.updateView(lPage, rPage);
-    }
+    this.updateImage(this.bookService.getViewerData());
     this.intervalSubscription = interval(4000).subscribe( () => {
       const lastMouseDist = new Date().getTime() - this.lastMouseMove;
       if (lastMouseDist >= 4000) {
@@ -62,13 +70,22 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
   }
 
+
   constructor(public bookService: BookService,
               public authService: AuthService,
+              public appSettings: AppSettings,
+              private http: HttpClient,
+              private iiif: IiifService,
+              private logger: LoggerService,
+              private zoomify: ZoomifyService,
+              private alto: AltoService,
+              private api: KrameriusApiService,
+              public krameriusInfo: KrameriusInfoService,
               public controlsService: ViewerControlsService) {
     this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
         this.onActionPerformed(action);
     });
-}
+  }
 
 
   init() {
@@ -116,8 +133,23 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
       }
     });
+
+    this.setDnntLink();
   }
 
+  setDnntLink() {
+    this.dnntLink="";
+    if(this.appSettings.dnntUrl) {
+      this.dnntApi = this.appSettings.dnntUrl+"/search/api/v5.0/item/"+this.bookService.getUuid();
+      this.http.get(this.dnntApi).toPromise().then((data:any) => {
+        //this.dnntTitle='<div class="dnntLink"><a href="'+this.appSettings.dnntUrl+'/uuid/'+this.bookService.getUuid()+'">Toto dílo je dostupné v rámci DNNT</a></div>';
+        if(data.dnnt) {
+          if(this.appSettings.dnnt.loginUrl) { this.dnntLink=this.appSettings.dnnt.loginUrl+'?target='+this.appSettings.dnntUrl+'/uuid/'+this.bookService.getUuid(); }
+          else { this.dnntLink=this.appSettings.dnntUrl+'/uuid/'+this.bookService.getUuid(); }
+        }
+      });
+    }
+  }
 
   onSelectionStart(type: SelectionType) {
     this.selectionType = type;
@@ -134,17 +166,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-
   onMouseMove() {
     this.lastMouseMove = new Date().getTime();
     this.hideOnInactivity = false;
   }
 
-  updateView(leftPage: Page, rightPage: Page) {
-    const left = (leftPage && leftPage.url) ? leftPage : null;
-    const right = (rightPage && rightPage.url) ? rightPage : null;
-    this.updateImage(left, right);
-  }
 
   private onActionPerformed(action: ViewerActions) {
     switch (action) {
@@ -175,9 +201,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private zoomIn() {
     const currentZoom = this.view.getView().getResolution();
     let newZoom = currentZoom / 1.5;
-    if (newZoom < this.minResolution) {
-      newZoom = this.minResolution;
-    }
     this.view.getView().animate({
       resolution: newZoom,
       duration: 300
@@ -187,9 +210,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private zoomOut() {
     const currentZoom = this.view.getView().getResolution();
     let newZoom = currentZoom * 1.5;
-    if (newZoom > this.maxResolution) {
-      newZoom = this.maxResolution;
-    }
     this.view.getView().animate({
       resolution: newZoom,
       duration: 300
@@ -217,98 +237,290 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.lastRotateTime = timestamp;
   }
 
-
   private fitToScreen() {
     this.view.updateSize();
     this.view.getView().setRotation(0);
-    this.bestFit();
-    const extent = this.view.getView().getProjection().getExtent();
-    const center = ol.extent.getCenter(extent);
-    this.view.getView().setCenter(center);
+    this.view.getView().fit(this.extent);
   }
 
-  updateBoxes(data) {
+  updateBoxes() {
     this.vectorLayer.getSource().clear();
+    if (!this.data.query) {
+      return;
+    }
+    this.api.getAlto(this.data.uuid1).subscribe(response => {
+          const boxes = this.alto.getBoxes(response, this.data.query, this.imageWidth, this.imageHeight);
+          for (let i = 0; i < boxes.length; i++) {
+            const ring = boxes[i];
+            const polygon = new ol.geom.Polygon([ring]);
+            const feature = new ol.Feature(polygon);
+            this.vectorLayer.getSource().addFeature(feature);
+          }
+          this.view.addLayer(this.vectorLayer);
+     });
+  }
+
+  buildWatermarkLayer(text: string) {
+    const font = this.appSettings.dnnt.watermarkFontSize + 'px roboto,sans-serif';
+    this.watermark = new ol.layer.Vector({
+      name: 'watermark',
+      source: new ol.source.Vector(),
+      style: new ol.style.Style({
+        text: new ol.style.Text({
+          font: font,
+          text: text,
+          fill: new ol.style.Fill({
+            color:  this.appSettings.dnnt.watermarkColor
+          }),
+          textAlign: 'left',
+        })
+      })
+    });
+    this.watermark.setZIndex(100);
+    this.view.addLayer(this.watermark);
+  }
+
+  addWaterMark() {
+    if (this.watermark) {
+      this.watermark.getSource().clear();
+    }
+    let watermarkText: string;
+    if (this.bookService.dnntMode && this.authService.isLoggedIn()) {
+      watermarkText = this.authService.getUserId();
+    } else {
+      // watermarkText = 'test';
+    }
+    if (!watermarkText) {
+      return;
+    }
+    if (!this.watermark) {
+      this.buildWatermarkLayer(watermarkText);
+    }
+    let cw = this.appSettings.dnnt.watermarkRowCount;
+    const ch = this.appSettings.dnnt.watermarkColCount;
+    const sw = this.extent[0];
+    const width = this.extent[2] - this.extent[0];
+    if (this.extent[0] < 0) {
+      cw = cw * 2;
+    }
+    const height = -this.extent[1];
+    const p = this.appSettings.dnnt.watermarkProbability;
+    for (let i = 0; i < cw; i ++) {
+     for (let j = 0; j < ch; j ++) {
+       if (Math.floor((Math.random() * 100)) < p) {
+        const x = sw + (i/(cw*1.0))*width + width/cw/3;
+        const y = (j/(ch*1.0)) * height + height/ch/2;// + height/30.0*i; + 70;
+        var point = new ol.Feature(new ol.geom.Point([x, -y]));
+        this.watermark.getSource().addFeature(point);
+      }
+     }
+    }
+  }
+
+  updateJpegImage(uuid1: string, uuid2: string) {
+    this.onImageLoading();
+    const rq = [];
+    rq.push(this.http.get(this.api.getFullJpegUrl(uuid1), { observe: 'response', responseType: 'blob' }));
+    if (uuid2) {
+      rq.push(this.http.get(this.api.getFullJpegUrl(uuid1), { observe: 'response', responseType: 'blob' }));
+    }
+    forkJoin(rq).subscribe(
+      (results) => {
+        this.loadJpegImage(uuid1, uuid2, true, false)
+      },
+      (error) => {
+        this.onImageFailure();
+        if (error && error.status === 403) {
+          this.bookService.onInaccessibleImage();
+        }
+      }
+    );
+  }
+
+  loadJpegImage(uuid1: string, uuid2: string, left: boolean, thumb: boolean) {
+    const uuid = left ? uuid1 : uuid2;
+    const url = this.api.getFullJpegUrl(uuid);
+    const image = new Image();
+    image.onload = (() => {
+        if (left && uuid2) {
+          this.imageWidth = image.width;
+          this.imageHeight = image.height;
+          this.loadJpegImage(uuid1, uuid2, false, thumb);
+        } else {
+          if (!left) {
+            this.setDimensions(this.imageWidth, this.imageHeight, image.width, image.height);
+            const url1 = this.api.getFullJpegUrl(uuid1);
+            const thumb1 = this.api.getThumbUrl(uuid1);
+            this.addStaticImage(this.imageWidth, this.imageHeight, thumb ? thumb1 : url1, 1);
+            const url2 = url;
+            const thumb2 = this.api.getThumbUrl(uuid2);
+            this.addStaticImage(image.width, image.height, thumb ? thumb2 : url2,  2);
+          } else {
+            this.setDimensions(image.width, image.height, null, null);
+            const thumb1 = this.api.getThumbUrl(uuid1);
+            this.addStaticImage(image.width, image.height, thumb ? thumb1 : url, 0);
+          }
+          this.onImageSuccess();
+        }
+    });
+    image.onerror = ((error) => {
+        this.onImageFailure();
+        image.onerror = null;
+        this.logger.info('on error', error);
+    });
+    image.src = url;
+  }
+
+
+  updateZoomifyImage(uuid1: string, uuid2: string) {
+    const url1 = this.api.getZoomifyBaseUrl(uuid1);
+    const url2 = !!uuid2 ? this.api.getZoomifyBaseUrl(uuid2) : null;
+    this.onImageLoading();
+    const rq = [];
+    let w1, w2, h1, h2;
+    rq.push(this.http.get(this.zoomify.properties(url1), { observe: 'response', responseType: 'text' }));
+    if (url2) {
+      rq.push(this.http.get(this.zoomify.properties(url2), { observe: 'response', responseType: 'text' }));
+    }
+    forkJoin(rq).subscribe((results) => {
+      const p1 = this.zoomify.parseProperties(results[0].body);
+      w1 = p1.width;
+      h1 = p1.height;
+      if (url2 && results.length > 1) {
+        const p2 = this.zoomify.parseProperties(results[1].body);
+        w2 = p2.width;
+        h2 = p2.height;
+      }
+      this.setDimensions(w1, h1, w2, h2);
+      if (url2 && results.length > 1) {
+        this.addZoomifyImage(w1, h1, url1, 1);
+        this.addZoomifyImage(w2, h2, url2, 2);
+      } else {
+        this.addZoomifyImage(w1, h1, url1, 0);
+      }
+      this.onImageSuccess();
+    },
+    (error)  => {
+        this.onImageFailure();
+        if (error && error.status === 403) {
+          this.bookService.onInaccessibleImage();
+        }
+      }
+    );
+  }
+
+
+  updateIiifImage(uuid1: string, uuid2: string) {
+    const url1 = this.api.getIiifBaseUrl(uuid1);
+    const url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
+    this.onImageLoading();
+    const rq = [];
+    let w1, w2, h1, h2;
+    rq.push(this.http.get(this.iiif.imageManifest(url1)));
+    if (url2) {
+      rq.push(this.http.get(this.iiif.imageManifest(url2)));
+    }
+    forkJoin(rq).subscribe((results) => {
+      w1 = results[0].width;
+      h1 = results[0].height;
+      if (url2 && results.length > 1) {
+        w2 = results[1].width;
+        h2 = results[1].height;
+      }
+      this.setDimensions(w1, h1, w2, h2);
+      if (url2 && results.length > 1) {
+        this.addIIIFImage(results[0], w1, h1, url1, 1);
+        this.addIIIFImage(results[1], w2, h2, url2, 2);
+      } else {
+        this.addIIIFImage(results[0], w1, h1, url1, 0);
+      }
+      this.onImageSuccess();
+    },
+    (error)  => {
+        this.onImageFailure();
+        if (error && error.status === 403) {
+          this.bookService.onInaccessibleImage();
+        } else if (error && error.status === 404) {
+          this.updateZoomifyImage(uuid1, uuid2);
+        }
+      }
+    );
+  }
+
+  onImageLoading() {
+    if (this.watermark) {
+      this.watermark.getSource().clear();
+    }
+    this.vectorLayer.getSource().clear();
+    this.imageLoading = true;
+  }
+
+  onImageSuccess() {
+    this.imageLoading = false;
+    this.view.getView().fit(this.extent);
+    this.updateBoxes();
+    this.addWaterMark();
+  }
+
+  onImageFailure() {
+    this.imageLoading = false;
+  }
+
+  setDimensions(width1: number, height1: number, width2: number, height2: number) {
+    this.imageWidth1 = 0;
+    this.imageWidth = width1;
+    this.imageHeight = height1;
+    let extent;
+    if (width2 && height2) {
+      this.imageHeight = Math.max(this.imageHeight, height2);
+      this.imageWidth = width1 + width2;
+      this.imageWidth1 = width1;
+      extent = [-this.imageWidth / 2, -this.imageHeight, this.imageWidth / 2, 0];
+    } else {
+      extent = [0, -this.imageHeight, this.imageWidth, 0];
+    }
+    this.extent = extent;
+    const maxResolution = this.getBestFitResolution() * 1.5;
+    const minResolution = 0.5;
+    const viewOpts: any = {
+      extent: this.extent,
+      minResolution: minResolution,
+      maxResolution: maxResolution,
+      constrainOnlyCenter: true,
+      smoothExtentConstraint: false
+    };
+    const view = new ol.View(viewOpts);
+    this.view.setView(view);
+  }
+
+
+  updateImage(data: ViewerData) {
     if (!data) {
       return;
     }
-    for (let i = 0; i < data.length; i++) {
-      const ring = data[i];
-      const polygon = new ol.geom.Polygon([ring]);
-      const feature = new ol.Feature(polygon);
-      this.vectorLayer.getSource().addFeature(feature);
+    if (this.data && this.data.equals(data)) {
+      return;
     }
-    this.view.addLayer(this.vectorLayer);
-  }
-
-  updateImage(image1: Page, image2: Page) {
     this.view.removeLayer(this.imageLayer);
     this.view.removeLayer(this.zoomifyLayer);
     this.view.removeLayer(this.imageLayer2);
     this.view.removeLayer(this.zoomifyLayer2);
     this.view.removeLayer(this.vectorLayer);
-    if (!image1) {
-      return;
+    this.data = data;
+    switch (data.imageType) {
+      case ViewerImageType.IIIF:
+        this.updateIiifImage(data.uuid1, data.uuid2);
+        break;
+      case ViewerImageType.ZOOMIFY:
+        this.updateZoomifyImage(data.uuid1, data.uuid2);
+        break;
+      case ViewerImageType.JPEG:
+        this.updateJpegImage(data.uuid1, data.uuid2);
+        break;
     }
-    this.imageWidth1 = 0;
-    this.imageWidth = image1.width;
-    this.imageHeight = image1.height;
-    let extent;
-    if (image2 != null) {
-      this.imageHeight = Math.max(this.imageHeight, image2.height);
-      this.imageWidth = image1.width + image2.width;
-      this.imageWidth1 = image1.width;
-      extent = [-this.imageWidth / 2, -this.imageHeight, this.imageWidth / 2, 0];
-    } else {
-      extent = [0, -this.imageHeight, this.imageWidth, 0];
-    }
-
-    const projection = new ol.proj.Projection({
-      code: 'ZOOMIFY',
-      units: 'pixels',
-      extent: extent
-    });
-    this.maxResolution = this.getBestFitResolution() * this.zoomFactor;
-    this.minResolution = 0.5;
-    const viewOpts: any = {
-      projection: projection,
-      center: ol.extent.getCenter(extent),
-      extent: extent
-    };
-    if (this.maxResolution < 100) {
-      viewOpts.minResolution = this.minResolution;
-      viewOpts.maxResolution = this.maxResolution;
-    }
-    const view = new ol.View(viewOpts);
-
-    this.view.setView(view);
-
-    if (image2 != null) {
-      if (image1.imageType === PageImageType.ZOOMIFY) {
-        this.addZoomifyImage(image1.url, image1.width, image1.height, 1);
-      } else {
-         this.addStaticImage(image1.url, image1.width, image1.height, 1);
-      }
-      if (image2.imageType === PageImageType.ZOOMIFY) {
-        this.addZoomifyImage(image2.url, image2.width, image2.height, 2);
-      } else {
-         this.addStaticImage(image2.url, image2.width, image2.height, 2);
-      }
-    } else {
-      if (image1.imageType === PageImageType.ZOOMIFY) {
-        this.addZoomifyImage(image1.url, image1.width, image1.height, 0);
-      } else {
-        this.addStaticImage(image1.url, image1.width, image1.height, 0);
-      }
-    }
-    if (image1.altoBoxes) {
-      this.updateBoxes(image1.altoBoxes);
-    }
-    this.fitToScreen();
   }
 
-
-  addZoomifyImage(url, width, height, type) {
+  addIIIFImage(data, width, height, url, type) {
     let extent;
     if (type === 0) {
       extent = [0, -height, width, 0];
@@ -317,21 +529,29 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else if (type === 2) {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
-    const zoomifySource = new ol.source.Zoomify({
-      url: url,
-      size: [width, height],
-      tierSizeCalculation: 'truncated',
-      imageExtent: extent,
-    });
-    const imageSource = new ol.source.ImageStatic({
-      url: url + 'TileGroup0/0-0-0.jpg',
+    const options = new ol.format.IIIFInfo(data).getTileSourceOptions();
+    if (options === undefined || options.version === undefined) {
+      // Invalid IIIF
+      return;
+    }
+    options.quality = 'default';
+    options.zDirection = -1;
+    options.extent = extent;
+    const thumbUrl = this.iiif.image(url, options.sizes[0][0], options.sizes[0][1]);
+    const imageOptions = {
+      url: thumbUrl,
       imageExtent: extent
+    };
+    if (this.appSettings.crossOrigin) {
+      options.crossOrigin = 'Anonymous';
+      imageOptions['crossOrigin'] = 'Anonymous';
+    }
+    const iiifTileSource = new ol.source.IIIF(options);
+    const zLayer = new ol.layer.Tile({
+      source: iiifTileSource,
     });
     const iLayer = new ol.layer.Image({
-      source: imageSource
-    });
-    const zLayer = new ol.layer.Tile({
-      source: zoomifySource
+      source: new ol.source.ImageStatic(imageOptions)
     });
     this.view.addLayer(iLayer);
     this.view.addLayer(zLayer);
@@ -344,8 +564,49 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
   }
 
+  addZoomifyImage(width, height, url, type) {
+    let extent;
+    if (type === 0) {
+      extent = [0, -height, width, 0];
+    } else if (type === 1) {
+      extent = [-this.imageWidth / 2, -height, -this.imageWidth / 2 + width, 0];
+    } else if (type === 2) {
+      extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
+    }
+    const zoomifyOptions = {
+      tileSize: 256,
+      tilePixelRatio: 1,
+      url: url + '/',
+      size: [width, height],
+      tierSizeCalculation: 'truncated',
+      extent: extent
+    };
+    const imageOptions = {
+        url: this.zoomify.thumb(url),
+        imageExtent: extent
+    };
+    if (this.appSettings.crossOrigin) {
+      zoomifyOptions['crossOrigin'] = 'Anonymous';
+      imageOptions['crossOrigin'] = 'Anonymous';
+    }
+    const zLayer = new ol.layer.Tile({
+        source: new ol.source.Zoomify(zoomifyOptions)
+    });
+    const iLayer = new ol.layer.Image({
+      source: new ol.source.ImageStatic(imageOptions)
+    });
+    this.view.addLayer(iLayer);
+    this.view.addLayer(zLayer);
+    if (type === 2) {
+      this.imageLayer2 = iLayer;
+      this.zoomifyLayer2 = zLayer;
+    } else {
+      this.imageLayer = iLayer;
+      this.zoomifyLayer = zLayer;
+    }
+  }
 
-  addStaticImage(url, width, height, type) {
+  addStaticImage(width, height, url, type) {
     let extent;
     if (type === 0) {
       extent = [0, -height, width, 0];
@@ -355,19 +616,21 @@ export class ViewerComponent implements OnInit, OnDestroy {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
 
-    const projection = new ol.proj.Projection({
-      code: 'IMAGE',
-      units: 'pixels',
-      extent: extent
-    });
+    // const projection = new ol.proj.Projection({
+    //   code: 'IMAGE',
+    //   units: 'pixels',
+    //   extent: extent
+    // });
     const iLayer = new ol.layer.Image({
       source: new ol.source.ImageStatic({
         url: url,
         imageSize: [width, height],
         // projection: projection,
         imageExtent: extent
+        // crossOrigin: 'Anonymous'
       })
     });
+
     this.view.addLayer(iLayer);
     if (type === 2) {
       this.imageLayer2 = iLayer;
@@ -382,11 +645,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const ry = this.imageHeight / (this.view.getSize()[1] - 10);
     return Math.max(rx, ry);
   }
-
-  bestFit() {
-    this.view.getView().setResolution(this.getBestFitResolution());
-  }
-
 
   ngOnDestroy() {
     if (this.viewerActionsSubscription) {

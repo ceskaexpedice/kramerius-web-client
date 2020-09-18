@@ -1,12 +1,15 @@
-import { ShareService } from './../services/share.service';
+import { AccountService } from './../services/account.service';
+import { DialogCitationComponent } from './../dialog/dialog-citation/dialog-citation.component';
 import { DialogAuthosComponent } from './../dialog/dialog-authors/dialog-authors.component';
 import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { MzModalService } from 'ngx-materialize';
-import { DialogMetadataComponent } from '../dialog/dialog-metadata/dialog-metadata.component';
-import { CitationService } from '../services/citation.service';
 import { AnalyticsService } from '../services/analytics.service';
+import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.component';
+import { DialogAdminMetadataComponent } from '../dialog/dialog-admin-metadata/dialog-admin-metadata.component';
+import { DialogPolicyComponent } from '../dialog/dialog-policy/dialog-policy.component';
+ import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-metadata',
@@ -22,10 +25,10 @@ export class MetadataComponent implements OnInit {
   showingTitle = false;
 
   constructor(private modalService: MzModalService,
-              private citationService: CitationService,
-              private shareService: ShareService,
               public analytics: AnalyticsService,
-              public appSettings: AppSettings) { }
+              public account: AccountService,
+              public auth: AuthService,
+              public settings: AppSettings) { }
 
   ngOnInit() {
   }
@@ -34,24 +37,53 @@ export class MetadataComponent implements OnInit {
     this.showingTitle = !this.showingTitle;
   }
 
-  showModsDialog() {
-    this.analytics.sendEvent('metadata', 'mods');
-    this.modalService.open(DialogMetadataComponent, { map: this.metadata.modsMap} );
+  showMetadata() {
+    return this.show(this.settings.showMetadata);
   }
 
-  showAuthors() {
+  showSharing() {
+    return this.show(this.settings.showSharing);
+  }
+
+  showCitation() {
+    return this.show(this.settings.showCitation);
+  }
+
+  // openInProarc() {
+  //   window.open(this.metadata.proarcLink(), '_blank');
+  // }
+
+  onShowAuthors() {
     this.analytics.sendEvent('metadata', 'authors');
     this.modalService.open(DialogAuthosComponent, { authors: this.metadata.authors} );
   }
 
-  showCitation() {
+  onShowPolicyPrivateDialog() {
+    this.modalService.open(DialogPolicyComponent, { type: 'private' } );
+  }
+
+  onShowPolicyDnntDialog() {
+    this.modalService.open(DialogPolicyComponent, { type: 'dnnt' } );
+  }
+
+  onShowCitation() {
     this.analytics.sendEvent('metadata', 'citation');
-    this.citationService.showCitation(this.metadata);
+    this.modalService.open(DialogCitationComponent, { metadata: this.metadata });
   }
 
   onShare() {
     this.analytics.sendEvent('metadata', 'share');
-    this.shareService.showShareDialog();
+    this.modalService.open(DialogShareComponent, { metadata: this.metadata });
+  }
+
+  onShowMetadata() {
+    this.analytics.sendEvent('metadata', 'admin-metadata');
+    this.modalService.open(DialogAdminMetadataComponent, { metadata: this.metadata } );
+  }
+
+
+  private show(value: string): boolean {
+    return value === 'allways' || (value === 'public' && this.metadata.isPublic);
   }
 
 }

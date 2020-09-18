@@ -9,160 +9,61 @@ app-search-toolbar {
   position: relative;
   z-index: 990;
   
-  /*.app-handle {
-    position: absolute;
-    top: 7px;
-    height: 40px;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.9);
-    color: $app-grey;
-    cursor: pointer;
-    left: 0;
-    @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
-    border-top-right-radius: $app-border-radius-sidebar;
-    border-bottom-right-radius: $app-border-radius-sidebar;
-  }*/
-  
   & > .row {
     height: $app-toolbar-height;
     overflow: hidden;
     
-    .col {
+    .app-col {
       @extend .app-clean-pd;
-
-      // common
+      &.app-col-right {  
+        float: right;
+      }
       ul {
         @extend .app-clean-mg;
-
         li {
           float: left;
           color: $app-grey-l-1;
+          &.active {
+            color: $primary-color;
+          }
+
+          span {
+            &.app-btn-txt {
+              &:hover {
+                color: $primary-color;
+              }
+              color: $primary-color;
+              cursor: pointer;
+            }
+            padding: 0 0.8rem;
+            &.app-mdi-in {
+              padding-right: 0.4rem;
+            }
+            label {
+              font-size: inherit;
+              
+              // mq
+              @media #{$large-only} {
+                display: none;
+              }
+            }
+          }
 
           &:not(.active) {
-            span {
+            span.app-btn-icon {
               &:hover {
                 color: $app-grey-d-1;
               } 
             }
           }
-        }
-      }
 
-      // col left
-      &.app-col-left {
-        h5 {
-          color: $app-grey-d-1;
-        }
-
-        ul {
-          li {
-            margin-right: 1px;
-
-            &.active {
-              position: relative;
-
-              &.monograph {
-                color: $app-type-monograph;
-                // &:after {border-color: $app-type-monograph;}
-              }
-              &.periodical {
-                color: $app-type-periodical;
-                // &:after {border-color: $app-type-periodical;}
-              }
-              &.soundrecording {
-                color: $app-type-soundrecording;
-                // &:after {border-color: $app-type-soundrecording;}
-              }
-              &.map {
-                color: $app-type-map;
-                // &:after {border-color: $app-type-map;}
-              }
-              &.graphic {
-                color: $app-type-graphic;
-                // &:after {border-color: $app-type-graphic;}
-              }
-              &.sheetmusic {
-                color: $app-type-sheetmusic;
-                // &:after {border-color: $app-type-sheetmusic;}
-              }
-              &.archive {
-                color: $app-type-archive;
-                // &:after {border-color: $app-type-archive;}
-              }
-              &.manuscript {
-                color: $app-type-manuscript;
-                // &:after {border-color: $app-type-manuscript;}
-              }
-
-              // &:after {
-              //   content: '';
-              //   position: absolute;
-              //   bottom: 0;
-              //   left: 0;
-              //   width: 100%;
-              //   @include set-border(bottom, 2, solid, $app-grey);
-              // }
-            }
-            
-            &.disable {
-              color: $app-grey-l-2 !important;
-              pointer-events: none; 
-            }
-
-            span {
-              padding: 0 1rem;
-              
-              // mq
-              @media #{$large-only} {
-                padding: 0 0.4rem;
-              }
-
-              i {
-                margin-right: 3px;
-                
-                // mq
-                @media #{$large-only} {
-                  margin-right: 0;
-                }
-              }
-            }
+          &:not(:last-child) {
+            & > span {
+              @include set-border(right, 1, solid, $app-grey-l-2);
+            } 
           }
         }
-      }
-
-      // col right
-      &.app-col-right {
-        ul {
-          li {
-            &.active {
-              color: $primary-color;
-            }
-
-            span {
-              padding: 0 0.8rem;
-
-              &.app-mdi-in {
-                padding-right: 0.4rem;
-              }
-
-              label {
-                font-size: inherit;
-                
-                // mq
-                @media #{$large-only} {
-                  display: none;
-                }
-              }
-            }
-
-            &:not(:first-child) {
-              & > span {
-                @include set-border(left, 1, solid, $app-grey-l-2);
-              } 
-            }
-          }
-        }  
-      }
-    } 
+      }  
+    }
   }
 }

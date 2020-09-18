@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 export class AppState {
 
   public pageUrl = '';
-  private counter = 0;
 
   constructor(private appSettings: AppSettings) {}
 
@@ -22,9 +21,11 @@ export class AppState {
     this.showingCalendar = !this.showingCalendar;
   }
 
+  atLandingPage(): boolean {
+      return (this.appSettings.multiKramerius && this.appSettings.landingPage && this.pageUrl === '/');
+  }
+
   atHome(): boolean {
-    // this.counter ++;
-    // console.log('pageUrl', this.counter + ' ' + this.pageUrl);
     return (!this.appSettings.multiKramerius && this.pageUrl === '/') || (this.appSettings.multiKramerius && /^\/[a-z0-9]*\/?$/.test(this.pageUrl));
   }
 

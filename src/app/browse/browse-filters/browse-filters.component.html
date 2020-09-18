@@ -14,12 +14,12 @@
         <mz-collection>
           <ng-container>
             <mz-collection-item>
-              <span class="app-row" [class.selected]="browseService.query.accessibility == 'public'">
+              <span class="app-row" [class.selected]="browseService.query.accessibility == 'public' || browseService.query.accessibility == 'private' && appSettings.hiddenLocks">
                 <a (click)="browseService.setAccessibility('public');analytics.sendEvent('browse', 'accessibility', 'public');">{{'search.accessibility.public' | translate }}</a>
               </span>
             </mz-collection-item>
             <mz-collection-item>
-              <span class="app-row" [class.selected]="browseService.query.accessibility == 'private'">
+              <span class="app-row" [class.selected]="browseService.query.accessibility == 'private' && !appSettings.hiddenLocks">
                 <a (click)="browseService.setAccessibility('private');analytics.sendEvent('browse', 'accessibility', 'private');">{{'search.accessibility.private' | translate }}</a>
               </span>
             </mz-collection-item>

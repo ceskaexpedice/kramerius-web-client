@@ -1,17 +1,23 @@
-<mz-modal #modal [fixedFooter]="false" class="app-dialog-share">
+<mz-modal #modal [fixedFooter]="false" class="app-dialog app-dialog-share">
+
   <mz-modal-header>
-    {{ 'share-dialog.title' | translate }}
+    <div class="app-tabs" *ngIf="selection">
+      <div class="app-dialog-title">{{ 'share-dialog.title' | translate }}</div>
+      <div *ngFor="let item of data" class="app-tab" [class.active]="selection.type === item.type"
+        (click)="changeTab(item)">
+        {{ 'model_4p.' + item.type | translate | lowercase }}
+      </div>
+    </div>
   </mz-modal-header>
+
   <mz-modal-content>
     <mz-input-container>
-        <i mz-icon-mdi
-        class="copy-to-clipboard"
-        mz-tooltip [tooltip]="'common.copy_to_clipboard' | translate" [position]="'bottom'"
-        (cbOnSuccess)="onCopied($event)" [ngxClipboard]="inputTarget"
-          [icon]="'clipboard-text'"
-          [size]="'24px'">
-        </i>
-      <input #inputTarget readonly mz-input label="{{ 'share-dialog.link' | translate }}" [(ngModel)]="link" type="text">
+      <i mz-icon-mdi class="copy-to-clipboard" mz-tooltip [tooltip]="'common.copy_to_clipboard' | translate"
+        [position]="'bottom'" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="inputTarget" [icon]="'clipboard-text'"
+        [size]="'24px'">
+      </i>
+      <input #inputTarget readonly mz-input label="{{ 'share-dialog.link' | translate }}" [(ngModel)]="selection.link"
+        type="text">
     </mz-input-container>
 
     <div class="social">
@@ -20,7 +26,11 @@
       <i class="app-mdi-share-twitter" (click)="share('twitter')"></i>
     </div>
   </mz-modal-content>
+
+
+
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close>{{ 'common.close' | translate }}</button>
   </mz-modal-footer>
+
 </mz-modal>

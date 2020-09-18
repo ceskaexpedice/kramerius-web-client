@@ -1,3 +1,5 @@
+import { AppSettings } from '../services/app-settings';
+
 export class BrowseQuery {
     accessibility: string;
     ordering: string;
@@ -5,14 +7,14 @@ export class BrowseQuery {
     page: number;
     text: string;
 
-    availableFilters: string[];
+    settings: AppSettings;
 
-    constructor(filters: string[]) {
-        this.availableFilters = filters || [];
+    constructor(settings: AppSettings) {
+        this.settings = settings;
     }
 
-    public static fromParams(params, filters: string[]): BrowseQuery {
-        const query = new BrowseQuery(filters);
+    public static fromParams(params, settings: AppSettings): BrowseQuery {
+        const query = new BrowseQuery(settings);
         query.setOrdering(params['sort']);
         query.setPage(params['page']);
         query.setCategory(params['category']);
@@ -81,7 +83,7 @@ export class BrowseQuery {
     }
 
     private getDefaultCategory(): string {
-        for (const cat of this.availableFilters) {
+        for (const cat of this.settings.filters) {
             if (cat !== 'accessibility') {
                 return cat;
             }
@@ -105,8 +107,8 @@ export class BrowseQuery {
     }
 
     buildQuery(): string {
-        let q = 'q=(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)';
-        if (this.accessibility === 'public' && this.availableFilters.includes('accessibility')) {
+        let q = 'q=(' + this.settings.topLevelFilter + ')';
+        if (this.accessibility === 'public' && this.settings.filters.includes('accessibility')) {
             q += ' AND dostupnost:public';
         } else if (this.accessibility === 'private') {
             q += ' AND dostupnost:private';
@@ -160,7 +162,7 @@ export class BrowseQuery {
 
 
     public getOrderingValue(): string {
-        if (this.ordering === 'alphabetical') {
+        if (this.ordering === 'alphabetical' && this.category !== 'collections') {
             return 'index';
         } else {
             return 'count';

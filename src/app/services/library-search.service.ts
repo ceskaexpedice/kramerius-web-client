@@ -2,15 +2,32 @@ import { KrameriusApiService } from './kramerius-api.service';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { CompleterItem, CompleterData } from 'ng2-completer';
+import { LocalStorageService } from './local-storage.service';
+import { AppState } from '../app.state';
+import { SearchService } from './search.service';
+import { AppSettings } from './app-settings';
 
 @Injectable()
 export class LibrarySearchService extends Subject<CompleterItem[]> implements CompleterData {
 
-    constructor(private krameriusApiService: KrameriusApiService) {
+    constructor(
+        private krameriusApiService: KrameriusApiService,
+        private state: AppState,
+        private searchService: SearchService,
+        private settings: AppSettings,
+        private localStorageService: LocalStorageService) {
         super();
     }
     public search(term: string): void {
-        this.krameriusApiService.getSearchAutocomplete(term).subscribe(results => {
+        let fq = null;
+        if (this.state.atSearchScreen()) {
+            fq = this.searchService.query.buildFilterQuery();
+        } else if (this.localStorageService.publicFilterChecked()) {
+            fq = 'dostupnost:public AND (' + this.settings.topLevelFilter + ')';
+        } else {
+            fq = this.settings.topLevelFilter;
+        }
+        this.krameriusApiService.getSearchAutocomplete(term, fq).subscribe(results => {
             const items = [];
             const cache = {};
             for (const item of results) {
@@ -31,7 +48,9 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
                 if (a.index > b.index) {
                     return 1;
                 }
-                return 0;
+                if (a.index === b.index) {
+                    return a.item['dc.title'].length - b.item['dc.title'].length;
+                }
             });
             const matches: CompleterItem[] = [];
             for (const item of items) {
