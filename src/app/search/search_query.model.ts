@@ -19,6 +19,7 @@ export class SearchQuery {
     doctypes: string[] = [];
     collections: string[] = [];
     publishers: string[] = [];
+    places: string[] = [];
     genres: string[] = [];
 
     field: string;
@@ -55,6 +56,7 @@ export class SearchQuery {
         query.setFiled(query.geonames, 'geonames', params);
         query.setFiled(query.collections, 'collections', params);
         query.setFiled(query.publishers, 'publishers', params);
+        query.setFiled(query.places, 'places', params);
         query.setFiled(query.genres, 'genres', params);
 
         if (!query.query) {
@@ -300,6 +302,9 @@ export class SearchQuery {
         if (this.publishers.length > 0) {
             params['publishers'] = this.publishers.join(',,');
         }
+        if (this.places.length > 0) {
+            params['places'] = this.places.join(',,');
+        }
         if (this.genres.length > 0) {
             params['genres'] = this.genres.join(',,');
         }
@@ -385,6 +390,7 @@ export class SearchQuery {
         this.locations = [];
         this.geonames = [];
         this.publishers = [];
+        this.places = [];
         this.genres = [];
         this.removeCustomField();
         this.clearYearRange();
@@ -426,6 +432,9 @@ export class SearchQuery {
             return true;
         }
         if (this.publishers && this.publishers.length > 0) {
+            return true;
+        }
+        if (this.places && this.places.length > 0) {
             return true;
         }
         if (this.genres && this.genres.length > 0) {

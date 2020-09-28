@@ -77,6 +77,14 @@
     </span>
   </mz-collection-item>
 
+  <mz-collection-item *ngFor="let place of searchService.query.places">
+    <span (click)="searchService.removeFilter(searchService.query.places, place)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'map'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ place | appUpcase }}
+    </span>
+  </mz-collection-item>
+
   <mz-collection-item *ngFor="let genre of searchService.query.genres">
     <span (click)="searchService.removeFilter(searchService.query.genres, genre)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'book-variant'" [class]="'app-clean-mg'"></i>

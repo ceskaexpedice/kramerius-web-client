@@ -66,7 +66,9 @@
     "main": {
       "all": "Search in whole digital library",
       "public": "Search in public documents in the digital library",
-      "filters": "search with filters"
+      "filters": "search with filters",
+      "collection": "Search in the collection",
+      "collection_with_filters": "Search in the collection with filters"
     },
     "document": "Search in document",
     "delete_query": "Delete query"
@@ -87,7 +89,9 @@
     "tooltip_hide_date": "Hidde date from - to",
     "tooltip_display_grid": "Display grid",
     "tooltip_display_years": "Display years",
-    "tooltip_display_calendar": "Display calendar"
+    "tooltip_display_calendar": "Display calendar",
+    "tooltip_display_map": "Show results on a map",
+    "tooltip_display_cards": "Show results"
   },
   "search": {
     "k3": "Search in the old digitization",
@@ -100,6 +104,7 @@
     "locations": "Location",
     "geonames": "Geographic name",
     "publishers": "Publisher",
+    "places": "Place of Publication",
     "genres": "Genre",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",
@@ -160,6 +165,7 @@
       "doctypes": "Document Types",
       "authors": "Authors",
       "publishers": "Publishers",
+      "places": "Place of Publications",
       "collections": "Collections",
       "keywords": "Keywords",
       "languages": "Languages",
@@ -171,6 +177,7 @@
       "doctypes": "Lookup Document type",
       "authors": "Lookup Author",
       "publishers": "Lookup Publisher",
+      "places": "Lookup Place of Publication",
       "collections": "Lookup Collection",
       "keywords": "Lookup Keyword", 
       "languages": "Lookup Language",

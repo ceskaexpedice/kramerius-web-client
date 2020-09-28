@@ -79,6 +79,14 @@ export class SolrService {
             '1.0': '',
             '2.0': 'n.publishers.facet'
         },
+        'publication_places_search': {
+            '1.0': '',
+            '2.0': 'n.publication_places.search'
+        },
+        'publication_places_facet': {
+            '1.0': '',
+            '2.0': 'n.publication_places.facet'
+        },
         'genres_search': {
             '1.0': '',
             '2.0': 'n.genres.search'
@@ -737,12 +745,13 @@ export class SolrService {
            + this.addFacetToQuery(facet, 'geonames', query.geonames.length === 0)
            + this.addFacetToQuery(facet, 'authors', query.authors.length === 0)
            + this.addFacetToQuery(facet, 'collections', query.collections.length === 0)
-           + this.addFacetToQuery(facet, 'publishers', query.collections.length === 0)
+           + this.addFacetToQuery(facet, 'publishers', query.publishers.length === 0)
+           + this.addFacetToQuery(facet, 'places', query.places.length === 0)
            + this.addFacetToQuery(facet, 'doctypes', query.doctypes.length === 0)
            + this.addFacetToQuery(facet, 'genres', query.genres.length === 0)
            + this.addFacetToQuery(facet, 'accessibility',  query.accessibility === 'all');
         if (this.settings.dnntFilter) {
-            q += `&facet.field=${this.field('geonames_facet')}`;
+            q += `&facet.field=${this.field('dnnt')}`;
         }
         if (facet) {
             q += '&rows=0';
@@ -800,6 +809,7 @@ export class SolrService {
         fqFilters.push(this.buildFacetFilter(withQueryString, 'geonames', query.geonames, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'collections', query.collections, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'publishers', query.publishers, facet));
+        fqFilters.push(this.buildFacetFilter(withQueryString, 'places', query.places, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'genres', query.genres, facet));
         if (!query.isBoundingBoxSet() && this.oldSchema()) {
             fqFilters.push(this.getDateOrderingRestriction(query));
@@ -862,6 +872,8 @@ export class SolrService {
             return this.field('keywords_facet');
         } else if (field === 'publishers') {
             return this.field('publishers_facet');
+        } else if (field === 'places') {
+            return this.field('publication_places_facet');
         } else if (field === 'authors') {
             return this.field('authors_facet');
         } else if (field === 'doctypes') {
@@ -889,6 +901,8 @@ export class SolrService {
             return this.field('keywords_search');
         } else if (field === 'publishers') {
             return this.field('publishers_search');
+        } else if (field === 'places') {
+            return this.field('publication_places_search');
         } else if (field === 'authors') {
             return this.field('authors_search');
         } else if (field === 'doctypes') {

@@ -57,7 +57,7 @@ export class BrowseQuery {
 
 
     textSearch(): boolean {
-       return !!this.text && ['keywords', 'genres', 'geonames', 'authors', 'publishers'].indexOf(this.category) >= 0;
+       return !!this.text && ['keywords', 'genres', 'geonames', 'authors', 'publishers', 'places'].indexOf(this.category) >= 0;
     }
 
 
