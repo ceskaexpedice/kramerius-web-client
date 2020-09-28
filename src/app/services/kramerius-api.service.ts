@@ -74,12 +74,9 @@ export class KrameriusApiService {
         return this.getApiUrlForBaseUrl(this.getbaseUrl());
     }
 
-    private getItemUrl(uuid: string) {
-        return this.getApiUrl() + '/item/' + uuid;
-    }
-
-    private getItemUrlForKramerius(uuid: string, url: string) {
-        return this.getApiUrlForBaseUrl(url) + '/item/' + uuid;
+    private getItemUrl(uuid: string, url = null) {
+        const item = this.settings.apiVersion == '5.0' ? 'item' : 'items';
+        return `${this.getApiUrlForBaseUrl(url ? url : this.getbaseUrl())}/${item}/${uuid}`;
     }
 
     private getItemStreamUrl(uuid: string, stream: string) {
@@ -107,9 +104,9 @@ export class KrameriusApiService {
 
     getThumbUrlForKramerius(uuid: string, url: string): string {
         if (this.settings.apiVersion == '5.0') {
-            return this.getItemUrlForKramerius(uuid, url) + '/thumb';
+            return this.getItemUrl(uuid, url) + '/thumb';
         } else {
-            return this.getItemUrlForKramerius(uuid, url) + '/image/thumb';
+            return this.getItemUrl(uuid, url) + '/image/thumb';
         }
     }
 
