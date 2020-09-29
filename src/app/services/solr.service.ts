@@ -255,6 +255,10 @@ export class SolrService {
             '1.0': '',
             '2.0': 'n.part.number.str'
         },
+        "part_number_sort": {
+            '1.0': '',
+            '2.0': 'n.part.number.int'
+        },
         "collections": {
             '1.0': '',
             '2.0': 'n.collections'
@@ -401,7 +405,7 @@ export class SolrService {
             if (type === 'unit') {
                 q += `${this.field('rels_ext_index')} asc`;
             } else {
-                q += `${this.field('date_from_sort')} asc`;
+                q += `${this.field('date_from_sort')} asc, ${this.field('part_number_sort')} asc, ${this.field('model')} asc`;
             }
         }
         q += '&rows=1500&start=0';
