@@ -287,6 +287,10 @@ export class SolrService {
             '1.0': '',
             '2.0': 'n.page.type'
         },
+        'page_number': {
+            '1.0': '',
+            '2.0': 'n.page.number'
+        },
         'has_tiles': {
             '1.0': '',
             '2.0': 'n.has_tile'
@@ -365,7 +369,7 @@ export class SolrService {
     }
 
     buildBookChildrenQuery(parent: string): string {
-        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('page_type')}`;
+        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('page_type')},${this.field('page_number')}`;
         if (this.settings.dnntFilter) {
             q += `,${this.field('dnnt')}`;
         }
@@ -381,7 +385,7 @@ export class SolrService {
         if (this.oldSchema()) {
             q += ',details';
         } else {
-            q += `${this.field('part_name')},${this.field('part_number')},${this.field('date')}`;
+            q += `,${this.field('part_name')},${this.field('part_number')},${this.field('date')}`;
         }
         if (this.settings.dnntFilter) {
             q += `,${this.field('dnnt')}`;
@@ -1189,6 +1193,7 @@ export class SolrService {
                 pid: doc[this.field('id')],
                 type: doc[this.field('page_type')],
                 dnnt: !!doc[this.field('dnnt')],
+                number: doc[this.field('page_number')],
                 title: doc[this.field('title')],
                 policy: doc[this.field('accessibility')]
             });

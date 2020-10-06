@@ -53,5 +53,18 @@ export class PeriodicalItem {
         }
         return this.number;
     }
+    getExtendedPart(): string {
+        let result = '';
+        if (this.number) {
+            result = this.number;
+        }
+        if (this.name) {
+            if (result) {
+                result += ': ';
+            }
+            result += this.name;
+        }
+        return result;
+    }
 
 }
