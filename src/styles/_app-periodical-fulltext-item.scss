@@ -147,7 +147,7 @@ app-periodical-fulltext-item {
             line-height: 16px;
             margin-top: 5px;
             height: 64px;
-            
+            word-break: break-word;
             strong {
               color: $primary-color;
               @extend .app-font-bold;
