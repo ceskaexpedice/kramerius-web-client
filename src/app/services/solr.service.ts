@@ -298,7 +298,15 @@ export class SolrService {
         'img_full_mime': {
             '1.0': 'img_full_mime',
             '2.0': 'n.ds.img_full.mime'
-        }
+        },
+        "issue_type_sort": {
+            '1.0': '',
+            '2.0': 'n.issue.type.sort'
+        },
+        "issue_type": {
+            '1.0': '',
+            '2.0': 'n.issue.type.code'
+        },
     }
 
     public static allDoctypes = ['periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
@@ -408,6 +416,8 @@ export class SolrService {
         } else {
             if (type === 'unit') {
                 q += `${this.field('rels_ext_index')} asc`;
+            } else if (type === 'issue') {
+                q += `${this.field('date_from_sort')} asc, ${this.field('part_number_sort')} asc, ${this.field('model')} asc, ${this.field('issue_type_sort')} asc`;
             } else {
                 q += `${this.field('date_from_sort')} asc, ${this.field('part_number_sort')} asc, ${this.field('model')} asc`;
             }
