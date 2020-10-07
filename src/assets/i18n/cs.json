@@ -624,7 +624,19 @@
     "ABB005" : "CERGE-EI knihovna Jana Kmenty",
     "BOD022" : "Masarykova univerzita - Ekonomicko-správní fakulta",
     "ABB030" : "Orientální ústav AV ČR",
-    "TUE801" : "Krkonošské muzeum"
+    "TUE801" : "Krkonošské muzeum",
+    "OSG002" : "Knihovna města Ostravy",
+    "OSD001" : "Ostravská univerzita",
+    "KAG001" : "Regionální knihovna Karviná",
+    "KAE801" : "Muzeum Těšínska",
+    "OSE304" : "Ostravské muzeum",
+    "BRE302" : "Muzeum v Bruntále",
+    "FME301" : "Muzeum Beskyd Frýdek-Místek",
+    "OSE306" : "Galerie výtvarného umění v Ostravě",
+    "KAE950" : "Knihovna Slezské diakonie",
+    "NJE303" : "Muzeum Novojičínska",
+    "OPE801" : "Muzeum Hlučínska",
+    "KAG502" : "Městská knihovna Orlová"
   },
   "language" : {
     "aar" : "afarština",

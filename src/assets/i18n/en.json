@@ -629,7 +629,19 @@
     "ABB005" : "Jan Kmenta CERGE-EI Library",
     "BOD022" : "Masaryk University - Faculty of Economics and Administration",
     "ABB030" : "Oriental Institute of the AS CR",
-    "TUE801" : "Krkonose Museum"
+    "TUE801" : "Krkonose Museum",
+    "OSG002" : "Ostrava City Library",
+    "OSD001" : "University of Ostrava",
+    "KAG001" : "Regional Library Karviná",
+    "KAE801" : "Těšín Regional Museum",
+    "OSE304" : "Museum of Ostrava",
+    "BRE302" : "Museum in Bruntal",
+    "FME301" : "Beskydy Museum Frýdek-Místek",
+    "OSE306" : "Gallery of Fine Arts in Ostrava",
+    "KAE950" : "Library of the Silesian Diacony",
+    "NJE303" : "Museum of Novy Jicin Region",
+    "OPE801" : "The Hlučín Area Museum",
+    "KAG502" : "Municipal Library in Orlova"
   },
   "language" : {
     "aar" : "Afar",
