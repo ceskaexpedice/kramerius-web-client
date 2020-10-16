@@ -73,9 +73,10 @@
     font-size: 12px;
     bottom: 0.5rem;
     padding: 2px;
-    width: calc(100% - 1rem);
     display: none;
     text-align: center;
+    width: calc(100% - 10px);
+    word-break: break-word;
     background: rgba(255, 255, 255, 0.8);
     color: color("shades", "black");
   }
