@@ -1,29 +1,15 @@
 <div id="page-id-{{page.uuid}}" (click)="onPageClicked()" class="app-snippet" [class.active]="page.selected">
-  <!-- <div class="app-item-thumb" [class.hidden]="page.hidden" [scrollTarget]="container" [lazyLoad]="page.thumb">
-    <i *ngIf="!page.public && !settings.hiddenLocks" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'"></i>
-  </div>
-  <div class="app-item-title">
-    {{ page.number }}
-  </div>
-  <div class="app-item-type" *ngIf="page.title || page.type != 'normalpage'">
-    <div *ngIf="page.type != 'normalpage'">
-    {{ 'page_type.' + page.type | translate }}
-    </div>
-    <div *ngIf="page.title">
-      {{ page.title }}
+  <div class="app-snippet-content">
+    <div class="app-snippet-thumb-wrapper">
+      <div class="app-snippet-thumb" [scrollTarget]="container" [lazyLoad]="page.thumb">
+        <i *ngIf="!page.public && !settings.hiddenLocks" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'"></i>
       </div>
-  </div> -->
-<div class="app-snippet-content">
-  <div class="app-snippet-thumb-wrapper">
-    <div class="app-snippet-thumb" [scrollTarget]="container" [lazyLoad]="page.thumb">
-      <i *ngIf="!page.public && !settings.hiddenLocks" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'"></i>
+    </div>
+    <div class="app-snippet-right">
+      <div class="app-snippet-title">
+        {{ page.number }}
+      </div>
+      <div class="app-snippet-ocr" [innerHTML]="page.snippet"></div>
     </div>
   </div>
-  <div class="app-snippet-right">
-    <div class="app-snippet-title">
-      {{ page.number }}
-    </div>
-    <div class="app-snippet-ocr" [innerHTML]="page.snippet"></div>
-  </div>
-
 </div>
