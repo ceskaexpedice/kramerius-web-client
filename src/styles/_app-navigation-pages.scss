@@ -4,9 +4,7 @@
   // height: calc(100% - 174px);
   margin-top: 10px;
   overflow-y: auto;
-  padding: 0.5rem;
-  padding-top: 0;
-
+  padding-bottom: 5px;
   &.app-hidden {
     display: none;
   }
@@ -20,4 +18,5 @@
     }
   }
   @import "styles/app-navigation-item";
+  @import "styles/app-navigation-snippet";
 }

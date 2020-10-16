@@ -452,22 +452,25 @@ export class SolrService {
     }
 
 
-    buildFulltextUuidList(uuid: string, query: string) {
-        let text = query.toLowerCase().trim();
-        const inQuotes = text.startsWith('"') && text.endsWith('"');
-        if (!inQuotes) {
-            text = text.replace(/"/g, '\\"');
-        }
-        text = text.replace(/~/g, '\\~')
-        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
-        return `fl=${this.field('id')}&q=${this.field('parent_pid')}:"${uuid}" AND ${this.field('model')}:page AND ${this.field('text_ocr')}:${text}&rows=200`;
+    buildDocumentFulltextQuery(uuid: string, query: string) {
+        return `fl=${this.field('id')}&q=${this.field('parent_pid')}:"${uuid}" AND ${this.field('model')}:page AND ${this.queryTerm(query, this.field('text_ocr'))}&rows=300&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
     }
 
-
-    uuidList(solr): string[] {
+    documentFulltextQuery(solr): string[] {
         const list = [];
         for (const doc of solr['response']['docs']) {
-            list.push(doc[this.field('id')]);
+            let snippet = "";
+            const uuid = doc[this.field('id')];
+            if (solr['highlighting'][uuid]) {
+                const ocr = solr['highlighting'][uuid][this.field('text_ocr')];
+                if (ocr) {
+                    snippet = ocr[0];
+                }
+            }
+            list.push({
+                uuid: uuid,
+                snippet: snippet
+            });
         }
         return list;
     }

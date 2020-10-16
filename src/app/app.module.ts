@@ -59,7 +59,6 @@ import { HomeComponent } from './home/home.component';
 import { BrowseComponent } from './browse/browse.component';
 import { NavigationComponent } from './book/navigation/navigation.component';
 import { MetadataComponent } from './metadata/metadata.component';
-import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
 
 import { Ng2CompleterModule } from 'ng2-completer';
 import { AppState } from './app.state';
@@ -145,6 +144,8 @@ import { FaqComponent } from './faq/faq.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { DialogAdminComponent } from './dialog/dialog-admin/dialog-admin.component';
 import { AdminApiService } from './services/admin-api.service';
+import { NavigationSnippetComponent } from './book/navigation/navigation-snippet/navigation-snippet.component';
+import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
 
 
 
@@ -168,6 +169,7 @@ export function hljsLanguages() {
     NavigationComponent,
     MetadataComponent,
     NavigationItemComponent,
+    NavigationSnippetComponent,
     SearchComponent,
     SearchResultsComponent,
     SearchFiltersComponent,

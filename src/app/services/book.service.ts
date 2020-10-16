@@ -714,16 +714,18 @@ export class BookService {
             this.cancelFulltext();
             return;
         }
-        this.api.getFulltextUuidList(this.uuid, query).subscribe((list: string[]) => {
+        this.api.getDocumentFulltextPage(this.uuid, query).subscribe((result: any[]) => {
             this.ftPages = [];
             let index = 0;
             for (const page of this.allPages) {
+                page.snippet = null;
                 page.hidden = true;
-                for (const uuid of list) {
-                    if (uuid === page.uuid) {
+                for (const item of result) {
+                    if (item['uuid'] === page.uuid) {
                         page.selected = false;
                         page.index = index;
                         page.hidden = false;
+                        page.snippet = item['snippet'];
                         index += 1;
                         this.ftPages.push(page);
                         break;

@@ -167,9 +167,9 @@ export class KrameriusApiService {
             .map(response => this.solr.browseItems(response, query));
     }
 
-    getFulltextUuidList(uuid: string, query: string): Observable<string[]> {
-        return this.getSearchResults(this.solr.buildFulltextUuidList(uuid, query))
-            .map(response => this.solr.uuidList(response));
+    getDocumentFulltextPage(uuid: string, query: string): Observable<string[]> {
+        return this.getSearchResults(this.solr.buildDocumentFulltextQuery(uuid, query))
+            .map(response => this.solr.documentFulltextQuery(response));
     }
 
     getMetadata(uuid: string, type: string = 'full'): Observable<Metadata> {

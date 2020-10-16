@@ -1,5 +1,6 @@
 export class Page {
 
+    snippet: string;
     loaded = false;
     uuid: string;
     supplementUuid: string;
