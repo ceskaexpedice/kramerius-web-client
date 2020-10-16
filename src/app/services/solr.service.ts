@@ -105,7 +105,11 @@ export class SolrService {
         },
         'title_sort': {
             '1.0': 'title_sort',
-            '2.0': 'n.root_title.sort'
+            '2.0': 'n.title.sort'
+        },
+        'root_title_sort': {
+            '1.0': 'root_title',
+            '2.0': 'n.root.title.sort'
         },
         'created_at': {
             '1.0': 'created_date',
@@ -187,10 +191,6 @@ export class SolrService {
             '1.0': 'datum_end',
             '2.0': 'n.date.max'
         },
-        "date_year": {
-            '1.0': 'rok',
-            '2.0': 'n.date_instant.year'
-        },
         "date_year_from": {
             '1.0': 'datum_begin',
             '2.0': 'n.date_range_start.year'
@@ -257,7 +257,7 @@ export class SolrService {
         },
         "part_number_sort": {
             '1.0': '',
-            '2.0': 'n.part.number.int'
+            '2.0': 'n.part.number.sort'
         },
         "collections": {
             '1.0': '',
@@ -368,7 +368,7 @@ export class SolrService {
             return `${this.field('date_from_sort')} asc`;
         } else if (query.ordering === 'alphabetical') {
             if (query.getRawQ()) {
-                return `${this.field('root_title')} asc`;
+                return `${this.field('root_title_sort')} asc`;
             } else {
                 return `${this.field('title_sort')} asc`;
             }
@@ -403,7 +403,7 @@ export class SolrService {
             q += ` AND ${this.field('accessibility')}: ${query.accessibility}`;
         }
         if (query && applyYear && query.isYearRangeSet()) {
-            q += `(${this.field('date_year')}:[${query.from} TO ${query.to}] OR (${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *]))`
+            q += `(${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *])`
         }
         q += '&sort=';
         if (this.oldSchema()) {
@@ -555,13 +555,10 @@ export class SolrService {
             q += ` AND ${this.field('accessibility')}:${query.accessibility}`;
         }
         if (query.isYearRangeSet()) {
-            q += ` AND (${this.field('date_year')}:[${query.from} TO ${query.to}])`;
+            q += ` AND (${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *])`;
         }
-        const text = query.fulltext.toLowerCase().trim()
-                        .replace(/"/g, '\\"').replace(/~/g, '\\~')
-                        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
-        // q += ` AND (${this.field('model')}:article OR ${this.field('model')}:monographunit OR ${this.field('model')}:page) AND (${this.field('text_ocr')}:${text})`;
-        q += ` AND ((${this.field('model')}:page AND ${this.field('text_ocr')}:${text}) OR ((${this.field('model')}:monographunit OR ${this.field('model')}:article) AND (${this.field('titles_search')}:${text} OR ${this.field('authors_search')}:${text} OR ${this.field('keywords_search')}:${text})))`;
+        const term = query.fulltext;
+        q += ` AND ((${this.field('model')}:page AND ${this.queryTerm(term, this.field('text_ocr'))}) OR ((${this.field('model')}:monographunit OR ${this.field('model')}:article) AND (${this.queryTerm(term, this.field('titles_search'))} OR ${this.queryTerm(term, this.field('authors_search'))} OR ${this.queryTerm(term, this.field('authors_search'))})))`;
         if (query.ordering === 'latest') {
             q += `&sort=${this.field('date_to_sort')} desc, ${this.field('date')} desc`;
         } else if (query.ordering === 'earliest') {
@@ -675,6 +672,22 @@ export class SolrService {
         q += `&bq=${this.field('model')}:monograph^5&bq=${this.field('model')}:periodical^5&bq=${this.field('accessibility')}:public^5`;
         q += '&rows=50';
         return q;
+    }
+
+    private queryTerm(term: string, field: string): string {
+        let text = term.toLowerCase().trim();
+        const inQuotes = text.startsWith("\"") && text.endsWith("\"");
+        if (inQuotes) {
+            text = text.substring(1, text.length - 1).replace(/"/g, '\\"');
+            return `${field}:"${text}"`;
+        }
+        text = text.replace(/"/g, '\\"').replace(/~/g, '\\~')
+        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[')
+        .replace(/\]/g, '\\]').replace(/!/g, '\\!');
+        while (text.indexOf('  ') > 0) {
+            text = text.replace(/  /g, ' ');
+        }
+        return `(${field}:${text.split(" ").join(" AND " + field + ":")})`;
     }
 
     searchAutocompleteResults(solr, term: string): CompleterItem[] {
@@ -816,7 +829,7 @@ export class SolrService {
         }
         if (query.isYearRangeSet()) {
             const from = query.from === 0 ? 1 : query.from;
-            fqFilters.push(`(${this.field('date_year')}:[${from} TO ${query.to}] OR (${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${from} TO *]))`);
+            fqFilters.push(`(${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${from} TO *])`);
         }
         const withQueryString = query.hasQueryString();
         fqFilters.push(this.buildFacetFilter(withQueryString, 'keywords', query.keywords, facet));
