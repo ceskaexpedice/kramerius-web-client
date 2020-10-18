@@ -1191,13 +1191,28 @@ export class SolrService {
         let hasVirtualIssue = false;
         let virtualIssuePublic: boolean;
         const items: PeriodicalItem[] = [];
+        let index = 0;
         for (const doc of solr['response']['docs']) {
             if (doc[this.field('model')] === 'page') {
                 hasVirtualIssue = true;
                 virtualIssuePublic = doc[this.field('accessibility')] === 'public';
                 continue;
             }
-            items.push(this.periodicalItem(doc));
+            const item = this.periodicalItem(doc);
+            if (this.oldSchema()) {
+                item.sortIndex = index;
+                item.sortNumber = item.calcSortNumber();
+                index++;
+            }
+            items.push(item);
+        }
+        if (this.oldSchema()) {
+            items.sort((a: PeriodicalItem, b: PeriodicalItem) => {
+                if (a.date == b.date) {
+                    return a.sortNumber - b.sortNumber;
+                }
+                return a.sortIndex - b.sortIndex;
+            });
         }
         if (hasVirtualIssue) {
             const item = new PeriodicalItem();

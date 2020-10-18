@@ -4,6 +4,8 @@ export class PeriodicalItem {
     date: string;
     name: string;
     number: string;
+    sortNumber: number;
+    sortIndex: number;
     doctype: string;
     public: boolean;
     uuid: string;
@@ -67,4 +69,15 @@ export class PeriodicalItem {
         return result;
     }
 
+
+    calcSortNumber() {
+        if (!this.number) {
+            return 9999999;
+        }
+        const m = this.number.match(/^\d+/);
+        if (m && m.length > 0) {
+            return parseInt(m[0]);
+        }
+        return 9999999;
+    }
 }
