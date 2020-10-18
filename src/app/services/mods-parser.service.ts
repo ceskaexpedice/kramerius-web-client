@@ -215,7 +215,7 @@ export class ModsParserService {
                     continue;
                 }
                 if (type == 'doi' && !value.startsWith('http')) {
-                    value = 'http://dx.doi.org/' + value;
+                    value = 'https://doi.org/' + value;
                 }
                 metadata.identifiers[type] = value;
             }

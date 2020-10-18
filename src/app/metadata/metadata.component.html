@@ -46,7 +46,7 @@
       </div>
 
       <div *ngIf="metadata.hasIdentifier('doi')" class="app-identifier">
-        DOI: {{ metadata.identifiers['doi'] }}
+        DOI: <a href="{{ metadata.identifiers['doi'] }}" target="_blank">{{ metadata.identifiers['doi'] }}</a>
       </div>
 
       <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
