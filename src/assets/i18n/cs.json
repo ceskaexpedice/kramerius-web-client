@@ -473,6 +473,11 @@
     "track" : "Nahrávky",
     "collection": "Sbírky"
   },
+  "issue_type": {
+    "morning": "ranní vydání",
+    "afternoon": "odpolední vydání",
+    "evening": "večerní vydání"
+  },
   "page_type": {
     "unknown" : "strana",
     "advertisement" : "reklama",

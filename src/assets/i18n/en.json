@@ -478,6 +478,11 @@
     "track" : "Tracks",
     "collection" : "Collections"
   },
+  "issue_type": {
+    "morning": "morning edition",
+    "afternoon": "afternoon edition",
+    "evening": "evening edition"
+  },
   "page_type" : {
     "unknown" : "page",
     "advertisement" : "advertisement",

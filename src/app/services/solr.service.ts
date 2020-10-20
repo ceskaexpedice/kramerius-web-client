@@ -393,7 +393,7 @@ export class SolrService {
         if (this.oldSchema()) {
             q += ',details';
         } else {
-            q += `,${this.field('part_name')},${this.field('part_number')},${this.field('date')}`;
+            q += `,${this.field('part_name')},${this.field('part_number')},${this.field('date')},${this.field('issue_type')}`;
         }
         if (this.settings.dnntFilter) {
             q += `,${this.field('dnnt')}`;
@@ -589,7 +589,6 @@ export class SolrService {
         item.authors = doc[this.field('authors')];
         item.donators = doc[this.field('donators')];
         item.pdf = doc[this.field('img_full_mime')] == "application/pdf";
-        console.log('item.donators', item.donators);
         item.dnnt = !!doc[this.field('dnnt')];
         item.root_uuid = doc[this.field('root_pid')];
         if (item.doctype === 'periodicalvolume') {
@@ -1255,6 +1254,7 @@ export class SolrService {
         item.date = doc[this.field('date')];
         item.name = doc[this.field('part_name')];
         item.number = doc[this.field('part_number')];
+        item.editionType = doc[this.field('issue_type')];
         return item;
     }
 

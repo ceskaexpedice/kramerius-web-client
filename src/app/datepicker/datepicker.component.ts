@@ -1,22 +1,14 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ElementRef, HostListener, forwardRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input  } from '@angular/core';
 import {
   startOfMonth,
   endOfMonth,
-  addMonths,
-  subMonths,
-  setYear,
   eachDay,
   getDate,
   getMonth,
   getYear,
-  isSameDay,
-  isSameMonth,
-  isSameYear,
-  format,
   getDay,
   subDays,
-  addDays,
-  setDay
+  addDays
 } from 'date-fns';
 import { ISlimScrollOptions } from 'ngx-slimscroll';
 import { AppSettings } from '../services/app-settings';
@@ -28,19 +20,20 @@ import { AnalyticsService } from '../services/analytics.service';
 })
 export class DatepickerComponent implements OnInit {
   @Input() date: Date;
-  @Input() activeDays: number[];
-  @Input() daysUrl;
+  @Input() daysItems;
   scrollOptions: ISlimScrollOptions;
   days: {
     date: Date;
     day: number;
     month: number;
     year: number;
+    tooltip?: string;
     inThisMonth: boolean;
     isActive: boolean;
+    count: number;
   }[];
 
-  constructor(private elementRef: ElementRef, public appSettings: AppSettings, public analytics: AnalyticsService) {
+  constructor(public appSettings: AppSettings, public analytics: AnalyticsService) {
     this.scrollOptions = {
       barBackground: '#DFE3E9',
       gridBackground: '#FFFFFF',
@@ -57,18 +50,28 @@ export class DatepickerComponent implements OnInit {
     this.init();
   }
 
+  buildTooltip(items: any[]): string {
+    if (!items || items.length < 1) {
+      return '';
+    }
+    return items.map(a => a.title).join(", ");
+  }
+
   init(): void {
     const start = startOfMonth(this.date);
     const end = endOfMonth(this.date);
     this.days = eachDay(start, end).map(date => {
+      const items = this.daysItems[date.getDate() + ''] || [];
       return {
         date: date,
         day: getDate(date),
         month: getMonth(date),
         year: getYear(date),
-        uuid: this.daysUrl[date.getDate() + ''],
+        count: items.length,
+        tooltip: this.buildTooltip(items),
+        items: items,
         inThisMonth: true,
-        isActive: this.activeDays.indexOf(date.getDate()) > -1
+        isActive: items.length > 0
       };
     });
     let pre = getDay(start);
@@ -79,6 +82,7 @@ export class DatepickerComponent implements OnInit {
       const date = subDays(start, i);
       this.days.unshift({
         date: date,
+        count: 0,
         day: getDate(date),
         month: getMonth(date),
         year: getYear(date),
@@ -92,6 +96,7 @@ export class DatepickerComponent implements OnInit {
       this.days.push({
         date: date,
         day: getDate(date),
+        count: 0,
         month: getMonth(date),
         year: getYear(date),
         inThisMonth: false,

@@ -1,5 +1,5 @@
 <div class="app-periodical-calendar-layout-wrapper">
   <div class="app-datepicker-container" *ngFor="let date of periodicalService.dates; let i = index">
-    <app-datepicker [activeDays]="periodicalService.daysOfMonths[i]" [daysUrl]="periodicalService.daysOfMonthsItems[i]" [date]="periodicalService.dates[i]"></app-datepicker>
+    <app-datepicker [daysItems]="periodicalService.daysOfMonthsItems[i]" [date]="periodicalService.dates[i]"></app-datepicker>
   </div>
 </div>

@@ -104,7 +104,6 @@ export class HomeComponent implements OnInit {
 
   getNewest() {
     this.krameriusApiService.getNewest().subscribe((newest: DocumentItem[]) => {
-      console.log('newest', newest);
       this.newest = newest;
     });
   }

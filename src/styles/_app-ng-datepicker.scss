@@ -88,10 +88,20 @@
             @extend .app-font-bold;
             color: $primary-color;
             background-color: $app-grey-l-3;
+            position: relative;;
             &:hover {
               background: $primary-color;
               color: color("shades", "white");
             }  
+            .day-count {
+              position: absolute;
+              top: 5px;
+              font-size: 18px;
+              display: inline-block;
+              left: 0;
+              width: 36px;
+              text-align: center;
+            }
           }
         }
       }

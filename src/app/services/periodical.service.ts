@@ -13,6 +13,7 @@ import { PageTitleService } from './page-title.service';
 import { NotFoundError } from '../common/errors/not-found-error';
 import { HistoryService } from './history.service';
 import { AnalyticsService } from './analytics.service';
+import { Translator } from 'angular-translator';
 
 @Injectable()
 export class PeriodicalService {
@@ -31,7 +32,7 @@ export class PeriodicalService {
   calendarLayoutEnabled: boolean;
   activeLayout: string;
   dates: Date[];
-  daysOfMonths: any[];
+  // daysOfMonths: any[];
   daysOfMonthsItems: any[];
   activeMobilePanel: string;
   fulltext: PeriodicalFulltext;
@@ -48,6 +49,7 @@ export class PeriodicalService {
     private history: HistoryService,
     private pageTitle: PageTitleService,
     private analytics: AnalyticsService,
+    private translator: Translator,
     private localStorageService: LocalStorageService,
     private api: KrameriusApiService) {
   }
@@ -184,7 +186,7 @@ export class PeriodicalService {
     this.volumeDetail = null;
     this.fulltext = null;
     this.dates = [];
-    this.daysOfMonths = [];
+    // this.daysOfMonths = [];
     this.daysOfMonthsItems = [];
     this.activeMobilePanel = 'content';
     this.orderingType = 'none';
@@ -605,15 +607,11 @@ export class PeriodicalService {
     } else {
       this.yearItems = this.items;
     }
-    // } else {
-    //   this.yearItems = this.items;
-    // }
   }
 
   private calcCalender(year): boolean {
     let issuesWithoutDate = 0;
     for (let i = 0; i < 12; i++) {
-      this.daysOfMonths[i] = [];
       this.daysOfMonthsItems[i] = {};
     }
     for (const item of this.items) {
@@ -623,7 +621,6 @@ export class PeriodicalService {
       }
       let ok = false;
       if (c && c.length === 3) {
-        console.log('sdfds');
         const d = c[0] + '';
         const m = c[1];
         let month = parseInt(m, 0);
@@ -631,11 +628,11 @@ export class PeriodicalService {
           month -= 1;
           const day = parseInt(d, 0);
           if (!isNaN(day)) {
-            this.daysOfMonths[month].push(day);
             ok = true;
             if (!this.daysOfMonthsItems[month][day]) {
-              this.daysOfMonthsItems[month][day] = item.uuid;
+              this.daysOfMonthsItems[month][day] = [];
             }
+            this.daysOfMonthsItems[month][day].push({ uuid: item.uuid, title: item.getExtendedPart(this.translator) });
           }
         }
       }

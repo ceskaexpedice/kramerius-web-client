@@ -47,7 +47,7 @@ export class Page {
         }
         if (data['imageType'] == 'tiles') {
             this.imageType = PageImageType.TILES;
-        } else if (data['imageType'] == 'jpeg') {
+        } else if (data['imageType'] == 'image/jpeg') {
             this.imageType = PageImageType.JPEG;
         } else if (data['imageType'] == 'pdf') {
             this.imageType = PageImageType.PDF;

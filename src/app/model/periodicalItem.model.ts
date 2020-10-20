@@ -1,4 +1,5 @@
 import { Metadata } from './metadata.model';
+import { Translator } from 'angular-translator';
 
 export class PeriodicalItem {
     date: string;
@@ -13,6 +14,7 @@ export class PeriodicalItem {
     virtual = false;
     metadata: Metadata;
     dnnt = false;
+    editionType: string;
 
     constructor() {
     }
@@ -35,7 +37,6 @@ export class PeriodicalItem {
     }
 
     prettyName() {
-        let result = this.number;
         let n = this.doctype === 'monographunit' ? this.name : this.date;
         if (this.number && n) {
             return `${this.number} (${n})`;
@@ -55,16 +56,23 @@ export class PeriodicalItem {
         }
         return this.number;
     }
-    getExtendedPart(): string {
+
+    getExtendedPart(translator: Translator = null): string {
         let result = '';
-        if (this.number) {
-            result = this.number;
+        const num = this.number || '';
+        if (translator) {
+            result += (translator.instant('periodical.' + this.doctype, { part: num }) as string);
+        } else {
+            result += num;
         }
         if (this.name) {
             if (result) {
                 result += ': ';
             }
             result += this.name;
+        }
+        if (translator && ['morning', 'afternoon', 'evening'].indexOf(this.editionType) > -1) {
+            result += ' (' + (translator.instant('issue_type.' + this.editionType) as string) + ')';
         }
         return result;
     }
