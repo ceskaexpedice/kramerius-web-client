@@ -27,7 +27,7 @@ export class ViewerControlsService {
 
     constructor() {
         this.fullscreenAvailable = document.fullscreenEnabled
-                || document['webkitFullscreenEnable']
+                || document['webkitFullscreenEnabled']
                 || document['mozFullScreenEnabled']
                 || document['msFullscreenEnabled'];
 
