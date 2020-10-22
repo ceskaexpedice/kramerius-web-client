@@ -208,13 +208,6 @@ export class KrameriusApiService {
         return this.doGetText(this.getModsUrl(uuid));
     }
 
-    getFoxml(uuid: string): Observable<string> {
-        return this.doGetText(this.getItemUrl(uuid) + '/foxml');
-    }
-
-
-
-
     getZoomifyBaseUrl(uuid: string): string {
         return this.getbaseUrl() + '/search/zoomify/' + uuid;
     }
@@ -228,7 +221,6 @@ export class KrameriusApiService {
         return this.doGet(url);
     }
 
-
     getModsUrl(uuid: string): string {
         if (this.settings.apiVersion == '5.0') {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
@@ -237,15 +229,22 @@ export class KrameriusApiService {
         }
     }
 
+    getFoxmlUrl(uuid: string): string {
+        if (this.settings.apiVersion == '5.0') {
+            return this.getItemUrl(uuid) + '/foxml';
+        } else {
+            return this.getbaseUrl() + `/search/api/admin/v1.0/items/${uuid}/foxml`;
+        }
+    }
+
+    getFoxml(uuid: string): Observable<string> {
+        return this.doGetText(this.getFoxmlUrl(uuid));
+    }
+
 
     getSearchResultsUrl(query: string): string {
         return this.getApiUrl() + '/search?' + query;
     }
-
-
-
-
-
 
     // getFulltextUuidList(uuid, query) {
     //     let text = query.toLowerCase().trim();
@@ -292,13 +291,6 @@ export class KrameriusApiService {
     //     return this.doGet(url)
     //         .catch(this.handleError);
     // }
-
-
-
-
-
-
-
 
     private doGetBlob(url: string): Observable<Blob> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'blob' })
@@ -434,7 +426,7 @@ export class KrameriusApiService {
             }
         } else {
             return {
-                imageType: json['image-source']['type']
+                imageType: json['image']['type']
             }   
         }
     }
