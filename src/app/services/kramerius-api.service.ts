@@ -85,12 +85,9 @@ export class KrameriusApiService {
 
     getFullJpegUrl(uuid: string): string {
         if (this.settings.apiVersion == '5.0') {
-            // return 'https://kramerius.dev.digitallibrary.cz/search/img?pid=uuid:4873e8c7-5967-4003-8544-96f64ca55da7&stream=IMG_FULL&action=GETRAW';
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
         } else {
-            // return 'https://kramerius.dev.digitallibrary.cz/search/img?pid=uuid:4873e8c7-5967-4003-8544-96f64ca55da7&stream=IMG_FULL&action=GETRAW';
-            return this.getItemUrl(uuid) + '/image/full';
-            // return 'https://kramerius.dev.digitallibrary.cz/search/api/v5.0/item/uuid:4873e8c7-5967-4003-8544-96f64ca55da7/streams/IMG_FULL';
+            return this.getItemUrl(uuid) + '/image';
         }
     }
 
@@ -403,7 +400,7 @@ export class KrameriusApiService {
             return this.doGet(this.getItemUrl(uuid))
                 .map(response => this.parseItemInfoForPage(response));
         } else {
-            return this.doGet(this.getItemUrl(uuid) + '/info')
+            return this.doGet(this.getItemUrl(uuid) + '/info/image')
                 .map(response => this.parseItemInfoForPage(response));       
         }
     }
@@ -426,7 +423,7 @@ export class KrameriusApiService {
             }
         } else {
             return {
-                imageType: json['image']['type']
+                imageType: json['type']
             }   
         }
     }
