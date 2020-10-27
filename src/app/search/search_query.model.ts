@@ -76,29 +76,6 @@ export class SearchQuery {
         return query;
     }
 
-    public static getSolrCustomField(field): string {
-        if (field === 'author') {
-            return 'dc.creator';
-        } else if (field === 'title') {
-            return 'dc.title';
-        } else if (field === 'keyword') {
-            return 'keywords';
-        } else if (field === 'geoname') {
-            return 'geographic_names';
-        } else if (field === 'issn') {
-            return 'issn';
-        } else if (field === 'isbn') {
-            return 'dc.identifier';
-        } else if (field === 'ddt') {
-            return 'ddt';
-        } else if (field === 'mdt') {
-            return 'mdt';
-        } else if (field === 'all') {
-            return 'text';
-        }
-        return '';
-    }
-
     public setAccessibility(accessibility: string) {
         if (accessibility === 'private') {
             this.accessibility = 'private';
@@ -147,7 +124,7 @@ export class SearchQuery {
     }
 
     private setCustomField(params) {
-        if (params['field'] && params['value'] && SearchQuery.getSolrCustomField(params['field'])) {
+        if (params['field'] && params['value']) {
             this.field = params['field'];
             this.value = params['value'];
         }

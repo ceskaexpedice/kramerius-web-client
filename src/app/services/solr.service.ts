@@ -307,6 +307,14 @@ export class SolrService {
             '1.0': '',
             '2.0': 'n.issue.type.code'
         },
+        "issn": {
+            '1.0': 'issn',
+            '2.0': 'n.id_issn'
+        },
+        "isbn": {
+            '1.0': 'isbn',
+            '2.0': 'n.id_isbn'
+        }
     }
 
     public static allDoctypes = ['periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
@@ -740,7 +748,13 @@ export class SolrService {
         }
         if (query.isCustomFieldSet()) {
             value = query.value;
-            q +=  SearchQuery.getSolrCustomField(query.field) + ':' + query.value;
+            let fields = '';
+            if (query.field == 'all') {
+                fields = ['title', 'author', 'keyword', 'geoname', 'signature', 'issn', 'fulltext'].map(f => this.getSolrCustomField(f, true)).join(' ');
+            } else {
+                fields = this.getSolrCustomField(query.field);
+            }
+            q += `_query_:"{!edismax qf=\'${fields}\' v=$q1}\"`;
         } else if (qString) {
             q += `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('authors_search')}^2 ${this.field('keywords_search')} ${this.field('text_ocr')}^0.1 ${this.field('shelf_locator')}\' bq=\'(${this.field('level')}:0)^20\' bq=\'(${this.field('accessibility')}:public)^2\' bq=\'(${this.field('model')}:page)^0.1\' v=$q1}\"`;
         } else {
@@ -1444,6 +1458,29 @@ export class SolrService {
                 items.splice(items.indexOf(monographunit), 1);
             }
         }
+    }
+
+    getSolrCustomField(field, boost: boolean = false): string {
+        if (field === 'author') {
+            return this.field('authors_search') + (boost ? '^2' : '');
+        } else if (field === 'title') {
+            return this.field('titles_search') + (boost ? '^10' : '');
+        } else if (field === 'keyword') {
+            return this.field('keywords_search');
+        } else if (field === 'geoname') {
+            return this.field('geonames_search');
+        } else if (field === 'signature') {
+            return this.field('shelf_locator');
+        } else if (field === 'issn') {
+            return this.field('issn');
+        } else if (field === 'isbn') {
+            return this.field('isbn');
+        } else if (field === 'fulltext') {
+            return this.field('text_ocr') + (boost ? '^0.1' : '');
+        } else if (field === 'all') {
+            return 'text';
+        }
+        return '';
     }
 
 
