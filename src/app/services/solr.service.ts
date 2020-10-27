@@ -203,6 +203,10 @@ export class SolrService {
             '1.0': 'parent_pid',
             '2.0': 'n.own_parent.pid'
         },
+        "step_parent_pid": {
+            '1.0': '',
+            '2.0': 'n.foster_parents.pids'
+        },
         // "volume_year": {
         //     '1.0': '',
         //     '2.0': 'n.volume.year'
@@ -384,12 +388,12 @@ export class SolrService {
         return null;
     }
 
-    buildBookChildrenQuery(parent: string): string {
+    buildBookChildrenQuery(parent: string, own: boolean): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('page_type')},${this.field('page_number')}`;
         if (this.settings.dnntFilter) {
             q += `,${this.field('dnnt')}`;
         }
-        q += `&q=${this.field('parent_pid')}:"${parent}"`;
+        q += `&q=${this.field(own ? 'parent_pid' : 'step_parent_pid')}:"${parent}"`;
         q += `&sort=${this.field('rels_ext_index')} asc`;
         q += '&rows=2000&start=0';
         return q;

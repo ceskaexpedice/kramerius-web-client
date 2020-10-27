@@ -379,12 +379,12 @@ export class KrameriusApiService {
     // }
 
     
-    getChildren(uuid: string): Observable<any> {
+    getChildren(uuid: string, own: boolean = true): Observable<any> {
         if (this.settings.apiVersion == '5.0') {
             return this.doGet(this.getItemUrl(uuid) + '/children')
             .map(response => this.utils.parseBookChild(response));
         } else {
-            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid))
+            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, own))
             .map(response => this.solr.bookChildItems(response));
         }
     }

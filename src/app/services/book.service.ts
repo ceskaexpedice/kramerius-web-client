@@ -969,7 +969,7 @@ export class BookService {
                 this.goToPageWithUuid(article.firstPageUuid);
             } else {
                 this.publishNewPages(BookPageState.Loading);
-                this.api.getChildren(article.uuid).subscribe(children => {
+                this.api.getChildren(article.uuid, false).subscribe(children => {
                     if (children && children.length > 0) {
                         article.firstPageUuid = children[0]['pid'];
                     }
