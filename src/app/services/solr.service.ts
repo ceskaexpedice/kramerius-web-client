@@ -263,10 +263,6 @@ export class SolrService {
             '1.0': '',
             '2.0': 'n.part.number.sort'
         },
-        "collections": {
-            '1.0': '',
-            '2.0': 'n.collections'
-        },
         "parent_collections": {
             '1.0': '',
             '2.0': 'n.in_collections.direct'
@@ -529,7 +525,7 @@ export class SolrService {
         const items = [];
         const facetFields = solr['facet_counts']['facet_fields'][field];
         const translatedFileds = [
-            this.getFilterField('languages'), this.getFilterField('model'), this.getFilterField('collections')
+            this.getFilterField('languages'), this.getFilterField('model'), this.getFilterField('ancestor_collections')
         ];
         for (let i = 0; i < facetFields.length; i += 2) {
             const value = facetFields[i];
@@ -872,7 +868,7 @@ export class SolrService {
         let fqFilters = [];
         if (query.collection) {
             if (this.buildQ(query.query) || query.isCustomFieldSet()) {
-                fqFilters.push(`((${this.field('parent_collections')}:"${query.collection}") OR ((${this.field('model')}:page OR ${this.field('model')}:article) AND ${this.field('collections')}:"${query.collection}"))`);
+                fqFilters.push(`((${this.field('parent_collections')}:"${query.collection}") OR ((${this.field('model')}:page OR ${this.field('model')}:article) AND ${this.field('ancestor_collections')}:"${query.collection}"))`);
             } else {
                 fqFilters.push(`(${this.field('parent_collections')}:"${query.collection}")`);
             }

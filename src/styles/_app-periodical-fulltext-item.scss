@@ -32,6 +32,7 @@ app-periodical-fulltext-item {
     @extend .app-cursor-pointer;
     margin: 0.5rem;
     height: 144px;
+    border-radius: unset;
     @include setCardShadow(0, 0, 0, $app-grey-l-2);
     &>div {
       height: 100%;

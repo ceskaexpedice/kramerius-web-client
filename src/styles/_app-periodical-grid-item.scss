@@ -65,7 +65,7 @@ app-periodical-grid-item {
     @extend .app-cursor-pointer;
     margin: 0.5rem;
     @include setCardShadow(0, 0, 0, $app-grey-l-2);
-
+    border-radius: unset;
     .card-content {
       @extend .app-clean-pd;
       overflow: hidden;

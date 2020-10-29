@@ -6,6 +6,7 @@ app-document-card {
   .card {
     @extend .app-cursor-pointer;
     margin: 0.5rem;
+    border-radius: unset;
     height: 144px;
     @include setCardShadow(0, 0, 0, $app-grey-l-2);
     

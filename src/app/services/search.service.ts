@@ -52,7 +52,7 @@ export class SearchService {
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
         private api: KrameriusApiService,
-        private appSettings: AppSettings,
+        private settings: AppSettings,
         private modalService: MzModalService) {
     }
 
@@ -65,7 +65,7 @@ export class SearchService {
         this.accessibility = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = SearchQuery.fromParams(params, context, this.appSettings);
+        this.query = SearchQuery.fromParams(params, context, this.settings);
         if (this.query.isBoundingBoxSet()) {
             this.contentType = 'map';
         } else {
@@ -141,20 +141,24 @@ export class SearchService {
         if (!preservePage) {
             this.query.setPage(1);
         }
-        const nav = [];
+        const nav = ['/'];
+        if (this.settings.multiKramerius) {
+            nav.push(this.settings.currentCode);
+        }
         if (this.query.collection) {
             nav.push('collection');
             nav.push(this.query.collection);
         } else {
             nav.push('search');
         }
+        console.log('nav', nav);
         this.router.navigate(nav,  { queryParams: this.query.toUrlParams() });
     }
 
     changeLibrary(kramerius) {
         this.analytics.sendEvent('home', 'change-library', kramerius.title);
         const qp = this.query.getChangeLibraryUrlParams();
-        this.appSettings.assignKramerius(kramerius);
+        this.settings.assignKramerius(kramerius);
         qp['l'] = kramerius.code;
         this.router.navigate(['search'],  { queryParams: qp });
     }
@@ -179,9 +183,9 @@ export class SearchService {
 
     public buildK3Link(): string {
         if (this.query.getRawQ()) {
-            return this.appSettings.k3 + 'Search.do?text=' + (this.query.getRawQ() || '');
+            return this.settings.k3 + 'Search.do?text=' + (this.query.getRawQ() || '');
         } else {
-            return this.appSettings.k3 + 'Welcome.do';
+            return this.settings.k3 + 'Welcome.do';
 
         }
     }
@@ -294,7 +298,7 @@ export class SearchService {
         switch (facet) {
             case 'accessibility': {
                 this.accessibility = this.solr.facetAccessibilityList(response);
-                if (this.appSettings.dnntFilter && this.auth.isLoggedIn()) {
+                if (this.settings.dnntFilter && this.auth.isLoggedIn()) {
                     this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
                         let count = 0;
                         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
@@ -309,7 +313,7 @@ export class SearchService {
                 break;
             }
             case 'doctypes': {
-                this.doctypes = this.solr.facetDoctypeList(response, this.appSettings.joinedDoctypes, this.appSettings.doctypes);
+                this.doctypes = this.solr.facetDoctypeList(response, this.settings.joinedDoctypes, this.settings.doctypes);
                 break;
             }
             case 'authors':
@@ -358,7 +362,7 @@ export class SearchService {
     }
 
     private checkFacet(condition: boolean, response, facet: string) {
-        if (this.appSettings.filters.indexOf(facet) < 0) {
+        if (this.settings.filters.indexOf(facet) < 0) {
             return;
         }
         if (condition) {
