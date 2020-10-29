@@ -40,7 +40,7 @@ export class AltoService {
       for (let i = 0; i < wordArray.length; i++) {
         const word = wordArray[i].toLowerCase();
         const el = xml.find('String').filter(function() {
-          return $(this).attr('CONTENT').toLowerCase().replace(/\-|\?|\!|\;|\)|\(|\.|„|“|"|,|\)/g, '') === word;
+          return $(this).attr('CONTENT').toLowerCase().replace(/\-|\?|\!|»|«|\;|\)|\(|\.|„|“|"|,|\)/g, '') === word;
         });
         if (!el) {
           return;
