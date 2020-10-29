@@ -180,21 +180,6 @@ export class SearchQuery {
         return  this.query;
     }
 
-    getQ(): string {
-        if (!this.query || this.query === '*') {
-            return null;
-        }
-        let q = this.query;
-        if (!Utils.inQuotes(q)) {
-            q = q.trim();
-            while (q.indexOf('  ') > 0) {
-                q = q.replace(/  /g, ' ');
-            }
-        }
-        return q;
-    }
-
-
     isYearRangeSet(): boolean {
         return this.from !== SearchQuery.YEAR_FROM || this.to !== SearchQuery.YEAR_TO;
     }

@@ -50,11 +50,10 @@ app-document-card {
       width: 26px;
       height: 26px;
     }
-    
     .card-content {
       padding: 10px;
       height: 100%;
-      overflow: hidden;        
+      // overflow: hidden;        
         mz-card-content {
           display: table;
           width: 100%;
