@@ -667,7 +667,7 @@ export class BookService {
         this.pages = [];
         for (const page of this.allPages) {
             page.selected = false;
-            page.hidden = false;
+            page.display = 0;
             page.index = index;
             index += 1;
             this.pages.push(page);
@@ -719,12 +719,12 @@ export class BookService {
             let index = 0;
             for (const page of this.allPages) {
                 page.snippet = null;
-                page.hidden = true;
+                page.display = 2;
                 for (const item of result) {
                     if (item['uuid'] === page.uuid) {
                         page.selected = false;
                         page.index = index;
-                        page.hidden = false;
+                        page.display = 1;
                         page.snippet = item['snippet'];
                         index += 1;
                         this.ftPages.push(page);

@@ -8,7 +8,7 @@ export class Page {
     number: string;
     index: number;
     thumb: string;
-    hidden: boolean;
+    display: number;
     selected = false;
     position = PagePosition.None;
     imageType = PageImageType.None;
