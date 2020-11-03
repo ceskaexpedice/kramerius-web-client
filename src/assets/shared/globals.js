@@ -5,7 +5,7 @@ var APP_GLOBAL = {
   enablePeriodicalIsssuesCalendarLayout: true,
   defaultPeriodicalVolumesLayout: "years", // grid | years
   defaultPeriodicalIssuesLayout: "calendar", // grid | calendar
-  publicFilterDefault: false,
+  publicFilterDefault: 'notlogged',
   dnnt: true,
   advancedSearch: true,
   bigHomeLogo: true,
@@ -21,7 +21,15 @@ var APP_GLOBAL = {
     cs: '/assets/pages/nkp.footer.cs.html',
     en: '/assets/pages/nkp.footer.cs.html',
   },
-  showMetadata: false,
+  showMetadata: 'allways',
+  showCitation: 'allways',
+  showSharing: 'allways',
+  showPdfGeneration: 'allways',
+  showPrintPreparation: 'allways',
+  showPageJpeg: 'allways',
+  showPageOcr: 'allways',
+  showTextSelection: 'allways',
+  showImageCrop: 'allways',
   logoutUrl: 'https://kramerius-vs.nkp.cz/Shibboleth.sso/Logout?return=https://kramerius-vs.nkp.cz/podminky-zpristupneni',
   dnnt: {
     logoutUrl: 'https://ndk.cz/Shibboleth.sso/Logout?return=https://kramerius5.nkp.cz',
@@ -42,6 +50,7 @@ var APP_GLOBAL = {
       url: 'https://kramerius5.nkp.cz',
       pdfUrl: 'https://kramerius5.nkp.cz/?uuid=',
       dnntUrl: 'https://ndk.cz',
+      crisisUrl: 'https://ndk.cz',
       richCollections: false,
       joinedDoctypes: true,
       lemmatization: false,
@@ -51,7 +60,8 @@ var APP_GLOBAL = {
       doctypes: ['monograph', 'periodical', 'map', 'sheetmusic'],
       filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages'],
       dnntFilter: true,
-      hiddenLocks: true,
+      hiddenLocks: false,
+      membranePrivateTitle: 'Neveřejné dílo - Covid',
       notice: ''
     }
   ]

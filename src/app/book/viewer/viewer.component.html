@@ -40,12 +40,21 @@
 
 
   <ng-container *ngIf="bookService.isPageInaccessible()">
-      <ng-container *ngIf="!bookService.dnntFlag">
+
+    <ng-container *ngIf="!bookService.dnntFlag && appSettings.crisisUrl">
+          <app-alert *ngIf="this.dnntLink!=''"
+                type="warning"
+                label="alert.warning"
+                message="alert.inaccessible_document_crisis"
+                [html]="'<br><div class=\'dnntLink\'>'+ ('dialogs.dnntnoLink' | translate) +' <a href=\''+this.dnntLink+'\'>'+ ('dialogs.dnntLink' | translate) +'</a></div><br>'+ ('alert.inaccessible_document_crisis_description' | translate)">
+          </app-alert>
+      </ng-container>
+      <ng-container *ngIf="!bookService.dnntFlag && !appSettings.crisisUrl">
             <app-alert *ngIf="this.dnntLink!=''"
                   type="warning"
                   label="alert.warning"
                   message="alert.inaccessible_document_dnnt"
-                  [html]="'<br><div class=\'dnntLink\'><a href=\''+this.dnntLink+'\'>'+ ('dialogs.dnntLink' | translate) +'</a></div><br>'+ ('alert.inaccessible_document_dnnt_description' | translate)">
+                  [html]="'<br><div class=\'dnntLink\'>'+ ('dialogs.dnntnoLink' | translate) +' <a href=\''+this.dnntLink+'\'>'+ ('dialogs.dnntLink' | translate) +'</a></div><br>'+ ('alert.inaccessible_document_dnnt_description' | translate)">
             </app-alert>
             <app-alert *ngIf="!appSettings.customRightMessage && this.dnntLink==''"
                   type="warning"
@@ -61,12 +70,19 @@
             </app-alert>
       </ng-container>
 
-      <app-alert *ngIf="bookService.dnntFlag"
+      <app-alert *ngIf="bookService.dnntFlag && appSettings.crisisUrl"
             type="warning"
             label="alert.warning"
             message="alert.inaccessible_document_dnnt"
-            description="alert.inaccessible_document_dnnt_description">
+            [html]="'<br><div class=\'dnntLink\'>'+ ('dialogs.dnntnoLink' | translate) +' <a href=\''+this.dnntLink+'\'>'+ ('dialogs.dnntLink' | translate) +'</a></div><br>'+ ('alert.inaccessible_document_crisis_description' | translate)">
       </app-alert>
+      <app-alert *ngIf="bookService.dnntFlag && !appSettings.crisisUrl"
+            type="warning"
+            label="alert.warning"
+            message="alert.inaccessible_document_dnnt"
+            [html]="'<br><div class=\'dnntLink\'>'+ ('dialogs.dnntnoLink' | translate) +' <a href=\''+this.dnntLink+'\'>'+ ('dialogs.dnntLink' | translate) +'</a></div><br>'+ ('alert.inaccessible_document_dnnt_description' | translate)">
+      </app-alert>
+
   </ng-container>
 
 
@@ -92,6 +108,12 @@
 
   <div *ngIf="bookService.dnntMode" class="app-dnnt">
       <span class="app-info">DÍLO NEDOSTUPNÉ NA TRHU</span>
+      <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
+
+  </div>
+
+  <div *ngIf="!bookService.dnntMode && bookService.isPrivate && appSettings.membranePrivateTitle" class="app-dnnt">
+      <span class="app-info">{{ appSettings.membranePrivateTitle  }}</span>
       <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
 
   </div>

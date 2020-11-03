@@ -139,7 +139,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   setDnntLink() {
     this.dnntLink="";
-    if(this.appSettings.dnntUrl) {
+    if(this.appSettings.crisisUrl) {
+        if(this.appSettings.dnnt.loginUrl) { this.dnntLink=this.appSettings.dnnt.loginUrl+'?target='+this.appSettings.crisisUrl+'/uuid/'+this.bookService.getUuid(); }
+        else { this.dnntLink=this.appSettings.crisisUrl+'/uuid/'+this.bookService.getUuid(); }
+        
+    } else if(this.appSettings.dnntUrl) {
       this.dnntApi = this.appSettings.dnntUrl+"/search/api/v5.0/item/"+this.bookService.getUuid();
       this.http.get(this.dnntApi).toPromise().then((data:any) => {
         //this.dnntTitle='<div class="dnntLink"><a href="'+this.appSettings.dnntUrl+'/uuid/'+this.bookService.getUuid()+'">Toto dílo je dostupné v rámci DNNT</a></div>';

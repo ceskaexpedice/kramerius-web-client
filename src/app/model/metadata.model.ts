@@ -132,6 +132,16 @@ export class Metadata {
         return '';
     }
 
+    public getFullTitle(): string {
+        if (this.titles.length > 0) {
+            return this.titles[0].fullTitle();
+        }
+        if (this.mainTitle) {
+            return this.mainTitle;
+        }
+        return '';
+    }
+
     public getShortTitle(): string {
         return this.getTitle().substring(0, 50);
     }

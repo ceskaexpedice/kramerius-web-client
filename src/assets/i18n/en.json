@@ -93,7 +93,7 @@
     "geonames": "Geographic name",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",
-    "dnnt_document": "The document envisaged a division scheme unavailable on the market",
+    "dnnt_document": "Out of Commerce Works",
     "ordering": {
       "label": "Ordering",
       "relevance": "Relevance",
@@ -106,7 +106,7 @@
       "label": "Accessibility",
       "public": "Public",
       "private": "Private",
-      "dnnt": "Documents not available on the market",
+      "dnnt": "Out of Commerce Works",
       "accessible": "All accessible documents",
       "all": "All"
     },
@@ -188,7 +188,9 @@
     "no_results_found": "No results found. Please, try a different query.",
     "inaccessible_document": "The document is not publicly accessible",
     "inaccessible_document_description": "This document is still protected by the Copyright Act (No. 121/2000 Coll.) And is therefore not publicly available until 70 years have passed since the death of all its authors (including a translator, illustrator, etc.) and 50 years after the publication of the work. The document can be accessed from computer stations in the library building that owns it. You can find out about the ownership of the requested document in the details on the right as „Save“.",
-    "inaccessible_document_dnnt": "The document envisaged a division scheme unavailable on the market",
+    "inaccessible_document_crisis": "This document is temporarily available (read only)",
+    "inaccessible_document_dnnt": "Out of Commerce Works",
+    "inaccessible_document_crisis_description": "<p>After logging in, the work is accessible only to registered users of institutions that have already concluded a contract with the National Library of the Czech Republic. <a href=\"https://ndk.cz/faq\" target=\"crisis\">More information on logging in.</a></p><p><b>is taught to educators and college students and researchers. </b></p><p>After successful login, you will be automatically redirected to the National Digital Library - Covid (NDK-Covid).",
     "inaccessible_document_dnnt_description": "This document falls under the Unavailable Works mode. This document is accessible only to registered visitors of contracted institutions. Access to NDK-DNNT services is conditional on a contract between the National Library of the Czech Republic and the library (institution) that wants to provide the services. More info <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\"> dnnt.nkp.cz </a>",
     "failed_to_load_image": "Failed to load the image",
     "book_no_results": "No results found"
@@ -248,7 +250,7 @@
     "authors_info": "More about authors",
     "donator": "Supported by",
     "policy_private": "Not publicly accessible document",
-    "policy_dnnt": "Dílo nedostupné na trhu"
+    "policy_dnnt": "Out of Commerce Works"
   },
   "donator": {
     "norway": {
@@ -370,7 +372,8 @@
     "role": "Roles"
   },
   "dialogs": {
-    "dnntLink": "To view the document, log in with your institution's account",
+    "dnntnoLink": "To view the document",
+    "dnntLink": "log in with your institution's account",
     "private_sheetmusic": {
       "message": "Unfortunately, it is not allowed to copy copyright-protected sheet music in any way due to an exception in the Copyright Act."
     },

@@ -271,7 +271,7 @@ export class SearchService {
         switch (facet) {
             case 'accessibility': {
               this.accessibility = this.solrService.facetAccessibilityList(response);
-              if (this.appSettings.dnntFilter && !this.appSettings.dnntUrl || this.appSettings.dnntFilter && this.auth.isLoggedIn()) {  
+              if ((this.appSettings.dnntFilter && !this.appSettings.dnntUrl || this.appSettings.dnntFilter && this.auth.isLoggedIn()) && this.appSettings.publicFilterDefault!='notlogged') {  
                   this.krameriusApiService.getSearchResults(this.query.buildQuery('accessible')).subscribe(response => {
                       let count = 0;
                       if (this.query.getRawQ() || this.query.isCustomFieldSet()) {

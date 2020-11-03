@@ -21,6 +21,7 @@ export class AppSettings {
   public url: string;
   public pdfUrl: string;
   public dnntUrl: string;
+  public crisisUrl: string;
   public code: string;
   public richCollections: boolean;
   public joinedDoctypes: boolean;
@@ -35,6 +36,7 @@ export class AppSettings {
   public mapSearch: boolean;
   public topLevelFilter: string;
   public hiddenLocks: boolean;
+  public membranePrivateTitle: string;
   public notice: string;
 
   public share_url = APP_GLOBAL.share_url;
@@ -114,6 +116,7 @@ public findCrameriusByCode(code: string): KrameriusData {
     this.richCollections = kramerius.richCollections;
     this.pdfUrl = kramerius.pdfUrl;
     this.dnntUrl = kramerius.dnntUrl;
+    this.crisisUrl = kramerius.crisisUrl;
     this.joinedDoctypes = kramerius.joinedDoctypes;
     this.doctypes = kramerius.doctypes;
     this.filters = kramerius.filters || [];
@@ -125,6 +128,7 @@ public findCrameriusByCode(code: string): KrameriusData {
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = !!kramerius.mapSearch;
     this.hiddenLocks = !!kramerius.hiddenLocks;
+    this.membranePrivateTitle = kramerius.membranePrivateTitle;
     this.notice = kramerius.notice;
 
     this.currentCode = this.code;
@@ -177,6 +181,7 @@ interface KrameriusData {
   url: string;
   pdfUrl: string;
   dnntUrl: string;
+  crisisUrl: string;
   richCollections: boolean;
   joinedDoctypes: boolean;
   doctypes: string[];
@@ -189,6 +194,7 @@ interface KrameriusData {
   customRightMessage: boolean;
   mapSearch: boolean;
   hiddenLocks: boolean;
+  membranePrivateTitle: string;
   notice: string;
   type: string;
 }
