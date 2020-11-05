@@ -64,7 +64,7 @@ export class KrameriusApiService {
     }
 
     private getApiUrlForBaseUrl(url: string): string {
-        if (this.settings.apiVersion == '5.0') {
+        if (this.settings.k5Compat()) {
             return `${url}/search/api/v5.0`;
         }
         return `${url}/search/api/client/v6.0`;
@@ -75,7 +75,7 @@ export class KrameriusApiService {
     }
 
     private getItemUrl(uuid: string, url = null) {
-        const item = this.settings.apiVersion == '5.0' ? 'item' : 'items';
+        const item = this.settings.k5Compat() ? 'item' : 'items';
         return `${this.getApiUrlForBaseUrl(url ? url : this.getbaseUrl())}/${item}/${uuid}`;
     }
 
@@ -84,7 +84,7 @@ export class KrameriusApiService {
     }
 
     getFullJpegUrl(uuid: string): string {
-        if (this.settings.apiVersion == '5.0') {
+        if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
         } else {
             return this.getItemUrl(uuid) + '/image';
@@ -92,7 +92,7 @@ export class KrameriusApiService {
     }
 
     getThumbUrl(uuid: string): string {
-        if (this.settings.apiVersion == '5.0') {
+        if (this.settings.k5Compat()) {
             return this.getItemUrl(uuid) + '/thumb';
         } else {
             return this.getItemUrl(uuid) + '/image/thumb';
@@ -100,7 +100,7 @@ export class KrameriusApiService {
     }
 
     getThumbUrlForKramerius(uuid: string, url: string): string {
-        if (this.settings.apiVersion == '5.0') {
+        if (this.settings.k5Compat()) {
             return this.getItemUrl(uuid, url) + '/thumb';
         } else {
             return this.getItemUrl(uuid, url) + '/image/thumb';
@@ -174,7 +174,7 @@ export class KrameriusApiService {
     }
 
     getItem(uuid: string): Observable<DocumentItem> {
-        if (this.settings.oldSchema()) {
+        if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid)).map(response => this.utils.parseItem(response));
         } else {
             return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).map(response => this.solr.documentItem(response));
@@ -182,7 +182,7 @@ export class KrameriusApiService {
     }
 
     getOcrUrl(uuid: string): string {
-        if (this.settings.apiVersion == '5.0') {
+        if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);
         } else {
             return this.getItemUrl(uuid) + '/ocr/text';
@@ -219,7 +219,7 @@ export class KrameriusApiService {
     }
 
     getModsUrl(uuid: string): string {
-        if (this.settings.apiVersion == '5.0') {
+        if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
         } else {
             return this.getItemUrl(uuid) + '/metadata/mods';
@@ -227,7 +227,7 @@ export class KrameriusApiService {
     }
 
     getFoxmlUrl(uuid: string): string {
-        if (this.settings.apiVersion == '5.0') {
+        if (this.settings.k5Compat()) {
             return this.getItemUrl(uuid) + '/foxml';
         } else {
             return this.getbaseUrl() + `/search/api/admin/v1.0/items/${uuid}/foxml`;
@@ -380,7 +380,7 @@ export class KrameriusApiService {
 
     
     getChildren(uuid: string, own: boolean = true): Observable<any> {
-        if (this.settings.apiVersion == '5.0') {
+        if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid) + '/children')
             .map(response => this.utils.parseBookChild(response));
         } else {
@@ -396,7 +396,7 @@ export class KrameriusApiService {
     }
 
     getItemInfo(uuid: string): Observable<any> {
-        if (this.settings.apiVersion == '5.0') {
+        if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid))
                 .map(response => this.parseItemInfoForPage(response));
         } else {
@@ -406,7 +406,7 @@ export class KrameriusApiService {
     }
 
     private parseItemInfoForPage(json) {
-        if (this.settings.apiVersion == '5.0') {
+        if (this.settings.k5Compat()) {
             let imageType = 'none';
             if (json['zoom'] && json['zoom']['url']) {
                 imageType = 'tiles';

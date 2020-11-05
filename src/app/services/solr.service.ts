@@ -330,10 +330,6 @@ export class SolrService {
         return this.settings.schemaVersion;
     }
 
-    private oldSchema(): boolean {
-        return this.settings.oldSchema();
-    }
-
     field(name: string): string {
         return SolrService.fields[name][this.version()];
     }
@@ -344,7 +340,7 @@ export class SolrService {
         if (this.settings.doctypes.indexOf('monograph') >= 0) {
             filter = `${filter} OR ${field}:monographunit`
         }
-        if (!this.oldSchema()) {
+        if (!this.settings.k5Compat()) {
             if (topLevelCollectionsOnly) {
                 filter = `${filter} OR (${field}:collection AND ${this.field('is_top_collection')}:true)`;                
             } else {
@@ -356,7 +352,7 @@ export class SolrService {
     // ${this.settings.dnntFilter ? ',dnnt' : ''}
     getNewestQuery(): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('title')},${this.field('date')},${this.field('model')}`;
-        if (!this.oldSchema()) {
+        if (!this.settings.k5Compat()) {
             q += `,${this.field('collection_description')}`;
         }
         if (this.settings.dnnt) {
@@ -398,7 +394,7 @@ export class SolrService {
     private buildPeriodicalQuery(parent: string, type: string, models: string[], query: PeriodicalQuery, applyYear: boolean): string {
         const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('date')}`;
-        if (this.oldSchema()) {
+        if (this.settings.k5Compat()) {
             q += ',details';
         } else {
             q += `,${this.field('part_name')},${this.field('part_number')},${this.field('date')},${this.field('issue_type')}`;
@@ -414,7 +410,7 @@ export class SolrService {
             q += `(${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *])`
         }
         q += '&sort=';
-        if (this.oldSchema()) {
+        if (this.settings.k5Compat()) {
             // OLD SCHEMA
             if (type === 'issue') {
                 q += 'datum asc,';
@@ -450,7 +446,7 @@ export class SolrService {
 
     buildPeriodicalItemsDetailsQuery(uuids: string[]) {
         let q = `fl=${this.field('id')},${this.field('model')},${this.field('date')}`;
-        if (this.oldSchema()) {
+        if (this.settings.k5Compat()) {
             q += ',details,dc.title';
         } else {
             q += `,${this.field('part_name')},${this.field('part_number')}`;
@@ -821,14 +817,14 @@ export class SolrService {
         } else {
             q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('title')},${this.field('date')}`;
         }
-        if (!this.oldSchema()) {
+        if (!this.settings.k5Compat()) {
             q += `,${this.field('collection_description')}`;
         }
         if (this.settings.dnntFilter) {
             q += `,${this.field('dnnt')}`;
         }
         if (query.isBoundingBoxSet()) {
-            if (this.oldSchema()) {
+            if (this.settings.k5Compat()) {
                 q += `,${this.field('coords_location')}`;
             } else {
                 q += `,${this.field('coords_corner_ne')},${this.field('coords_corner_sw')}`;
@@ -908,7 +904,7 @@ export class SolrService {
         fqFilters.push(this.buildFacetFilter(withQueryString, 'publishers', query.publishers, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'places', query.places, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'genres', query.genres, facet));
-        if (!query.isBoundingBoxSet() && this.oldSchema()) {
+        if (!query.isBoundingBoxSet() && this.settings.k5Compat()) {
             fqFilters.push(this.getDateOrderingRestriction(query));
         }
         fqFilters = fqFilters.filter( (el) => {
@@ -1038,7 +1034,7 @@ export class SolrService {
             item.dnnt = !!doc[this.field('dnnt')];
             item.description = doc[this.field('collection_description')];
             item.geonames = doc[this.field('geonames_facet')];
-            if (this.oldSchema()) {
+            if (this.settings.k5Compat()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
             } else {
                 this.parseLocation(doc[this.field('coords_corner_ne')], doc[this.field('coords_corner_sw')], item);
@@ -1104,7 +1100,7 @@ export class SolrService {
     facetDoctypeList(solr, joinedDocytypes: boolean, doctypes: string[]) {
         const map = {};
 
-        const types = this.oldSchema() ? doctypes : doctypes.concat(['collection']);
+        const types = this.settings.k5Compat() ? doctypes : doctypes.concat(['collection']);
         for (const doctype of types) {
             map[doctype] = 0;
         }
@@ -1224,7 +1220,7 @@ export class SolrService {
         if (!path) {
             return null;
         }
-        if (this.oldSchema()) {
+        if (this.settings.k5Compat()) {
             return path.length > 0 ? path[0] : null;
         } else {
             return path;
@@ -1260,14 +1256,14 @@ export class SolrService {
                 continue;
             }
             const item = this.periodicalItem(doc);
-            if (this.oldSchema()) {
+            if (this.settings.k5Compat()) {
                 item.sortIndex = index;
                 item.sortNumber = item.calcSortNumber();
                 index++;
             }
             items.push(item);
         }
-        if (this.oldSchema()) {
+        if (this.settings.k5Compat()) {
             items.sort((a: PeriodicalItem, b: PeriodicalItem) => {
                 if (a.date == b.date) {
                     return a.sortNumber - b.sortNumber;
@@ -1309,7 +1305,7 @@ export class SolrService {
         item.public = doc[this.field('accessibility')] === 'public';
         item.doctype = doc[this.field('model')];
         item.dnnt = !!doc[this.field('dnnt')];
-        if (this.oldSchema()) {
+        if (this.settings.k5Compat()) {
             this.periodicalItemOld(doc, item);
             return item;
         }
@@ -1416,7 +1412,7 @@ export class SolrService {
             item.dnnt = !!doc[this.field('dnnt')];
             item.description = doc[this.field('collection_description')];
             item.geonames = doc[this.field('geonames_facet')];
-            if (this.oldSchema()) {
+            if (this.settings.k5Compat()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
             } else {
                 this.parseLocation(doc[this.field('coords_corner_ne')], doc[this.field('coords_corner_sw')], item);

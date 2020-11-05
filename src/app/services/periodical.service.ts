@@ -71,7 +71,7 @@ export class PeriodicalService {
           if (query.fulltext) {
             this.initFulltext();
           } else {
-            if (this.settings.oldSchema()) {
+            if (this.settings.k5Compat()) {
               this.api.getChildren(query.uuid).subscribe(children => {
                 this.assignItems(this.utilsService.parseMonographBundleChildren(children, query.accessibility));
                 this.initMonographUnit();

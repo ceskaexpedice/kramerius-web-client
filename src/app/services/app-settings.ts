@@ -19,7 +19,6 @@ export class AppSettings {
   public logo: string;
   public logoHome: string;
   public url: string;
-  public apiVersion: string;
   public schemaVersion: string;
   public solrVersion: string;
   public code: string;
@@ -109,7 +108,6 @@ export class AppSettings {
     this.title = kramerius.title;
     this.subtitle = kramerius.subtitle;
     this.url = kramerius.url;
-    this.apiVersion = kramerius.apiVersion || '5.0';
     this.schemaVersion = kramerius.schemaVersion || '1.0';
     this.logo = kramerius.logo || 'assets/img/logo.png'
     this.logoHome = kramerius.logoHome || this.logo;
@@ -125,12 +123,7 @@ export class AppSettings {
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = !!kramerius.mapSearch;
     this.hiddenLocks = !!kramerius.hiddenLocks;
-
-    
     this.currentCode = this.code;
-    if (this.apiVersion === '5.0') {
-
-    }
     this.listner.next(kramerius);
   }
 
@@ -165,7 +158,7 @@ export class AppSettings {
     return this.filters.indexOf(filter) > -1;
   }
 
-  public oldSchema(): boolean {
+  public k5Compat(): boolean {
     return this.schemaVersion === '1.0';
   }
 
@@ -180,7 +173,6 @@ interface KrameriusData {
   logo: string;
   logoHome: string;
   url: string;
-  apiVersion: string;
   schemaVersion: string;
   richCollections: boolean;
   joinedDoctypes: boolean;
