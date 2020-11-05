@@ -460,9 +460,10 @@ export class SolrService {
     }
 
 
-    buildDocumentFulltextQuery(uuid: string, query: string) {
+    buildDocumentFulltextQuery(uuids: string[], query: string) {
         const fl = this.field('id');
-        const fq = `${this.field('parent_pid')}:"${uuid}" AND ${this.field('model')}:page`;
+        const parent = `${this.field('parent_pid')}:"` + uuids.join(`" OR ${this.field('parent_pid')}:"`) + '"';
+        const fq = `(${parent}) AND ${this.field('model')}:page`;
         const q = `_query_:"{!edismax qf=\'${this.field('text_ocr')}\' v=$q1}\"`;
         let term = this.buildQ(query);
         return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&rows=300&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
@@ -1196,7 +1197,6 @@ export class SolrService {
             }
             const pidPath = this.getPidPath(doc);
             const modelPath = this.getModelPath(doc);
-            console.log('pidPath', pidPath);
             if (pidPath && modelPath) {
                 const pids = pidPath.split('/');
                 const models = modelPath.split('/');
@@ -1214,7 +1214,6 @@ export class SolrService {
             }
             items.push(item);
         }
-        console.log('items', items);
         return items;
     }
 

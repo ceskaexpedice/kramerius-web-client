@@ -78,6 +78,7 @@ export class BookService {
     public dnntFlag = false;
     public iiifEnabled = false;
 
+    private supplementUuids = [];
 
     constructor(private location: Location,
         private altoService: AltoService,
@@ -115,6 +116,7 @@ export class BookService {
 
     init(params: BookParams) {
         this.clear();
+        this.supplementUuids = [];
         this.uuid = params.uuid;
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
@@ -337,6 +339,7 @@ export class BookService {
         for (const p of inputPages) {
             if (p['model'] === 'supplement') {
                 supplements.push(p);
+                this.supplementUuids.push(p.pid);
             } else {
                 pages.push(p);
             }
@@ -714,7 +717,8 @@ export class BookService {
             this.cancelFulltext();
             return;
         }
-        this.api.getDocumentFulltextPage(this.uuid, query).subscribe((result: any[]) => {
+        const uuids = [this.uuid].concat(this.supplementUuids);
+        this.api.getDocumentFulltextPage(uuids, query).subscribe((result: any[]) => {
             this.ftPages = [];
             let index = 0;
             for (const page of this.allPages) {

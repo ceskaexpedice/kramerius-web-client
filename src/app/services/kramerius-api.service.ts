@@ -164,8 +164,8 @@ export class KrameriusApiService {
             .map(response => this.solr.browseItems(response, query));
     }
 
-    getDocumentFulltextPage(uuid: string, query: string): Observable<string[]> {
-        return this.getSearchResults(this.solr.buildDocumentFulltextQuery(uuid, query))
+    getDocumentFulltextPage(uuids: string[], query: string): Observable<string[]> {
+        return this.getSearchResults(this.solr.buildDocumentFulltextQuery(uuids, query))
             .map(response => this.solr.documentFulltextQuery(response));
     }
 
