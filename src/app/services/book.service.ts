@@ -147,7 +147,7 @@ export class BookService {
                 this.analytics.sendEvent('viewer', 'open', this.metadata.getShortTitle());
                 this.pageTitle.setTitle(null, this.metadata.getShortTitle());
                 if (item.doctype) {
-                    if (item.doctype.startsWith('periodical')) {
+                    if (item.doctype.startsWith('periodical') || item.doctype === 'supplement') {
                         this.metadata.doctype = 'periodical';
                     } else if (item.doctype === 'monographunit') {
                         this.metadata.doctype = 'monographbundle';
@@ -159,7 +159,7 @@ export class BookService {
                 if (item.doctype === 'periodicalitem' || item.doctype === 'supplement') {
                     const volumeUuid = item.getUuidFromContext('periodicalvolume');
                     this.loadVolume(volumeUuid);
-                    this.loadIssues(volumeUuid, this.uuid);
+                    this.loadIssues(volumeUuid, this.uuid, item.doctype);
                 } else if (item.doctype === 'monographunit') {
                     this.loadMonographUnits(item.root_uuid, this.uuid);
                 } else if (item.doctype === 'periodicalvolume') {
@@ -212,7 +212,7 @@ export class BookService {
 
 
 
-    private loadIssues(volumeUuid: string, issueUuid: string) {
+    private loadIssues(volumeUuid: string, issueUuid: string, doctype: string) {
         this.api.getPeriodicalIssues(volumeUuid, null).subscribe((issues: PeriodicalItem[]) => {
             if (!issues || issues.length < 1) {
                 return;
@@ -236,7 +236,7 @@ export class BookService {
                 this.metadata.nextIssue = issues[index + 1];
             }
             this.api.getMetadata(issueUuid, 'issue').subscribe((metadata: Metadata) => {
-                this.metadata.addToContext('periodicalitem', issueUuid);
+                this.metadata.addToContext(doctype, issueUuid);
                 this.metadata.currentIssue.metadata = metadata;
             });
         });
