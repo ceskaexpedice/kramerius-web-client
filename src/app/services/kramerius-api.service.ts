@@ -413,7 +413,7 @@ export class KrameriusApiService {
             } else if (json['pdf'] && json['pdf']['url']) {
                 imageType = 'pdf';
             } else {
-                imageType = 'jpeg';
+                imageType = 'image/jpeg';
             }
             return {
                 dnnt: json['dnnt'],
