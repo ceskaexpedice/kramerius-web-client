@@ -195,16 +195,24 @@ export class KrameriusApiService {
         }
     }
 
+    getAltoUrl(uuid: string): string {
+        if (this.settings.k5Compat()) {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO);
+        } else {
+            return this.getItemUrl(uuid) + '/ocr/alto';
+        }
+    }
+
     getOcr(uuid: string): Observable<string> {
         return this.doGetText(this.getOcrUrl(uuid));
     }
 
-    getDc(uuid: string) {
-        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC));
+    getAlto(uuid: string) {
+        return this.doGetText(this.getAltoUrl(uuid));
     }
 
-    getAlto(uuid: string) {
-        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO));
+    getDc(uuid: string) {
+        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC));
     }
 
     getMods(uuid: string): Observable<string> {
