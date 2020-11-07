@@ -71,7 +71,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   constructor(public bookService: BookService,
               public authService: AuthService,
-              public appSettings: AppSettings,
+              public settings: AppSettings,
               private http: HttpClient,
               private iiif: IiifService,
               private logger: LoggerService,
@@ -244,7 +244,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   buildWatermarkLayer(text: string) {
-    const font = this.appSettings.dnnt.watermarkFontSize + 'px roboto,sans-serif';
+    const font = this.settings.dnnt.watermarkFontSize + 'px roboto,sans-serif';
     this.watermark = new ol.layer.Vector({
       name: 'watermark',
       source: new ol.source.Vector(),
@@ -253,7 +253,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
           font: font,
           text: text,
           fill: new ol.style.Fill({
-            color:  this.appSettings.dnnt.watermarkColor
+            color:  this.settings.dnnt.watermarkColor
           }),
           textAlign: 'left',
         })
@@ -279,15 +279,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (!this.watermark) {
       this.buildWatermarkLayer(watermarkText);
     }
-    let cw = this.appSettings.dnnt.watermarkRowCount;
-    const ch = this.appSettings.dnnt.watermarkColCount;
+    let cw = this.settings.dnnt.watermarkRowCount;
+    const ch = this.settings.dnnt.watermarkColCount;
     const sw = this.extent[0];
     const width = this.extent[2] - this.extent[0];
     if (this.extent[0] < 0) {
       cw = cw * 2;
     }
     const height = -this.extent[1];
-    const p = this.appSettings.dnnt.watermarkProbability;
+    const p = this.settings.dnnt.watermarkProbability;
     for (let i = 0; i < cw; i ++) {
      for (let j = 0; j < ch; j ++) {
        if (Math.floor((Math.random() * 100)) < p) {
@@ -526,7 +526,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       url: thumbUrl,
       imageExtent: extent
     };
-    if (this.appSettings.crossOrigin) {
+    if (this.settings.crossOrigin) {
       options.crossOrigin = 'Anonymous';
       imageOptions['crossOrigin'] = 'Anonymous';
     }
@@ -569,7 +569,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
         url: this.zoomify.thumb(url),
         imageExtent: extent
     };
-    if (this.appSettings.crossOrigin) {
+    if (this.settings.crossOrigin) {
       zoomifyOptions['crossOrigin'] = 'Anonymous';
       imageOptions['crossOrigin'] = 'Anonymous';
     }

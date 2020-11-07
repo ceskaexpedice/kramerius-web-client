@@ -99,19 +99,32 @@ export class BookService {
 
     private assignPdfPath(uuid: string) {
         this.viewer = 'pdf';
-        this.bookState = BookState.Success;
-        if (uuid === null) {
+        this.publishNewPages(BookPageState.Loading);
+        this.api.getPdfPreviewBlob(uuid).subscribe(() => {
+            // this.bookState = BookState.Success;
+            this.publishNewPages(BookPageState.Success);
+            if (uuid === null) {
+                this.pdf = null;
+                this.pdfPath = null;
+                return;
+            }
+            this.pdf = this.api.getPdfUrl(uuid);
+            let url = 'assets/pdf/viewer.html?file=' + encodeURIComponent(this.pdf);
+            url += '&lang=' + this.translator.language;
+            if (this.fulltextQuery) {
+                url += '&query=' + this.fulltextQuery;
+            }
+            this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        },
+        (error: AppError)  => {
             this.pdf = null;
-            this.pdfPath = null;
+            if (error instanceof UnauthorizedError) {
+                this.publishNewPages(BookPageState.Inaccessible);
+            } else {
+                this.publishNewPages(BookPageState.Failure);
+            }
             return;
-        }
-        this.pdf = this.api.getPdfUrl(uuid);
-        let url = 'assets/pdf/viewer.html?file=' + encodeURIComponent(this.pdf);
-        url += '&lang=' + this.translator.language;
-        if (this.fulltextQuery) {
-            url += '&query=' + this.fulltextQuery;
-        }
-        this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        });
     }
 
     init(params: BookParams) {
@@ -169,6 +182,7 @@ export class BookService {
                 this.localStorageService.addToVisited(item, this.metadata);
                 if (item.pdf) {
                     this.showNavigationPanel = false;
+                    this.bookState = BookState.Success;
                     this.assignPdfPath(params.uuid);
                 } else {
                     this.api.getChildren(params.uuid).subscribe(children => {

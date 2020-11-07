@@ -31,6 +31,7 @@ export class KrameriusApiService {
     private static STREAM_MODS = 'BIBLIO_MODS';
     private static STREAM_OCR = 'TEXT_OCR';
     private static STREAM_JPEG = 'IMG_FULL';
+    private static STREAM_PREVIEW = 'IMG_PREVIEW';
     private static STREAM_ALTO = 'ALTO';
     private static STREAM_MP3 = 'MP3';
 
@@ -56,6 +57,11 @@ export class KrameriusApiService {
 
     private doGetText(url: string): Observable<string> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'text' })
+        .map(response => response['body']).catch(this.handleError);
+    }
+
+    private doGetBlob(url: string): Observable<Blob> {
+        return this.http.get(encodeURI(url), { observe: 'response', responseType: 'blob' })
         .map(response => response['body']).catch(this.handleError);
     }
 
@@ -289,12 +295,6 @@ export class KrameriusApiService {
     //         .catch(this.handleError);
     // }
 
-    private doGetBlob(url: string): Observable<Blob> {
-        return this.http.get(encodeURI(url), { observe: 'response', responseType: 'blob' })
-        .map(response => response['body']);
-    }
-
-
     getUserInfo(username: string, password: string): Observable<User> {
         const url = this.getApiUrl() + '/user';
 
@@ -348,6 +348,14 @@ export class KrameriusApiService {
     downloadMp3(uuid: string): Observable<Blob> {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
         return this.doGetBlob(url);
+    }
+
+    getPdfPreviewBlob(uuid: string): Observable<boolean> {
+        if (this.settings.k5Compat()) {
+            return this.doGetBlob(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_PREVIEW)).map(() => true);
+        } else {
+            return this.doGetBlob(this.getItemUrl(uuid) + '/image').map(() => true);
+        }
     }
 
     getScaledJpegUrl(uuid: string, height: number): string {

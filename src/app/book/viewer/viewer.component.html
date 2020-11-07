@@ -40,13 +40,13 @@
   
   <ng-container *ngIf="bookService.isPageInaccessible()">
       <ng-container *ngIf="!bookService.dnntFlag">
-            <app-alert *ngIf="!appSettings.customRightMessage"
+            <app-alert *ngIf="!settings.customRightMessage"
                   type="warning"
                   label="alert.warning"
                   message="alert.inaccessible_document"
                   description="alert.inaccessible_document_description">
             </app-alert>
-            <app-alert *ngIf="appSettings.customRightMessage"
+            <app-alert *ngIf="settings.customRightMessage"
                   type="warning"
                   label="alert.warning"
                   message="alert.inaccessible_document"
@@ -85,7 +85,6 @@
   <div *ngIf="bookService.dnntMode && authService.isLoggedIn()" class="app-dnnt">
       <span class="app-info">DÍLO NEDOSTUPNÉ NA TRHU</span>
       <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
-
   </div>
 
 </div>

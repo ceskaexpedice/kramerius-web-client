@@ -5,7 +5,7 @@ app-pdf-viewer {
   height: 100%;
   width: 100%;
   background-color: $app-grey-l-4;    
-  overflow: scroll;
+  // overflow: scroll;
   position: relative;
   pdf-viewer {
     display: block;
