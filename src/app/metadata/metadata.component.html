@@ -306,8 +306,10 @@
 
     <div *ngIf="metadata.abstracts.length > 0">
       <label>{{ 'metadata.abstract' | translate }}</label>
-      <div *ngFor="let abstract of metadata.abstracts" class="app-value" >{{ abstract }}</div>
-      <div class="divider"></div>
+      <ng-container *ngFor="let abstract of metadata.abstracts">
+        <div class="app-value" >{{ abstract }}</div>
+        <div class="divider"></div>
+      </ng-container>
     </div>
 
     <div *ngIf="metadata.contents.length > 0">
