@@ -641,7 +641,12 @@
     "KAE950" : "Knihovna Slezské diakonie",
     "NJE303" : "Muzeum Novojičínska",
     "OPE801" : "Muzeum Hlučínska",
-    "KAG502" : "Městská knihovna Orlová"
+    "KAG502" : "Městská knihovna Orlová",
+    "SVE951" : "Knihovna kláštera františkánů v Dačicích",
+    "HOE801" : "Národní ústav lidové kultury",
+    "SME801" : "Muzeum Českého ráje v Turnově",
+    "ABB019" : "Sociologický ústav AV ČR",
+    "ABB085" : "Masarykův ústav a Archiv AV ČR"
   },
   "language" : {
     "aar" : "afarština",

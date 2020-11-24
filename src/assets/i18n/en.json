@@ -646,7 +646,12 @@
     "KAE950" : "Library of the Silesian Diacony",
     "NJE303" : "Museum of Novy Jicin Region",
     "OPE801" : "The Hlučín Area Museum",
-    "KAG502" : "Municipal Library in Orlova"
+    "KAG502" : "Municipal Library in Orlova",
+    "SVE951" : "Library of the Franciscan Monastery in Dačice",
+    "HOE801" : "National Institute of Folk Culture",
+    "SME801" : "Museum of the Bohemian Paradise",
+    "ABB019" : "Institute of Sociology of the Czech Academy of Sciences",
+    "ABB085" : "Masaryk Institute and Archives of the AS CR"
   },
   "language" : {
     "aar" : "Afar",
