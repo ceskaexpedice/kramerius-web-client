@@ -306,8 +306,10 @@
 
     <div *ngIf="metadata.abstracts.length > 0">
       <label>{{ 'metadata.abstract' | translate }}</label>
-      <ng-container *ngFor="let abstract of metadata.abstracts">
-        <div class="app-value" >{{ abstract }}</div>
+      <ng-container *ngFor="let abstract of metadata.abstracts; let i = index">
+        <div class="app-value" *ngIf="abstract.length > 115 && !expand['abstract' + i]" >{{ abstract.substring(0, 110) + "..." }}</div>
+        <div class="app-value" *ngIf="!(abstract.length > 115 && !expand['abstract' + i])" >{{ abstract }}</div>
+        <i *ngIf="abstract.length > 115" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="expand['abstract' + i] = !expand['abstract' + i]" class="app-more app-cursor-pointer"></i>
         <div class="divider"></div>
       </ng-container>
     </div>

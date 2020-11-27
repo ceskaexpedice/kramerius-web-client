@@ -25,6 +25,8 @@ export class MetadataComponent implements OnInit {
   @Input() metadata: Metadata;
   showingTitle = false;
 
+  expand = {}
+
   constructor(private modalService: MzModalService,
               public analytics: AnalyticsService,
               public account: AccountService,
