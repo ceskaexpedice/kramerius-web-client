@@ -72,7 +72,8 @@ export class PeriodicalService {
             this.initFulltext();
           } else {
             if (this.settings.k5Compat()) {
-              this.api.getChildren(query.uuid).subscribe(children => {
+              this.api.getRawChildren(query.uuid).subscribe(children => {
+                console.log('children', children);
                 this.assignItems(this.utilsService.parseMonographBundleChildren(children, query.accessibility));
                 this.initMonographUnit();
               });

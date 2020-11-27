@@ -18,7 +18,6 @@ export class Utils {
         return uuid.replace(':', '\\:');
     }
 
-
     parseRecommended(json): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const doc of json['data']) {
@@ -28,7 +27,6 @@ export class Utils {
         }
         return items;
     }
-
 
     parseBookChild(jsonArray): any[] {
         const result = [];

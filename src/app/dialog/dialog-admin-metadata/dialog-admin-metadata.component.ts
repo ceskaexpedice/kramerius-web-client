@@ -102,7 +102,7 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
       case 'ocr': return this.api.getOcr(uuid);
       case 'foxml': return this.api.getFoxml(uuid);
       case 'item': return this.api.getRawItem(uuid);
-      case 'children': return this.api.getChildren(uuid);
+      case 'children': return this.api.getRawChildren(uuid);
       case 'iiif': return this.api.getIiifPresentation(uuid);
     }
   }

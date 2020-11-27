@@ -360,6 +360,14 @@ export class KrameriusApiService {
         }
     }
 
+    getRawChildren(uuid: string): Observable<any> {
+        if (this.settings.k5Compat()) {
+            return this.doGet(this.getItemUrl(uuid) + '/children');
+        } else {
+            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, false));
+        }
+    }
+
 
     getRawItem(uuid: string): Observable<any> {
         const url = this.getItemUrl(uuid);
