@@ -597,31 +597,6 @@ export class SolrService {
         return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&sort=${sort}&rows=${limit}&start=${offset}&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
     }
 
-
-    // buildPeriodicalFulltextSearchQuery(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery): string {
-    //     let q = `fl=${this.field('id')},${this.field('model')},${this.field('model_path')},${this.field('pid_path')},${this.field('authors')},${this.field('accessibility')},${this.field('title')}&q=`;
-    //     if (volumeUuid) {
-    //         q += `${this.field('pid_path')}:${this.utils.escapeUuid(periodicalUuid)}/${this.utils.escapeUuid(volumeUuid)}/*`;
-    //     } else {
-    //         q += `${this.field('root_pid')}:"${periodicalUuid}"`;
-    //     }
-    //     if (query.accessibility === 'public' || query.accessibility === 'private') {
-    //         q += ` AND ${this.field('accessibility')}:${query.accessibility}`;
-    //     }
-    //     if (query.isYearRangeSet()) {
-    //         q += ` AND (${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *])`;
-    //     }
-    //     const term = query.fulltext;
-    //     q += ` AND ((${this.field('model')}:page AND ${this.queryTerm(term, this.field('text_ocr'))}) OR ((${this.field('model')}:monographunit OR ${this.field('model')}:article) AND (${this.queryTerm(term, this.field('titles_search'))} OR ${this.queryTerm(term, this.field('authors_search'))} OR ${this.queryTerm(term, this.field('authors_search'))})))`;
-    //     if (query.ordering === 'latest') {
-    //         q += `&sort=${this.field('date_to_sort')} desc, ${this.field('date')} desc`;
-    //     } else if (query.ordering === 'earliest') {
-    //         q += `&sort=${this.field('date_from_sort')} asc, ${this.field('date')} asc`;
-    //     }
-    //     q += `&rows=${limit}&start=${offset}&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
-    //     return q;
-    // }
-
     buildDocumentQuery(uuid: string): string {
         return `q=${this.field('id')}:"${uuid}"&rows=1`;
     }
@@ -1424,56 +1399,6 @@ export class SolrService {
         }
         return items;
     }
-
-
-
-    // periodicalFtItems(solr, query: string): PeriodicalFtItem[] {
-    //     const items: PeriodicalFtItem[] = [];
-    //     for (const doc of solr['response']['docs']) {
-    //         const item = new PeriodicalFtItem();
-    //         item.uuid = doc['PID'];
-    //         item.public = doc['dostupnost'] === 'public';
-    //         if (doc['fedora.model'] === 'article') {
-    //             item.type = 'article';
-    //             item.authors = doc['dc.creator'];
-    //             item.title = doc['dc.title'];
-    //         } else if (doc['fedora.model'] === 'monographunit') {
-    //             item.type = 'monograph_unit';
-    //             const pItem = this.periodicalItem(doc);
-    //             item.title = pItem.title;
-    //             item.part = pItem.subtitle;
-    //         } else {
-    //             item.type = 'page';
-    //             item.page = doc['dc.title'];
-    //             item.query = query;
-    //         }
-    //         if (doc['pid_path'].length > 0 && doc['model_path'].length > 0) {
-    //             const pp = doc['pid_path'][0].replace(/\@/, '/');
-    //             const pidPath = pp.split('/');
-    //             const modelPath = doc['model_path'][0].split('/');
-    //             for (let i = 0; i < modelPath.length; i++) {
-    //                 const model = modelPath[i];
-    //                 item.context[model] = pidPath[i];
-    //             }
-    //             // if (pidPath.length > 1) {
-    //             //     item.issueUuid = pidPath[pidPath.length - 2];
-    //             // }
-    //             // if (pidPath.length > 2) {
-    //             //     item.volumeUuid = pidPath[pidPath.length - 3];
-    //             // }
-    //             const uuid = item.uuid.replace(/\@/, '/@');
-    //             if (solr['highlighting'][uuid]) {
-    //                 const ocr = solr['highlighting'][uuid]['text'];
-    //                 if (ocr) {
-    //                     item.text = ocr[0];
-    //                 }
-    //             }
-    //         }
-    //         items.push(item);
-    //     }
-
-    //     return items;
-    // }
 
     numberOfFacets(solr): number {
         if (solr['facets']) {

@@ -257,51 +257,6 @@ export class KrameriusApiService {
         return this.getApiUrl() + '/search?' + query;
     }
 
-    // getFulltextUuidList(uuid, query) {
-    //     let text = query.toLowerCase().trim();
-    //     const inQuotes = text.startsWith('"') && text.endsWith('"');
-    //     if (!inQuotes) {
-    //         text = text.replace(/"/g, '\\"');
-    //     }
-    //     text = text.replace(/~/g, '\\~')
-    //     .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
-    //     const url = this.getApiUrl() + '/search/?fl=PID&q=parent_pid:"'
-    //         + uuid + '"'
-    //         + ' AND fedora.model:page'
-    //         + ' AND text:'
-    //         + text
-    //         + '&rows=200';
-    //     return this.doGet(url)
-    //         .map(response => this.solr.uuidList(response))
-    //         .catch(this.handleError);
-    // }
-
-    //  getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery) {
-    //     let url = this.getApiUrl() + '/search?fl=PID,fedora.model,details,dc.creator,root_pid,model_path,pid_path,dostupnost,dc.title,parent_pid&q=';
-    //     if (volumeUuid) {
-    //         url += 'pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*';
-    //     } else {
-    //         url += 'root_pid:"' + periodicalUuid + '"';
-    //     }
-    //     if (query.accessibility === 'public' || query.accessibility === 'private') {
-    //         url += ' AND dostupnost:' + query.accessibility;
-    //     }
-    //     if (query.isYearRangeSet()) {
-    //         url += ' AND (rok:[' + query.from + ' TO ' + query.to + '])';
-    //     }
-    //     const text = query.fulltext.toLowerCase().trim()
-    //                     .replace(/"/g, '\\"').replace(/~/g, '\\~')
-    //                     .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
-    //     url += ' AND (fedora.model:article || fedora.model:monographunit || fedora.model:page) AND text:' + text;
-    //     if (query.ordering === 'latest') {
-    //         url += '&sort=datum desc, datum_str desc';
-    //     } else if (query.ordering === 'earliest') {
-    //         url += '&sort=datum asc, datum_str asc';
-    //     }
-    //     url += '&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
-    //     return this.doGet(url)
-    //         .catch(this.handleError);
-    // }
 
     getUserInfo(username: string, password: string): Observable<User> {
         const url = this.getApiUrl() + '/user';
