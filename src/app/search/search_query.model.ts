@@ -1,4 +1,3 @@
-import { Utils } from '../services/utils.service';
 import { AppSettings } from '../services/app-settings';
 
 export class SearchQuery {
@@ -98,7 +97,6 @@ export class SearchQuery {
             this.clearYearRange();
         }
     }
-
 
     private clearYearRange() {
         this.from = SearchQuery.YEAR_FROM;
@@ -231,50 +229,44 @@ export class SearchQuery {
 
     toUrlParams() {
         const params = {};
-        if (this.page && this.page > 1) {
-            params['page'] = this.page;
-        }
-        if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
-            params['accessibility'] = this.accessibility;
-        }
         if (this.dsq) {
             params['dsq'] = this.dsq;
         }
         if (this.query) {
             params['q'] = this.query;
         }
-        if (this.ordering) {
-            params['sort'] = this.ordering;
+        if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
+            params['accessibility'] = this.accessibility;
         }
         if (this.keywords.length > 0) {
-            params['keywords'] = this.keywords.join(',,');
+            params['keywords'] = this.urlArray(this.keywords);
         }
         if (this.authors.length > 0) {
-            params['authors'] = this.authors.join(',,');
+            params['authors'] = this.urlArray(this.authors);
         }
         if (this.languages.length > 0) {
-            params['languages'] = this.languages.join(',,');
+            params['languages'] = this.urlArray(this.languages);
         }
         if (this.locations.length > 0) {
-            params['locations'] = this.locations.join(',,');
+            params['locations'] = this.urlArray(this.locations);
         }
         if (this.geonames.length > 0) {
-            params['geonames'] = this.geonames.join(',,');
+            params['geonames'] = this.urlArray(this.geonames);
         }
         if (this.publishers.length > 0) {
-            params['publishers'] = this.publishers.join(',,');
+            params['publishers'] = this.urlArray(this.publishers);
         }
         if (this.places.length > 0) {
-            params['places'] = this.places.join(',,');
+            params['places'] = this.urlArray(this.places);
         }
         if (this.genres.length > 0) {
-            params['genres'] = this.genres.join(',,');
+            params['genres'] = this.urlArray(this.genres);
         }
         if (this.doctypes.length > 0) {
-            params['doctypes'] = this.doctypes.join(',,');
+            params['doctypes'] = this.urlArray(this.doctypes);
         }
         if (this.collections.length > 0) {
-            params['collections'] = this.collections.join(',,');
+            params['collections'] = this.urlArray(this.collections);
         }
         if (this.isCustomFieldSet()) {
             params['field'] = this.field;
@@ -290,55 +282,30 @@ export class SearchQuery {
             params['west'] = this.west;
             params['east'] = this.east;
         }
+        if (this.ordering) {
+            if ((this.query || this.isCustomFieldSet())) {
+                if (this.ordering != 'relevance') {
+                    params['sort'] = this.ordering;
+                }
+            } else {
+                if (this.ordering != 'newest') {
+                    params['sort'] = this.ordering;
+                }
+            }
+        }
+        if (this.page && this.page > 1) {
+            params['page'] = this.page;
+        }
         return params;
     }
 
+    private urlArray(array: string[]): string {
+        array.sort((a: string, b: string) => {
+            return a.localeCompare(b);
+        });
+        return array.join(',,');
+    }
 
-    // private getDateOrderingRestriction() {
-    //     if (this.ordering === 'latest') {
-    //         return 'datum_begin: [1 TO 3000]';
-    //     } else if (this.ordering === 'earliest') {
-    //         return 'datum_end: [1 TO 3000]';
-    //     }
-    // }
-
-
-    // public getOrderingValue(): string {
-    //     if (this.ordering === 'newest') {
-    //         return 'created_date desc';
-    //     } else if (this.ordering === 'latest') {
-    //        return 'datum_end desc';
-    //     } else if (this.ordering === 'earliest') {
-    //        return 'datum_begin asc';
-    //     } else if (this.ordering === 'alphabetical') {
-    //         if (this.getRawQ()) {
-    //             return 'root_title asc';
-    //         } else {
-    //             return 'title_sort asc';
-    //         }
-    //     }
-    //     return null;
-    // }
-
-
-    // private buildFacetFilter(field, values, skip) {
-    //     if (skip !== field) {
-    //         if (values.length > 0) {
-    //             if (this.settings.filters.indexOf(field) > -1) {
-    //                 if (field === 'doctypes') {
-    //                     if (this.hasQueryString()) {
-    //                         return ('(model_path:' + values.join('* OR model_path:') + '*)')
-    //                     } else {
-    //                         return ('(model_path:' + values.join(' OR model_path:') + ')')
-    //                                     .replace(/model_path:monograph/, 'model_path:monograph OR model_path:monographunit');
-    //                     }
-    //                 } else {
-    //                     return '(' + SearchQuery.getSolrField(field) + ':"' + values.join('" OR ' + SearchQuery.getSolrField(field) + ':"') + '")';
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 
     public removeAllFilters() {
         this.accessibility = 'all';

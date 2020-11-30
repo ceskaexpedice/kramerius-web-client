@@ -88,11 +88,11 @@ export class HomeSearchBarComponent implements OnInit {
 
 
   private search() {
+    const params = { };
     let q = this.searchStr;
-    if (q == null) {
-      q = '';
+    if (q != null && q != "") {
+      params['q'] = q;
     }
-    const params = { q: q };
     if (this.appSettings.availableFilter('accessibility')) {
       if (this.accessibilityFilter) {
         params['accessibility'] = 'public';
