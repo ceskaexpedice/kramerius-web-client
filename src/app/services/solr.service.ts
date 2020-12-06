@@ -17,103 +17,103 @@ export class SolrService {
     private static fields = {
         'model': {
             '1.0': 'fedora.model',
-            '2.0': 'n.model'
+            '2.0': 'model'
         },
         'id': {
             '1.0': 'PID',
-            '2.0': 'n.pid'
+            '2.0': 'pid'
         },
         'accessibility': {
             '1.0': 'dostupnost',
-            '2.0': 'n.accessibility'
+            '2.0': 'accessibility'
         },
         'authors': {
             '1.0': 'dc.creator',
-            '2.0': 'n.authors'
+            '2.0': 'authors'
         },
         'authors_search': {
             '1.0': 'dc.creator',
-            '2.0': 'n.authors.search'
+            '2.0': 'authors.search'
         },
         'authors_facet': {
             '1.0': 'facet_autor',
-            '2.0': 'n.authors.facet'
+            '2.0': 'authors.facet'
         },
         'keywords_search': {
             '1.0': 'keywords',
-            '2.0': 'n.keywords.search'
+            '2.0': 'keywords.search'
         },
         'keywords_facet': {
             '1.0': 'keywords',
-            '2.0': 'n.keywords.facet'
+            '2.0': 'keywords.facet'
         },
         'languages_search': {
             '1.0': 'language',
-            '2.0': 'n.languages.facet'
+            '2.0': 'languages.facet'
         },
         'languages_facet': {
             '1.0': 'language',
-            '2.0': 'n.languages.facet'
+            '2.0': 'languages.facet'
         },
         'locations_search': {
             '1.0': 'mods.physicalLocation',
-            '2.0': 'n.physical_locations.facet'
+            '2.0': 'physical_locations.facet'
         },
         'locations_facet': {
             '1.0': 'mods.physicalLocation',
-            '2.0': 'n.physical_locations.facet'
+            '2.0': 'physical_locations.facet'
         },
         'geonames_search': {
             '1.0': 'geographic_names',
-            '2.0': 'n.geographic_names.search'
+            '2.0': 'geographic_names.search'
         },
         'geonames_facet': {
             '1.0': 'geographic_names',
-            '2.0': 'n.geographic_names.facet'
+            '2.0': 'geographic_names.facet'
         },
         'publishers_search': {
             '1.0': '',
-            '2.0': 'n.publishers.search'
+            '2.0': 'publishers.search'
         },
         'publishers_facet': {
             '1.0': '',
-            '2.0': 'n.publishers.facet'
+            '2.0': 'publishers.facet'
         },
         'publication_places_search': {
             '1.0': '',
-            '2.0': 'n.publication_places.search'
+            '2.0': 'publication_places.search'
         },
         'publication_places_facet': {
             '1.0': '',
-            '2.0': 'n.publication_places.facet'
+            '2.0': 'publication_places.facet'
         },
         'genres_search': {
             '1.0': '',
-            '2.0': 'n.genres.search'
+            '2.0': 'genres.search'
         },
         'genres_facet': {
             '1.0': '',
-            '2.0': 'n.genres.facet'
+            '2.0': 'genres.facet'
         },
         'title': {
             '1.0': 'dc.title',
-            '2.0': 'n.title.search'
+            '2.0': 'title.search'
         },
         'titles_search': {
             '1.0': 'dc.title',
-            '2.0': 'n.titles.search'
+            '2.0': 'titles.search'
         },
         'title_sort': {
             '1.0': 'title_sort',
-            '2.0': 'n.title.sort'
+            '2.0': 'title.sort'
         },
         'root_title_sort': {
             '1.0': 'root_title',
-            '2.0': 'n.root.title.sort'
+            '2.0': 'root.title.sort'
         },
         'created_at': {
             '1.0': 'created_date',
-            '2.0': 'n.created'
+            '2.0': 'created'
         },
         'dnnt': {
             '1.0': 'dnnt',
@@ -125,23 +125,23 @@ export class SolrService {
         },
         "coords_corner_ne": {
             '1.0': '',
-            '2.0': 'n.coords.bbox.corner_ne'
+            '2.0': 'coords.bbox.corner_ne'
         },
         "coords_corner_sw": {
             '1.0': '',
-            '2.0': 'n.coords.bbox.corner_sw'
+            '2.0': 'coords.bbox.corner_sw'
         },
         "coords_range": {
             '1.0': 'range',
-            '2.0': 'n.coords.bbox'
+            '2.0': 'coords.bbox'
         },
         "coords_center": {
             '1.0': 'center',
-            '2.0': 'n.coords.center'
+            '2.0': 'coords.center'
         },
         "shelf_locator": {
             '1.0': 'mods.shelfLocator',
-            '2.0': 'n.shelf_locator'
+            '2.0': 'shelf_locator'
         },
         "text": {
             '1.0': 'text',
@@ -149,171 +149,135 @@ export class SolrService {
         },
         "level": {
             '1.0': 'level',
-            '2.0': 'level'
+            '2.0': 'pid'
         },
         "root_pid": {
             '1.0': 'root_pid',
-            '2.0': 'n.root.pid'
+            '2.0': 'root.pid'
         },
         "root_model": {
             '1.0': 'root_model',
-            '2.0': 'n.root.model'
+            '2.0': 'root.model'
         },
         "root_title": {
             '1.0': 'root_title',
-            '2.0': 'n.root.title'
+            '2.0': 'root.title'
         },
         "model_path": {
             '1.0': 'model_path',
-            '2.0': 'n.own_model_path'
+            '2.0': 'own_model_path'
         },
         "pid_path": {
             '1.0': 'pid_path',
-            '2.0': 'n.own_pid_path'
+            '2.0': 'own_pid_path'
         },
         'date': {
             '1.0': 'datum_str',
-            '2.0': 'n.date.str'
+            '2.0': 'date.str'
         },
         "date_from_sort": {
             '1.0': 'datum',
-            '2.0': 'n.date.min'
+            '2.0': 'date.min'
         },   
         "date_to_sort": {
             '1.0': 'datum',
-            '2.0': 'n.date.max'
+            '2.0': 'date.max'
         },       
         "date_from": {
             '1.0': 'datum_begin',
-            '2.0': 'n.date.min'
+            '2.0': 'date.min'
         },
         "date_to": {
             '1.0': 'datum_end',
-            '2.0': 'n.date.max'
+            '2.0': 'date.max'
         },
         "date_year_from": {
             '1.0': 'datum_begin',
-            '2.0': 'n.date_range_start.year'
+            '2.0': 'date_range_start.year'
         },
         "date_year_to": {
             '1.0': 'datum_begin',
-            '2.0': 'n.date_range_end.year'
+            '2.0': 'date_range_end.year'
         },
         "parent_pid": {
             '1.0': 'parent_pid',
-            '2.0': 'n.own_parent.pid'
+            '2.0': 'own_parent.pid'
         },
         "step_parent_pid": {
             '1.0': '',
-            '2.0': 'n.foster_parents.pids'
+            '2.0': 'foster_parents.pids'
         },
-        // "volume_year": {
-        //     '1.0': '',
-        //     '2.0': 'n.volume.year'
-        // },
-        // "volume_number": {
-        //     '1.0': '',
-        //     '2.0': 'n.volume.number.str'
-        // },
-        // "volume_number_sort": {
-        //     '1.0': '',
-        //     '2.0': 'n.volume.number.int'
-        // },
-        // "issue_date": {
-        //     '1.0': '',
-        //     '2.0': 'n.issue.date'
-        // },
-        // "issue_number": {
-        //     '1.0': '',
-        //     '2.0': 'n.issue.number.str'
-        // },
-        // "issue_number_sort": {
-        //     '1.0': '',
-        //     '2.0': 'n.issue.number.int'
-        // },
-        // "unit_name": {
-        //     '1.0': '',
-        //     '2.0': 'n.unit.name'
-        // },
-        // "unit_number": {
-        //     '1.0': '',
-        //     '2.0': 'n.unit.number'
-        // },
-        // "unit_number_sort": {
-        //     '1.0': '',
-        //     '2.0': 'n.unit.number'
-        // },
         "rels_ext_index": {
             '1.0': 'rels_ext_index',
-            '2.0': 'n.rels_ext_index.sort'
+            '2.0': 'rels_ext_index.sort'
         },
         "text_ocr": {
             '1.0': 'text_ocr',
-            '2.0': 'n.text_ocr'
+            '2.0': 'text_ocr'
         },
         "part_name": {
             '1.0': '',
-            '2.0': 'n.part.name'
+            '2.0': 'part.name'
         },
         "part_number": {
             '1.0': '',
-            '2.0': 'n.part.number.str'
+            '2.0': 'part.number.str'
         },
         "part_number_sort": {
             '1.0': '',
-            '2.0': 'n.part.number.sort'
+            '2.0': 'part.number.sort'
         },
         "parent_collections": {
             '1.0': '',
-            '2.0': 'n.in_collections.direct'
+            '2.0': 'in_collections.direct'
         },
         "ancestor_collections": {
             '1.0': '',
-            '2.0': 'n.in_collections'
+            '2.0': 'in_collections'
         },
         "is_top_collection": {
             '1.0': '',
-            '2.0': 'n.collection.is_standalone'
+            '2.0': 'collection.is_standalone'
         },
         "collection_description": {
             '1.0': '',
-            '2.0': 'n.collection.desc'
+            '2.0': 'collection.desc'
         },
         'donators': {
             '1.0': '',
-            '2.0': 'n.donator'
+            '2.0': 'donator'
         },
         'page_type': {
             '1.0': '',
-            '2.0': 'n.page.type'
+            '2.0': 'page.type'
         },
         'page_number': {
             '1.0': '',
-            '2.0': 'n.page.number'
+            '2.0': 'page.number'
         },
         'has_tiles': {
             '1.0': '',
-            '2.0': 'n.has_tile'
+            '2.0': 'has_tile'
         },
         'img_full_mime': {
             '1.0': 'img_full_mime',
-            '2.0': 'n.ds.img_full.mime'
+            '2.0': 'ds.img_full.mime'
         },
         "issue_type_sort": {
             '1.0': '',
-            '2.0': 'n.issue.type.sort'
+            '2.0': 'issue.type.sort'
         },
         "issue_type": {
             '1.0': '',
-            '2.0': 'n.issue.type.code'
+            '2.0': 'issue.type.code'
         },
         "issn": {
             '1.0': 'issn',
-            '2.0': 'n.id_issn'
+            '2.0': 'id_issn'
         },
         "isbn": {
             '1.0': 'isbn',
-            '2.0': 'n.id_isbn'
+            '2.0': 'id_isbn'
         }
     }
 

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MzBaseModal, MzToastService } from 'ngx-materialize';
-import { Translator } from 'angular-translator';
 import { Metadata } from '../../model/metadata.model';
 import { SolrService } from '../../services/solr.service';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
@@ -20,7 +19,9 @@ export class DialogAdminComponent extends MzBaseModal implements OnInit {
   collectionsIn: any[];
   collectionsRest: any[];
 
-  constructor(private api: KrameriusApiService, private adminApi: AdminApiService) {
+  constructor(private api: KrameriusApiService, 
+    private solr: SolrService,
+    private adminApi: AdminApiService) {
     super();
   }
 
@@ -52,14 +53,14 @@ export class DialogAdminComponent extends MzBaseModal implements OnInit {
   private loadCollections() {
     this.collectionsIn = [];
     this.collectionsRest = [];
-    this.api.getSearchResults(`q=n.pid:"${this.selection.uuid}"&fl=n.in_collections.direct`).subscribe((doc) => {
-      const colsIn = doc['response']['docs'][0]['n.in_collections.direct'];
-      this.api.getSearchResults("q=n.model:collection&fl=n.pid,n.title.search&rows=100").subscribe((result) => {
+    this.api.getSearchResults(`q=${this.solr.field('id')}:"${this.selection.uuid}"&fl=${this.solr.field('parent_collections')}`).subscribe((doc) => {
+      const colsIn = doc['response']['docs'][0][this.solr.field('parent_collections')];
+      this.api.getSearchResults(`q=${this.solr.field('model')}:collection&fl=${this.solr.field('id')},${this.solr.field('title')}&rows=100`).subscribe((result) => {
         const cols = result['response']['docs'];
         for (const col of cols) {
           const c = {
-            uuid: col['n.pid'],
-            name: col['n.title.search']
+            uuid: col[this.solr.field('id')],
+            name: col[this.solr.field('title')]
           }
           if (colsIn && colsIn.indexOf(c.uuid) >= 0) {
             this.collectionsIn.push(c);
