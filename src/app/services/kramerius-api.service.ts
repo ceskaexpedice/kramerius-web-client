@@ -76,6 +76,10 @@ export class KrameriusApiService {
         return `${url}/search/api/client/v6.0`;
     }
 
+    private getK5CompatApiUrl(): string {
+        return `${this.getbaseUrl()}/search/api/v5.0`;
+    }
+
     private getApiUrl(): string {
         return this.getApiUrlForBaseUrl(this.getbaseUrl());
     }
@@ -259,25 +263,23 @@ export class KrameriusApiService {
 
 
     getUserInfo(username: string, password: string): Observable<User> {
-        const url = this.getApiUrl() + '/user';
-
+        const url = this.getK5CompatApiUrl() + '/user';
         const headerParams = {
             'Content-Type':  'application/json',
         };
         if (username && password) {
             headerParams['Authorization'] = 'Basic ' + btoa(username + ':' + password);
         }
-
         const httpOptions = {
             headers: new HttpHeaders(headerParams)
-          };
+        };
         return this.http.get(url, httpOptions)
             .map(response => User.fromJson(response, username, password));
     }
 
 
     logout() {
-        const url = this.getApiUrl() + '/user/logout';
+        const url = this.getK5CompatApiUrl() + '/user/logout';
         return this.http.get(url).catch(this.handleError);
     }
 

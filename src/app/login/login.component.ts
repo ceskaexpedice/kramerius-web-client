@@ -8,11 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
-
-  // username: string = 'krameriusAdmin';
-  // password: string = 'Mufloni1.';
-  // username: string = 'dnntuser';
-  // password: string = 'p7MvZ1Rs';
+  
   username: string;
   password: string;
 
@@ -26,11 +22,13 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authService.login(this.username, this.password).subscribe(
-      (user: User) => {
-        // console.log('user', user);
+    this.authService.login(this.username, this.password, (user: User) => {
         if (user) {
-          this.router.navigate(['/']);
+          if (this.authService.redirectUrl) {
+            window.open(this.authService.redirectUrl, '_top');
+          } else {
+            this.router.navigate(['/']);
+          }
         } else {
           this.state = 'failure';
         }

@@ -49,7 +49,9 @@ export class AppSettings {
   public aboutPage = APP_GLOBAL.aboutPage;
   public faqPage = APP_GLOBAL.faqPage;
   public footer = APP_GLOBAL.footer;
+  public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
+
   public landingPage = !!APP_GLOBAL.landingPage;
 
   public showMetadata = APP_GLOBAL.showMetadata || 'always';

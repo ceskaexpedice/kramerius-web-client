@@ -176,11 +176,11 @@ export class SolrService {
             '2.0': 'date.str'
         },
         "date_from_sort": {
-            '1.0': 'datum',
+            '1.0': 'datum_begin',
             '2.0': 'date.min'
         },   
         "date_to_sort": {
-            '1.0': 'datum',
+            '1.0': 'datum_end',
             '2.0': 'date.max'
         },       
         "date_from": {
@@ -1228,7 +1228,7 @@ export class SolrService {
             items.push({
                 model: doc[this.field('model')],
                 pid: doc[this.field('id')],
-                type: doc[this.field('page_type')],
+                type: doc[this.field('page_type')] || 'unknown',
                 dnnt: !!doc[this.field('dnnt')],
                 number: doc[this.field('page_number')],
                 title: doc[this.field('title')],
