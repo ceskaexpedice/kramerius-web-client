@@ -5,7 +5,7 @@
         {{ 'alert.inaccessible_document_description' | translate }}
       </div>
       <div *ngIf="appSettings.customRightMessage" class="app-html"
-      [innerHTML]="(krameriusInfo.data$ | async).rightMsg">
+      [innerHTML]="(krameriusInfo.data$ | async).getRightMessage()">
       </div>
     </mz-input-container>
     <mz-input-container *ngIf="type=='dnnt'">

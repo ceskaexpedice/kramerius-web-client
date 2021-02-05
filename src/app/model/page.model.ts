@@ -32,7 +32,6 @@ export class Page {
     }
 
     showPageType(): boolean {
-        console.log('ttt', this.type);
         return !!this.type && this.type != 'normalpage' && this.type != 'unknown';
     }
 
