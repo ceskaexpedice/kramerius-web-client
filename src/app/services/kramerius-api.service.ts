@@ -57,12 +57,12 @@ export class KrameriusApiService {
 
     private doGetText(url: string): Observable<string> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'text' })
-        .map(response => response['body']).catch(this.handleError);
+            .map(response => response['body']).catch(this.handleError);
     }
 
     private doGetBlob(url: string): Observable<Blob> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'blob' })
-        .map(response => response['body']).catch(this.handleError);
+            .map(response => response['body']).catch(this.handleError);
     }
 
     private getbaseUrl(): string {
@@ -132,17 +132,17 @@ export class KrameriusApiService {
 
     getFulltextSearchAutocomplete(term: string, uuid: string): Observable<CompleterItem[]> {
         return this.getSearchResults(this.solr.buildFulltextSearchAutocompleteQuery(term, uuid))
-                    .map(response => this.solr.fulltextSearchAutocompleteResults(response));
+            .map(response => this.solr.fulltextSearchAutocompleteResults(response));
     }
 
     getSearchAutocomplete(term: string, query: SearchQuery, publicOnly: boolean): Observable<CompleterItem[]> {
         return this.getSearchResults(this.solr.buildSearchAutocompleteQuery(term, query, publicOnly))
-                    .map(response => this.solr.searchAutocompleteResults(response, term));
+            .map(response => this.solr.searchAutocompleteResults(response, term));
     }
 
     getPeriodicalFulltext(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery): Observable<[PeriodicalFtItem[], number]> {
         return this.getSearchResults(this.solr.buildPeriodicalFulltextSearchQuery(periodicalUuid, volumeUuid, offset, limit, query))
-                    .map(response => [this.solr.periodicalFullTextItems(response, query.fulltext), this.solr.numberOfResults(response)] as [PeriodicalFtItem[], number]);
+            .map(response => [this.solr.periodicalFullTextItems(response, query.fulltext), this.solr.numberOfResults(response)] as [PeriodicalFtItem[], number]);
     }
 
     getPeriodicalItemsDetails(uuids: string[]): Observable<PeriodicalItem[]> {
@@ -165,7 +165,7 @@ export class KrameriusApiService {
             .map(response => this.solr.periodicalItems(response, 'monographunit'));
     }
 
-    getBrowseItems(query: BrowseQuery): Observable<[BrowseItem[], number]> { 
+    getBrowseItems(query: BrowseQuery): Observable<[BrowseItem[], number]> {
         return this.getSearchResults(this.solr.buildBrowseQuery(query))
             .map(response => this.solr.browseItems(response, query));
     }
@@ -176,7 +176,7 @@ export class KrameriusApiService {
     }
 
     getMetadata(uuid: string, type: string = 'full'): Observable<Metadata> {
-        return this.getMods(uuid).map( mods => this.mods.parse(mods, uuid, type));
+        return this.getMods(uuid).map(mods => this.mods.parse(mods, uuid, type));
     }
 
     getItem(uuid: string): Observable<DocumentItem> {
@@ -220,7 +220,11 @@ export class KrameriusApiService {
     }
 
     getZoomifyBaseUrl(uuid: string): string {
-        return this.getbaseUrl() + '/search/zoomify/' + uuid;
+        if (this.settings.k5Compat()) {
+            return this.getbaseUrl() + '/search/zoomify/' + uuid;
+        } else {
+            return this.getItemUrl(uuid) + '/image/zoomify';
+        }
     }
 
     getIiifBaseUrl(uuid: string): string {
@@ -262,7 +266,7 @@ export class KrameriusApiService {
         const url = this.getApiUrl() + '/user';
 
         const headerParams = {
-            'Content-Type':  'application/json',
+            'Content-Type': 'application/json',
         };
         if (username && password) {
             headerParams['Authorization'] = 'Basic ' + btoa(username + ':' + password);
@@ -270,7 +274,7 @@ export class KrameriusApiService {
 
         const httpOptions = {
             headers: new HttpHeaders(headerParams)
-          };
+        };
         return this.http.get(url, httpOptions)
             .map(response => User.fromJson(response, username, password));
     }
@@ -337,8 +341,8 @@ export class KrameriusApiService {
 
     downloadPdf(uuids: string[], language: string = 'cs') {
         const url = this.getApiUrl() + '/pdf/selection'
-                + '?pids=' + uuids.join(',')
-                + '&language=' + language;
+            + '?pids=' + uuids.join(',')
+            + '&language=' + language;
         return this.doGetBlob(url);
     }
 
@@ -349,14 +353,14 @@ export class KrameriusApiService {
     //         .map(res => <any[]> res);
     // }
 
-    
+
     getChildren(uuid: string, own: boolean = true): Observable<any> {
         if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid) + '/children')
-            .map(response => this.utils.parseBookChild(response));
+                .map(response => this.utils.parseBookChild(response));
         } else {
             return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, own))
-            .map(response => this.solr.bookChildItems(response));
+                .map(response => this.solr.bookChildItems(response));
         }
     }
 
@@ -380,7 +384,7 @@ export class KrameriusApiService {
                 .map(response => this.parseItemInfoForPage(response));
         } else {
             return this.doGet(this.getItemUrl(uuid) + '/info/image')
-                .map(response => this.parseItemInfoForPage(response));       
+                .map(response => this.parseItemInfoForPage(response));
         }
     }
 
@@ -403,7 +407,7 @@ export class KrameriusApiService {
         } else {
             return {
                 imageType: json['type']
-            }   
+            }
         }
     }
 
@@ -413,7 +417,7 @@ export class KrameriusApiService {
 
 
 
-        // getSiblings(uuid: string) {
+    // getSiblings(uuid: string) {
     //     const url = this.getItemUrl(uuid) + '/siblings';
     //     return this.doGet(url)
     //       .catch(this.handleError);
