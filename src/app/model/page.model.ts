@@ -31,6 +31,10 @@ export class Page {
         }
     }
 
+    showPageType(): boolean {
+        return !!this.type && this.type != 'normalpage' && this.type != 'unknown';
+    }
+
     public assignPageData(data) {
         if (!data) {
             return;

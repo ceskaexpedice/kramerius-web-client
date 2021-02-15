@@ -60,8 +60,20 @@ export class Utils {
         const item = new DocumentItem();
         item.title = json['title'];
         item.uuid = json['pid'];
-        if (json['donator'] && json['donator'].startsWith('donator:')) {
-            item.donators = [json['donator'].substring(8)];
+        let donators = json['donator'];
+        if (donators) {
+            item.donators = [];
+            if (!Array.isArray(donators)) {
+                donators = [donators];
+            }
+            for (const d of donators) {
+                if (d && d.startsWith('donator:')) {
+                    const newDonator = d.substring(8);
+                    if (item.donators.indexOf(newDonator) < 0) {
+                        item.donators.push(newDonator);
+                    }
+                }
+            }
         }
         item.root_uuid = json['root_pid'];
         item.public = json['policy'] === 'public';

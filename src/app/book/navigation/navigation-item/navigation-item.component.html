@@ -5,8 +5,8 @@
   <div class="app-item-title">
     {{ page.number }}
   </div>
-  <div class="app-item-type" *ngIf="page.title || page.type != 'normalpage'">
-    <div *ngIf="page.type != 'normalpage'">
+  <div class="app-item-type" *ngIf="page.title || page.showPageType()">
+    <div *ngIf="page.showPageType()">
     {{ 'page_type.' + page.type | translate }}
     </div>
     <div *ngIf="page.title">

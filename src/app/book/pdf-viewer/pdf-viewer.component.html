@@ -48,7 +48,7 @@ mz-tooltip
                 type="warning"
                 label="alert.warning"
                 message="alert.inaccessible_document"
-                [html]="(krameriusInfo.data$ | async).rightMsg">
+                [html]="(krameriusInfo.data$ | async).getRightMessage()">
           </app-alert>
     </ng-container>
     <app-alert *ngIf="bookService.dnntFlag"
