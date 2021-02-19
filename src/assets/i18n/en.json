@@ -526,7 +526,8 @@
     "bibliographicalportrait": "portrait",
     "colophon": "colophon",
     "interview": "interview",
-    "anotation": "annotation"
+    "anotation": "annotation",
+    "manuscriptnotes": "manuscript notes"
   },
   "calendar" : {
     "months" : {

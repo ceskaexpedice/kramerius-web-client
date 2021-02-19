@@ -521,7 +521,8 @@
     "bibliographicalportrait": "medailonek",
     "colophon": "tiráž",
     "interview": "rozhovor",
-    "anotation": "anotace"
+    "anotation": "anotace",
+    "manuscriptnotes": "rukopisná poznámka"
   },
   "calendar" : {
     "months" : {
