@@ -183,14 +183,14 @@ export class SolrService {
             '1.0': 'datum_end',
             '2.0': 'date.max'
         },       
-        "date_from": {
-            '1.0': 'datum_begin',
+        "date_from_periodical_sort": {
+            '1.0': 'datum',
             '2.0': 'date.min'
-        },
-        "date_to": {
-            '1.0': 'datum_end',
+        },   
+        "date_to_periodical_sort": {
+            '1.0': 'datum',
             '2.0': 'date.max'
-        },
+        },     
         "date_year_from": {
             '1.0': 'datum_begin',
             '2.0': 'date_range_start.year'
@@ -554,9 +554,9 @@ export class SolrService {
         const q = `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('text_ocr')}^1\' v=$q1}\"`;
         let sort = '';
         if (query.ordering === 'latest') {
-            sort = `${this.field('date_to_sort')} desc, ${this.field('date')} desc`;
+            sort = `${this.field('date_to_periodical_sort')} desc, ${this.field('date')} desc`;
         } else if (query.ordering === 'earliest') {
-            sort = `${this.field('date_from_sort')} asc, ${this.field('date')} asc`;
+            sort = `${this.field('date_from_periodical_sort')} asc, ${this.field('date')} asc`;
         }
         return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&sort=${sort}&rows=${limit}&start=${offset}&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
     }
