@@ -1,4 +1,4 @@
-<div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()">
+<div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
   <app-viewer-controls [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 
   <span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
