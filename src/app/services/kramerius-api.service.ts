@@ -161,7 +161,7 @@ export class KrameriusApiService {
 
     getPeriodicalIssues(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
         return this.getSearchResults(this.solr.buildPeriodicalIssuesQuery(uuid, query))
-            .map(response => this.solr.periodicalItems(response, 'periodicalitem'));
+            .map(response => this.solr.periodicalItems(response, 'periodicalitem', uuid));
     }
 
     getMonographUnits(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
