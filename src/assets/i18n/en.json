@@ -307,10 +307,6 @@
     "tooltip_doublepage_off": "Leave Double Page mode",
     "tooltip_page_left": "Go to previous page",
     "tooltip_page_right": "Go to next page",
-    "tooltip_page_hide_left": "Hide pages",
-    "tooltip_page_show_left": "Show pages",
-    "tooltip_page_hide_right": "Hide details",
-    "tooltip_page_show_right": "Show details",
     "tooltip_hide_left": "Hide thumbails",
     "tooltip_show_left": "Show thumbails",
     "tooltip_hide_right": "Hide details",
@@ -331,7 +327,6 @@
     "tooltip_mark_favourite": "Add to favourites",
     "tooltip_unmark_favourite": "Remove from favourites",
     "all_pages": "All Pages"
-   
   },
   "book_toolbar": {
     "tooltip_show_metadata": "Show metadata",
@@ -652,7 +647,9 @@
     "HOE801" : "National Institute of Folk Culture",
     "SME801" : "Museum of the Bohemian Paradise",
     "ABB019" : "Institute of Sociology of the Czech Academy of Sciences",
-    "ABB085" : "Masaryk Institute and Archives of the AS CR"
+    "ABB085" : "Masaryk Institute and Archives of the AS CR",
+    "ABB083" : "Institute of Contemporary History, Czech Academy of Sciences",
+    "ABE461" : "Jewish community in Prague"
   },
   "language" : {
     "aar" : "Afar",
