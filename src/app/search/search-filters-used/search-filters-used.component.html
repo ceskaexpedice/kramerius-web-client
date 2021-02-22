@@ -44,6 +44,16 @@
     </span>
   </mz-collection-item>
 
+
+  <mz-collection-item *ngFor="let licence of searchService.query.licences">
+    <span (click)="searchService.removeFilter(searchService.query.licences, licence)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ 'licence.' + licence | translate | appUpcase }}
+    </span>
+  </mz-collection-item>
+
+
   <mz-collection-item *ngFor="let keyword of searchService.query.keywords">
     <span (click)="searchService.removeFilter(searchService.query.keywords, keyword)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'star'" [class]="'app-clean-mg'"></i>

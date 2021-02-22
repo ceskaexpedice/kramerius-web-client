@@ -159,6 +159,26 @@ export class BrowseService {
                 this.sortResult();
                 this.loading = false;
             });
+        } else  if (this.getCategory() === 'licences') {
+            this.translator.waitForTranslation().then(() => {
+                const filteredResults = [];
+                for (const item of this.backupResults) {
+                    item['name'] = this.translator.instant('licence.' + item['value']);
+                    if (!item['name'].startsWith('licence.')) {
+                        if (this.getText()) {
+                            if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
+                                filteredResults.push(item);
+                            }
+                        } else {
+                            filteredResults.push(item);
+                        }
+                    }
+                }
+                this.results = filteredResults;
+                this.numberOfResults = this.results.length;
+                this.sortResult();
+                this.loading = false;
+            });
         } else if (this.getCategory() === 'doctypes') {
             this.translator.waitForTranslation().then(() => {
                 const filteredResults = [];

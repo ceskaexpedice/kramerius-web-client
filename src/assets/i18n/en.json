@@ -101,6 +101,7 @@
     "doctypes": "Document Type",   
     "collections": "Collection", 
     "languages": "Language",
+    "licences": "Licence",
     "locations": "Location",
     "geonames": "Geographic name",
     "publishers": "Publisher",
@@ -169,6 +170,7 @@
       "collections": "Collections",
       "keywords": "Keywords",
       "languages": "Languages",
+      "licences": "Licences",
       "genres": "Genres",
       "locations": "Locations",
       "geonames": "Geographic names"
@@ -181,6 +183,7 @@
       "collections": "Lookup Collection",
       "keywords": "Lookup Keyword", 
       "languages": "Lookup Language",
+      "licences": "Lookup Licence",
       "genres": "Lookup Genre",
       "locations": "Lookup Location",
       "geonames": "Lookup Geographic name"
@@ -548,6 +551,11 @@
       "5": "Sat",
       "6": "Sun"
     }
+  },
+  "licence" : {
+    "dnnto": "DNNT online",
+    "dnntt": "DNNT terminal",
+    "covid": "COVID"
   },
   "sigla": {
     "BOA001" : "Moravian Library in Brno",

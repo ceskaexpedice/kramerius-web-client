@@ -101,6 +101,7 @@
     "doctypes": "Typ dokumentu",
     "collections": "Sbírka",
     "languages": "Jazyk",
+    "licences": "Licence",
     "locations": "Místo uložení",
     "geonames": "Geografický název",
     "publishers": "Nakladatel",
@@ -169,6 +170,7 @@
       "collections": "Sbírky",
       "keywords": "Klíčová slova",
       "languages": "Jazyky",
+      "licences": "Licence",
       "genres": "Žánry",
       "locations": "Místa uložení",
       "geonames": "Geografické názvy"
@@ -181,6 +183,7 @@
       "collections": "Vyhledat sbírku",
       "keywords": "Vyhledat klíčové slovo", 
       "languages": "Vyhledat jazyk",
+      "licences": "Vyhledat licenci",
       "genres": "Vyhledat žánr",
       "locations": "Vyhledat místo uložení",
       "geonames": "Vyhledat geografický název"
@@ -548,6 +551,11 @@
       "5": "So",
       "6": "Ne"
     }
+  },
+  "licence" : {
+    "dnnto": "DNNT online",
+    "dnntt": "DNNT terminál",
+    "covid": "COVID"
   },
   "sigla": {
     "BOA001" : "Moravská zemská knihovna v Brně",

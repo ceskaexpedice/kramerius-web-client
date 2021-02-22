@@ -26,6 +26,7 @@ export class SearchService {
     accessibility: any[] = [];
     authors: any[] = [];
     languages: any[] = [];
+    licences: any[] = [];
     locations: any[] = [];
     geonames: any[] = [];
     collections: any[] = [];
@@ -108,6 +109,9 @@ export class SearchService {
         filters = filters.concat(q.collections);
         for (const item of q.languages) {
             filters.push(this.translator.instant('language.' + item));
+        }
+        for (const item of q.licences) {
+            filters.push(this.translator.instant('licence.' + item));
         }
         if (q.isCustomFieldSet()) {
             filters.push(q.getCustomValue());
@@ -319,6 +323,7 @@ export class SearchService {
             case 'authors':
             case 'keywords':
             case 'languages':
+            case 'licences':
             case 'locations':
             case 'geonames':
             case 'genres':
@@ -385,6 +390,7 @@ export class SearchService {
         this.checkFacet(this.query.authors.length === 0, response, 'authors');
         this.checkFacet(this.query.keywords.length === 0, response, 'keywords');
         this.checkFacet(this.query.languages.length === 0, response, 'languages');
+        this.checkFacet(this.query.licences.length === 0, response, 'licences');
         this.checkFacet(this.query.locations.length === 0, response, 'locations');
         this.checkFacet(this.query.geonames.length === 0, response, 'geonames');
         this.checkFacet(this.query.publishers.length === 0, response, 'publishers');

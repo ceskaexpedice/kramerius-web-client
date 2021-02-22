@@ -55,6 +55,14 @@ export class SolrService {
             '1.0': 'language',
             '2.0': 'languages.facet'
         },
+        'licences_search': {
+            '1.0': 'dnnt-labels',
+            '2.0': ''
+        },
+        'licences_facet': {
+            '1.0': 'dnnt-labels',
+            '2.0': ''
+        },
         'locations_search': {
             '1.0': 'mods.physicalLocation',
             '2.0': 'physical_locations.facet'
@@ -773,6 +781,7 @@ export class SolrService {
         q += '&facet=true&facet.mincount=1'
            + this.addFacetToQuery(facet, 'keywords', query.keywords.length === 0)
            + this.addFacetToQuery(facet, 'languages', query.languages.length === 0)
+           + this.addFacetToQuery(facet, 'licences', query.licences.length === 0)
            + this.addFacetToQuery(facet, 'locations', query.locations.length === 0)
            + this.addFacetToQuery(facet, 'geonames', query.geonames.length === 0)
            + this.addFacetToQuery(facet, 'authors', query.authors.length === 0)
@@ -837,6 +846,7 @@ export class SolrService {
         fqFilters.push(this.buildFacetFilter(withQueryString, 'doctypes', query.doctypes, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'authors', query.authors, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'languages', query.languages, facet));
+        fqFilters.push(this.buildFacetFilter(withQueryString, 'licences', query.licences, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'locations', query.locations, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'geonames', query.geonames, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'collections', query.collections, facet));
@@ -914,6 +924,8 @@ export class SolrService {
             return 'document_type';
         } else if (field === 'languages') {
             return this.field('languages_facet');
+        } else if (field === 'licences') {
+            return this.field('licences_facet');
         } else if (field === 'locations') {
             return this.field('locations_facet');
         } else if (field === 'geonames') {
@@ -943,6 +955,8 @@ export class SolrService {
             return 'document_type';
         } else if (field === 'languages') {
             return this.field('languages_search');
+        } else if (field === 'licences') {
+            return this.field('licences_search');
         } else if (field === 'locations') {
             return this.field('locations_search');
         } else if (field === 'geonames') {

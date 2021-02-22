@@ -1,5 +1,5 @@
 import { SearchService } from './../../services/search.service';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CollectionService } from '../../services/collection.service';
 import { AppSettings } from '../../services/app-settings';
 import { AnalyticsService } from '../../services/analytics.service';
