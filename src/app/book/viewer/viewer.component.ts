@@ -21,7 +21,7 @@ declare var ol: any;
   templateUrl: './viewer.component.html'
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-
+  
   private view;
   private imageLayer;
   private zoomifyLayer;
@@ -30,8 +30,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private vectorLayer;
   private watermark;
   private extent;
-  private dnntApi;
-  private dnntLink;
 
   private imageWidth = 0;
   private imageWidth1 = 0;
@@ -73,7 +71,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   constructor(public bookService: BookService,
               public authService: AuthService,
-              public appSettings: AppSettings,
+              public settings: AppSettings,
               private http: HttpClient,
               private iiif: IiifService,
               private logger: LoggerService,
@@ -133,27 +131,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
       }
     });
-
-    this.setDnntLink();
   }
 
-  setDnntLink() {
-    this.dnntLink="";
-    if(this.appSettings.crisisUrl) {
-        if(this.appSettings.dnnt.loginUrl) { this.dnntLink=this.appSettings.dnnt.loginUrl+'?target='+this.appSettings.crisisUrl+'/uuid/'+this.bookService.getUuid(); }
-        else { this.dnntLink=this.appSettings.crisisUrl+'/uuid/'+this.bookService.getUuid(); }
-        
-    } else if(this.appSettings.dnntUrl) {
-      this.dnntApi = this.appSettings.dnntUrl+"/search/api/v5.0/item/"+this.bookService.getUuid();
-      this.http.get(this.dnntApi).toPromise().then((data:any) => {
-        //this.dnntTitle='<div class="dnntLink"><a href="'+this.appSettings.dnntUrl+'/uuid/'+this.bookService.getUuid()+'">Toto dílo je dostupné v rámci DNNT</a></div>';
-        if(data.dnnt) {
-          if(this.appSettings.dnnt.loginUrl) { this.dnntLink=this.appSettings.dnnt.loginUrl+'?target='+this.appSettings.dnntUrl+'/uuid/'+this.bookService.getUuid(); }
-          else { this.dnntLink=this.appSettings.dnntUrl+'/uuid/'+this.bookService.getUuid(); }
-        }
-      });
-    }
-  }
 
   onSelectionStart(type: SelectionType) {
     this.selectionType = type;
@@ -265,7 +244,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   buildWatermarkLayer(text: string) {
-    const font = this.appSettings.dnnt.watermarkFontSize + 'px roboto,sans-serif';
+    const font = this.settings.dnnt.watermarkFontSize + 'px roboto,sans-serif';
     this.watermark = new ol.layer.Vector({
       name: 'watermark',
       source: new ol.source.Vector(),
@@ -274,7 +253,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
           font: font,
           text: text,
           fill: new ol.style.Fill({
-            color:  this.appSettings.dnnt.watermarkColor
+            color:  this.settings.dnnt.watermarkColor
           }),
           textAlign: 'left',
         })
@@ -300,15 +279,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (!this.watermark) {
       this.buildWatermarkLayer(watermarkText);
     }
-    let cw = this.appSettings.dnnt.watermarkRowCount;
-    const ch = this.appSettings.dnnt.watermarkColCount;
+    let cw = this.settings.dnnt.watermarkRowCount;
+    const ch = this.settings.dnnt.watermarkColCount;
     const sw = this.extent[0];
     const width = this.extent[2] - this.extent[0];
     if (this.extent[0] < 0) {
       cw = cw * 2;
     }
     const height = -this.extent[1];
-    const p = this.appSettings.dnnt.watermarkProbability;
+    const p = this.settings.dnnt.watermarkProbability;
     for (let i = 0; i < cw; i ++) {
      for (let j = 0; j < ch; j ++) {
        if (Math.floor((Math.random() * 100)) < p) {
@@ -340,7 +319,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
     );
   }
-
+  
   loadJpegImage(uuid1: string, uuid2: string, left: boolean, thumb: boolean) {
     const uuid = left ? uuid1 : uuid2;
     const url = this.api.getFullJpegUrl(uuid);
@@ -512,13 +491,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.removeLayer(this.vectorLayer);
     this.data = data;
     switch (data.imageType) {
-      case ViewerImageType.IIIF:
+      case ViewerImageType.IIIF: 
         this.updateIiifImage(data.uuid1, data.uuid2);
         break;
-      case ViewerImageType.ZOOMIFY:
+      case ViewerImageType.ZOOMIFY: 
         this.updateZoomifyImage(data.uuid1, data.uuid2);
         break;
-      case ViewerImageType.JPEG:
+      case ViewerImageType.JPEG: 
         this.updateJpegImage(data.uuid1, data.uuid2);
         break;
     }
@@ -541,12 +520,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
     options.quality = 'default';
     options.zDirection = -1;
     options.extent = extent;
+    options.url = url;
     const thumbUrl = this.iiif.image(url, options.sizes[0][0], options.sizes[0][1]);
     const imageOptions = {
       url: thumbUrl,
       imageExtent: extent
     };
-    if (this.appSettings.crossOrigin) {
+    if (this.settings.crossOrigin) {
       options.crossOrigin = 'Anonymous';
       imageOptions['crossOrigin'] = 'Anonymous';
     }
@@ -589,13 +569,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
         url: this.zoomify.thumb(url),
         imageExtent: extent
     };
-    if (this.appSettings.crossOrigin) {
+    if (this.settings.crossOrigin) {
       zoomifyOptions['crossOrigin'] = 'Anonymous';
       imageOptions['crossOrigin'] = 'Anonymous';
     }
     const zLayer = new ol.layer.Tile({
-        source: new ol.source.Zoomify(zoomifyOptions)
-    });
+      source: new ol.source.Zoomify(zoomifyOptions)
+    });    
     const iLayer = new ol.layer.Image({
       source: new ol.source.ImageStatic(imageOptions)
     });

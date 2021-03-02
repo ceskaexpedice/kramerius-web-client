@@ -11,7 +11,7 @@ export class ModsParserService {
         const ctx = this;
         let metadata: Metadata;
         parseString(mods, data, function (err, result) {
-            if (type === 'full') {
+            if (!type || type === 'full') {
                 metadata = ctx.createMetadata(result, uuid);
             } else {
                 metadata = ctx.createPlainMetadata(result, uuid);
@@ -209,15 +209,15 @@ export class ModsParserService {
         }
         for (const item of array) {
             if (item['$'] && item['$']['type']) {
-              const type = item['$']['type'];
-              let value = String(item['_']);
-              if (!type || !value) {
-                  continue;
-              }
-              if (type == 'doi' && !value.startsWith('http')) {
-                  value = 'http://dx.doi.org/' + value;
-              }
-              metadata.identifiers[type] = value;
+                const type = item['$']['type'];
+                let value = String(item['_']);
+                if (!type || !value) {
+                    continue;
+                }
+                if (type == 'doi' && !value.startsWith('http')) {
+                    value = 'https://doi.org/' + value;
+                }
+                metadata.identifiers[type] = value;
             }
         }
     }
@@ -420,7 +420,7 @@ export class ModsParserService {
         for (const item of array) {
             const text = item['_'];
             if (text && objects.indexOf(text) < 0 && (!param || (item['$'] && item['$'][param['key']] ===  param['value']))) {
-                objects.push(text);
+                objects.push(text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/&quot;/g,'"'));
             }
         }
     }

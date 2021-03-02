@@ -6,10 +6,10 @@ app-periodical-toolbar {
   padding: 0 1rem;
   @include set-border(bottom, 1, solid, $app-grey-l-2);
   position: relative;
-
+          
   .col {
     @extend .app-clean-pd;
-
+    
     &.app-periodical-info {
       .app-periodical-title {
         display: block;
@@ -19,7 +19,7 @@ app-periodical-toolbar {
         overflow: hidden;
         font-size: 1.4rem;
       }
-
+      
       i {
         color: $app-grey;
         display: inline-block;
@@ -27,35 +27,35 @@ app-periodical-toolbar {
         float: left;
         margin-top: 15px;
       }
-
+      
       &:hover {
         i, .app-periodical-title {
           color: color("shades", "black");
         }
       }
-
+      
       //mq
       //@media #{$small-400-and-down} {
       @media #{$small-800-and-down} {
         display: none;
-
+        
         &.app-no-volume-detail {
           width: 45%;
           display: block;
         }
       }
-
+      
       @media #{$small-400-and-down} {
         &.app-no-volume-detail {
           display: none;
         }
       }
     }
-
+    
     &.app-volume-info {
       height: $app-toolbar-height;
       overflow: hidden;
-
+      
       .app-volume-title {
         color: $app-grey-d-1;
         font-size: 1.3rem;
@@ -75,7 +75,6 @@ app-periodical-toolbar {
 
       a {
         color: $app-grey;
-        display: inline-block;
         display: block;
         width: 24px;
         float: left;
@@ -93,37 +92,37 @@ app-periodical-toolbar {
           cursor: default !important;
         }
       }
-
+      
       //mq
       @media #{$small-800-and-down} {
         width: 45%;
         text-align: left;
       }
-
+      
       @media #{$small-400-and-down} {
         width: 40%;
       }
-
+      
       @media #{$small-300-and-down} {
         display: none;
       }
     }
-
+    
     // col right
     &.app-nav-item {
       height: $app-toolbar-height;
       overflow: hidden;
       line-height: $app-toolbar-height;
-
+      
       ul {
         li {
           &.active {
             color: $primary-color;
-
+            
             @media #{$small-and-down} {
               &.active-mobile-dismiss {
                 color: $app-grey-l-1;
-
+                
                 &:hover {
                   color: $app-grey-d-1;
                 }
@@ -146,49 +145,49 @@ app-periodical-toolbar {
           &:not(:first-child) {
             & > span {
               @include set-border(left, 1, solid, $app-grey-l-2);
-            }
+            } 
           }
-
+          
           &.app-nav-item-sort {
             #app-sort {
               z-index: 1060;
             }
-
+            
             &.app-fulltext-active {
               & > span {
                 border-left: none;
               }
             }
-
+            
             // mq
             @media #{$small-400-and-down} {
               display: none;
             }
           }
-
+          
           &.app-nav-item-mobile {
             display: none;
           }
-
+          
           // mq
           @media #{$small-and-down} {
             &.app-nav-item-mobile {
               display: block;
             }
-
+            
             &:last-child {
               & > span {
                 padding-right: 0;
               }
             }
           }
-
+          
           @media #{$medium-and-down} {
             &.app-nav-item-tablet {
               display: block;
             }
           }
-
+          
           @media #{$medium-and-up} {
             &:nth-last-child(1) {
               & > span {
@@ -196,45 +195,45 @@ app-periodical-toolbar {
               }
             }
           }
-
+          
           @media #{$large-and-up} {
             &:nth-child(2) {
               & > span {
-                border-left: none;
+                border-left: none; 
               }
             }
           }
         }
       }
-
+      
       //mq
       @media #{$small-800-and-down} {
         width: 55%;
-
+        
         &.app-no-volume-detail {
           width: 55%;
         }
       }
-
+      
       @media #{$small-400-and-down} {
         width: 60%;
-
+        
         &.app-mq-small-1 {
           width: 100%;
         }
-
+        
         &.app-no-volume-detail {
           .app-nav-item-sort {
             display: block;
           }
         }
       }
-
+      
       @media #{$small-300-and-down} {
         width: 100%;
       }
     }
-
+    
     // common
     ul {
       @extend .app-clean-mg;
@@ -247,7 +246,7 @@ app-periodical-toolbar {
           span {
             &:hover {
               color: $app-grey-d-1;
-            }
+            } 
           }
         }
       }

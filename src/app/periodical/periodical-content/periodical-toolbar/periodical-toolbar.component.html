@@ -6,15 +6,15 @@
     </a>
     <span *ngIf="periodicalService.isPeriodical() || periodicalService.isMonograph()" class="app-periodical-title">{{ periodicalService.metadata.getTitle() }}</span>
   </div>
-
-
+  
+  
   <div class="col s4 m4 l4 xl2 app-volume-info center-align" *ngIf="periodicalService.volumeDetail">
     <div>
       <a *ngIf="periodicalService.volumeDetail.previous" [routerLink]="['/periodical', periodicalService.volumeDetail.previous.uuid]" [queryParams]="periodicalService.getUrlParams()"
         class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.previous_volume' | translate" [position]="'bottom'">
       </a>
       <a *ngIf="!periodicalService.volumeDetail.previous" class="app-mdi-periodical-previous disabled"></a>
-      <span class="app-volume-title">{{ periodicalService.volumeDetail.current.title }}</span>
+      <span class="app-volume-title">{{ periodicalService.volumeDetail.current.getTitle() }}</span>
       <a *ngIf="periodicalService.volumeDetail.next" [routerLink]="['/periodical', periodicalService.volumeDetail.next.uuid]" [queryParams]="periodicalService.getUrlParams()"
         class="app-mdi-periodical-next" mz-tooltip [tooltip]="'periodical.next_volume' | translate" [position]="'bottom'">
       </a>

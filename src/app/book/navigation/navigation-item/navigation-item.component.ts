@@ -1,6 +1,6 @@
 import { Page } from './../../../model/page.model';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AppSettings } from './../../../services/app-settings';
+import { AppSettings } from '../../../services/app-settings';
 
 @Component({
   selector: 'app-navigation-item',

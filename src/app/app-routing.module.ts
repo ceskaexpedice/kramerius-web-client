@@ -21,12 +21,9 @@ import { ResetPasswordComponent } from './account/reset-password/reset-password.
 import { OmniauthComponent } from './account/omniauth/omniauth.component';
 import { LandingComponent } from './landing/landing.component';
 import { FaqComponent } from './faq/faq.component';
-//import { CrisisComponent } from './crisis/crisis.component';
 
 const ROUTES: Routes = [
-  //  { path: 'podminky-zpristupneni', component: CrisisComponent},
     { path: '404', component: NotFoundComponent},
-    //{ path: '', component: HomeComponent, canActivate: [ RoutingGuardService ] },
     { path: '', component: LandingComponent },
     { path: 'about', component: AboutComponent, canActivate: [ RoutingGuardService ] },
     { path: 'faq', component: FaqComponent, canActivate: [ RoutingGuardService ] },
@@ -58,6 +55,9 @@ const ROUTES: Routes = [
     { path: ':k/favourites', component: FavouritesComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collections', component: CollectionsComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingPrefixGuardService ] },
+    // { path: ':k/collection/:uuid', component: PresentationComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/collection/:collection_uuid', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
+
     { path: ':k/music/:uuid', component: MusicComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/view/:uuid', component: BookComponent, canActivate: [ RoutingPrefixGuardService ] },

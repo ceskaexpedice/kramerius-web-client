@@ -29,7 +29,7 @@ app-metadata {
       }
     }
   }
-
+  
   @media #{$small-and-down} {
     &:not(.app-nested) {
       position: absolute;
@@ -45,13 +45,13 @@ app-metadata {
     &.app-panel-mobile-hidden {
       display: none;
     }
-
+    
     &.app-book-metadata {
       top: $app-toolbar-height;
       height: calc(#{$app-mobile-panel-height} - #{$app-toolbar-height});
     }
   }
-
+  
   .app-metadata-wrapper {
     height: 100%;
     overflow: hidden;
@@ -65,9 +65,9 @@ app-metadata {
       border-color: #e0e0e0;
       background-color: #FFFFFF;
       i[class*="app-mdi-"] {
-        margin-left: 19px;
-        margin-right: 19px;
-        float: right;
+        margin-left: 19px; 
+        margin-right: 19px;  
+        float: right;  
         color: $app-grey;
         &.app-favourite {
           color: $primary-color;
@@ -89,7 +89,7 @@ app-metadata {
         font-weight: 400;
         @extend .app-clean-mg;
         color: $app-grey-d-2;
-
+        
         &.app-cut {
           line-height: 1.6rem;
           height: 3.2rem;
@@ -109,19 +109,19 @@ app-metadata {
         display: -webkit-box;
         text-overflow: ellipsis;
       }
-
+      
       .app-more {
         color: $app-grey;
-
+        
         &:hover {
           color: color("shades", "black");
         }
       }
-
+      
       label {
         font-size: 0.9rem;
       }
-
+      
       .app-subtitle {
         color: $app-grey-d-3;
       }
@@ -135,12 +135,12 @@ app-metadata {
       .app-part-name {
         color: $app-grey-d-3;
       }
-
+      
       .divider {
         margin: 10px 0;
         background: transparent;
       }
-
+      
       .app-value {
         font-weight: 400;
         font-size: 15px;

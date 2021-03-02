@@ -36,18 +36,19 @@
       <app-document-card *ngFor="let item of getActiveItems()" [in]="'home'" [item]="item" class="col s12 m6 l6 xl4"></app-document-card>
     </div>
 
-    <app-paginator
+    <app-paginator 
         [activeIndex]="page"
         [overallCount]="getNumberOfActiveItems()"
         [step]="step"
         (next)="page = page + 1"
         (previous)="page = page - 1"
         (change)="page = $event">
-    </app-paginator>
+    </app-paginator> 
   </div>
 
   <div class="container app-footer" *ngIf="showFooter">
       <app-home-footer></app-home-footer>
   </div>
+
 
 </div>

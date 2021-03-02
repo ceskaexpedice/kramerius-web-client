@@ -7,7 +7,7 @@ import { InternalPart } from './internal_part.model';
 export class Metadata {
 
 
-    public modsMap = {};
+    public context = {};
 
     public uuid: string;
     public titles: TitleInfo[] = [];
@@ -52,7 +52,7 @@ export class Metadata {
     public pageSupplementMetadata: Metadata;
 
     public mainTitle: string;
-    public donator: string;
+    public donators: string[];
 
     public activePages: string;
     public activePage: Page;
@@ -67,7 +67,7 @@ export class Metadata {
         this.isPublic = item.public;
         this.isDnnt = item.dnnt;
         this.model = item.doctype;
-        this.donator = item.donator;
+        this.donators = item.donators;
         this.originUrl = item.originUrl;
     }
 
@@ -78,12 +78,12 @@ export class Metadata {
         return this.originUrl;
     }
 
-  //  public proarcLink(): string {
-  //      return `http://proarc.kramerius.org/documents/${this.uuid}`;
-  //  }
+    // public proarcLink(): string {
+    //     return `http://proarc.kramerius.org/documents/${this.uuid}`;
+    // }
 
-    public addMods(doctype: string, uuid: string, mods: string) {
-        this.modsMap[doctype] = { uuid: uuid, mods: mods.trim() };
+    public addToContext(doctype: string, uuid: string) {
+        this.context[doctype] = uuid;
     }
 
     public getYearRange() {
@@ -132,32 +132,22 @@ export class Metadata {
         return '';
     }
 
-    public getFullTitle(): string {
-        if (this.titles.length > 0) {
-            return this.titles[0].fullTitle();
-        }
-        if (this.mainTitle) {
-            return this.mainTitle;
-        }
-        return '';
-    }
-
     public getShortTitle(): string {
         return this.getTitle().substring(0, 50);
     }
 
     public getShortTitleWithUnit(): string {
         let title = this.getShortTitle();
-        if (this.currentUnit && this.currentUnit.title) {
-            title = this.currentUnit.title + ' | ' + title;
+        if (this.currentUnit && this.currentUnit.name) {
+            title = this.currentUnit.name + ' | ' + title;
         }
         return title;
     }
 
     public getShortTitleWithIssue(): string {
         let title = this.getShortTitle();
-        if (this.currentIssue && this.currentIssue.title) {
-            title += ' ' + this.currentIssue.title;
+        if (this.currentIssue && this.currentIssue.date) {
+            title += ' ' + this.currentIssue.date;
         }
         return title;
     }
@@ -168,12 +158,6 @@ export class Metadata {
             title += ' ' + this.volume.year;
         }
         return title;
-    }
-    public getVolumeYear(): string {
-      if (this.volume && this.volume.year) {
-          return this.volume.year;
-      }
-      return "";
     }
 
     public hasIdentifier(type: string): boolean {

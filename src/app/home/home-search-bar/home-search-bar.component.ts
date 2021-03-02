@@ -4,7 +4,6 @@ import { LibrarySearchService } from './../../services/library-search.service';
 import { Router } from '@angular/router';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
-import { AuthService } from '../../services/auth.service';
 import { CompleterCmp } from 'ng2-completer';
 import { Translator } from 'angular-translator';
 
@@ -25,7 +24,6 @@ export class HomeSearchBarComponent implements OnInit {
   constructor(
     public router: Router,
     private translator: Translator,
-    public authService: AuthService,
     public appSettings: AppSettings,
     public analytics: AnalyticsService,
     private localStorageService: LocalStorageService,
@@ -90,11 +88,11 @@ export class HomeSearchBarComponent implements OnInit {
 
 
   private search() {
+    const params = { };
     let q = this.searchStr;
-    if (q == null) {
-      q = '';
+    if (q != null && q != "") {
+      params['q'] = q;
     }
-    const params = { q: q };
     if (this.appSettings.availableFilter('accessibility')) {
       if (this.accessibilityFilter) {
         params['accessibility'] = 'public';

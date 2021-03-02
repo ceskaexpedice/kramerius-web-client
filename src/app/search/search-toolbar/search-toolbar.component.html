@@ -2,8 +2,18 @@
 
 
 
-
+  
     <div class="col app-col app-col-left">
+      <ng-container *ngIf="searchService.collection">
+        <span style="color: #757575;
+      height: 55px;
+      line-height: 55px;
+      overflow: hidden;
+      font-size: 1.4rem;">
+        {{ searchService.collection.getTitle() }}
+        </span>
+      </ng-container>
+
       <ul>
         <li class="hide-on-med-and-up">
           <a (click)="toggleFilters()">
@@ -43,7 +53,7 @@
             <mz-dropdown-item><a (click)="searchService.changeOrdering('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('newest')">{{ 'search.ordering.newest' | translate }}</a></mz-dropdown-item>
             <mz-dropdown-item><a (click)="searchService.changeOrdering('latest')">{{ 'search.ordering.latest' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="searchService.changeOrdering('earliest')">{{ 'search.ordering.earliest' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="searchService.changeOrdering('earliest')">{{ 'search.ordering.earliest' | translate }}</a></mz-dropdown-item>            
           </mz-dropdown>
         </span>
       </li>

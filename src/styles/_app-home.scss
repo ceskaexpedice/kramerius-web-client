@@ -2,7 +2,7 @@
 
 .home-top {
   margin-top: 80px;
-
+  
   & > .row {
     &:first-child {
       margin-bottom: 5px;
@@ -10,8 +10,8 @@
     &:nth-child(2) {
       margin-bottom: 10px;
     }
-
-    .col {
+    
+    .col {      
       &.app-desc {
         font-size: 0.8rem !important;
         color: $app-grey-l-1;
@@ -23,7 +23,7 @@
       }
     }
   }
-
+  
   // mq
   @media #{$medium-and-down} {
     margin-top: 30px;
@@ -33,34 +33,34 @@
 
 .app-featured {
   margin-top: 60px;
-
+  
   .tabs {
     @extend .clearfix;
     @include set-border(bottom, 1, solid, #{$app-grey-c-2});
-
+  
     .tab {
-      width: 33.33333333%;
+      width: 33.33333333%; 
       float: left;
       cursor: pointer;
       color: $primary-color;
       border-bottom: 2px solid transparent;
       transition: border-bottom 0.4s ease-in-out;
-
+      
       &.active {
         border-bottom: 3px solid $primary-color;
       }
-
+      
       &:hover {
         color: $primary-color-light;
       }
     }
   }
-
+  
   .app-tab-content {
     padding: 0.5rem;
     overflow: hidden;
     display: block;
-
+    
     .col {
       padding: 0;
     }

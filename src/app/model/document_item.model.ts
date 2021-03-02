@@ -8,13 +8,14 @@ export class DocumentItem {
     root_uuid: string;
     public: boolean;
     url: string;
+    description: string;
     volumeNumber: string;
     volumeYear: string;
     pdf = false;
     hits: number;
     context: Context[] = [];
     library: string;
-    donator: string;
+    donators: string[];
     params;
     north: number;
     south: number;
@@ -22,6 +23,7 @@ export class DocumentItem {
     east: number;
     dnnt = false;
     originUrl: string;
+    
 
 
     resolveUrl(prefix: string) {
@@ -29,6 +31,8 @@ export class DocumentItem {
             this.url = prefix + '/periodical/' + this.uuid;
         } else if (this.doctype === 'soundrecording') {
             this.url = prefix + '/music/' + this.uuid;
+        } else if (this.doctype === 'collection') {
+            this.url = prefix + '/collection/' + this.uuid;
         } else if (this.doctype === 'page') {
             this.url = prefix + '/uuid/' + this.uuid;
         } else {

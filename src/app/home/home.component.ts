@@ -1,16 +1,12 @@
-import { forkJoin } from 'rxjs/observable/forkJoin';
 import { AppSettings } from './../services/app-settings';
 import { LocalStorageService } from './../services/local-storage.service';
 import { DocumentItem } from './../model/document_item.model';
 import { KrameriusApiService } from './../services/kramerius-api.service';
 import { Component, OnInit } from '@angular/core';
 import { AppState } from '../app.state';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { Translator } from 'angular-translator';
+import { ActivatedRoute } from '@angular/router';
 import { PageTitleService } from '../services/page-title.service';
 import { AnalyticsService } from '../services/analytics.service';
-
 
 @Component({
   selector: 'app-home',
@@ -27,48 +23,19 @@ export class HomeComponent implements OnInit {
   lastCode: string;
   showFooter: boolean;
 
-  data = '';
-  dataCs = '';
-  dataEn = '';
-
   constructor(
-    private http: HttpClient, private translator: Translator,
     public state: AppState,
     private route: ActivatedRoute,
-    private router: Router,
     public settings: AppSettings,
     private krameriusApiService: KrameriusApiService,
     private localStorageService: LocalStorageService,
     public analytics: AnalyticsService,
     private pageTitle: PageTitleService
   ) {
-    if (!settings.footer) {
-    //  this.router.navigate([this.settings.getRouteFor('')]);
-    }
+
   }
 
   ngOnInit() {
-
-      this.translator.languageChanged.subscribe(() => {
-        this.localeChanged();
-      });
-      if (this.settings.footer) {
-        const reqCs = this.http.get(this.settings.footer['cs'], { observe: 'response', responseType: 'text' })
-        .map(response => response['body']);
-        const reqEn = this.http.get(this.settings.footer['en'], { observe: 'response', responseType: 'text' })
-        .map(response => response['body']);
-        forkJoin([reqCs, reqEn])
-        .subscribe( result => {
-          this.dataCs = result[0];
-          this.dataEn = result[1];
-          this.showFooter=true;
-          this.localeChanged();
-        },
-        error => {
-          this.showFooter=false;
-        });
-      }
-
     this.pageTitle.setTitle(null, null);
     this.showFooter = !!this.settings.footer;
     if (this.settings.multiKramerius) {
@@ -80,14 +47,6 @@ export class HomeComponent implements OnInit {
       });
     } else {
       this.reloadData();
-    }
-  }
-
-  private localeChanged() {
-    if (this.translator.language === 'cs') {
-      this.data = this.dataCs;
-    } else {
-      this.data = this.dataEn;
     }
   }
 
@@ -144,8 +103,8 @@ export class HomeComponent implements OnInit {
   }
 
   getNewest() {
-    this.krameriusApiService.getNewest().subscribe(response => {
-      this.newest = response; // .slice(0, 6);
+    this.krameriusApiService.getNewest().subscribe((newest: DocumentItem[]) => {
+      this.newest = newest;
     });
   }
 

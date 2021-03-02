@@ -5,8 +5,14 @@ export class AltoService {
 
 
     getBoxes(alto, query, width: number, height: number): any[] {
+      if (query.indexOf('~') > -1) {
+        query = query.substring(0, query.indexOf('~'));
+      } 
       const boxes = [];
       const wordArray = query.replace(/"/g, '').split(' ');
+
+      console.log('wordArray', wordArray);
+
       const xmlString = alto; // .replace(/xmlns.*=".*"/g, '');
       let xml;
       try {
@@ -32,9 +38,9 @@ export class AltoService {
       }
 
       for (let i = 0; i < wordArray.length; i++) {
-        const word = wordArray[i].toLowerCase();
+        const word = wordArray[i].toLowerCase().replace(/\-|\?|\!|»|«|\;|\)|\(|\.|„|“|"|,|\)/g, '');
         const el = xml.find('String').filter(function() {
-          return $(this).attr('CONTENT').toLowerCase().replace(/\-|\?|\!|\;|\)|\(|\.|„|“|"|,|\)/g, '') === word;
+          return $(this).attr('CONTENT').toLowerCase().replace(/\-|\?|\!|»|«|\;|\)|\(|\.|„|“|"|,|\)/g, '') === word;
         });
         if (!el) {
           return;

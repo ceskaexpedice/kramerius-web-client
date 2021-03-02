@@ -35,8 +35,8 @@ app-logo {
     .app-pipe {
       app-navbar & {
         padding-left: 10px;
-        @include set-border(left, 1, solid, $app-grey-l-2);
-
+        @include set-border(left, 1, solid, $app-grey-l-2); 
+        
         /* if arrow left is hidden
         @media #{$small-and-down} {
           padding-left: 0;
@@ -45,7 +45,7 @@ app-logo {
         */
       }
     }
-
+    
     // only for home
     .home-top & {
       height: 40px;
@@ -61,7 +61,7 @@ app-logo {
       .app-brand-text {
         font-size: 1.1rem;
         line-height: 1.1rem;
-      }
+      } 
     }
   }
 }

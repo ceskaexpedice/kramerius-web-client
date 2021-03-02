@@ -1,5 +1,3 @@
-import { AppSettings } from '../services/app-settings';
-
 export class BrowseQuery {
     accessibility: string;
     ordering: string;
@@ -7,41 +5,18 @@ export class BrowseQuery {
     page: number;
     text: string;
 
-    settings: AppSettings;
 
-    constructor(settings: AppSettings) {
-        this.settings = settings;
+    constructor() {
     }
 
-    public static fromParams(params, settings: AppSettings): BrowseQuery {
-        const query = new BrowseQuery(settings);
+    public static fromParams(params, defaultCategory): BrowseQuery {
+        const query = new BrowseQuery();
         query.setOrdering(params['sort']);
         query.setPage(params['page']);
-        query.setCategory(params['category']);
+        query.setCategory(params['category'] || defaultCategory);
         query.setAccessibility(params['accessibility']);
         query.setText(params['bq']);
         return query;
-    }
-
-    public getSolrField(): string {
-        if (this.category === 'keywords') {
-            return 'keywords';
-        } else if (this.category === 'authors') {
-            return 'facet_autor';
-        } else if (this.category === 'doctypes') {
-            return 'fedora.model';
-        } else if (this.category === 'categories') {
-            return 'document_type';
-        } else if (this.category === 'languages') {
-            return 'language';
-        } else if (this.category === 'locations') {
-            return 'mods.physicalLocation';
-        } else if (this.category === 'geonames') {
-            return 'geographic_names';
-        } else if (this.category === 'collections') {
-            return 'collection';
-        }
-        return '';
     }
 
     public setAccessibility(accessibility: string) {
@@ -77,24 +52,23 @@ export class BrowseQuery {
     public setCategory(category: string) {
         if (category) {
             this.category = category;
-        } else {
-            this.category = this.getDefaultCategory();
         }
     }
 
-    private getDefaultCategory(): string {
-        for (const cat of this.settings.filters) {
-            if (cat !== 'accessibility') {
-                return cat;
-            }
-        }
+
+    textSearch(): boolean {
+       return !!this.text && ['keywords', 'genres', 'geonames', 'authors', 'publishers', 'places'].indexOf(this.category) >= 0;
     }
+
 
     getRows(): number {
+        if (!!this.text) {
+            return 10000;
+        }
         if (this.category === 'languages') {
             return 1000;
         } else {
-            return 100;
+            return 200;
         }
     }
 
@@ -104,40 +78,6 @@ export class BrowseQuery {
 
     getText(): string {
         return this.text;
-    }
-
-    buildQuery(): string {
-        let q = 'q=(' + this.settings.topLevelFilter + ')';
-        if (this.accessibility === 'public' && this.settings.filters.includes('accessibility')) {
-            q += ' AND dostupnost:public';
-        } else if (this.accessibility === 'private') {
-            q += ' AND dostupnost:private';
-        }
-        if (this.text) {
-            if (this.category === 'keywords') {
-                q += ' AND keywords:*' + this.text.toLowerCase() + '*';
-            } else if (this.category === 'authors') {
-                q += ' AND dc.creator:*' + this.text.toLowerCase() + '*';
-            }
-        }
-        q += '&facet=true&facet.field=' + this.getSolrField()
-           + '&facet.mincount=1'
-           + '&facet.sort=' + this.getOrderingValue()
-           + '&facet.limit=' + this.getRows()
-           + '&facet.offset=' + this.getStart()
-           + '&rows=0';
-
-        if (this.text) {
-            if (this.category === 'keywords') {
-                q += '&facet.contains=' + this.getText();
-            } else if (this.category === 'authors') {
-                const text = this.getText().substring(0, 1).toUpperCase() + this.getText().substring(1);
-                q += '&facet.contains=' + text;
-            }
-        }
-         q += '&json.facet={x:"unique(' + this.getSolrField() + ')"}';
-
-        return q;
     }
 
     toUrlParams() {
@@ -160,14 +100,6 @@ export class BrowseQuery {
         return params;
     }
 
-
-    public getOrderingValue(): string {
-        if (this.ordering === 'alphabetical' && this.category !== 'collections') {
-            return 'index';
-        } else {
-            return 'count';
-        }
-    }
 
 
 

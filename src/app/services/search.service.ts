@@ -11,6 +11,7 @@ import { AnalyticsService } from './analytics.service';
 import { MzModalService } from 'ngx-materialize';
 import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/dialog-advanced-search.component';
 import { Translator } from 'angular-translator';
+import { Metadata } from '../model/metadata.model';
 import { AuthService } from './auth.service';
 
 
@@ -25,9 +26,13 @@ export class SearchService {
     accessibility: any[] = [];
     authors: any[] = [];
     languages: any[] = [];
+    licences: any[] = [];
     locations: any[] = [];
     geonames: any[] = [];
     collections: any[] = [];
+    publishers: any[] = [];
+    places: any[] = [];
+    genres: any[] = [];
 
     loading = false;
 
@@ -37,21 +42,23 @@ export class SearchService {
 
     contentType = 'grid'; // 'grid' | 'map'
 
+    collection: Metadata;
+
     constructor(
         private router: Router,
         public auth: AuthService,
         private translator: Translator,
         private collectionService: CollectionService,
-        private solrService: SolrService,
+        private solr: SolrService,
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
-        private krameriusApiService: KrameriusApiService,
-        private appSettings: AppSettings,
+        private api: KrameriusApiService,
+        private settings: AppSettings,
         private modalService: MzModalService) {
-
     }
 
-    public init(params) {
+    public init(context, params) {
+        this.collection = null;
         this.results = [];
         this.keywords = [];
         this.doctypes = [];
@@ -59,7 +66,7 @@ export class SearchService {
         this.accessibility = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = SearchQuery.fromParams(params, this.appSettings);
+        this.query = SearchQuery.fromParams(params, context, this.settings);
         if (this.query.isBoundingBoxSet()) {
             this.contentType = 'map';
         } else {
@@ -74,13 +81,17 @@ export class SearchService {
     public buildPlaceholderText(): string {
         const q = this.query;
         if (!q.anyFilter()) {
-            return String(this.translator.instant('searchbar.main.all'));
+            if (q.collection) {
+                return String(this.translator.instant('searchbar.main.collection'));
+            } else {
+                return String(this.translator.instant('searchbar.main.all'));
+            }
         }
-        if (q.onlyPublicFilterChecked()) {
+        if (!q.collection && q.onlyPublicFilterChecked()) {
             return String(this.translator.instant('searchbar.main.public'));
         }
         let filters = [];
-          if (q.accessibility !== 'all' && q.accessibility != undefined) {                    //q.accessibility != undefined <= vypisovalo "Hledat s filtry search.accessibility.undefined"
+        if (q.accessibility !== 'all') {
             filters.push(this.translator.instant('search.accessibility.' + q.accessibility));
         }
         for (const item of q.doctypes) {
@@ -92,9 +103,15 @@ export class SearchService {
         }
         filters = filters.concat(q.keywords);
         filters = filters.concat(q.geonames);
+        filters = filters.concat(q.publishers);
+        filters = filters.concat(q.places);
+        filters = filters.concat(q.genres);
         filters = filters.concat(q.collections);
         for (const item of q.languages) {
             filters.push(this.translator.instant('language.' + item));
+        }
+        for (const item of q.licences) {
+            filters.push(this.translator.instant('licence.' + item));
         }
         if (q.isCustomFieldSet()) {
             filters.push(q.getCustomValue());
@@ -102,9 +119,9 @@ export class SearchService {
         for (const item of q.locations) {
             filters.push(this.translator.instant('sigla.' + item.toUpperCase()));
         }
-        return this.translator.instant('searchbar.main.filters') + ' ' + filters.join(', ');
+        const key = q.collection ? 'collection_with_filters' : 'filters';
+        return this.translator.instant('searchbar.main.' + key) + ' ' + filters.join(', ');
     }
-
 
     selectContentType(contentType: string) {
         this.contentType = contentType;
@@ -115,7 +132,6 @@ export class SearchService {
         }
         this.reload(false);
     }
-
 
     public showAdvancedSearchDialog() {
         const options = {
@@ -129,13 +145,24 @@ export class SearchService {
         if (!preservePage) {
             this.query.setPage(1);
         }
-        this.router.navigate(['search'],  { queryParams: this.query.toUrlParams() });
+        const nav = ['/'];
+        if (this.settings.multiKramerius) {
+            nav.push(this.settings.currentCode);
+        }
+        if (this.query.collection) {
+            nav.push('collection');
+            nav.push(this.query.collection);
+        } else {
+            nav.push('search');
+        }
+        console.log('nav', nav);
+        this.router.navigate(nav,  { queryParams: this.query.toUrlParams() });
     }
 
     changeLibrary(kramerius) {
         this.analytics.sendEvent('home', 'change-library', kramerius.title);
         const qp = this.query.getChangeLibraryUrlParams();
-        this.appSettings.assignKramerius(kramerius);
+        this.settings.assignKramerius(kramerius);
         qp['l'] = kramerius.code;
         this.router.navigate(['search'],  { queryParams: qp });
     }
@@ -160,9 +187,9 @@ export class SearchService {
 
     public buildK3Link(): string {
         if (this.query.getRawQ()) {
-            return this.appSettings.k3 + 'Search.do?text=' + (this.query.getRawQ() || '');
+            return this.settings.k3 + 'Search.do?text=' + (this.query.getRawQ() || '');
         } else {
-            return this.appSettings.k3 + 'Welcome.do';
+            return this.settings.k3 + 'Welcome.do';
 
         }
     }
@@ -256,11 +283,15 @@ export class SearchService {
 
     private search() {
         this.loading = true;
-        this.krameriusApiService.getSearchResults(this.query.buildQuery(null)).subscribe(response => {
+        this.api.getSearchResults(this.solr.buildSearchQuery(this.query, null)).subscribe(response => {
             this.handleResponse(response);
             this.loading = false;
         });
-
+        if (this.query.collection) {
+            this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
+                this.collection = metadata;
+            })
+        }
     }
 
     public highlightDoctype(doctype: string) {
@@ -270,51 +301,43 @@ export class SearchService {
     private handleFacetResponse(response, facet) {
         switch (facet) {
             case 'accessibility': {
-              this.accessibility = this.solrService.facetAccessibilityList(response);
-              if ((this.appSettings.dnntFilter && !this.appSettings.dnntUrl || this.appSettings.dnntFilter && this.auth.isLoggedIn()) && this.appSettings.publicFilterDefault!='notlogged') {  
-                  this.krameriusApiService.getSearchResults(this.query.buildQuery('accessible')).subscribe(response => {
-                      let count = 0;
-                      if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
-                          count = this.solrService.numberOfSearchResults(response);
-                      } else {
-                          count = this.solrService.numberOfResults(response);
-                      }
+                this.accessibility = this.solr.facetAccessibilityList(response);
+                if (this.settings.dnntFilter && this.auth.isLoggedIn()) {
+                    this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
+                        let count = 0;
+                        if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
+                            count = this.solr.numberOfSearchResults(response);
+                        } else {
+                            count = this.solr.numberOfResults(response);
+                        }
 
-                      this.accessibility.splice( this.accessibility.length - 1, 0,  { 'value' : 'accessible', 'count': count } );
-                  });
-              }
+                        this.accessibility.splice( this.accessibility.length - 1, 0,  { 'value' : 'accessible', 'count': count } );
+                    });
+                }
                 break;
             }
             case 'doctypes': {
-                this.doctypes = this.solrService.facetDoctypeList(response, this.appSettings.joinedDoctypes, this.appSettings.doctypes);
+                this.doctypes = this.solr.facetDoctypeList(response, this.settings.joinedDoctypes, this.settings.doctypes);
                 break;
             }
-            case 'authors': {
-                this.authors = this.solrService.facetList(response, SearchQuery.getSolrField('authors'), this.query['authors'], true);
-                break;
-            }
-            case 'keywords': {
-                this.keywords = this.solrService.facetList(response, SearchQuery.getSolrField('keywords'), this.query['keywords'], true);
-                break;
-            }
-            case 'languages': {
-                this.languages = this.solrService.facetList(response, SearchQuery.getSolrField('languages'), this.query['languages'], true);
-                break;
-            }
-            case 'locations': {
-                this.locations = this.solrService.facetList(response, SearchQuery.getSolrField('locations'), this.query['locations'], true);
-                break;
-            }
-            case 'geonames': {
-                this.geonames = this.solrService.facetList(response, SearchQuery.getSolrField('geonames'), this.query['geonames'], true);
+            case 'authors':
+            case 'keywords':
+            case 'languages':
+            case 'licences':
+            case 'locations':
+            case 'geonames':
+            case 'genres':
+            case 'publishers':
+            case 'places': {
+                this[facet] = this.solr.facetList(response, this.solr.getFilterField(facet), this.query[facet], true);
                 break;
             }
             case 'collections': {
-                this.collections = this.solrService.facetList(response, SearchQuery.getSolrField('collections'), this.query['collections'], true);
+                this.collections = this.solr.facetList(response, this.solr.getFilterField('collections'), this.query['collections'], true);
                 if (this.collectionService.ready()) {
                     this.dropEmptyCollections();
                 } else {
-                    this.krameriusApiService.getCollections().subscribe(
+                    this.api.getCollections().subscribe(
                         results => {
                             this.collectionService.assign(results);
                             this.dropEmptyCollections();
@@ -323,6 +346,7 @@ export class SearchService {
                 }
                 break;
             }
+
         }
     }
 
@@ -337,13 +361,13 @@ export class SearchService {
     }
 
     private makeFacetRequest(facet: string) {
-        this.krameriusApiService.getSearchResults(this.query.buildQuery(facet)).subscribe(response => {
+        this.api.getSearchResults(this.solr.buildSearchQuery(this.query, facet)).subscribe(response => {
             this.handleFacetResponse(response, facet);
         });
     }
 
     private checkFacet(condition: boolean, response, facet: string) {
-        if (this.appSettings.filters.indexOf(facet) < 0) {
+        if (this.settings.filters.indexOf(facet) < 0) {
             return;
         }
         if (condition) {
@@ -355,19 +379,23 @@ export class SearchService {
 
     private handleResponse(response) {
         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
-            this.numberOfResults = this.solrService.numberOfSearchResults(response);
-            this.results = this.solrService.searchResultItems(response, this.query);
+            this.numberOfResults = this.solr.numberOfSearchResults(response);
+            this.results = this.solr.searchResultItems(response, this.query);
         } else {
-            this.numberOfResults = this.solrService.numberOfResults(response);
-            this.results = this.solrService.documentItems(response);
+            this.numberOfResults = this.solr.numberOfResults(response);
+            this.results = this.solr.documentItems(response);
         }
         this.checkFacet(this.query.accessibility === 'all', response, 'accessibility');
         this.checkFacet(this.query.doctypes.length === 0, response, 'doctypes');
         this.checkFacet(this.query.authors.length === 0, response, 'authors');
         this.checkFacet(this.query.keywords.length === 0, response, 'keywords');
         this.checkFacet(this.query.languages.length === 0, response, 'languages');
+        this.checkFacet(this.query.licences.length === 0, response, 'licences');
         this.checkFacet(this.query.locations.length === 0, response, 'locations');
         this.checkFacet(this.query.geonames.length === 0, response, 'geonames');
+        this.checkFacet(this.query.publishers.length === 0, response, 'publishers');
+        this.checkFacet(this.query.places.length === 0, response, 'places');
+        this.checkFacet(this.query.genres.length === 0, response, 'genres');
         this.checkFacet(this.query.collections.length === 0, response, 'collections');
     }
 

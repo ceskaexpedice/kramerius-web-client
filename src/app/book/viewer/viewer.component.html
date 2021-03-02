@@ -1,88 +1,64 @@
-<div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()">
+<div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
   <app-viewer-controls [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 
   <span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
-        class="app-handle app-left-handle valign-wrapper hide-on-small-only"
-        (click)="controlsService.hideLeftPanel()"
-        mz-tooltip
-        [tooltip]="'view_controls.tooltip_hide_left' | translate"
+        class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+        (click)="controlsService.hideLeftPanel()" 
+        mz-tooltip 
+        [tooltip]="'view_controls.tooltip_hide_left' | translate" 
         [position]="'right'">
         <i class="app-mdi-menu-left" [class.app-mdi-tablet]="controlsService.leftPanelVisible"></i>
   </span>
 
   <span *ngIf="!controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
-        class="app-handle app-left-handle valign-wrapper hide-on-small-only"
-        (click)="controlsService.showLeftPanel()"
-        mz-tooltip
-        [tooltip]="'view_controls.tooltip_show_left' | translate"
+        class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+        (click)="controlsService.showLeftPanel()" 
+        mz-tooltip 
+        [tooltip]="'view_controls.tooltip_show_left' | translate" 
         [position]="'right'">
         <i class="app-mdi-menu-right"></i>
   </span>
 
   <span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
-        class="app-handle app-right-handle valign-wrapper hide-on-small-only"
-        (click)="controlsService.hideRightPanel()"
-        mz-tooltip
-        [tooltip]="'view_controls.tooltip_hide_right' | translate"
+        class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+        (click)="controlsService.hideRightPanel()" 
+        mz-tooltip 
+        [tooltip]="'view_controls.tooltip_hide_right' | translate" 
         [position]="'left'">
         <i class="app-mdi-menu-right" [class.app-mdi-tablet]="controlsService.rightPanelVisible"></i>
   </span>
 
   <span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
-        class="app-handle app-right-handle valign-wrapper hide-on-small-only"
-        (click)="controlsService.showRightPanel()"
-        mz-tooltip
-        [tooltip]="'view_controls.tooltip_show_right' | translate"
+        class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+        (click)="controlsService.showRightPanel()" 
+        mz-tooltip 
+        [tooltip]="'view_controls.tooltip_show_right' | translate" 
         [position]="'left'">
         <i class="app-mdi-menu-left"></i>
   </span>
 
-
-
+  
   <ng-container *ngIf="bookService.isPageInaccessible()">
-
-    <ng-container *ngIf="!bookService.dnntFlag && appSettings.crisisUrl">
-          <app-alert *ngIf="this.dnntLink!=''"
-                type="warning"
-                label="alert.warning"
-                message="alert.inaccessible_document_crisis"
-                [html]="'<br><div class=\'dnntLink\'>'+ ('dialogs.dnntnoLink' | translate) +' <a href=\''+this.dnntLink+'\'>'+ ('dialogs.dnntLink' | translate) +'</a></div><br>'+ ('alert.inaccessible_document_crisis_description' | translate)">
-          </app-alert>
-      </ng-container>
-      <ng-container *ngIf="!bookService.dnntFlag && !appSettings.crisisUrl">
-            <app-alert *ngIf="this.dnntLink!=''"
-                  type="warning"
-                  label="alert.warning"
-                  message="alert.inaccessible_document_dnnt"
-                  [html]="'<br><div class=\'dnntLink\'>'+ ('dialogs.dnntnoLink' | translate) +' <a href=\''+this.dnntLink+'\'>'+ ('dialogs.dnntLink' | translate) +'</a></div><br>'+ ('alert.inaccessible_document_dnnt_description' | translate)">
-            </app-alert>
-            <app-alert *ngIf="!appSettings.customRightMessage && this.dnntLink==''"
+      <ng-container *ngIf="!bookService.dnntFlag">
+            <app-alert *ngIf="!settings.customRightMessage"
                   type="warning"
                   label="alert.warning"
                   message="alert.inaccessible_document"
                   description="alert.inaccessible_document_description">
             </app-alert>
-            <app-alert *ngIf="appSettings.customRightMessage && this.dnntLink==''"
+            <app-alert *ngIf="settings.customRightMessage"
                   type="warning"
                   label="alert.warning"
                   message="alert.inaccessible_document"
-                  [html]="(krameriusInfo.data$ | async).rightMsg">
+                  [html]="(krameriusInfo.data$ | async).getRightMessage()">
             </app-alert>
       </ng-container>
-
-      <app-alert *ngIf="bookService.dnntFlag && appSettings.crisisUrl"
+      <app-alert *ngIf="bookService.dnntFlag"
             type="warning"
             label="alert.warning"
             message="alert.inaccessible_document_dnnt"
-            [html]="'<br><div class=\'dnntLink\'>'+ ('dialogs.dnntnoLink' | translate) +' <a href=\''+this.dnntLink+'\'>'+ ('dialogs.dnntLink' | translate) +'</a></div><br>'+ ('alert.inaccessible_document_crisis_description' | translate)">
+            description="alert.inaccessible_document_dnnt_description">
       </app-alert>
-      <app-alert *ngIf="bookService.dnntFlag && !appSettings.crisisUrl"
-            type="warning"
-            label="alert.warning"
-            message="alert.inaccessible_document_dnnt"
-            [html]="'<br><div class=\'dnntLink\'>'+ ('dialogs.dnntnoLink' | translate) +' <a href=\''+this.dnntLink+'\'>'+ ('dialogs.dnntLink' | translate) +'</a></div><br>'+ ('alert.inaccessible_document_dnnt_description' | translate)">
-      </app-alert>
-
   </ng-container>
 
 
@@ -106,16 +82,9 @@
   </mz-spinner>
 
 
-  <div *ngIf="bookService.dnntMode" class="app-dnnt">
+  <div *ngIf="bookService.dnntMode && authService.isLoggedIn()" class="app-dnnt">
       <span class="app-info">DÍLO NEDOSTUPNÉ NA TRHU</span>
       <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
-
-  </div>
-
-  <div *ngIf="!bookService.dnntMode && bookService.isPrivate && appSettings.membranePrivateTitle" class="app-dnnt">
-      <span class="app-info">{{ appSettings.membranePrivateTitle  }}</span>
-      <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
-
   </div>
 
 </div>

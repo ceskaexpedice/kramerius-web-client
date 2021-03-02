@@ -1,3 +1,4 @@
+
 export class User {
 
   // public static DUMMY_USER = new User(-1);
@@ -7,7 +8,7 @@ export class User {
   username: string;
   password: string;
   code: string;
-
+  
 
   static fromJson(json, username, passwod): User {
     if (json) {

@@ -59,7 +59,6 @@ import { HomeComponent } from './home/home.component';
 import { BrowseComponent } from './browse/browse.component';
 import { NavigationComponent } from './book/navigation/navigation.component';
 import { MetadataComponent } from './metadata/metadata.component';
-import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
 
 import { Ng2CompleterModule } from 'ng2-completer';
 import { AppState } from './app.state';
@@ -74,7 +73,7 @@ import { HomeSearchBarComponent } from './home/home-search-bar/home-search-bar.c
 import { NavbarSearchBarComponent } from './navbar/navbar-search-bar/navbar-search-bar.component';
 import { SearchChartBarComponent } from './search/search-chart-bar/search-chart-bar.component';
 import { SearchCalendarComponent } from './search/search-calendar/search-calendar.component';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.component';
 import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
 import { LogoComponent } from './logo/logo.component';
@@ -142,6 +141,11 @@ import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.comp
 import { LandingComponent } from './landing/landing.component';
 import { LibrariesComponent } from './libraries/libraries.component';
 import { FaqComponent } from './faq/faq.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { DialogAdminComponent } from './dialog/dialog-admin/dialog-admin.component';
+import { AdminApiService } from './services/admin-api.service';
+import { NavigationSnippetComponent } from './book/navigation/navigation-snippet/navigation-snippet.component';
+import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
 
 
 
@@ -165,6 +169,7 @@ export function hljsLanguages() {
     NavigationComponent,
     MetadataComponent,
     NavigationItemComponent,
+    NavigationSnippetComponent,
     SearchComponent,
     SearchResultsComponent,
     SearchFiltersComponent,
@@ -238,7 +243,9 @@ export function hljsLanguages() {
     DialogAdvancedSearchComponent,
     DialogPolicyComponent,
     LandingComponent,
-    LibrariesComponent
+    LibrariesComponent,
+    SafeHtmlPipe,
+    DialogAdminComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -250,7 +257,8 @@ export function hljsLanguages() {
     DialogPdfGeneratorComponent,
     DialogAdminMetadataComponent,
     DialogAdvancedSearchComponent,
-    DialogPolicyComponent
+    DialogPolicyComponent,
+    DialogAdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -259,14 +267,16 @@ export function hljsLanguages() {
     FormsModule,
     DatepickerModule,
     Ng2CompleterModule,
-    LazyLoadImageModule,
+    LazyLoadImageModule.forRoot({
+      preset: intersectionObserverPreset
+    }),
     AppRoutingModule,
     NgxGalleryModule,
     TranslatorModule.forRoot({
       providedLanguages: ['en', 'cs'],
       defaultLanguage: 'cs',
       loaderOptions: {
-        path: 'assets/i18n/{{language}}.json'
+        path: 'assets/i18n/{{language}}.json?v2.0.5'
       }
     }),
     MzButtonModule,
@@ -338,8 +348,10 @@ export function hljsLanguages() {
     IiifService,
     ZoomifyService,
     LoggerService,
+    AdminApiService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

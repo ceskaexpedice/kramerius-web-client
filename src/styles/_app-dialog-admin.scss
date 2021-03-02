@@ -1,0 +1,42 @@
+mz-modal.app-dialog-admin {
+  .modal {
+    max-width: 900px;
+  }
+
+  mz-modal-content {
+    display: block;
+    padding-top: 20px;
+    input {
+      cursor: text;
+    }
+  }
+
+  .app-label {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 5px;
+  }
+
+  .app-collections {
+    margin: 0 0 16px;
+    .app-collection {
+      line-height: 26px;
+      .app-btn {
+        float: left;
+        color: $primary-color;
+        font-size: 22px;
+        cursor: pointer;
+        display: none;
+      }
+      &:hover {
+        .app-btn {
+          display: block;
+          padding: 0 10px;
+        }
+      }
+    }
+  }
+
+
+
+}

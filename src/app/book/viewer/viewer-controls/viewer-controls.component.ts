@@ -11,7 +11,7 @@ export class ViewerControlsComponent implements OnInit {
 
 
   constructor(
-    public controlsService: ViewerControlsService,
+    public controlsService: ViewerControlsService, 
     public analytics: AnalyticsService,
     public bookService: BookService,
     private settings: AppSettings) {
@@ -44,7 +44,7 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   private show(value: string): boolean {
-    return value === 'allways' || (value === 'public' && !this.bookService.isPrivate);
+    return value === 'always' || (value === 'public' && !this.bookService.isPrivate);
   }
-
+  
 }

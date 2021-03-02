@@ -18,7 +18,6 @@ export class Utils {
         return uuid.replace(':', '\\:');
     }
 
-
     parseRecommended(json): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const doc of json['data']) {
@@ -29,13 +28,52 @@ export class Utils {
         return items;
     }
 
+    parseBookChild(jsonArray): any[] {
+        const result = [];
+        for (const json of jsonArray) {
+            const item = {
+                model: json['model'],
+                pid: json['pid'],
+                policy: json['policy'],
+                title: json['title'],
+
+            }
+            const details = json['details'];
+            let type = 'unknown';
+            let number = '';
+            if (details && details['type']) {
+                type = details['type'].toLowerCase();
+            }
+            if (details && details['pagenumber']) {
+                number = details['pagenumber'].trim();
+            }
+            item['type'] = type;
+            item['number'] = number;
+            result.push(item);
+        }
+        return result;
+    }
+
+
 
     parseItem(json): DocumentItem {
         const item = new DocumentItem();
         item.title = json['title'];
         item.uuid = json['pid'];
-        if (json['donator'] && json['donator'].startsWith('donator:')) {
-            item.donator = json['donator'].substring(8);
+        let donators = json['donator'];
+        if (donators) {
+            item.donators = [];
+            if (!Array.isArray(donators)) {
+                donators = [donators];
+            }
+            for (const d of donators) {
+                if (d && d.startsWith('donator:')) {
+                    const newDonator = d.substring(8);
+                    if (item.donators.indexOf(newDonator) < 0) {
+                        item.donators.push(newDonator);
+                    }
+                }
+            }
         }
         item.root_uuid = json['root_pid'];
         item.public = json['policy'] === 'public';
@@ -68,12 +106,12 @@ export class Utils {
             if (accessibility === 'all' || accessibility === json['policy']) {
                 const item = new PeriodicalItem();
                 item.uuid = json['pid'];
-                item.public = json['policy'] === 'public' || this.settings.hiddenLocks;
+                item.public = json['policy'] === 'public';
                 item.doctype = json['model'];
                 item.uuid = json['pid'];
                 if (json['details']) {
-                    item.title = json['details']['title'];
-                    item.subtitle = json['details']['partNumber'];
+                    item.name = json['details']['title'];
+                    item.number = json['details']['partNumber'];
                 }
                 items.push(item);
             }

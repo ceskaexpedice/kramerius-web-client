@@ -27,19 +27,27 @@
     "collections": "Sbírky"
   },
   "dk": {
-     "title": "Digitální knihovna",
-     "logo": "/assets/shared/logo-dk.png",
-     "message": "Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě.",
-     "vs_title": "Národní digitální knihovna",
-     "vs_subtitle": "Zpřístupnění digitalizovaných dokumentů včetně autorsky chráněných děl nedostupných na trhu pro uživatele knihoven.",
-     "category": {
-       "major": "Hlavní knihovny",
-       "regional": "Krajské knihovny",
-       "university": "Vysoké školy",
-       "museum": "Muzea",
-       "archive": "Archivy",
-       "other": "Další instituce a projekty"
-     }
+    "title": "Digitální knihovna",
+    "logo": "/assets/shared/logo-dk.png",
+    "message": "Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě.",
+    "vs_subtitle": " ",
+    "vs_title": "Dočasné zpřístupnění digitalizovaných dokumentů včetně autorsky chráněných děl pro studenty a pedagogy vyšších odborných a vysokých škol a vědecké pracovníky.",
+    "category": {
+      "major": "Hlavní knihovny",
+      "regional": "Krajské knihovny",
+      "university": "Vysoké školy",
+      "museum": "Muzea",
+      "archive": "Archivy",
+      "other": "Další instituce a projekty"
+    },
+    "footer": {
+      "logo": "/assets/shared/logo-mzk.png",
+      "contact": "Provozovatel",
+      "contact_name": "Moravská zemská knihovna v Brně",
+      "contact_address1": "Kounicova 65a",
+      "contact_address2": "601 87 Brno",
+      "contact_address3": " "
+    }
   },
   "navbar": {
     "collections": "Sbírky",
@@ -58,9 +66,11 @@
     "main": {
       "all": "Hledat v celé digitální knihovně",
       "public": "Hledat ve veřejných dokumentech digitální knihovny",
-      "filters": "Hledat s filtry"
+      "filters": "Hledat s filtry",
+      "collection": "Hledat ve sbírce",
+      "collection_with_filters": "Hledat ve sbírce s filtry"
     },
-    "document": "Hledat v dokumentu ...",
+    "document": "Hledat v dokumentu",
     "delete_query": "Vymazat dotaz"
   },
   "filters": {
@@ -91,8 +101,12 @@
     "doctypes": "Typ dokumentu",
     "collections": "Sbírka",
     "languages": "Jazyk",
+    "licences": "Licence",
     "locations": "Místo uložení",
     "geonames": "Geografický název",
+    "publishers": "Nakladatel",
+    "places": "Místo vydání",
+    "genres": "Žánr",
     "authors": "Autor",
     "inaccessible_document": "Dokument není veřejně přístupný",
     "dnnt_document": "Dokument podléhá režimu děl nedostupných na trhu",
@@ -151,23 +165,31 @@
       "label": "Procházet",
       "doctypes": "Typy dokumentů",
       "authors": "Autoři",
+      "publishers": "Nakladatelé",
+      "places": "Místa vydání",
       "collections": "Sbírky",
       "keywords": "Klíčová slova",
       "languages": "Jazyky",
+      "licences": "Licence",
+      "genres": "Žánry",
       "locations": "Místa uložení",
       "geonames": "Geografické názvy"
     },
     "search": {
       "doctypes": "Vyhledat typ dokumentu",
       "authors": "Vyhledat autora",
+      "publishers": "Vyhledat nakladatele",
+      "places": "Vyhledat místo vydání",
       "collections": "Vyhledat sbírku",
-      "keywords": "Vyhledat klíčové slovo",
+      "keywords": "Vyhledat klíčové slovo", 
       "languages": "Vyhledat jazyk",
+      "licences": "Vyhledat licenci",
+      "genres": "Vyhledat žánr",
       "locations": "Vyhledat místo uložení",
-      "geonames": "Vyhledat Geografický název"
+      "geonames": "Vyhledat geografický název"
     },
     "ordering": {
-      "label": "Řazení",
+      "label": "Řazení",      
       "occurrence": "Podle výskytů",
       "alphabetical": "Abecedně"
     },
@@ -190,24 +212,20 @@
     "no_results_found": "Nebyly nalezeny žádné výsledky. Prosím, zkuste jiný dotaz.",
     "inaccessible_document": "Tento dokument není veřejně přístupný",
     "inaccessible_document_description": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
-    "inaccessible_document_crisis": "Tento dokument je dočasně zpřístupněn (pouze pro čtení)",
-    "inaccessible_document_dnnt": "Tento dokument je zpřístupňován v režimu děl nedostupných na trhu (DNNT)",
-    "inaccessible_document_crisis_description": "<p>Dílo je po přihlášení přístupné pouze registrovaným uživatelům institucí, které již s NK ČR uzavřely smlouvu. <a href=\"https://ndk.cz/faq\" target=\"crisis\">Více informací k přihlášení.</a></p><p><b>Toto zpřístupnění po dobu nouzového stavu a uzavření knihoven je učeno pro pedagogy a studenty vyšších odborných a vysokých škol a vědecké pracovníky.</b></p><p>Po úspěšném přihlášení budete automaticky přesměrováni do aplikace Národní digitální knihovna - Covid (NDK-Covid).</p>",
-    "inaccessible_document_dnnt_description": "<p>Dílo je po přihlášení přístupné pouze registrovaným uživatelům <a href=\"https://dnnt.nkp.cz/downloads/knihinst.xlsx\" target=\"dnnt\">institucí</a>, které již s NK ČR uzavřely smlouvu. <a href=\"https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/NDK-DNNT-FAQ\" target=\"dnnt\">Více informací k přihlášení.</a></p><p>Přístup k dílu je možné získat i z vybraných terminálů v prostorách NK ČR.</p><p>Po úspěšném přihlášení budete automaticky přesměrováni do aplikace Národní digitální knihovna – díla nedostupná na trhu (NDK-DNNT). </p><p>Zpřístupnění služeb NDK-DNNT je podmíněno uzavřením smlouvy mezi Národní knihovnou ČR a knihovnou (institucí), která chce služby využívat. Více na <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\">dnnt.nkp.cz</a></p>",
+    "inaccessible_document_dnnt": "Tento dokument není veřejně přístupný",
+    "inaccessible_document_dnnt_description": "Tento dokument spadá do režimu Děl nedostupných na trhu. Je dostupný ve vybraných knihovnách na vyhrazených terminálech. Chystá se vzdálené zpřístupnění pro registrované uživatele knihoven.",
     "failed_to_load_image": "Obrázek se nepodařilo načíst",
     "book_no_results": "Nebyly nalezeny žádné výsledky"
   },
   "home": {
     "title": "Digitální knihovna Kramerius",
-    "btn_enter": "Procházet knihovnu",
+    "btn_enter": "Vstupte",
     "btn_search": "Hledej",
     "tab_visited": "Navštívené",
-    "tab_recommended": "Doporučené",
+    "tab_recommended": "Doporučené",    
     "tab_requested": "Nejžádanějsí",
     "tab_latest": "Nejnovější",
-    "select_library": "Vybrat knihovnu",
-    "contact" : "Kontakt",
-    "financing" : "Projekt je spolufinancován ze strukturálních fondů EU prostřednictvím IOP"
+    "select_library": "Vybrat knihovnu"
   },
   "metadata": {
     "author": "Autor",
@@ -224,7 +242,7 @@
     "physical_description": "Fyzický popis",
     "cartographic_data": "Kartografické údaje",
     "scale": "Měřítko",
-    "doctype": "Typ dokumentu",
+    "doctype": "Typ dokumentu",        
     "notes": "Poznámky",
     "genres": "Žánr",
     "article": "Článek",
@@ -236,16 +254,16 @@
     "page": "Strana",
     "supplement": "Příloha",
     "volume_list": "Přejít na periodikum",
-    "previous_volume": "Předchozi ročník",
+    "previous_volume": "Předchozi ročník",   
     "next_volume": "Následující ročník",
     "issue_date": "Datum vydání",
-    "previous_issue": "Předchozi číslo",
+    "previous_issue": "Předchozi číslo",   
     "issue_list": "Přejít na ročník",
     "next_issue": "Následující číslo",
     "unit_number": "Číslo",
     "unit_list": "Přejít na svazek knih",
     "next_unit": "Následující část:",
-    "previous_unit": "Předchozi část:",
+    "previous_unit": "Předchozi část:",   
     "shelf_locator": "Signatura: {{shelf_locator}}",
     "btn_show_metadata": "Zobrazit metadata",
     "btn_hide_metadata": "Skrýt metadata",
@@ -261,24 +279,24 @@
     },
     "k3tok5": {
       "url": "https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/k3tok5",
-      "name": "K3toK5"
+      "name": "K3 to K5"
     }
   },
   "periodical": {
-    "volume": "Ročník {{volume}}",
-    "issue": "Číslo {{issue}}",
-    "unit": "Část {{unit}}",
-    "supplement": "Příloha {{supplement}}",
+    "periodicalvolume": "Ročník {{part}}",
+    "periodicalitem": "Číslo {{part}}",
+    "monographunit": "Část {{part}}",
+    "supplement": "Příloha {{part}}",
     "virtual_issue": "Nezařazené",
-    "volume_unknown": "-",
-    "issue_unknown": "-",
-    "date_unknown": "-",
-    "year_unknown": "-",
-    "unit_title_unknown": "-",
-    "unit_number_unknown": "-",
-    "previous_volume": "Předchozi ročník",
+    "previous_volume": "Předchozi ročník",   
     "next_volume": "Následující ročník",
-    "volume_list": "Seznam ročníků"
+    "volume_list": "Seznam ročníků",
+    "search": {
+      "none": "Hledat",
+      "periodical": "Hledat v periodiku",
+      "periodicalvolume": "Hledat v ročníku",
+      "monograph": "Hledat ve svazku knih"
+    }
   },
   "view_controls": {
     "tooltip_zoom_in": "Přiblížit",
@@ -327,43 +345,27 @@
   "pdf-dialog": {
     "title_generate": "Příprava ke stažení",
     "title_prepare": "Příprava k tisku",
-    "message_generate": "Vyberte stránky pro výsledný PDF dokument.",
-    "message_prepare": "Vyberte stránky k tisku.",
-    "page_from": "Od stránky",
-    "page_to": "Po stránku",
-    "page_count": "Počet vybraných stran:",
-    "max_page_count": "Maximální počet stran:",
     "tip_shift": "Tip: přes stisknutou klávesu Shift můžete vybrat více stránek naráz",
+    "selection1": "Máte {{ num == 1 ? 'vybranou' : ( num < 5 ? 'vybrané' : 'vybraných') }}",
+    "selection2": "{{ num == 1 ? 'stranu' : ( num < 5 ? 'strany' : 'stran') }}",
+    "selection": "Nemáte vybranou žádnou stranu",
+    "select_all": "Vybrat vše",
+    "deselect_all": "Zrušit výběr",
     "warning_too_manny_pages": "Je překročen maximální počet stran",
-    "warning_number_of_pages": "máte vybráno {{num}} stran",
-    "selected_number_of_pages": "Máte vybráno {{num}} z ",
-    "pages": "stran",
-    "warning_no_page": "Není vybraná žádná stránka",
     "warning_generate": "Vytváření PDF dokumentu může trvat několik minut v závislosti na počtu vybraných stránek.",
-    "warning_prepare": "Příprava k tisku může trvat několik minut v závislosti na počtu vybraných stránek.",
     "error_generate": "PDF dokument se nepodařilo stáhnout",
-    "action_generate": "Generovat PDF",
-    "action_prepare": "Připravit k tisku",
-    "download_pdf": "Stáhnout celé dílo v PDF"
+    "action_generate": "Stáhnout PDF",
+    "action_prepare": "Připravit k tisku"
   },
   "metadata-dialog": {
-    "title": "Metadata pro"
+    "title": "Metadata pro",
+    "missing": "Objekt {{ model }} neobsahuje {{ resource }}"
   },
   "citation-dialog": {
-    "title": "Citace",
-    "level-0": "celého dokumentu",
-    "level-1": "ročníku periodika",
-    "level-2": "čísla periodika",
-    "level-3": "článku",
-    "level-4": "vybrané stránky"
+    "title": "Citace"
   },
   "share-dialog": {
     "title": "Sdílet",
-    "level-0": "dokument",
-    "level-1": "ročník",
-    "level-2": "výtisk",
-    "level-3": "článek",
-    "level-4": "vybranou stránku",
     "link": "Odkaz pro sdílení",
     "social": "Sdílet na sociálních sítích"
   },
@@ -374,8 +376,6 @@
     "role": "Role"
   },
   "dialogs": {
-    "dnntnoLink": "Pro zobrazení dokumentu",
-    "dnntLink": "se přihlaste účtem své instituce",
     "private_sheetmusic": {
       "message": "Autorsky chráněné hudebniny bohužel nelze žádným způsobem kopírovat z důvodu výjimky v Autorském zákoně."
     },
@@ -408,7 +408,8 @@
     "article" : "Článek",
     "internalpart" : "Kapitola",
     "soundunit" : "Album",
-    "track" : "Nahrávka"
+    "track" : "Nahrávka",
+    "collection": "Sbírka"
   },
   "model_2p" : {
     "monograph" : "Knihy",
@@ -429,7 +430,8 @@
     "article" : "Článku",
     "internalpart" : "Kapitoly",
     "soundunit" : "Alba",
-    "track" : "Nahrávky"
+    "track" : "Nahrávky",
+    "collection": "Sbírky"
   },
   "model_4p" : {
     "monograph" : "Knihu",
@@ -450,7 +452,8 @@
     "article" : "Článek",
     "internalpart" : "Kapitolu",
     "soundunit" : "Album",
-    "track" : "Nahrávku"
+    "track" : "Nahrávku",
+    "collection": "Sbírku"
   },
   "model_plural" : {
     "monograph" : "Knihy",
@@ -470,7 +473,13 @@
     "article" : "Články",
     "internalpart" : "Kapitoly",
     "soundunit" : "Alba",
-    "track" : "Nahrávky"
+    "track" : "Nahrávky",
+    "collection": "Sbírky"
+  },
+  "issue_type": {
+    "morning": "ranní vydání",
+    "afternoon": "odpolední vydání",
+    "evening": "večerní vydání"
   },
   "page_type": {
     "unknown" : "strana",
@@ -515,7 +524,8 @@
     "bibliographicalportrait": "medailonek",
     "colophon": "tiráž",
     "interview": "rozhovor",
-    "anotation": "anotace"
+    "anotation": "anotace",
+    "manuscriptnotes": "rukopisná poznámka"
   },
   "calendar" : {
     "months" : {
@@ -541,6 +551,11 @@
       "5": "So",
       "6": "Ne"
     }
+  },
+  "licence" : {
+    "dnnto": "DNNT online",
+    "dnntt": "DNNT terminál",
+    "covid": "COVID"
   },
   "sigla": {
     "BOA001" : "Moravská zemská knihovna v Brně",
@@ -621,7 +636,28 @@
     "KVE303" : "Muzeum Karlovy Vary",
     "ABA012" : "Národní pedagogické muzeum a knihovna J. A. Komenského",
     "ABB005" : "CERGE-EI knihovna Jana Kmenty",
-    "BOD022" : "Masarykova univerzita - Ekonomicko-správní fakulta"
+    "BOD022" : "Masarykova univerzita - Ekonomicko-správní fakulta",
+    "ABB030" : "Orientální ústav AV ČR",
+    "TUE801" : "Krkonošské muzeum",
+    "OSG002" : "Knihovna města Ostravy",
+    "OSD001" : "Ostravská univerzita",
+    "KAG001" : "Regionální knihovna Karviná",
+    "KAE801" : "Muzeum Těšínska",
+    "OSE304" : "Ostravské muzeum",
+    "BRE302" : "Muzeum v Bruntále",
+    "FME301" : "Muzeum Beskyd Frýdek-Místek",
+    "OSE306" : "Galerie výtvarného umění v Ostravě",
+    "KAE950" : "Knihovna Slezské diakonie",
+    "NJE303" : "Muzeum Novojičínska",
+    "OPE801" : "Muzeum Hlučínska",
+    "KAG502" : "Městská knihovna Orlová",
+    "SVE951" : "Knihovna kláštera františkánů v Dačicích",
+    "HOE801" : "Národní ústav lidové kultury",
+    "SME801" : "Muzeum Českého ráje v Turnově",
+    "ABB019" : "Sociologický ústav AV ČR",
+    "ABB085" : "Masarykův ústav a Archiv AV ČR",
+    "ABB083" : "Ústav pro soudobé dějiny AV ČR",
+    "ABE461" : "Židovská obec v Praze"
   },
   "language" : {
     "aar" : "afarština",

@@ -1,12 +1,12 @@
 import { Translator } from 'angular-translator';
 import { KrameriusApiService } from './kramerius-api.service';
-import { SolrService } from './solr.service';
 import { Router } from '@angular/router';
 import { BrowseQuery } from './../browse/browse_query.model';
 import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
+import { BrowseItem } from '../model/browse_item.model';
 
 
 @Injectable()
@@ -25,10 +25,9 @@ export class BrowseService {
         private router: Router,
         private translator: Translator,
         private collectionService: CollectionService,
-        private solrService: SolrService,
-        private appSettings: AppSettings,
+        private settings: AppSettings,
         private analytics: AnalyticsService,
-        private krameriusApiService: KrameriusApiService) {
+        private api: KrameriusApiService) {
             translator.languageChanged.subscribe(() => {
                 this.translateResults();
             });
@@ -38,8 +37,17 @@ export class BrowseService {
         this.results = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
-        this.query = BrowseQuery.fromParams(params, this.appSettings);
+        this.query = BrowseQuery.fromParams(params, this.getDefaultCategory());
         this.search();
+    }
+
+
+    private getDefaultCategory(): string {
+        for (const cat of this.settings.filters) {
+            if (cat !== 'accessibility') {
+                return cat;
+            }
+        }
     }
 
     public reload(preservePage: boolean) {
@@ -118,9 +126,9 @@ export class BrowseService {
 
     private search() {
         this.loading = true;
-        this.krameriusApiService.getBrowseResults(this.query).subscribe(response => {
-            this.numberOfResults = this.solrService.numberOfFacets(response);
-            this.results = this.solrService.browseFacetList(response, this.query.getSolrField());
+        this.api.getBrowseItems(this.query).subscribe( ([items, count]: [BrowseItem[], number]) => {
+            this.results = items;
+            this.numberOfResults = count;
             this.backupResults = this.results;
             this.translateResults();
         });
@@ -137,6 +145,26 @@ export class BrowseService {
                 for (const item of this.backupResults) {
                     item['name'] = this.translator.instant('language.' + item['value']);
                     if (!item['name'].startsWith('language.')) {
+                        if (this.getText()) {
+                            if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
+                                filteredResults.push(item);
+                            }
+                        } else {
+                            filteredResults.push(item);
+                        }
+                    }
+                }
+                this.results = filteredResults;
+                this.numberOfResults = this.results.length;
+                this.sortResult();
+                this.loading = false;
+            });
+        } else  if (this.getCategory() === 'licences') {
+            this.translator.waitForTranslation().then(() => {
+                const filteredResults = [];
+                for (const item of this.backupResults) {
+                    item['name'] = this.translator.instant('licence.' + item['value']);
+                    if (!item['name'].startsWith('licence.')) {
                         if (this.getText()) {
                             if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
                                 filteredResults.push(item);
@@ -169,11 +197,13 @@ export class BrowseService {
             this.translator.waitForTranslation().then(() => {
                 const filteredResults = [];
                 for (const item of this.backupResults) {
-                    item['value'] = item['value'].toUpperCase();
+                    if (/^[a-z]{3}[0-9]{3}$/.test(item['value'])) {
+                        item['value'] = item['value'].toUpperCase();
+                    }
                     item['name'] = this.translator.instant('sigla.' + item['value']);
                     if (item['name'].startsWith('sigla.')) {
-                        if (!/^[A-Z]{3}[0-9]{3}$/.test(item['value'])) {
-                            continue;
+                        if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(item['value'])) {
+                             continue;
                         }
                         item['name'] = item['name'].substring(6);
                     }
@@ -208,7 +238,7 @@ export class BrowseService {
                 this.loading = false;
             } else {
                 this.loading = true;
-                this.krameriusApiService.getCollections().subscribe(
+                this.api.getCollections().subscribe(
                     results => {
                         this.collectionService.assign(results);
                         this.translateResults();

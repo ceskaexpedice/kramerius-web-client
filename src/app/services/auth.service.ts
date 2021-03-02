@@ -12,38 +12,41 @@ import { AppSettings } from './app-settings';
 export class AuthService {
 
     user: User = null;
+    redirectUrl: string;
 
     constructor(private appSettings: AppSettings, private krameriusApi: KrameriusApiService, private cache: HttpRequestCache) {
-        // console.log('AuthService initialized');
-        if (appSettings.dnnt) {
+        if (appSettings.dnnt || appSettings.krameriusLogin) {
             this.login(null, null);
         }
     }
 
-    login(username: string, password: string) {
-        return this.krameriusApi.getUserInfo(username, password)
-                                .do(user => {
-                                    this.user = user;
-                                    this.cache.clear();
-                                });
+    login(username: string, password: string, callback: (user: User) => void = null) {
+        return this.krameriusApi.getUserInfo(username, password).subscribe(user => {
+            this.user = user;
+            this.cache.clear();
+            if (callback) {
+                callback(user);
+            }
+        });
     }
 
-    logout() {
+    logout(callback: () => void = null) {
         if (!this.isLoggedIn()) {
             return;
         }
-        return this.krameriusApi.logout()
-                                .do(user => {
-                                    this.cache.clear();
-                                    this.user = null;
-                                });
+        return this.krameriusApi.logout().subscribe(user => {
+            this.cache.clear();
+            this.user = null;
+            if (callback) {
+                callback();
+            }
+        });
     }
-
 
     isLoggedIn(): boolean {
+        // return true;
         return this.user && this.user.isLoggedIn();
     }
-
 
     getUserId(): string {
         if (!this.user) {

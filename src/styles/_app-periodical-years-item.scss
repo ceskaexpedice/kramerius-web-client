@@ -45,7 +45,7 @@ app-periodical-years-item {
     margin: 0.5rem;
     color: $app-grey-d-3;
     @include setCardShadow(0, 0, 0, $app-grey-l-2);
-
+    border-radius: unset;
     .card-content {
       @extend .app-clean-pd;
       @extend .center-align;

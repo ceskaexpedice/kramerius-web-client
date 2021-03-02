@@ -32,6 +32,7 @@ app-periodical-fulltext-item {
     @extend .app-cursor-pointer;
     margin: 0.5rem;
     height: 144px;
+    border-radius: unset;
     @include setCardShadow(0, 0, 0, $app-grey-l-2);
     &>div {
       height: 100%;
@@ -39,7 +40,7 @@ app-periodical-fulltext-item {
     .card-content {
       padding: 10px;
       height: 100%;
-      overflow: hidden;
+      // overflow: hidden;
       height: 100%;
 
       mz-card-content {
@@ -147,7 +148,7 @@ app-periodical-fulltext-item {
             line-height: 16px;
             margin-top: 5px;
             height: 64px;
-            
+            word-break: break-word;
             strong {
               color: $primary-color;
               @extend .app-font-bold;

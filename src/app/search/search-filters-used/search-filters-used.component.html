@@ -20,7 +20,7 @@
       </span>
   </mz-collection-item>
 
-  <mz-collection-item *ngIf="searchService.query.accessibility === 'public' || appSettings.hiddenLocks">
+  <mz-collection-item *ngIf="searchService.query.accessibility === 'public'">
     <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'lock-open'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
@@ -28,7 +28,7 @@
     </span>
   </mz-collection-item>
 
-  <mz-collection-item *ngIf="searchService.query.accessibility === 'dnnt' && !appSettings.hiddenLocks">
+  <mz-collection-item *ngIf="searchService.query.accessibility === 'dnnt'">
     <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
@@ -36,13 +36,23 @@
     </span>
   </mz-collection-item>
 
-  <mz-collection-item *ngIf="searchService.query.accessibility === 'private' && !appSettings.hiddenLocks">
+  <mz-collection-item *ngIf="searchService.query.accessibility === 'private'">
     <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
       {{ 'search.accessibility.private' | translate }}
     </span>
   </mz-collection-item>
+
+
+  <mz-collection-item *ngFor="let licence of searchService.query.licences">
+    <span (click)="searchService.removeFilter(searchService.query.licences, licence)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ 'licence.' + licence | translate | appUpcase }}
+    </span>
+  </mz-collection-item>
+
 
   <mz-collection-item *ngFor="let keyword of searchService.query.keywords">
     <span (click)="searchService.removeFilter(searchService.query.keywords, keyword)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
@@ -66,6 +76,30 @@
       <i mz-icon-mdi [icon]="'account'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
       {{ author | appUpcase }}
+    </span>
+  </mz-collection-item>
+
+  <mz-collection-item *ngFor="let publisher of searchService.query.publishers">
+    <span (click)="searchService.removeFilter(searchService.query.publishers, publisher)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'account-multiple'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ publisher | appUpcase }}
+    </span>
+  </mz-collection-item>
+
+  <mz-collection-item *ngFor="let place of searchService.query.places">
+    <span (click)="searchService.removeFilter(searchService.query.places, place)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'map'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ place | appUpcase }}
+    </span>
+  </mz-collection-item>
+
+  <mz-collection-item *ngFor="let genre of searchService.query.genres">
+    <span (click)="searchService.removeFilter(searchService.query.genres, genre)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'book-variant'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ genre | appUpcase }}
     </span>
   </mz-collection-item>
 

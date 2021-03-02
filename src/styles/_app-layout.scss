@@ -1,7 +1,7 @@
 // --- LAYOUT ---
 
 html,
-body,
+body, 
 app-root {
   width: 100%;
   height: 100%;
@@ -12,7 +12,7 @@ app-root {
   main {
     width: 100%;
     height: calc(100% - #{$navbar-height});
-
+    
     // common behavior
     app-search,
     app-browse,
@@ -27,7 +27,7 @@ app-root {
       flex-flow: row;
     }
     app-search-filters,
-    app-browse-filters,
+    app-browse-filters,    
     app-navigation,
     app-metadata,
     app-periodical-filters {
@@ -47,30 +47,29 @@ app-root {
         overflow: auto;
         background-color: $app-grey-l-4;
       }
-      @import "styles/app-libraries";
     }
-
+    
     // home
     app-home {
       .app-content-wrapper {
         flex: 1;
         height: 100%;
         overflow: auto;
-
+        
         @import "styles/app-home";
       }
     }
-
+    
     // help
     app-help {
       @import "styles/app-help";
     }
 
-    // about
+    // about, faq
     app-about, app-faq {
       @import "styles/app-about";
     }
-
+    
     // search
     app-search {
       @import "styles/app-search-count";
@@ -85,6 +84,7 @@ app-root {
         @import "styles/app-search-chart-bar";
         @import "styles/app-search-calendar";
         @import "styles/app-search-results";
+        @import "styles/app-map-browse";
       }
     }
 
@@ -118,30 +118,30 @@ app-root {
       }
       @import "styles/app-collection";
     }
-
+    
     // book
     app-book {
       display: block;
       height: 100%;
       width: 100%;
       position: relative;
-
+      
       @import "styles/app-book-toolbar";
       .app-book-wrapper {
         @media #{$small-and-down} {
           height: calc(100% - #{$app-toolbar-height});
         }
-
+        
         @import "styles/app-book-toolbar";
         @import "styles/app-search-count";
         @import "styles/app-viewer";
         @import "styles/app-pdf-viewer";
-        @import "styles/app-viewer-controls";
+        @import "styles/app-viewer-controls";      
         @import "styles/app-navigation";
         @import "styles/app-metadata";
       }
     }
-
+    
     // periodical
     app-periodical  {
       @import "styles/app-search-filters";

@@ -6,6 +6,7 @@ app-document-card {
   .card {
     @extend .app-cursor-pointer;
     margin: 0.5rem;
+    border-radius: unset;
     height: 144px;
     @include setCardShadow(0, 0, 0, $app-grey-l-2);
     
@@ -21,18 +22,21 @@ app-document-card {
     // set type of document color
     .app-card-mark,
     .app-card-doctype {
-      &.monograph {background-color: $app-type-monograph}
-      &.monographunit {background-color: $app-type-monograph}
-      &.periodical {background-color: $app-type-periodical}
-      &.soundrecording {background-color: $app-type-soundrecording}
-      &.map {background-color: $app-type-map}
-      &.graphic {background-color: $app-type-graphic}
-      &.sheetmusic {background-color: $app-type-sheetmusic}
-      &.archive {background-color: $app-type-archive}
-      &.manuscript {background-color: $app-type-manuscript}
-      &.clippingsvolume {background-color: $app-type-clippingsvolume}
-      &.article {background-color: $app-type-article}
-      &.page {background-color: $app-type-page}
+      &.app-doctype-monograph {background-color: $app-type-monograph}
+      &.app-doctype-monographunit {background-color: $app-type-monograph}
+      &.app-doctype-periodical {background-color: $app-type-periodical}
+      &.app-doctype-periodicalvolume {background-color: $app-type-periodical}
+      &.app-doctype-periodicalitem {background-color: $app-type-periodical}
+      &.app-doctype-soundrecording {background-color: $app-type-soundrecording}
+      &.app-doctype-map {background-color: $app-type-map}
+      &.app-doctype-graphic {background-color: $app-type-graphic}
+      &.app-doctype-sheetmusic {background-color: $app-type-sheetmusic}
+      &.app-doctype-archive {background-color: $app-type-archive}
+      &.app-doctype-manuscript {background-color: $app-type-manuscript}
+      &.app-doctype-clippingsvolume {background-color: $app-type-clippingsvolume}
+      &.app-doctype-collection {background-color: $app-type-collection}
+      &.app-doctype-article {background-color: $app-type-article}
+      &.app-doctype-page {background-color: $app-type-page}
     }
 
     &>div {
@@ -47,11 +51,10 @@ app-document-card {
       width: 26px;
       height: 26px;
     }
-    
     .card-content {
       padding: 10px;
       height: 100%;
-      overflow: hidden;        
+      // overflow: hidden;        
         mz-card-content {
           display: table;
           width: 100%;
@@ -117,6 +120,15 @@ app-document-card {
               height: 1.1rem;
               -webkit-box-orient: vertical;
               -webkit-line-clamp: 1;
+              display: -webkit-box;
+              text-overflow: ellipsis;
+            }
+            .app-card-description {
+              overflow: hidden;
+              line-height: 1.1rem;
+              height: 3.3rem;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 3;
               display: -webkit-box;
               text-overflow: ellipsis;
             }

@@ -1,0 +1,38 @@
+<mz-modal #modal [fixedFooter]="false" class="app-dialog app-dialog-admin">
+
+  <mz-modal-header>
+    <div class="app-tabs" *ngIf="selection">
+      <div class="app-dialog-title">Akce pro</div>
+      <div *ngFor="let item of data" class="app-tab" [class.active]="selection.type === item.type"
+        (click)="changeTab(item)">
+        {{ 'model_4p.' + item.type | translate | lowercase }}
+      </div>
+    </div>
+  </mz-modal-header>
+
+  <mz-modal-content>
+
+
+    <div class="app-label">Je ve sbírce</div>
+    <div class="app-collections">
+      <div *ngFor="let col of collectionsIn" class="app-collection">
+        <div class="app-btn" (click)="removeFromCollection(col)">-</div>{{ col.name }}
+      </div>
+    </div>
+
+    <div class="app-label">Přidat do sbírky</div>
+    <div class="app-collections">
+      <div *ngFor="let col of collectionsRest" class="app-collection">
+        <div class="app-btn" (click)="addToCollection(col)">+</div>{{ col.name }}
+      </div>
+    </div>
+
+  </mz-modal-content>
+
+
+
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>{{ 'common.close' | translate }}</button>
+  </mz-modal-footer>
+
+</mz-modal>

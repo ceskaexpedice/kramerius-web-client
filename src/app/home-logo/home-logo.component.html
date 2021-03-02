@@ -7,6 +7,8 @@
 
 
 
+
+
 <div class="brand-logo" [class.app-logo-big]="appSettings.bigHomeLogo" *ngIf="appSettings.multiKramerius && appSettings.landingPage">
   <a mz-tooltip [tooltip]="'home.select_library' | translate" [position]="'top'" [routerLink]="['/']" (click)="analytics.sendEvent('home', 'landing', appSettings.code);">
     <span>
@@ -18,6 +20,8 @@
     </span>
   </a>
 </div>
+
+
 
 
 <div class="brand-logo" [class.app-logo-big]="appSettings.bigHomeLogo" *ngIf="appSettings.multiKramerius && !appSettings.landingPage">

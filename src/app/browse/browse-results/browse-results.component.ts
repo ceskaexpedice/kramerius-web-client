@@ -14,15 +14,6 @@ export class BrowseResultsComponent implements OnInit {
   ngOnInit() {
   }
 
-  //test na HTML entity - kvuli chybnemu zobrazovani
-   containsHTMLEntities(text): boolean {
-      if(text.match(/&lt;/g)) { return true; }
-      else if(text.match(/&gt;/g)) { return true; }
-      else if(text.match(/&quot;/g)) { return true; }
-      else if(text.match(/&apos;/g)) { return true; }
-      else { return false; }
-   }
-
   getParams(value: string) {
     const params = {};
     params[this.browseService.query.category] = value;

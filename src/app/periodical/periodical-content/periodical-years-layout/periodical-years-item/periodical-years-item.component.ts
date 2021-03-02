@@ -15,7 +15,7 @@ export class PeriodicalYearsItemComponent implements OnInit {
   constructor(public periodicalService: PeriodicalService,
               public analytics: AnalyticsService,
               public auth: AuthService,
-              public appSettings: AppSettings) { }
+              public settings: AppSettings) { }
 
   ngOnInit() {
   }

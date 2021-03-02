@@ -3,6 +3,7 @@
   <mz-modal-header>
     <div class="app-tabs" *ngIf="selection">
 
+    <a *ngIf="url" style="float: right;" target="_blank" [href]="url">URL</a>
 
 <mz-dropdown
   [id]="'dropdown'"
@@ -26,7 +27,6 @@
 <mz-dropdown-divider></mz-dropdown-divider>
 <mz-dropdown-item><a (click)="changeResource('item')">item</a></mz-dropdown-item>
 <mz-dropdown-item><a (click)="changeResource('children')">children</a></mz-dropdown-item>
-<mz-dropdown-item><a (click)="changeResource('siblings')">siblings</a></mz-dropdown-item>
 <mz-dropdown-divider></mz-dropdown-divider>
 <mz-dropdown-item><a (click)="changeResource('iiif')">iiif</a></mz-dropdown-item>
 

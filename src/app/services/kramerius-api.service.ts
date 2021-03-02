@@ -1,6 +1,5 @@
 import { KrameriusInfo } from './../model/krameriusInfo.model';
 import { PeriodicalQuery } from './../periodical/periodical_query.model';
-import { BrowseQuery } from './../browse/browse_query.model';
 import { SolrService } from './solr.service';
 import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
@@ -15,7 +14,15 @@ import { Response } from '@angular/http/src/static_response';
 import { AppSettings } from './app-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user.model';
-import { Page } from '../model/page.model';
+import { DocumentItem } from '../model/document_item.model';
+import { CompleterItem } from 'ng2-completer';
+import { SearchQuery } from '../search/search_query.model';
+import { PeriodicalFtItem } from '../model/periodicalftItem.model';
+import { PeriodicalItem } from '../model/periodicalItem.model';
+import { BrowseItem } from '../model/browse_item.model';
+import { BrowseQuery } from '../browse/browse_query.model';
+import { Metadata } from '../model/metadata.model';
+import { ModsParserService } from './mods-parser.service';
 
 @Injectable()
 export class KrameriusApiService {
@@ -24,28 +31,16 @@ export class KrameriusApiService {
     private static STREAM_MODS = 'BIBLIO_MODS';
     private static STREAM_OCR = 'TEXT_OCR';
     private static STREAM_JPEG = 'IMG_FULL';
+    private static STREAM_PREVIEW = 'IMG_PREVIEW';
     private static STREAM_ALTO = 'ALTO';
     private static STREAM_MP3 = 'MP3';
 
     constructor(private http: HttpClient,
         private utils: Utils,
         private settings: AppSettings,
-        private solrService: SolrService) {
+        private mods: ModsParserService,
+        private solr: SolrService) {
     }
-
-    private getbaseUrl(): string {
-        return this.settings.url;
-    }
-
-    private getApiUrl(): string {
-        return this.getbaseUrl() + '/search/api/v5.0';
-    }
-
-    private getApiUrlForKramerius(url: string): string {
-        return url + '/search/api/v5.0';
-    }
-
-
 
     private handleError(error: Response) {
         if (error.status === 404) {
@@ -56,256 +51,263 @@ export class KrameriusApiService {
         return throwError(new AppError(error));
     }
 
-    private getItemStreamUrl(uuid: string, stream: string) {
-        return this.getItemUrl(uuid) + '/streams/' + stream;
-    }
-
-    private getItemUrl(uuid: string) {
-        return this.getApiUrl() + '/item/' + uuid;
-    }
-
-    private getItemUrlForKramerius(uuid: string, url: string) {
-        return this.getApiUrlForKramerius(url) + '/item/' + uuid;
-    }
-
     private doGet(url: string): Observable<Object> {
-        return this.http.get(encodeURI(url));
-    }
-
-    private doGetBlob(url: string): Observable<Blob> {
-        return this.http.get(encodeURI(url), { observe: 'response', responseType: 'blob' })
-        .map(response => response['body']);
+        return this.http.get(encodeURI(url)).catch(this.handleError);
     }
 
     private doGetText(url: string): Observable<string> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'text' })
-        .map(response => response['body']);
+            .map(response => response['body']).catch(this.handleError);
     }
+
+    private doGetBlob(url: string): Observable<Blob> {
+        return this.http.get(encodeURI(url), { observe: 'response', responseType: 'blob' })
+            .map(response => response['body']).catch(this.handleError);
+    }
+
+    private getbaseUrl(): string {
+        return this.settings.url;
+    }
+
+    private getApiUrlForBaseUrl(url: string): string {
+        if (this.settings.k5Compat()) {
+            return `${url}/search/api/v5.0`;
+        }
+        return `${url}/search/api/client/v6.0`;
+    }
+
+    private getK5CompatApiUrl(): string {
+        return `${this.getbaseUrl()}/search/api/v5.0`;
+    }
+
+    private getApiUrl(): string {
+        return this.getApiUrlForBaseUrl(this.getbaseUrl());
+    }
+
+    private getItemUrl(uuid: string, url = null) {
+        const item = this.settings.k5Compat() ? 'item' : 'items';
+        return `${this.getApiUrlForBaseUrl(url ? url : this.getbaseUrl())}/${item}/${uuid}`;
+    }
+
+    private getItemStreamUrl(uuid: string, stream: string) {
+        return this.getItemUrl(uuid) + '/streams/' + stream;
+    }
+
+    getFullJpegUrl(uuid: string): string {
+        if (this.settings.k5Compat()) {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
+        } else {
+            return this.getItemUrl(uuid) + '/image';
+        }
+    }
+
+    getThumbUrl(uuid: string): string {
+        if (this.settings.k5Compat()) {
+            return this.getItemUrl(uuid) + '/thumb';
+        } else {
+            return this.getItemUrl(uuid) + '/image/thumb';
+        }
+    }
+
+    getThumbUrlForKramerius(uuid: string, url: string): string {
+        if (this.settings.k5Compat()) {
+            return this.getItemUrl(uuid, url) + '/thumb';
+        } else {
+            return this.getItemUrl(uuid, url) + '/image/thumb';
+        }
+    }
+
+    // getThumbUrl(uuid: string) {
+    //     return this.getbaseUrl() + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
+    // }
+
+    // getThumbUrlForKramerius(uuid: string, url: string) {
+    //     return url + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
+    // }
 
     getSearchResults(query: string) {
-        const url = this.getApiUrl() + '/search?'
-            + query;
-        return this.doGet(url)
-            .catch(this.handleError);
+        return this.doGet(this.getSearchResultsUrl(query));
     }
 
-    getBrowseResults(query: BrowseQuery) {
-        const url = this.getApiUrl() + '/search?'
-            + query.buildQuery();
-        return this.doGet(url)
-            .catch(this.handleError);
+    getNewest(): Observable<DocumentItem[]> {
+        return this.getSearchResults(this.solr.getNewestQuery())
+            .map(response => this.solr.documentItems(response));
     }
+
+    getFulltextSearchAutocomplete(term: string, uuid: string): Observable<CompleterItem[]> {
+        return this.getSearchResults(this.solr.buildFulltextSearchAutocompleteQuery(term, uuid))
+            .map(response => this.solr.fulltextSearchAutocompleteResults(response));
+    }
+
+    getSearchAutocomplete(term: string, query: SearchQuery, publicOnly: boolean): Observable<CompleterItem[]> {
+        return this.getSearchResults(this.solr.buildSearchAutocompleteQuery(term, query, publicOnly))
+            .map(response => this.solr.searchAutocompleteResults(response, term));
+    }
+
+    getPeriodicalFulltext(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery): Observable<[PeriodicalFtItem[], number]> {
+        return this.getSearchResults(this.solr.buildPeriodicalFulltextSearchQuery(periodicalUuid, volumeUuid, offset, limit, query))
+            .map(response => [this.solr.periodicalFullTextItems(response, query.fulltext), this.solr.numberOfResults(response)] as [PeriodicalFtItem[], number]);
+    }
+
+    getPeriodicalItemsDetails(uuids: string[]): Observable<PeriodicalItem[]> {
+        return this.getSearchResults(this.solr.buildPeriodicalItemsDetailsQuery(uuids))
+            .map(response => this.solr.periodicalItemsDetails(response));
+    }
+
+    getPeriodicalVolumes(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
+        return this.getSearchResults(this.solr.buildPeriodicalVolumesQuery(uuid, query))
+            .map(response => this.solr.periodicalItems(response, 'periodicalvolume'));
+    }
+
+    getPeriodicalIssues(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
+        return this.getSearchResults(this.solr.buildPeriodicalIssuesQuery(uuid, query))
+            .map(response => this.solr.periodicalItems(response, 'periodicalitem', uuid));
+    }
+
+    getMonographUnits(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
+        return this.getSearchResults(this.solr.buildMonographUnitsQuery(uuid, query))
+            .map(response => this.solr.periodicalItems(response, 'monographunit'));
+    }
+
+    getBrowseItems(query: BrowseQuery): Observable<[BrowseItem[], number]> {
+        return this.getSearchResults(this.solr.buildBrowseQuery(query))
+            .map(response => this.solr.browseItems(response, query));
+    }
+
+    getDocumentFulltextPage(uuids: string[], query: string): Observable<string[]> {
+        return this.getSearchResults(this.solr.buildDocumentFulltextQuery(uuids, query))
+            .map(response => this.solr.documentFulltextQuery(response));
+    }
+
+    getMetadata(uuid: string, type: string = 'full'): Observable<Metadata> {
+        return this.getMods(uuid).map(mods => this.mods.parse(mods, uuid, type));
+    }
+
+    getItem(uuid: string): Observable<DocumentItem> {
+        if (this.settings.k5Compat()) {
+            return this.doGet(this.getItemUrl(uuid)).map(response => this.utils.parseItem(response));
+        } else {
+            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).map(response => this.solr.documentItem(response));
+        }
+    }
+
+    getOcrUrl(uuid: string): string {
+        if (this.settings.k5Compat()) {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);
+        } else {
+            return this.getItemUrl(uuid) + '/ocr/text';
+        }
+    }
+
+    getAltoUrl(uuid: string): string {
+        if (this.settings.k5Compat()) {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO);
+        } else {
+            return this.getItemUrl(uuid) + '/ocr/alto';
+        }
+    }
+
+    getOcr(uuid: string): Observable<string> {
+        return this.doGetText(this.getOcrUrl(uuid));
+    }
+
+    getAlto(uuid: string) {
+        return this.doGetText(this.getAltoUrl(uuid));
+    }
+
+    getDc(uuid: string) {
+        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC));
+    }
+
+    getMods(uuid: string): Observable<string> {
+        return this.doGetText(this.getModsUrl(uuid));
+    }
+
+    getZoomifyBaseUrl(uuid: string): string {
+        if (this.settings.k5Compat()) {
+            return this.getbaseUrl() + '/search/zoomify/' + uuid;
+        } else {
+            return this.getItemUrl(uuid) + '/image/zoomify';
+        }
+    }
+
+    getIiifBaseUrl(uuid: string): string {
+        return this.getbaseUrl() + '/search/iiif/' + uuid;
+    }
+
+    getIiifPresentation(uuid: string): Observable<any> {
+        const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
+        return this.doGet(url);
+    }
+
+    getModsUrl(uuid: string): string {
+        if (this.settings.k5Compat()) {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
+        } else {
+            return this.getItemUrl(uuid) + '/metadata/mods';
+        }
+    }
+
+    getFoxmlUrl(uuid: string): string {
+        if (this.settings.k5Compat()) {
+            return this.getItemUrl(uuid) + '/foxml';
+        } else {
+            return this.getbaseUrl() + `/search/api/admin/v1.0/items/${uuid}/foxml`;
+        }
+    }
+
+    getFoxml(uuid: string): Observable<string> {
+        return this.doGetText(this.getFoxmlUrl(uuid));
+    }
+
+
+    getSearchResultsUrl(query: string): string {
+        return this.getApiUrl() + '/search?' + query;
+    }
+
 
     getUserInfo(username: string, password: string): Observable<User> {
-        const url = this.getApiUrl() + '/user';
-
+        const url = this.getK5CompatApiUrl() + '/user';
         const headerParams = {
-            'Content-Type':  'application/json',
+            'Content-Type': 'application/json',
         };
         if (username && password) {
             headerParams['Authorization'] = 'Basic ' + btoa(username + ':' + password);
         }
-
         const httpOptions = {
             headers: new HttpHeaders(headerParams)
-          };
+        };
         return this.http.get(url, httpOptions)
-            .map(response => User.fromJson(response, username, password))
-            .catch(this.handleError);
+            .map(response => User.fromJson(response, username, password));
     }
 
 
     logout() {
-        const url = this.getApiUrl() + '/user/logout';
+        const url = this.getK5CompatApiUrl() + '/user/logout';
         return this.http.get(url).catch(this.handleError);
     }
 
 
-
-    getNewest() {
-        const filter = this.settings.newestAll ? '*:*' : 'dostupnost:public';
-        const url = `${this.getApiUrl()}/search?fl=PID,dostupnost,dc.creator,dc.title,datum_str,fedora.model,img_full_mime${this.settings.dnntFilter ? ',dnnt' : ''}&q=${filter}&fq=${this.settings.topLevelFilter}&sort=created_date desc&rows=24&start=0`;
-        return this.doGet(url)
-            .map(response => this.solrService.documentItems(response))
-            .catch(this.handleError);
-    }
-
-    getFulltextUuidList(uuid, query) {
-        let text = query.toLowerCase().trim();
-        const inQuotes = text.startsWith('"') && text.endsWith('"');
-        if (!inQuotes) {
-            text = text.replace(/"/g, '\\"');
-        }
-        text = text.replace(/~/g, '\\~')
-        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
-        const url = this.getApiUrl() + '/search/?fl=PID&q=parent_pid:"'
-            + uuid + '"'
-            + ' AND fedora.model:page'
-            + ' AND text:'
-            + text
-            + '&rows=200';
-        return this.doGet(url)
-            .map(response => this.solrService.uuidList(response))
-            .catch(this.handleError);
-    }
-
     getRecommended() {
         const url = this.getApiUrl() + '/feed/custom';
         return this.doGet(url)
-            .map(response => this.utils.parseRecommended(response))
-            .catch(this.handleError);
+            .map(response => this.utils.parseRecommended(response));
     }
 
     getCollections() {
         const url = this.getApiUrl() + '/vc';
         return this.doGet(url)
-            .map(response => response)
-            .catch(this.handleError);
+            .map(response => response);
     }
 
     getKrameriusInfo(language: string): Observable<KrameriusInfo> {
         const url = this.getApiUrl() + '/info?language=' + language;
         return this.doGet(url)
-            .map(response => KrameriusInfo.fromJson(response))
-            .catch(this.handleError);
-    }
-
-
-    private getPeriodicalItems(pidPath: string, level: number, models: string[], query: PeriodicalQuery, applyYear: boolean) {
-        const modelRestriction = models.map(a => 'fedora.model:' + a).join(' OR ');
-        let url = this.getApiUrl() + '/search?fl=PID,dostupnost,fedora.model,dc.title,datum_str,details'
-        if (this.settings.dnntFilter) {
-            url += ',dnnt';
-        }
-        url += '&q=pid_path:'
-                + pidPath.toLowerCase() + '/* AND level:' + level + ' AND (' + modelRestriction + ')';
-        if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
-            url += ' AND dostupnost:' + query.accessibility;
-        }
-        if (query && applyYear && query.isYearRangeSet()) {
-            url += ' AND (rok:[' + query.from + ' TO ' + query.to + '] OR (datum_begin:[* TO ' + query.to + '] AND datum_end:[' + query.from + ' TO *]))';
-        }
-        url += '&sort=';
-        if (level > 1) {
-            url += 'datum asc,';
-        }
-        url += 'datum_str asc,fedora.model asc,dc.title asc&rows=1500&start=0';
-        // url += '&sort=datum asc,datum_str asc,fedora.model asc&rows=1500&start=0';
-        return this.doGet(url)
-            .catch(this.handleError);
-    }
-
-    getMonographUnits(uuid: string, query: PeriodicalQuery) {
-        return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['monographunit', 'page'], query, false);
-    }
-
-    getPeriodicalVolumes(uuid: string, query: PeriodicalQuery) {
-        return this.getPeriodicalItems(this.utils.escapeUuid(uuid), 1, ['periodicalvolume'], query, true);
-    }
-
-    getPeriodicalIssues(periodicalUuid: string, volumeUuid: string, query: PeriodicalQuery) {
-        const pidPath = this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid);
-        return this.getPeriodicalItems(pidPath, 2, ['periodicalitem', 'supplement', 'page'], query, false);
-    }
-
-    getPeriodicalFulltextPages(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery) {
-        let url = this.getApiUrl() + '/search?fl=PID,fedora.model,details,dc.creator,root_pid,model_path,pid_path,dostupnost,dc.title,parent_pid&q=';
-        if (volumeUuid) {
-            url += 'pid_path:' + this.utils.escapeUuid(periodicalUuid) + '/' + this.utils.escapeUuid(volumeUuid)  + '/*';
-        } else {
-            url += 'root_pid:"' + periodicalUuid + '"';
-        }
-        if (query.accessibility === 'public' || query.accessibility === 'private') {
-            url += ' AND dostupnost:' + query.accessibility;
-        }
-        if (query.isYearRangeSet()) {
-            url += ' AND (rok:[' + query.from + ' TO ' + query.to + '])';
-        }
-        const text = query.fulltext.toLowerCase().trim()
-                        .replace(/"/g, '\\"').replace(/~/g, '\\~')
-                        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!');
-        url += ' AND (fedora.model:article || fedora.model:monographunit || fedora.model:page) AND text:' + text;
-        if (query.ordering === 'latest') {
-            url += '&sort=datum desc, datum_str desc';
-        } else if (query.ordering === 'earliest') {
-            url += '&sort=datum asc, datum_str asc';
-        }
-        url += '&rows=' + limit + '&start=' + offset + '&hl=true&hl.fl=text&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>';
-        return this.doGet(url)
-            .catch(this.handleError);
-    }
-
-    getPeriodicalItemDetails(uuids: string[]) {
-        const url = this.getApiUrl() + '/search?fl=PID,details,dostupnost,fedora.model,dc.title,datum_str&q=PID:"' + uuids.join('" OR PID:"') + '"&rows=50';
-        return this.doGet(url)
-            .catch(this.handleError);
-    }
-
-
-    getSearchAutocompleteUrl(term: string, fq: string = null): string {
-        const searchField = this.settings.lemmatization ? 'title_lemmatized_ascii' : 'dc.title';
-        const query = term.toLowerCase().trim()
-                        .replace(/"/g, '\\"').replace(/~/g, '\\~')
-                        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/!/g, '\\!')
-                        .split(' ').join(' AND ' + searchField + ':');
-        let result = this.getApiUrl() + '/search?defType=edismax&fl=PID,dc.title,score&q='
-        if (this.settings.lemmatization) {
-            result += '((' + searchField + ':'  + query;
-            if (!term.endsWith(' ') && !term.endsWith(':')) {
-                result += ') OR (' + searchField + ':'  + query + '*))';
-            } else {
-                result += '))';
-            }
-        } else {
-            result += '' + searchField + ':'  + query;
-            if (!term.endsWith(' ') && !term.endsWith(':')) {
-                result += '*';
-            }
-        }
-        result += ' AND (' + this.settings.topLevelFilter + ')';
-        if (fq) {
-            result += '&fq=' + fq;
-        }
-        result += '&bq=fedora.model:monograph^5&bq=fedora.model:periodical^5&bq=dostupnost:public^5';
-        result += '&rows=50';
-        return result;
-    }
-
-    getDocumentSearchAutocompleteUrl(term: string, uuid: string): string {
-        const query = term.toLowerCase().trim() + '*';
-        const result = this.getApiUrl() + `/search/?fl=PID&hl=true&hl.fl=text_ocr&hl.fragsize=1&hl.simple.post=<<&hl.simple.pre=>>&hl.snippets=10&q=parent_pid:"${uuid}"+AND+text_ocr:${query}&rows=20`;
-        return result;
-    }
-
-    getSearchAutocomplete(term: string, fq: string = null): Observable<any[]> {
-        const url = this.getSearchAutocompleteUrl(term, fq);
-        return this.doGet(url)
-            .map(res => <any> res['response']['docs'])
-          .catch(this.handleError);
-    }
-
-    getDocumentSearchAutocomplete(term: string, uuid: string): Observable<any[]> {
-        const url = this.getDocumentSearchAutocompleteUrl(term, uuid);
-        return this.doGet(url)
-            .map(res => <any> res)
-          .catch(this.handleError);
-    }
-
-
-    getThumbUrl(uuid: string) {
-        return this.getbaseUrl() + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
-    }
-
-    getThumbUrlForKramerius(uuid: string, url: string) {
-        return url + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
-    }
-
-    getFullJpegUrl(uuid: string): string {
-        return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
+            .map(response => KrameriusInfo.fromJson(response));
     }
 
     getPdfUrl(uuid: string): string {
-        return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
+        return this.getFullJpegUrl(uuid);
     }
 
     getMp3Url(uuid: string): string {
@@ -315,6 +317,14 @@ export class KrameriusApiService {
     downloadMp3(uuid: string): Observable<Blob> {
         const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
         return this.doGetBlob(url);
+    }
+
+    getPdfPreviewBlob(uuid: string): Observable<boolean> {
+        if (this.settings.k5Compat()) {
+            return this.doGetBlob(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_PREVIEW)).map(() => true);
+        } else {
+            return this.doGetBlob(this.getItemUrl(uuid) + '/image').map(() => true);
+        }
     }
 
     getScaledJpegUrl(uuid: string, height: number): string {
@@ -333,79 +343,87 @@ export class KrameriusApiService {
 
     downloadPdf(uuids: string[], language: string = 'cs') {
         const url = this.getApiUrl() + '/pdf/selection'
-                + '?pids=' + uuids.join(',')
-                + '&language=' + language;
+            + '?pids=' + uuids.join(',')
+            + '&language=' + language;
         return this.doGetBlob(url);
     }
 
-    getOcr(uuid: string): Observable<string> {
-        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);
-        return this.doGetText(url)
-            .catch(this.handleError);
+
+
+    // getChildren(uuid: string): Observable<any[]> {
+    //     return this.doGet(this.getItemUrl(uuid) + '/children')
+    //         .map(res => <any[]> res);
+    // }
+
+
+    getChildren(uuid: string, own: boolean = true): Observable<any> {
+        if (this.settings.k5Compat()) {
+            return this.doGet(this.getItemUrl(uuid) + '/children')
+                .map(response => this.utils.parseBookChild(response));
+        } else {
+            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, own))
+                .map(response => this.solr.bookChildItems(response));
+        }
     }
 
-    getDc(uuid: string) {
-        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
-        return this.doGetText(url)
-          .catch(this.handleError);
+    getRawChildren(uuid: string): Observable<any> {
+        if (this.settings.k5Compat()) {
+            return this.doGet(this.getItemUrl(uuid) + '/children');
+        } else {
+            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, false));
+        }
     }
 
-    getAlto(uuid: string) {
-        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_ALTO);
-        return this.doGetText(url)
-          .catch(this.handleError);
-    }
 
-    getMods(uuid: string): Observable<string> {
-        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
-        return this.doGetText(url)
-          .catch(this.handleError);
-    }
-
-    getFoxml(uuid: string): Observable<string> {
-        const url = this.getItemUrl(uuid) + '/foxml';
-        return this.doGetText(url)
-          .catch(this.handleError);
-    }
-
-    getChildren(uuid: string): Observable<any[]> {
-        const url = this.getItemUrl(uuid) + '/children';
-        return this.doGet(url)
-            .map(res => <any[]> res)
-          .catch(this.handleError);
-    }
-
-    getIiifPresentation(uuid: string): Observable<any> {
-        const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
-        return this.doGet(url)
-          .catch(this.handleError);
-    }
-
-    getZoomifyBaseUrl(uuid: string): string {
-        return this.getbaseUrl() + '/search/zoomify/' + uuid;
-    }
-
-    getIiifBaseUrl(uuid: string): string {
-        return this.getbaseUrl() + '/search/iiif/' + uuid;
-    }
-
-    getSiblings(uuid: string) {
-        const url = this.getItemUrl(uuid) + '/siblings';
-        return this.doGet(url)
-          .catch(this.handleError);
-    }
-
-    getItem(uuid: string) {
+    getRawItem(uuid: string): Observable<any> {
         const url = this.getItemUrl(uuid);
-        return this.doGet(url)
-        .map(response => this.utils.parseItem(response))
-        .catch(this.handleError);
+        return this.doGet(url);
     }
 
-    getRawItem(uuid: string) {
-        const url = this.getItemUrl(uuid);
-        return this.doGet(url)
-        .catch(this.handleError);
+    getItemInfo(uuid: string): Observable<any> {
+        if (this.settings.k5Compat()) {
+            return this.doGet(this.getItemUrl(uuid))
+                .map(response => this.parseItemInfoForPage(response));
+        } else {
+            return this.doGet(this.getItemUrl(uuid) + '/info/image')
+                .map(response => this.parseItemInfoForPage(response));
+        }
     }
+
+    private parseItemInfoForPage(json) {
+        if (this.settings.k5Compat()) {
+            let imageType = 'none';
+            if (json['zoom'] && json['zoom']['url']) {
+                imageType = 'tiles';
+            } else if (json['pdf'] && json['pdf']['url']) {
+                imageType = 'pdf';
+            } else {
+                imageType = 'image/jpeg';
+            }
+            return {
+                dnnt: json['dnnt'],
+                providedByDnnt: json['providedByDnnt'],
+                replicatedFrom: json['replicatedFrom'],
+                imageType: imageType
+            }
+        } else {
+            return {
+                imageType: json['type']
+            }
+        }
+    }
+
+
+
+
+
+
+
+    // getSiblings(uuid: string) {
+    //     const url = this.getItemUrl(uuid) + '/siblings';
+    //     return this.doGet(url)
+    //       .catch(this.handleError);
+    // }
+
 
 }

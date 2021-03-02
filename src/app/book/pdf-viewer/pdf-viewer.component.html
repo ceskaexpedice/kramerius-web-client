@@ -35,3 +35,38 @@ mz-tooltip
 [position]="'left'">
 <i class="app-mdi-menu-left"></i>
 </span>
+
+<ng-container *ngIf="bookService.isPageInaccessible()">
+    <ng-container *ngIf="!bookService.dnntFlag">
+          <app-alert *ngIf="!settings.customRightMessage"
+                type="warning"
+                label="alert.warning"
+                message="alert.inaccessible_document"
+                description="alert.inaccessible_document_description">
+          </app-alert>
+          <app-alert *ngIf="settings.customRightMessage"
+                type="warning"
+                label="alert.warning"
+                message="alert.inaccessible_document"
+                [html]="(krameriusInfo.data$ | async).getRightMessage()">
+          </app-alert>
+    </ng-container>
+    <app-alert *ngIf="bookService.dnntFlag"
+          type="warning"
+          label="alert.warning"
+          message="alert.inaccessible_document_dnnt"
+          description="alert.inaccessible_document_dnnt_description">
+    </app-alert>
+</ng-container>
+
+<app-alert *ngIf="bookService.isPageFailure()"
+    type="danger"
+    label="alert.error"
+    message="alert.failed_to_load_image">
+</app-alert>
+
+<mz-spinner *ngIf="bookService.isPageLoading()"
+    class="medium-centered-spinner"
+    [color]="'blue'"
+    [size]="'medium'">
+</mz-spinner>

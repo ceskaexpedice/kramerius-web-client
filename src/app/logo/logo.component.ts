@@ -25,17 +25,6 @@ export class LogoComponent implements OnInit {
 
   changeLibrary(kramerius) {
     this.dropdown.close();
-    // this.analytics.sendEvent('home', 'kramerius', kramerius.title);
-    // const qp = this.search.getChangeLibraryUrlParams();
-    // let q = "";
-    // for (let p in qp) {
-    //   q += p + "=" + qp[p] + "&";
-    // }
-    // if (q.length > 0) {
-    //   q = q.substring(0, q.length - 1);
-    // }
-    // console.log('q', q);
-    // window.location.href = '/' +  kramerius.code + '/search' + '?' + q;
     this.search.changeLibrary(kramerius);
   }
 

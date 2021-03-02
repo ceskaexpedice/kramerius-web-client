@@ -1,6 +1,5 @@
 import { SearchService } from './../../services/search.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { AppSettings } from '../../services/app-settings';
 import { CollectionService } from '../../services/collection.service';
 
 @Component({
@@ -10,8 +9,7 @@ import { CollectionService } from '../../services/collection.service';
 export class SearchFiltersUsedComponent implements OnInit {
 
   constructor(public searchService: SearchService,
-              public collections: CollectionService,
-              public appSettings: AppSettings) {
+              public collections: CollectionService) {
   }
 
   ngOnInit() {

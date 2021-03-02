@@ -17,7 +17,7 @@ export class DocumentCardComponent implements OnInit {
   public thumb;
 
   constructor(private krameriusApiService: KrameriusApiService,
-              public appSettings: AppSettings,
+              public settings: AppSettings,
               public auth: AuthService,
               public analytics: AnalyticsService,
               private _sanitizer: DomSanitizer) { }
@@ -26,20 +26,10 @@ export class DocumentCardComponent implements OnInit {
     this.thumb = this.setThumb();
   }
 
-  public getTitle(): string {
-      var title = this.item.title;
-    //  if(this.title=="") { return ""; }
-      var mapObj = {'&quot;':'"', '&apos;':"'"};
-      var re = new RegExp(Object.keys(mapObj).join("|"),"gi");
-      return title.replace(re, function(matched){
-        return mapObj[matched];
-      });
-  }
-
   private setThumb() {
     let url = '';
     if (this.item.library) {
-      const krameriusUrl = this.appSettings.getUrlByCode(this.item.library);
+      const krameriusUrl = this.settings.getUrlByCode(this.item.library);
       url = this.krameriusApiService.getThumbUrlForKramerius(this.item.uuid, krameriusUrl);
     } else {
        url = this.krameriusApiService.getThumbUrl(this.item.uuid);

@@ -1,4 +1,3 @@
-<ng-container *ngIf="!bookService.isPageInaccessible()">
 <div class="app-view-controls">
   <i class="app-mdi-page-left" (click)="bookService.goToPrevious();analytics.sendEvent('viewer', 'controls', 'previous page');" [class.app-inactive]="!bookService.hasPrevious()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_left' | translate" [position]="'top'"></i>
@@ -25,4 +24,3 @@
   <i disabled class="app-mdi-page-right" (click)="bookService.goToNext();analytics.sendEvent('viewer', 'controls', 'next page');" [class.app-inactive]="!bookService.hasNext()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_right' | translate" [position]="'top'"></i>
 </div>
-</ng-container>

@@ -9,7 +9,7 @@ export class RoutingPrefixGuardService implements CanActivate {
   constructor(
       private router: Router,
       private appSettings: AppSettings) {
-      }
+  }
 
   canActivate(
       route: ActivatedRouteSnapshot,

@@ -1,5 +1,6 @@
 export class Page {
 
+    snippet: string;
     loaded = false;
     uuid: string;
     supplementUuid: string;
@@ -7,9 +8,8 @@ export class Page {
     number: string;
     index: number;
     thumb: string;
-    hidden: boolean;
+    display: number;
     selected = false;
-    pdf: string;
     position = PagePosition.None;
     imageType = PageImageType.None;
     providedByDnnt = false;
@@ -22,14 +22,17 @@ export class Page {
     }
 
     setTitle(title: string) {
-          title = title.trim();
-          if (!title) {
-              title = "";
-          }
-          title = String(title).trim();
-          if (this.number.trim() != title) {
-              this.title = title;
-          }
+        if (!title) {
+            title = "";
+        }
+        title = String(title).trim();
+        if (this.number.trim() != title) {
+            this.title = title;
+        }
+    }
+
+    showPageType(): boolean {
+        return !!this.type && this.type != 'normalpage' && this.type != 'unknown';
     }
 
     public assignPageData(data) {
@@ -46,13 +49,12 @@ export class Page {
         if (data['replicatedFrom'] && data['replicatedFrom'].length > 0) {
             this.originUrl = data['replicatedFrom'][0];
         }
-        if (data['zoom'] && data['zoom']['url']) {
+        if (data['imageType'] == 'tiles') {
             this.imageType = PageImageType.TILES;
-        } else if (data['pdf'] && data['pdf']['url']) {
-            this.imageType = PageImageType.PDF;
-            this.pdf = data['pdf']['url'];
-        } else {
+        } else if (data['imageType'] == 'image/jpeg') {
             this.imageType = PageImageType.JPEG;
+        } else if (data['imageType'] == 'pdf') {
+            this.imageType = PageImageType.PDF;
         }
     }
 
@@ -61,7 +63,6 @@ export class Page {
     }
 
     public clear() {
-        this.pdf = null;
         this.loaded = false;
         this.imageType = PageImageType.None;
     }

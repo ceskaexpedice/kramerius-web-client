@@ -1,12 +1,11 @@
-<span *ngFor="let item of browseService.results; let odd=odd; let even=even;">
-<a *ngIf="!containsHTMLEntities(item.value)"
-      class="app-browse-item"
+<a *ngFor="let item of browseService.results; let odd=odd; let even=even;" 
+      class="app-browse-item" 
       [ngClass]="{ odd: odd, even: even, hidden: !item.name}"
       [routerLink]="appSettings.getRouteFor('search')" [queryParams]="getParams(item.value)"
       >
   <div class="right">{{item.count}}x</div>
   <div>{{item.name | appUpcase }}</div>
-</a></span>
+</a>
 
 <div class="clearfix"></div>
 

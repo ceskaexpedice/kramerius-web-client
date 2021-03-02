@@ -2,7 +2,7 @@
   "common": {
     "of": "of",
     "cancel": "Cancel",
-    "close": "Close",
+    "close": "Close",    
     "warning": "Warning",
     "of_pages": "pages",
     "n_pages": "{{ count == 1 ? 'page' : 'pages' }}",
@@ -30,8 +30,8 @@
     "title": "Digital Library",
     "logo": "/assets/shared/logo-dk-en.png",
     "message": "Thousands of digitized documents from Czech libraries, all in one place.",
-    "vs_title": "National digital library",
-    "vs_subtitle": "Access to digitized documents including copyrigted out of print works for library users.",
+    "vs_subtitle": " ",
+    "vs_title": "Temporary access to digitized documents including copyrighted works for university students and teachers and for researchers.",
     "category": {
       "major": "Major Libraries",
       "regional": "Regional Libraries",
@@ -39,6 +39,14 @@
       "museum": "Museums",
       "archive": "Archives",
       "other": "Other institutions and projects"
+    },
+    "footer": {
+      "logo": "/assets/shared/logo-mzk.png",
+      "contact": "Impressum",
+      "contact_name": "Moravian Library in Brno",
+      "contact_address1": "Kounicova 65a",
+      "contact_address2": "601 87 Brno",
+      "contact_address3": "Czech Republic"
     }
   },
   "navbar": {
@@ -58,9 +66,11 @@
     "main": {
       "all": "Search in whole digital library",
       "public": "Search in public documents in the digital library",
-      "filters": "search with filters"
+      "filters": "search with filters",
+      "collection": "Search in the collection",
+      "collection_with_filters": "Search in the collection with filters"
     },
-    "document": "Search in document  ...",
+    "document": "Search in document",
     "delete_query": "Delete query"
   },
   "filters": {
@@ -79,18 +89,24 @@
     "tooltip_hide_date": "Hidde date from - to",
     "tooltip_display_grid": "Display grid",
     "tooltip_display_years": "Display years",
-    "tooltip_display_calendar": "Display calendar"
+    "tooltip_display_calendar": "Display calendar",
+    "tooltip_display_map": "Show results on a map",
+    "tooltip_display_cards": "Show results"
   },
   "search": {
     "k3": "Search in the old digitization",
     "advanced": "Advanced Search",
     "results": "Results",
     "keywords": "Keyword",
-    "doctypes": "Document Type",
-    "collections": "Collection",
+    "doctypes": "Document Type",   
+    "collections": "Collection", 
     "languages": "Language",
+    "licences": "Licence",
     "locations": "Location",
     "geonames": "Geographic name",
+    "publishers": "Publisher",
+    "places": "Place of Publication",
+    "genres": "Genre",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",
     "dnnt_document": "Out of Commerce Works",
@@ -149,23 +165,31 @@
       "label": "Browse",
       "doctypes": "Document Types",
       "authors": "Authors",
+      "publishers": "Publishers",
+      "places": "Place of Publications",
       "collections": "Collections",
       "keywords": "Keywords",
       "languages": "Languages",
+      "licences": "Licences",
+      "genres": "Genres",
       "locations": "Locations",
       "geonames": "Geographic names"
     },
     "search": {
       "doctypes": "Lookup Document type",
       "authors": "Lookup Author",
+      "publishers": "Lookup Publisher",
+      "places": "Lookup Place of Publication",
       "collections": "Lookup Collection",
-      "keywords": "Lookup Keyword",
+      "keywords": "Lookup Keyword", 
       "languages": "Lookup Language",
+      "licences": "Lookup Licence",
+      "genres": "Lookup Genre",
       "locations": "Lookup Location",
       "geonames": "Lookup Geographic name"
     },
     "ordering": {
-      "label": "Ordering",
+      "label": "Ordering",      
       "occurrence": "Occurrence",
       "alphabetical": "Alphabetical"
     },
@@ -187,32 +211,28 @@
     "error": "Error",
     "no_results_found": "No results found. Please, try a different query.",
     "inaccessible_document": "The document is not publicly accessible",
-    "inaccessible_document_description": "This document is still protected by the Copyright Act (No. 121/2000 Coll.) And is therefore not publicly available until 70 years have passed since the death of all its authors (including a translator, illustrator, etc.) and 50 years after the publication of the work. The document can be accessed from computer stations in the library building that owns it. You can find out about the ownership of the requested document in the details on the right as „Save“.",
-    "inaccessible_document_crisis": "This document is temporarily available (read only)",
-    "inaccessible_document_dnnt": "Out of Commerce Works",
-    "inaccessible_document_crisis_description": "<p>After logging in, the work is accessible only to registered users of institutions that have already concluded a contract with the National Library of the Czech Republic. <a href=\"https://ndk.cz/faq\" target=\"crisis\">More information on logging in.</a></p><p><b>is taught to educators and college students and researchers. </b></p><p>After successful login, you will be automatically redirected to the National Digital Library - Covid (NDK-Covid).",
-    "inaccessible_document_dnnt_description": "This document falls under the Unavailable Works mode. This document is accessible only to registered visitors of contracted institutions. Access to NDK-DNNT services is conditional on a contract between the National Library of the Czech Republic and the library (institution) that wants to provide the services. More info <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\"> dnnt.nkp.cz </a>",
+    "inaccessible_document_description": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
+    "inaccessible_document_dnnt": "The document is not publicly accessible",
+    "inaccessible_document_dnnt_description": "Tento dokument spadá do režimu Děl nedostupných na trhu. Je dostupný ve vybraných knihovnách na vyhrazených terminálech. Chystá se vzdálené zpřístupnění pro registrované uživatele knihoven.",
     "failed_to_load_image": "Failed to load the image",
     "book_no_results": "No results found"
   },
   "home": {
     "title": "Digital library Kramerius",
-    "btn_enter": "Browse the library",
+    "btn_enter": "Enter",
     "btn_search": "Search",
     "tab_visited": "Visited",
-    "tab_recommended": "Recommended",
+    "tab_recommended": "Recommended",        
     "tab_requested": "The most requested",
     "tab_latest": "Latest",
-    "select_library": "Select Library",
-    "contact": "Contact",
-    "financing" : "The project focuses on the EU Structural Funds through IOP"
+    "select_library": "Select Library"
   },
   "metadata": {
     "author": "Author",
     "author_other": "Other makers",
     "publisher": "Publishing details",
     "keywords": "Keywords",
-    "languages": "Language",
+    "languages": "Language",        
     "geonames": "Geographic names",
     "location": "Location",
     "abstract": "Abstract",
@@ -222,9 +242,9 @@
     "physical_description": "Physical Description",
     "cartographic_data": "Cartographic data",
     "scale": "Scale",
-    "doctype": "Document type",
+    "doctype": "Document type",    
     "notes": "Notes",
-    "genres": "Genre",
+    "genres": "Genre", 
     "article": "Article",
     "review_of": "Review of",
     "volume": "Volume",
@@ -234,16 +254,16 @@
     "page": "Page",
     "supplement": "Supplement",
     "volume_list": "Volume list",
-    "previous_volume": "Previous volume",
+    "previous_volume": "Previous volume",   
     "next_volume": "Next volume",
     "issue_date": "Date of publication",
-    "previous_issue": "Previous issue",
+    "previous_issue": "Previous issue",   
     "issue_list": "Issue list",
-    "next_issue": "Next issue",
+    "next_issue": "Next issue",  
     "unit_number": "Number",
     "unit_list": "Part list",
     "next_unit": "Next part:",
-    "previous_unit": "Previous part:",
+    "previous_unit": "Previous part:",       
     "shelf_locator": "Shelf/Call number: {{shelf_locator}}",
     "btn_show_metadata": "Show metadata",
     "btn_hide_metadata": "Hide metadata",
@@ -259,24 +279,24 @@
     },
     "k3tok5": {
       "url": "https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/k3tok5",
-      "name": "K3toK5"
+      "name": "K3 to K5"
     }
   },
   "periodical": {
-    "volume": "Volume {{volume}}",
-    "issue": "Issue {{issue}}",
-    "unit": "Unit {{unit}}",
-    "supplement": "Supplement {{supplement}}",
+    "periodicalvolume": "Volume {{part}}",
+    "periodicalitem": "Issue {{part}}",
+    "monographunit": "Unit {{part}}",
+    "supplement": "Supplement {{part}}",
     "virtual_issue": "Uncategorized",
-    "volume_unknown": "-",
-    "issue_unknown": "-",
-    "date_unknown": "-",
-    "year_unknown": "-",
-    "unit_title_unknown": "-",
-    "unit_number_unknown": "-",
-    "previous_volume": "Previous Volume",
+    "previous_volume": "Previous Volume",   
     "next_volume": "Next Volume",
-    "volume_list": "Volume list"
+    "volume_list": "Volume list",
+    "search": {
+      "none": "Search",
+      "periodical": "Search in periodical",
+      "periodicalvolume": "Search in volume",
+      "monograph": "Search in monograph bundle"
+    }
   },
   "view_controls": {
     "tooltip_zoom_in": "Zoom in",
@@ -290,10 +310,6 @@
     "tooltip_doublepage_off": "Leave Double Page mode",
     "tooltip_page_left": "Go to previous page",
     "tooltip_page_right": "Go to next page",
-    "tooltip_page_hide_left": "Hide pages",
-    "tooltip_page_show_left": "Show pages",
-    "tooltip_page_hide_right": "Hide details",
-    "tooltip_page_show_right": "Show details",
     "tooltip_hide_left": "Hide thumbails",
     "tooltip_show_left": "Show thumbails",
     "tooltip_hide_right": "Hide details",
@@ -314,7 +330,6 @@
     "tooltip_mark_favourite": "Add to favourites",
     "tooltip_unmark_favourite": "Remove from favourites",
     "all_pages": "All Pages"
-
   },
   "book_toolbar": {
     "tooltip_show_metadata": "Show metadata",
@@ -330,35 +345,24 @@
   "pdf-dialog": {
     "title_generate": "Prepare to download",
     "title_prepare": "Prepare to print",
-    "message_generate": "Select page range for the PDF document.",
-    "message_prepare": "Select page range for printing.",
-    "page_from": "From",
-    "page_to": "To",
-    "page_count": "Number of selected pages:",
-    "max_page_count": "Maximum number of pages:",
     "tip_shift": "Hint: with pressed Shift key you can select multiple pages at once",
+    "selection1": " ",
+    "selection2": "{{ num == 1 ? 'page' : 'pages' }} selected",
+    "selection": "No page selected",
+    "select_all": "Select all",
+    "deselect_all": "Cancel selection",
     "warning_too_manny_pages": "The maximum number of pages is exceeded",
-    "warning_number_of_pages": "you have {{num}} pages selected",
-    "selected_number_of_pages": "You have selected {{num}} from ",
-    "pages": "pages",
-    "warning_no_page": "No page selected",
     "warning_generate": "Creating the PDF document can take several minutes depending on the number of selected pages.",
-    "warning_prepare": "Preparing to print can take several minutes depending on the number of selected pages.",
     "error_generate": "Failed to download PDF document",
-    "action_generate": "Generate PDF",
-    "action_prepare": "Prepare to print",
-    "download_pdf": "Download document in PDF"
+    "action_generate": "Download PDF",
+    "action_prepare": "Prepare to print"
   },
   "metadata-dialog": {
-    "title": "Metadata for"
+    "title": "Metadata for",
+    "missing": "Object {{ model }} does not contain {{ resource }}"
   },
   "citation-dialog": {
-    "title": "Citation of the",
-    "level-0": "whole document",
-    "level-1": "periodical volume",
-    "level-2": "periodical issue",
-    "level-3": "article",
-    "level-4": "selected page"
+    "title": "Citation of the"
   },
   "share-dialog": {
     "title": "Share",
@@ -372,8 +376,6 @@
     "role": "Roles"
   },
   "dialogs": {
-    "dnntnoLink": "To view the document",
-    "dnntLink": "log in with your institution's account",
     "private_sheetmusic": {
       "message": "Unfortunately, it is not allowed to copy copyright-protected sheet music in any way due to an exception in the Copyright Act."
     },
@@ -406,7 +408,8 @@
     "article" : "Article",
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
-    "track" : "Track"
+    "track" : "Track",
+    "collection" : "Collection"
   },
   "model_2p" : {
     "monograph" : "Book",
@@ -427,7 +430,8 @@
     "article" : "Article",
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
-    "track" : "Track"
+    "track" : "Track",
+    "collection" : "Collection"
   },
   "model_4p" : {
     "monograph" : "Book",
@@ -448,7 +452,8 @@
     "article" : "Article",
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
-    "track" : "Track"
+    "track" : "Track",
+    "collection" : "Collection"
   },
   "model_plural" : {
     "monograph" : "Books",
@@ -468,7 +473,13 @@
     "article" : "Articles",
     "internalpart" : "Chapters",
     "soundunit" : "Sound Units",
-    "track" : "Tracks"
+    "track" : "Tracks",
+    "collection" : "Collections"
+  },
+  "issue_type": {
+    "morning": "morning edition",
+    "afternoon": "afternoon edition",
+    "evening": "evening edition"
   },
   "page_type" : {
     "unknown" : "page",
@@ -513,7 +524,8 @@
     "bibliographicalportrait": "portrait",
     "colophon": "colophon",
     "interview": "interview",
-    "anotation": "annotation"
+    "anotation": "annotation",
+    "manuscriptnotes": "manuscript notes"
   },
   "calendar" : {
     "months" : {
@@ -539,6 +551,11 @@
       "5": "Sat",
       "6": "Sun"
     }
+  },
+  "licence" : {
+    "dnnto": "DNNT online",
+    "dnntt": "DNNT terminal",
+    "covid": "COVID"
   },
   "sigla": {
     "BOA001" : "Moravian Library in Brno",
@@ -619,7 +636,28 @@
     "KVE303" : "Museum of Karlovy Vary Region",
     "ABA012" : "National Pedagogical museum and Library of J. A. Comenius",
     "ABB005" : "Jan Kmenta CERGE-EI Library",
-    "BOD022" : "Masaryk University - Faculty of Economics and Administration"
+    "BOD022" : "Masaryk University - Faculty of Economics and Administration",
+    "ABB030" : "Oriental Institute of the AS CR",
+    "TUE801" : "Krkonose Museum",
+    "OSG002" : "Ostrava City Library",
+    "OSD001" : "University of Ostrava",
+    "KAG001" : "Regional Library Karviná",
+    "KAE801" : "Těšín Regional Museum",
+    "OSE304" : "Museum of Ostrava",
+    "BRE302" : "Museum in Bruntal",
+    "FME301" : "Beskydy Museum Frýdek-Místek",
+    "OSE306" : "Gallery of Fine Arts in Ostrava",
+    "KAE950" : "Library of the Silesian Diacony",
+    "NJE303" : "Museum of Novy Jicin Region",
+    "OPE801" : "The Hlučín Area Museum",
+    "KAG502" : "Municipal Library in Orlova",
+    "SVE951" : "Library of the Franciscan Monastery in Dačice",
+    "HOE801" : "National Institute of Folk Culture",
+    "SME801" : "Museum of the Bohemian Paradise",
+    "ABB019" : "Institute of Sociology of the Czech Academy of Sciences",
+    "ABB085" : "Masaryk Institute and Archives of the AS CR",
+    "ABB083" : "Institute of Contemporary History, Czech Academy of Sciences",
+    "ABE461" : "Jewish community in Prague"
   },
   "language" : {
     "aar" : "Afar",

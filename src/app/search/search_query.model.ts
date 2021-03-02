@@ -1,9 +1,8 @@
-import { Utils } from '../services/utils.service';
 import { AppSettings } from '../services/app-settings';
 
 export class SearchQuery {
 
-    private static YEAR_FROM = 1612;
+    private static YEAR_FROM = 0;
     private static YEAR_TO = (new Date()).getFullYear();
 
     accessibility: string;
@@ -14,10 +13,14 @@ export class SearchQuery {
     keywords: string[] = [];
     authors: string[] = [];
     languages: string[] = [];
+    licences: string[] = [];
     locations: string[] = [];
     geonames: string[] = [];
     doctypes: string[] = [];
     collections: string[] = [];
+    publishers: string[] = [];
+    places: string[] = [];
+    genres: string[] = [];
 
     field: string;
     value: string;
@@ -34,11 +37,13 @@ export class SearchQuery {
 
     settings: AppSettings;
 
+    collection: string;
+
     constructor(settings: AppSettings) {
         this.settings = settings;
     }
 
-    public static fromParams(params, settings: AppSettings): SearchQuery {
+    public static fromParams(params, context, settings: AppSettings): SearchQuery {
         const query = new SearchQuery(settings);
         query.query = params['q'];
         query.dsq = params['dsq'];
@@ -47,9 +52,14 @@ export class SearchQuery {
         query.setFiled(query.doctypes, 'doctypes', params);
         query.setFiled(query.authors, 'authors', params);
         query.setFiled(query.languages, 'languages', params);
+        query.setFiled(query.licences, 'licences', params);
         query.setFiled(query.locations, 'locations', params);
         query.setFiled(query.geonames, 'geonames', params);
         query.setFiled(query.collections, 'collections', params);
+        query.setFiled(query.publishers, 'publishers', params);
+        query.setFiled(query.places, 'places', params);
+        query.setFiled(query.genres, 'genres', params);
+
         if (!query.query) {
             query.setCustomField(params);
         }
@@ -61,54 +71,10 @@ export class SearchQuery {
         if (params['north']) {
             query.setBoundingBox(parseFloat(params['north']), parseFloat(params['south']), parseFloat(params['west']), parseFloat(params['east']));
         }
+        if (context.key === 'collection') {
+            query.collection = context.value;
+        }
         return query;
-    }
-
-    public static getSolrField(field): string {
-        if (field === 'keywords') {
-            return 'keywords';
-        } else if (field === 'authors') {
-            return 'facet_autor';
-        } else if (field === 'doctypes') {
-            return 'fedora.model';
-        } else if (field === 'categories') {
-            return 'document_type';
-        } else if (field === 'languages') {
-            return 'language';
-        } else if (field === 'locations') {
-            return 'mods.physicalLocation';
-        } else if (field === 'geonames') {
-            return 'geographic_names';
-        } else if (field === 'collections') {
-            return 'collection';
-        } else if (field === 'accessibility') {
-            return 'dostupnost';
-        }
-        return '';
-    }
-
-
-    public static getSolrCustomField(field): string {
-        if (field === 'author') {
-            return 'dc.creator';
-        } else if (field === 'title') {
-            return 'dc.title';
-        } else if (field === 'keyword') {
-            return 'keywords';
-        } else if (field === 'geoname') {
-            return 'geographic_names';
-        } else if (field === 'issn') {
-            return 'issn';
-        } else if (field === 'isbn') {
-            return 'dc.identifier';
-        } else if (field === 'ddt') {
-            return 'ddt';
-        } else if (field === 'mdt') {
-            return 'mdt';
-        } else if (field === 'all') {
-            return 'text';
-        }
-        return '';
     }
 
     public setAccessibility(accessibility: string) {
@@ -134,7 +100,6 @@ export class SearchQuery {
         }
     }
 
-
     private clearYearRange() {
         this.from = SearchQuery.YEAR_FROM;
         this.to = SearchQuery.YEAR_TO;
@@ -159,7 +124,7 @@ export class SearchQuery {
     }
 
     private setCustomField(params) {
-        if (params['field'] && params['value'] && SearchQuery.getSolrCustomField(params['field'])) {
+        if (params['field'] && params['value']) {
             this.field = params['field'];
             this.value = params['value'];
         }
@@ -215,21 +180,6 @@ export class SearchQuery {
         return  this.query;
     }
 
-    getQ(): string {
-        if (!this.query || this.query === '*') {
-            return null;
-        }
-        let q = this.query;
-        if (!Utils.inQuotes(q)) {
-            q = q.trim();
-            while (q.indexOf('  ') > 0) {
-                q = q.replace(/  /g, ' ');
-            }
-        }
-        return q;
-    }
-
-
     isYearRangeSet(): boolean {
         return this.from !== SearchQuery.YEAR_FROM || this.to !== SearchQuery.YEAR_TO;
     }
@@ -252,151 +202,11 @@ export class SearchQuery {
         this.value = null;
     }
 
-    buildFilterQuery(facet: string = null): string {
-        let fqFilters = [];
-        if (this.getQ() || this.isCustomFieldSet()) {
-            fqFilters.push('(' + this.settings.topLevelFilter + ' OR fedora.model:page OR fedora.model:article)');
-        } else {
-            fqFilters.push('(' + this.settings.topLevelFilter + ')');
-        }
-        if (facet == 'accessible') {
-            fqFilters.push('(dnnt:true OR dostupnost:public)');
-        } else if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
-            if (this.accessibility === 'public') {
-                fqFilters.push('dostupnost:public');
-            } else if (this.accessibility === 'private') {
-                fqFilters.push('dostupnost:private');
-            } else if (this.settings.dnntFilter && this.accessibility === 'dnnt') {
-                fqFilters.push('dnnt:true');
-            } else if (this.settings.dnntFilter && this.accessibility === 'accessible') {
-                fqFilters.push('(dnnt:true OR dostupnost:public)');
-            }
-        }
-        if (this.isYearRangeSet()) {
-            const from = this.from === 0 ? 1 : this.from;
-            fqFilters.push('(rok:[' + from + ' TO ' + this.to + '] OR (datum_begin:[* TO ' + this.to + '] AND datum_end:[' + from + ' TO *]))');
-        }
-        fqFilters.push(this.buildFacetFilter('keywords', this.keywords, facet));
-        fqFilters.push(this.buildFacetFilter('doctypes', this.doctypes, facet));
-        fqFilters.push(this.buildFacetFilter('authors', this.authors, facet));
-        fqFilters.push(this.buildFacetFilter('languages', this.languages, facet));
-        fqFilters.push(this.buildFacetFilter('locations', this.locations, facet));
-        fqFilters.push(this.buildFacetFilter('geonames', this.geonames, facet));
-        fqFilters.push(this.buildFacetFilter('collections', this.collections, facet));
-        if (!this.isBoundingBoxSet()) {
-            fqFilters.push(this.getDateOrderingRestriction());
-        }
-        fqFilters = fqFilters.filter( (el) => {
-            return el != null && el !== '';
-        });
-        return fqFilters.join(' AND ');
-    }
-
-    buildQuery(facet: string): string {
-        let qString = this.getQ();
-        let value = qString;
-        let q = 'q=';
-        if (this.dsq) {
-            q += this .dsq + ' AND '
-        }
-        if (this.isBoundingBoxSet()) {
-            q += `{!field f=range score=overlapRatio}Intersects(ENVELOPE(${this.west},${this.east},${this.north},${this.south}))&fq=`;
-        }
-        if (this.isCustomFieldSet()) {
-            value = this.value;
-            q +=  SearchQuery.getSolrCustomField(this.field) + ':' + this.value;
-        } else if (qString) {
-            q += '_query_:"{!edismax qf=\'dc.title^10 dc.creator^2 text^0.1 mods.shelfLocator\' bq=\'(level:0)^20\' bq=\'(dostupnost:public)^2\' bq=\'(fedora.model:page)^0.1\' v=$q1}\"';
-        } else {
-            q += '*:*';
-        }
-        const fq = this.buildFilterQuery(facet);
-        if (fq) {
-            q += '&fq=' + fq;
-        }
-        if (qString || this.isCustomFieldSet()) {
-            q += '&q1=' + value + '&group=true&group.field=root_pid&group.ngroups=true&group.sort=score desc';
-            q += '&group.truncate=true';
-            q += '&fl=PID,dostupnost,model_path,dc.creator,root_title,root_pid,dc.title,datum_str,img_full_mime,score';
-        } else {
-            q += '&fl=PID,dostupnost,fedora.model,dc.creator,dc.title,datum_str,img_full_mime';
-        }
-        if (this.settings.dnntFilter) {
-            q += ',dnnt';
-        }
-        if (this.isBoundingBoxSet()) {
-            q += ',location,geographic_names';
-        }
-        q += '&facet=true&facet.mincount=1'
-           + this.addFacetToQuery(facet, 'keywords', 'keywords', this.keywords.length === 0)
-           + this.addFacetToQuery(facet, 'languages', 'language', this.languages.length === 0)
-           + this.addFacetToQuery(facet, 'locations', 'mods.physicalLocation', this.locations.length === 0)
-           + this.addFacetToQuery(facet, 'geonames', 'geographic_names', this.geonames.length === 0)
-           + this.addFacetToQuery(facet, 'authors', 'facet_autor', this.authors.length === 0)
-           + this.addFacetToQuery(facet, 'collections', 'collection', this.collections.length === 0)
-           + this.addFacetToQuery(facet, 'doctypes', 'model_path', this.doctypes.length === 0)
-           + this.addFacetToQuery(facet, 'accessibility', 'dostupnost', this.accessibility === 'all');
-        if (this.settings.dnntFilter) {
-            q += "&facet.field=dnnt";
-        }
-        if (facet) {
-            q += '&rows=0';
-        } else if (this.isBoundingBoxSet()) {
-            q += '&rows=' + '100' + '&start=' + '0';
-        } else {
-            const ordering = this.getOrderingValue();
-            if (ordering) {
-                q += '&sort=' + ordering;
-            }
-            q += '&rows=' + this.getRows() + '&start=' + this.getStart();
-        }
-        return q;
-    }
-
-    private addFacetToQuery(facet: string, currentFacet: string, field: string, apply: boolean): string {
-        if (this.settings.filters.indexOf(currentFacet) > -1) {
-            if ((!facet && apply) || currentFacet === facet) {
-                return '&facet.field=' + field;
-            }
-        }
-        return '';
-    }
-
+    
     getChangeLibraryUrlParams() {
-         const params = {};
-         if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
-             params['accessibility'] = this.accessibility;
-         }
-         if (this.query) {
-             params['q'] = this.query;
-         }
-         if (this.ordering) {
-             params['sort'] = this.ordering;
-         }
-         if (this.doctypes.length > 0) {
-             params['doctypes'] = this.doctypes.join(',,');
-         }
-         if (this.isCustomFieldSet()) {
-             params['field'] = this.field;
-             params['value'] = this.value;
-         }
-         if (this.isYearRangeSet()) {
-             params['from'] = this.from;
-             params['to'] = this.to;
-         }
-         return params;
-     }
-
-    toUrlParams() {
         const params = {};
-        if (this.page && this.page > 1) {
-            params['page'] = this.page;
-        }
         if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
             params['accessibility'] = this.accessibility;
-        }
-        if (this.dsq) {
-            params['dsq'] = this.dsq;
         }
         if (this.query) {
             params['q'] = this.query;
@@ -404,26 +214,64 @@ export class SearchQuery {
         if (this.ordering) {
             params['sort'] = this.ordering;
         }
-        if (this.keywords.length > 0) {
-            params['keywords'] = this.keywords.join(',,');
-        }
-        if (this.authors.length > 0) {
-            params['authors'] = this.authors.join(',,');
-        }
-        if (this.languages.length > 0) {
-            params['languages'] = this.languages.join(',,');
-        }
-        if (this.locations.length > 0) {
-            params['locations'] = this.locations.join(',,');
-        }
-        if (this.geonames.length > 0) {
-            params['geonames'] = this.geonames.join(',,');
-        }
         if (this.doctypes.length > 0) {
             params['doctypes'] = this.doctypes.join(',,');
         }
+        if (this.isCustomFieldSet()) {
+            params['field'] = this.field;
+            params['value'] = this.value;
+        }
+        if (this.isYearRangeSet()) {
+            params['from'] = this.from;
+            params['to'] = this.to;
+        }
+        return params;
+    }
+
+
+    toUrlParams() {
+        const params = {};
+        if (this.dsq) {
+            params['dsq'] = this.dsq;
+        }
+        if (this.query) {
+            params['q'] = this.query;
+        }
+        if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
+            params['accessibility'] = this.accessibility;
+        }
+        if (this.keywords.length > 0) {
+            params['keywords'] = this.urlArray(this.keywords);
+        }
+        if (this.authors.length > 0) {
+            params['authors'] = this.urlArray(this.authors);
+        }
+        if (this.languages.length > 0) {
+            params['languages'] = this.urlArray(this.languages);
+        }
+        if (this.licences.length > 0) {
+            params['licences'] = this.urlArray(this.licences);
+        }
+        if (this.locations.length > 0) {
+            params['locations'] = this.urlArray(this.locations);
+        }
+        if (this.geonames.length > 0) {
+            params['geonames'] = this.urlArray(this.geonames);
+        }
+        if (this.publishers.length > 0) {
+            params['publishers'] = this.urlArray(this.publishers);
+        }
+        if (this.places.length > 0) {
+            params['places'] = this.urlArray(this.places);
+        }
+        if (this.genres.length > 0) {
+            params['genres'] = this.urlArray(this.genres);
+        }
+        if (this.doctypes.length > 0) {
+            params['doctypes'] = this.urlArray(this.doctypes);
+        }
         if (this.collections.length > 0) {
-            params['collections'] = this.collections.join(',,');
+            params['collections'] = this.urlArray(this.collections);
         }
         if (this.isCustomFieldSet()) {
             params['field'] = this.field;
@@ -439,55 +287,30 @@ export class SearchQuery {
             params['west'] = this.west;
             params['east'] = this.east;
         }
-        return params;
-    }
-
-
-    private getDateOrderingRestriction() {
-        if (this.ordering === 'latest') {
-            return 'datum_begin: [1 TO 3000]';
-        } else if (this.ordering === 'earliest') {
-            return 'datum_end: [1 TO 3000]';
-        }
-    }
-
-
-    public getOrderingValue(): string {
-        if (this.ordering === 'newest') {
-            return 'created_date desc';
-        } else if (this.ordering === 'latest') {
-           return 'datum_end desc';
-        } else if (this.ordering === 'earliest') {
-           return 'datum_begin asc';
-        } else if (this.ordering === 'alphabetical') {
-            if (this.getRawQ()) {
-                return 'root_title asc';
+        if (this.ordering) {
+            if ((this.query || this.isCustomFieldSet())) {
+                if (this.ordering != 'relevance') {
+                    params['sort'] = this.ordering;
+                }
             } else {
-                return 'title_sort asc';
-            }
-        }
-        return null;
-    }
-
-
-    private buildFacetFilter(field, values, skip) {
-        if (skip !== field) {
-            if (values.length > 0) {
-                if (this.settings.filters.indexOf(field) > -1) {
-                    if (field === 'doctypes') {
-                        if (this.hasQueryString()) {
-                            return ('(model_path:' + values.join('* OR model_path:') + '*)')
-                        } else {
-                            return ('(model_path:' + values.join(' OR model_path:') + ')')
-                                        .replace(/model_path:monograph/, 'model_path:monograph OR model_path:monographunit');
-                        }
-                    } else {
-                        return '(' + SearchQuery.getSolrField(field) + ':"' + values.join('" OR ' + SearchQuery.getSolrField(field) + ':"') + '")';
-                    }
+                if (this.ordering != 'newest') {
+                    params['sort'] = this.ordering;
                 }
             }
         }
+        if (this.page && this.page > 1) {
+            params['page'] = this.page;
+        }
+        return params;
     }
+
+    private urlArray(array: string[]): string {
+        array.sort((a: string, b: string) => {
+            return a.localeCompare(b);
+        });
+        return array.join(',,');
+    }
+
 
     public removeAllFilters() {
         this.accessibility = 'all';
@@ -498,8 +321,12 @@ export class SearchQuery {
         this.authors = [];
         this.collections = [];
         this.languages = [];
+        this.licences = [];
         this.locations = [];
         this.geonames = [];
+        this.publishers = [];
+        this.places = [];
+        this.genres = [];
         this.removeCustomField();
         this.clearYearRange();
     }
@@ -533,10 +360,22 @@ export class SearchQuery {
         if (this.languages && this.languages.length > 0) {
             return true;
         }
+        if (this.licences && this.licences.length > 0) {
+            return true;
+        }
         if (this.locations && this.locations.length > 0) {
             return true;
         }
         if (this.geonames && this.geonames.length > 0) {
+            return true;
+        }
+        if (this.publishers && this.publishers.length > 0) {
+            return true;
+        }
+        if (this.places && this.places.length > 0) {
+            return true;
+        }
+        if (this.genres && this.genres.length > 0) {
             return true;
         }
         if (this.collections && this.collections.length > 0) {
@@ -553,3 +392,5 @@ export class SearchQuery {
     }
 
 }
+
+

@@ -40,5 +40,10 @@
 </div>
 
 <div class="app-navigation-pages" id="app-navigation-container" [class.app-is-query]="bookService.getFulltextQuery()" [class.app-hidden]="bookService.activeNavigationTab !== 'pages'">
-  <app-navigation-item [page]="page" [container]="container" *ngFor="let page of bookService.pages" (pageSelected)="onPageSelected(page)"></app-navigation-item>
+  <ng-container *ngIf="!bookService.getFulltextQuery() || bookService.fulltextAllPages; else showSnippets">
+    <app-navigation-item [page]="page" [container]="container" *ngFor="let page of bookService.pages" (pageSelected)="onPageSelected(page)"></app-navigation-item>
+  </ng-container>
+  <ng-template #showSnippets>
+    <app-navigation-snippet [page]="page" [container]="container" *ngFor="let page of bookService.pages" (pageSelected)="onPageSelected(page)"></app-navigation-snippet>
+  </ng-template>
 </div>

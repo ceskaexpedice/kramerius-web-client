@@ -14,7 +14,7 @@ app-viewer-controls {
     opacity: 1;
     margin-right: -50%;
     display: inline-block;
-    -webkit-transform: translate(-50%, 0%);
+    -webkit-transform: translate(-50%, 0%);    
     transform: translate(-50%, 0%);
     border-radius: $app-border-radius;
     padding: 5px 10px 2px;
@@ -26,19 +26,19 @@ app-viewer-controls {
     float: left;
     padding: 6px 8px;
     color: $app-grey;
-
+    
     &:hover {
       color: color("shades", "black");
     }
-
+    
     &.app-mdi-page-left {
       margin-right: 20px;
     }
-
+    
     &.app-mdi-page-right {
       margin-left: 20px;
     }
-
+    
     &.app-inactive {
       opacity: 0.2;
       cursor: default !important;

@@ -40,11 +40,11 @@ export class PageTitleService {
   }
 
   setLandingPageTitle() {
-   this.landing = true;
-   this.translator.waitForTranslation().then(() => {
-     let title = <string> this.translator.instant('title.main');
-     this.titleService.setTitle(title);
-   });
- }
+    this.landing = true;
+    this.translator.waitForTranslation().then(() => {
+      let title = <string> this.translator.instant('title.main');
+      this.titleService.setTitle(title);
+    });
+  }
 
 }

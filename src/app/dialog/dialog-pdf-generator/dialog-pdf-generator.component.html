@@ -1,4 +1,5 @@
 <mz-modal #modal [fixedFooter]="true" class="app-dialog-pdf-generator">
+
   <mz-modal-content>
     <div class="app-pages-wrapper">
       <div class="app-pages">
@@ -16,26 +17,33 @@
       [color]="'blue'"
       [size]="'small'">
     </mz-spinner>
+    <div class="app-messages" *ngIf="!inProgress">
+      <div class="app-info" [class.app-warn]="selectedPages > maxPageCount">
+        <ng-container *ngIf="selectedPages > 0">
+        {{ 'pdf-dialog.selection1' | translate: { num: selectedPages } }}
+        <strong>{{ selectedPages }}</strong>
+        {{ 'pdf-dialog.selection2' | translate: { num: selectedPages } }}
+        (limit <strong>{{ maxPageCount }}</strong>)
+      </ng-container>
+      <ng-container *ngIf="selectedPages == 0">
+        {{ 'pdf-dialog.selection' | translate }}
+      </ng-container>
+      <ng-container *ngIf="selectedPages < pageCount">
+        | <span (click)="selectAll()" class="app-btn">{{ 'pdf-dialog.select_all' | translate }}</span>
+      </ng-container>
+      <ng-container *ngIf="selectedPages > 0">
+        | <span (click)="deselectAll()"  class="app-btn">{{ 'pdf-dialog.deselect_all' | translate }}</span>
+      </ng-container>
+      </div>
+      <div class="app-tip" *ngIf="!errorId">{{ 'pdf-dialog.tip_shift' | translate }}</div>
+      <div class="app-error" *ngIf="errorId">{{ 'pdf-dialog.' + errorId | translate }}</div>
 
-    <p *ngIf="messageId" class="app-message">
-      <span *ngIf="messageId != 'info_pages'">
-        {{ 'pdf-dialog.' + messageId | translate }}
-      </span>
-      <span *ngIf="messageId == 'info_pages'">
-        {{ 'pdf-dialog.selected_number_of_pages' | translate: { num: numberOfPages } }} {{maxPageCount}} {{ 'pdf-dialog.pages' | translate }}
-      </span>
-    </p>
-    <p *ngIf="errorId" class="app-error">{{ 'pdf-dialog.' + errorId | translate }}
-      <span *ngIf="errorId == 'warning_too_manny_pages'">
-        ({{maxPageCount}}), {{ 'pdf-dialog.warning_number_of_pages' | translate: { num: numberOfPages } }}
-      </span>
-    </p>
-
-    <p *ngIf="pdfDownload" class="app-message">
-      &nbsp;&nbsp;<a href="{{pdfDownloadLink}}" id="pdfDownload">{{ 'pdf-dialog.download_pdf' | translate }} ({{pdfDownloadMB}}MB)</a>
-    </p>
+    </div>
+    <div class="app-progress" *ngIf="inProgress">
+      {{ 'pdf-dialog.warning_generate' | translate }}
+    </div>
 
     <button mz-button [flat]="true" mz-modal-close>{{ 'common.cancel' | translate }}</button>
-    <button mz-button (click)="action()" [disabled]="inProgress">{{ 'pdf-dialog.action_' + type | translate }}</button>
+    <button mz-button (click)="action()" [disabled]="inProgress || selectedPages > maxPageCount || selectedPages == 0">{{ 'pdf-dialog.action_' + type | translate }}</button>
   </mz-modal-footer>
 </mz-modal>

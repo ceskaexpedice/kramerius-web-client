@@ -83,6 +83,7 @@ export class CloudApiService {
     getCitation(uuid: string): Observable<string> {
         const lang = this.translator.language;
         const url = `https://citace.kramerius.cloud/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html&lang=${lang}`;
+        // const url = `http://127.0.0.1:3000/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html&lang=${lang}`;
         return this.doGetText(url).catch(this.handleError);
     }
 

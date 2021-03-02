@@ -6,7 +6,7 @@ app-home-logo {
     line-height: normal;
     // height: 40px;
     margin-right: auto;
-    margin-left: auto;
+    margin-left: auto;    
     @media #{$medium-and-down} {
       transform: none;
     }
@@ -62,11 +62,11 @@ app-home-logo {
 
   .app-logo-big.brand-logo {
       .app-brand-top.app-brand-img {
-        display: block;
-        margin-top: -60px;
+        display: block; 
+        margin-top: -60px; 
         margin-bottom: 10px;
         @media #{$medium-and-down} {
-          margin-top: -20px;
+          margin-top: -20px; 
         }
         img {
           height: 142px;
@@ -76,13 +76,14 @@ app-home-logo {
         }
       }
       .app-brand-top.app-brand-text.app-single-kramerius {
-        display: block;
+        display: block; 
         margin-bottom: 10px;
         padding: 0;
         &.app-brand-text-hide {
           display: none;
         }
       }
-    } 
+    }
+
 
 }

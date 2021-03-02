@@ -77,14 +77,51 @@ mz-modal-footer {
   mz-spinner {
     margin-top: 5px;
   }
-  .app-error {
+  .app-messages {
+    text-align: left;
     float: left;
-    color: #aa4444;
-    margin-left: 24px;
+    padding-left: 10px;
+    @media only screen and (max-width: 700px) {
+      display: none;
+    }
+    .app-info {
+      color: #686868;
+      margin-top: 3px;
+      strong {
+        color: #000000;
+      }
+      &.app-warn {
+        strong {
+          color: #aa4444;
+        }
+      }
+      .app-btn {
+        color: #0276bd;
+        cursor: pointer;
+        &:hover {
+          color: #2296dd;
+        }
+      }
+    }
+    .app-tip {
+      color: #999999;
+      margin-top: 1px;
+    }
+    .app-error {
+      color: #aa4444;
+      margin-top: 1px;
+    }
   }
-  .app-message {
+
+  .app-progress {
+    padding-left: 10px;
     float: left;
-    margin-left: 24px;
-    color: #585858;
+    line-height: 52px;
+    color: #444;
+  }
+
+  .btn {
+    margin-top: 8px;
+    margin-right: 8px;
   }
 }

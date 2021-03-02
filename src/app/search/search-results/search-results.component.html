@@ -1,11 +1,18 @@
 <app-search-chart-bar *ngIf="searchService.getNumberOfResults()"></app-search-chart-bar>
 <app-search-calendar *ngIf="searchService.getNumberOfResults()"></app-search-calendar>
 
-<app-alert *ngIf="!searchService.loading && searchService.getNumberOfResults() === 0"
+<ng-container *ngIf="searchService.collection">
+        <div class="app-collection-description"
+        [innerHTML]="searchService.collection.notes[0] | safeHtml">
+        </div>
+      </ng-container>
+
+      <app-alert *ngIf="!searchService.loading && searchService.getNumberOfResults() === 0"
         type="warning"
         label="alert.warning"
         message="alert.no_results_found">
 </app-alert>
+
 
 
 <app-document-card *ngFor="let item of searchService.results" [in]="'search'" [item]="item"></app-document-card>

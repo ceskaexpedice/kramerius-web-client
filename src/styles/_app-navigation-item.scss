@@ -18,15 +18,12 @@
     height: 120px;
     overflow: hidden;
     // background-size: cover;
-    // background-position-x: center;
+    // background-position-x: center;    
     background-color: #c5c5c5;
     border: solid 1px #adadad;
     background-size: contain;
     background-position-x: center;
     background-position-y: center;
-    &.hidden {
-      opacity: 0.1;
-    }
     .app-lock {
       background: #fff;
       height: 26px;
@@ -50,8 +47,8 @@
   .app-item-title {
     position: absolute;
     font-size: 11px;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 4px;
+    right: 4px;
     padding: 2px;
     text-align: center;
     background: rgba(255, 255, 255, 0.6);
@@ -73,16 +70,29 @@
     font-size: 12px;
     bottom: 0.5rem;
     padding: 2px;
-    width: calc(100% - 1rem);
     display: none;
     text-align: center;
+    width: calc(100% - 10px);
+    word-break: break-word;
     background: rgba(255, 255, 255, 0.8);
     color: color("shades", "black");
   }
-  &.active {
-    background: $app-grey-d-1;
+  &.app-display-2 {
+    opacity: 0.6;
   }
-
+  &.app-display-1 {
+    .app-item-title {
+      background: $primary-color;
+      color: #fff
+    }
+  }
+  &.app-active {
+    background: $primary-color;
+    // .app-item-title {
+    //   background: $primary-color;
+    //   color: #fff
+    // }
+  }
   &:hover {
     .app-item-type {
       display: block;

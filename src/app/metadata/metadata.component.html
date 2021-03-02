@@ -17,9 +17,9 @@
         <i *ngIf="account.isFavourited(metadata.uuid)" class="app-mdi-favourite-on app-cursor-pointer app-favourite" (click)="account.unmarkFavourite(metadata.uuid, null)"
           mz-tooltip [tooltip]="'book_controls.tooltip_unmark_favourite' | translate"  [position]="'bottom'">
         </i>
-        <!-- <i *ngIf="account.hasRole('proarc')" class="app-mdi-edit app-cursor-pointer app" target="_blank" (click)="openInProarc()"
+        <i *ngIf="account.hasRole('kramerius_admin')" class="app-mdi-edit app-cursor-pointer" target="_blank" (click)="onAdminActions()"
           mz-tooltip [tooltip]="'book_controls.tooltip_edit' | translate"  [position]="'bottom'">
-        </i> -->
+        </i> 
       </ng-container>
   </div>
 
@@ -46,11 +46,11 @@
       </div>
 
       <div *ngIf="metadata.hasIdentifier('doi')" class="app-identifier">
-       DOI: {{ metadata.identifiers['doi'] }}
-     </div>
+        DOI: <a href="{{ metadata.identifiers['doi'] }}" target="_blank">{{ metadata.identifiers['doi'] }}</a>
+      </div>
 
       <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
-
+      
       <div *ngIf="metadata.currentUnit">
         <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'unit list');">
           {{ 'metadata.unit_list' | translate }}
@@ -61,12 +61,12 @@
           {{ 'metadata.volume_list' | translate }}
         </a>
       </div>
-
+      
       <div class="divider"></div>
 
     </ng-container>
 
-    <div *ngIf="!metadata.isPublic && !settings.hiddenLocks" class="app-policy">
+    <div *ngIf="!settings.hiddenLocks && !metadata.isPublic" class="app-policy">
       <ng-container *ngIf="metadata.isDnnt">
         <i mz-icon-mdi [icon]="auth.isLoggedIn() ? 'camera-off' : 'lock'" [size]="'18px'" [class]="'app-lock app-dnnt'"></i>
         <span class="app-message">{{ 'metadata.policy_dnnt' | translate }} (<span><i (click)="onShowPolicyDnntDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
@@ -95,7 +95,7 @@
       <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="onShowAuthors()" mz-tooltip [tooltip]="'metadata.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
       <div class="divider"></div>
     </div>
-
+    
     <div *ngIf="metadata.volume">
       <label>{{ 'metadata.volume' | translate }}</label>
       <div class="app-value">{{ 'metadata.volume_year' | translate }} <strong>{{ metadata.volume.year }}</strong></div>
@@ -111,13 +111,13 @@
 
       <div *ngIf="metadata.previousVolume">
           <a [routerLink]="[settings.getRouteFor('periodical'), metadata.previousVolume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'previous volume');">
-            {{ 'metadata.previous_volume' | translate }} {{ metadata.previousVolume.subtitle }} ({{ metadata.previousVolume.title }})
+            {{ 'metadata.previous_volume' | translate }}{{ metadata.previousVolume.prettyName() }}
           </a>
         </div>
-
+  
         <div *ngIf="metadata.nextVolume">
           <a [routerLink]="[settings.getRouteFor('periodical'), metadata.nextVolume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'next volume');">
-            {{ 'metadata.next_volume' | translate }} {{ metadata.nextVolume.subtitle }} ({{ metadata.nextVolume.title }})
+            {{ 'metadata.next_volume' | translate }} {{ metadata.nextVolume.prettyName() }}
           </a>
         </div>
 
@@ -126,18 +126,18 @@
 
     <div *ngIf="metadata.currentIssue">
       <label>{{ 'metadata.issue' | translate }}</label>
-      <div class="app-value">{{ 'metadata.issue_date' | translate }} <strong>{{ metadata.currentIssue.title }}</strong></div>
-      <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.subtitle }}</strong></div>
-
+      <div class="app-value">{{ 'metadata.issue_date' | translate }} <strong>{{ metadata.currentIssue.getDate() }}</strong></div>
+      <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.getPart() }}</strong></div>
+      
       <div *ngIf="metadata.previousIssue">
         <a [routerLink]="[settings.getRouteFor('view'), metadata.previousIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'previous issue');">
-          {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.subtitle }} ({{ metadata.previousIssue.title }})
+          {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.prettyName() }}
         </a>
       </div>
 
       <div *ngIf="metadata.nextIssue">
         <a [routerLink]="[settings.getRouteFor('view'), metadata.nextIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'next issue');">
-          {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.subtitle }} ({{ metadata.nextIssue.title }})
+          {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.prettyName() }}
         </a>
       </div>
 
@@ -150,24 +150,19 @@
 
     <div *ngIf="metadata.currentUnit">
       <label>{{ 'metadata.unit' | translate }}</label>
-      <!-- <div class="app-value"><strong>{{ metadata.currentUnit.title }}</strong></div>
-      <div class="app-value" >{{ 'metadata.unit_number' | translate }} <strong>{{ metadata.currentUnit.subtitle }}</strong></div>
-       -->
       <div *ngIf="metadata.currentUnit.metadata" >
         <app-metadata [metadata]="metadata.currentUnit.metadata" class="app-nested" [showControls]="false"></app-metadata>
       </div>
-
       <div *ngIf="metadata.previousUnit">
         <a [routerLink]="[settings.getRouteFor('view'), metadata.previousUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'previous unit');">
-          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.subtitle }} ({{ metadata.previousUnit.title }})
+          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.prettyName() }}
         </a>
       </div>
       <div *ngIf="metadata.nextUnit">
         <a [routerLink]="[settings.getRouteFor('view'), metadata.nextUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'next unit');">
-          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.subtitle }} ({{ metadata.nextUnit.title }})
+          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.prettyName() }}
         </a>
       </div>
-
       <div class="divider"></div>
     </div>
 
@@ -202,6 +197,14 @@
 
 
 
+    <div *ngIf="metadata.donators">
+      <label>{{ 'metadata.donator' | translate }}</label>
+      <a *ngFor="let donator of metadata.donators" style="display:block" target="_blank" href="{{ 'donator.' + donator + '.url' | translate }}" (click)="analytics.sendEvent('metadata', 'link', 'donator');">
+        <img src="assets/img/donator_{{donator}}.png" >
+      </a>
+    </div>
+
+
     <div *ngIf="metadata.publishers.length > 0">
       <label>{{ 'metadata.publisher' | translate }}</label>
       <div *ngFor="let publisher of metadata.publishers; first as first" [class.space]="!first" class="app-value" >{{ publisher.fullDetail() }}</div>
@@ -229,7 +232,14 @@
 
     <div *ngIf="metadata.genres.length > 0">
       <label>{{ 'metadata.genres' | translate }}</label>
-      <div *ngFor="let genre of metadata.genres" class="app-value" >{{ genre | appUpcase }}</div>
+      <div *ngFor="let genre of metadata.genres">
+        <ng-container *ngIf="settings.availableFilter('genres'); else noLinkGenre" >
+          <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{genres: genre }" (click)="analytics.sendEvent('metadata', 'link', 'genre');">{{ genre | appUpcase}}</a>
+        </ng-container>
+        <ng-template #noLinkGenre>
+          <div class="app-value">{{ genre }}</div>
+        </ng-template>
+      </div>
       <div class="divider"></div>
     </div>
 
@@ -253,7 +263,7 @@
       </div>
       <div class="divider"></div>
     </div>
-
+    
     <div *ngIf="metadata.locations.length > 0">
       <label>{{ 'metadata.location' | translate }}</label>
       <div *ngFor="let location of metadata.locations">
@@ -277,14 +287,6 @@
       <div class="divider"></div>
     </div>
 
-
-    <div *ngIf="metadata.donator">
-      <label>{{ 'metadata.donator' | translate }}</label>
-      <a style="display:block" target="_blank" href="{{ 'donator.' + metadata.donator + '.url' | translate }}" (click)="analytics.sendEvent('metadata', 'link', 'donator');">
-        <img src="assets/img/donator_{{metadata.donator}}.png" >
-      </a>
-    </div>
-
     <div *ngIf="metadata.cartographicData.length > 0">
       <label>{{ 'metadata.cartographic_data' | translate }}</label>
       <div *ngFor="let cd of metadata.cartographicData">
@@ -304,8 +306,12 @@
 
     <div *ngIf="metadata.abstracts.length > 0">
       <label>{{ 'metadata.abstract' | translate }}</label>
-      <div *ngFor="let abstract of metadata.abstracts" class="app-value" >{{ abstract }}</div>
-      <div class="divider"></div>
+      <ng-container *ngFor="let abstract of metadata.abstracts; let i = index">
+        <div class="app-value" *ngIf="abstract.length > 115 && !expand['abstract' + i]" >{{ abstract.substring(0, 110) + "..." }}</div>
+        <div class="app-value" *ngIf="!(abstract.length > 115 && !expand['abstract' + i])" >{{ abstract }}</div>
+        <i *ngIf="abstract.length > 115" mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="expand['abstract' + i] = !expand['abstract' + i]" class="app-more app-cursor-pointer"></i>
+        <div class="divider"></div>
+      </ng-container>
     </div>
 
     <div *ngIf="metadata.contents.length > 0">
@@ -313,7 +319,7 @@
       <div *ngFor="let content of metadata.contents" class="app-value" >{{ content }}</div>
       <div class="divider"></div>
     </div>
-
+    
     <div *ngIf="metadata.notes.length > 0">
       <label>{{ 'metadata.notes' | translate }}</label>
       <div *ngFor="let note of metadata.notes" class="app-value" >{{ note }}</div>
@@ -331,12 +337,12 @@
 
 
   <div *ngIf="metadata.activePage">
-  <label>{{ 'metadata.page' | translate }}</label>
-  <div class="app-value" >
-    {{ metadata.activePage.number }} {{ metadata.activePage.title }}
-  <span *ngIf="metadata.activePageRight"> - {{ metadata.activePageRight.number }} {{ metadata.activePageRight.title }}</span>
-  </div>
-  <div class="divider"></div>
+    <label>{{ 'metadata.page' | translate }}</label>
+    <div class="app-value" >
+      {{ metadata.activePage.number }} {{ metadata.activePage.title }}
+    <span *ngIf="metadata.activePageRight"> - {{ metadata.activePageRight.number }} {{ metadata.activePageRight.title }}</span>
+    </div>
+    <div class="divider"></div>
   </div>
 
 
