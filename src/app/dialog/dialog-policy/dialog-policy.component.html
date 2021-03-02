@@ -1,6 +1,6 @@
 <mz-modal #modal [fixedFooter]="false" class="app-dialog-policy">
   <mz-modal-content>
-    <mz-input-container *ngIf="type=='private'">
+    <mz-input-container *ngIf="type=='private' && !appSettings.crisisUrl">
       <div *ngIf="!appSettings.customRightMessage" class="app-text">
         {{ 'alert.inaccessible_document_description' | translate }}
       </div>
@@ -8,9 +8,18 @@
       [innerHTML]="(krameriusInfo.data$ | async).getRightMessage()">
       </div>
     </mz-input-container>
+    <mz-input-container *ngIf="type=='private' && appSettings.crisisUrl">
+      <div  class="app-text">
+        <div class="app-html"
+        [innerHTML]="( 'alert.inaccessible_document_crisis_description' | translate )">
+        </div>
+      </div>
+    </mz-input-container>
     <mz-input-container *ngIf="type=='dnnt'">
       <div  class="app-text">
-        {{ 'alert.inaccessible_document_dnnt_description' | translate }}
+        <div class="app-html"
+        [innerHTML]="( 'alert.inaccessible_document_dnnt_description' | translate )">
+        </div>
       </div>
     </mz-input-container>
   </mz-modal-content>

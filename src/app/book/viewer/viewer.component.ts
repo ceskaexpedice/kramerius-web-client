@@ -21,7 +21,7 @@ declare var ol: any;
   templateUrl: './viewer.component.html'
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-  
+
   private view;
   private imageLayer;
   private zoomifyLayer;
@@ -30,6 +30,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private vectorLayer;
   private watermark;
   private extent;
+  private dnntApi;
+  private dnntLink;
 
   private imageWidth = 0;
   private imageWidth1 = 0;
@@ -131,8 +133,27 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
       }
     });
+
+    this.setDnntLink();
   }
 
+  setDnntLink() {
+    this.dnntLink="";
+    if(this.settings.crisisUrl) {
+        if(this.settings.dnnt.loginUrl) { this.dnntLink=this.settings.dnnt.loginUrl+'?target='+this.settings.crisisUrl+'/uuid/'+this.bookService.getUuid(); }
+        else { this.dnntLink=this.settings.crisisUrl+'/uuid/'+this.bookService.getUuid(); }
+
+    } else if(this.settings.dnntUrl) {
+      this.dnntApi = this.settings.dnntUrl+"/search/api/v5.0/item/"+this.bookService.getUuid();
+      this.http.get(this.dnntApi).toPromise().then((data:any) => {
+        //this.dnntTitle='<div class="dnntLink"><a href="'+this.settings.dnntUrl+'/uuid/'+this.bookService.getUuid()+'">Toto dílo je dostupné v rámci DNNT</a></div>';
+        if(data.dnnt) {
+          if(this.settings.dnnt.loginUrl) { this.dnntLink=this.settings.dnnt.loginUrl+'?target='+this.settings.dnntUrl+'/uuid/'+this.bookService.getUuid(); }
+          else { this.dnntLink=this.settings.dnntUrl+'/uuid/'+this.bookService.getUuid(); }
+        }
+      });
+    }
+  }
 
   onSelectionStart(type: SelectionType) {
     this.selectionType = type;
@@ -319,7 +340,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
+
   loadJpegImage(uuid1: string, uuid2: string, left: boolean, thumb: boolean) {
     const uuid = left ? uuid1 : uuid2;
     const url = this.api.getFullJpegUrl(uuid);
@@ -491,13 +512,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.removeLayer(this.vectorLayer);
     this.data = data;
     switch (data.imageType) {
-      case ViewerImageType.IIIF: 
+      case ViewerImageType.IIIF:
         this.updateIiifImage(data.uuid1, data.uuid2);
         break;
-      case ViewerImageType.ZOOMIFY: 
+      case ViewerImageType.ZOOMIFY:
         this.updateZoomifyImage(data.uuid1, data.uuid2);
         break;
-      case ViewerImageType.JPEG: 
+      case ViewerImageType.JPEG:
         this.updateJpegImage(data.uuid1, data.uuid2);
         break;
     }
@@ -575,7 +596,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
     const zLayer = new ol.layer.Tile({
       source: new ol.source.Zoomify(zoomifyOptions)
-    });    
+    });
     const iLayer = new ol.layer.Image({
       source: new ol.source.ImageStatic(imageOptions)
     });

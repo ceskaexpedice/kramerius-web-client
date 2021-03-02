@@ -65,7 +65,7 @@ export class NavbarComponent implements OnInit {
   login() {
     this.analytics.sendEvent('navbar', 'login');
     if (this.appSettings.krameriusLogin && !this.authService.isLoggedIn()) {
-      this.authService.redirectUrl = window.location.href;  
+      this.authService.redirectUrl = window.location.href;
       this.router.navigate(['/login']);
     }
   }

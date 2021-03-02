@@ -46,8 +46,8 @@ export class CitationService {
         c += metadata.publishers[0].placeAndName();
         c += ', ';
       }
-      if (metadata.currentIssue && metadata.currentIssue.title && level >= CitationService.LEVEL_ISSUE) {
-        c += metadata.currentIssue.title;
+      if (metadata.currentIssue && metadata.currentIssue.date && level >= CitationService.LEVEL_ISSUE) {
+        c += metadata.currentIssue.date;
       } else if (metadata.volume.year) {
         c += metadata.volume.year;
       }
@@ -55,7 +55,7 @@ export class CitationService {
       c += '<b>' + metadata.volume.number + '</b>';
       if (metadata.currentIssue && level >= CitationService.LEVEL_ISSUE) {
         const edition = this.findIssueEdition(metadata.currentIssue.metadata);
-        c += '(' + metadata.currentIssue.subtitle;
+        c += '(' + metadata.currentIssue.name;
         if (edition) {
           c += ', ' + edition;
         }

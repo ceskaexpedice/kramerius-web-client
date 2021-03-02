@@ -1,0 +1,30 @@
+
+header .nav-wrapper .app-buttons a {
+    color: #fff !important;
+}
+
+header .nav-wrapper app-logo .brand-logo .app-brand-text {
+    color: #fff !important;
+}
+
+header .nav-wrapper .app-arrow-left {
+    color: #fff !important;
+}
+
+header .nav-wrapper {
+    background: #058ba8;
+}
+
+
+.app-mdi-share { 
+	/*display:none; */
+}
+
+#nk-footer-left {color:white;}
+
+#kramerius-notify {font-size:10px; letter-spacing: 1px; font-family: Roboto-Condensed-Regular; font-weight:normal; }
+
+app-root main app-book .app-book-wrapper app-viewer .app-viewer-wrapper .app-dnnt {
+	background: rgba(5,139,168, 0.6) !important;
+}
+

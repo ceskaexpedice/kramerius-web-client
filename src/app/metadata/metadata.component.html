@@ -19,7 +19,7 @@
         </i>
         <i *ngIf="account.hasRole('kramerius_admin')" class="app-mdi-edit app-cursor-pointer" target="_blank" (click)="onAdminActions()"
           mz-tooltip [tooltip]="'book_controls.tooltip_edit' | translate"  [position]="'bottom'">
-        </i> 
+        </i>
       </ng-container>
   </div>
 
@@ -50,7 +50,7 @@
       </div>
 
       <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
-      
+
       <div *ngIf="metadata.currentUnit">
         <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'unit list');">
           {{ 'metadata.unit_list' | translate }}
@@ -61,7 +61,7 @@
           {{ 'metadata.volume_list' | translate }}
         </a>
       </div>
-      
+
       <div class="divider"></div>
 
     </ng-container>
@@ -71,7 +71,11 @@
         <i mz-icon-mdi [icon]="auth.isLoggedIn() ? 'camera-off' : 'lock'" [size]="'18px'" [class]="'app-lock app-dnnt'"></i>
         <span class="app-message">{{ 'metadata.policy_dnnt' | translate }} (<span><i (click)="onShowPolicyDnntDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
       </ng-container>
-      <ng-container *ngIf="!metadata.isDnnt">
+      <ng-container *ngIf="!metadata.isDnnt && settings.crisisUrl">
+        <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock'"></i>
+        <span class="app-message">{{ 'metadata.policy_crisis' | translate }} (<span><i (click)="onShowPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
+      </ng-container>
+      <ng-container *ngIf="!metadata.isDnnt && !settings.crisisUrl">
         <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock'"></i>
         <span class="app-message">{{ 'metadata.policy_private' | translate }} (<span><i (click)="onShowPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
       </ng-container>
@@ -95,7 +99,7 @@
       <i mz-icon-mdi [icon]="'more'" [size]="'20'" (click)="onShowAuthors()" mz-tooltip [tooltip]="'metadata.authors_info' | translate" [position]="'top'" class="app-more app-cursor-pointer"></i>
       <div class="divider"></div>
     </div>
-    
+
     <div *ngIf="metadata.volume">
       <label>{{ 'metadata.volume' | translate }}</label>
       <div class="app-value">{{ 'metadata.volume_year' | translate }} <strong>{{ metadata.volume.year }}</strong></div>
@@ -114,7 +118,7 @@
             {{ 'metadata.previous_volume' | translate }}{{ metadata.previousVolume.prettyName() }}
           </a>
         </div>
-  
+
         <div *ngIf="metadata.nextVolume">
           <a [routerLink]="[settings.getRouteFor('periodical'), metadata.nextVolume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'next volume');">
             {{ 'metadata.next_volume' | translate }} {{ metadata.nextVolume.prettyName() }}
@@ -128,7 +132,7 @@
       <label>{{ 'metadata.issue' | translate }}</label>
       <div class="app-value">{{ 'metadata.issue_date' | translate }} <strong>{{ metadata.currentIssue.getDate() }}</strong></div>
       <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.getPart() }}</strong></div>
-      
+
       <div *ngIf="metadata.previousIssue">
         <a [routerLink]="[settings.getRouteFor('view'), metadata.previousIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'previous issue');">
           {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.prettyName() }}
@@ -197,14 +201,6 @@
 
 
 
-    <div *ngIf="metadata.donators">
-      <label>{{ 'metadata.donator' | translate }}</label>
-      <a *ngFor="let donator of metadata.donators" style="display:block" target="_blank" href="{{ 'donator.' + donator + '.url' | translate }}" (click)="analytics.sendEvent('metadata', 'link', 'donator');">
-        <img src="assets/img/donator_{{donator}}.png" >
-      </a>
-    </div>
-
-
     <div *ngIf="metadata.publishers.length > 0">
       <label>{{ 'metadata.publisher' | translate }}</label>
       <div *ngFor="let publisher of metadata.publishers; first as first" [class.space]="!first" class="app-value" >{{ publisher.fullDetail() }}</div>
@@ -263,7 +259,7 @@
       </div>
       <div class="divider"></div>
     </div>
-    
+
     <div *ngIf="metadata.locations.length > 0">
       <label>{{ 'metadata.location' | translate }}</label>
       <div *ngFor="let location of metadata.locations">
@@ -286,6 +282,14 @@
       </div>
       <div class="divider"></div>
     </div>
+
+    <div *ngIf="metadata.donators">
+      <label>{{ 'metadata.donator' | translate }}</label>
+      <a *ngFor="let donator of metadata.donators" style="display:block" target="_blank" href="{{ 'donator.' + donator + '.url' | translate }}" (click)="analytics.sendEvent('metadata', 'link', 'donator');">
+        <img src="assets/img/donator_{{donator}}.png" >
+      </a>
+    </div>
+
 
     <div *ngIf="metadata.cartographicData.length > 0">
       <label>{{ 'metadata.cartographic_data' | translate }}</label>
@@ -319,7 +323,7 @@
       <div *ngFor="let content of metadata.contents" class="app-value" >{{ content }}</div>
       <div class="divider"></div>
     </div>
-    
+
     <div *ngIf="metadata.notes.length > 0">
       <label>{{ 'metadata.notes' | translate }}</label>
       <div *ngFor="let note of metadata.notes" class="app-value" >{{ note }}</div>

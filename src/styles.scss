@@ -68,6 +68,91 @@
                 display: none;
             }
         }
-
     }
+}
+
+.alert-warning span { font-size:20px !important; }
+.dnntLink, .dnntLink a { font-size:20px !important; }
+
+.pdfDownload { width:250px; float:left; }
+
+#kramerius-notify {
+  text-align:center;
+  font-size:19px;
+  font-weight:normal;
+  letter-spacing: 1px;
+  padding:10px;
+  color: #058ba8;
+}
+
+#nk-footer {
+  width: 100%;
+  margin: 40px auto 0px auto;
+  text-align:center;
+}
+
+#nk-footer-left {
+  float:left;
+  background-color:white;
+}
+
+#nk-footer-right {
+  float:right;
+}
+
+#nk-footer-right h3 {
+  margin:0px;
+  padding:0px;
+  font-size:1.2em;
+  font-weight: bold;
+}
+
+#nk-footer-social {
+  float:left;
+  width:100%;
+  margin-top:0px;
+}
+
+
+.app-footer img {
+    height: 70px;
+    opacity:0.6;
+    margin:0px 50px 20px 50px;
+}
+.app-footer img:hover {
+    opacity: 1;
+}
+.app-footer a {
+    text-align: center;
+}
+.app-content {
+    margin:auto;
+    text-align: center;
+    font-size: 19px;
+}
+
+#nk-footer-social img {
+  height:auto;
+  margin:auto;
+}
+
+@media(max-width: 1195px)  {
+  #nk-footer { max-width:700px; }
+}
+
+@media(max-width: 600px) {
+   #nk-footer {
+     width:auto;
+   }
+   #nk-footer img {
+     display:block;
+   }
+
+   #nk-footer-social {
+     width:auto;
+   }
+
+   #nk-footer-right {
+     display:none;
+   }
 }

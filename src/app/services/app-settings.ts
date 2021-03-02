@@ -19,8 +19,11 @@ export class AppSettings {
   public logo: string;
   public logoHome: string;
   public url: string;
+  public pdfUrl: string;
+  public dnntUrl: string;
   public schemaVersion: string;
   public solrVersion: string;
+  public crisisUrl: string;
   public code: string;
   public richCollections: boolean;
   public joinedDoctypes: boolean;
@@ -33,8 +36,10 @@ export class AppSettings {
   public dnntFilter: boolean;
   public originLink: boolean;
   public mapSearch: boolean;
-  // public topLevelFilter: string;
+  public topLevelFilter: string;
   public hiddenLocks: boolean;
+  public membranePrivateTitle: string;
+  public notice: string;
 
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -43,6 +48,7 @@ export class AppSettings {
   public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
   public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
   public dnnt = APP_GLOBAL.dnnt;
+  public dnntEnabled = APP_GLOBAL.dnnt;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public advancedSearch = APP_GLOBAL.advancedSearch;
@@ -64,6 +70,7 @@ export class AppSettings {
   public showTextSelection = APP_GLOBAL.showTextSelection || 'always';
   public showImageCrop = APP_GLOBAL.showImageCrop || 'always';
 
+  public logoutUrl = APP_GLOBAL.logoutUrl;
   public newestAll = !!APP_GLOBAL.newestAll;
   public crossOrigin = !!APP_GLOBAL.crossOrigin;
 
@@ -114,6 +121,9 @@ export class AppSettings {
     this.logo = kramerius.logo || 'assets/img/logo.png'
     this.logoHome = kramerius.logoHome || this.logo;
     this.richCollections = kramerius.richCollections;
+    this.pdfUrl = kramerius.pdfUrl;
+    this.dnntUrl = kramerius.dnntUrl;
+    this.crisisUrl = kramerius.crisisUrl;
     this.joinedDoctypes = kramerius.joinedDoctypes;
     this.doctypes = kramerius.doctypes;
     this.filters = kramerius.filters || [];
@@ -125,7 +135,13 @@ export class AppSettings {
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = !!kramerius.mapSearch;
     this.hiddenLocks = !!kramerius.hiddenLocks;
+    this.membranePrivateTitle = kramerius.membranePrivateTitle;
+    this.notice = kramerius.notice;
+
     this.currentCode = this.code;
+    // this.krameriusInfoService.reload();
+    this.topLevelFilter = (`fedora.model:${this.doctypes.join(' OR fedora.model:')}`)
+        .replace(/fedora.model:monograph/, 'fedora.model:monograph OR fedora.model:monographunit');
     this.listner.next(kramerius);
   }
 
@@ -175,7 +191,10 @@ interface KrameriusData {
   logo: string;
   logoHome: string;
   url: string;
+  pdfUrl: string;
   schemaVersion: string;
+  dnntUrl: string;
+  crisisUrl: string;
   richCollections: boolean;
   joinedDoctypes: boolean;
   doctypes: string[];
@@ -188,5 +207,7 @@ interface KrameriusData {
   customRightMessage: boolean;
   mapSearch: boolean;
   hiddenLocks: boolean;
+  membranePrivateTitle: string;
+  notice: string;
   type: string;
 }

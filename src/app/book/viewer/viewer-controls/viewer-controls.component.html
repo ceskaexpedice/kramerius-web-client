@@ -1,4 +1,4 @@
-<div class="app-view-controls">
+<div class="app-view-controls" *ngIf="!bookService.isPageInaccessible()">
   <i class="app-mdi-page-left" (click)="bookService.goToPrevious();analytics.sendEvent('viewer', 'controls', 'previous page');" [class.app-inactive]="!bookService.hasPrevious()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_left' | translate" [position]="'top'"></i>
   <i class="app-mdi-zoom-in hide-on-small-only" (click)="controlsService.zoomIn();analytics.sendEvent('viewer', 'controls', 'zoom in');"

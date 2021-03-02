@@ -32,8 +32,7 @@ export class BookControlsComponent implements OnInit {
   }
 
   private show(value: string): boolean {
-    return value === 'always' || (value === 'public' && !this.bookService.isPrivate);
+    return ((value === 'always' && !this.bookService.isPageInaccessible()) || (value === 'public' && !this.bookService.isPrivate));
   }
 
 }
-

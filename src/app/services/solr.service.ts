@@ -186,19 +186,19 @@ export class SolrService {
         "date_from_sort": {
             '1.0': 'datum_begin',
             '2.0': 'date.min'
-        },   
+        },
         "date_to_sort": {
             '1.0': 'datum_end',
             '2.0': 'date.max'
-        },       
+        },
         "date_from_periodical_sort": {
             '1.0': 'datum',
             '2.0': 'date.min'
-        },   
+        },
         "date_to_periodical_sort": {
             '1.0': 'datum',
             '2.0': 'date.max'
-        },     
+        },
         "date_year_from": {
             '1.0': 'datum_begin',
             '2.0': 'date_range_start.year'
@@ -314,7 +314,7 @@ export class SolrService {
         }
         if (!this.settings.k5Compat()) {
             if (topLevelCollectionsOnly) {
-                filter = `${filter} OR (${field}:collection AND ${this.field('is_top_collection')}:true)`;                
+                filter = `${filter} OR (${field}:collection AND ${this.field('is_top_collection')}:true)`;
             } else {
                 filter = `${filter} OR ${field}:collection`;
             }
@@ -472,7 +472,7 @@ export class SolrService {
         let ordering = 'count';
         if (query.ordering === 'alphabetical' && query.category !== 'collections') {
             ordering = 'index';
-        } 
+        }
         q += '&facet=true&facet.field=' + this.getFilterField(query.category)
            + '&facet.mincount=1'
            + '&facet.sort=' + ordering
@@ -520,9 +520,9 @@ export class SolrService {
             }
             items.push(item);
         }
-        if (field === this.getFilterField('model')) {
+      //  if (field === this.getFilterField('model')) {       //zakomentovano - neslucovaly se kategorie monograph a monographunit
             this.mergeBrowseMonographsAndMonographUnits(items);
-        }
+      // }
         const numberOfResults = query.textSearch() ? items.length : this.numberOfFacets(solr);
         return [items, numberOfResults];
     }
@@ -600,7 +600,7 @@ export class SolrService {
             const models = modelPath.split('/');
             for (let i = 0; i < models.length; i++) {
                 const model = models[i];
-                item.context.push(new Context(pids[i], model));            
+                item.context.push(new Context(pids[i], model));
             }
         }
         item.resolveUrl(this.settings.getPathPrefix());
@@ -835,7 +835,7 @@ export class SolrService {
                 fqFilters.push(`${this.field('dnnt')}:true`);
             } else if (this.settings.dnntFilter && query.accessibility === 'accessible') {
                 fqFilters.push(`(${this.field('dnnt')}:true OR ${this.field('accessibility')}:public)`);
-            }	            
+            }
         }
         if (query.isYearRangeSet()) {
             const from = query.from === 0 ? 1 : query.from;

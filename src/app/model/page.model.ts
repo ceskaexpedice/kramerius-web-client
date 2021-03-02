@@ -10,6 +10,7 @@ export class Page {
     thumb: string;
     display: number;
     selected = false;
+    pdf: string;
     position = PagePosition.None;
     imageType = PageImageType.None;
     providedByDnnt = false;
@@ -63,6 +64,7 @@ export class Page {
     }
 
     public clear() {
+        this.pdf = null;
         this.loaded = false;
         this.imageType = PageImageType.None;
     }

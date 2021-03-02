@@ -2,7 +2,7 @@ import { AppSettings } from '../services/app-settings';
 
 export class SearchQuery {
 
-    private static YEAR_FROM = 0;
+    private static YEAR_FROM = 1612;
     private static YEAR_TO = (new Date()).getFullYear();
 
     accessibility: string;

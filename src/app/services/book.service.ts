@@ -597,7 +597,8 @@ export class BookService {
         forkJoin(requests).subscribe(result => {
             const options = {
                 ocr: result[0],
-                uuid: this.getPage().uuid
+                uuid: this.getPage().uuid,
+                metadata: this.metadata
             };
             if (result.length > 1) {
                 options['ocr2'] = result[1];
@@ -654,10 +655,16 @@ export class BookService {
                 button: 'common.close'
             });
         } else if (this.pageState === BookPageState.Success) {
-            window.open(this.api.getFullJpegUrl(this.getPage().uuid), '_blank');
             if (this.getRightPage()) {
-                window.open(this.api.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+                  window.open('downloadIMG.html#'+this.getPage().uuid+'#'+this.getRightPage().uuid, '_blank');
+            } else {
+                  window.open('downloadIMG.html#'+this.getPage().uuid, '_blank');
             }
+
+            /*window.open(this.krameriusApiService.getFullJpegUrl(this.getPage().uuid), '_blank');
+            if (this.getRightPage()) {
+                window.open(this.krameriusApiService.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+            }*/
         }
     }
 
@@ -762,7 +769,7 @@ export class BookService {
                 message: 'dialogs.private_sheetmusic.message',
                 button: 'common.close'
             });
-        } else if (this.isPrivate && type === 'generate') {
+        } else if (this.isPageInaccessible() && type === 'generate') { //this.isPrivate
             this.modalService.open(SimpleDialogComponent, {
                 title: 'common.warning',
                 message: 'dialogs.private_document_pdf.message',
@@ -775,7 +782,8 @@ export class BookService {
                 doublePage: this.doublePage,
                 pages: this.pages,
                 type: type,
-                name: this.metadata.getShortTitle()
+                name: this.metadata.getShortTitle(),
+                uuid: this.getUuid()
             });
         }
     }
@@ -843,7 +851,7 @@ export class BookService {
             rightPage.selected = true;
             cached = cached && rightPage.loaded;
             pages += '-' + rightPage.number;
-        } 
+        }
         if (this.metadata) {
             this.metadata.activePages = pages;
             this.metadata.activePage = page;
@@ -1187,17 +1195,17 @@ export interface BookParams {
 export enum ViewerImageType {
     IIIF, ZOOMIFY, JPEG
   }
-  
+
   export class ViewerData {
     uuid1: string;
     uuid2: string;
     imageType: ViewerImageType;
     query: string;
-  
+
     doublePage(): boolean {
       return !!this.uuid2;
     }
-  
+
     equals(to: ViewerData): boolean {
         if (!to) {
             return false;

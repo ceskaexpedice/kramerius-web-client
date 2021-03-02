@@ -43,6 +43,10 @@
       {{ 'pdf-dialog.warning_generate' | translate }}
     </div>
 
+    <div *ngIf="pdfDownload" class="app-message pdfDownload">
+      &nbsp;&nbsp;<a href="{{pdfDownloadLink}}" id="pdfDownload">{{ 'pdf-dialog.download_pdf' | translate }} ({{pdfDownloadMB}}MB)</a>
+    </div>
+
     <button mz-button [flat]="true" mz-modal-close>{{ 'common.cancel' | translate }}</button>
     <button mz-button (click)="action()" [disabled]="inProgress || selectedPages > maxPageCount || selectedPages == 0">{{ 'pdf-dialog.action_' + type | translate }}</button>
   </mz-modal-footer>

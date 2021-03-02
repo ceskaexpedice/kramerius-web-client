@@ -106,7 +106,7 @@ export class Utils {
             if (accessibility === 'all' || accessibility === json['policy']) {
                 const item = new PeriodicalItem();
                 item.uuid = json['pid'];
-                item.public = json['policy'] === 'public';
+                item.public = json['policy'] === 'public' || this.settings.hiddenLocks;
                 item.doctype = json['model'];
                 item.uuid = json['pid'];
                 if (json['details']) {

@@ -26,6 +26,16 @@ export class DocumentCardComponent implements OnInit {
     this.thumb = this.setThumb();
   }
 
+  public getTitle(): string {
+      var title = this.item.title;
+    //  if(this.title=="") { return ""; }
+      var mapObj = {'&quot;':'"', '&apos;':"'"};
+      var re = new RegExp(Object.keys(mapObj).join("|"),"gi");
+      return title.replace(re, function(matched){
+        return mapObj[matched];
+      });
+  }
+
   private setThumb() {
     let url = '';
     if (this.item.library) {

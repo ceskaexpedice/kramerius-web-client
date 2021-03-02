@@ -5,19 +5,22 @@
       <div class="app-card-media">
         <div class="app-card-thumb" [style.background-image]="thumb">
           <i *ngIf="!item.public && !settings.hiddenLocks"
-            mz-icon-mdi 
-            [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'" 
-            class="app-lock" 
-            [class.app-dnnt]="item.dnnt" 
-            mz-tooltip 
-            [tooltip]="(item.dnnt ? 'search.dnnt_document' : 'search.inaccessible_document') | translate" 
+            mz-icon-mdi
+            [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'"
+            class="app-lock"
+            [class.app-dnnt]="item.dnnt"
+            mz-tooltip
+            [tooltip]="(item.dnnt ? 'search.dnnt_document' : 'search.inaccessible_document') | translate"
             [position]="'top'">
           </i>
         </div>
       </div>
       <div class="app-card-content">
-        <div *ngIf="item.title" class="app-card-title">
-          {{item.title}}
+        <div *ngIf="item.title && item.title.length>60" class="app-card-title" title="{{this.getTitle()}}">
+            {{this.getTitle()}}
+        </div>
+        <div *ngIf="item.title && item.title.length<=60" class="app-card-title">
+            {{this.getTitle()}}
         </div>
         <div *ngIf="item.authors && item.authors.length > 0" class="app-card-authors">
           <i mz-icon-mdi [icon]="'account'" [class]="'app-clean-mg'"></i>

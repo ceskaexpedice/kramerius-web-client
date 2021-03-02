@@ -43,9 +43,9 @@
     "footer": {
       "logo": "/assets/shared/logo-mzk.png",
       "contact": "Impressum",
-      "contact_name": "Moravian Library in Brno",
-      "contact_address1": "Kounicova 65a",
-      "contact_address2": "601 87 Brno",
+      "contact_name": "National Library of the Czech Republic",
+      "contact_address1": "Klementinum 190",
+      "contact_address2": "110 00 Prague 1",
       "contact_address3": "Czech Republic"
     }
   },
@@ -211,21 +211,25 @@
     "error": "Error",
     "no_results_found": "No results found. Please, try a different query.",
     "inaccessible_document": "The document is not publicly accessible",
-    "inaccessible_document_description": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
-    "inaccessible_document_dnnt": "The document is not publicly accessible",
-    "inaccessible_document_dnnt_description": "Tento dokument spadá do režimu Děl nedostupných na trhu. Je dostupný ve vybraných knihovnách na vyhrazených terminálech. Chystá se vzdálené zpřístupnění pro registrované uživatele knihoven.",
+    "inaccessible_document_description": "This document is still protected by the Copyright Act (No. 121/2000 Coll.) And is therefore not publicly available until 70 years have passed since the death of all its authors (including a translator, illustrator, etc.) and 50 years after the publication of the work. The document can be accessed from computer stations in the library building that owns it. You can find out about the ownership of the requested document in the details on the right as „Save“.",
+    "inaccessible_document_crisis": "This document is temporarily available (read only)",
+    "inaccessible_document_dnnt": "Out of Commerce Works",
+    "inaccessible_document_crisis_description": "<p>After logging in, the work is accessible only to registered users of institutions that have already concluded a contract with the National Library of the Czech Republic. <a href=\"https://ndk.cz/faq\" target=\"crisis\">More information on logging in.</a></p><p><b>is taught to educators and college students and researchers. </b></p><p>After successful login, you will be automatically redirected to the National Digital Library - Covid (NDK-Covid).",
+    "inaccessible_document_dnnt_description": "This document falls under the Unavailable Works mode. This document is accessible only to registered visitors of contracted institutions. Access to NDK-DNNT services is conditional on a contract between the National Library of the Czech Republic and the library (institution) that wants to provide the services. More info <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\"> dnnt.nkp.cz </a>",
     "failed_to_load_image": "Failed to load the image",
     "book_no_results": "No results found"
   },
   "home": {
     "title": "Digital library Kramerius",
-    "btn_enter": "Enter",
+    "btn_enter": "Browse the library",
     "btn_search": "Search",
     "tab_visited": "Visited",
     "tab_recommended": "Recommended",        
     "tab_requested": "The most requested",
     "tab_latest": "Latest",
-    "select_library": "Select Library"
+    "select_library": "Select Library",
+    "contact": "Contact",
+    "financing" : "The project focuses on the EU Structural Funds through IOP"
   },
   "metadata": {
     "author": "Author",
@@ -270,6 +274,7 @@
     "authors_info": "More about authors",
     "donator": "Supported by",
     "policy_private": "Not publicly accessible document",
+    "policy_crisis": "Document is temporarily available",
     "policy_dnnt": "Out of Commerce Works"
   },
   "donator": {
@@ -345,6 +350,12 @@
   "pdf-dialog": {
     "title_generate": "Prepare to download",
     "title_prepare": "Prepare to print",
+    "message_generate": "Select page range for the PDF document.",
+    "message_prepare": "Select page range for printing.",
+    "page_from": "From",
+    "page_to": "To",
+    "page_count": "Number of selected pages:",
+    "max_page_count": "Maximum number of pages:",
     "tip_shift": "Hint: with pressed Shift key you can select multiple pages at once",
     "selection1": " ",
     "selection2": "{{ num == 1 ? 'page' : 'pages' }} selected",
@@ -352,10 +363,16 @@
     "select_all": "Select all",
     "deselect_all": "Cancel selection",
     "warning_too_manny_pages": "The maximum number of pages is exceeded",
+    "warning_number_of_pages": "you have {{num}} pages selected",
+    "selected_number_of_pages": "You have selected {{num}} from ",
+    "pages": "pages",
+    "warning_no_page": "No page selected",
     "warning_generate": "Creating the PDF document can take several minutes depending on the number of selected pages.",
+    "warning_prepare": "Preparing to print can take several minutes depending on the number of selected pages.",
     "error_generate": "Failed to download PDF document",
-    "action_generate": "Download PDF",
-    "action_prepare": "Prepare to print"
+    "action_generate": "Generate PDF",
+    "action_prepare": "Prepare to print",
+    "download_pdf": "Download PDF document"
   },
   "metadata-dialog": {
     "title": "Metadata for",
@@ -376,6 +393,8 @@
     "role": "Roles"
   },
   "dialogs": {
+    "dnntnoLink": "To view the document",
+    "dnntLink": "log in with your institution's account",
     "private_sheetmusic": {
       "message": "Unfortunately, it is not allowed to copy copyright-protected sheet music in any way due to an exception in the Copyright Act."
     },

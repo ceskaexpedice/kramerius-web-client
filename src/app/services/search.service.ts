@@ -91,7 +91,7 @@ export class SearchService {
             return String(this.translator.instant('searchbar.main.public'));
         }
         let filters = [];
-        if (q.accessibility !== 'all') {
+          if (q.accessibility !== 'all' && q.accessibility != undefined) {                    //q.accessibility != undefined <= vypisovalo "Hledat s filtry search.accessibility.undefined"
             filters.push(this.translator.instant('search.accessibility.' + q.accessibility));
         }
         for (const item of q.doctypes) {
@@ -302,7 +302,7 @@ export class SearchService {
         switch (facet) {
             case 'accessibility': {
                 this.accessibility = this.solr.facetAccessibilityList(response);
-                if (this.settings.dnntFilter && this.auth.isLoggedIn()) {
+                if ((this.settings.dnntFilter && !this.settings.dnntUrl || this.settings.dnntFilter && this.auth.isLoggedIn()) && this.settings.publicFilterDefault!='notlogged') {
                     this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
                         let count = 0;
                         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
