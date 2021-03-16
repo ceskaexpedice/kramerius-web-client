@@ -1,6 +1,13 @@
-<header>
-  <app-navbar></app-navbar>
-</header>
-<main>
-  <router-outlet></router-outlet>
-</main>
+<ng-container *ngIf="!state.atLandingPage(); else landing">
+  <header>
+    <app-navbar></app-navbar>
+  </header>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</ng-container>
+<ng-template #landing>
+  <div class="app-sp-wrapper">
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>

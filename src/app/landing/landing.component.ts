@@ -16,7 +16,7 @@ export class LandingComponent implements OnInit {
   ngOnInit() {
     if (this.settings.multiKramerius) {
       if (this.settings.landingPage) {
-        this.page = 'libraries';
+        this.page = 'signpost';
       } else {
         const url = '/' + this.settings.code;
         this.router.navigateByUrl(url);

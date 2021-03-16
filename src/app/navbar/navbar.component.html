@@ -10,8 +10,7 @@
     <app-navbar-search-bar *ngIf="!state.atHome()" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
     <mz-navbar-item-container [align]="'right'" [class.app-col-right-home]="state.atHome()" class="app-buttons">
       
-      <ng-container *ngIf="!state.atLandingPage()">
-        <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
+      <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
           <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
           <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
         </mz-navbar-item>
@@ -24,9 +23,6 @@
         <mz-navbar-item routerLinkActive="active" *ngIf="appSettings.faqPage">
           <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
         </mz-navbar-item>
-
-
-      </ng-container>
 
 
       <ng-container *ngIf="appSettings.dnnt">

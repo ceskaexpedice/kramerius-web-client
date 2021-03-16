@@ -139,13 +139,17 @@ import { LoggerService } from './services/logger.service';
 import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/dialog-advanced-search.component';
 import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.component';
 import { LandingComponent } from './landing/landing.component';
-import { LibrariesComponent } from './libraries/libraries.component';
 import { FaqComponent } from './faq/faq.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { DialogAdminComponent } from './dialog/dialog-admin/dialog-admin.component';
 import { AdminApiService } from './services/admin-api.service';
 import { NavigationSnippetComponent } from './book/navigation/navigation-snippet/navigation-snippet.component';
 import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
+import { SignpostComponent } from './signpost/signpost.component';
+import { SignpostLibrariesComponent } from './signpost/libraries/libraries.component';
+import { SignpostFooterComponent } from './signpost/footer/footer.component';
+import { SignpostHeaderComponent } from './signpost/header/header.component';
+import { SignpostHelpComponent } from './signpost/help/help.component';
 
 
 
@@ -243,9 +247,13 @@ export function hljsLanguages() {
     DialogAdvancedSearchComponent,
     DialogPolicyComponent,
     LandingComponent,
-    LibrariesComponent,
     SafeHtmlPipe,
-    DialogAdminComponent
+    DialogAdminComponent,
+    SignpostComponent,
+    SignpostLibrariesComponent,
+    SignpostFooterComponent,
+    SignpostHeaderComponent,
+    SignpostHelpComponent
   ],
   entryComponents: [
     DialogOcrComponent,

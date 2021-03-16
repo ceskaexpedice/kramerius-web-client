@@ -24,14 +24,20 @@
     "main": "Kramerius - Digital Library",
     "search": "Search",
     "browse": "Browse",
-    "collections": "Collections"
+    "collections": "Collections",
+    "help": "Help"
   },
-  "dk": {
+  "sp": {
     "title": "Digital Library",
-    "logo": "/assets/shared/logo-dk-en.png",
+    "logo": "/assets/shared/sp/logo_main_en.png",
+    "header": {
+      "logo": "/assets/shared/sp/logo_header_en.gif",
+      "help": "Help"
+    },
     "message": "Thousands of digitized documents from Czech libraries, all in one place.",
-    "vs_subtitle": " ",
-    "vs_title": "Temporary access to digitized documents including copyrighted works for university students and teachers and for researchers.",
+    "message2": "Managed by Moravian Library in Brno",
+    "external_subtitle": " ",
+    "external_title": "Temporary access to digitized documents including copyrighted works for university students and teachers and for researchers.",
     "category": {
       "major": "Major Libraries",
       "regional": "Regional Libraries",
@@ -41,7 +47,7 @@
       "other": "Other institutions and projects"
     },
     "footer": {
-      "logo": "/assets/shared/logo-mzk.png",
+      "logo": "/assets/shared/sp/logo-mzk.png",
       "contact": "Impressum",
       "contact_name": "Moravian Library in Brno",
       "contact_address1": "Kounicova 65a",

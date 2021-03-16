@@ -24,14 +24,20 @@
     "main": "Digitální knihovna Kramerius",
     "search": "Hledání",
     "browse": "Procházení",
-    "collections": "Sbírky"
+    "collections": "Sbírky",
+    "help": "Nápověda"
   },
-  "dk": {
+  "sp": {
     "title": "Digitální knihovna",
-    "logo": "/assets/shared/logo-dk.png",
+    "logo": "/assets/shared/sp/logo_main_cs.png",
+    "header": {
+      "logo": "/assets/shared/sp/logo_header_cs.gif",
+      "help": "Nápověda"
+    },
     "message": "Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě.",
-    "vs_subtitle": " ",
-    "vs_title": "Dočasné zpřístupnění digitalizovaných dokumentů včetně autorsky chráněných děl pro studenty a pedagogy vyšších odborných a vysokých škol a vědecké pracovníky.",
+    "message2": "Provozuje Moravská zemská knihovna v Brně",
+    "external_subtitle": " ",
+    "external_title": "Dočasné zpřístupnění digitalizovaných dokumentů včetně autorsky chráněných děl pro studenty a pedagogy vyšších odborných a vysokých škol a vědecké pracovníky.",
     "category": {
       "major": "Hlavní knihovny",
       "regional": "Krajské knihovny",
@@ -41,7 +47,7 @@
       "other": "Další instituce a projekty"
     },
     "footer": {
-      "logo": "/assets/shared/logo-mzk.png",
+      "logo": "/assets/shared/sp/logo-mzk.png",
       "contact": "Provozovatel",
       "contact_name": "Moravská zemská knihovna v Brně",
       "contact_address1": "Kounicova 65a",

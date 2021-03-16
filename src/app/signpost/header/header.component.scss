@@ -1,0 +1,45 @@
+.sp-header {
+  overflow: hidden;
+  position: relative;
+  z-index: 995;
+  background: #fff;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #d2d2d2;
+  box-shadow: 0 2px 2px 0 rgba(38, 50, 56, 0), 0 1px 5px 0 rgba(38, 50, 56, 0.12), 0 3px 1px -20px rgba(38, 50, 56, 0.1);
+  width: 100%;
+  height: 68px;
+  line-height: 68px;
+  color: #757575;
+  .sp-header-buttons {
+    float: right;
+    overflow: hidden;
+    .sp-header-button {
+      transition: background-color .3s;
+      font-size: 1rem;
+      float: left;
+      color: #757575;
+      display: block;
+      padding: 0 15px;
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+  .sp-header-logo {
+    height: 52px;
+    margin-top: 8px;
+    margin-left: 15px;
+    float: left;
+    img {
+      height: 100%;
+    }
+  }
+  .sp-header-title {
+    font-size: 15px;
+    margin-left: 15px;
+    float: left;
+  }
+}
+

@@ -39,10 +39,13 @@ export class PageTitleService {
     });
   }
 
-  setLandingPageTitle() {
+  setLandingPageTitle(part: string = null) {
     this.landing = true;
     this.translator.waitForTranslation().then(() => {
       let title = <string> this.translator.instant('title.main');
+      if (part) {
+        title = <string> this.translator.instant('title.' + part) + ' | ' + title;
+      }
       this.titleService.setTitle(title);
     });
   }

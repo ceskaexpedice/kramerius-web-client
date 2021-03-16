@@ -22,7 +22,7 @@ export class AppState {
   }
 
   atLandingPage(): boolean {
-    return (this.appSettings.multiKramerius && this.appSettings.landingPage && this.pageUrl === '/');
+    return (this.appSettings.multiKramerius && this.appSettings.landingPage && (this.pageUrl === '/' || this.pageUrl === '/help'));
   }
 
   atHome(): boolean {
