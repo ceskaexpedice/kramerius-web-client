@@ -198,7 +198,7 @@ export class TitleInfo {
         if (this.nonSort) {
             return this.nonSort + ' ' + this.title;
         } else {
-            return this.title;
+            return this.title || '';
         }
     }
 
