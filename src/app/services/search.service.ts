@@ -303,6 +303,7 @@ export class SearchService {
             case 'accessibility': {
                 this.accessibility = this.solr.facetAccessibilityList(response);
                 if (this.settings.dnntFilter && this.auth.isLoggedIn()) {
+                    console.log('user labels', this.auth.user.labels);
                     this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
                         let count = 0;
                         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
