@@ -67,15 +67,19 @@
     </ng-container>
 
     <div *ngIf="!settings.hiddenLocks && !metadata.isPublic" class="app-policy">
-      <ng-container *ngIf="metadata.isDnnt">
+      <ng-container *ngIf="metadata.isDnnt && bookService.providedByLabel">
+        <i mz-icon-mdi [icon]="auth.isLoggedIn() ? 'camera-off' : 'lock'" [size]="'18px'" [class]="'app-lock app-dnnt'"></i>
+        <span class="app-message">{{ 'licence.'+bookService.providedByLabel+'.policy' | translate }} (<span><i (click)="onShowPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
+      </ng-container>
+      <ng-container *ngIf="metadata.isDnnt && !bookService.providedByLabel">
         <i mz-icon-mdi [icon]="auth.isLoggedIn() ? 'camera-off' : 'lock'" [size]="'18px'" [class]="'app-lock app-dnnt'"></i>
         <span class="app-message">{{ 'metadata.policy_dnnt' | translate }} (<span><i (click)="onShowPolicyDnntDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
       </ng-container>
-      <ng-container *ngIf="!metadata.isDnnt && settings.crisisUrl">
+      <ng-container *ngIf="!metadata.isDnnt && settings.crisisUrl && !bookService.providedByLabel">
         <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock'"></i>
         <span class="app-message">{{ 'metadata.policy_crisis' | translate }} (<span><i (click)="onShowPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
       </ng-container>
-      <ng-container *ngIf="!metadata.isDnnt && !settings.crisisUrl">
+      <ng-container *ngIf="!metadata.isDnnt && !settings.crisisUrl && !bookService.providedByLabel">
         <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock'"></i>
         <span class="app-message">{{ 'metadata.policy_private' | translate }} (<span><i (click)="onShowPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
       </ng-container>

@@ -76,6 +76,7 @@ export class BookService {
 
     public dnntMode = false;
     public dnntFlag = false;
+    public providedByLabel: string;
     public iiifEnabled = false;
 
     private supplementUuids = [];
@@ -615,7 +616,8 @@ export class BookService {
                 const text = this.altoService.getTextInBox(result, extent, width, height);
                 const options = {
                     ocr: text,
-                    uuid: this.getPage().uuid
+                    uuid: this.getPage().uuid,
+                    metadata: this.metadata
                 };
                 this.modalService.open(DialogOcrComponent, options);
             },
@@ -1019,6 +1021,7 @@ export class BookService {
             }
             this.dnntMode = leftPage.providedByDnnt || (rightPage && rightPage.providedByDnnt);
             this.dnntFlag = leftPage.dnntFlag || (rightPage && rightPage.dnntFlag);
+            this.providedByLabel = leftPage.providedByLabel || (rightPage && rightPage.providedByLabel);
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {
@@ -1111,6 +1114,7 @@ export class BookService {
         this.viewer = 'none';
         this.dnntMode = false;
         this.dnntFlag = false;
+        this.providedByLabel = '';
         this.iiifEnabled = false;
     }
 

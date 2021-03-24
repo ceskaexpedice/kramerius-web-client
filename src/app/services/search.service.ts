@@ -111,7 +111,7 @@ export class SearchService {
             filters.push(this.translator.instant('language.' + item));
         }
         for (const item of q.licences) {
-            filters.push(this.translator.instant('licence.' + item));
+            filters.push(this.translator.instant('licence.' + item + '.label'));
         }
         if (q.isCustomFieldSet()) {
             filters.push(q.getCustomValue());

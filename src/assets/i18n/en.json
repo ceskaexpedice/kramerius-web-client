@@ -2,7 +2,7 @@
   "common": {
     "of": "of",
     "cancel": "Cancel",
-    "close": "Close",    
+    "close": "Close",
     "warning": "Warning",
     "of_pages": "pages",
     "n_pages": "{{ count == 1 ? 'page' : 'pages' }}",
@@ -98,8 +98,8 @@
     "advanced": "Advanced Search",
     "results": "Results",
     "keywords": "Keyword",
-    "doctypes": "Document Type",   
-    "collections": "Collection", 
+    "doctypes": "Document Type",
+    "collections": "Collection",
     "languages": "Language",
     "licences": "Licence",
     "locations": "Location",
@@ -109,7 +109,7 @@
     "genres": "Genre",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",
-    "dnnt_document": "Out of Commerce Works",
+    "dnnt_document": "Out of Commerce Work",
     "ordering": {
       "label": "Ordering",
       "relevance": "Relevance",
@@ -181,7 +181,7 @@
       "publishers": "Lookup Publisher",
       "places": "Lookup Place of Publication",
       "collections": "Lookup Collection",
-      "keywords": "Lookup Keyword", 
+      "keywords": "Lookup Keyword",
       "languages": "Lookup Language",
       "licences": "Lookup Licence",
       "genres": "Lookup Genre",
@@ -189,7 +189,7 @@
       "geonames": "Lookup Geographic name"
     },
     "ordering": {
-      "label": "Ordering",      
+      "label": "Ordering",
       "occurrence": "Occurrence",
       "alphabetical": "Alphabetical"
     },
@@ -224,7 +224,7 @@
     "btn_enter": "Browse the library",
     "btn_search": "Search",
     "tab_visited": "Visited",
-    "tab_recommended": "Recommended",        
+    "tab_recommended": "Recommended",
     "tab_requested": "The most requested",
     "tab_latest": "Latest",
     "select_library": "Select Library",
@@ -236,7 +236,7 @@
     "author_other": "Other makers",
     "publisher": "Publishing details",
     "keywords": "Keywords",
-    "languages": "Language",        
+    "languages": "Language",
     "geonames": "Geographic names",
     "location": "Location",
     "abstract": "Abstract",
@@ -246,9 +246,9 @@
     "physical_description": "Physical Description",
     "cartographic_data": "Cartographic data",
     "scale": "Scale",
-    "doctype": "Document type",    
+    "doctype": "Document type",
     "notes": "Notes",
-    "genres": "Genre", 
+    "genres": "Genre",
     "article": "Article",
     "review_of": "Review of",
     "volume": "Volume",
@@ -258,16 +258,16 @@
     "page": "Page",
     "supplement": "Supplement",
     "volume_list": "Volume list",
-    "previous_volume": "Previous volume",   
+    "previous_volume": "Previous volume",
     "next_volume": "Next volume",
     "issue_date": "Date of publication",
-    "previous_issue": "Previous issue",   
+    "previous_issue": "Previous issue",
     "issue_list": "Issue list",
-    "next_issue": "Next issue",  
+    "next_issue": "Next issue",
     "unit_number": "Number",
     "unit_list": "Part list",
     "next_unit": "Next part:",
-    "previous_unit": "Previous part:",       
+    "previous_unit": "Previous part:",
     "shelf_locator": "Shelf/Call number: {{shelf_locator}}",
     "btn_show_metadata": "Show metadata",
     "btn_hide_metadata": "Hide metadata",
@@ -293,7 +293,7 @@
     "monographunit": "Unit {{part}}",
     "supplement": "Supplement {{part}}",
     "virtual_issue": "Uncategorized",
-    "previous_volume": "Previous Volume",   
+    "previous_volume": "Previous Volume",
     "next_volume": "Next Volume",
     "volume_list": "Volume list",
     "search": {
@@ -572,9 +572,24 @@
     }
   },
   "licence" : {
-    "dnnto": "DNNT online",
-    "dnntt": "DNNT terminal",
-    "covid": "COVID"
+    "dnnto": {
+      "label": "DNNT online",
+      "policy": "Out of Commerce Work",
+      "inaccessible_document": "The document is not publicly accessible",
+      "inaccessible_document_description": "This document falls under the Unavailable Works mode. This document is accessible only to registered visitors of <a href=\"https://ndk.cz/knihinst\" target=\"dnnt\">contracted institutions</a>. Access to NDK-DNNT services is conditional on a contract between the National Library of the Czech Republic and the library (institution) that wants to provide the services. More info <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\"> dnnt.nkp.cz </a>"
+    },
+    "dnntt": {
+      "label": "DNNT terminal",
+      "policy": "Out of Commerce Work",
+      "inaccessible_document": "The document is not publicly accessible",
+      "inaccessible_document_description": "This document is still protected by the Copyright Act (No. 121/2000 Coll.) And is therefore not publicly available until 70 years have passed since the death of all its authors (including a translator, illustrator, etc.) and 50 years after the publication of the work. The document can be accessed from computer stations in the library building that owns it. You can find out about the ownership of the requested document in the details on the right as „Save“."
+    },
+    "covid": {
+      "label": "COVID",
+      "policy": "Out of Commerce Work - COVID",
+      "inaccessible_document": "The document is not publicly accessible",
+      "inaccessible_document_description": "<p>After logging in, the work is accessible only to registered users of institutions that have already concluded a contract with the National Library of the Czech Republic. <a href=\"https://ndk.cz/faq\" target=\"crisis\">More information on logging in.</a></p><p><b>is taught to educators and college students and researchers. </b></p><p>After successful login, you will be automatically redirected to the National Digital Library - Covid (NDK-Covid)."
+    }
   },
   "sigla": {
     "BOA001" : "Moravian Library in Brno",

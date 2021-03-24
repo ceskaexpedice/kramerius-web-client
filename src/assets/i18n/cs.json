@@ -122,7 +122,7 @@
       "label": "Dostupnost",
       "public": "Pouze veřejné",
       "private": "Pouze neveřejné",
-      "dnnt": "Díla nedostupná na trhu",
+      "dnnt":	"Díla dostupná po přihlášení",
       "accessible": "Všechny dostupné dokumenty",
       "all": "Vše"
     },
@@ -181,7 +181,7 @@
       "publishers": "Vyhledat nakladatele",
       "places": "Vyhledat místo vydání",
       "collections": "Vyhledat sbírku",
-      "keywords": "Vyhledat klíčové slovo", 
+      "keywords": "Vyhledat klíčové slovo",
       "languages": "Vyhledat jazyk",
       "licences": "Vyhledat licenci",
       "genres": "Vyhledat žánr",
@@ -189,7 +189,7 @@
       "geonames": "Vyhledat geografický název"
     },
     "ordering": {
-      "label": "Řazení",      
+      "label": "Řazení",
       "occurrence": "Podle výskytů",
       "alphabetical": "Abecedně"
     },
@@ -215,7 +215,7 @@
     "inaccessible_document_crisis": "Tento dokument je dočasně zpřístupněn (pouze pro čtení)",
     "inaccessible_document_dnnt": "Tento dokument je zpřístupňován v režimu děl nedostupných na trhu (DNNT)",
     "inaccessible_document_crisis_description": "<p>Dílo je po přihlášení přístupné pouze registrovaným uživatelům institucí, které již s NK ČR uzavřely smlouvu. <a href=\"https://ndk.cz/faq\" target=\"crisis\">Více informací k přihlášení.</a></p><p><b>Toto zpřístupnění po dobu nouzového stavu a uzavření knihoven je učeno pro pedagogy a studenty vyšších odborných a vysokých škol a vědecké pracovníky.</b></p><p>Po úspěšném přihlášení budete automaticky přesměrováni do aplikace Národní digitální knihovna - Covid (NDK-Covid).</p>",
-    "inaccessible_document_dnnt_description": "<p>Dílo je po přihlášení přístupné pouze registrovaným uživatelům <a href=\"https://dnnt.nkp.cz/downloads/knihinst.xlsx\" target=\"dnnt\">institucí</a>, které již s NK ČR uzavřely smlouvu. <a href=\"https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/NDK-DNNT-FAQ\" target=\"dnnt\">Více informací k přihlášení.</a></p><p>Přístup k dílu je možné získat i z vybraných terminálů v prostorách NK ČR.</p><p>Po úspěšném přihlášení budete automaticky přesměrováni do aplikace Národní digitální knihovna – díla nedostupná na trhu (NDK-DNNT). </p><p>Zpřístupnění služeb NDK-DNNT je podmíněno uzavřením smlouvy mezi Národní knihovnou ČR a knihovnou (institucí), která chce služby využívat. Více na <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\">dnnt.nkp.cz</a></p>",
+    "inaccessible_document_dnnt_description": "<p>Dílo je po přihlášení přístupné pouze registrovaným uživatelům <a href=\"https://ndk.cz/knihinst\" target=\"dnnt\">institucí</a>, které již s NK ČR uzavřely smlouvu. <a href=\"https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/NDK-DNNT-FAQ\" target=\"dnnt\">Více informací k přihlášení.</a></p><p>Přístup k dílu je možné získat i z vybraných terminálů v prostorách NK ČR.</p><p>Po úspěšném přihlášení budete automaticky přesměrováni do aplikace Národní digitální knihovna – díla nedostupná na trhu (NDK-DNNT). </p><p>Zpřístupnění služeb NDK-DNNT je podmíněno uzavřením smlouvy mezi Národní knihovnou ČR a knihovnou (institucí), která chce služby využívat. Více na <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\">dnnt.nkp.cz</a></p>",
     "failed_to_load_image": "Obrázek se nepodařilo načíst",
     "book_no_results": "Nebyly nalezeny žádné výsledky"
   },
@@ -224,7 +224,7 @@
     "btn_enter": "Procházet knihovnu",
     "btn_search": "Hledej",
     "tab_visited": "Navštívené",
-    "tab_recommended": "Doporučené",    
+    "tab_recommended": "Doporučené",
     "tab_requested": "Nejžádanějsí",
     "tab_latest": "Nejnovější",
     "select_library": "Vybrat knihovnu",
@@ -246,7 +246,7 @@
     "physical_description": "Fyzický popis",
     "cartographic_data": "Kartografické údaje",
     "scale": "Měřítko",
-    "doctype": "Typ dokumentu",        
+    "doctype": "Typ dokumentu",
     "notes": "Poznámky",
     "genres": "Žánr",
     "article": "Článek",
@@ -258,16 +258,16 @@
     "page": "Strana",
     "supplement": "Příloha",
     "volume_list": "Přejít na periodikum",
-    "previous_volume": "Předchozi ročník",   
+    "previous_volume": "Předchozi ročník",
     "next_volume": "Následující ročník",
     "issue_date": "Datum vydání",
-    "previous_issue": "Předchozi číslo",   
+    "previous_issue": "Předchozi číslo",
     "issue_list": "Přejít na ročník",
     "next_issue": "Následující číslo",
     "unit_number": "Číslo",
     "unit_list": "Přejít na svazek knih",
     "next_unit": "Následující část:",
-    "previous_unit": "Předchozi část:",   
+    "previous_unit": "Předchozi část:",
     "shelf_locator": "Signatura: {{shelf_locator}}",
     "btn_show_metadata": "Zobrazit metadata",
     "btn_hide_metadata": "Skrýt metadata",
@@ -293,7 +293,7 @@
     "monographunit": "Část {{part}}",
     "supplement": "Příloha {{part}}",
     "virtual_issue": "Nezařazené",
-    "previous_volume": "Předchozi ročník",   
+    "previous_volume": "Předchozi ročník",
     "next_volume": "Následující ročník",
     "volume_list": "Seznam ročníků",
     "search": {
@@ -572,9 +572,24 @@
     }
   },
   "licence" : {
-    "dnnto": "DNNT online",
-    "dnntt": "DNNT terminál",
-    "covid": "COVID"
+    "dnnto": {
+      "label": "DNNT online",
+      "policy": "Dílo nedostupné na trhu",
+      "inaccessible_document": "Tento dokument je zpřístupňován v režimu děl nedostupných na trhu (DNNT)",
+      "inaccessible_document_description": "<p>Dílo je po přihlášení přístupné pouze registrovaným uživatelům <a href=\"https://ndk.cz/knihinst\" target=\"dnnt\">institucí</a>, které již s NK ČR uzavřely smlouvu. <a href=\"https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/NDK-DNNT-FAQ\" target=\"dnnt\">Více informací k přihlášení.</a></p><p>Přístup k dílu je možné získat i z vybraných terminálů v prostorách NK ČR.</p><p>Po úspěšném přihlášení budete automaticky přesměrováni do aplikace Národní digitální knihovna – díla nedostupná na trhu (NDK-DNNT). </p><p>Zpřístupnění služeb NDK-DNNT je podmíněno uzavřením smlouvy mezi Národní knihovnou ČR a knihovnou (institucí), která chce služby využívat. Více na <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\">dnnt.nkp.cz</a></p>"
+    },
+    "dnntt": {
+      "label": "DNNT terminál",
+      "policy": "Dílo nedostupné na trhu - pouze na terminálech knihovny",
+      "inaccessible_document": "Tento dokument je zpřístupňován pouze na terminálech knihovny",
+      "inaccessible_document_description": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“."
+    },
+    "covid": {
+      "label": "COVID",
+      "policy": "Neveřejné dílo - COVID",
+      "inaccessible_document": "Tento dokument je dočasně zpřístupněn (pouze pro čtení)",
+      "inaccessible_document_description": "<p>Dílo je po přihlášení přístupné pouze registrovaným uživatelům institucí, které již s NK ČR uzavřely smlouvu. <a href=\"https://ndk.cz/faq\" target=\"crisis\">Více informací k přihlášení.</a></p><p><b>Toto zpřístupnění po dobu nouzového stavu a uzavření knihoven je učeno pro pedagogy a studenty vyšších odborných a vysokých škol a vědecké pracovníky.</b></p><p>Po úspěšném přihlášení budete automaticky přesměrováni do aplikace Národní digitální knihovna - Covid (NDK-Covid).</p>"
+    }
   },
   "sigla": {
     "BOA001" : "Moravská zemská knihovna v Brně",

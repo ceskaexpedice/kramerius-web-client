@@ -14,6 +14,7 @@ export class Page {
     position = PagePosition.None;
     imageType = PageImageType.None;
     providedByDnnt = false;
+    providedByLabel: string;
     dnntFlag = false;
     originUrl: string;
     public: boolean;
@@ -46,6 +47,9 @@ export class Page {
         }
         if (data['providedByDnnt']) {
             this.providedByDnnt = true;
+        }
+        if (data['providedByLabel']) {
+            this.providedByLabel = data['providedByLabel'];
         }
         if (data['replicatedFrom'] && data['replicatedFrom'].length > 0) {
             this.originUrl = data['replicatedFrom'][0];

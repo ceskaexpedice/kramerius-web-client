@@ -403,6 +403,7 @@ export class KrameriusApiService {
             return {
                 dnnt: json['dnnt'],
                 providedByDnnt: json['providedByDnnt'],
+                providedByLabel: json['providedByLabel'],
                 replicatedFrom: json['replicatedFrom'],
                 imageType: imageType
             }

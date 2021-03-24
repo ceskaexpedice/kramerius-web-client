@@ -1,4 +1,5 @@
 import { AccountService } from './../services/account.service';
+import { BookService } from './../services/book.service';
 import { DialogCitationComponent } from './../dialog/dialog-citation/dialog-citation.component';
 import { DialogAuthosComponent } from './../dialog/dialog-authors/dialog-authors.component';
 import { AppSettings } from './../services/app-settings';
@@ -27,7 +28,8 @@ export class MetadataComponent implements OnInit {
 
   expand = {}
 
-  constructor(private modalService: MzModalService,
+  constructor(public bookService: BookService,
+              private modalService: MzModalService,
               public analytics: AnalyticsService,
               public account: AccountService,
               public auth: AuthService,

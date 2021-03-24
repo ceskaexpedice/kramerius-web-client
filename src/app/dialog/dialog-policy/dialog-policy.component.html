@@ -1,6 +1,11 @@
 <mz-modal #modal [fixedFooter]="false" class="app-dialog-policy">
   <mz-modal-content>
-    <mz-input-container *ngIf="type=='private' && !appSettings.crisisUrl">
+     <mz-input-container *ngIf="type=='private' && bookService.providedByLabel">
+       <div class="app-text"
+          [innerHTML]="( 'licence.'+bookService.providedByLabel+'.inaccessible_document_description' | translate )">
+       </div>
+     </mz-input-container>
+    <mz-input-container *ngIf="type=='private' && !appSettings.crisisUrl && !bookService.providedByLabel">
       <div *ngIf="!appSettings.customRightMessage" class="app-text">
         {{ 'alert.inaccessible_document_description' | translate }}
       </div>
@@ -8,14 +13,14 @@
       [innerHTML]="(krameriusInfo.data$ | async).getRightMessage()">
       </div>
     </mz-input-container>
-    <mz-input-container *ngIf="type=='private' && appSettings.crisisUrl">
+    <mz-input-container *ngIf="type=='private' && appSettings.crisisUrl && !bookService.providedByLabel">
       <div  class="app-text">
         <div class="app-html"
         [innerHTML]="( 'alert.inaccessible_document_crisis_description' | translate )">
         </div>
       </div>
     </mz-input-container>
-    <mz-input-container *ngIf="type=='dnnt'">
+    <mz-input-container *ngIf="type=='dnnt' && !bookService.providedByLabel">
       <div  class="app-text">
         <div class="app-html"
         [innerHTML]="( 'alert.inaccessible_document_dnnt_description' | translate )">
