@@ -648,15 +648,22 @@ export class BookService {
 
     showJpeg() {
         if (this.pageState === BookPageState.Inaccessible) {
-            this.modalService.open(SimpleDialogComponent, {
+           this.modalService.open(SimpleDialogComponent, {
                 title: 'common.warning',
                 message: 'dialogs.private_document_jpeg.message',
                 button: 'common.close'
             });
         } else if (this.pageState === BookPageState.Success) {
-            window.open(this.api.getFullJpegUrl(this.getPage().uuid), '_blank');
-            if (this.getRightPage()) {
-                window.open(this.api.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+            if (this.iiifEnabled) {
+                window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getPage().uuid)), '_blank');
+                if (this.getRightPage()) {
+                    window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getRightPage().uuid)), '_blank');
+                }
+            } else {
+                window.open(this.api.getFullJpegUrl(this.getPage().uuid), '_blank');
+                if (this.getRightPage()) {
+                    window.open(this.api.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+                }
             }
         }
     }
