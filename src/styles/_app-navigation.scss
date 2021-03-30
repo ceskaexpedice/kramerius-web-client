@@ -3,7 +3,7 @@
 app-navigation {
   display: flex;
   flex-direction: column;
-  transition: margin-left 0.5s;
+  transition: margin-left 0.3s;
   @include set-border(right, 1, solid, $app-grey-l-2);
   
   &.app-panel-hidden {
@@ -15,6 +15,7 @@ app-navigation {
   @media #{$medium-and-down} {
     &.app-panel-mobile-hidden {
       margin-left: -$app-side-col-width;
+      transition: margin-right 0.0s;
       overflow: hidden;
     }
     &.app-panel-hidden {

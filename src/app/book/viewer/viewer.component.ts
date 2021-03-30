@@ -109,6 +109,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
       loadTilesWhileAnimating: true,
       layers: [this.vectorLayer]
     });
+    setTimeout(() => {
+      this.updateSize();
+    }, 100);
 
     this.selectionInteraction = new ol.interaction.DragBox({});
 
@@ -169,6 +172,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
       case ViewerActions.rotateLeft:
         this.rotateLeft();
         break;
+      case ViewerActions.updateSite:
+        this.updateSize();
+        break;
       case ViewerActions.fitToScreen:
         this.fitToScreen();
         break;
@@ -218,6 +224,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
       duration: 500
     });
     this.lastRotateTime = timestamp;
+  }
+
+  private updateSize() {
+    if (this.view) {
+      this.view.updateSize();
+    }
   }
 
   private fitToScreen() {

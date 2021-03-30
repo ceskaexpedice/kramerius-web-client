@@ -7,9 +7,8 @@ app-metadata {
     color: $app-grey-d-4;
   }
   margin-left: auto;
-  transition: margin-right 0.5s;
+  transition: margin-right 0.3s;
   @include set-border(left, 1, solid, $app-grey-l-2);
-
 
   &.app-panel-hidden {
     margin-right: -$app-side-col-width;
@@ -21,6 +20,7 @@ app-metadata {
     &.app-book-metadata {
       &.app-panel-mobile-hidden {
         margin-right: -$app-side-col-width;
+        transition: margin-right 0.0s;
         overflow: hidden;
       }
       &.app-panel-hidden {
