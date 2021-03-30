@@ -56,8 +56,8 @@
       <app-alert *ngIf="bookService.dnntFlag"
             type="warning"
             label="alert.warning"
-            message="alert.inaccessible_document_dnnt"
-            description="alert.inaccessible_document_dnnt_description">
+            [message]="authService.isLoggedIn() ? 'alert.inaccessible_document_dnnt_unauthorized' : 'alert.inaccessible_document_dnnt'"
+            [html]="(authService.isLoggedIn() ? 'alert.inaccessible_document_dnnt_unauthorized_description' : 'alert.inaccessible_document_dnnt_description') | translate">
       </app-alert>
   </ng-container>
 
@@ -83,7 +83,7 @@
 
 
   <div *ngIf="bookService.dnntMode && authService.isLoggedIn()" class="app-dnnt">
-      <span class="app-info">DÍLO NEDOSTUPNÉ NA TRHU</span>
+      <span class="app-info">{{ 'metadata.policy_dnnt' | translate}}</span>
       <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
   </div>
 

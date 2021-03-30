@@ -220,6 +220,8 @@
     "inaccessible_document_description": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
     "inaccessible_document_dnnt": "The document is not publicly accessible",
     "inaccessible_document_dnnt_description": "Tento dokument spadá do režimu Děl nedostupných na trhu. Je dostupný ve vybraných knihovnách na vyhrazených terminálech. Chystá se vzdálené zpřístupnění pro registrované uživatele knihoven.",
+    "inaccessible_document_dnnt_unauthorized": "Nemáte oprávnění k prohlížení dokumentu",
+    "inaccessible_document_dnnt_unauthorized_description": "Důvodem mohou být překážky spojené s vaším knihovním účtem (neplatná registrace, nezaplacené poplatky, nevrácené výpůjčky). Při používání účtu vysoké školy si ověřte, v jaké pozici vůči své škole vystupujete.", 
     "failed_to_load_image": "Failed to load the image",
     "book_no_results": "No results found"
   },

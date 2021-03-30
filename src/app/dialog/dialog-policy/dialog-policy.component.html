@@ -9,9 +9,7 @@
       </div>
     </mz-input-container>
     <mz-input-container *ngIf="type=='dnnt'">
-      <div  class="app-text">
-        {{ 'alert.inaccessible_document_dnnt_description' | translate }}
-      </div>
+      <div class="app-html" [innerHTML]="'alert.inaccessible_document_dnnt_description' | translate"></div>
     </mz-input-container>
   </mz-modal-content>
   <mz-modal-footer>
