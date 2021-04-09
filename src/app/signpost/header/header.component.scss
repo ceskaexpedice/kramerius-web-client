@@ -23,13 +23,13 @@
       padding: 0 15px;
       cursor: pointer;
       &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: rgba(100, 100, 100, 0.25);
       }
     }
   }
   .sp-header-logo {
-    height: 52px;
-    margin-top: 8px;
+    height: 100%;
+    padding: 10px 0;
     margin-left: 15px;
     float: left;
     img {
