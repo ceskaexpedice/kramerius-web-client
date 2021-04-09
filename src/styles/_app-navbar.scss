@@ -22,7 +22,15 @@ app-navbar {
           margin-right: 7px;
         }
       }
-      
+      .sp-header-logo {
+        height: 100%;
+        padding: 12px 0;
+        margin-left: 15px;
+        float: left;
+        img {
+          height: 100%;
+        }
+      }
       .col {
         float: left;
         
@@ -75,7 +83,8 @@ app-navbar {
           }
         }        
         &.app-col-right-home {
-          width: 100%;
+          width: auto;
+          float: right;
           display: block;
           $large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
           .app-buttons {

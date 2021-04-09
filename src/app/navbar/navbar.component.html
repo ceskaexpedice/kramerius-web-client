@@ -5,6 +5,13 @@
     </a>
     <app-logo></app-logo>
   </div>
+
+  <div *ngIf="state.atHome() && appSettings.landingPage" class="sp-header-logo">
+    <a [routerLink]="['/']">
+      <img [src]="'sp.header.logo' | translate">
+    </a>
+  </div>
+
   
   <div class="col app-col-right" [class.app-col-right-home]="state.atHome()" [class.app-search-bar-displayed]="mobileSearchBarExpanded">
     <app-navbar-search-bar *ngIf="!state.atHome()" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
