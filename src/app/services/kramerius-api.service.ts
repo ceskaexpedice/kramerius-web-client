@@ -311,12 +311,15 @@ export class KrameriusApiService {
     }
 
     getMp3Url(uuid: string): string {
-        return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
+        if (this.settings.k5Compat()) {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
+        } else {
+            return this.getItemUrl(uuid) + '/audio/mp3';
+        }
     }
 
     downloadMp3(uuid: string): Observable<Blob> {
-        const url = this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
-        return this.doGetBlob(url);
+        return this.doGetBlob(this.getMp3Url(uuid));
     }
 
     getPdfPreviewBlob(uuid: string): Observable<boolean> {
