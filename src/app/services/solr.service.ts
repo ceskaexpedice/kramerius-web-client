@@ -149,7 +149,7 @@ export class SolrService {
         },
         "shelf_locator": {
             '1.0': 'mods.shelfLocator',
-            '2.0': 'shelf_locator'
+            '2.0': 'shelf_locators'
         },
         "text": {
             '1.0': 'text',
