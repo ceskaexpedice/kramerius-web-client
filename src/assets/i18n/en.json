@@ -30,6 +30,7 @@
   "sp": {
     "title": "Digital Library",
     "logo": "/assets/shared/sp/logo_main_en.png",
+    "logo_tooltip": "Back to Homepage",
     "header": {
       "logo": "/assets/shared/sp/logo_header_en.png",
       "help": "Help"

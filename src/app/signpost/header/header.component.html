@@ -6,7 +6,7 @@
   <div class="sp-header-button" *ngIf="translator.language == 'en'" (click)='onLanguageChanged("cs")'>Česky</div>
 </div>
 
-<a class="sp-header-logo" [routerLink]="['/']">
+<a class="sp-header-logo" [routerLink]="['/']" mz-tooltip [tooltip]="'sp.logo_tooltip' | translate" [position]="'right'">
   <img [src]="'sp.header.logo' | translate">
 </a>
 
