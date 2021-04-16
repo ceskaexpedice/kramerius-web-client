@@ -418,7 +418,8 @@
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
     "track" : "Track",
-    "collection" : "Collection"
+    "collection" : "Collection",
+    "oldprintomnibusvolume": "Omnibus"
   },
   "model_2p" : {
     "monograph" : "Book",
@@ -440,7 +441,8 @@
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
     "track" : "Track",
-    "collection" : "Collection"
+    "collection" : "Collection",
+    "oldprintomnibusvolume": "Omnibus"
   },
   "model_4p" : {
     "monograph" : "Book",
@@ -462,7 +464,8 @@
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
     "track" : "Track",
-    "collection" : "Collection"
+    "collection" : "Collection",
+    "oldprintomnibusvolume": "Omnibus"
   },
   "model_plural" : {
     "monograph" : "Books",
@@ -483,7 +486,8 @@
     "internalpart" : "Chapters",
     "soundunit" : "Sound Units",
     "track" : "Tracks",
-    "collection" : "Collections"
+    "collection" : "Collections",
+    "oldprintomnibusvolume": "Omnibuses"
   },
   "issue_type": {
     "morning": "morning edition",

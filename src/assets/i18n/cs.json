@@ -418,7 +418,8 @@
     "internalpart" : "Kapitola",
     "soundunit" : "Album",
     "track" : "Nahrávka",
-    "collection": "Sbírka"
+    "collection": "Sbírka",
+    "oldprintomnibusvolume": "Konvolut"
   },
   "model_2p" : {
     "monograph" : "Knihy",
@@ -440,7 +441,8 @@
     "internalpart" : "Kapitoly",
     "soundunit" : "Alba",
     "track" : "Nahrávky",
-    "collection": "Sbírky"
+    "collection": "Sbírky",
+    "oldprintomnibusvolume": "Konvolutu"
   },
   "model_4p" : {
     "monograph" : "Knihu",
@@ -462,7 +464,8 @@
     "internalpart" : "Kapitolu",
     "soundunit" : "Album",
     "track" : "Nahrávku",
-    "collection": "Sbírku"
+    "collection": "Sbírku",
+    "oldprintomnibusvolume": "Konvolut"
   },
   "model_plural" : {
     "monograph" : "Knihy",
@@ -483,7 +486,8 @@
     "internalpart" : "Kapitoly",
     "soundunit" : "Alba",
     "track" : "Nahrávky",
-    "collection": "Sbírky"
+    "collection": "Sbírky",
+    "oldprintomnibusvolume": "Konvoluty"
   },
   "issue_type": {
     "morning": "ranní vydání",
