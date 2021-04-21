@@ -29,7 +29,7 @@ export class IiifService {
     const b = Math.round(Math.abs(y2));
     const c = Math.max(Math.round(x2 - x1), 0);
     const d = Math.max(Math.round(Math.abs(y1) - Math.abs(y2)), 0);
-    return `${url}/${a},${b},${c},${d}/full/0/default.jpg`;
+    return `${url}/${a},${b},${c},${d}/max/0/default.jpg`;
   }
 
 
