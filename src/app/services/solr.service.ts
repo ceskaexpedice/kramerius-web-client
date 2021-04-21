@@ -559,7 +559,7 @@ export class SolrService {
             fq += ` AND (${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *])`;
         }
         let term = this.buildQ(query.fulltext);
-        const q = `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('text_ocr')}^1\' v=$q1}\"`;
+        const q = `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('authors_search')}^2 ${this.field('keywords_search')} ${this.field('text_ocr')}^1\' v=$q1}\"`;
         let sort = '';
         if (query.ordering === 'latest') {
             sort = `${this.field('date_to_periodical_sort')} desc, ${this.field('date')} desc`;
