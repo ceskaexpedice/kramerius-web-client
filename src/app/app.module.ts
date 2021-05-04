@@ -1,4 +1,3 @@
-import { PresentationComponent } from './presentation/presentation.component';
 import { DialogPdfGeneratorComponent } from './dialog/dialog-pdf-generator/dialog-pdf-generator.component';
 import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
 import { SigninComponent } from './account/signin/signin.component';
@@ -243,7 +242,6 @@ export function hljsLanguages() {
     OmniauthComponent,
     DialogAdminMetadataComponent,
     MapBrowseComponent,
-    PresentationComponent,
     DialogAdvancedSearchComponent,
     DialogPolicyComponent,
     LandingComponent,

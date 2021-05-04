@@ -107,6 +107,10 @@ export class SolrService {
             '1.0': 'dc.title',
             '2.0': 'title.search'
         },
+        'titles': {
+            '1.0': 'dc.title',
+            '2.0': 'titles.search'
+        },
         'titles_search': {
             '1.0': 'dc.title',
             '2.0': 'titles.search'
@@ -323,7 +327,7 @@ export class SolrService {
     }
     // ${this.settings.dnntFilter ? ',dnnt' : ''}
     getNewestQuery(): string {
-        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('title')},${this.field('date')},${this.field('model')}`;
+        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('titles')},${this.field('date')},${this.field('model')}`;
         if (!this.settings.k5Compat()) {
             q += `,${this.field('collection_description')}`;
         }
@@ -762,7 +766,7 @@ export class SolrService {
             q += '&group.truncate=true';
             q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model_path')},${this.field('authors')},${this.field('root_title')},${this.field('root_pid')},${this.field('title')},${this.field('date')},score`;
         } else {
-            q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('title')},${this.field('date')}`;
+            q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('titles')},${this.field('date')}`;
         }
         if (!this.settings.k5Compat()) {
             q += `,${this.field('collection_description')}`;
@@ -975,17 +979,36 @@ export class SolrService {
         const items: DocumentItem[] = [];
         for (const doc of json['response']['docs']) {
             const item = new DocumentItem();
-            item.title = doc[this.field('title')];
-            if (item.title === 'null') {
+            item.doctype = doc[this.field('model')];
+            let titles = doc[this.field('titles')];
+            if (this.settings.k5Compat()) {
+                item.title = titles;
+            } else {
+                titles = titles || [];
+                if (titles.length > 0) {
+                    item.title = titles[0];
+                }
+                if (item.doctype == 'collection') {
+                    if (titles.length > 1  && titles[1] && titles[1] != 'null') {
+                        item.titleEn = titles[1];
+                    }
+                    const descriptions = doc[this.field('collection_description')] || [];
+                    if (descriptions.length > 0) {
+                        item.description = descriptions[0];
+                    }
+                    if (descriptions.length > 1) {
+                        item.descriptionEn = descriptions[1];
+                    }
+                }
+            }
+            if (!item.title || item.title === 'null') {
                 item.title = '-';
             }
             item.uuid = doc[this.field('id')];
             item.public = doc[this.field('accessibility')] === 'public';
-            item.doctype = doc[this.field('model')];
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
             item.dnnt = !!doc[this.field('dnnt')];
-            item.description = doc[this.field('collection_description')];
             item.geonames = doc[this.field('geonames_facet')];
             if (this.settings.k5Compat()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);

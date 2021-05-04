@@ -1,5 +1,6 @@
 export class DocumentItem {
     title: string;
+    titleEn: string;
     authors: string[];
     geonames: string[];
     date: string;
@@ -9,6 +10,7 @@ export class DocumentItem {
     public: boolean;
     url: string;
     description: string;
+    descriptionEn: string;
     volumeNumber: string;
     volumeYear: string;
     pdf = false;
@@ -59,6 +61,20 @@ export class DocumentItem {
 
     public isPoint(): boolean {
         return this.south === this.north && this.east === this.west;
+    }
+
+    public getTitle(lang: string): string {
+        if (lang == 'en' && this.titleEn) {
+            return this.titleEn;
+        }
+        return this.title;
+    }
+
+    public getDescription(lang: string): string {
+        if (lang == 'en' && this.descriptionEn) {
+            return this.descriptionEn;
+        }
+        return this.description;
     }
 
 }

@@ -132,6 +132,16 @@ export class Metadata {
         return '';
     }
 
+    public getCollectionTitle(lang: string) {
+        for (let t of this.titles) {
+            if (t.lang == lang) {
+                return t.maintTitle();
+            }
+        }
+        return this.getTitle();
+    }
+
+
     public getShortTitle(): string {
         return this.getTitle().substring(0, 50);
     }
@@ -188,6 +198,7 @@ export class Metadata {
 
 
 export class TitleInfo {
+    public lang;
     public nonSort;
     public title;
     public subTitle;

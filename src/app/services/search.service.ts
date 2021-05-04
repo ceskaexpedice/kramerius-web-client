@@ -43,6 +43,7 @@ export class SearchService {
     contentType = 'grid'; // 'grid' | 'map'
 
     collection: Metadata;
+    collectionStructure: any;
 
     constructor(
         private router: Router,
@@ -59,6 +60,7 @@ export class SearchService {
 
     public init(context, params) {
         this.collection = null;
+        this.collectionStructure = {};
         this.results = [];
         this.keywords = [];
         this.doctypes = [];
@@ -74,9 +76,6 @@ export class SearchService {
         }
         this.search();
     }
-
-
-
 
     public buildPlaceholderText(): string {
         const q = this.query;
@@ -288,10 +287,69 @@ export class SearchService {
             this.loading = false;
         });
         if (this.query.collection) {
+            console.log('this.query.collection', this.query.collection);
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
                 this.collection = metadata;
-            })
+            });
+            let uuid = this.query.collection;
+            this.collectionStructure = {
+                collections: [],
+                visible: false
+            };
+            this.buildCollectionStructure(uuid);
         }
+    }
+
+    getCollectionContent() {
+        if (this.translator.language == 'en' && this.collection.notes.length > 1) {
+            return this.collection.notes[1];
+        }
+        return this.collection.notes[0];
+    }
+
+    getCollectionTitle() {
+        if (this.translator.language == 'en') {
+            return this.collection.getCollectionTitle('eng');
+        } else {
+            return this.collection.getCollectionTitle('cze');
+        }
+    }
+
+    getCollectionNavTitle(item) {
+        if (this.translator.language == 'en' && item.titleEn) {
+            return item.titleEn;
+        } else {
+            return item.title;
+        }
+    }
+
+    private buildCollectionStructure(uuid: string) {
+        this.api.getSearchResults(`q=pid:"${uuid}"&fl=in_collections.direct,titles.search`).subscribe((result) => {
+            if (!result['response']['docs'] || result['response']['docs'].length < 1) {
+                return;
+            }
+            const doc = result['response']['docs'][0];
+            const names = doc['titles.search'] || [];
+            let title = '';
+            let titleEn = '';
+            if (names.length > 0) {
+                title = names[0];
+            }
+            if (names.length > 1) {
+                titleEn = names[1];
+            }
+            this.collectionStructure.collections.unshift({ uuid: uuid, title: title, titleEn: titleEn, url: this.settings.getPathPrefix() + '/collection/' + uuid });
+            const cols = doc['in_collections.direct'] || [];
+            if (cols.length > 0) {
+                this.buildCollectionStructure(cols[0]);
+            } else {
+                if (this.collectionStructure.collections.length > 1) {
+                    this.collectionStructure.ready = true;
+                }
+            }
+        });
+
+
     }
 
     public highlightDoctype(doctype: string) {
