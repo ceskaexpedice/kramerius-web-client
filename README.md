@@ -1,1 +1,1 @@
-# Kramerius 6 - klient pro uživatelské rozhraní
+# Kramerius - klient pro uživatelské rozhraní
