@@ -154,7 +154,6 @@ export class SearchService {
         } else {
             nav.push('search');
         }
-        console.log('nav', nav);
         this.router.navigate(nav,  { queryParams: this.query.toUrlParams() });
     }
 
