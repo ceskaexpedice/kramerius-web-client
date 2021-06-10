@@ -19,6 +19,7 @@ export class AppSettings {
   public logo: string;
   public logoHome: string;
   public url: string;
+  public adminUrl: string;
   public schemaVersion: string;
   public solrVersion: string;
   public code: string;
@@ -126,6 +127,7 @@ export class AppSettings {
     this.mapSearch = !!kramerius.mapSearch;
     this.hiddenLocks = !!kramerius.hiddenLocks;
     this.currentCode = this.code;
+    this.adminUrl = kramerius.adminUrl;
     this.listner.next(kramerius);
   }
 
@@ -164,9 +166,11 @@ export class AppSettings {
     return this.schemaVersion === '1.0';
   }
 
+  public admin(): boolean {
+    return !!this.adminUrl;
+  }
 
 }
-
 
 interface KrameriusData {
   code: string;
@@ -189,4 +193,5 @@ interface KrameriusData {
   mapSearch: boolean;
   hiddenLocks: boolean;
   type: string;
+  adminUrl: string;
 }

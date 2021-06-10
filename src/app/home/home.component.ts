@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
     public state: AppState,
     private route: ActivatedRoute,
     public settings: AppSettings,
-    private krameriusApiService: KrameriusApiService,
+    private api: KrameriusApiService,
     private localStorageService: LocalStorageService,
     public analytics: AnalyticsService,
     private pageTitle: PageTitleService
@@ -103,19 +103,23 @@ export class HomeComponent implements OnInit {
   }
 
   getNewest() {
-    this.krameriusApiService.getNewest().subscribe((newest: DocumentItem[]) => {
+    this.api.getNewest().subscribe((newest: DocumentItem[]) => {
       this.newest = newest;
     });
   }
 
   getRecommended() {
-    this.krameriusApiService.getRecommended().subscribe(response => {
-      this.recommended = response; // .slice(0, 6);
-    });
+    if (this.settings.k5Compat()) {
+      this.api.getRecommended().subscribe(response => {
+        this.recommended = response; // .slice(0, 6);
+      });
+    } else {
+      this.recommended = [];
+    }
   }
 
   getVisited() {
-    this.visited = this.localStorageService.getVisited(); // .slice(0, 6);
+    this.visited = this.localStorageService.getVisited();
     this.selectedTab = this.localStorageService.getProperty(LocalStorageService.FEATURED_TAB);
     if (this.selectedTab !== 'visited' && this.selectedTab !== 'newest' && this.selectedTab !== 'recommended') {
       if (this.visited.length >= 3) {

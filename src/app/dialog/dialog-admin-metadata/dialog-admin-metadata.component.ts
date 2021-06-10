@@ -5,6 +5,7 @@ import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { parseString, Builder } from 'xml2js';
 import { SolrService } from '../../services/solr.service';
 import { Translator } from 'angular-translator';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 
 @Component({
@@ -17,13 +18,17 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
   selection;
   url: string;
 
-  resource = 'mods';
+  resource: string;
 
-  constructor(private api: KrameriusApiService, private solr: SolrService,private translator: Translator) {
+  constructor(private api: KrameriusApiService, 
+    private solr: SolrService,
+    private locals: LocalStorageService,
+    private translator: Translator) {
     super();
   }
 
   ngOnInit(): void {
+    this.resource = this.locals.getProperty('admin.metadata.resource') || 'mods';
     for (const doctype of SolrService.allDoctypes) {
       if (this.metadata.context[doctype]) {
         this.data.push({
@@ -39,13 +44,22 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
       });
     }
     this.data.reverse();
-    if (this.data.length > 0) {
+    if (this.data.length == 1) {
       this.changeTab(this.data[0]);
+    } else if (this.data.length > 1) {
+      if (this.data[0].tab == 'page') {
+        this.changeTab(this.data[1]);
+      } else {
+        this.changeTab(this.data[0]);
+      }
     }
+
+
   }
 
   changeResource(res) {
     this.resource = res;
+    this.locals.setProperty('admin.metadata.resource', this.resource);
     this.reload();
   }
 

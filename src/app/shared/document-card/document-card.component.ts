@@ -29,11 +29,11 @@ export class DocumentCardComponent implements OnInit {
   }
 
   public getTitle() {
-    return this.item.getTitle(this.translator.language);
+    return this.item.getTitle ? this.item.getTitle(this.translator.language) : this.item.title;
   }
 
   public getDescription() {
-    return this.item.getDescription(this.translator.language);
+    return this.item.getDescription ? this.item.getDescription(this.translator.language) : this.item.description;
   }
 
   private init() {

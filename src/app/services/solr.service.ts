@@ -531,7 +531,6 @@ export class SolrService {
         return [items, numberOfResults];
     }
 
-
     private buildQ(term: string): string {
         if (!term || term === '*') {
             return null;
@@ -548,7 +547,6 @@ export class SolrService {
         q = q.replace(/&/g, '')
         return q;
     }
-
 
     buildPeriodicalFulltextSearchQuery(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery): string {
         const fl = `${this.field('id')},${this.field('model')},${this.field('model_path')},${this.field('pid_path')},${this.field('authors')},${this.field('accessibility')},${this.field('title')}`;
