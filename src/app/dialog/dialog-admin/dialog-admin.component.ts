@@ -2,8 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MzBaseModal } from 'ngx-materialize';
 import { Metadata } from '../../model/metadata.model';
 import { SolrService } from '../../services/solr.service';
-import { KrameriusApiService } from '../../services/kramerius-api.service';
-import { AdminApiService } from '../../services/admin-api.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
@@ -13,8 +11,9 @@ import { LocalStorageService } from '../../services/local-storage.service';
 export class DialogAdminComponent extends MzBaseModal implements OnInit {
 
   @Input() metadata: Metadata;
+  @Input() uuids: string[];
 
-  data = [];
+  data;
   selection;
   category;
 
@@ -23,33 +22,42 @@ export class DialogAdminComponent extends MzBaseModal implements OnInit {
   }
 
   ngOnInit(): void {
+    this.data = [];
     this.category = this.locals.getProperty('admin.edit.category') || 'accessibility';
-    for (const doctype of SolrService.allDoctypes) {
-      if (this.metadata.context[doctype]) {
-        const uuid = this.metadata.context[doctype];
-        if (uuid) {
-          this.data.push({
-            type: doctype,
-            uuid: uuid
-          });
+    if (this.metadata) {
+      for (const doctype of SolrService.allDoctypes) {
+        if (this.metadata.context[doctype]) {
+          const uuid = this.metadata.context[doctype];
+          if (uuid) {
+            this.data.push({
+              type: doctype,
+              uuids: [uuid]
+            });
+          }
         }
       }
-    }
-    if (this.metadata.activePage) {
-      this.data.push({
-        type: 'page',
-        uuid: this.metadata.activePage.uuid
-      });
-    }
-    this.data.reverse();
-    if (this.data.length == 1) {
-      this.changeTab(this.data[0]);
-    } else if (this.data.length > 1) {
-      if (this.data[0].type == 'page') {
-        this.changeTab(this.data[1]);
-      } else {
-        this.changeTab(this.data[0]);
+      if (this.metadata.activePage) {
+        this.data.push({
+          type: 'page',
+          uuids: [this.metadata.activePage.uuid]
+        });
       }
+      this.data.reverse();
+      if (this.data.length == 1) {
+        this.changeTab(this.data[0]);
+      } else if (this.data.length > 1) {
+        if (this.data[0].type == 'page') {
+          this.changeTab(this.data[1]);
+        } else {
+          this.changeTab(this.data[0]);
+        }
+      }
+    } else if (this.uuids) {
+      this.data.push({
+        type: 'multiple',
+        uuids: this.uuids
+      });
+      this.changeTab(this.data[0]);
     }
   }
 
@@ -58,10 +66,9 @@ export class DialogAdminComponent extends MzBaseModal implements OnInit {
   }
 
   changeCategory(category: string) {
-    this.locals.setProperty('admin.edit.category', this.category);
+    this.locals.setProperty('admin.edit.category', category);
     this.category = category;
   }
-
 
   categoryLabel(category: string): string {
     switch (category) {
@@ -71,6 +78,5 @@ export class DialogAdminComponent extends MzBaseModal implements OnInit {
       default: return "-";
     }
   }
-
 
 }

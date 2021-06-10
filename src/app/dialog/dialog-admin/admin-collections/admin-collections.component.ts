@@ -18,10 +18,11 @@ export class AdminCollectionsComponent implements OnInit {
   query: string;
   state: string;
 
-  _uuid: string;
+  _uuids: string[];
+
   @Input() 
-  set uuid(uuid: string) {
-    this.onUuidChanged(uuid);
+  set uuids(uuids: string[]) {
+    this.onUuidChanged(uuids);
   }
 
   constructor(
@@ -34,19 +35,23 @@ export class AdminCollectionsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onUuidChanged(uuid: string) {
+  onUuidChanged(uuids: string[]) {
     this.query = "";
-    this._uuid = uuid;
-    this.loadCollections();
-  }
-
-  private loadCollections() {
-    console.log('op', this._uuid);
+    this._uuids = uuids;
     this.state = 'loading';
     this.collectionsIn = [];
     this.collectionsAll = [];
-    this.api.getSearchResults(`q=${this.solr.field('id')}:"${this._uuid}"&fl=${this.solr.field('parent_collections')}`).subscribe((doc) => {
-      const colsIn = doc['response']['docs'][0][this.solr.field('parent_collections')];
+    if (this._uuids.length == 1) {
+      this.api.getSearchResults(`q=${this.solr.field('id')}:"${this._uuids[0]}"&fl=${this.solr.field('parent_collections')}`).subscribe((doc) => {
+        const colsIn = doc['response']['docs'][0][this.solr.field('parent_collections')];
+        this.loadCollections(colsIn);
+      });
+    } else {
+      this.loadCollections();
+    }
+  }
+
+  private loadCollections(isIn = null) {
       this.api.getSearchResults(`q=${this.solr.field('model')}:collection&fl=${this.solr.field('id')},${this.solr.field('collection_description')},${this.solr.field('title')}&sort=${this.solr.field('title_sort')} ASC&rows=1000`).subscribe((result) => {
         const cols = result['response']['docs'];
         for (const col of cols) {
@@ -55,7 +60,7 @@ export class AdminCollectionsComponent implements OnInit {
             name: col[this.solr.field('title')],
             desc: col[this.solr.field('collection_description')] && col[this.solr.field('collection_description')].length > 0 ? col[this.solr.field('collection_description')][0] : ""
           }
-          if (colsIn && colsIn.indexOf(c.uuid) >= 0) {
+          if (isIn && isIn.indexOf(c.uuid) >= 0) {
             this.collectionsIn.push(c);
           } else {
             this.collectionsAll.push(c);
@@ -64,13 +69,14 @@ export class AdminCollectionsComponent implements OnInit {
         this.onCollectionSearchChange('');
         this.state = "ok";
       });
-    });
   }
 
-
   removeFromCollection(col: any) {
+    if (this._uuids.length > 1) {
+      return;
+    }
     this.state = 'progress';
-    this.adminApi.removeItemFromCollection(col.uuid, this._uuid).subscribe((aa) => {
+    this.adminApi.removeItemFromCollection(col.uuid, this._uuids[0]).subscribe(() => {
       this.collectionsIn.splice(this.collectionsIn.indexOf(col), 1);
       this.collectionsRest.unshift(col);
       this.toastService.show("Odstranění objektu ze sbírky bylo naplánováno", 3000);
@@ -78,13 +84,19 @@ export class AdminCollectionsComponent implements OnInit {
     });
   }
 
-  addToCollection(col: any) {
+  addToCollection(col: any, index = 0) {
     this.state = 'progress';
-    this.adminApi.addItemToCollection(col.uuid, this._uuid).subscribe((aa) => {
-      this.collectionsRest.splice(this.collectionsRest.indexOf(col), 1);
-      this.collectionsIn.unshift(col);
-      this.toastService.show("Přidání objektu do sbírky bylo naplánováno", 3000);
-      this.state = 'ok';
+    this.adminApi.addItemToCollection(col.uuid, this._uuids[index]).subscribe(() => {
+      if (index + 1 >= this._uuids.length) {
+        this.collectionsRest.splice(this.collectionsRest.indexOf(col), 1);
+        if (this._uuids.length == 1) {
+          this.collectionsIn.unshift(col);
+        }
+        this.toastService.show("Přidání objektu do sbírky bylo naplánováno", 3000);
+        this.state = 'ok';
+      } else {
+        this.addToCollection(col, index + 1);
+      }
     });
   }
 

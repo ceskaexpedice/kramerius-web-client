@@ -13,6 +13,7 @@ import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/
 import { Translator } from 'angular-translator';
 import { Metadata } from '../model/metadata.model';
 import { AuthService } from './auth.service';
+import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.component';
 
 
 @Injectable()
@@ -302,10 +303,12 @@ export class SearchService {
     }
 
     getCollectionContent() {
-        if (this.translator.language == 'en' && this.collection.notes.length > 1) {
-            return this.collection.notes[1];
-        }
-        return this.collection.notes[0];
+      if (this.translator.language == 'en' && this.collection.notes.length > 1) {
+        return this.collection.notes[1] || '';
+      } else if (this.collection.notes.length == 1) {
+        return this.collection.notes[0] || '';
+      }
+      return '';
     }
 
     getCollectionTitle() {
@@ -458,5 +461,27 @@ export class SearchService {
         this.checkFacet(this.query.genres.length === 0, response, 'genres');
         this.checkFacet(this.query.collections.length === 0, response, 'collections');
     }
+
+
+  openAdminActions() {
+    const uuids = [];
+    for (const item of this.results) {
+      if (item.selected) {
+        uuids.push(item.uuid);
+      }
+    }
+    this.modalService.open(DialogAdminComponent, { uuids: uuids } );
+  }
+
+  toggleAdminSelection() {
+    if (this.results) {
+      for (const item of this.results) {
+        item.selected = false;
+      }
+    }
+    this.adminSelection = !this.adminSelection;
+  }
+
+
 
 }

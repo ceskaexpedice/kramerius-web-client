@@ -10,13 +10,13 @@ import { MzToastService } from 'ngx-materialize';
 export class AdminReindexationComponent implements OnInit {
 
   state: string;
-  _uuid: string;
+  _uuids: string[];
 
   type: string;
 
   @Input() 
-  set uuid(uuid: string) {
-    this.onUuidChanged(uuid);
+  set uuids(uuids: string[]) {
+    this.onUuidChanged(uuids);
   }
 
   constructor(
@@ -28,16 +28,20 @@ export class AdminReindexationComponent implements OnInit {
     this.type = 'OBJECT';
   }
 
-  onUuidChanged(uuid: string) {
-    this._uuid = uuid;
+  onUuidChanged(uuids: string[]) {
+    this._uuids = uuids;
     this.state = 'ok';
   }
 
-  apply() {
+  apply(index = 0) {
     this.state = 'progress';
-    this.adminApi.reindex(this._uuid, this.type).subscribe(() => {
-      this.toastService.show("Reindexace byla naplánována", 3000);
-      this.state = 'ok';
+    this.adminApi.reindex(this._uuids[index], this.type).subscribe(() => {
+      if (index + 1 >= this._uuids.length) {
+        this.toastService.show("Reindexace byla naplánována", 3000);
+        this.state = 'ok';
+      } else {
+        this.apply(index + 1);
+      }
     });
   }
 

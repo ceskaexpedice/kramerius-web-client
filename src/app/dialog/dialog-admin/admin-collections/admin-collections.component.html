@@ -1,13 +1,15 @@
 <div *ngIf="state != 'loading'" class="app-collections">
-  <div class="app-label">{{ collectionsIn.length == 0 ? "Není v žádné sbírce" : "Je ve sbírkách" }}</div>
-  <div class="app-collection-list">
-    <div *ngFor="let col of collectionsIn" class="app-collection">
-      <div class="app-btn" (click)="removeFromCollection(col)">-</div>
-      <span class="app-col-name">{{ col.name }}</span>
-      <span class="app-col-desc">{{ col.desc }}</span>
+  
+  <ng-container *ngIf="_uuids.length == 1">
+    <div class="app-label">{{ collectionsIn.length == 0 ? "Není v žádné sbírce" : "Je ve sbírkách" }}</div>
+    <div class="app-collection-list">
+      <div *ngFor="let col of collectionsIn" class="app-collection">
+        <div class="app-btn" (click)="removeFromCollection(col)">-</div>
+        <span class="app-col-name">{{ col.name }}</span>
+        <span class="app-col-desc">{{ col.desc }}</span>
+      </div>
     </div>
-  </div>
-
+  </ng-container>
   <!-- <div class="app-label">Přidat do sbírky</div> -->
   <input autocapitalize="off" autocomplete="off" autocorrect="off"  placeholder="Přidat do sbírky" [(ngModel)]="query" (input)="onCollectionSearchChange($event.target.value)">
   <div class="app-collection-list">

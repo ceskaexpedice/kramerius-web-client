@@ -56,7 +56,7 @@ export class MetadataComponent implements OnInit {
   //   window.open(this.metadata.proarcLink(), '_blank');
   // }
 
-  onAdminActions() {
+  openAdminActions() {
     this.modalService.open(DialogAdminComponent, { metadata: this.metadata } );
   }
 

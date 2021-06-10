@@ -4,28 +4,28 @@
 
   
     <div class="col app-col app-col-left">
-      <ng-container *ngIf="searchService.collection">
+      <ng-container *ngIf="search.collection">
         <span style="color: #757575;
       height: 55px;
       line-height: 55px;
       overflow: hidden;
       font-size: 1.4rem;">
-        {{ searchService.getCollectionTitle() }}
+        {{ search.getCollectionTitle() }}
         </span>
       </ng-container>
 
       <ul>
         <li class="hide-on-med-and-up">
           <a (click)="toggleFilters()">
-            <i *ngIf="searchService.activeMobilePanel == 'results'" mz-icon-mdi [icon]="'filter'"></i>
-            <i *ngIf="searchService.activeMobilePanel == 'filters'" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
+            <i *ngIf="search.activeMobilePanel == 'results'" mz-icon-mdi [icon]="'filter'"></i>
+            <i *ngIf="search.activeMobilePanel == 'filters'" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
           </a>
         </li>
         <li>
-          <span *ngIf="appSettings.k3"><a [href]="searchService.buildK3Link()" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
+          <span *ngIf="settings.k3"><a [href]="search.buildK3Link()" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
         </li>
         <li>
-          <span *ngIf="appSettings.advancedSearch"class="app-btn-txt" (click)="searchService.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
+          <span *ngIf="settings.advancedSearch"class="app-btn-txt" (click)="search.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
         </li>
       </ul>
     </div>
@@ -41,35 +41,40 @@
 <ng-container *ngIf="account.serviceEnabled() && account.isLoggedIn() && account.hasRole('kramerius_admin')">
 
      
-
-<li (click)="searchService.adminSelection = !searchService.adminSelection" class="serch-content-type-button" [class.active]="searchService.adminSelection">
+      <li *ngIf="search.adminSelection" (click)="search.openAdminActions()" class="serch-content-type-button" [class.active]="true">
         <span mz-tooltip [tooltip]="'book_controls.tooltip_edit' | translate" [position]="'top'" class="app-cursor-pointer app-btn-icon">
           <i class="app-mdi-edit"></i>
+        </span>
+      </li>
+
+      <li (click)="search.toggleAdminSelection()" class="serch-content-type-button" [class.active]="search.adminSelection">
+        <span mz-tooltip [tooltip]="'Výběr pro administraci'" [position]="'top'" class="app-cursor-pointer app-btn-icon">
+          <i class="app-mdi-check"></i>
         </span>
       </li>
     </ng-container>
 
 
-      <li *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('grid')" class="serch-content-type-button" [class.active]="searchService.contentType == 'grid'">
+      <li *ngIf="settings.mapSearch" (click)="search.selectContentType('grid')" class="serch-content-type-button" [class.active]="search.contentType == 'grid'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_cards' | translate" [position]="'top'" class="app-cursor-pointer app-btn-icon">
           <i class="app-mdi-view-grid"></i>
         </span>
       </li>
-      <li *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('map')" class="serch-content-type-button" [class.active]="searchService.contentType == 'map'">
+      <li *ngIf="settings.mapSearch" (click)="search.selectContentType('map')" class="serch-content-type-button" [class.active]="search.contentType == 'map'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_map' | translate" [position]="'top'" class="app-cursor-pointer app-btn-icon">
           <i class="app-mdi-view-map"></i>
         </span>
       </li>
-      <li *ngIf="searchService.contentType == 'grid'">
+      <li *ngIf="search.contentType == 'grid'">
         <span class="app-cursor-pointer app-mdi-in app-btn-icon">
           <label>{{ 'search.ordering.label' | translate }}: </label>
-          <a id="app-btn-sort" href="#">{{ 'search.ordering.' + searchService.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
+          <a id="app-btn-sort" href="#">{{ 'search.ordering.' + search.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
           <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-            <mz-dropdown-item *ngIf="searchService.query.relevanceOrderingEnabled()"><a (click)="searchService.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="searchService.changeOrdering('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="searchService.changeOrdering('newest')">{{ 'search.ordering.newest' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="searchService.changeOrdering('latest')">{{ 'search.ordering.latest' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="searchService.changeOrdering('earliest')">{{ 'search.ordering.earliest' | translate }}</a></mz-dropdown-item>            
+            <mz-dropdown-item *ngIf="search.query.relevanceOrderingEnabled()"><a (click)="search.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="search.changeOrdering('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="search.changeOrdering('newest')">{{ 'search.ordering.newest' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="search.changeOrdering('latest')">{{ 'search.ordering.latest' | translate }}</a></mz-dropdown-item>
+            <mz-dropdown-item><a (click)="search.changeOrdering('earliest')">{{ 'search.ordering.earliest' | translate }}</a></mz-dropdown-item>            
           </mz-dropdown>
         </span>
       </li>
