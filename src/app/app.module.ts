@@ -93,7 +93,7 @@ import { PeriodicalSearchComponent } from './periodical/periodical-filters/perio
 import { PeriodicalFiltersComponent } from './periodical/periodical-filters/periodical-filters.component';
 
 import { NgxGalleryModule } from 'ngx-gallery';
-import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
+import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzRadioButtonModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
 import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -149,6 +149,9 @@ import { SignpostLibrariesComponent } from './signpost/libraries/libraries.compo
 import { SignpostFooterComponent } from './signpost/footer/footer.component';
 import { SignpostHeaderComponent } from './signpost/header/header.component';
 import { SignpostHelpComponent } from './signpost/help/help.component';
+import { AdminCollectionsComponent } from './dialog/dialog-admin/admin-collections/admin-collections.component';
+import { AdminAccessibilityComponent } from './dialog/dialog-admin/admin-accessibility/admin-accessibility.component';
+import { AdminReindexationComponent } from './dialog/dialog-admin/admin-reindexation/admin-reindexation.component';
 
 
 
@@ -251,7 +254,10 @@ export function hljsLanguages() {
     SignpostLibrariesComponent,
     SignpostFooterComponent,
     SignpostHeaderComponent,
-    SignpostHelpComponent
+    SignpostHelpComponent,
+    AdminCollectionsComponent,
+    AdminAccessibilityComponent,
+    AdminReindexationComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -302,6 +308,7 @@ export function hljsLanguages() {
     MzToastModule,
     MzDropdownModule,
     MzCheckboxModule,
+    MzRadioButtonModule,
     MzDatepickerModule,
     ClipboardModule,
     AngularTokenModule.forRoot({
