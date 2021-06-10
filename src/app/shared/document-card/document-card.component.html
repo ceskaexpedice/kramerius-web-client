@@ -1,3 +1,4 @@
+
 <a *ngIf="item" routerLink="{{item.url}}" [queryParams]="item.params" (click)="analytics.sendEvent(in, 'document', item.title);">
   <mz-card [hoverable]="true">
     <mz-card-content>
@@ -42,6 +43,14 @@
           {{ 'model.' + item.doctype | translate }}
         </div>
       </div>
+
+
+      <div *ngIf="selectable" class="app-selectable" [class.app-selected]="item.selected"
+      (click)="item.selected = !item.selected; $event.preventDefault();$event.stopPropagation()">
+      <div class="app-check"></div>
+    </div>
+
+
     </mz-card-content>
   </mz-card>
 </a>

@@ -1,5 +1,5 @@
-<app-search-chart-bar *ngIf="searchService.getNumberOfResults()"></app-search-chart-bar>
-<app-search-calendar *ngIf="searchService.getNumberOfResults()"></app-search-calendar>
+<!-- <app-search-chart-bar *ngIf="searchService.getNumberOfResults()"></app-search-chart-bar> -->
+<!-- <app-search-calendar *ngIf="searchService.getNumberOfResults()"></app-search-calendar> -->
 
 <ng-container *ngIf="searchService.collection">
     <div class="app-collection-navigation">
@@ -30,7 +30,7 @@
 
 
 
-<app-document-card *ngFor="let item of searchService.results" [in]="'search'" [item]="item"></app-document-card>
+<app-document-card *ngFor="let item of searchService.results" [selectable]="searchService.adminSelection" [in]="'search'" [item]="item"></app-document-card>
 <div class="clearfix"></div>
 
 <app-paginator [activeIndex]="searchService.query.page"

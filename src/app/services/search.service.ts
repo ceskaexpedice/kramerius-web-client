@@ -45,6 +45,8 @@ export class SearchService {
     collection: Metadata;
     collectionStructure: any;
 
+    adminSelection: boolean;
+
     constructor(
         private router: Router,
         public auth: AuthService,

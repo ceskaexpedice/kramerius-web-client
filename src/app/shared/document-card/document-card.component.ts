@@ -14,7 +14,8 @@ import { Translator } from 'angular-translator';
 export class DocumentCardComponent implements OnInit {
   @Input() item: DocumentItem;
   @Input() in: String;
-
+  @Input() selectable: boolean = false;
+  
   public thumb;
 
   constructor(private krameriusApiService: KrameriusApiService,

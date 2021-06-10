@@ -160,5 +160,31 @@ app-document-card {
         } 
       //}
     }
+    .app-selectable {
+      position: absolute; 
+      // background: #00000011;
+      left: 0;
+      top: -0;
+      bottom: 0;
+      right: 0;
+      .app-check {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin-left: -6px;
+        margin-top: -6px;
+        border: 1px solid #999;
+        background: #fff;
+      }
+      &.app-selected {
+        background: #0277bd14;
+        border: 1px solid #0277bd;
+        .app-check {
+          background: #0277bd;
+          border-color: #0277bd;
+        }
+      }
+      // opacity: 0.3;
+    }
   }
 }

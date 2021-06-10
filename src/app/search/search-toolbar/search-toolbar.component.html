@@ -33,7 +33,23 @@
 
 
   <div class="col app-col app-col-right">
+
+
+
     <ul>
+
+<ng-container *ngIf="account.serviceEnabled() && account.isLoggedIn() && account.hasRole('kramerius_admin')">
+
+     
+
+<li (click)="searchService.adminSelection = !searchService.adminSelection" class="serch-content-type-button" [class.active]="searchService.adminSelection">
+        <span mz-tooltip [tooltip]="'book_controls.tooltip_edit' | translate" [position]="'top'" class="app-cursor-pointer app-btn-icon">
+          <i class="app-mdi-edit"></i>
+        </span>
+      </li>
+    </ng-container>
+
+
       <li *ngIf="appSettings.mapSearch" (click)="searchService.selectContentType('grid')" class="serch-content-type-button" [class.active]="searchService.contentType == 'grid'">
         <span mz-tooltip [tooltip]="'toolbar.tooltip_display_cards' | translate" [position]="'top'" class="app-cursor-pointer app-btn-icon">
           <i class="app-mdi-view-grid"></i>
