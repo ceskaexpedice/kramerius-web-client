@@ -63,10 +63,19 @@ export class DialogAdminComponent extends MzBaseModal implements OnInit {
 
   changeTab(item) {
     this.selection = item;
+    if (this.category == 'reprepage' && !this.reprePageAvailable()) {
+      this.category = this.locals.getProperty('admin.edit.category') || 'accessibility';
+    }
+  }
+
+  reprePageAvailable() {
+    return this.selection && this.selection.type == 'page';
   }
 
   changeCategory(category: string) {
-    this.locals.setProperty('admin.edit.category', category);
+    if (category != 'reprepage') {
+      this.locals.setProperty('admin.edit.category', category);
+    }
     this.category = category;
   }
 
@@ -75,6 +84,7 @@ export class DialogAdminComponent extends MzBaseModal implements OnInit {
       case 'collections': return "Sbírky";
       case 'accessibility': return "Změna viditelnosti";
       case 'reindexation': return "Reindexace";
+      case 'reprepage': return "Reprezentativní strana";
       default: return "-";
     }
   }

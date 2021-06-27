@@ -327,7 +327,7 @@ export class SolrService {
     }
     // ${this.settings.dnntFilter ? ',dnnt' : ''}
     getNewestQuery(): string {
-        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('titles')},${this.field('date')},${this.field('model')}`;
+        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')},${this.field('model')}`;
         if (!this.settings.k5Compat()) {
             q += `,${this.field('collection_description')}`;
         }
@@ -343,7 +343,7 @@ export class SolrService {
         if (query.ordering === 'newest') {
             return `${this.field('created_at')} desc`;
         } else if (query.ordering === 'latest') {
-            return `${this.field('date_to_sort')} desc`;
+            return `${this.field('date_to_sort')} desc, ${this.field('date_from_sort')} desc`;
         } else if (query.ordering === 'earliest') {
             return `${this.field('date_from_sort')} asc`;
         } else if (query.ordering === 'alphabetical') {
@@ -766,7 +766,7 @@ export class SolrService {
             q += '&group.truncate=true';
             q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model_path')},${this.field('authors')},${this.field('root_title')},${this.field('root_pid')},${this.field('title')},${this.field('date')},score`;
         } else {
-            q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('titles')},${this.field('date')}`;
+            q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')}`;
         }
         if (!this.settings.k5Compat()) {
             q += `,${this.field('collection_description')}`;
@@ -980,15 +980,15 @@ export class SolrService {
         for (const doc of json['response']['docs']) {
             const item = new DocumentItem();
             item.doctype = doc[this.field('model')];
-            let titles = doc[this.field('titles')];
             if (this.settings.k5Compat()) {
-                item.title = titles;
+                item.title = doc[this.field('titles')];
             } else {
-                titles = titles || [];
-                if (titles.length > 0) {
-                    item.title = titles[0];
-                }
                 if (item.doctype == 'collection') {
+                    let titles = doc[this.field('titles')];
+                    titles = titles || [];
+                    if (titles.length > 0) {
+                        item.title = titles[0];
+                    }
                     if (titles.length > 1  && titles[1] && titles[1] != 'null') {
                         item.titleEn = titles[1];
                     }
@@ -999,6 +999,10 @@ export class SolrService {
                     if (descriptions.length > 1) {
                         item.descriptionEn = descriptions[1];
                     }
+                } else if (item.doctype == 'page') {
+                    item.title = doc[this.field('root_title')];
+                } else {
+                    item.title = doc[this.field('title')];
                 }
             }
             if (!item.title || item.title === 'null') {

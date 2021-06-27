@@ -18,6 +18,8 @@
         <mz-dropdown-item><a (click)="changeCategory('collections')">{{ categoryLabel('collections') }}</a></mz-dropdown-item>
         <mz-dropdown-item><a (click)="changeCategory('accessibility')">{{ categoryLabel('accessibility') }}</a></mz-dropdown-item>
         <mz-dropdown-item><a (click)="changeCategory('reindexation')">{{ categoryLabel('reindexation') }}</a></mz-dropdown-item>
+        <mz-dropdown-item *ngIf="reprePageAvailable()" ><a (click)="changeCategory('reprepage')">{{ categoryLabel('reprepage') }}</a></mz-dropdown-item>
+
       </mz-dropdown>
 
       <a id="btn-dropdown" class="app-dialog-title">{{ categoryLabel(category) }}</a>
@@ -34,6 +36,7 @@
     <app-admin-collections *ngIf="selection && category == 'collections'" [uuids]="selection.uuids"></app-admin-collections>
     <app-admin-accessibility *ngIf="selection && category == 'accessibility'" [uuids]="selection.uuids"></app-admin-accessibility>    
     <app-admin-reindexation *ngIf="selection && category == 'reindexation'" [uuids]="selection.uuids"></app-admin-reindexation>
+    <app-admin-reprepage *ngIf="selection && category == 'reprepage'" [uuids]="selection.uuids" [context]="data"></app-admin-reprepage>
   </mz-modal-content>
 
 

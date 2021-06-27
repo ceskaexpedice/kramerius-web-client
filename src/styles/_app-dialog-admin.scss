@@ -6,6 +6,7 @@ mz-modal.app-dialog-admin {
   mz-modal-content {
     display: block;
     padding-top: 20px;
+    min-height: 200px;
     input {
       cursor: text;
     }
@@ -26,7 +27,7 @@ mz-modal.app-dialog-admin {
     }
   }
 
-  .app-accessibility, .app-reindexation {
+  .app-accessibility, .app-reindexation, .app-reprepage {
     .radio-button-field {
       margin: 0;
       margin-top: 6px;

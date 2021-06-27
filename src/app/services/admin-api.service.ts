@@ -83,6 +83,10 @@ export class AdminApiService {
     return this.post('/processes/', payload);
   }
 
+  setReprePage(forObject: string, fromPage: string): Observable<Object> {
+    return this.put(`/items/${forObject}/streams/IMG_THUMB?srcPid=${fromPage}`, {});
+  }
+
 
 }
 

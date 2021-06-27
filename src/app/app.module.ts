@@ -152,6 +152,7 @@ import { SignpostHelpComponent } from './signpost/help/help.component';
 import { AdminCollectionsComponent } from './dialog/dialog-admin/admin-collections/admin-collections.component';
 import { AdminAccessibilityComponent } from './dialog/dialog-admin/admin-accessibility/admin-accessibility.component';
 import { AdminReindexationComponent } from './dialog/dialog-admin/admin-reindexation/admin-reindexation.component';
+import { AdminReprePageComponent } from './dialog/dialog-admin/admin-reprepage/admin-reprepage.component';
 
 
 
@@ -257,7 +258,8 @@ export function hljsLanguages() {
     SignpostHelpComponent,
     AdminCollectionsComponent,
     AdminAccessibilityComponent,
-    AdminReindexationComponent
+    AdminReindexationComponent,
+    AdminReprePageComponent
   ],
   entryComponents: [
     DialogOcrComponent,
