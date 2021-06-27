@@ -305,7 +305,7 @@ export class SearchService {
     getCollectionContent() {
       if (this.translator.language == 'en' && this.collection.notes.length > 1) {
         return this.collection.notes[1] || '';
-      } else if (this.collection.notes.length == 1) {
+      } else if (this.collection.notes.length >= 1) {
         return this.collection.notes[0] || '';
       }
       return '';
