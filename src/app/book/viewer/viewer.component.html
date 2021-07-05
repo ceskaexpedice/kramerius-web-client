@@ -82,9 +82,12 @@
   </mz-spinner>
 
 
-  <div *ngIf="bookService.dnntMode && authService.isLoggedIn()" class="app-dnnt">
-      <span class="app-info">{{ 'metadata.policy_dnnt' | translate}}</span>
-      <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
+  <div *ngIf="bookService.licence && licences.bar(bookService.licence)" class="app-dnnt">
+      <span class="app-info">{{ licences.label(bookService.licence) }}</span>
+      <span class="app-user">
+            <ng-container *ngIf="authService.isLoggedIn()"> {{ authService.getUserId() }} | </ng-container>
+            {{ today() }}
+      </span>
   </div>
 
 </div>

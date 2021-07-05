@@ -153,6 +153,7 @@ import { AdminCollectionsComponent } from './dialog/dialog-admin/admin-collectio
 import { AdminAccessibilityComponent } from './dialog/dialog-admin/admin-accessibility/admin-accessibility.component';
 import { AdminReindexationComponent } from './dialog/dialog-admin/admin-reindexation/admin-reindexation.component';
 import { AdminReprePageComponent } from './dialog/dialog-admin/admin-reprepage/admin-reprepage.component';
+import { LicenceService } from './services/licence.service';
 
 
 
@@ -363,6 +364,7 @@ export function hljsLanguages() {
     IiifService,
     ZoomifyService,
     LoggerService,
+    LicenceService,
     AdminApiService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],

@@ -23,7 +23,7 @@ export class DocumentItem {
     south: number;
     west: number;
     east: number;
-    dnnt = false;
+    licences: string[] = [];
     originUrl: string;
 
     selected: boolean = false;

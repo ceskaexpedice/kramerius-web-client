@@ -49,7 +49,7 @@
     <span (click)="searchService.removeFilter(searchService.query.licences, licence)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'licence.' + licence | translate | appUpcase }}
+      {{ licences.label(licence) }}
     </span>
   </mz-collection-item>
 

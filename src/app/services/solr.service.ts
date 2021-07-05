@@ -9,6 +9,8 @@ import { PeriodicalQuery } from '../periodical/periodical_query.model';
 import { Utils } from './utils.service';
 import { CompleterItem } from 'ng2-completer';
 import { BrowseItem } from '../model/browse_item.model';
+import { AuthService } from './auth.service';
+import { LicenceService } from './licence.service';
 
 
 @Injectable()
@@ -126,10 +128,6 @@ export class SolrService {
         'created_at': {
             '1.0': 'created_date',
             '2.0': 'created'
-        },
-        'dnnt': {
-            '1.0': 'dnnt',
-            '2.0': 'dnnt'
         },
         "coords_location": {
             '1.0': 'location',
@@ -299,7 +297,7 @@ export class SolrService {
     'article', 'internalpart', 'supplement', 'page'];
 
 
-    constructor(private settings: AppSettings, private utils: Utils) {
+    constructor(private settings: AppSettings, private licences: LicenceService, private utils: Utils) {
     }
 
     version(): string {
@@ -325,14 +323,15 @@ export class SolrService {
         }
         return filter;
     }
-    // ${this.settings.dnntFilter ? ',dnnt' : ''}
+
+
     getNewestQuery(): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')},${this.field('model')}`;
         if (!this.settings.k5Compat()) {
             q += `,${this.field('collection_description')}`;
         }
-        if (this.settings.dnnt) {
-            q += `,${this.field('dnnt')}`;
+        if (this.licences.on()) {
+            q += `,${this.field('licences_search')}`;
         }
         const pf = this.settings.newestAll ? '*:*' : `${this.field('accessibility')}:public`;
         q += `&q=${pf}&fq=${this.buildTopLevelFilter(true)}&sort=${this.field('created_at')} desc&rows=24&start=0`;
@@ -358,8 +357,8 @@ export class SolrService {
 
     buildBookChildrenQuery(parent: string, own: boolean): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('page_type')},${this.field('page_number')}`;
-        if (this.settings.dnntFilter) {
-            q += `,${this.field('dnnt')}`;
+        if (this.licences.on()) {
+            q += `,${this.field('licences_search')}`;
         }
         q += `&q=${this.field(own ? 'parent_pid' : 'step_parent_pid')}:"${parent}"`;
         q += `&sort=${this.field('rels_ext_index')} asc`;
@@ -375,8 +374,8 @@ export class SolrService {
         } else {
             q += `,${this.field('part_name')},${this.field('part_number')},${this.field('date')},${this.field('issue_type')}`;
         }
-        if (this.settings.dnntFilter) {
-            q += `,${this.field('dnnt')}`;
+        if (this.licences.on()) {
+            q += `,${this.field('licences_search')}`;
         }
         q += `&q=${this.field('parent_pid')}:${parent} AND (${modelRestriction})`;
         if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
@@ -591,7 +590,7 @@ export class SolrService {
         item.authors = doc[this.field('authors')];
         item.donators = doc[this.field('donators')];
         item.pdf = doc[this.field('img_full_mime')] == "application/pdf";
-        item.dnnt = !!doc[this.field('dnnt')];
+        item.licences = doc[this.field('licences_search')] || []
         item.root_uuid = doc[this.field('root_pid')];
         if (item.doctype === 'periodicalvolume') {
             item.volumeNumber = doc[this.field('part_number')];
@@ -771,8 +770,8 @@ export class SolrService {
         if (!this.settings.k5Compat()) {
             q += `,${this.field('collection_description')}`;
         }
-        if (this.settings.dnntFilter) {
-            q += `,${this.field('dnnt')}`;
+        if (this.licences.on()) {
+            q += `,${this.field('licences_search')}`;
         }
         if (query.isBoundingBoxSet()) {
             if (this.settings.k5Compat()) {
@@ -795,9 +794,6 @@ export class SolrService {
            + this.addFacetToQuery(facet, 'doctypes', query.doctypes.length === 0)
            + this.addFacetToQuery(facet, 'genres', query.genres.length === 0)
            + this.addFacetToQuery(facet, 'accessibility',  query.accessibility === 'all');
-        if (this.settings.dnntFilter) {
-            q += `&facet.field=${this.field('dnnt')}`;
-        }
         if (facet) {
             q += '&rows=0';
         } else if (query.isBoundingBoxSet()) {
@@ -829,17 +825,31 @@ export class SolrService {
             }
         }
         if (facet == 'accessible') {
-            fqFilters.push('(dnnt:true OR dostupnost:public)');
+            let q = `${this.field('accessibility')}:public`;
+            if (this.licences.userLicences) {
+                const licences = this.licences.userLicences;
+                if (licences) {
+                    q += ` OR ${this.field('licences_search')}:` + licences.join(` OR ${this.field('licences_search')}:`)
+                }
+            }
+            fqFilters.push(`(${q})`);
         } else if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
             if (query.accessibility === 'public') {
                 fqFilters.push(`${this.field('accessibility')}:public`);
             } else if (query.accessibility === 'private') {
                 fqFilters.push(`${this.field('accessibility')}:private`);
-            } else if (this.settings.dnntFilter && query.accessibility === 'dnnt') {
-                fqFilters.push(`${this.field('dnnt')}:true`);
-            } else if (this.settings.dnntFilter && query.accessibility === 'accessible') {
-                fqFilters.push(`(${this.field('dnnt')}:true OR ${this.field('accessibility')}:public)`);
-            }	            
+            } else if (query.accessibility === 'accessible') {
+                let q = `${this.field('accessibility')}:public`;
+                if (this.licences.userLicences) {
+                    const licences = this.licences.userLicences;
+                    if (licences) {
+                        q += ` OR ${this.field('licences_search')}:` + licences.join(` OR ${this.field('licences_search')}:`)
+                    }
+                }
+                fqFilters.push(`(${q})`);
+            }
+            //     fqFilters.push(`(${this.field('dnnt')}:true OR ${this.field('accessibility')}:public)`);
+            // }	            
         }
         if (query.isYearRangeSet()) {
             const from = query.from === 0 ? 1 : query.from;
@@ -1012,7 +1022,7 @@ export class SolrService {
             item.public = doc[this.field('accessibility')] === 'public';
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
-            item.dnnt = !!doc[this.field('dnnt')];
+            item.licences = doc[this.field('licences_search')] || [];
             item.geonames = doc[this.field('geonames_facet')];
             if (this.settings.k5Compat()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
@@ -1062,6 +1072,10 @@ export class SolrService {
                    value = value.toUpperCase();
                 }
                 if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(value)) {
+                    continue;
+                }
+            } else if (this.getFilterField('licences') === field) {
+                if (!this.licences.available(value)) {
                     continue;
                 }
             }
@@ -1121,17 +1135,17 @@ export class SolrService {
         }
         list.push({'value' : 'public', 'count': publicDocs});
         list.push({'value' : 'private', 'count': privateDocs});
-        if (this.settings.dnntFilter) {
-            const dnnt = solr['facet_counts']['facet_fields'][this.field('dnnt')];
-            let dnntCount = 0;
-            for (let i = 0; i < dnnt.length; i += 2) {
-                if (dnnt[i] === 'true') {
-                    dnntCount = dnnt[i + 1];
-                }
-            }
-            list.push({'value' : 'dnnt', 'count': dnntCount});
-            // list.push({'value' : 'accessible', 'count': dnntCount + publicDocs});
-        }
+        // if (this.settings.dnntFilter) {
+        //     const dnnt = solr['facet_counts']['facet_fields'][this.field('dnnt')];
+        //     let dnntCount = 0;
+        //     for (let i = 0; i < dnnt.length; i += 2) {
+        //         if (dnnt[i] === 'true') {
+        //             dnntCount = dnnt[i + 1];
+        //         }
+        //     }
+        //     list.push({'value' : 'dnnt', 'count': dnntCount});
+        //     // list.push({'value' : 'accessible', 'count': dnntCount + publicDocs});
+        // }
         list.push({'value' : 'all', 'count': allDocs});
         return list;
     }
@@ -1270,7 +1284,7 @@ export class SolrService {
                 model: doc[this.field('model')],
                 pid: doc[this.field('id')],
                 type: doc[this.field('page_type')] || 'unknown',
-                dnnt: !!doc[this.field('dnnt')],
+                licences: doc[this.field('licences_search')] || [],
                 number: doc[this.field('page_number')],
                 title: doc[this.field('title')],
                 policy: doc[this.field('accessibility')]
@@ -1284,7 +1298,7 @@ export class SolrService {
         item.uuid = doc[this.field('id')];
         item.public = doc[this.field('accessibility')] === 'public';
         item.doctype = doc[this.field('model')];
-        item.dnnt = !!doc[this.field('dnnt')];
+        item.licences = doc[this.field('licences_search')] || [];
         if (this.settings.k5Compat()) {
             this.periodicalItemOld(doc, item);
             return item;
@@ -1389,7 +1403,7 @@ export class SolrService {
             }
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
-            item.dnnt = !!doc[this.field('dnnt')];
+            item.licences = doc[this.field('licences_search')] || []
             item.description = doc[this.field('collection_description')];
             item.geonames = doc[this.field('geonames_facet')];
             if (this.settings.k5Compat()) {

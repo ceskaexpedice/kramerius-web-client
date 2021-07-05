@@ -12,8 +12,8 @@ import { MzModalService } from 'ngx-materialize';
 import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/dialog-advanced-search.component';
 import { Translator } from 'angular-translator';
 import { Metadata } from '../model/metadata.model';
-import { AuthService } from './auth.service';
 import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.component';
+import { LicenceService } from './licence.service';
 
 
 @Injectable()
@@ -50,7 +50,7 @@ export class SearchService {
 
     constructor(
         private router: Router,
-        public auth: AuthService,
+        public licenceService: LicenceService,
         private translator: Translator,
         private collectionService: CollectionService,
         private solr: SolrService,
@@ -113,7 +113,7 @@ export class SearchService {
             filters.push(this.translator.instant('language.' + item));
         }
         for (const item of q.licences) {
-            filters.push(this.translator.instant('licence.' + item));
+            filters.push(this.licenceService.label(item));
         }
         if (q.isCustomFieldSet()) {
             filters.push(q.getCustomValue());
@@ -364,8 +364,7 @@ export class SearchService {
         switch (facet) {
             case 'accessibility': {
                 this.accessibility = this.solr.facetAccessibilityList(response);
-                if (this.settings.dnntFilter && this.auth.isLoggedIn()) {
-                    console.log('user labels', this.auth.user.labels);
+                if (this.settings.auth && this.licenceService.anyUserLicence()) {
                     this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
                         let count = 0;
                         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
@@ -373,7 +372,6 @@ export class SearchService {
                         } else {
                             count = this.solr.numberOfResults(response);
                         }
-
                         this.accessibility.splice( this.accessibility.length - 1, 0,  { 'value' : 'accessible', 'count': count } );
                     });
                 }
@@ -383,10 +381,13 @@ export class SearchService {
                 this.doctypes = this.solr.facetDoctypeList(response, this.settings.joinedDoctypes, this.settings.doctypes);
                 break;
             }
+            case 'licences': {
+                this[facet] = this.solr.facetList(response, this.solr.getFilterField(facet), this.query[facet], false);
+                break;
+            }
             case 'authors':
             case 'keywords':
             case 'languages':
-            case 'licences':
             case 'locations':
             case 'geonames':
             case 'genres':

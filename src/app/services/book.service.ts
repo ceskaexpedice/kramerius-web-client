@@ -74,8 +74,9 @@ export class BookService {
     public showNavigationPanel: boolean;
     public viewer: string; // image | pdf | none
 
-    public dnntMode = false;
-    public dnntFlag = false;
+    public licence: string;
+    public licences: string[];
+
     public iiifEnabled = false;
 
     private supplementUuids = [];
@@ -1016,8 +1017,13 @@ export class BookService {
             if (rightPage) {
                 rightPage.assignPageData(result[1]);
             }
-            this.dnntMode = leftPage.providedByDnnt || (rightPage && rightPage.providedByDnnt);
-            this.dnntFlag = leftPage.dnntFlag || (rightPage && rightPage.dnntFlag);
+            if (leftPage.licences) {
+                this.licence = leftPage.licence;
+                this.licences = leftPage.licences;
+            } else if (rightPage && rightPage.licence) {
+                this.licence = rightPage.licence;
+                this.licences = rightPage.licences;
+            }
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {
@@ -1108,8 +1114,8 @@ export class BookService {
         this.navigationTabsCount = 0;
         this.showNavigationPanel = false;
         this.viewer = 'none';
-        this.dnntMode = false;
-        this.dnntFlag = false;
+        this.licence = null;
+        this.licences = [];
         this.iiifEnabled = false;
     }
 
