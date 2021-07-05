@@ -9,7 +9,6 @@ import { PeriodicalQuery } from '../periodical/periodical_query.model';
 import { Utils } from './utils.service';
 import { CompleterItem } from 'ng2-completer';
 import { BrowseItem } from '../model/browse_item.model';
-import { AuthService } from './auth.service';
 import { LicenceService } from './licence.service';
 
 

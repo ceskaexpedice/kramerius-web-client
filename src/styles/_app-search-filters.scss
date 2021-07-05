@@ -100,6 +100,14 @@ app-periodical-filters {
         .app-row {
           display: table;
           width: 100%;
+          .app-lock {
+            float: left;
+            color: $app-licence-color;
+            margin-right: 4px;
+            &::before {
+              font-size: 18px;
+            }
+          }
           a {
             display: table-cell;
             width: 90%;

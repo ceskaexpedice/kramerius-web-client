@@ -6,6 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AuthService } from '../../services/auth.service';
 import { Translator } from 'angular-translator';
+import { LicenceService } from '../../services/licence.service';
 
 @Component({
   selector: 'app-document-card',
@@ -16,25 +17,31 @@ export class DocumentCardComponent implements OnInit {
   @Input() in: String;
   @Input() selectable: boolean = false;
   
-  public thumb;
+  thumb;
+  lock: any;
 
   constructor(private krameriusApiService: KrameriusApiService,
-              public settings: AppSettings,
+              private settings: AppSettings,
               private translator: Translator,
               public auth: AuthService,
+              private licences: LicenceService,
               public analytics: AnalyticsService,
               private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.thumb = this.init();
+    this.init();
   }
 
-  public getTitle() {
+  getTitle() {
     return this.item.getTitle ? this.item.getTitle(this.translator.language) : this.item.title;
   }
 
-  public getDescription() {
+  getDescription() {
     return this.item.getDescription ? this.item.getDescription(this.translator.language) : this.item.description;
+  }
+
+  libraryLogo(): string {
+    return this.settings.getLogoByCode(this.item.library);
   }
 
   private init() {
@@ -45,7 +52,12 @@ export class DocumentCardComponent implements OnInit {
     } else {
        url = this.krameriusApiService.getThumbUrl(this.item.uuid);
     }
-    return this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
+    if (this.item.public || this.settings.hiddenLocks) {
+      this.lock = null;
+    } else {
+      this.lock = this.licences.buildLock(this.item.licences);
+    }
+    this.thumb = this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
   }
 
 

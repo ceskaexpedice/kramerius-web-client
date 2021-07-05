@@ -150,8 +150,8 @@ app-metadata {
         .app-lock {
           color: $app-grey-d-2;
           margin-right: 4px;
-          &.app-dnnt {
-            color: $app-dnnt;
+          &.app-lock-licence-open, &.app-lock-licence-locked {
+            color: $app-licence-color;
           }
         }
         .app-message {

@@ -116,7 +116,6 @@
     "genres": "Genre",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",
-    "dnnt_document": "Out of Commerce Works",
     "ordering": {
       "label": "Ordering",
       "relevance": "Relevance",
@@ -129,7 +128,6 @@
       "label": "Accessibility",
       "public": "Public",
       "private": "Private",
-      "dnnt": "Out of Commerce Works",
       "accessible": "All accessible documents",
       "all": "All"
     },
@@ -278,8 +276,7 @@
     "btn_hide_metadata": "Hide metadata",
     "authors_info": "More about authors",
     "donator": "Supported by",
-    "policy_private": "Not publicly accessible document",
-    "policy_dnnt": "Out of Commerce Works"
+    "policy_private": "Not publicly accessible document"
   },
   "donator": {
     "norway": {

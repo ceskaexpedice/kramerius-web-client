@@ -66,15 +66,9 @@
 
     </ng-container>
 
-    <div *ngIf="!settings.hiddenLocks && !metadata.isPublic" class="app-policy">
-      <ng-container *ngIf="metadata.isDnnt">
-        <i mz-icon-mdi [icon]="auth.isLoggedIn() ? 'camera-off' : 'lock'" [size]="'18px'" [class]="'app-lock app-dnnt'"></i>
-        <span class="app-message">{{ 'metadata.policy_dnnt' | translate }} (<span><i (click)="onShowPolicyDnntDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
-      </ng-container>
-      <ng-container *ngIf="!metadata.isDnnt">
-        <i mz-icon-mdi [icon]="'lock'" [size]="'18px'" [class]="'app-lock'"></i>
+    <div *ngIf="lock" class="app-policy">
+        <i mz-icon-mdi [size]="'18px'" [icon]="lock.icon" class="app-lock {{ lock.class }}" mz-tooltip [tooltip]="lock.tooltip"></i>
         <span class="app-message">{{ 'metadata.policy_private' | translate }} (<span><i (click)="onShowPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
-      </ng-container>
       <div class="divider"></div>
     </div>
 

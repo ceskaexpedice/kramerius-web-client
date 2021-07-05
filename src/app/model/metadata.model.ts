@@ -64,6 +64,7 @@ export class Metadata {
     }
 
     public assignDocument(item: DocumentItem) {
+        console.log(item);
         this.isPublic = item.public;
         this.licences = item.licences;
         this.model = item.doctype;

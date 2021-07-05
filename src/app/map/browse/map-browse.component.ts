@@ -7,6 +7,7 @@ import { DocumentItem } from '../../model/document_item.model';
 import { AppSettings } from '../../services/app-settings';
 import { AuthService } from '../../services/auth.service';
 import { ControlPosition, ZoomControlStyle } from '@agm/core/services/google-maps-types';
+import { LicenceService } from '../../services/licence.service';
 
 
 @Component({
@@ -23,15 +24,30 @@ export class MapBrowseComponent implements OnInit {
 
   focusedItem: DocumentItem;
 
+  locks: any;
+
   constructor(private api: KrameriusApiService, 
     public searchService: SearchService, 
     public auth: AuthService, 
+    private licences: LicenceService,
     public settings: AppSettings,
     private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+    this.locks = {};
   }
 
+
+  getLock(item: DocumentItem): any {
+    if (!this.locks[item.uuid]) {
+      if (item.public || this.settings.hiddenLocks) {
+        this.locks[item.uuid] = 'none';
+      } else {
+        this.locks[item.uuid] = this.licences.buildLock(item.licences);
+      }
+    }
+    return this.locks[item.uuid] == 'none' ? null : this.locks[item.uuid];
+  }
 
   onMapReady(map) {
     map.setOptions({

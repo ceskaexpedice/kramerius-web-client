@@ -60,8 +60,8 @@ app-periodical-years-item {
         position: absolute;
         top: 0;
         left: 10px;
-        &.app-dnnt {
-          color: $app-dnnt;
+        &.app-lock-licence-open, &.app-lock-licence-locked {
+          color: $app-licence-color;
         }
       }
     }

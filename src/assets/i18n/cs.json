@@ -116,7 +116,6 @@
     "genres": "Žánr",
     "authors": "Autor",
     "inaccessible_document": "Dokument není veřejně přístupný",
-    "dnnt_document": "Dokument podléhá režimu děl nedostupných na trhu",
     "ordering": {
       "label": "Řazení",
       "relevance": "Podle Relevance",
@@ -129,7 +128,6 @@
       "label": "Dostupnost",
       "public": "Pouze veřejné",
       "private": "Pouze neveřejné",
-      "dnnt": "Díla nedostupná na trhu",
       "accessible": "Všechny dostupné dokumenty",
       "all": "Vše"
     },
@@ -278,8 +276,7 @@
     "btn_hide_metadata": "Skrýt metadata",
     "authors_info": "Více o autorech",
     "donator": "S podporou",
-    "policy_private": "Dokument není veřejně přístupný",
-    "policy_dnnt": "Dílo nedostupné na trhu"
+    "policy_private": "Dokument není veřejně přístupný"
   },
   "donator": {
     "norway": {

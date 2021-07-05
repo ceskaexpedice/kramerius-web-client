@@ -36,6 +36,9 @@ app-search-filters-used {
       line-height: 1.35rem;
       
       span {
+        .app-licence {
+          color: $app-licence-color;
+        }
         .mdi {
           &:before {
             font-size: 18px;

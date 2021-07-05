@@ -1,23 +1,17 @@
-<a *ngIf="item.uuid; else missing" [routerLink]="settings.getRouteFor(item.getPath())" [queryParams]="periodicalService.getUrlParams()" (click)="analytics.sendEvent('periodical', 'open from', 'year');">
+<a *ngIf="_item.uuid; else missing" [routerLink]="settings.getRouteFor(_item.getPath())" [queryParams]="periodicalService.getUrlParams()" (click)="analytics.sendEvent('periodical', 'open from', 'year');">
   <mz-card  [hoverable]="true">
     <mz-card-content>
-      {{ item.getDate() }}
-      <i *ngIf="!item.public && !settings.hiddenLocks"
-        mz-icon-mdi 
-        [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'" 
-        class="app-lock" 
-        [class.app-dnnt]="item.dnnt" 
-        mz-tooltip 
-        [tooltip]="item.dnnt ? 'search.dnnt_document' : 'search.inaccessible_document' | translate" 
-        [position]="'top'">
-      </i>
+      {{ _item.getDate() }}
+      <ng-container *ngIf="lock">
+        <i mz-icon-mdi [icon]="lock.icon" class="app-lock {{ lock.class }}" mz-tooltip [tooltip]="lock.tooltip"></i>
+      </ng-container>
     </mz-card-content>
   </mz-card>
 </a>
 <ng-template #missing>
   <mz-card  [hoverable]="true" class="app-missing">
     <mz-card-content>
-      {{ item.date }}
+      {{ _item.date }}
     </mz-card-content>
   </mz-card>
 </ng-template>
