@@ -13,6 +13,7 @@ import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.compon
 import { AuthService } from '../services/auth.service';
 import { LicenceService } from '../services/licence.service';
 import { SimpleChanges } from '@angular/core';
+import { BookService } from '../services/book.service';
 
 @Component({
   selector: 'app-metadata',
@@ -33,6 +34,7 @@ export class MetadataComponent implements OnInit, OnChanges{
   constructor(private modalService: MzModalService,
               public analytics: AnalyticsService,
               public account: AccountService,
+              public bookService: BookService,
               private licences: LicenceService,
               public auth: AuthService,
               public settings: AppSettings) { }
@@ -53,20 +55,17 @@ export class MetadataComponent implements OnInit, OnChanges{
   }
 
   showMetadata() {
-    return this.show(this.settings.showMetadata);
+    return this.show('metadata');
   }
 
   showSharing() {
-    return this.show(this.settings.showSharing);
+    return this.show('share');
   }
 
   showCitation() {
-    return this.show(this.settings.showCitation);
+    return this.show('citation');
   }
 
-  // openInProarc() {
-  //   window.open(this.metadata.proarcLink(), '_blank');
-  // }
 
   openAdminActions() {
     this.modalService.open(DialogAdminComponent, { metadata: this.metadata } );
@@ -100,8 +99,16 @@ export class MetadataComponent implements OnInit, OnChanges{
     this.modalService.open(DialogAdminMetadataComponent, { metadata: this.metadata } );
   }
 
-
-  private show(value: string): boolean {
+  private show(action: string): boolean {
+    if (this.metadata.licence) {
+      const l = this.licences.action(this.metadata.licence, action);
+      if (l == 1) {
+        return true;
+      } else if (l == 2) {
+        return false;
+      }
+    }
+    const value = this.settings.actions[action];
     return value === 'always' || (value === 'public' && this.metadata.isPublic);
   }
 

@@ -52,15 +52,18 @@ export class AppSettings {
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
   public landingPage = !!APP_GLOBAL.landingPage;
-  public showMetadata = APP_GLOBAL.showMetadata || 'always';
-  public showCitation = APP_GLOBAL.showCitation || 'always';
-  public showSharing = APP_GLOBAL.showSharing || 'always';
-  public showPdfGeneration = APP_GLOBAL.showPdfGeneration || 'always';
-  public showPrintPreparation = APP_GLOBAL.showPrintPreparation || 'always';
-  public showPageJpeg = APP_GLOBAL.showPageJpeg || 'always';
-  public showPageOcr = APP_GLOBAL.showPageOcr || 'always';
-  public showTextSelection = APP_GLOBAL.showTextSelection || 'always';
-  public showImageCrop = APP_GLOBAL.showImageCrop || 'always';
+
+  public actions = {
+    'pdf': AppSettings.action('pdf', 'always'), 
+    'print': AppSettings.action('print', 'always'), 
+    'jpeg': AppSettings.action('jpeg', 'always'), 
+    'text': AppSettings.action('text', 'always'), 
+    'metadata': AppSettings.action('metadata', 'always'), 
+    'citation': AppSettings.action('citation', 'always'), 
+    'share': AppSettings.action('share', 'always'), 
+    'selection': AppSettings.action('selection', 'always'), 
+    'crop': AppSettings.action('crop', 'always')
+  }
 
   public newestAll = !!APP_GLOBAL.newestAll;
   public crossOrigin = !!APP_GLOBAL.crossOrigin;
@@ -166,6 +169,14 @@ export class AppSettings {
   public admin(): boolean {
     return !!this.adminUrl;
   }
+
+  private static action(action: string, defaultValue: string): string {
+    if (!APP_GLOBAL.actions) {
+      return defaultValue;
+    }
+    return APP_GLOBAL.actions[action] || defaultValue;
+  }
+
 }
 
 interface KrameriusData {

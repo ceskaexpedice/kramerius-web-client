@@ -18,6 +18,21 @@ export class LicenceService {
     this.userLicences = this.availableLicences(licences);
   }
 
+  // 0 --- undefined
+  // 1 --- show
+  // 2 --- hide
+  action(licence: string, action: string): number {
+    if (!this.available(licence)) {
+      return 0;
+    }
+    const l = this.licences[licence];
+    if (l && l['actions'] && l['actions'][action] !== undefined) {
+      return l['actions'][action] ? 1 : 2;
+    }
+    return 0;
+  }
+
+
   label(licence: string): string {
     if (!this.available(licence)) {
       return '';

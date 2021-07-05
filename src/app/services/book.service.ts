@@ -1019,9 +1019,11 @@ export class BookService {
             }
             if (leftPage.licences) {
                 this.licence = leftPage.licence;
+                this.metadata.licence = this.licence;
                 this.licences = leftPage.licences;
             } else if (rightPage && rightPage.licence) {
                 this.licence = rightPage.licence;
+                this.metadata.licence = this.licence;
                 this.licences = rightPage.licences;
             }
             if (leftPage.imageType === PageImageType.None) {

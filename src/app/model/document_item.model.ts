@@ -27,6 +27,7 @@ export class DocumentItem {
     originUrl: string;
 
     selected: boolean = false;
+    licence: string;
 
     resolveUrl(prefix: string) {
         if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume') {

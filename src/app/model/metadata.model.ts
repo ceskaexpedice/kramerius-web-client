@@ -60,12 +60,14 @@ export class Metadata {
 
     public originUrl: string;
 
+    public licence: string;
+
     constructor() {
     }
 
     public assignDocument(item: DocumentItem) {
-        console.log(item);
         this.isPublic = item.public;
+        this.licence = null;
         this.licences = item.licences;
         this.model = item.doctype;
         this.donators = item.donators;
