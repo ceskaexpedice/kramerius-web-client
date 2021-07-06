@@ -37,7 +37,11 @@ export class LicenceService {
     if (!this.available(licence)) {
       return '';
     }
-    return this.licences[licence].label || licence;
+    if (!this.licences[licence].label) {
+      return licence;
+    }
+    const lang = this.translator.language;
+    return this.licences[licence].label[lang] || licence;
   }
 
   labels(licences: string[]): string {
