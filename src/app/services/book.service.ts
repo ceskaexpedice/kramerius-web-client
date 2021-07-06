@@ -29,6 +29,7 @@ import { DialogPdfGeneratorComponent } from '../dialog/dialog-pdf-generator/dial
 import { IiifService } from './iiif.service';
 import { LoggerService } from './logger.service';
 import { PeriodicalItem } from '../model/periodicalItem.model';
+import { LicenceService } from './licence.service';
 
 
 
@@ -94,6 +95,7 @@ export class BookService {
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
+        private licenceService: LicenceService,
         private account: AccountService,
         private modalService: MzModalService) {
     }
@@ -585,10 +587,19 @@ export class BookService {
         return this.pages ? this.pages.length : 0;
     }
 
-
-    showQuotation() {
-
+    isActionAvailable(action: string): boolean {
+        if (this.licence) {
+          const l = this.licenceService.action(this.licence, action);
+          if (l == 1) {
+            return true;
+          } else if (l == 2) {
+            return false;
+          }
+        }
+        const value = this.settings.actions[action];
+        return value === 'always' || (value === 'public' && !this.isPrivate);
     }
+
     showOcr() {
         const requests = [];
         requests.push(this.api.getOcr(this.getPage().uuid));
@@ -598,7 +609,8 @@ export class BookService {
         forkJoin(requests).subscribe(result => {
             const options = {
                 ocr: result[0],
-                uuid: this.getPage().uuid
+                uuid: this.getPage().uuid,
+                showCitation: this.isActionAvailable('citation')
             };
             if (result.length > 1) {
                 options['ocr2'] = result[1];
@@ -615,7 +627,8 @@ export class BookService {
                 const text = this.altoService.getTextInBox(result, extent, width, height);
                 const options = {
                     ocr: text,
-                    uuid: this.getPage().uuid
+                    uuid: this.getPage().uuid,
+                    showCitation: this.isActionAvailable('citation')
                 };
                 this.modalService.open(DialogOcrComponent, options);
             },

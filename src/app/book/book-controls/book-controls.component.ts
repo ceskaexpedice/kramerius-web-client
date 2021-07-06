@@ -1,8 +1,6 @@
 import { BookService } from './../../services/book.service';
 import { Component, OnInit} from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
-import { AppSettings } from '../../services/app-settings';
-import { LicenceService } from '../../services/licence.service';
 
 @Component({
   selector: 'app-book-controls',
@@ -11,41 +9,26 @@ export class BookControlsComponent implements OnInit {
 
 
   constructor(public bookService: BookService,
-              public analytics: AnalyticsService, 
-              private licences: LicenceService,
-              private settings: AppSettings) {
+              public analytics: AnalyticsService) {
   }
 
   ngOnInit() {
   }
 
   showPdfGeneration(): boolean {
-    return this.show('pdf');
+    return this.bookService.isActionAvailable('pdf');
   }
 
   showPrintPreparation(): boolean {
-    return this.show('print');
+    return this.bookService.isActionAvailable('print');
   }
 
   showPageJpeg(): boolean {
-    return this.show('jpeg');
+    return this.bookService.isActionAvailable('jpeg');
   }
 
   showPageOcr(): boolean {
-    return this.show('text');
-  }
-
-  private show(action: string): boolean {
-    if (this.bookService.licence) {
-      const l = this.licences.action(this.bookService.licence, action);
-      if (l == 1) {
-        return true;
-      } else if (l == 2) {
-        return false;
-      }
-    }
-    const value = this.settings.actions[action];
-    return value === 'always' || (value === 'public' && !this.bookService.isPrivate);
+    return this.bookService.isActionAvailable('text');
   }
 
 }
