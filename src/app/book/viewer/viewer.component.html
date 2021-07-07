@@ -37,8 +37,6 @@
         <i class="app-mdi-menu-left"></i>
   </span>
 
-
-
   <ng-container *ngIf="bookService.isPageInaccessible()">
     <ng-container *ngIf="!bookService.dnntFlag && settings.crisisUrl">
           <app-alert *ngIf="this.dnntLink!=''"
@@ -91,8 +89,8 @@
       <app-alert *ngIf="bookService.dnntFlag && !bookService.providedByLabel && !settings.crisisUrl"
             type="warning"
             label="alert.warning"
-            message="alert.inaccessible_document_dnnt"
-            [html]="('alert.inaccessible_document_dnnt_description' | translate)">
+            message="{{('licence.'+bookService.dnntFlag+'.inaccessible_document' | translate)}}"
+            [html]="('licence.'+bookService.dnntFlag+'.inaccessible_document_description' | translate)">
       </app-alert>
 
   </ng-container>
@@ -123,7 +121,12 @@
       <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
   </div>
 
-  <div *ngIf="bookService.dnntMode && !bookService.providedByLabel" class="app-dnnt">
+  <div *ngIf="bookService.dnntMode && !bookService.providedByLabel && bookService.dnntFlag" class="app-dnnt">
+      <span class="app-info">{{ ('licence.'+bookService.dnntFlag+'.policy' | translate).toUpperCase() }}</span>
+      <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
+  </div>
+
+  <div *ngIf="bookService.dnntMode && !bookService.providedByLabel && !bookService.dnntFlag" class="app-dnnt">
       <span class="app-info">{{ ('metadata.policy_dnnt' | translate).toUpperCase() }}</span>
       <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
   </div>

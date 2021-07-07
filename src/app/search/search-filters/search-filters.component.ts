@@ -13,6 +13,7 @@ export class SearchFiltersComponent implements OnInit {
 
   yearFrom: number;
   yearTo: number;
+  licenceCount: number;
   filters: string[];
 
   constructor(public searchService: SearchService,
@@ -47,6 +48,18 @@ export class SearchFiltersComponent implements OnInit {
   applyYearRange() {
     this.analytics.sendEvent('search', 'year', this.yearFrom + '-' + this.yearTo);
     this.searchService.setYearRange(this.yearFrom, this.yearTo);
+  }
+  
+  getLicenceTitle(licence, count) {
+  	this.licenceCount=-1;
+  	if(licence.includes("Licence.")) { return ""; }
+  	this.licenceCount=count;
+  	return licence;
+  }
+  
+  getLicenceCount() {
+  	if(this.licenceCount<0) { return ""; }
+  	return this.licenceCount;
   }
 
 }

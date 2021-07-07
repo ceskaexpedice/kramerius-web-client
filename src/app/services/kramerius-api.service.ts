@@ -390,6 +390,17 @@ export class KrameriusApiService {
         }
     }
 
+    private getLabel(label: string[]) {
+      //prioritně dnnto, pak dnntt
+      label.forEach((value, index) => {
+        if(value=="dnnto") { return value; }
+      });
+      label.forEach((value, index) => {
+        if(value=="dnntt") { return value; }
+      });
+      return label[0];
+    }
+
     private parseItemInfoForPage(json) {
         if (this.settings.k5Compat()) {
             let imageType = 'none';
@@ -402,6 +413,7 @@ export class KrameriusApiService {
             }
             return {
                 dnnt: json['dnnt'],
+                dnntLabels: this.getLabel(json['dnnt-labels']),
                 providedByDnnt: json['providedByDnnt'],
                 providedByLabel: json['providedByLabel'],
                 replicatedFrom: json['replicatedFrom'],

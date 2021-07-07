@@ -1,3 +1,7 @@
+<ng-container *ngIf="appSettings.notice">
+    <div id="kramerius-notify">{{ appSettings.notice }}</div>
+</ng-container>
+
 <mz-navbar class="clearfix">
   <div *ngIf="!state.atHome()" class="col app-col-left" [class.app-col-hidden]="mobileSearchBarExpanded">
     <a class="app-arrow-left" (click)="goBack()">

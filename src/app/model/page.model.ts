@@ -42,7 +42,9 @@ export class Page {
             return;
         }
         this.loaded = true;
-        if (data['dnnt']) {
+        if (data['dnnt'] && data['dnntLabels']) {
+            this.dnntFlag = data['dnntLabels'];
+        } else if (data['dnnt']) {
             this.dnntFlag = true;
         }
         if (data['providedByDnnt']) {

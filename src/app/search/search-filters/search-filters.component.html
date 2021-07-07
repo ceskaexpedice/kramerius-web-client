@@ -40,9 +40,9 @@
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.licences; let i = index;">
             <span class="app-row" *ngIf="i < 6 || licencesExpanded">
-              <a (click)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licences', item.value);">{{'licence.' + item.value  + '.label' | translate | appUpcase }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licences', item.value);">{{ getLicenceTitle(('licence.' + item.value  + '.label' | translate | appUpcase ), item.count) }}</a>
               <span>
-                {{item.count}}
+                {{getLicenceCount()}}
               </span>
             </span>
           </mz-collection-item>
