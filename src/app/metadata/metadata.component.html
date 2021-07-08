@@ -68,7 +68,7 @@
 
     <div *ngIf="lock" class="app-policy">
         <i mz-icon-mdi [size]="'18px'" [icon]="lock.icon" class="app-lock {{ lock.class }}" mz-tooltip [tooltip]="lock.tooltip"></i>
-        <span class="app-message">{{ 'metadata.policy_private' | translate }} (<span><i (click)="onShowPolicyPrivateDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
+        <span class="app-message">{{ 'metadata.policy_private' | translate }} (<span><i (click)="showLicenceDialog()" mz-icon-mdi [icon]="'help'" class="app-help" [size]="'15px'"></i></span>)</span>
       <div class="divider"></div>
     </div>
 

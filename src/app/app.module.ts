@@ -154,6 +154,8 @@ import { AdminAccessibilityComponent } from './dialog/dialog-admin/admin-accessi
 import { AdminReindexationComponent } from './dialog/dialog-admin/admin-reindexation/admin-reindexation.component';
 import { AdminReprePageComponent } from './dialog/dialog-admin/admin-reprepage/admin-reprepage.component';
 import { LicenceService } from './services/licence.service';
+import { LicenceMessagesComponent } from './shared/licence-messages/licence-messages.component';
+import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licences.component';
 
 
 
@@ -260,7 +262,9 @@ export function hljsLanguages() {
     AdminCollectionsComponent,
     AdminAccessibilityComponent,
     AdminReindexationComponent,
-    AdminReprePageComponent
+    AdminReprePageComponent,
+    LicenceMessagesComponent,
+    DialogLicencesComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -274,6 +278,7 @@ export function hljsLanguages() {
     DialogAdvancedSearchComponent,
     DialogPolicyComponent,
     DialogAdminComponent,
+    DialogLicencesComponent
   ],
   imports: [
     BrowserModule,

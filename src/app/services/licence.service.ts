@@ -32,6 +32,16 @@ export class LicenceService {
     return 0;
   }
 
+  message(licence: string): string {
+    if (!this.available(licence)) {
+      return '';
+    }
+    if (!this.licences[licence].message) {
+      return licence;
+    }
+    const lang = this.translator.language;
+    return this.licences[licence].message[lang] || licence;
+  }
 
   label(licence: string): string {
     if (!this.available(licence)) {
@@ -106,7 +116,7 @@ export class LicenceService {
       return {
         icon: 'lock',
         class: 'app-lock-private',
-        tooltip: this.translator.instant('search.inaccessible_document')
+        tooltip: this.label('_private') // this.translator.instant('search.inaccessible_document')
       };
     } else if (this.accessible(licences)) {
       return {

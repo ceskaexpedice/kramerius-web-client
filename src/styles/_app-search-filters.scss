@@ -108,6 +108,14 @@ app-periodical-filters {
               font-size: 18px;
             }
           }
+          .app-licence-info {
+            color: #999;
+            cursor: pointer;
+            vertical-align: middle;
+            &:hover {
+              color: #111;
+            }
+          }
           a {
             display: table-cell;
             width: 90%;

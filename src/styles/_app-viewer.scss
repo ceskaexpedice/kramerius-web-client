@@ -11,7 +11,7 @@ app-viewer {
     background-color: $app-grey-l-4;    
     position: relative;
 
-    .app-dnnt {
+    .app-licence-bar {
       position: absolute;
       top: 0;
       height: 32px;
@@ -39,6 +39,15 @@ app-viewer {
         font-size: 15px;
         color: #fff;
       }
+    }
+
+    app-licence-messages {
+      display: block;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 12px 10px;
+      overflow: auto;
+      height: 100%;
     }
 
     .hide-on-inactivity {

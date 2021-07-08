@@ -14,6 +14,7 @@ import { AuthService } from '../services/auth.service';
 import { LicenceService } from '../services/licence.service';
 import { SimpleChanges } from '@angular/core';
 import { BookService } from '../services/book.service';
+import { DialogLicencesComponent } from '../dialog/dialog-licences/dialog-licences.component';
 
 @Component({
   selector: 'app-metadata',
@@ -76,12 +77,12 @@ export class MetadataComponent implements OnInit, OnChanges{
     this.modalService.open(DialogAuthosComponent, { authors: this.metadata.authors} );
   }
 
-  onShowPolicyPrivateDialog() {
-    this.modalService.open(DialogPolicyComponent, { type: 'private' } );
-  }
-
-  onShowPolicyDnntDialog() {
-    this.modalService.open(DialogPolicyComponent, { type: 'dnnt' } );
+  showLicenceDialog() {
+    if (this.licences.on()) {
+      this.modalService.open(DialogLicencesComponent, { licences: this.metadata.licences, full: true });
+    } else {
+      this.modalService.open(DialogPolicyComponent, { type: 'private' } );
+    }
   }
 
   onShowCitation() {

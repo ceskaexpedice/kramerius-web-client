@@ -404,7 +404,7 @@ export class KrameriusApiService {
                 imageType = 'image/jpeg';
             }
             return {
-                licences: json['dnnt-licences'],
+                licences: json['dnnt-labels'],
                 licence: json['providedByLabel'],
                 replicatedFrom: json['replicatedFrom'],
                 imageType: imageType

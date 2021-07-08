@@ -55,7 +55,10 @@
 
 
 
-              <a (click)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licences', item.value);">{{ licences.label(item.value) }}</a>
+              <a (click)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licences', item.value);">
+                {{ licences.label(item.value) }}
+                <i mz-icon-mdi [size]="'20'" icon="information-outline" class="app-licence-info" (click)="showLicenceDialog(item.value); $event.preventDefault();$event.stopPropagation()"></i>
+              </a>
               <span>
                 {{item.count}}
               </span>
