@@ -161,6 +161,16 @@ app-metadata {
           color: $primary-color;
           cursor: pointer;
         }
+        .app-licence-label {
+          color: #888;
+          margin-left: 22px;
+          font-size: 12px;
+        }
+        .app-licence-value {
+          color: $primary-color;
+          margin-left: 22px;
+          cursor: pointer;
+        }
       }
     }
   }

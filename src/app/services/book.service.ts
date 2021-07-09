@@ -184,6 +184,7 @@ export class BookService {
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
                 if (item.pdf) {
+                    this.licences = item.licences
                     this.showNavigationPanel = false;
                     this.bookState = BookState.Success;
                     this.assignPdfPath(params.uuid);
