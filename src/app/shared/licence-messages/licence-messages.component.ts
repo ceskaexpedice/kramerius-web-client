@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
 import { Translator } from 'angular-translator';
+import { KrameriusInfo } from '../../model/krameriusInfo.model';
+import { AppSettings } from '../../services/app-settings';
+import { KrameriusInfoService } from '../../services/kramerius-info.service';
 import { LicenceService } from '../../services/licence.service';
 
 @Component({
@@ -17,7 +20,7 @@ export class LicenceMessagesComponent implements OnInit {
   loading: boolean;
   html;
 
-  constructor(private licenceService: LicenceService, private translator: Translator, private http: HttpClient) { }
+  constructor(private krameriusInfo: KrameriusInfoService, private settings: AppSettings, private licenceService: LicenceService, private translator: Translator, private http: HttpClient) { }
 
   ngOnInit() {
     this.translator.languageChanged.subscribe(() => {
@@ -27,15 +30,24 @@ export class LicenceMessagesComponent implements OnInit {
   }
 
   private reload() {
-    const licences = this.licenceService.availableLicences(this.licences);
     this.html = "";
+    if (!this.licenceService.on()) {
+      if (this.settings.customRightMessage) {
+        this.loadKrameriusMessage();
+      } else {
+        this.html = `<h3>${this.translator.instant("licence.private_label")}</h3>`;
+        this.html += this.translator.instant("licence.private_message");
+      }
+      return;
+    }
+    const licences = this.licenceService.availableLicences(this.licences);
     if (this.full) {
-      this.html += "<h3>Dokument není veřejně dostupný</h3>";
+      this.html += `<h3>${this.translator.instant("licence.private_label")}</h3>`;
     }
     if (this.full && licences.length > 0) {
-      this.html += "<strong><i>Tento dokument spadá pod následující licence:</i></strong><br/>";
+      this.html += `<div class="app-licence-hint">${this.translator.instant("licence.licences_before")}</div>`;
       this.loadLicences(licences, () => {
-        this.html += "<br/><strong><i>Pokud se k dokumentu nemůžete dostat v rámci licencí, pak platí obecná pravidla pro veřejně nedostupné dokumenty:</i></strong>";
+        this.html += `<div class="app-licence-hint">${this.translator.instant("licence.licences_after")}</div>`;
         this.loadLicences(['_private'], () => {
           this.loading = false;
         });
@@ -49,6 +61,16 @@ export class LicenceMessagesComponent implements OnInit {
         this.loading = false;
       });
     }
+  }
+
+  private loadKrameriusMessage() {
+    this.krameriusInfo.data$.subscribe((info: KrameriusInfo) => {
+      this.html = "";
+      if (info.rightMsg) {
+        const uuid = this.getUuidFromUrl();
+        this.html += info.rightMsg.replace(/\${UUID}/g, uuid);
+      }
+    });
   }
 
   private loadLicences(licences: string[], callback: () => void) {

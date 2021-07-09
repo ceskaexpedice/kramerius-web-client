@@ -846,9 +846,7 @@ export class SolrService {
                     }
                 }
                 fqFilters.push(`(${q})`);
-            }
-            //     fqFilters.push(`(${this.field('dnnt')}:true OR ${this.field('accessibility')}:public)`);
-            // }	            
+            }            
         }
         if (query.isYearRangeSet()) {
             const from = query.from === 0 ? 1 : query.from;

@@ -37,26 +37,7 @@ mz-tooltip
 </span>
 
 <ng-container *ngIf="bookService.isPageInaccessible()">
-    <ng-container *ngIf="!bookService.dnntFlag">
-          <app-alert *ngIf="!settings.customRightMessage"
-                type="warning"
-                label="alert.warning"
-                message="alert.inaccessible_document"
-                description="alert.inaccessible_document_description">
-          </app-alert>
-          <app-alert *ngIf="settings.customRightMessage"
-                type="warning"
-                label="alert.warning"
-                message="alert.inaccessible_document"
-                [html]="(krameriusInfo.data$ | async).getRightMessage()">
-          </app-alert>
-    </ng-container>
-    <app-alert *ngIf="bookService.dnntFlag"
-          type="warning"
-          label="alert.warning"
-          message="alert.inaccessible_document_dnnt"
-          description="alert.inaccessible_document_dnnt_description">
-    </app-alert>
+      <app-licence-messages [full]="true" [licences]="bookService.licences"></app-licence-messages>
 </ng-container>
 
 <app-alert *ngIf="bookService.isPageFailure()"

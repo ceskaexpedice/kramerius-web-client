@@ -136,7 +136,6 @@ import { IiifService } from './services/iiif.service';
 import { ZoomifyService } from './services/zoomify.service';
 import { LoggerService } from './services/logger.service';
 import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/dialog-advanced-search.component';
-import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.component';
 import { LandingComponent } from './landing/landing.component';
 import { FaqComponent } from './faq/faq.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
@@ -250,7 +249,6 @@ export function hljsLanguages() {
     DialogAdminMetadataComponent,
     MapBrowseComponent,
     DialogAdvancedSearchComponent,
-    DialogPolicyComponent,
     LandingComponent,
     SafeHtmlPipe,
     DialogAdminComponent,
@@ -276,7 +274,6 @@ export function hljsLanguages() {
     DialogPdfGeneratorComponent,
     DialogAdminMetadataComponent,
     DialogAdvancedSearchComponent,
-    DialogPolicyComponent,
     DialogAdminComponent,
     DialogLicencesComponent
   ],

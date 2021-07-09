@@ -8,7 +8,6 @@ import { MzModalService } from 'ngx-materialize';
 import { AnalyticsService } from '../services/analytics.service';
 import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.component';
 import { DialogAdminMetadataComponent } from '../dialog/dialog-admin-metadata/dialog-admin-metadata.component';
-import { DialogPolicyComponent } from '../dialog/dialog-policy/dialog-policy.component';
 import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.component';
 import { AuthService } from '../services/auth.service';
 import { LicenceService } from '../services/licence.service';
@@ -78,11 +77,7 @@ export class MetadataComponent implements OnInit, OnChanges{
   }
 
   showLicenceDialog() {
-    if (this.licences.on()) {
-      this.modalService.open(DialogLicencesComponent, { licences: this.metadata.licences, full: true });
-    } else {
-      this.modalService.open(DialogPolicyComponent, { type: 'private' } );
-    }
+    this.modalService.open(DialogLicencesComponent, { licences: this.metadata.licences, full: true });
   }
 
   onShowCitation() {
