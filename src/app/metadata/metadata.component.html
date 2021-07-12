@@ -67,7 +67,7 @@
     </ng-container>
 
     <div *ngIf="!metadata.isPublic" class="app-policy">
-        <i mz-icon-mdi [size]="'18px'" [icon]="metadata.licence ? 'camera-off' : 'lock'" [class.app-lock-licence-open]="!!metadata.licences" class="app-lock"></i>
+        <i mz-icon-mdi [size]="'18px'" [icon]="metadata.licence ? 'camera-off' : 'lock'" [class.app-lock-licence-open]="metadata.licences && metadata.licences.length > 0" class="app-lock"></i>
         <span class="app-message">{{ 'metadata.policy_private' | translate }}
         <i (click)="showPrivateDialog()" mz-icon-mdi icon="information-outline" class="app-help" [size]="'15px'"></i></span>
         <ng-container *ngIf="metadata.licence">
