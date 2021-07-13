@@ -391,13 +391,14 @@ export class KrameriusApiService {
     }
 
     private getLabel(label: string[]) {
+      if(!(label instanceof Array)) { return false; }
       //prioritně dnnto, pak dnntt
-      label.forEach((value, index) => {
-        if(value=="dnnto") { return value; }
-      });
-      label.forEach((value, index) => {
-        if(value=="dnntt") { return value; }
-      });
+      for(let i=0;i<label.length;i++) {
+          if(label[i]=="dnnto") { return label[i]; }
+      }
+      for(let i=0;i<label.length;i++) {
+          if(label[i]=="dnntt") { return label[i]; }
+      }
       return label[0];
     }
 
