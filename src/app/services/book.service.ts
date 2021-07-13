@@ -138,6 +138,7 @@ export class BookService {
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
+            console.log('ss', item);
             if (item.doctype === 'article') {
                 if (params.articleUuid) {
                     return;
@@ -183,8 +184,9 @@ export class BookService {
                     this.loadVolumes(item.root_uuid, this.uuid);
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
+                this.licences = item.licences;
+                this.licence = item.licence;
                 if (item.pdf) {
-                    this.licences = item.licences
                     this.showNavigationPanel = false;
                     this.bookState = BookState.Success;
                     this.assignPdfPath(params.uuid);
@@ -470,6 +472,8 @@ export class BookService {
                             || page.type === 'spine')) {
                     lastSingle = index;
                 }
+                page.licences = this.licences;
+                page.licence = this.licence;
                 this.pages.push(page);
                 this.allPages.push(page);
                 index += 1;
