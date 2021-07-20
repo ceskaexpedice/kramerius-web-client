@@ -7,6 +7,8 @@ import { AppState } from './app.state';
 import { Location } from '@angular/common';
 import { AuthService } from './services/auth.service';
 
+import { MatomoInjector } from 'ngx-matomo';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,7 +24,9 @@ export class AppComponent implements OnInit {
     private router: Router,
     private appSettings: AppSettings,
     private auth: AuthService,
-    public state: AppState) {
+    public state: AppState,
+    private matomoInjector: MatomoInjector) {
+      this.matomoInjector.init(this.appSettings.matomo_url, 5);
   }
 
   ngOnInit() {

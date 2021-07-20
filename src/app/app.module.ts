@@ -52,6 +52,8 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ViewerComponent } from './book/viewer/viewer.component';
 
+import { MatomoModule } from 'ngx-matomo';
+
 import { BookComponent } from './book/book.component';
 import { HelpComponent } from './help/help.component';
 import { HomeComponent } from './home/home.component';
@@ -284,6 +286,7 @@ export function hljsLanguages() {
     FormsModule,
     DatepickerModule,
     Ng2CompleterModule,
+    MatomoModule,
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset
     }),
