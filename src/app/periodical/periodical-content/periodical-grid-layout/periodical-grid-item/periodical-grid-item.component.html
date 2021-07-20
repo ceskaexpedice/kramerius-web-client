@@ -6,15 +6,9 @@
           {{ item.getTitle() }}
         </div>
         <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
-          <i *ngIf="!item.public && !settings.hiddenLocks"
-            mz-icon-mdi 
-            [icon]="item.dnnt && auth.isLoggedIn() ? 'camera-off' : 'lock'" 
-            class="app-lock" 
-            [class.app-dnnt]="item.dnnt" 
-            mz-tooltip 
-            [tooltip]="(item.dnnt ? 'search.dnnt_document' : 'search.inaccessible_document') | translate" 
-            [position]="'top'">
-          </i>
+          <ng-container *ngIf="lock">
+            <i mz-icon-mdi [icon]="lock.icon" class="app-lock {{ lock.class }}" mz-tooltip [tooltip]="lock.tooltip"></i>
+          </ng-container>
         </div>
         <div class="app-card-subtitle" mz-tooltip [tooltip]="item.getExtendedPart(translator)">
           <ng-container *ngIf="item.getPart().length < 10; else longPart">

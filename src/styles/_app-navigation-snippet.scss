@@ -49,6 +49,9 @@
           &:before {
             font-size: 17px;
           }
+          &.app-lock-licence-open, &.app-lock-licence-locked {
+            color: $app-licence-color;
+          }
         }
       }
     }

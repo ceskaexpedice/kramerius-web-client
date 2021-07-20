@@ -63,6 +63,7 @@ export class MusicService {
         this.metadata = metadata
         this.metadata.addToContext('soundrecording', this.metadata.uuid);
         this.metadata.assignDocument(item);
+        this.metadata.licence = this.document.licence;
         this.metadata.doctype = 'soundrecording';
         this.pageTitle.setTitle(null, this.metadata.getShortTitle());
         this.localStorageService.addToVisited(this.document, this.metadata);

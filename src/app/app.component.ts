@@ -26,10 +26,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if (this.appSettings.dnnt) {
-    //   this.auth.login('', '').subscribe(user => {
-    //   });
-    // }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         (<any>window).gaaa('set', 'page', event.urlAfterRedirects);

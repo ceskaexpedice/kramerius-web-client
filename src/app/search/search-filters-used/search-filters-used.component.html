@@ -28,14 +28,6 @@
     </span>
   </mz-collection-item>
 
-  <mz-collection-item *ngIf="searchService.query.accessibility === 'dnnt'">
-    <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'search.accessibility.dnnt' | translate }}
-    </span>
-  </mz-collection-item>
-
   <mz-collection-item *ngIf="searchService.query.accessibility === 'private'">
     <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
       <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
@@ -44,12 +36,19 @@
     </span>
   </mz-collection-item>
 
+  <mz-collection-item *ngIf="searchService.query.accessibility === 'accessible'">
+    <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
+      <i mz-icon-mdi [icon]="'lock-open'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
+      {{ 'search.accessibility.accessible' | translate }}
+    </span>
+  </mz-collection-item>
 
   <mz-collection-item *ngFor="let licence of searchService.query.licences">
     <span (click)="searchService.removeFilter(searchService.query.licences, licence)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
+      <i mz-icon-mdi [icon]="licences.accessible([licence]) ? 'camera-off' : 'lock'" class="app-clean-mg app-licence"></i>
       <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'licence.' + licence | translate | appUpcase }}
+      {{ licences.label(licence) }}
     </span>
   </mz-collection-item>
 

@@ -136,7 +136,6 @@ import { IiifService } from './services/iiif.service';
 import { ZoomifyService } from './services/zoomify.service';
 import { LoggerService } from './services/logger.service';
 import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/dialog-advanced-search.component';
-import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.component';
 import { LandingComponent } from './landing/landing.component';
 import { FaqComponent } from './faq/faq.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
@@ -153,6 +152,9 @@ import { AdminCollectionsComponent } from './dialog/dialog-admin/admin-collectio
 import { AdminAccessibilityComponent } from './dialog/dialog-admin/admin-accessibility/admin-accessibility.component';
 import { AdminReindexationComponent } from './dialog/dialog-admin/admin-reindexation/admin-reindexation.component';
 import { AdminReprePageComponent } from './dialog/dialog-admin/admin-reprepage/admin-reprepage.component';
+import { LicenceService } from './services/licence.service';
+import { LicenceMessagesComponent } from './shared/licence-messages/licence-messages.component';
+import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licences.component';
 
 
 
@@ -247,7 +249,6 @@ export function hljsLanguages() {
     DialogAdminMetadataComponent,
     MapBrowseComponent,
     DialogAdvancedSearchComponent,
-    DialogPolicyComponent,
     LandingComponent,
     SafeHtmlPipe,
     DialogAdminComponent,
@@ -259,7 +260,9 @@ export function hljsLanguages() {
     AdminCollectionsComponent,
     AdminAccessibilityComponent,
     AdminReindexationComponent,
-    AdminReprePageComponent
+    AdminReprePageComponent,
+    LicenceMessagesComponent,
+    DialogLicencesComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -271,8 +274,8 @@ export function hljsLanguages() {
     DialogPdfGeneratorComponent,
     DialogAdminMetadataComponent,
     DialogAdvancedSearchComponent,
-    DialogPolicyComponent,
     DialogAdminComponent,
+    DialogLicencesComponent
   ],
   imports: [
     BrowserModule,
@@ -290,7 +293,7 @@ export function hljsLanguages() {
       providedLanguages: ['en', 'cs'],
       defaultLanguage: 'cs',
       loaderOptions: {
-        path: 'assets/i18n/{{language}}.json?v2.0.8'
+        path: 'assets/i18n/{{language}}.json?v2.1.1'
       }
     }),
     MzButtonModule,
@@ -363,6 +366,7 @@ export function hljsLanguages() {
     IiifService,
     ZoomifyService,
     LoggerService,
+    LicenceService,
     AdminApiService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],

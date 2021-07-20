@@ -78,7 +78,8 @@ export class Utils {
         item.root_uuid = json['root_pid'];
         item.public = json['policy'] === 'public';
         item.doctype = json['model'];
-        item.dnnt = json['dnnt'];
+        item.licences = json['dnnt-labels'] || [];
+        item.licence = json['providedByLabel'];
         item.date = json['datumstr'];
         item.authors = json['author'];
         if (json['replicatedFrom'] && json['replicatedFrom'].length > 0) {

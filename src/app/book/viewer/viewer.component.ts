@@ -13,6 +13,7 @@ import { IiifService } from '../../services/iiif.service';
 import { ZoomifyService } from '../../services/zoomify.service';
 import { AltoService } from '../../services/alto-service';
 import { LoggerService } from '../../services/logger.service';
+import { LicenceService } from '../../services/licence.service';
 
 declare var ol: any;
 
@@ -72,6 +73,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   constructor(public bookService: BookService,
               public authService: AuthService,
               public settings: AppSettings,
+              public licences: LicenceService,
               private http: HttpClient,
               private iiif: IiifService,
               private logger: LoggerService,
@@ -255,8 +257,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
      });
   }
 
-  buildWatermarkLayer(text: string) {
-    const font = this.settings.dnnt.watermarkFontSize + 'px roboto,sans-serif';
+  buildWatermarkLayer(config: any, text: string) {
+    const font = config.fontSize + 'px roboto,sans-serif';
     this.watermark = new ol.layer.Vector({
       name: 'watermark',
       source: new ol.source.Vector(),
@@ -265,7 +267,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
           font: font,
           text: text,
           fill: new ol.style.Fill({
-            color:  this.settings.dnnt.watermarkColor
+            color:  config.color
           }),
           textAlign: 'left',
         })
@@ -279,27 +281,34 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.watermark) {
       this.watermark.getSource().clear();
     }
+    if (!this.bookService.licence || !this.licences.available(this.bookService.licence)) {
+      return;
+    }
+    const config = this.licences.watermark(this.bookService.licence);
+    if (!config) {
+      return;
+    }
     let watermarkText: string;
-    if (this.bookService.dnntMode && this.authService.isLoggedIn()) {
+    if (this.authService.isLoggedIn()) {
       watermarkText = this.authService.getUserId();
     } else {
-      // watermarkText = 'test';
+      watermarkText = config['defaultText'];
     }
     if (!watermarkText) {
       return;
     }
     if (!this.watermark) {
-      this.buildWatermarkLayer(watermarkText);
+      this.buildWatermarkLayer(config, watermarkText);
     }
-    let cw = this.settings.dnnt.watermarkRowCount;
-    const ch = this.settings.dnnt.watermarkColCount;
+    let cw = config.rowCount;
+    const ch = config.colCount;
     const sw = this.extent[0];
     const width = this.extent[2] - this.extent[0];
     if (this.extent[0] < 0) {
       cw = cw * 2;
     }
     const height = -this.extent[1];
-    const p = this.settings.dnnt.watermarkProbability;
+    const p = config.probability;
     for (let i = 0; i < cw; i ++) {
      for (let j = 0; j < ch; j ++) {
        if (Math.floor((Math.random() * 100)) < p) {

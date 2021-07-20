@@ -7,6 +7,7 @@ import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
 import { BrowseItem } from '../model/browse_item.model';
+import { LicenceService } from './licence.service';
 
 
 @Injectable()
@@ -24,6 +25,7 @@ export class BrowseService {
     constructor(
         private router: Router,
         private translator: Translator,
+        private licences: LicenceService,
         private collectionService: CollectionService,
         private settings: AppSettings,
         private analytics: AnalyticsService,
@@ -160,25 +162,23 @@ export class BrowseService {
                 this.loading = false;
             });
         } else  if (this.getCategory() === 'licences') {
-            this.translator.waitForTranslation().then(() => {
-                const filteredResults = [];
-                for (const item of this.backupResults) {
-                    item['name'] = this.translator.instant('licence.' + item['value']);
-                    if (!item['name'].startsWith('licence.')) {
-                        if (this.getText()) {
-                            if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
-                                filteredResults.push(item);
-                            }
-                        } else {
+            const filteredResults = [];
+            for (const item of this.backupResults) {
+                item['name'] = this.licences.label(item['value']);
+                if (item['name']) {
+                    if (this.getText()) {
+                        if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
                             filteredResults.push(item);
                         }
+                    } else {
+                        filteredResults.push(item);
                     }
                 }
-                this.results = filteredResults;
-                this.numberOfResults = this.results.length;
-                this.sortResult();
-                this.loading = false;
-            });
+            }
+            this.results = filteredResults;
+            this.numberOfResults = this.results.length;
+            this.sortResult();
+            this.loading = false;
         } else if (this.getCategory() === 'doctypes') {
             this.translator.waitForTranslation().then(() => {
                 const filteredResults = [];

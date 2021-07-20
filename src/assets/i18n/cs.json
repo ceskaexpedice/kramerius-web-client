@@ -116,7 +116,6 @@
     "genres": "Žánr",
     "authors": "Autor",
     "inaccessible_document": "Dokument není veřejně přístupný",
-    "dnnt_document": "Dokument podléhá režimu děl nedostupných na trhu",
     "ordering": {
       "label": "Řazení",
       "relevance": "Podle Relevance",
@@ -129,7 +128,6 @@
       "label": "Dostupnost",
       "public": "Pouze veřejné",
       "private": "Pouze neveřejné",
-      "dnnt": "Díla nedostupná na trhu",
       "accessible": "Všechny dostupné dokumenty",
       "all": "Vše"
     },
@@ -213,16 +211,17 @@
     "inaccessible_track": "Nahrávka není veřejně dostupná.",
     "download_track": "Stáhnout nahrávku"
   },
+  "licence": {
+    "private_label": "Dokument není veřejně přístupný",
+    "private_message": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
+    "licences_before": "Tento dokument spadá pod následující licence",
+    "licences_after": "Pokud se k dokumentu nemůžete dostat v rámci licencí, pak platí obecná pravidla pro veřejně nedostupné dokumenty",
+    "metadata_licence": "Zpřítupněno pod licencí"
+  },
   "alert": {
     "warning": "Upozornění",
     "error": "Chyba",
     "no_results_found": "Nebyly nalezeny žádné výsledky. Prosím, zkuste jiný dotaz.",
-    "inaccessible_document": "Tento dokument není veřejně přístupný",
-    "inaccessible_document_description": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
-    "inaccessible_document_dnnt": "Tento dokument není veřejně přístupný",
-    "inaccessible_document_dnnt_description": "Tento dokument spadá do režimu Děl nedostupných na trhu. Je dostupný ve vybraných knihovnách na vyhrazených terminálech. Chystá se vzdálené zpřístupnění pro registrované uživatele knihoven.",
-    "inaccessible_document_dnnt_unauthorized": "Nemáte oprávnění k prohlížení dokumentu",
-    "inaccessible_document_dnnt_unauthorized_description": "Důvodem mohou být překážky spojené s vaším knihovním účtem (neplatná registrace, nezaplacené poplatky, nevrácené výpůjčky). Při používání účtu vysoké školy si ověřte, v jaké pozici vůči své škole vystupujete.", 
     "failed_to_load_image": "Obrázek se nepodařilo načíst",
     "book_no_results": "Nebyly nalezeny žádné výsledky"
   },
@@ -278,8 +277,7 @@
     "btn_hide_metadata": "Skrýt metadata",
     "authors_info": "Více o autorech",
     "donator": "S podporou",
-    "policy_private": "Dokument není veřejně přístupný",
-    "policy_dnnt": "Dílo nedostupné na trhu"
+    "policy_private": "Dokument není veřejně přístupný"
   },
   "donator": {
     "norway": {
@@ -565,11 +563,6 @@
       "6": "Ne"
     }
   },
-  "licence" : {
-    "dnnto": "DNNT online",
-    "dnntt": "DNNT terminál",
-    "covid": "COVID"
-  },
   "sigla": {
     "BOA001" : "Moravská zemská knihovna v Brně",
     "BOE801" : "Muzeum Brněnska",
@@ -670,7 +663,8 @@
     "ABB019" : "Sociologický ústav AV ČR",
     "ABB085" : "Masarykův ústav a Archiv AV ČR",
     "ABB083" : "Ústav pro soudobé dějiny AV ČR",
-    "ABE461" : "Židovská obec v Praze"
+    "ABE461" : "Židovská obec v Praze",
+    "KME450" : "Muzeum umění Olomouc - Arcidiecézní muzeum Kroměříž"
   },
   "language" : {
     "aar" : "afarština",

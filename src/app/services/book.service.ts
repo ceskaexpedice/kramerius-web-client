@@ -29,6 +29,7 @@ import { DialogPdfGeneratorComponent } from '../dialog/dialog-pdf-generator/dial
 import { IiifService } from './iiif.service';
 import { LoggerService } from './logger.service';
 import { PeriodicalItem } from '../model/periodicalItem.model';
+import { LicenceService } from './licence.service';
 
 
 
@@ -74,8 +75,9 @@ export class BookService {
     public showNavigationPanel: boolean;
     public viewer: string; // image | pdf | none
 
-    public dnntMode = false;
-    public dnntFlag = false;
+    public licence: string;
+    public licences: string[];
+
     public iiifEnabled = false;
 
     private supplementUuids = [];
@@ -93,6 +95,7 @@ export class BookService {
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
+        private licenceService: LicenceService,
         private account: AccountService,
         private modalService: MzModalService) {
     }
@@ -135,6 +138,7 @@ export class BookService {
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
+            console.log('ss', item);
             if (item.doctype === 'article') {
                 if (params.articleUuid) {
                     return;
@@ -180,6 +184,8 @@ export class BookService {
                     this.loadVolumes(item.root_uuid, this.uuid);
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
+                this.licences = item.licences;
+                this.licence = item.licence;
                 if (item.pdf) {
                     this.showNavigationPanel = false;
                     this.bookState = BookState.Success;
@@ -466,6 +472,8 @@ export class BookService {
                             || page.type === 'spine')) {
                     lastSingle = index;
                 }
+                page.licences = this.licences;
+                page.licence = this.licence;
                 this.pages.push(page);
                 this.allPages.push(page);
                 index += 1;
@@ -584,10 +592,19 @@ export class BookService {
         return this.pages ? this.pages.length : 0;
     }
 
-
-    showQuotation() {
-
+    isActionAvailable(action: string): boolean {
+        if (this.licence) {
+          const l = this.licenceService.action(this.licence, action);
+          if (l == 1) {
+            return true;
+          } else if (l == 2) {
+            return false;
+          }
+        }
+        const value = this.settings.actions[action];
+        return value === 'always' || (value === 'public' && !this.isPrivate);
     }
+
     showOcr() {
         const requests = [];
         requests.push(this.api.getOcr(this.getPage().uuid));
@@ -597,7 +614,8 @@ export class BookService {
         forkJoin(requests).subscribe(result => {
             const options = {
                 ocr: result[0],
-                uuid: this.getPage().uuid
+                uuid: this.getPage().uuid,
+                showCitation: this.isActionAvailable('citation')
             };
             if (result.length > 1) {
                 options['ocr2'] = result[1];
@@ -614,7 +632,8 @@ export class BookService {
                 const text = this.altoService.getTextInBox(result, extent, width, height);
                 const options = {
                     ocr: text,
-                    uuid: this.getPage().uuid
+                    uuid: this.getPage().uuid,
+                    showCitation: this.isActionAvailable('citation')
                 };
                 this.modalService.open(DialogOcrComponent, options);
             },
@@ -1016,8 +1035,15 @@ export class BookService {
             if (rightPage) {
                 rightPage.assignPageData(result[1]);
             }
-            this.dnntMode = leftPage.providedByDnnt || (rightPage && rightPage.providedByDnnt);
-            this.dnntFlag = leftPage.dnntFlag || (rightPage && rightPage.dnntFlag);
+            if (leftPage.licences) {
+                this.licence = leftPage.licence;
+                this.metadata.licence = this.licence;
+                this.licences = leftPage.licences;
+            } else if (rightPage && rightPage.licence) {
+                this.licence = rightPage.licence;
+                this.metadata.licence = this.licence;
+                this.licences = rightPage.licences;
+            }
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {
@@ -1108,8 +1134,8 @@ export class BookService {
         this.navigationTabsCount = 0;
         this.showNavigationPanel = false;
         this.viewer = 'none';
-        this.dnntMode = false;
-        this.dnntFlag = false;
+        this.licence = null;
+        this.licences = [];
         this.iiifEnabled = false;
     }
 

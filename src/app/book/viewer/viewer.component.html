@@ -1,5 +1,5 @@
 <div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
-  <app-viewer-controls [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
+  <app-viewer-controls *ngIf="!bookService.isPageInaccessible()" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 
   <span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
         class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
@@ -39,26 +39,7 @@
 
   
   <ng-container *ngIf="bookService.isPageInaccessible()">
-      <ng-container *ngIf="!bookService.dnntFlag">
-            <app-alert *ngIf="!settings.customRightMessage"
-                  type="warning"
-                  label="alert.warning"
-                  message="alert.inaccessible_document"
-                  description="alert.inaccessible_document_description">
-            </app-alert>
-            <app-alert *ngIf="settings.customRightMessage"
-                  type="warning"
-                  label="alert.warning"
-                  message="alert.inaccessible_document"
-                  [html]="(krameriusInfo.data$ | async).getRightMessage()">
-            </app-alert>
-      </ng-container>
-      <app-alert *ngIf="bookService.dnntFlag"
-            type="warning"
-            label="alert.warning"
-            [message]="authService.isLoggedIn() ? 'alert.inaccessible_document_dnnt_unauthorized' : 'alert.inaccessible_document_dnnt'"
-            [html]="(authService.isLoggedIn() ? 'alert.inaccessible_document_dnnt_unauthorized_description' : 'alert.inaccessible_document_dnnt_description') | translate">
-      </app-alert>
+      <app-licence-messages [full]="true" [licences]="bookService.licences"></app-licence-messages>
   </ng-container>
 
 
@@ -82,9 +63,12 @@
   </mz-spinner>
 
 
-  <div *ngIf="bookService.dnntMode && authService.isLoggedIn()" class="app-dnnt">
-      <span class="app-info">{{ 'metadata.policy_dnnt' | translate}}</span>
-      <span class="app-user">{{ authService.getUserId() }} | {{ today() }}</span>
+  <div *ngIf="bookService.licence && licences.bar(bookService.licence)" class="app-licence-bar">
+      <span class="app-info">{{ licences.label(bookService.licence) }}</span>
+      <span class="app-user">
+            <ng-container *ngIf="authService.isLoggedIn()"> {{ authService.getUserId() }} | </ng-container>
+            {{ today() }}
+      </span>
   </div>
 
 </div>

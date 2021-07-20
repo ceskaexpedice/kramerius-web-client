@@ -116,7 +116,6 @@
     "genres": "Genre",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",
-    "dnnt_document": "Out of Commerce Works",
     "ordering": {
       "label": "Ordering",
       "relevance": "Relevance",
@@ -129,7 +128,6 @@
       "label": "Accessibility",
       "public": "Public",
       "private": "Private",
-      "dnnt": "Out of Commerce Works",
       "accessible": "All accessible documents",
       "all": "All"
     },
@@ -213,16 +211,17 @@
     "inaccessible_track": "The track is not publically accessible",
     "download_track": "Download track"
   },
+  "licence": {
+    "private_label": "The document is not publicly accessible",
+    "private_message": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
+    "licences_before": "This document is covered by the following licenses",
+    "licences_after": "If you cannot access the document under licenses, then the general rules for non-public documents apply",
+    "metadata_licence": "Available under license"
+  },
   "alert": {
     "warning": "Attention",
     "error": "Error",
     "no_results_found": "No results found. Please, try a different query.",
-    "inaccessible_document": "The document is not publicly accessible",
-    "inaccessible_document_description": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
-    "inaccessible_document_dnnt": "The document is not publicly accessible",
-    "inaccessible_document_dnnt_description": "Tento dokument spadá do režimu Děl nedostupných na trhu. Je dostupný ve vybraných knihovnách na vyhrazených terminálech. Chystá se vzdálené zpřístupnění pro registrované uživatele knihoven.",
-    "inaccessible_document_dnnt_unauthorized": "Nemáte oprávnění k prohlížení dokumentu",
-    "inaccessible_document_dnnt_unauthorized_description": "Důvodem mohou být překážky spojené s vaším knihovním účtem (neplatná registrace, nezaplacené poplatky, nevrácené výpůjčky). Při používání účtu vysoké školy si ověřte, v jaké pozici vůči své škole vystupujete.", 
     "failed_to_load_image": "Failed to load the image",
     "book_no_results": "No results found"
   },
@@ -278,8 +277,7 @@
     "btn_hide_metadata": "Hide metadata",
     "authors_info": "More about authors",
     "donator": "Supported by",
-    "policy_private": "Not publicly accessible document",
-    "policy_dnnt": "Out of Commerce Works"
+    "policy_private": "Not publicly accessible document"
   },
   "donator": {
     "norway": {
@@ -565,11 +563,6 @@
       "6": "Sun"
     }
   },
-  "licence" : {
-    "dnnto": "DNNT online",
-    "dnntt": "DNNT terminal",
-    "covid": "COVID"
-  },
   "sigla": {
     "BOA001" : "Moravian Library in Brno",
     "BOE801" : "Museum of Brno Region",
@@ -670,7 +663,8 @@
     "ABB019" : "Institute of Sociology of the Czech Academy of Sciences",
     "ABB085" : "Masaryk Institute and Archives of the AS CR",
     "ABB083" : "Institute of Contemporary History, Czech Academy of Sciences",
-    "ABE461" : "Jewish community in Prague"
+    "ABE461" : "Jewish community in Prague",
+    "KME450" : "Olomouc Museum of Art - Kromeriz Archdiocesan Museum"
   },
   "language" : {
     "aar" : "Afar",

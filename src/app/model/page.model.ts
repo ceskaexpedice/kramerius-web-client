@@ -12,8 +12,8 @@ export class Page {
     selected = false;
     position = PagePosition.None;
     imageType = PageImageType.None;
-    providedByDnnt = false;
-    dnntFlag = false;
+    licences = [];
+    licence: string;
     originUrl: string;
     public: boolean;
     title: string;
@@ -40,12 +40,8 @@ export class Page {
             return;
         }
         this.loaded = true;
-        if (data['dnnt']) {
-            this.dnntFlag = true;
-        }
-        if (data['providedByDnnt']) {
-            this.providedByDnnt = true;
-        }
+        this.licences = data['licences'] || [];
+        this.licence = data['licence'];
         if (data['replicatedFrom'] && data['replicatedFrom'].length > 0) {
             this.originUrl = data['replicatedFrom'][0];
         }
