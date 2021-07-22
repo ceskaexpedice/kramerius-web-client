@@ -244,13 +244,17 @@ export class KrameriusApiService {
         const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
         return url;
     }
-    
+
     getModsUrl(uuid: string): string {
         if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
         } else {
             return this.getItemUrl(uuid) + '/metadata/mods';
         }
+    }
+
+    getDcUrl(uuid: string): string{
+        return this.getItemUrl(uuid) + '/streams/DC';
     }
 
     getFoxmlUrl(uuid: string): string {
