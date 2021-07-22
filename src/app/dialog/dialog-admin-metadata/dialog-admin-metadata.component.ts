@@ -125,6 +125,11 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
     switch (this.resource) {
       case 'mods': return this.api.getModsUrl(uuid);
       case 'solr': return this.api.getSearchResultsUrl(`q=${this.solr.field('id')}:"${uuid}"`);
+      case 'alto': return this.api.getAltoUrl(uuid);
+      case 'ocr': return this.api.getOcrUrl(uuid);
+      case 'foxml': return this.api.getFoxmlUrl(uuid);
+      //case 'item': return this.api.getItemUrl(uuid)
+      case 'iiif': return this.api.getIiifManifestUrl(uuid);
       default: return null;
     }
   }

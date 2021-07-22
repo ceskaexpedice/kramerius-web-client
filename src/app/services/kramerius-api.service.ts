@@ -240,6 +240,11 @@ export class KrameriusApiService {
         return this.doGet(url);
     }
 
+    getIiifManifestUrl(uuid: string): string {
+        const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
+        return url;
+    }
+    
     getModsUrl(uuid: string): string {
         if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MODS);
