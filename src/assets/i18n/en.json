@@ -26,12 +26,20 @@
     "browse": "Browse",
     "collections": "Collections"
   },
-  "dk": {
+  "sp": {
     "title": "Digital Library",
-    "logo": "/assets/shared/logo-dk-en.png",
+    "logo": "/assets/shared/sp/logo_main_en.png",
+    "logo_tooltip": "Back to Homepage",
+    "header": {
+      "logo": "/assets/shared/sp/logo_header_en.gif",
+      "help": "Help"
+    },
     "message": "Thousands of digitized documents from Czech libraries, all in one place.",
     "vs_subtitle": " ",
     "vs_title": "Temporary access to digitized documents including copyrighted works for university students and teachers and for researchers.",
+    "message2": "",
+    "external_subtitle": " ",
+    "external_title": "Temporary access to digitized documents including copyrighted works for university students and teachers and for researchers.",
     "category": {
       "major": "Major Libraries",
       "regional": "Regional Libraries",
@@ -206,6 +214,13 @@
     "inaccessible_track": "The track is not publically accessible",
     "download_track": "Download track"
   },
+  "licence": {
+    "private_label": "The document is not publicly accessible",
+    "private_message": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
+    "licences_before": "This document is covered by the following licenses",
+    "licences_after": "If you cannot access the document under licenses, then the general rules for non-public documents apply",
+    "metadata_licence": "Available under license"
+  },
   "alert": {
     "warning": "Attention",
     "error": "Error",
@@ -216,6 +231,8 @@
     "inaccessible_document_dnnt": "Out of Commerce Works",
     "inaccessible_document_crisis_description": "<p>After logging in, the work is accessible only to registered users of institutions that have already concluded a contract with the National Library of the Czech Republic. <a href=\"https://ndk.cz/faq\" target=\"crisis\">More information on logging in.</a></p><p><b>is taught to educators and college students and researchers. </b></p><p>After successful login, you will be automatically redirected to the National Digital Library - Covid (NDK-Covid).",
     "inaccessible_document_dnnt_description": "This document falls under the Unavailable Works mode. This document is accessible only to registered visitors of contracted institutions. Access to NDK-DNNT services is conditional on a contract between the National Library of the Czech Republic and the library (institution) that wants to provide the services. More info <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\"> dnnt.nkp.cz </a>",
+    "inaccessible_document_dnnt_unauthorized": "Nemáte oprávnění k prohlížení dokumentu",
+    "inaccessible_document_dnnt_unauthorized_description": "Důvodem mohou být překážky spojené s vaším knihovním účtem (neplatná registrace, nezaplacené poplatky, nevrácené výpůjčky). Při používání účtu vysoké školy si ověřte, v jaké pozici vůči své škole vystupujete.",
     "failed_to_load_image": "Failed to load the image",
     "book_no_results": "No results found"
   },
@@ -428,7 +445,8 @@
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
     "track" : "Track",
-    "collection" : "Collection"
+    "collection" : "Collection",
+    "oldprintomnibusvolume": "Omnibus"
   },
   "model_2p" : {
     "monograph" : "Book",
@@ -450,7 +468,8 @@
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
     "track" : "Track",
-    "collection" : "Collection"
+    "collection" : "Collection",
+    "oldprintomnibusvolume": "Omnibus"
   },
   "model_4p" : {
     "monograph" : "Book",
@@ -472,7 +491,8 @@
     "internalpart" : "Chapter",
     "soundunit" : "Sound Unit",
     "track" : "Track",
-    "collection" : "Collection"
+    "collection" : "Collection",
+    "oldprintomnibusvolume": "Omnibus"
   },
   "model_plural" : {
     "monograph" : "Books",
@@ -493,7 +513,8 @@
     "internalpart" : "Chapters",
     "soundunit" : "Sound Units",
     "track" : "Tracks",
-    "collection" : "Collections"
+    "collection" : "Collections",
+    "oldprintomnibusvolume": "Omnibuses"
   },
   "issue_type": {
     "morning": "morning edition",
@@ -569,26 +590,6 @@
       "4": "Fri",
       "5": "Sat",
       "6": "Sun"
-    }
-  },
-  "licence" : {
-    "dnnto": {
-      "label": "DNNT online",
-      "policy": "Out of Commerce Work",
-      "inaccessible_document": "The document is not publicly accessible",
-      "inaccessible_document_description": "This document falls under the Unavailable Works mode. This document is accessible only to registered visitors of <a href=\"https://ndk.cz/knihinst\" target=\"dnnt\">contracted institutions</a>. Access to NDK-DNNT services is conditional on a contract between the National Library of the Czech Republic and the library (institution) that wants to provide the services. More info <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\"> dnnt.nkp.cz </a>"
-    },
-    "dnntt": {
-      "label": "DNNT terminal",
-      "policy": "Out of Commerce Work",
-      "inaccessible_document": "The document is not publicly accessible",
-      "inaccessible_document_description": "This document is still protected by the Copyright Act (No. 121/2000 Coll.) And is therefore not publicly available until 70 years have passed since the death of all its authors (including a translator, illustrator, etc.) and 50 years after the publication of the work. The document can be accessed from computer stations in the library building that owns it. You can find out about the ownership of the requested document in the details on the right as „Save“."
-    },
-    "covid": {
-      "label": "",
-      "policy": "Out of Commerce Work - COVID",
-      "inaccessible_document": "The document is not publicly accessible",
-      "inaccessible_document_description": "<p>After logging in, the work is accessible only to registered users of institutions that have already concluded a contract with the National Library of the Czech Republic. <a href=\"https://ndk.cz/faq\" target=\"crisis\">More information on logging in.</a></p><p><b>is taught to educators and college students and researchers. </b></p><p>After successful login, you will be automatically redirected to the National Digital Library - Covid (NDK-Covid)."
     }
   },
   "sigla": {
@@ -691,7 +692,8 @@
     "ABB019" : "Institute of Sociology of the Czech Academy of Sciences",
     "ABB085" : "Masaryk Institute and Archives of the AS CR",
     "ABB083" : "Institute of Contemporary History, Czech Academy of Sciences",
-    "ABE461" : "Jewish community in Prague"
+    "ABE461" : "Jewish community in Prague",
+    "KME450" : "Olomouc Museum of Art - Kromeriz Archdiocesan Museum"
   },
   "language" : {
     "aar" : "Afar",

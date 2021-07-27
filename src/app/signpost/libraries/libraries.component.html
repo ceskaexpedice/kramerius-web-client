@@ -1,0 +1,40 @@
+<div class="sp-libraries container">
+
+  <div class="sp-logo">
+    <img [src]="'sp.logo' | translate" [alt]="'sp.title' | translate">
+  </div>
+  <div class="sp-messages">
+    <div class="sp-message">{{ 'sp.message' | translate }}</div>
+    <div class="sp-message">{{ 'sp.message2' | translate }}</div>
+  </div>
+
+  <div class="row" *ngIf="settings.krameriusVsList">
+    <div class="sp-section">
+      <div class="sp-section-title">{{ 'sp.external_title' | translate }}</div>
+      <div class="sp-section-subtitle">{{ 'sp.external_subtitle' | translate }}</div>
+    </div>
+
+    <div class="sp-library-card-wrapper sp-library-card-wrapper-vs col" *ngFor="let kramerius of settings.krameriusVsList">
+      <a class="sp-library-card" [href]="kramerius.url" (click)="analytics.sendEvent('landing', 'kramerius', kramerius.code);">
+        <div class="sp-library-card-content">
+          <div class="sp-library-logo" [style.background-image]="getThumb(kramerius.logo)"></div>
+          <div class="sp-library-title">{{ kramerius.title }}<br/>{{ kramerius.subtitle }}</div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="row" *ngFor="let category of categories">
+    <div class="sp-section-title">{{ 'sp.category.' + category | translate }}</div>
+    <div class="sp-library-card-wrapper col s12 l6 xl4" *ngFor="let kramerius of libraries[category]">
+      <a class="sp-library-card" [routerLink]="['/' + kramerius.code]" (click)="analytics.sendEvent('landing', 'kramerius', kramerius.title);">
+        <div class="sp-library-card-content">
+            <div class="sp-library-logo" [style.background-image]="getThumb(kramerius.logo)"></div>
+            <div class="sp-library-title">{{ kramerius.title }}</div>
+          </div>
+      </a>
+    </div>
+  </div>
+
+</div>

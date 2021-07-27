@@ -4,13 +4,21 @@ app-pdf-viewer {
   flex: 1;
   height: 100%;
   width: 100%;
-  background-color: $app-grey-l-4;    
+  background-color: $app-grey-l-4;
   // overflow: scroll;
   position: relative;
   pdf-viewer {
     display: block;
   }
-  
+
+  app-licence-messages {
+     display: block;
+     max-width: 800px;
+     margin: 0 auto;
+     padding: 40px 12px 10px;
+     overflow: auto;
+     height: 100%;
+   }
 
   .app-handle {
     position: absolute;
@@ -20,13 +28,13 @@ app-pdf-viewer {
     background: rgba(255, 255, 255, 0.9);
     color: $app-grey;
     cursor: pointer;
-    
+
     &.app-left-handle {
       left: 0;
       @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
       border-top-right-radius: $app-border-radius-sidebar;
       border-bottom-right-radius: $app-border-radius-sidebar;
-    
+
       @media #{$medium-and-down} {
         .app-mdi-tablet {
           &:before {
@@ -40,13 +48,13 @@ app-pdf-viewer {
         }
       }
     }
-    
+
     &.app-right-handle {
       right: 0;
       @include set-border(left-top-bottom, 1, solid, #{$app-grey-l-2});
       border-top-left-radius: $app-border-radius-sidebar;
       border-bottom-left-radius: $app-border-radius-sidebar;
-  
+
       @media #{$medium-and-down} {
         .app-mdi-tablet {
           &:before {
@@ -62,7 +70,7 @@ app-pdf-viewer {
     }
 
     &:hover {
-      color: color("shades", "black");  
+      color: color("shades", "black");
       background: $app-grey-l-2;
     }
   }

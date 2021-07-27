@@ -1,3 +1,4 @@
+
 // --- SEARCH RESULTS --
 
 app-map-browse {
@@ -5,7 +6,7 @@ app-map-browse {
   height: calc(100% - #{$app-toolbar-height});
   overflow: auto;
   background-color: $app-grey-l-4;
-  
+
   &.app-map-browse-no-toolbar {
     height: 100%;
   }
@@ -50,7 +51,7 @@ app-map-browse {
                 display: -webkit-box;
                 text-overflow: ellipsis;
             }
-            
+
             .app-item-date {
                 overflow: hidden;
                 line-height: 20px;
@@ -61,7 +62,7 @@ app-map-browse {
                 display: -webkit-box;
                 text-overflow: ellipsis;
             }
-            
+
             .app-item-authors {
                 overflow: hidden;
                 line-height: 20px;
@@ -72,7 +73,7 @@ app-map-browse {
                 display: -webkit-box;
                 text-overflow: ellipsis;
             }
-            
+
             .app-item-geonames {
                 overflow: hidden;
                 line-height: 20px;
@@ -83,7 +84,7 @@ app-map-browse {
                 display: -webkit-box;
                 text-overflow: ellipsis;
             }
-            
+
             .app-item-thumb {
                 margin-right: 6px;
                 background-repeat: no-repeat;
@@ -106,11 +107,11 @@ app-map-browse {
                   opacity: 0.8;
                   margin: auto;
                   top: 0; left: 0; bottom: 0; right: 0;
-                  &.app-dnnt {
-                    color: $app-dnnt;
+                  &.app-lock-licence-open, &.app-lock-licence-locked {
+                    color: $app-licence-color;
                   }
                   &:before {
-                      font-size: 20px;
+                    font-size: 20px;
                   }
                 }
             }

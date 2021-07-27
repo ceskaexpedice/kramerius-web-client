@@ -13,7 +13,8 @@ import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/
 import { Translator } from 'angular-translator';
 import { Metadata } from '../model/metadata.model';
 import { AuthService } from './auth.service';
-
+import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.component';
+import { LicenceService } from './licence.service';
 
 @Injectable()
 export class SearchService {
@@ -43,10 +44,13 @@ export class SearchService {
     contentType = 'grid'; // 'grid' | 'map'
 
     collection: Metadata;
+    collectionStructure: any;
+
+    adminSelection: boolean;
 
     constructor(
         private router: Router,
-        public auth: AuthService,
+        public licenceService: LicenceService,
         private translator: Translator,
         private collectionService: CollectionService,
         private solr: SolrService,
@@ -59,6 +63,7 @@ export class SearchService {
 
     public init(context, params) {
         this.collection = null;
+        this.collectionStructure = {};
         this.results = [];
         this.keywords = [];
         this.doctypes = [];
@@ -111,7 +116,7 @@ export class SearchService {
             filters.push(this.translator.instant('language.' + item));
         }
         for (const item of q.licences) {
-            filters.push(this.translator.instant('licence.' + item + '.label'));
+            filters.push(this.licenceService.label(item));
         }
         if (q.isCustomFieldSet()) {
             filters.push(q.getCustomValue());
@@ -290,9 +295,69 @@ export class SearchService {
         if (this.query.collection) {
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
                 this.collection = metadata;
-            })
+            });
+            let uuid = this.query.collection;
+            this.collectionStructure = {
+               collections: [],
+               visible: false
+            };
+            this.buildCollectionStructure(uuid);
         }
     }
+
+    getCollectionContent() {
+      if (this.translator.language == 'en' && this.collection.notes.length > 1) {
+        return this.collection.notes[1] || '';
+      } else if (this.collection.notes.length >= 1) {
+        return this.collection.notes[0] || '';
+      }
+      return '';
+   }
+
+   getCollectionTitle() {
+       if (this.translator.language == 'en') {
+           return this.collection.getCollectionTitle('eng');
+       } else {
+           return this.collection.getCollectionTitle('cze');
+       }
+   }
+
+   getCollectionNavTitle(item) {
+       if (this.translator.language == 'en' && item.titleEn) {
+           return item.titleEn;
+       } else {
+           return item.title;
+       }
+   }
+
+   private buildCollectionStructure(uuid: string) {
+       this.api.getSearchResults(`q=pid:"${uuid}"&fl=in_collections.direct,titles.search`).subscribe((result) => {
+           if (!result['response']['docs'] || result['response']['docs'].length < 1) {
+               return;
+           }
+           const doc = result['response']['docs'][0];
+           const names = doc['titles.search'] || [];
+           let title = '';
+           let titleEn = '';
+           if (names.length > 0) {
+               title = names[0];
+           }
+           if (names.length > 1) {
+               titleEn = names[1];
+           }
+           this.collectionStructure.collections.unshift({ uuid: uuid, title: title, titleEn: titleEn, url: this.settings.getPathPrefix() + '/collection/' + uuid });
+           const cols = doc['in_collections.direct'] || [];
+           if (cols.length > 0) {
+               this.buildCollectionStructure(cols[0]);
+           } else {
+               if (this.collectionStructure.collections.length > 1) {
+                   this.collectionStructure.ready = true;
+               }
+           }
+       });
+
+
+   }
 
     public highlightDoctype(doctype: string) {
         return this.query.doctypes.length === 0 || this.query.doctypes.indexOf(doctype) >= 0;
@@ -302,7 +367,7 @@ export class SearchService {
         switch (facet) {
             case 'accessibility': {
                 this.accessibility = this.solr.facetAccessibilityList(response);
-                if ((this.settings.dnntFilter && !this.settings.dnntUrl || this.settings.dnntFilter && this.auth.isLoggedIn()) && this.settings.publicFilterDefault!='notlogged') {
+                if ((this.settings.auth && !this.settings.dnntUrl || this.settings.auth && this.licenceService.anyUserLicence()) && this.settings.publicFilterDefault!='notlogged') {
                     this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
                         let count = 0;
                         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
@@ -320,10 +385,13 @@ export class SearchService {
                 this.doctypes = this.solr.facetDoctypeList(response, this.settings.joinedDoctypes, this.settings.doctypes);
                 break;
             }
+            case 'licences': {
+               this[facet] = this.solr.facetList(response, this.solr.getFilterField(facet), this.query[facet], false);
+             break;
+            }
             case 'authors':
             case 'keywords':
             case 'languages':
-            case 'licences':
             case 'locations':
             case 'geonames':
             case 'genres':
@@ -376,6 +444,25 @@ export class SearchService {
             this.makeFacetRequest(facet);
         }
     }
+
+    openAdminActions() {
+       const uuids = [];
+       for (const item of this.results) {
+         if (item.selected) {
+           uuids.push(item.uuid);
+         }
+       }
+       this.modalService.open(DialogAdminComponent, { uuids: uuids } );
+     }
+
+     toggleAdminSelection() {
+       if (this.results) {
+         for (const item of this.results) {
+           item.selected = false;
+         }
+       }
+       this.adminSelection = !this.adminSelection;
+     }
 
     private handleResponse(response) {
         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {

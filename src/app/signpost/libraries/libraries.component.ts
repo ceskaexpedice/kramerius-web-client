@@ -1,15 +1,15 @@
-import { AppSettings } from '../services/app-settings';
 import { Component, OnInit } from '@angular/core';
-import { PageTitleService } from '../services/page-title.service';
-import { AnalyticsService } from '../services/analytics.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AnalyticsService } from '../../services/analytics.service';
+import { AppSettings } from '../../services/app-settings';
+import { PageTitleService } from '../../services/page-title.service';
 
 @Component({
-  selector: 'app-libraries',
+  selector: 'app-signpost-libraries',
   templateUrl: './libraries.component.html',
   styleUrls: ['./libraries.component.scss']
 })
-export class LibrariesComponent implements OnInit {
+export class SignpostLibrariesComponent implements OnInit {
 
   libraries = {};
   categories = ['major', 'regional', 'university', 'museum', 'archive', 'other'];

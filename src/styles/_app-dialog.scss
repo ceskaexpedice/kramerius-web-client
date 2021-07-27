@@ -25,12 +25,15 @@ mz-modal.app-dialog {
       color: #777;
       cursor: pointer;
       border-left: 1px solid #ccc;
-      &.active {
-        color: $primary-color;
-      }
       &:hover {
         color: #000;
       }
+      &.active {
+        color: $primary-color;
+      }
+    }
+    .dropdown-content {
+      width: auto !important;
     }
   }
 

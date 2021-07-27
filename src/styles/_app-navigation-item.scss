@@ -18,7 +18,7 @@
     height: 120px;
     overflow: hidden;
     // background-size: cover;
-    // background-position-x: center;    
+    // background-position-x: center;
     background-color: #c5c5c5;
     border: solid 1px #adadad;
     background-size: contain;
@@ -41,6 +41,9 @@
       right: 0;
       &:before {
         font-size: 17px;
+      }
+      &.app-lock-licence-open, &.app-lock-licence-locked {
+        color: $app-licence-color;
       }
     }
   }

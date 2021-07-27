@@ -64,6 +64,7 @@ export class PeriodicalService {
         this.metadata = metadata;
         this.pageTitle.setTitle(null, this.metadata.getShortTitle());
         this.metadata.assignDocument(this.document);
+        this.metadata.licence = this.document.licence;
         if (this.isMonograph()) {
           this.metadata.doctype = 'monographbundle';
           this.metadata.addToContext('monographbundle', query.uuid);

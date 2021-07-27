@@ -45,7 +45,7 @@ export class AdminApiService {
     return this.http.put(this.getBaseUrl() + path, body, options);
   }
 
-  
+
 
   addItemToCollection(collectionPid: string, itemPid: string): Observable<Object> {
     return this.post(`/collections/${collectionPid}/items`, itemPid);
@@ -58,5 +58,34 @@ export class AdminApiService {
   getCollections(): Observable<any> {
     return this.get(`/collections`);
   }
-}
 
+
+  changeAccessibility(uuid: string, scope: string, accessibility: string): Observable<any> {
+    const payload = {
+      defid: 'set_policy',
+      params: {
+        scope: scope,
+        policy: accessibility,
+        pid: uuid
+      }
+    }
+    return this.post('/processes/', payload);
+  }
+
+  reindex(uuid: string, type: string): Observable<any> {
+    const payload = {
+      defid: 'new_indexer_index_object',
+      params: {
+        type: type,
+        pid: uuid,
+        ignoreInconsistentObjects: true
+      }
+    }
+    return this.post('/processes/', payload);
+  }
+
+  setReprePage(forObject: string, fromPage: string): Observable<Object> {
+      return this.put(`/items/${forObject}/streams/IMG_THUMB?srcPid=${fromPage}`, {});
+  }
+
+}

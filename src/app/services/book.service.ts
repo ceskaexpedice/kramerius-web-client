@@ -29,7 +29,7 @@ import { DialogPdfGeneratorComponent } from '../dialog/dialog-pdf-generator/dial
 import { IiifService } from './iiif.service';
 import { LoggerService } from './logger.service';
 import { PeriodicalItem } from '../model/periodicalItem.model';
-
+ import { LicenceService } from './licence.service';
 
 
 @Injectable()
@@ -74,8 +74,8 @@ export class BookService {
     public showNavigationPanel: boolean;
     public viewer: string; // image | pdf | none
 
-    public dnntMode = false;
-    public dnntFlag = false;
+    public licence: string;
+    public licences: string[];
     public providedByLabel: string;
     public iiifEnabled = false;
 
@@ -94,6 +94,7 @@ export class BookService {
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
+        private licenceService: LicenceService,
         private account: AccountService,
         private modalService: MzModalService) {
     }
@@ -181,7 +182,10 @@ export class BookService {
                     this.loadVolumes(item.root_uuid, this.uuid);
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
+                this.licences = item.licences;
+                this.licence = item.licence;
                 if (item.pdf) {
+                    this.licences = item.licences
                     this.showNavigationPanel = false;
                     this.bookState = BookState.Success;
                     this.assignPdfPath(params.uuid);
@@ -467,6 +471,8 @@ export class BookService {
                             || page.type === 'spine')) {
                     lastSingle = index;
                 }
+                page.licences = this.licences;
+                page.licence = this.licence;
                 this.pages.push(page);
                 this.allPages.push(page);
                 index += 1;
@@ -586,9 +592,19 @@ export class BookService {
     }
 
 
-    showQuotation() {
-
+    isActionAvailable(action: string): boolean {
+        if (this.licence) {
+          const l = this.licenceService.action(this.licence, action);
+          if (l == 1) {
+            return true;
+          } else if (l == 2) {
+            return false;
+          }
+        }
+        const value = this.settings.actions[action];
+        return value === 'always' || (value === 'public' && !this.isPrivate);
     }
+
     showOcr() {
         const requests = [];
         requests.push(this.api.getOcr(this.getPage().uuid));
@@ -663,9 +679,16 @@ export class BookService {
                   window.open('downloadIMG.html#'+this.getPage().uuid, '_blank');
             }
 
-            /*window.open(this.krameriusApiService.getFullJpegUrl(this.getPage().uuid), '_blank');
-            if (this.getRightPage()) {
-                window.open(this.krameriusApiService.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+            /* if (this.iiifEnabled) {
+                window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getPage().uuid)), '_blank');
+                if (this.getRightPage()) {
+                    window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getRightPage().uuid)), '_blank');
+                }
+            } else {
+                window.open(this.api.getFullJpegUrl(this.getPage().uuid), '_blank');
+                if (this.getRightPage()) {
+                    window.open(this.api.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+                }
             }*/
         }
     }
@@ -1019,9 +1042,15 @@ export class BookService {
             if (rightPage) {
                 rightPage.assignPageData(result[1]);
             }
-            this.dnntMode = leftPage.providedByDnnt || (rightPage && rightPage.providedByDnnt);
-            this.dnntFlag = leftPage.dnntFlag || (rightPage && rightPage.dnntFlag);
-            this.providedByLabel = leftPage.providedByLabel || (rightPage && rightPage.providedByLabel);
+            if (leftPage.licences) {
+                this.licence = leftPage.licence;
+                this.metadata.licence = this.licence;
+                this.licences = leftPage.licences;
+            } else if (rightPage && rightPage.licence) {
+                this.licence = rightPage.licence;
+                this.metadata.licence = this.licence;
+                this.licences = rightPage.licences;
+            }
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {
@@ -1112,8 +1141,8 @@ export class BookService {
         this.navigationTabsCount = 0;
         this.showNavigationPanel = false;
         this.viewer = 'none';
-        this.dnntMode = false;
-        this.dnntFlag = false;
+        this.licence = null;
+        this.licences = [];
         this.providedByLabel = '';
         this.iiifEnabled = false;
     }

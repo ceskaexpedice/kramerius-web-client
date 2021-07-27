@@ -1,4 +1,3 @@
-import { PresentationComponent } from './presentation/presentation.component';
 import { DialogPdfGeneratorComponent } from './dialog/dialog-pdf-generator/dialog-pdf-generator.component';
 import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
 import { SigninComponent } from './account/signin/signin.component';
@@ -94,7 +93,7 @@ import { PeriodicalSearchComponent } from './periodical/periodical-filters/perio
 import { PeriodicalFiltersComponent } from './periodical/periodical-filters/periodical-filters.component';
 
 import { NgxGalleryModule } from 'ngx-gallery';
-import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
+import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzRadioButtonModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
 import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -137,16 +136,25 @@ import { IiifService } from './services/iiif.service';
 import { ZoomifyService } from './services/zoomify.service';
 import { LoggerService } from './services/logger.service';
 import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/dialog-advanced-search.component';
-import { DialogPolicyComponent } from './dialog/dialog-policy/dialog-policy.component';
 import { LandingComponent } from './landing/landing.component';
-import { LibrariesComponent } from './libraries/libraries.component';
 import { FaqComponent } from './faq/faq.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { DialogAdminComponent } from './dialog/dialog-admin/dialog-admin.component';
 import { AdminApiService } from './services/admin-api.service';
 import { NavigationSnippetComponent } from './book/navigation/navigation-snippet/navigation-snippet.component';
 import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
-
+import { SignpostComponent } from './signpost/signpost.component';
+import { SignpostLibrariesComponent } from './signpost/libraries/libraries.component';
+import { SignpostFooterComponent } from './signpost/footer/footer.component';
+import { SignpostHeaderComponent } from './signpost/header/header.component';
+import { SignpostHelpComponent } from './signpost/help/help.component';
+import { AdminCollectionsComponent } from './dialog/dialog-admin/admin-collections/admin-collections.component';
+import { AdminAccessibilityComponent } from './dialog/dialog-admin/admin-accessibility/admin-accessibility.component';
+import { AdminReindexationComponent } from './dialog/dialog-admin/admin-reindexation/admin-reindexation.component';
+import { AdminReprePageComponent } from './dialog/dialog-admin/admin-reprepage/admin-reprepage.component';
+import { LicenceService } from './services/licence.service';
+import { LicenceMessagesComponent } from './shared/licence-messages/licence-messages.component';
+import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licences.component';
 
 
 export function hljsLanguages() {
@@ -239,13 +247,21 @@ export function hljsLanguages() {
     OmniauthComponent,
     DialogAdminMetadataComponent,
     MapBrowseComponent,
-    PresentationComponent,
     DialogAdvancedSearchComponent,
-    DialogPolicyComponent,
     LandingComponent,
-    LibrariesComponent,
     SafeHtmlPipe,
-    DialogAdminComponent
+    DialogAdminComponent,
+    SignpostComponent,
+    SignpostLibrariesComponent,
+    SignpostFooterComponent,
+    SignpostHeaderComponent,
+    SignpostHelpComponent,
+    AdminCollectionsComponent,
+    AdminAccessibilityComponent,
+    AdminReindexationComponent,
+    AdminReprePageComponent,
+    LicenceMessagesComponent,
+    DialogLicencesComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -257,8 +273,8 @@ export function hljsLanguages() {
     DialogPdfGeneratorComponent,
     DialogAdminMetadataComponent,
     DialogAdvancedSearchComponent,
-    DialogPolicyComponent,
     DialogAdminComponent,
+    DialogLicencesComponent
   ],
   imports: [
     BrowserModule,
@@ -276,7 +292,7 @@ export function hljsLanguages() {
       providedLanguages: ['en', 'cs'],
       defaultLanguage: 'cs',
       loaderOptions: {
-        path: 'assets/i18n/{{language}}.json?v2.0.5'
+        path: 'assets/i18n/{{language}}.json?v2.1.1'
       }
     }),
     MzButtonModule,
@@ -296,6 +312,7 @@ export function hljsLanguages() {
     MzToastModule,
     MzDropdownModule,
     MzCheckboxModule,
+    MzRadioButtonModule,
     MzDatepickerModule,
     ClipboardModule,
     AngularTokenModule.forRoot({
@@ -348,10 +365,10 @@ export function hljsLanguages() {
     IiifService,
     ZoomifyService,
     LoggerService,
+    LicenceService,
     AdminApiService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

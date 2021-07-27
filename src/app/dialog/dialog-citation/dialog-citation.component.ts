@@ -125,7 +125,7 @@ private dataPush(mods) {
    if (!metadata) {
      return null;
    }
-   const link = !!uuid ? this.shareService.getPersistentLink(uuid) : this.shareService.getPersistentLinkByUrl();
+   const link = !!uuid ? this.shareService.getPersistentLink(uuid) : this.shareService.getPersistentLink(metadata.uuid);
    let c = '';
    if (metadata.doctype !== 'periodical') {
      c += this.writeAuthors(metadata);

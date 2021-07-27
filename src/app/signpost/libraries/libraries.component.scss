@@ -1,0 +1,115 @@
+
+.sp-libraries {
+  // margin: 0 auto;
+  // max-width: 1280px;
+  // @media only screen and (max-width: 1320px) {
+  //   // margin: 0 20px;
+  //   max-width: 80%;
+  // }
+  // @media only screen and (max-width: 1000px) {
+  //   // max-width: %;
+  // }
+  .sp-logo {
+    text-align: center;
+    color: #555;
+    margin: 25px 0 10px;
+    img {
+      max-height: 100px;
+      max-width: 100%;  
+      height: auto;
+      width:auto;
+      @media only screen and (max-width: 500px) {
+        max-height: 90px;      
+      }
+    }
+  }
+  .sp-messages {
+    padding-top: 11px;
+    margin: 0 auto 30px;
+    max-width: 562px;
+    text-align: center;
+    border-top: 1px solid #d8d8d8;
+    .sp-message {
+      font-size: 16px;
+      color: #9c9c9c;
+    }
+  }
+
+  .sp-section-title {
+    font-size: 15px;
+    padding-left: 10px;
+    color: #555;
+  }
+
+  .sp-section-subtitle {
+    font-size: 13px;
+    padding-left: 10px;
+    color: #999;
+  }
+  @media only screen and (min-width: 1350px) {
+    .sp-section {
+      overflow: hidden;
+      .sp-section-title {
+        padding-right: 10px;
+        float: left;
+      }
+      .sp-section-subtitle {
+        padding-top: 2px;
+      }
+    }
+  }
+  .sp-library-card-wrapper {
+    padding: 8px 10px 8px;
+    .sp-library-card {
+      background: #fff;
+      padding: 5px 10px;
+      display: block;
+      box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.16);
+      &:hover {
+        box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.28);
+      }
+      .sp-library-card-content {
+        overflow: hidden;
+        display: block;
+        .sp-library-logo {
+          height: 60px;
+          width: 60px;
+          margin-right: 12px;
+          background-size: cover;
+          float: left;
+        }
+        .sp-library-title {
+          font-size: 16px;
+          flex:1;
+          height: 60px;
+          display: flex;
+          align-items: center;
+        }
+      }
+      @media only screen and (max-width: 500px) {
+        padding: 3px 6px;
+        .sp-library-card-content {
+          .sp-library-logo {
+            height: 56px;
+            width: 56px;
+            margin-right: 10px;
+          }
+          .sp-library-title {
+            height: 56px;
+            font-size: 15px;
+          }
+        }
+      }
+    }
+    &.sp-library-card-wrapper-vs {
+      width: 33.33%;
+      @media only screen and (max-width: 1400px) {
+        width: 50%;
+      }
+      @media only screen and (max-width: 992px) {
+        width: 100%;
+      }
+    }
+      
+  }
+}

@@ -82,8 +82,6 @@ export class SearchQuery {
             this.accessibility = 'private';
         } else if (accessibility === 'public') {
             this.accessibility = 'public';
-        } else if (accessibility === 'dnnt') {
-            this.accessibility = 'dnnt';
         } else if (accessibility === 'accessible') {
             this.accessibility = 'accessible';
         } else {
@@ -202,10 +200,10 @@ export class SearchQuery {
         this.value = null;
     }
 
-    
+
     getChangeLibraryUrlParams() {
         const params = {};
-        if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
+        if (['public', 'private', 'accessible'].indexOf(this.accessibility) >= 0) {
             params['accessibility'] = this.accessibility;
         }
         if (this.query) {
@@ -237,7 +235,7 @@ export class SearchQuery {
         if (this.query) {
             params['q'] = this.query;
         }
-        if (['public', 'private', 'dnnt', 'accessible'].indexOf(this.accessibility) >= 0) {
+        if (['public', 'private', 'accessible'].indexOf(this.accessibility) >= 0) {
             params['accessibility'] = this.accessibility;
         }
         if (this.keywords.length > 0) {
@@ -392,5 +390,3 @@ export class SearchQuery {
     }
 
 }
-
-

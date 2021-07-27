@@ -13,6 +13,7 @@ import { IiifService } from '../../services/iiif.service';
 import { ZoomifyService } from '../../services/zoomify.service';
 import { AltoService } from '../../services/alto-service';
 import { LoggerService } from '../../services/logger.service';
+import { LicenceService } from '../../services/licence.service';
 
 declare var ol: any;
 
@@ -30,8 +31,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private vectorLayer;
   private watermark;
   private extent;
-  private dnntApi;
-  private dnntLink;
 
   private imageWidth = 0;
   private imageWidth1 = 0;
@@ -74,6 +73,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   constructor(public bookService: BookService,
               public authService: AuthService,
               public settings: AppSettings,
+              public licences: LicenceService,
               private http: HttpClient,
               private iiif: IiifService,
               private logger: LoggerService,
@@ -111,6 +111,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
       loadTilesWhileAnimating: true,
       layers: [this.vectorLayer]
     });
+    setTimeout(() => {
+      this.updateSize();
+    }, 100);
 
     this.selectionInteraction = new ol.interaction.DragBox({});
 
@@ -133,27 +136,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
       }
     });
-
-    this.setDnntLink();
   }
 
-  setDnntLink() {
-    this.dnntLink="";
-    if(this.settings.crisisUrl) {
-        if(this.settings.dnnt.loginUrl) { this.dnntLink=this.settings.dnnt.loginUrl+'?target='+this.settings.crisisUrl+'/uuid/'+this.bookService.getUuid(); }
-        else { this.dnntLink=this.settings.crisisUrl+'/uuid/'+this.bookService.getUuid(); }
-
-    } else if(this.settings.dnntUrl) {
-      this.dnntApi = this.settings.dnntUrl+"/search/api/v5.0/item/"+this.bookService.getUuid();
-      this.http.get(this.dnntApi).toPromise().then((data:any) => {
-        //this.dnntTitle='<div class="dnntLink"><a href="'+this.settings.dnntUrl+'/uuid/'+this.bookService.getUuid()+'">Toto dílo je dostupné v rámci DNNT</a></div>';
-        if(data.dnnt) {
-          if(this.settings.dnnt.loginUrl) { this.dnntLink=this.settings.dnnt.loginUrl+'?target='+this.settings.dnntUrl+'/uuid/'+this.bookService.getUuid(); }
-          else { this.dnntLink=this.settings.dnntUrl+'/uuid/'+this.bookService.getUuid(); }
-        }
-      });
-    }
-  }
 
   onSelectionStart(type: SelectionType) {
     this.selectionType = type;
@@ -189,6 +173,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
         break;
       case ViewerActions.rotateLeft:
         this.rotateLeft();
+        break;
+      case ViewerActions.updateSite:
+        this.updateSize();
         break;
       case ViewerActions.fitToScreen:
         this.fitToScreen();
@@ -241,6 +228,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.lastRotateTime = timestamp;
   }
 
+  private updateSize() {
+    if (this.view) {
+      this.view.updateSize();
+    }
+  }
+
   private fitToScreen() {
     this.view.updateSize();
     this.view.getView().setRotation(0);
@@ -264,8 +257,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
      });
   }
 
-  buildWatermarkLayer(text: string) {
-    const font = this.settings.dnnt.watermarkFontSize + 'px roboto,sans-serif';
+  buildWatermarkLayer(config: any, text: string) {
+    const font = config.fontSize + 'px roboto,sans-serif';
     this.watermark = new ol.layer.Vector({
       name: 'watermark',
       source: new ol.source.Vector(),
@@ -274,7 +267,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
           font: font,
           text: text,
           fill: new ol.style.Fill({
-            color:  this.settings.dnnt.watermarkColor
+            color:  config.color
           }),
           textAlign: 'left',
         })
@@ -288,27 +281,34 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.watermark) {
       this.watermark.getSource().clear();
     }
+    if (!this.bookService.licence || !this.licences.available(this.bookService.licence)) {
+      return;
+    }
+    const config = this.licences.watermark(this.bookService.licence);
+    if (!config) {
+      return;
+    }
     let watermarkText: string;
-    if (this.bookService.dnntMode && this.authService.isLoggedIn()) {
+    if (this.authService.isLoggedIn()) {
       watermarkText = this.authService.getUserId();
     } else {
-      // watermarkText = 'test';
+      watermarkText = config['defaultText'];
     }
     if (!watermarkText) {
       return;
     }
     if (!this.watermark) {
-      this.buildWatermarkLayer(watermarkText);
+      this.buildWatermarkLayer(config, watermarkText);
     }
-    let cw = this.settings.dnnt.watermarkRowCount;
-    const ch = this.settings.dnnt.watermarkColCount;
+    let cw = config.rowCount;
+    const ch = config.colCount;
     const sw = this.extent[0];
     const width = this.extent[2] - this.extent[0];
     if (this.extent[0] < 0) {
       cw = cw * 2;
     }
     const height = -this.extent[1];
-    const p = this.settings.dnnt.watermarkProbability;
+    const p = config.probability;
     for (let i = 0; i < cw; i ++) {
      for (let j = 0; j < ch; j ++) {
        if (Math.floor((Math.random() * 100)) < p) {

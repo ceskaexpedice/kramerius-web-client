@@ -13,9 +13,11 @@ export class Page {
     pdf: string;
     position = PagePosition.None;
     imageType = PageImageType.None;
-    providedByDnnt = false;
+    //providedByDnnt = false;
     providedByLabel: string;
-    dnntFlag = false;
+    //dnntFlag = false;
+    licences = [];
+    licence: string;
     originUrl: string;
     public: boolean;
     title: string;
@@ -42,17 +44,8 @@ export class Page {
             return;
         }
         this.loaded = true;
-        if (data['dnnt'] && data['dnntLabels']) {
-            this.dnntFlag = data['dnntLabels'];
-        } else if (data['dnnt']) {
-            this.dnntFlag = true;
-        }
-        if (data['providedByDnnt']) {
-            this.providedByDnnt = true;
-        }
-        if (data['providedByLabel']) {
-            this.providedByLabel = data['providedByLabel'];
-        }
+        this.licences = data['licences'] || [];
+        this.licence = data['licence'];
         if (data['replicatedFrom'] && data['replicatedFrom'].length > 0) {
             this.originUrl = data['replicatedFrom'][0];
         }

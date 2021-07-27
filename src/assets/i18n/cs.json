@@ -26,12 +26,20 @@
     "browse": "Procházení",
     "collections": "Sbírky"
   },
-  "dk": {
+  "sp": {
     "title": "Digitální knihovna",
-    "logo": "/assets/shared/logo-dk.png",
+    "logo": "/assets/shared/sp/logo_main_cs.png",
+    "logo_tooltip": "Zpět na rozcestník",
+    "header": {
+       "logo": "/assets/shared/sp/logo_header_cs.gif",
+       "help": "Nápověda"
+    },
     "message": "Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě.",
     "vs_subtitle": " ",
     "vs_title": "Dočasné zpřístupnění digitalizovaných dokumentů včetně autorsky chráněných děl pro studenty a pedagogy vyšších odborných a vysokých škol a vědecké pracovníky.",
+    "message2": "",
+    "external_subtitle": " ",
+    "external_title": "Dočasné zpřístupnění digitalizovaných dokumentů včetně autorsky chráněných děl pro studenty a pedagogy vyšších odborných a vysokých škol a vědecké pracovníky.",
     "category": {
       "major": "Hlavní knihovny",
       "regional": "Krajské knihovny",
@@ -206,6 +214,13 @@
     "inaccessible_track": "Nahrávka není veřejně dostupná.",
     "download_track": "Stáhnout nahrávku"
   },
+  "licence": {
+    "private_label": "Dokument není veřejně přístupný",
+    "private_message": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
+    "licences_before": "Tento dokument spadá pod následující licence",
+    "licences_after": "Pokud se k dokumentu nemůžete dostat v rámci licencí, pak platí obecná pravidla pro veřejně nedostupné dokumenty",
+    "metadata_licence": "Zpřítupněno pod licencí"
+  },
   "alert": {
     "warning": "Upozornění",
     "error": "Chyba",
@@ -216,6 +231,8 @@
     "inaccessible_document_dnnt": "Tento dokument je zpřístupňován v režimu děl nedostupných na trhu (DNNT)",
     "inaccessible_document_crisis_description": "<p>Dílo je po přihlášení přístupné pouze registrovaným uživatelům institucí, které již s NK ČR uzavřely smlouvu. <a href=\"https://ndk.cz/faq\" target=\"crisis\">Více informací k přihlášení.</a></p><p><b>Toto zpřístupnění po dobu nouzového stavu a uzavření knihoven je učeno pro pedagogy a studenty vyšších odborných a vysokých škol a vědecké pracovníky.</b></p><p>Po úspěšném přihlášení budete automaticky přesměrováni do aplikace Národní digitální knihovna - Covid (NDK-Covid).</p>",
     "inaccessible_document_dnnt_description": "<p>Dílo je po přihlášení přístupné pouze registrovaným uživatelům <a href=\"https://ndk.cz/knihinst\" target=\"dnnt\">institucí</a>, které již s NK ČR uzavřely smlouvu. <a href=\"https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/NDK-DNNT-FAQ\" target=\"dnnt\">Více informací k přihlášení.</a></p><p>Přístup k dílu je možné získat i z vybraných terminálů v prostorách NK ČR.</p><p>Po úspěšném přihlášení budete automaticky přesměrováni do aplikace Národní digitální knihovna – díla nedostupná na trhu (NDK-DNNT). </p><p>Zpřístupnění služeb NDK-DNNT je podmíněno uzavřením smlouvy mezi Národní knihovnou ČR a knihovnou (institucí), která chce služby využívat. Více na <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\">dnnt.nkp.cz</a></p>",
+    "inaccessible_document_dnnt_unauthorized": "Nemáte oprávnění k prohlížení dokumentu",
+    "inaccessible_document_dnnt_unauthorized_description": "Důvodem mohou být překážky spojené s vaším knihovním účtem (neplatná registrace, nezaplacené poplatky, nevrácené výpůjčky). Při používání účtu vysoké školy si ověřte, v jaké pozici vůči své škole vystupujete.",
     "failed_to_load_image": "Obrázek se nepodařilo načíst",
     "book_no_results": "Nebyly nalezeny žádné výsledky"
   },
@@ -330,7 +347,7 @@
     "tooltip_quote": "Zobrazit citaci",
     "tooltip_share": "Sdílet",
     "tooltip_metadata": "Metadata",
-    "tooltip_edit": "Editovat",
+    "tooltip_edit": "Zobrazit administrátorské nástroje",
     "tooltip_citation": "Citace",
     "tooltip_mark_favourite": "Přidat do oblíbených",
     "tooltip_unmark_favourite": "Odebrat z oblíbených",
@@ -428,7 +445,8 @@
     "internalpart" : "Kapitola",
     "soundunit" : "Album",
     "track" : "Nahrávka",
-    "collection": "Sbírka"
+    "collection": "Sbírka",
+    "oldprintomnibusvolume": "Konvolut"
   },
   "model_2p" : {
     "monograph" : "Knihy",
@@ -450,7 +468,8 @@
     "internalpart" : "Kapitoly",
     "soundunit" : "Alba",
     "track" : "Nahrávky",
-    "collection": "Sbírky"
+    "collection": "Sbírky",
+    "oldprintomnibusvolume": "Konvolutu"
   },
   "model_4p" : {
     "monograph" : "Knihu",
@@ -472,7 +491,8 @@
     "internalpart" : "Kapitolu",
     "soundunit" : "Album",
     "track" : "Nahrávku",
-    "collection": "Sbírku"
+    "collection": "Sbírku",
+    "oldprintomnibusvolume": "Konvolut"
   },
   "model_plural" : {
     "monograph" : "Knihy",
@@ -493,7 +513,8 @@
     "internalpart" : "Kapitoly",
     "soundunit" : "Alba",
     "track" : "Nahrávky",
-    "collection": "Sbírky"
+    "collection": "Sbírky",
+    "oldprintomnibusvolume": "Konvoluty"
   },
   "issue_type": {
     "morning": "ranní vydání",
@@ -569,26 +590,6 @@
       "4": "Pá",
       "5": "So",
       "6": "Ne"
-    }
-  },
-  "licence" : {
-    "dnnto": {
-      "label": "DNNT online",
-      "policy": "Dílo nedostupné na trhu",
-      "inaccessible_document": "Tento dokument je zpřístupňován v režimu děl nedostupných na trhu (DNNT)",
-      "inaccessible_document_description": "<p>Dílo je po přihlášení přístupné pouze registrovaným uživatelům <a href=\"https://ndk.cz/knihinst\" target=\"dnnt\">institucí</a>, které již s NK ČR uzavřely smlouvu. <a href=\"https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/NDK-DNNT-FAQ\" target=\"dnnt\">Více informací k přihlášení.</a></p><p><a href=\"https://ndk.cz/podminky-zpristupneni\">Přihlásit se</a></p><p>Po úspěšném přihlášení budete automaticky přesměrováni do aplikace Národní digitální knihovna – díla nedostupná na trhu (NDK-DNNT). </p><p>Zpřístupnění služeb NDK-DNNT je podmíněno uzavřením smlouvy mezi Národní knihovnou ČR a knihovnou (institucí), která chce služby využívat. Více na <a href=\"http://dnnt.nkp.cz\" target=\"dnnt\">dnnt.nkp.cz</a></p>"
-    },
-    "dnntt": {
-      "label": "DNNT terminál",
-      "policy": "Dílo nedostupné na trhu - pouze na terminálech knihovny",
-      "inaccessible_document": "Tento dokument je zpřístupňován pouze na terminálech knihovny",
-      "inaccessible_document_description": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. <p>Přístup k tomuto dílu je možný pouze přes terminály zapojených knihoven.</p>"
-    },
-    "covid": {
-      "label": "",
-      "policy": "Neveřejné dílo - COVID",
-      "inaccessible_document": "Dokument již není dostupný",
-      "inaccessible_document_description": "<p>Přístup k tomuto dílu byl možný do 30.6.2021. Dílo je nyní dostupné pouze v rámci Národní knihovny ČR.</p>"
     }
   },
   "sigla": {
@@ -691,7 +692,8 @@
     "ABB019" : "Sociologický ústav AV ČR",
     "ABB085" : "Masarykův ústav a Archiv AV ČR",
     "ABB083" : "Ústav pro soudobé dějiny AV ČR",
-    "ABE461" : "Židovská obec v Praze"
+    "ABE461" : "Židovská obec v Praze",
+    "KME450" : "Muzeum umění Olomouc - Arcidiecézní muzeum Kroměříž"
   },
   "language" : {
     "aar" : "afarština",

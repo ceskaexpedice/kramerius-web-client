@@ -40,7 +40,7 @@ app-periodical-years-item {
   @media (max-width: 400px) {
     width: 50%;
   }
-  
+
   .card {
     margin: 0.5rem;
     color: $app-grey-d-3;
@@ -53,19 +53,19 @@ app-periodical-years-item {
       line-height: 55px;
       overflow: hidden;
       position: relative;
-      
+
       .app-lock {
         color: $app-grey-d-2;
         opacity: 0.6;
         position: absolute;
         top: 0;
         left: 10px;
-        &.app-dnnt {
-          color: $app-dnnt;
+        &.app-lock-licence-open, &.app-lock-licence-locked {
+          color: $app-licence-color;
         }
       }
     }
-    
+
     &.app-missing {
       background-color: $app-grey-l-4;
       color: $app-grey-l-1;

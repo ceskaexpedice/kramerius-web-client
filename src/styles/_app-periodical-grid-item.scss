@@ -60,7 +60,7 @@ app-periodical-grid-item {
   @media (max-width: 400px) {
     width: 50%;
   }
-  
+
   .card {
     @extend .app-cursor-pointer;
     margin: 0.5rem;
@@ -120,8 +120,8 @@ app-periodical-grid-item {
             opacity: 0.8;
             margin: auto;
             top: 0; left: 0; bottom: 0; right: 0;
-            &.app-dnnt {
-              color: $app-dnnt;
+            &.app-lock-licence-open, &.app-lock-licence-locked {
+              color: $app-licence-color;
             }
           }
 

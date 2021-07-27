@@ -31,7 +31,8 @@ export class Metadata {
     public volume: Volume;
 
     public isPublic = true;
-    public isDnnt = false;
+    //public isDnnt = false;
+    public licences: string[] = [];
 
     public currentIssue: PeriodicalItem;
     public nextIssue: PeriodicalItem;
@@ -60,12 +61,16 @@ export class Metadata {
 
     public originUrl: string;
 
+    public licence: string;
+
     constructor() {
     }
 
     public assignDocument(item: DocumentItem) {
         this.isPublic = item.public;
-        this.isDnnt = item.dnnt;
+        //this.isDnnt = item.dnnt;
+        this.licence = null;
+        this.licences = item.licences;
         this.model = item.doctype;
         this.donators = item.donators;
         this.originUrl = item.originUrl;
@@ -132,6 +137,15 @@ export class Metadata {
         return '';
     }
 
+    public getCollectionTitle(lang: string) {
+         for (let t of this.titles) {
+             if (t.lang == lang) {
+                 return t.maintTitle();
+             }
+         }
+         return this.getTitle();
+    }
+
     public getShortTitle(): string {
         return this.getTitle().substring(0, 50);
     }
@@ -188,6 +202,7 @@ export class Metadata {
 
 
 export class TitleInfo {
+    public lang;
     public nonSort;
     public title;
     public subTitle;
@@ -198,7 +213,7 @@ export class TitleInfo {
         if (this.nonSort) {
             return this.nonSort + ' ' + this.title;
         } else {
-            return this.title;
+            return this.title || '';
         }
     }
 

@@ -2,7 +2,7 @@
   <div class="app-snippet-content">
     <div class="app-snippet-thumb-wrapper">
       <div class="app-snippet-thumb" [scrollTarget]="container" [lazyLoad]="page.thumb">
-        <i *ngIf="!page.public && !settings.hiddenLocks" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'"></i>
+        <i *ngIf="!page.public && !settings.hiddenLocks" mz-icon-mdi [icon]="page.licence ? 'camera-off' : 'lock'" [class.app-lock-licence-open]="page.licences && page.licences.length > 0" class="app-lock"></i>
       </div>
     </div>
     <div class="app-snippet-right">

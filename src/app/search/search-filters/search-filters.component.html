@@ -39,10 +39,23 @@
       <mz-collection *ngIf="searchService.licences">
         <ng-container>
           <mz-collection-item *ngFor="let item of searchService.licences; let i = index;">
-            <span class="app-row" *ngIf="i < 6 || licencesExpanded">
-              <a (click)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licences', item.value);">{{ getLicenceTitle(('licence.' + item.value  + '.label' | translate | appUpcase ), item.count) }}</a>
+            <span [class.selected]="item.selected" class="app-row" *ngIf="i < 6 || licencesExpanded">
+              <ng-container *ngIf="licences.accessible([item.value]); else notAccessible">
+                <i mz-icon-mdi icon="camera-off" class="app-lock" mz-tooltip
+                tooltip="Dostupné">
+                </i>
+              </ng-container>
+              <ng-template #notAccessible>
+                <i mz-icon-mdi icon="lock" class="app-lock" mz-tooltip
+                tooltip="Nedostupné">
+                </i>
+              </ng-template>
+              <a (click)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licences', item.value);">
+                {{ licences.label(item.value) }}
+                <i mz-icon-mdi [size]="'20'" icon="information-outline" class="app-licence-info" (click)="showLicenceDialog(item.value); $event.preventDefault();$event.stopPropagation()"></i>
+              </a>
               <span>
-                {{getLicenceCount()}}
+                {{item.count}}
               </span>
             </span>
           </mz-collection-item>

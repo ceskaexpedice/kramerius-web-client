@@ -1,7 +1,10 @@
 import { AppSettings } from './../../services/app-settings';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchService } from './../../services/search.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { AccountService } from '../../services/account.service';
+import { MzModalService } from 'ngx-materialize';
+import { DialogAdminComponent } from '../../dialog/dialog-admin/dialog-admin.component';
 
 @Component({
   selector: 'app-search-toolbar',
@@ -9,19 +12,22 @@ import { AnalyticsService } from '../../services/analytics.service';
 })
 export class SearchToolbarComponent implements OnInit {
 
-  constructor(public searchService: SearchService,
+  constructor(
+    public search: SearchService,
     public analytics: AnalyticsService,
-    public appSettings: AppSettings) {
+    public account: AccountService,
+    public settings: AppSettings) {
   }
 
   ngOnInit() {
   }
 
   toggleFilters() {
-    if (this.searchService.activeMobilePanel === 'results') {
-      this.searchService.activeMobilePanel = 'filters';
+    if (this.search.activeMobilePanel === 'results') {
+      this.search.activeMobilePanel = 'filters';
     } else {
-      this.searchService.activeMobilePanel = 'results';
+      this.search.activeMobilePanel = 'results';
     }
   }
+
 }

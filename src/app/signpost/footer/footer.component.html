@@ -1,0 +1,38 @@
+<div class="sp-footer">
+  <div class="container">
+    <div class="sp-footer-col">
+      <img class="sp-footer-logo" [src]="'sp.footer.logo' | translate">
+    </div>
+    <div class="sp-footer-col">
+      <div class="sp-footer-header">{{ 'sp.footer.contact' | translate }}</div>
+      <div class="sp-footer-name">{{ 'sp.footer.contact_name' | translate }}</div>
+      <div class="sp-footer-address">{{ 'sp.footer.contact_address1' | translate }}</div>
+      <div class="sp-footer-address">{{ 'sp.footer.contact_address2' | translate }}</div>
+      <div class="sp-footer-address">{{ 'sp.footer.contact_address3' | translate }}</div>
+      <div class="sp-footer-web"><a href="https://www.mzk.cz" target="_blank" (click)="analytics.sendEvent('landing', 'footer', 'mzk');">www.mzk.cz</a></div>
+    </div>
+    <div class="sp-footer-col sp-footer-socials">
+      <div class="sp-footer-social">
+        <a href="https://www.facebook.com/DigitalniKnihovnaCZ" target="_blank" (click)="analytics.sendEvent('landing', 'footer', 'facebook');">
+          <img src="/assets/shared/sp/footer_facebook.png">
+        </a>
+      </div>
+      <div class="sp-footer-social">
+        <a href="https://www.instagram.com/digitalniknihovna.cz/" target="_blank" (click)="analytics.sendEvent('landing', 'footer', 'instagram');">
+          <img src="/assets/shared/sp/footer_instagram.png">
+        </a>
+      </div>
+      <div class="sp-footer-social">
+        <a href="https://twitter.com/KnihovnaMzk" target="_blank" (click)="analytics.sendEvent('landing', 'footer', 'twitter');">
+          <img src="/assets/shared/sp/footer_twitter.png">
+        </a>
+      </div>
+      <div class="sp-footer-social">
+        <a href="https://cz.pinterest.com/digitalni_knihovna_cz/" target="_blank" (click)="analytics.sendEvent('landing', 'footer', 'pinterest');">
+          <img src="/assets/shared/sp/footer_pinterest.png">
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>

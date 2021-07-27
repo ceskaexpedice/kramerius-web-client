@@ -5,6 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Component, OnInit, Input } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AuthService } from '../../services/auth.service';
+import { Translator } from 'angular-translator';
+import { LicenceService } from '../../services/licence.service';
 
 @Component({
   selector: 'app-document-card',
@@ -13,30 +15,36 @@ import { AuthService } from '../../services/auth.service';
 export class DocumentCardComponent implements OnInit {
   @Input() item: DocumentItem;
   @Input() in: String;
+  @Input() selectable: boolean = false;
 
-  public thumb;
+  thumb;
+  lock: any;
 
   constructor(private krameriusApiService: KrameriusApiService,
-              public settings: AppSettings,
+              private settings: AppSettings,
+              private translator: Translator,
               public auth: AuthService,
+              private licences: LicenceService,
               public analytics: AnalyticsService,
               private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.thumb = this.setThumb();
+    this.init();
   }
 
-  public getTitle(): string {
-      var title = this.item.title;
-    //  if(this.title=="") { return ""; }
-      var mapObj = {'&quot;':'"', '&apos;':"'"};
-      var re = new RegExp(Object.keys(mapObj).join("|"),"gi");
-      return title.replace(re, function(matched){
-        return mapObj[matched];
-      });
+  getTitle() {
+    return this.item.getTitle ? this.item.getTitle(this.translator.language) : this.item.title;
   }
 
-  private setThumb() {
+  getDescription() {
+    return this.item.getDescription ? this.item.getDescription(this.translator.language) : this.item.description;
+  }
+
+  libraryLogo(): string {
+    return this.settings.getLogoByCode(this.item.library);
+  }
+
+  private init() {
     let url = '';
     if (this.item.library) {
       const krameriusUrl = this.settings.getUrlByCode(this.item.library);
@@ -44,7 +52,12 @@ export class DocumentCardComponent implements OnInit {
     } else {
        url = this.krameriusApiService.getThumbUrl(this.item.uuid);
     }
-    return this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
+    if (this.item.public || this.settings.hiddenLocks) {
+      this.lock = null;
+    } else {
+      this.lock = this.licences.buildLock(this.item.licences);
+    }
+    this.thumb = this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
   }
 
 

@@ -68,6 +68,10 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.fitToScreen);
     }
 
+    updateSite() {
+        this.listners.next(ViewerActions.updateSite);
+    }
+
     selectText() {
         this.listners.next(ViewerActions.selectText);
     }
@@ -121,29 +125,29 @@ export class ViewerControlsService {
     hideLeftPanel() {
         this.leftPanelVisible = false;
         setTimeout(() => {
-            this.fitToScreen();
-        }, 600);
+            this.updateSite();
+        }, 400);
     }
 
     showLeftPanel() {
         this.leftPanelVisible = true;
         setTimeout(() => {
-            this.fitToScreen();
-        }, 600);
+            this.updateSite();
+        }, 400);
     }
 
     hideRightPanel() {
         this.rightPanelVisible = false;
         setTimeout(() => {
-            this.fitToScreen();
-        }, 600);
+            this.updateSite();
+        }, 400);
     }
 
     showRightPanel() {
         this.rightPanelVisible = true;
         setTimeout(() => {
-            this.fitToScreen();
-        }, 600);
+            this.updateSite();
+        }, 400);
     }
 
 
@@ -158,5 +162,6 @@ export enum ViewerActions {
     rotateRight = 4,
     fitToScreen = 5,
     selectText = 6,
-    cropImage = 7
+    cropImage = 7,
+    updateSite = 8
 }

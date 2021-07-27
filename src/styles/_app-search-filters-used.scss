@@ -6,7 +6,7 @@ app-search-filters-used {
     margin: 0;
     border: none;
     @include set-border(bottom, 1, solid, $app-grey-l-2);
-    
+
     .collection-header {
       position: relative;
       @extend .app-font-bold;
@@ -16,13 +16,13 @@ app-search-filters-used {
       background-color: transparent !important;
       min-height: 1.6rem;
       line-height: 1.6rem;
-      
+
       .mdi-close-circle {
         position: absolute;
         top: 0;
         right: 15px;
         color: $app-red;
-        
+
         &:before {
           font-size: 18px;
         }
@@ -34,15 +34,18 @@ app-search-filters-used {
       border: none;
       color: $app-grey-d-1;
       line-height: 1.35rem;
-      
+
       span {
+        .app-licence {
+          color: $app-licence-color;
+        }
         .mdi {
           &:before {
             font-size: 18px;
           }
           &.mdi-close {
             &:before {
-              display: none !important; 
+              display: none !important;
             }
           }
         }
@@ -54,13 +57,13 @@ app-search-filters-used {
         }
         &:hover {
           color: $app-red;
-          
+
           i[class*="mdi-"]:not(.mdi-close) {
             display: none;
           }
           .mdi-close {
             &:before {
-              display: inline-block !important; 
+              display: inline-block !important;
             }
           }
         }

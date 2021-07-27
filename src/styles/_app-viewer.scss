@@ -3,15 +3,15 @@
 app-viewer {
   flex: 1;
   height: 100%;
-  
+
   .app-viewer-wrapper {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: $app-grey-l-4;    
+    background-color: $app-grey-l-4;
     position: relative;
 
-    .app-dnnt {
+    .app-licence-bar {
       position: absolute;
       top: 0;
       height: 32px;
@@ -41,6 +41,15 @@ app-viewer {
       }
     }
 
+    app-licence-messages {
+       display: block;
+       max-width: 800px;
+       margin: 0 auto;
+       padding: 40px 12px 10px;
+       overflow: auto;
+       height: 100%;
+     }
+
     .hide-on-inactivity {
       opacity: 0;
       transition-property: opacity;
@@ -56,13 +65,13 @@ app-viewer {
       background: rgba(255, 255, 255, 0.9);
       color: $app-grey;
       cursor: pointer;
-      
+
       &.app-left-handle {
         left: 0;
         @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
         border-top-right-radius: $app-border-radius-sidebar;
         border-bottom-right-radius: $app-border-radius-sidebar;
-      
+
         @media #{$medium-and-down} {
           .app-mdi-tablet {
             &:before {
@@ -76,13 +85,13 @@ app-viewer {
           }
         }
       }
-      
+
       &.app-right-handle {
         right: 0;
         @include set-border(left-top-bottom, 1, solid, #{$app-grey-l-2});
         border-top-left-radius: $app-border-radius-sidebar;
         border-bottom-left-radius: $app-border-radius-sidebar;
-    
+
         @media #{$medium-and-down} {
           .app-mdi-tablet {
             &:before {
@@ -96,9 +105,9 @@ app-viewer {
           }
         }
       }
-  
+
       &:hover {
-        color: color("shades", "black");  
+        color: color("shades", "black");
         background: $app-grey-l-2;
       }
     }

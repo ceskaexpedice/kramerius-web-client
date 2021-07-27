@@ -6,7 +6,7 @@ import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
 import { HttpRequestCache } from './http-request-cache.service';
 import { AppSettings } from './app-settings';
-
+import { LicenceService } from './licence.service';
 
 @Injectable()
 export class AuthService {
@@ -14,8 +14,8 @@ export class AuthService {
     user: User = null;
     redirectUrl: string;
 
-    constructor(private appSettings: AppSettings, private krameriusApi: KrameriusApiService, private cache: HttpRequestCache) {
-        if (appSettings.dnnt || appSettings.krameriusLogin) {
+    constructor(appSettings: AppSettings, private licences: LicenceService, private krameriusApi: KrameriusApiService, private cache: HttpRequestCache) {
+        if (appSettings.auth || appSettings.krameriusLogin) {
             this.login(null, null);
         }
     }
@@ -23,6 +23,7 @@ export class AuthService {
     login(username: string, password: string, callback: (user: User) => void = null) {
         return this.krameriusApi.getUserInfo(username, password).subscribe(user => {
             this.user = user;
+            this.licences.assignUserLicences(this.user.licences);
             this.cache.clear();
             if (callback) {
                 callback(user);
@@ -36,10 +37,7 @@ export class AuthService {
         }
         return this.krameriusApi.logout().subscribe(user => {
             this.cache.clear();
-            this.user = null;
-            if (callback) {
-                callback();
-            }
+            this.login(null, null, callback);
         });
     }
 

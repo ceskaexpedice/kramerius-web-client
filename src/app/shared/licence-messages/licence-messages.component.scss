@@ -1,0 +1,35 @@
+::ng-deep.app-licence-message  {
+  color: #444;
+  max-width: 800px;
+  h1,h2,h3,h4,h5 {
+    line-height: 120%;
+    color: #444;
+    font-weight: 400;
+    text-align: left;
+  }
+  h1 {
+    text-align: center;
+  }
+  h1, h2, h3 {
+    font-size: 24px;
+  }
+  h4 {
+    font-size: 22px;
+  }
+  h5 {
+    font-size: 20px;
+  }
+  b, strong {
+    font-weight: 600;
+  }
+  ul {
+    padding-left: 0;
+    list-style-type: none;
+    margin-top: 5px;
+  }
+  .app-licence-hint {
+    font-weight: 600;
+    font-style: italic;
+    color: #3387c5;
+  }
+}

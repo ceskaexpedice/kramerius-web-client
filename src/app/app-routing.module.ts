@@ -21,12 +21,14 @@ import { ResetPasswordComponent } from './account/reset-password/reset-password.
 import { OmniauthComponent } from './account/omniauth/omniauth.component';
 import { LandingComponent } from './landing/landing.component';
 import { FaqComponent } from './faq/faq.component';
+import { SignpostHelpComponent } from './signpost/help/help.component';
 
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
     { path: '', component: LandingComponent },
     { path: 'about', component: AboutComponent, canActivate: [ RoutingGuardService ] },
     { path: 'faq', component: FaqComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'help', component: SignpostHelpComponent },
     { path: 'login', component: LoginComponent, canActivate: [ RoutingGuardService ] },
     { path: 'register', component: RegisterComponent, canActivate: [ RoutingGuardService ] },
     { path: 'signin', component: SigninComponent, canActivate: [ RoutingGuardService ] },

@@ -1,6 +1,7 @@
 import { Page } from './../../../model/page.model';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AppSettings } from '../../../services/app-settings';
+import { LicenceService } from '../../../services/licence.service';
 
 @Component({
   selector: 'app-navigation-item',
@@ -11,7 +12,7 @@ export class NavigationItemComponent implements OnInit {
   @Input() container;
   @Output() pageSelected = new EventEmitter();
 
-  constructor(public settings: AppSettings) {
+  constructor(public settings: AppSettings, private licences: LicenceService) {
   }
 
   ngOnInit() {
@@ -19,6 +20,14 @@ export class NavigationItemComponent implements OnInit {
 
   onPageClicked() {
     this.pageSelected.emit();
+  }
+
+  private getLockClass() {
+    if (this.page.public || this.settings.hiddenLocks) {
+      return "";
+    } else {
+      return this.licences.buildLock(this.page.licences).class;
+    }
   }
 
 }

@@ -29,12 +29,16 @@ export class IiifService {
     const b = Math.round(Math.abs(y2));
     const c = Math.max(Math.round(x2 - x1), 0);
     const d = Math.max(Math.round(Math.abs(y1) - Math.abs(y2)), 0);
-    return `${url}/${a},${b},${c},${d}/full/0/default.jpg`;
+    return `${url}/${a},${b},${c},${d}/max/0/default.jpg`;
   }
 
 
   image(url: string, width: number, height: number): string {
     return `${url}/full/${width},${height}/0/default.jpg`;
+  }
+
+  getIiifImage(url:string): string {
+    return `${url}/full/max/0/default.jpg`;
   }
 
   imageManifest(url: string): string {

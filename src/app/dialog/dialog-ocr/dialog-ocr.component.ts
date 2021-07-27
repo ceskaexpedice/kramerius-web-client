@@ -33,9 +33,6 @@ export class DialogOcrComponent extends MzBaseModal implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.settings.showCitation) {
-      return;
-    }
     const path = location.pathname;
     var uuid = path.substr(path.indexOf('uuid:'));
 

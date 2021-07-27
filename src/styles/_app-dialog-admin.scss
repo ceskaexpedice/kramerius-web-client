@@ -6,6 +6,7 @@ mz-modal.app-dialog-admin {
   mz-modal-content {
     display: block;
     padding-top: 20px;
+    min-height: 200px;
     input {
       cursor: text;
     }
@@ -17,26 +18,65 @@ mz-modal.app-dialog-admin {
     margin-bottom: 5px;
   }
 
-  .app-collections {
-    margin: 0 0 16px;
-    .app-collection {
-      line-height: 26px;
-      .app-btn {
-        float: left;
-        color: $primary-color;
-        font-size: 22px;
-        cursor: pointer;
-        display: none;
+  .app-progress {
+    position: absolute; left: 0; top: 0; right: 0; bottom: 0; opacity: 0.5; background: #444;
+    mz-spinner {
+      float: right;
+      margin-top: 20px;
+      margin-right: 20px;
+    }
+  }
+
+  .app-accessibility, .app-reindexation, .app-reprepage {
+    .radio-button-field {
+      margin: 0;
+      margin-top: 6px;
+      margin-bottom: 6px;
+      label {
+        display: block;
+        color: #464646;
       }
-      &:hover {
-        .app-btn {
-          display: block;
-          padding: 0 10px;
-        }
+      input {
+        // position: relative;
+        // display: block;
+        display: none;
       }
     }
   }
 
+
+  .app-collections {
+    .app-collection-list {
+      margin-left: -8px;
+      .app-collection {
+        line-height: 26px;
+        height: 26px;
+        overflow: hidden;
+        .app-btn {
+          float: left;
+          font-size: 22px;
+          cursor: pointer;
+          padding: 0 10px;
+          color: #ccc;
+        }
+        .app-col-name {
+          color: #444;
+          margin-right: 10px;
+        }
+        .app-col-desc {
+          color: #999;
+          font-size: 12px;
+        }
+        &:hover {
+          .app-btn {
+            display: block;
+            color: $primary-color;
+
+          }
+        }
+      }
+    }
+  }
 
 
 }

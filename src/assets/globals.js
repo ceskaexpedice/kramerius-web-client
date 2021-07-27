@@ -12,6 +12,25 @@ var APP_GLOBAL = {
     cs: '/assets/pages/nkp.about.cs.html',
     en: '/assets/pages/nkp.about.en.html',
   },
+  /*footer: {
+   cs: '/assets/shared/nkp.footer.cs.html',
+   en: '/assets/shared/nkp.footer.cs.html',
+ },*/
+ actions: {
+   pdf: 'public',
+   print: 'public',
+   jpeg: 'public',
+   text: 'public',
+   citation: 'always',
+   metadata: 'public',
+   share: 'public',
+   selection: 'public',
+   crop: 'public'
+ },
+ /*auth: {
+   logoutUrl: 'https://ndk.cz/Shibboleth.sso/Logout',
+   loginUrl: 'https://ndk.cz/podminky-zpristupneni'
+ },*/
   krameriusList: [
     {
       title: 'Národní­ knihovna České republiky',
@@ -25,7 +44,91 @@ var APP_GLOBAL = {
       iiif: false,
       k3: 'http://kramerius.nkp.cz/kramerius/',
       doctypes: ['monograph', 'periodical', 'map', 'sheetmusic'],
-      filters: ['accessibility', 'doctypes', 'authors', 'keywords', 'collections', 'languages']
+      filters: ['accessibility', 'licences', 'doctypes', 'authors', 'keywords', 'collections', 'languages'],
+
+      licences: {
+        dnnto: {
+          label: {
+            cs: 'Dí­la nedostupná na trhu',
+            en: 'Out of Commerce Works'
+          },
+          message: {
+            cs: '/assets/shared/licences/dnnto.cs.html',
+            en: '/assets/shared/licences/dnnto.en.html'
+          },
+          bar: true,
+          actions: {
+            pdf: false,
+            print: false,
+            jpeg: false,
+            text: false,
+            citation: true,
+            metadata: true,
+            share: true,
+            selection: false,
+            crop: false
+          },
+          watermark: {
+            defaultText: 'DNNT',
+            color: 'rgba(0, 0, 0, 0.3)',
+            fontSize: 16,
+            rowCount: 0,
+            colCount: 0,
+            probability: 0
+          }
+        },
+        _private: {
+          label: {
+            cs: 'Dokument není­ veřejně dostupný',
+            en: 'The document is not publicly accessible'
+          },
+          message: {
+            cs: '/assets/shared/licences/_private.cs.html',
+            en: '/assets/shared/licences/_private.en.html'
+          },
+        },
+        dnntt_hide: {
+          label: {
+            cs: 'Dí­la nedostupná na trhu (terminálový přístup)',
+            en: 'Out of Commerce Works (terminal)'
+          },
+          message: {
+            cs: '/assets/shared/licences/dnntt.cs.html',
+            en: '/assets/shared/licences/dnntt.en.html'
+          },
+          bar: false,
+          watermark: {
+            defaultText: 'DNNT',
+            color: 'rgba(0, 0, 0, 0.6)',
+            fontSize: 16,
+            rowCount: 0,
+            colCount: 0,
+            probability: 0
+          }
+        },
+        covid_hide: {
+          label: {
+            cs: 'COVID',
+            en: 'COVID'
+          },
+          message: {
+            cs: '/assets/shared/licences/covid.cs.html',
+            en: '/assets/shared/licences/covid.en.html'
+          },
+          bar: false,
+          watermark: {
+            defaultText: 'COVID',
+            color: 'rgba(0, 0, 0, 0.6)',
+            fontSize: 16,
+            rowCount: 0,
+            colCount: 0,
+            probability: 0
+          }
+        }
+      }
+
+
+
     }
   ]
 

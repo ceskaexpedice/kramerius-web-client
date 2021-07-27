@@ -1,6 +1,7 @@
 import { CollectionService } from './collection.service';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { LicenceService } from './licence.service';
 
 declare var APP_GLOBAL: any;
 
@@ -19,6 +20,7 @@ export class AppSettings {
   public logo: string;
   public logoHome: string;
   public url: string;
+  public adminUrl: string;
   public pdfUrl: string;
   public dnntUrl: string;
   public schemaVersion: string;
@@ -33,7 +35,6 @@ export class AppSettings {
   public iiifEnabled: boolean;
   public k3: string;
   public customRightMessage: boolean;
-  public dnntFilter: boolean;
   public originLink: boolean;
   public mapSearch: boolean;
   public topLevelFilter: string;
@@ -47,7 +48,7 @@ export class AppSettings {
   public defaultPeriodicalVolumesLayout = APP_GLOBAL.defaultPeriodicalVolumesLayout;
   public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
   public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
-  public dnnt = APP_GLOBAL.dnnt;
+  public auth = APP_GLOBAL.auth;
   public dnntEnabled = APP_GLOBAL.dnnt;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
@@ -60,15 +61,17 @@ export class AppSettings {
 
   public landingPage = !!APP_GLOBAL.landingPage;
 
-  public showMetadata = APP_GLOBAL.showMetadata || 'always';
-  public showCitation = APP_GLOBAL.showCitation || 'always';
-  public showSharing = APP_GLOBAL.showSharing || 'always';
-  public showPdfGeneration = APP_GLOBAL.showPdfGeneration || 'always';
-  public showPrintPreparation = APP_GLOBAL.showPrintPreparation || 'always';
-  public showPageJpeg = APP_GLOBAL.showPageJpeg || 'always';
-  public showPageOcr = APP_GLOBAL.showPageOcr || 'always';
-  public showTextSelection = APP_GLOBAL.showTextSelection || 'always';
-  public showImageCrop = APP_GLOBAL.showImageCrop || 'always';
+  public actions = {
+   'pdf': AppSettings.action('pdf', 'always'),
+   'print': AppSettings.action('print', 'always'),
+   'jpeg': AppSettings.action('jpeg', 'always'),
+   'text': AppSettings.action('text', 'always'),
+   'metadata': AppSettings.action('metadata', 'always'),
+   'citation': AppSettings.action('citation', 'always'),
+   'share': AppSettings.action('share', 'always'),
+   'selection': AppSettings.action('selection', 'always'),
+   'crop': AppSettings.action('crop', 'always')
+ }
 
   public logoutUrl = APP_GLOBAL.logoutUrl;
   public newestAll = !!APP_GLOBAL.newestAll;
@@ -77,7 +80,7 @@ export class AppSettings {
   public krameriusList: KrameriusData[];
   public krameriusVsList = APP_GLOBAL.krameriusVsList;
 
-  constructor(private collectionsService: CollectionService) {
+  constructor(private collectionsService: CollectionService, private licenceService: LicenceService) {
     this.krameriusList = [];
     for (const k of APP_GLOBAL.krameriusList) {
       this.krameriusList.push(k);
@@ -113,6 +116,7 @@ export class AppSettings {
 
   public assignKramerius(kramerius: KrameriusData) {
     this.collectionsService.clear();
+    this.licenceService.assignLicences(kramerius.licences);
     this.code = kramerius.code;
     this.title = kramerius.title;
     this.subtitle = kramerius.subtitle;
@@ -130,15 +134,14 @@ export class AppSettings {
     this.lemmatization = kramerius.lemmatization;
     this.iiifEnabled = kramerius.iiif;
     this.k3 = kramerius.k3;
-    this.dnntFilter = kramerius.dnntFilter;
     this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = !!kramerius.mapSearch;
     this.hiddenLocks = !!kramerius.hiddenLocks;
     this.membranePrivateTitle = kramerius.membranePrivateTitle;
     this.notice = kramerius.notice;
-
     this.currentCode = this.code;
+    this.adminUrl = kramerius.adminUrl;
     // this.krameriusInfoService.reload();
     this.topLevelFilter = (`fedora.model:${this.doctypes.join(' OR fedora.model:')}`)
         .replace(/fedora.model:monograph/, 'fedora.model:monograph OR fedora.model:monographunit');
@@ -180,6 +183,17 @@ export class AppSettings {
     return this.schemaVersion === '1.0';
   }
 
+  public admin(): boolean {
+     return !!this.adminUrl;
+   }
+
+   private static action(action: string, defaultValue: string): string {
+     if (!APP_GLOBAL.actions) {
+       return defaultValue;
+     }
+     return APP_GLOBAL.actions[action] || defaultValue;
+   }
+
 
 }
 
@@ -202,7 +216,7 @@ interface KrameriusData {
   lemmatization: boolean;
   iiif: boolean;
   k3: string;
-  dnntFilter: boolean;
+  licences: any;
   originLink: boolean;
   customRightMessage: boolean;
   mapSearch: boolean;
@@ -210,4 +224,5 @@ interface KrameriusData {
   membranePrivateTitle: string;
   notice: string;
   type: string;
+  adminUrl: string;
 }

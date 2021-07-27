@@ -117,6 +117,9 @@ export class ModsParserService {
         }
         for (const item of array) {
             const titleInfo = new TitleInfo();
+            if (item['$'] && item['$']['lang']) {
+               titleInfo.lang = item['$']['lang'];
+            }
             titleInfo.nonSort = this.getText(item.nonSort);
             titleInfo.title = this.getText(item.title);
             titleInfo.subTitle = this.getText(item.subTitle);

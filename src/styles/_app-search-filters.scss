@@ -1,14 +1,14 @@
 // --- SEARCH FILTERS ---
 
-app-search-filters, 
+app-search-filters,
 app-browse-filters,
 app-periodical-filters {
   float: left;
-  
+
   &.app-filters-mobile {
     display: none;
   }
-  
+
   @media #{$small-and-down} {
     &.app-filters-mobile {
       float: none;
@@ -21,7 +21,7 @@ app-periodical-filters {
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
       display: block;
       border: none !important;
-      
+
       .app-filters-wrapper {
         mz-collapsible {
           &:last-child {
@@ -34,22 +34,22 @@ app-periodical-filters {
         }
       }
     }
-    
+
     &.app-filters-desktop,
     &.app-panel-mobile-hidden {
       display: none;
     }
   }
-  
+
   .app-filters-wrapper {
     height: calc(100% - #{$app-toolbar-height});
     overflow-x: auto;
-    
+
     .collapsible {
       margin: 0 0 0px 0;
       border: none !important;
       @extend .z-depth-0;
-      
+
       & > li {
         padding: 15px 0 !important;
         @include set-border(bottom, 1, solid, $app-grey-l-2);
@@ -90,7 +90,7 @@ app-periodical-filters {
       .collapsible-body {
         @extend .app-clean-pd;
         border: none;
-        
+
         .collection-item {
           background-color: transparent;
           border: none;
@@ -100,6 +100,22 @@ app-periodical-filters {
         .app-row {
           display: table;
           width: 100%;
+          .app-lock {
+           float: left;
+           color: $app-licence-color;
+           margin-right: 4px;
+           &::before {
+             font-size: 18px;
+           }
+         }
+         .app-licence-info {
+           color: #999;
+           cursor: pointer;
+           vertical-align: middle;
+           &:hover {
+             color: #111;
+           }
+          }
           a {
             display: table-cell;
             width: 90%;

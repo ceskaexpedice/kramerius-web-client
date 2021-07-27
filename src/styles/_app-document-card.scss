@@ -2,14 +2,14 @@
 
 app-document-card {
   position: relative;
-  
+
   .card {
     @extend .app-cursor-pointer;
     margin: 0.5rem;
     border-radius: unset;
     height: 144px;
     @include setCardShadow(0, 0, 0, $app-grey-l-2);
-    
+
     .app-card-mark {
       width: 3px; // 5
       height: 40px; // 30
@@ -18,7 +18,7 @@ app-document-card {
       top: 15px;
       left: -2px; // -3
     }
-    
+
     // set type of document color
     .app-card-mark,
     .app-card-doctype {
@@ -43,7 +43,7 @@ app-document-card {
       height: 100%;
     }
 
-    
+
     .app-card-logo {
       position: absolute;
       bottom: 0;
@@ -54,7 +54,7 @@ app-document-card {
     .card-content {
       padding: 10px;
       height: 100%;
-      // overflow: hidden;        
+      // overflow: hidden;
         mz-card-content {
           display: table;
           width: 100%;
@@ -85,13 +85,13 @@ app-document-card {
                 opacity: 0.8;
                 margin: auto;
                 top: 0; left: 0; bottom: 0; right: 0;
-                &.app-dnnt {
-                  color: $app-dnnt;
+                &.app-lock-licence-open, &.app-lock-licence-locked {
+                  color: $app-licence-color;
                 }
               }
             }
           }
-          
+
           .app-card-content {
             display: table-cell;
             vertical-align: top;
@@ -99,7 +99,7 @@ app-document-card {
             font-size: 0.9rem;
             color: $app-grey-d-1;
             position: relative;
-            
+
             .app-card-title {
               font-weight: 500;
               font-size: $app-card-title-font-size;
@@ -113,7 +113,7 @@ app-document-card {
               display: -webkit-box;
               text-overflow: ellipsis;
             }
-            
+
             .app-card-authors {
               overflow: hidden;
               line-height: 1.1rem;
@@ -127,10 +127,11 @@ app-document-card {
               overflow: hidden;
               line-height: 1.1rem;
               height: 3.3rem;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 3;
+              display: block;
               display: -webkit-box;
               text-overflow: ellipsis;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
             }
 
             .app-card-doctype {
@@ -140,24 +141,50 @@ app-document-card {
               color: color("shades", "white");
               padding: 0 6px;
               border-radius: $app-border-radius;
-            } 
-            
+            }
+
             .app-card-hits {
               /*position: absolute;
               bottom: 23px;
               right: 0;*/
-              
+
               strong {
                 @extend .app-font-bold;
               }
             }
-            
+
             .mdi:before {
               font-size: 1rem;
             }
           }
-        } 
+        }
       //}
+    }
+    .app-selectable {
+      position: absolute;
+      // background: #00000011;
+      left: 0;
+      top: -0;
+      bottom: 0;
+      right: 0;
+      .app-check {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin-left: -6px;
+        margin-top: -6px;
+        border: 1px solid #999;
+        background: #fff;
+      }
+      &.app-selected {
+        background: #0277bd14;
+        border: 2px solid #0277bd;
+        .app-check {
+          background: #0277bd;
+          border-color: #0277bd;
+        }
+      }
+      // opacity: 0.3;
     }
   }
 }

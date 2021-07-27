@@ -49,44 +49,37 @@ export class NavbarComponent implements OnInit {
     this.mobileSearchBarExpanded = !this.mobileSearchBarExpanded;
   }
 
-  logout() {
-    this.analytics.sendEvent('navbar', 'logout');
-    if (this.account.serviceEnabled()) {
-      this.account.logout(() => {
-        this.router.navigate(['/']);
-      });
-    } else if (this.appSettings.krameriusLogin && this.authService.isLoggedIn()) {
-      this.authService.logout(() => {
-        this.router.navigate(['/']);
-      });
-    }
-  }
-
   login() {
-    this.analytics.sendEvent('navbar', 'login');
-    if (this.appSettings.krameriusLogin && !this.authService.isLoggedIn()) {
+    if (this.appSettings.auth) {
+      this.analytics.sendEvent('navbar', 'login-shib');
+      const url = `${this.appSettings.auth.loginUrl}?target=${window.location.href}`;
+      window.open(url, '_top');
+    } else if (this.appSettings.krameriusLogin && !this.authService.isLoggedIn()) {
+      this.analytics.sendEvent('navbar', 'login');
       this.authService.redirectUrl = window.location.href;
       this.router.navigate(['/login']);
     }
   }
 
-  dnntLogout() {
-    this.analytics.sendEvent('navbar', 'dnnt-logout');
-    if (this.appSettings.dnnt) {
+  logout() {
+    if (this.appSettings.auth) {
+      this.analytics.sendEvent('navbar', 'logout-shib');
+
       this.authService.logout(() => {
-        const url = `${this.appSettings.dnnt.logoutUrl}?return=${window.location.href}`;
+        const url = `${this.appSettings.auth.logoutUrl}?return=${window.location.href}`;
         window.open(url, '_top');
+      });
+    } else if (this.appSettings.krameriusLogin && this.authService.isLoggedIn()) {
+      this.analytics.sendEvent('navbar', 'logout');
+      this.authService.logout(() => {
+        this.router.navigate(['/']);
+      });
+    } else if (this.account.serviceEnabled()) {
+      this.analytics.sendEvent('navbar', 'logout-c');
+      this.account.logout(() => {
+        this.router.navigate(['/']);
       });
     }
   }
-
-  dnntLogin() {
-    this.analytics.sendEvent('navbar', 'dnnt-login');
-    if (this.appSettings.dnnt) {
-      const url = `${this.appSettings.dnnt.loginUrl}?target=${window.location.href}`;
-      window.open(url, '_top');
-    }
- }
-
 
 }

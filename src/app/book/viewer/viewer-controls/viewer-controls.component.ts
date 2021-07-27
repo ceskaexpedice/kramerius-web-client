@@ -1,20 +1,17 @@
 import { BookService } from './../../../services/book.service';
 import { ViewerControlsService } from '../../../services/viewer-controls.service';
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { AnalyticsService } from '../../../services/analytics.service';
-import { AppSettings } from '../../../services/app-settings';
 
 @Component({
   selector: 'app-viewer-controls',
   templateUrl: './viewer-controls.component.html'})
 export class ViewerControlsComponent implements OnInit {
 
-
   constructor(
-    public controlsService: ViewerControlsService, 
+    public controlsService: ViewerControlsService,
     public analytics: AnalyticsService,
-    public bookService: BookService,
-    private settings: AppSettings) {
+    public bookService: BookService) {
   }
 
   ngOnInit() {
@@ -36,15 +33,11 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   showSelectText(): boolean {
-    return this.show(this.settings.showTextSelection);
+    return this.bookService.isActionAvailable('selection');
   }
 
   showImageCrop(): boolean {
-    return this.bookService.iiifEnabled && this.show(this.settings.showImageCrop);
+    return this.bookService.iiifEnabled && this.bookService.isActionAvailable('crop');
   }
 
-  private show(value: string): boolean {
-    return value === 'always' || (value === 'public' && !this.bookService.isPrivate);
-  }
-  
 }

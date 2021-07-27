@@ -13,8 +13,9 @@ export class PeriodicalItem {
     thumb: string;
     virtual = false;
     metadata: Metadata;
-    dnnt = false;
+    //dnnt = false;
     editionType: string;
+    licences: string[];
 
     constructor() {
     }
