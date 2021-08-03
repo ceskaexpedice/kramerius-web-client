@@ -536,8 +536,11 @@ export class SolrService {
         let q = term;
         if (!Utils.inQuotes(term)) {
             q = q.trim();
+            q = q.replace(/\//g, ' ');
             q = q.replace(/\:/g, ' ');
             q = q.replace(/\;/g, ' ');
+            q = q.replace(/\=/g, ' ');
+            q = q.replace(/\-/g, ' ');
             while (q.indexOf('  ') > 0) {
                 q = q.replace(/  /g, ' ');
             }
