@@ -563,6 +563,7 @@ export class SolrService {
         if (query.isYearRangeSet()) {
             fq += ` AND (${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *])`;
         }
+        fq += ` AND (${this.field('model')}:page OR ${this.field('model')}:article OR ${this.field('model')}:monographunit)`;
         let term = this.buildQ(query.fulltext);
         const q = `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('authors_search')}^2 ${this.field('keywords_search')} ${this.field('text_ocr')}^1\' v=$q1}\"`;
         let sort = '';
@@ -682,21 +683,21 @@ export class SolrService {
         return q;
     }
 
-    private queryTerm(term: string, field: string): string {
-        let text = term.toLowerCase().trim();
-        const inQuotes = text.startsWith("\"") && text.endsWith("\"");
-        if (inQuotes) {
-            text = text.substring(1, text.length - 1).replace(/"/g, '\\"');
-            return `${field}:"${text}"`;
-        }
-        text = text.replace(/"/g, '\\"').replace(/~/g, '\\~')
-        .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[')
-        .replace(/\]/g, '\\]').replace(/!/g, '\\!');
-        while (text.indexOf('  ') > 0) {
-            text = text.replace(/  /g, ' ');
-        }
-        return `(${field}:${text.split(" ").join(" AND " + field + ":")})`;
-    }
+    // private queryTerm(term: string, field: string): string {
+    //     let text = term.toLowerCase().trim();
+    //     const inQuotes = text.startsWith("\"") && text.endsWith("\"");
+    //     if (inQuotes) {
+    //         text = text.substring(1, text.length - 1).replace(/"/g, '\\"');
+    //         return `${field}:"${text}"`;
+    //     }
+    //     text = text.replace(/"/g, '\\"').replace(/~/g, '\\~')
+    //     .replace(/:/g, '\\:').replace(/-/g, '\\-').replace(/\[/g, '\\[')
+    //     .replace(/\]/g, '\\]').replace(/!/g, '\\!');
+    //     while (text.indexOf('  ') > 0) {
+    //         text = text.replace(/  /g, ' ');
+    //     }
+    //     return `(${field}:${text.split(" ").join(" AND " + field + ":")})`;
+    // }
 
     searchAutocompleteResults(solr, term: string): CompleterItem[] {
         const items = [];
