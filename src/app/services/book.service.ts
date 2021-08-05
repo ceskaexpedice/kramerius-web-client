@@ -138,7 +138,6 @@ export class BookService {
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
-            console.log('ss', item);
             if (item.doctype === 'article') {
                 if (params.articleUuid) {
                     return;
@@ -184,7 +183,7 @@ export class BookService {
                     this.loadVolumes(item.root_uuid, this.uuid);
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
-                this.licences = item.licences;
+                this.licences = this.licenceService.availableLicences(item.licences);
                 this.licence = item.licence;
                 if (item.pdf) {
                     this.showNavigationPanel = false;
@@ -1038,11 +1037,13 @@ export class BookService {
             if (leftPage.licences) {
                 this.licence = leftPage.licence;
                 this.metadata.licence = this.licence;
-                this.licences = leftPage.licences;
+                leftPage.licences = this.licenceService.availableLicences(leftPage.licences);
+                this.licences = leftPage.licences
             } else if (rightPage && rightPage.licence) {
                 this.licence = rightPage.licence;
                 this.metadata.licence = this.licence;
-                this.licences = rightPage.licences;
+                rightPage.licences = this.licenceService.availableLicences(rightPage.licences);
+                this.licences = rightPage.licences
             }
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);

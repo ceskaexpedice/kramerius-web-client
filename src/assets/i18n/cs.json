@@ -303,6 +303,11 @@
       "periodical": "Hledat v periodiku",
       "periodicalvolume": "Hledat v ročníku",
       "monograph": "Hledat ve svazku knih"
+    },
+    "ordering": {
+      "relevance": "Podle Relevance",
+      "latest": "Od nejnovějších",
+      "earliest": "Od nejstarších"
     }
   },
   "view_controls": {

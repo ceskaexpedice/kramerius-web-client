@@ -3,9 +3,9 @@ import { Article } from './article.model';
 import { DocumentItem } from './document_item.model';
 import { PeriodicalItem } from './periodicalItem.model';
 import { InternalPart } from './internal_part.model';
+import { LicenceService } from '../services/licence.service';
 
 export class Metadata {
-
 
     public context = {};
 

@@ -30,8 +30,8 @@
           <i class="app-mdi-sort"></i>
         </span>
         <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(false)">Od nejstarších</a></mz-dropdown-item>
-          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(true)">Od nejnovějších</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(false)">{{ 'periodical.ordering.earliest' | translate }}</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(true)">{{ 'periodical.ordering.latest' | translate }}</a></mz-dropdown-item>
         </mz-dropdown>
       </li>
       <li *ngIf="periodicalService.orderingType === 'fulltext'" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
@@ -39,9 +39,9 @@
           <i class="app-mdi-sort"></i>
         </span>
         <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-          <mz-dropdown-item><a (click)="periodicalService.setOrdering('relevance')">Podle relevance</a></mz-dropdown-item>
-          <mz-dropdown-item><a (click)="periodicalService.setOrdering('earliest')">Od nejstarších</a></mz-dropdown-item>
-          <mz-dropdown-item><a (click)="periodicalService.setOrdering('latest')">Od nejnovějších</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="periodicalService.setOrdering('relevance')">{{ 'periodical.ordering.relevance' | translate }}</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="periodicalService.setOrdering('earliest')">{{ 'periodical.ordering.earliest' | translate }}</a></mz-dropdown-item>
+          <mz-dropdown-item><a (click)="periodicalService.setOrdering('latest')">{{ 'periodical.ordering.latest' | translate }}</a></mz-dropdown-item>
         </mz-dropdown>
       </li>
 

@@ -303,6 +303,11 @@
       "periodical": "Search in periodical",
       "periodicalvolume": "Search in volume",
       "monograph": "Search in monograph bundle"
+    },
+    "ordering": {
+      "relevance": "Relevance",
+      "latest": "Newest first",
+      "earliest": "Oldest first"
     }
   },
   "view_controls": {
