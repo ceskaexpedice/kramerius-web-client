@@ -85,6 +85,9 @@ export class LicenceService {
   }
 
   availableLicences(licences: string[]): string[] {
+    if (!licences) {
+      return [];
+    }
     let result = [];
     for (const licence of licences) {
       if (this.available(licence) && result.indexOf(licence) < 0) {
