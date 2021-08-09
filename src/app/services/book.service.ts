@@ -993,6 +993,9 @@ export class BookService {
                 article.metadata = metadata;
             });
         } else {
+            if (this.metadata) {
+                this.metadata.addToContext('article', article.uuid);
+            }
             this.onArticleLoaded(article);
         }
     }
