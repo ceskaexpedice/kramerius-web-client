@@ -290,7 +290,7 @@ export class SolrService {
         }
     }
 
-    public static allDoctypes = ['periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
+    public static allDoctypes = ['oldprintomnibusvolume', 'periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
     'archive', 'soundrecording', 'manuscript', 'monographunit',
     'soundunit', 'track', 'periodicalvolume', 'periodicalitem',
     'article', 'internalpart', 'supplement', 'page'];
@@ -1094,7 +1094,6 @@ export class SolrService {
 
     facetDoctypeList(solr, joinedDocytypes: boolean, doctypes: string[]) {
         const map = {};
-
         const types = this.settings.k5Compat() ? doctypes : doctypes.concat(['collection']);
         for (const doctype of types) {
             map[doctype] = 0;
@@ -1107,10 +1106,19 @@ export class SolrService {
                 if (map[f] !== undefined) {
                     map[f] += facetFields[i + 1];
                 }
-            } else if (!joinedDocytypes) {
-                const ff = f.split('/')[0];
-                if (map[ff] !== undefined) {
-                    map[ff] += facetFields[i + 1];
+            } else {
+                if (!joinedDocytypes) {
+                    const ff = f.split('/')[0];
+                    if (map[ff] !== undefined) {
+                        map[ff] += facetFields[i + 1];
+                    }
+                } else {
+                    const ff = f.split('/');
+                    if (ff[0] == 'oldprintomnibusvolume') {
+                        if (ff[ff.length - 1] != 'page') {
+                            map['oldprintomnibusvolume'] -= facetFields[i + 1];
+                        }
+                    }
                 }
             }
         }

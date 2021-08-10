@@ -203,8 +203,12 @@ export class PeriodicalService {
     return this.document && this.document.doctype === 'periodical';
   }
 
+  // isMonograph(): boolean {
+  //   return this.document && this.document.doctype === 'monograph';
+  // }
+
   isMonograph(): boolean {
-    return this.document && this.document.doctype === 'monograph';
+    return this.document && (this.document.doctype === 'monograph' || this.document.doctype === 'oldprintomnibusvolume');
   }
 
   getType(): string {

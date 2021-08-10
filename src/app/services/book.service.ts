@@ -80,7 +80,7 @@ export class BookService {
 
     public iiifEnabled = false;
 
-    private supplementUuids = [];
+    private extraParentsUuids = [];
 
     constructor(private location: Location,
         private altoService: AltoService,
@@ -132,7 +132,7 @@ export class BookService {
 
     init(params: BookParams) {
         this.clear();
-        this.supplementUuids = [];
+        this.extraParentsUuids = [];
         this.uuid = params.uuid;
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
@@ -319,20 +319,21 @@ export class BookService {
     }
 
 
-    private addSupplementPages(pages: any[], supplements: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
-        if (supplements.length === 0) {
+    private addSupplementPages(pages: any[], parents: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
+        if (parents.length === 0) {
             this.onDataLoaded(pages, null, pageUuid, articleUuid, internalPartUuid);
             return;
         }
-        const supplement = supplements.shift();
-        this.api.getChildren(supplement['pid']).subscribe(children => {
+        const parent = parents.shift();
+        this.api.getChildren(parent['pid']).subscribe(children => {
             for (const p of children) {
                 if (p['model'] === 'page') {
-                    p['supplement_uuid'] = supplement['pid'];
+                    p['parent_uuid'] = parent['pid'];
+                    p['parent_doctype'] = parent['model'];
                     pages.push(p);
                 }
             }
-            this.addSupplementPages(pages, supplements, doctype, pageUuid, articleUuid, internalPartUuid);
+            this.addSupplementPages(pages, parents, doctype, pageUuid, articleUuid, internalPartUuid);
         });
     }
 
@@ -354,17 +355,17 @@ export class BookService {
     private onDataLoaded(inputPages: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
         this.pages = [];
         const pages = [];
-        const supplements = [];
+        const parents = [];
         for (const p of inputPages) {
-            if (p['model'] === 'supplement') {
-                supplements.push(p);
-                this.supplementUuids.push(p.pid);
+            if (p['model'] === 'supplement' || (doctype == 'oldprintomnibusvolume' && p['model'] != 'page')) {
+                parents.push(p);
+                this.extraParentsUuids.push(p.pid);
             } else {
                 pages.push(p);
             }
         }
-        if (supplements.length > 0) {
-            this.addSupplementPages(pages, supplements, doctype, pageUuid, articleUuid, internalPartUuid);
+        if (parents.length > 0) {
+            this.addSupplementPages(pages, parents, doctype, pageUuid, articleUuid, internalPartUuid);
             return;
         }
         const pageIndex = this.arrangePages(pages, pageUuid, doctype);
@@ -442,7 +443,8 @@ export class BookService {
             } else if (p['model'] === 'page') {
                 const page = new Page();
                 page.uuid = p['pid'];
-                page.supplementUuid = p['supplement_uuid'];
+                page.parentUuid = p['parent_uuid'];
+                page.parentDoctype = p['parent_doctype'];
                 page.public = p['policy'] === 'public';
                 page.type = p['type'] ? p['type'].toLowerCase() : '';
                 page.number = p['number'];
@@ -460,7 +462,7 @@ export class BookService {
                 if (uuid === page.uuid) {
                     currentPage = index;
                 }
-                if ((page.type === 'backcover' || page.supplementUuid) && firstBackSingle === -1) {
+                if ((page.type === 'backcover' || page.parentUuid) && firstBackSingle === -1) {
                     firstBackSingle = index;
                 } else if (page.type === 'titlepage') {
                     titlePage = index;
@@ -756,7 +758,7 @@ export class BookService {
             this.cancelFulltext();
             return;
         }
-        const uuids = [this.uuid].concat(this.supplementUuids);
+        const uuids = [this.uuid].concat(this.extraParentsUuids);
         this.api.getDocumentFulltextPage(uuids, query).subscribe((result: any[]) => {
             this.ftPages = [];
             let index = 0;
@@ -850,15 +852,16 @@ export class BookService {
         const page = this.getPage();
         page.selected = true;
 
-        if (page.supplementUuid) {
-            const uuid = page.supplementUuid;
-            this.api.getMetadata(uuid, 'supplement').subscribe((metadata: Metadata) => {
-                if (uuid === this.getPage().supplementUuid) {
-                    this.metadata.pageSupplementMetadata = metadata;
+        if (page.parentUuid) {
+            const uuid = page.parentUuid;
+            this.api.getMetadata(uuid).subscribe((metadata: Metadata) => {
+                if (uuid === this.getPage().parentUuid) {
+                    this.metadata.extraParentMetadata = metadata;
+                    metadata.doctype = page.parentDoctype;
                 }
             });
         } else {
-            this.metadata.pageSupplementMetadata = null;
+            this.metadata.extraParentMetadata = null;
         }
 
         let pages = page.number + '';

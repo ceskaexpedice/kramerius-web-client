@@ -3,7 +3,6 @@ import { Article } from './article.model';
 import { DocumentItem } from './document_item.model';
 import { PeriodicalItem } from './periodicalItem.model';
 import { InternalPart } from './internal_part.model';
-import { LicenceService } from '../services/licence.service';
 
 export class Metadata {
 
@@ -49,7 +48,7 @@ export class Metadata {
     public internalPart: InternalPart;
     public review: Metadata;
     public volumeMetadata: Metadata;
-    public pageSupplementMetadata: Metadata;
+    public extraParentMetadata: Metadata;
 
     public mainTitle: string;
     public donators: string[];
@@ -86,7 +85,34 @@ export class Metadata {
     // }
 
     public addToContext(doctype: string, uuid: string) {
+        console.log('addToContext', doctype + ": " + uuid);
         this.context[doctype] = uuid;
+    }
+
+    public getFullContext(doctypes: string[]) {
+      let result = [];
+      for (const doctype of doctypes) {
+        if (this.context[doctype]) {
+          result.push({
+            type: doctype,
+            uuid: this.context[doctype]
+          });
+        }
+      }
+      if (this.extraParentMetadata) {
+        result.push({
+          type: this.extraParentMetadata.doctype,
+          uuid: this.extraParentMetadata.uuid
+        });
+      }
+      if (this.activePage) {
+        result.push({
+          type: 'page',
+          uuid: this.activePage.uuid
+        });
+      }
+      result.reverse();
+      return result;
     }
 
     public getYearRange() {

@@ -192,9 +192,9 @@
 
 
 
-    <div *ngIf="metadata.pageSupplementMetadata">
-      <label>{{ 'metadata.supplement' | translate }}</label>
-      <app-metadata [metadata]="metadata.pageSupplementMetadata" class="app-nested" [showControls]="false"></app-metadata>
+    <div *ngIf="metadata.extraParentMetadata">
+      <label>{{ 'model.' + metadata.extraParentMetadata.doctype | translate }}</label>
+      <app-metadata [metadata]="metadata.extraParentMetadata" class="app-nested" [showControls]="false"></app-metadata>
       <div class="divider"></div>
     </div>
 

@@ -40,7 +40,20 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
         link: this.shareService.getPersistentLinkByUrl()
       });
     }
+
+
     this.data.reverse();
+
+    this.data = this.metadata.getFullContext(SolrService.allDoctypes);
+    for (let item of this.data) {
+      if (item.type == 'page') {
+        item.link = this.shareService.getPersistentLinkByUrl();
+      } else {
+        item.link = this.shareService.getPersistentLink(item.uuid);
+      }
+    }
+
+
     if (this.data.length > 0) {
       this.selection = this.data[0];
     }
