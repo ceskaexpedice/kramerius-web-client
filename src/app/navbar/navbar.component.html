@@ -37,24 +37,12 @@
 
       <ng-container *ngIf="appSettings.auth">
         <mz-navbar-item *ngIf="authService.isLoggedIn()">
-          <a (click)="dnntLogout()">{{ 'navbar.logout' | translate }}</a>
-        </mz-navbar-item>
-        <mz-navbar-item *ngIf="!authService.isLoggedIn()">
-          <a (click)="dnntLogin()">{{ 'navbar.login' | translate }}</a>
-        </mz-navbar-item>
-      </ng-container>
-
-
-      <ng-container *ngIf="appSettings.krameriusLogin">
-        <mz-navbar-item *ngIf="authService.isLoggedIn()">
           <a (click)="logout()">{{ 'navbar.logout' | translate }}</a>
         </mz-navbar-item>
         <mz-navbar-item *ngIf="!authService.isLoggedIn()">
           <a (click)="login()">{{ 'navbar.login' | translate }}</a>
         </mz-navbar-item>
       </ng-container>
-
-
 
 
 

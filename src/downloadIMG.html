@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html moznomarginboxes mozdisallowselectionprint>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="cs" />
+
+<style type="text/css">
+	a, a:link a:visited {
+		color:#0277bd;
+		font-size:19px;
+	}
+
+	a:hover {
+		text-decoration:none;
+	}
+
+	.sk-fading-circle {
+	  margin: 100px auto;
+	  width: 40px;
+	  height: 40px;
+	  position: relative;
+	}
+
+	.sk-fading-circle .sk-circle {
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+	  left: 0;
+	  top: 0;
+	}
+
+	.sk-fading-circle .sk-circle:before {
+	  content: '';
+	  display: block;
+	  margin: 0 auto;
+	  width: 15%;
+	  height: 15%;
+	  background-color: #0277bd;
+	  border-radius: 100%;
+	  -webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
+		  animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
+	}
+	.sk-fading-circle .sk-circle2 {
+	  -webkit-transform: rotate(30deg);
+	      -ms-transform: rotate(30deg);
+		  transform: rotate(30deg);
+	}
+	.sk-fading-circle .sk-circle3 {
+	  -webkit-transform: rotate(60deg);
+	      -ms-transform: rotate(60deg);
+		  transform: rotate(60deg);
+	}
+	.sk-fading-circle .sk-circle4 {
+	  -webkit-transform: rotate(90deg);
+	      -ms-transform: rotate(90deg);
+		  transform: rotate(90deg);
+	}
+	.sk-fading-circle .sk-circle5 {
+	  -webkit-transform: rotate(120deg);
+	      -ms-transform: rotate(120deg);
+		  transform: rotate(120deg);
+	}
+	.sk-fading-circle .sk-circle6 {
+	  -webkit-transform: rotate(150deg);
+	      -ms-transform: rotate(150deg);
+		  transform: rotate(150deg);
+	}
+	.sk-fading-circle .sk-circle7 {
+	  -webkit-transform: rotate(180deg);
+	      -ms-transform: rotate(180deg);
+		  transform: rotate(180deg);
+	}
+	.sk-fading-circle .sk-circle8 {
+	  -webkit-transform: rotate(210deg);
+	      -ms-transform: rotate(210deg);
+		  transform: rotate(210deg);
+	}
+	.sk-fading-circle .sk-circle9 {
+	  -webkit-transform: rotate(240deg);
+	      -ms-transform: rotate(240deg);
+		  transform: rotate(240deg);
+	}
+	.sk-fading-circle .sk-circle10 {
+	  -webkit-transform: rotate(270deg);
+	      -ms-transform: rotate(270deg);
+		  transform: rotate(270deg);
+	}
+	.sk-fading-circle .sk-circle11 {
+	  -webkit-transform: rotate(300deg);
+	      -ms-transform: rotate(300deg);
+		  transform: rotate(300deg);
+	}
+	.sk-fading-circle .sk-circle12 {
+	  -webkit-transform: rotate(330deg);
+	      -ms-transform: rotate(330deg);
+		  transform: rotate(330deg);
+	}
+	.sk-fading-circle .sk-circle2:before {
+	  -webkit-animation-delay: -1.1s;
+		  animation-delay: -1.1s;
+	}
+	.sk-fading-circle .sk-circle3:before {
+	  -webkit-animation-delay: -1s;
+		  animation-delay: -1s;
+	}
+	.sk-fading-circle .sk-circle4:before {
+	  -webkit-animation-delay: -0.9s;
+		  animation-delay: -0.9s;
+	}
+	.sk-fading-circle .sk-circle5:before {
+	  -webkit-animation-delay: -0.8s;
+		  animation-delay: -0.8s;
+	}
+	.sk-fading-circle .sk-circle6:before {
+	  -webkit-animation-delay: -0.7s;
+		  animation-delay: -0.7s;
+	}
+	.sk-fading-circle .sk-circle7:before {
+	  -webkit-animation-delay: -0.6s;
+		  animation-delay: -0.6s;
+	}
+	.sk-fading-circle .sk-circle8:before {
+	  -webkit-animation-delay: -0.5s;
+		  animation-delay: -0.5s;
+	}
+	.sk-fading-circle .sk-circle9:before {
+	  -webkit-animation-delay: -0.4s;
+		  animation-delay: -0.4s;
+	}
+	.sk-fading-circle .sk-circle10:before {
+	  -webkit-animation-delay: -0.3s;
+		  animation-delay: -0.3s;
+	}
+	.sk-fading-circle .sk-circle11:before {
+	  -webkit-animation-delay: -0.2s;
+		  animation-delay: -0.2s;
+	}
+	.sk-fading-circle .sk-circle12:before {
+	  -webkit-animation-delay: -0.1s;
+		  animation-delay: -0.1s;
+	}
+
+	@-webkit-keyframes sk-circleFadeDelay {
+	  0%, 39%, 100% { opacity: 0; }
+	  40% { opacity: 1; }
+	}
+
+	@keyframes sk-circleFadeDelay {
+	  0%, 39%, 100% { opacity: 0; }
+	  40% { opacity: 1; }
+	}
+
+
+</style>
+
+<style media="print">
+@page {
+    size: auto;
+    margin: 1mm 1mm 1mm 1mm;
+}
+ @page :footer {color: #fff }
+ @page :header {color: #fff}
+ header nav, footer {
+	display: none;
+ }
+ a, a:link, a:visited, p {display:none;}
+ img {max-height:100%; max-width:100%;}
+</style>
+
+<script type="text/javascript">
+uuid=window.location.hash.split("#");
+
+function downloadFile(uuid){
+    var link=document.createElement('a');
+    link.href = "http://kramerius5.nkp.cz/search/api/v5.0/item/"+uuid+"/streams/IMG_FULL";
+	//link.innerHTML="test";
+    link.download = link.href;
+    link.click();
+    document.body.appendChild(link);
+}
+
+function resizeImg(id) {
+	if(!document.getElementById(id).style.height || document.getElementById(id).style.height=="100%") {
+		document.getElementById(id).style.height=window.innerHeight+"px";
+		document.getElementById(id).style.cursor="zoom-in";
+	} else {
+		document.getElementById(id).style.height="100%";
+		document.getElementById(id).style.cursor="zoom-out";
+	}
+}
+</script>
+
+</head>
+<body style="text-align:center;">
+<p id="p"><a href="" id="download">Stáhnout</a>&nbsp;&nbsp;|&nbsp;&nbsp;<span id="download2-span" style="display:none"><a href="" id="download2">Stáhnout pravou stranu</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="document.getElementById('loading').style.display='none';window.print();document.getElementById('loading').style.display='inline';return false">Tisk levé strany</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span><a href="javascript:window.print()">Tisk</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:window.close()">Zavřít okno</a><br /><br /></p>
+<img src="" id="img" alt="" onclick="resizeImg('img');" style="display:none;" />
+<div id="loading">
+	<br />
+	<div class="sk-fading-circle"><div class="sk-circle1 sk-circle"></div><div class="sk-circle2 sk-circle"></div><div class="sk-circle3 sk-circle"></div><div class="sk-circle4 sk-circle"></div><div class="sk-circle5 sk-circle"></div><div class="sk-circle6 sk-circle"></div><div class="sk-circle7 sk-circle"></div><div class="sk-circle8 sk-circle"></div><div class="sk-circle9 sk-circle"></div><div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div><div class="sk-circle12 sk-circle"></div></div>
+	<br /><br />
+</div>
+
+
+<script type="text/javascript">
+document.getElementById("img").src="http://kramerius5.nkp.cz/search/api/v5.0/item/"+uuid[1]+"/streams/IMG_FULL";
+var a=document.getElementById("download");
+//a.href = "http://kramerius5.nkp.cz/search/api/v5.0/item/"+uuid[1]+"/streams/IMG_FULL";
+a.href = "https://kramerius5.nkp.cz/pdf/download/?id="+uuid[1];
+a.download = uuid[1]+".jpg";
+document.getElementById("img").onload = function() {
+		resizeImg('img');
+		document.getElementById("loading").innerHTML="";
+		if(uuid[2]) {
+			document.getElementById("download").innerHTML="Stáhnout levou stranu";
+			document.getElementById("loading").innerHTML='<img src="http://kramerius5.nkp.cz/search/api/v5.0/item/'+uuid[2]+'/streams/IMG_FULL" alt="" id="img2" onclick="resizeImg(\'img2\');" onload="resizeImg(\'img2\');document.getElementById(\'img\').style.display=\'inline\';document.getElementById(\'img2\').style.display=\'inline\';" style="display:none;" />';
+			var a=document.getElementById("download2");
+			//a.href = "http://kramerius5.nkp.cz/search/api/v5.0/item/"+uuid[2]+"/streams/IMG_FULL";
+			a.href = "https://kramerius5.nkp.cz/pdf/download/?id="+uuid[2];
+			a.download = uuid[2]+".jpg";
+			document.getElementById("download2-span").style.display="inline";
+		} else {
+			document.getElementById("img").style.display="inline";
+		}
+	}
+</script>
+
+</body>
+</html>

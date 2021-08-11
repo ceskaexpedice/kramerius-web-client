@@ -602,7 +602,7 @@ export class BookService {
           }
         }
         const value = this.settings.actions[action];
-        return value === 'always' || (value === 'public' && !this.isPrivate);
+        return value === 'always' || (value === 'public' && !this.isPageInaccessible());
     }
 
     showOcr() {
