@@ -1,0 +1,14 @@
+<mz-modal #modal [fixedFooter]="false" class="app-dialog-share">
+  <mz-modal-header>
+    <h5>{{ title | translate }}</h5>
+  </mz-modal-header>
+  <mz-modal-content>
+    {{ message | translate }}
+    <img src="{{ imageURL }}" style="max-width: 100%;">
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>{{ button | translate }}</button>
+    <button style="margin: 5px;" mz-button [flat]="false" (click)="redirectStore('play')">{{ downloadButton | translate }}</button>
+    <button style="margin: 5px;" mz-button [flat]="false" (click)="redirectStore('iOS')">{{ downloadButton2 | translate }}</button>
+  </mz-modal-footer>
+</mz-modal>

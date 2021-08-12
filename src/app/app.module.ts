@@ -157,6 +157,7 @@ import { AdminReprePageComponent } from './dialog/dialog-admin/admin-reprepage/a
 import { LicenceService } from './services/licence.service';
 import { LicenceMessagesComponent } from './shared/licence-messages/licence-messages.component';
 import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licences.component';
+import { DialogDownloadComponent } from './dialog/dialog-download/dialog-download.component';
 
 
 
@@ -264,7 +265,8 @@ export function hljsLanguages() {
     AdminReindexationComponent,
     AdminReprePageComponent,
     LicenceMessagesComponent,
-    DialogLicencesComponent
+    DialogLicencesComponent,
+    DialogDownloadComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -277,7 +279,8 @@ export function hljsLanguages() {
     DialogAdminMetadataComponent,
     DialogAdvancedSearchComponent,
     DialogAdminComponent,
-    DialogLicencesComponent
+    DialogLicencesComponent,
+    DialogDownloadComponent
   ],
   imports: [
     BrowserModule,

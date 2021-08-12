@@ -36,6 +36,7 @@ export class AppSettings {
   public mapSearch: boolean;
   public hiddenLocks: boolean;
 
+  public downloadApp = APP_GLOBAL.downloadApp;
   public matomo_url = APP_GLOBAL.matomo_url;
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;

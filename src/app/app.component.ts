@@ -8,6 +8,8 @@ import { Location } from '@angular/common';
 import { AuthService } from './services/auth.service';
 
 import { MatomoInjector } from 'ngx-matomo';
+import { MzModalService } from 'ngx-materialize';
+import { DialogDownloadComponent } from './dialog/dialog-download/dialog-download.component';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +27,7 @@ export class AppComponent implements OnInit {
     private appSettings: AppSettings,
     private auth: AuthService,
     public state: AppState,
+    private modalService: MzModalService,
     private matomoInjector: MatomoInjector) {
       this.matomoInjector.init(this.appSettings.matomo_url, 5);
   }
@@ -42,5 +45,24 @@ export class AppComponent implements OnInit {
     if (lang) {
       this.translator.language = lang;
     }
+
+    this.openDownloadDialog()
+  }
+
+  openDownloadDialog(){
+    var deviceInfo : string = navigator.userAgent;
+
+    console.log(deviceInfo);
+
+    if(this.appSettings.downloadApp && (deviceInfo.includes(".*iPhone.* | .*Android.*"))){ //TODO: Vylepšit regex
+      this.modalService.open(DialogDownloadComponent, {title: "Stáhněte si naši aplikaci", 
+      message: "Aplikace Kramerius je lepší", 
+      button: "Zavřít", 
+      downloadButton: "Google Play",
+      downloadButton2: "App Store",
+      imageURL: "assets/shared/img/app-promo.png"});
+    }
+
+    
   }
 }
