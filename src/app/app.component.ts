@@ -10,6 +10,7 @@ import { AuthService } from './services/auth.service';
 import { MatomoInjector } from 'ngx-matomo';
 import { MzModalService } from 'ngx-materialize';
 import { DialogDownloadComponent } from './dialog/dialog-download/dialog-download.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit {
     private auth: AuthService,
     public state: AppState,
     private modalService: MzModalService,
+    private cookieService : CookieService,
     private matomoInjector: MatomoInjector) {
       this.matomoInjector.init(this.appSettings.matomo_url, 5);
   }
@@ -51,16 +53,18 @@ export class AppComponent implements OnInit {
 
   openDownloadDialog(){
     var deviceInfo : string = navigator.userAgent;
+    var device : string;
 
-    console.log(deviceInfo);
-
-    if(this.appSettings.downloadApp && (deviceInfo.includes(".*iPhone.* | .*Android.*"))){ //TODO: Vylepšit regex
-      this.modalService.open(DialogDownloadComponent, {title: "Stáhněte si naši aplikaci", 
-      message: "Aplikace Kramerius je lepší", 
-      button: "Zavřít", 
-      downloadButton: "Google Play",
-      downloadButton2: "App Store",
-      imageURL: "assets/shared/img/app-promo.png"});
+    if(this.appSettings.downloadApp && (deviceInfo.match(".*iPhone.*|.*iPad.*|.*Android.*") != null) && !this.cookieService.check("isOffered")){
+      if(deviceInfo.match(".*Android.*") != null){
+        device = "Android";
+      }else device = "iPhone";
+      this.modalService.open(DialogDownloadComponent, {title: "Chcete si nás uložit do mobilu?", 
+                                                      message: "Mějte svou knihovnu vždy po ruce", 
+                                                      button: "Zavřít",
+                                                      imageURL: "assets/shared/img/app-promo.png",
+                                                      deviceType: device});
+      this.cookieService.set("isOffered", "offered");
     }
 
     

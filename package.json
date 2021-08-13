@@ -37,7 +37,7 @@
     "ng-lazyload-image": "^5.1.1",
     "ng2-completer": "^2.0.8",
     "ngx-clipboard": "^11.1.9",
-    "ngx-cookie-service": "^2.1.0",
+    "ngx-cookie-service": "^2.4.0",
     "ngx-device-detector": "^2.1.1",
     "ngx-gallery": "^5.9.0",
     "ngx-highlightjs": "^3.0.3",
