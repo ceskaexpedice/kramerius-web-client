@@ -80,7 +80,7 @@ export class BookService {
 
     public iiifEnabled = false;
 
-    private extraParentsUuids = [];
+    public extraParents = [];
 
     constructor(private location: Location,
         private altoService: AltoService,
@@ -132,7 +132,7 @@ export class BookService {
 
     init(params: BookParams) {
         this.clear();
-        this.extraParentsUuids = [];
+        this.extraParents = [];
         this.uuid = params.uuid;
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
@@ -208,6 +208,8 @@ export class BookService {
         });
 
     }
+
+
 
 
     getUuid(): string {
@@ -319,7 +321,16 @@ export class BookService {
     }
 
 
-    private addSupplementPages(pages: any[], parents: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
+    onParentSelected(parent: any) {
+        for (const page of this.pages) {
+            if (page.parentUuid == parent.pid) {
+                this.goToPageOnIndex(page.index);
+                return;
+            }
+        }
+    }
+
+    private addParentPages(pages: any[], parents: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
         if (parents.length === 0) {
             this.onDataLoaded(pages, null, pageUuid, articleUuid, internalPartUuid);
             return;
@@ -333,7 +344,7 @@ export class BookService {
                     pages.push(p);
                 }
             }
-            this.addSupplementPages(pages, parents, doctype, pageUuid, articleUuid, internalPartUuid);
+            this.addParentPages(pages, parents, doctype, pageUuid, articleUuid, internalPartUuid);
         });
     }
 
@@ -349,6 +360,9 @@ export class BookService {
         if (this.internalParts.length > 0) {
             tabs += 1;
         }
+        if (this.metadata.doctype == 'oldprintomnibusvolume' && !this.fulltextQuery) {
+            tabs += 1;
+        }
         this.navigationTabsCount = tabs;
     }
 
@@ -359,13 +373,13 @@ export class BookService {
         for (const p of inputPages) {
             if (p['model'] === 'supplement' || (doctype == 'oldprintomnibusvolume' && p['model'] != 'page')) {
                 parents.push(p);
-                this.extraParentsUuids.push(p.pid);
+                this.extraParents.push(p);
             } else {
                 pages.push(p);
             }
         }
         if (parents.length > 0) {
-            this.addSupplementPages(pages, parents, doctype, pageUuid, articleUuid, internalPartUuid);
+            this.addParentPages(pages, parents, doctype, pageUuid, articleUuid, internalPartUuid);
             return;
         }
         const pageIndex = this.arrangePages(pages, pageUuid, doctype);
@@ -754,11 +768,15 @@ export class BookService {
         this.fulltextQuery = query;
         this.fulltextAllPages = false;
         this.publishNewPages(BookPageState.Loading);
+        this.calcNavigationTabsCount();
         if (!query) {
             this.cancelFulltext();
             return;
         }
-        const uuids = [this.uuid].concat(this.extraParentsUuids);
+        const uuids = [this.uuid];
+        for (const p of this.extraParents) {
+            uuids.push(p.pid);
+        }
         this.api.getDocumentFulltextPage(uuids, query).subscribe((result: any[]) => {
             this.ftPages = [];
             let index = 0;

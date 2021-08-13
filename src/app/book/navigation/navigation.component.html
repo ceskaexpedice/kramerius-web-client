@@ -17,6 +17,11 @@
         <span class="app-desc">{{ 'model_plural.internalpart' | translate }}</span>
       </a>
     </li>
+    <li *ngIf="bookService.metadata.doctype == 'oldprintomnibusvolume' && !bookService.getFulltextQuery()" class="tab tab-{{bookService.navigationTabsCount}}">
+      <a (click)="bookService.changeNavigationTab('konvolutparts');analytics.sendEvent('viewer', 'navigation', 'konvolutparts');" [class.active]="bookService.activeNavigationTab === 'konvolutparts'">
+        <span class="app-desc">{{ 'model_plural.oldprintomnibusvolumepart' | translate }}</span>
+      </a>
+    </li>
   </ul>
 </div>
 
@@ -24,9 +29,12 @@
   <div *ngFor="let article of bookService.articles" (click)="bookService.onArticleSelected(article)" class="app-article" [class.app-article-selected]="article === bookService.article">{{ article.title }}</div>
 </div>
 
-
 <div class="app-navigation-internalparts" *ngIf="bookService.activeNavigationTab === 'internalparts'">
   <div *ngFor="let internalPart of bookService.internalParts" (click)="bookService.onInternalPartSelected(internalPart)" class="app-internalpart" [class.app-internalpart-selected]="internalPart === bookService.internalPart">{{ internalPart.title }}</div>
+</div>
+
+<div class="app-navigation-internalparts" *ngIf="bookService.activeNavigationTab === 'konvolutparts'">
+  <div *ngFor="let parent of bookService.extraParents" (click)="bookService.onParentSelected(parent)" class="app-internalpart" [class.app-internalpart-selected]="bookService.getPage().parentUuid === parent.pid">{{ parent.title }}</div>
 </div>
 
 

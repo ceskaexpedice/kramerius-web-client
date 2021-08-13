@@ -489,7 +489,8 @@
     "soundunit" : "Alba",
     "track" : "Nahrávky",
     "collection": "Sbírky",
-    "oldprintomnibusvolume": "Konvoluty"
+    "oldprintomnibusvolume": "Konvoluty",
+    "oldprintomnibusvolumepart": "Části"
   },
   "issue_type": {
     "morning": "ranní vydání",

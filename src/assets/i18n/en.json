@@ -489,7 +489,8 @@
     "soundunit" : "Sound Units",
     "track" : "Tracks",
     "collection" : "Collections",
-    "oldprintomnibusvolume": "Omnibuses"
+    "oldprintomnibusvolume": "Omnibuses",
+    "oldprintomnibusvolumepart": "Parts"
   },
   "issue_type": {
     "morning": "morning edition",
