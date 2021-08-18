@@ -169,6 +169,11 @@ export class KrameriusApiService {
             .map(response => this.solr.monographUnits(response));
     }
 
+    getOmnibusUnits(uuid: string, query: PeriodicalQuery): Observable<DocumentItem[]> {
+        return this.getSearchResults(this.solr.buildOmnibusUnitsQuery(uuid, query))
+            .map(response => this.solr.omnibusUnits(response));
+    }
+
     getBrowseItems(query: BrowseQuery): Observable<[BrowseItem[], number]> {
         return this.getSearchResults(this.solr.buildBrowseQuery(query))
             .map(response => this.solr.browseItems(response, query));

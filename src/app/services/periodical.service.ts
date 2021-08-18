@@ -1,4 +1,3 @@
-import { Utils } from './utils.service';
 import { AppSettings } from './app-settings';
 import { PeriodicalQuery } from './../periodical/periodical_query.model';
 import { Router } from '@angular/router';
@@ -20,7 +19,7 @@ export class PeriodicalService {
 
   query: PeriodicalQuery;
   items: PeriodicalItem[];
-  titles: DocumentItem[];
+  units: DocumentItem[];
 
 
   yearItems: PeriodicalItem[];
@@ -45,7 +44,6 @@ export class PeriodicalService {
   orderingType = 'none'; // none | periodical | fulltext
 
   constructor(
-    private utilsService: Utils,
     private router: Router,
     private settings: AppSettings,
     private history: HistoryService,
@@ -75,7 +73,18 @@ export class PeriodicalService {
             this.initFulltext();
           } else {
             this.api.getMonographUnits(query.uuid, query).subscribe((units: DocumentItem[]) => {
-              this.initMonographUnit(units);
+              this.initUnits(units);
+            });
+          }
+        } else if (this.isOmnibus()) {
+          this.metadata.doctype = 'oldprintomnibusvolume';
+          this.metadata.addToContext('oldprintomnibusvolume', query.uuid);
+          this.localStorageService.addToVisited(this.document, this.metadata);
+          if (query.fulltext) {
+            this.initFulltext();
+          } else {
+            this.api.getOmnibusUnits(query.uuid, query).subscribe((units: DocumentItem[]) => {
+              this.initUnits(units);
             });
           }
         } else if (this.isPeriodical()) {
@@ -128,6 +137,8 @@ export class PeriodicalService {
       return this.fulltext.results;
     } else if (this.items) {
       return this.items.length;
+    } else if (this.units) {
+      return this.units.length;
     }
   }
 
@@ -198,7 +209,11 @@ export class PeriodicalService {
   }
 
   isMonograph(): boolean {
-    return this.document && (this.document.doctype === 'monograph' || this.document.doctype === 'oldprintomnibusvolume');
+    return this.document && this.document.doctype === 'monograph'
+  }
+
+  isOmnibus(): boolean {
+    return this.document && this.document.doctype === 'oldprintomnibusvolume';
   }
 
   getType(): string {
@@ -295,7 +310,7 @@ export class PeriodicalService {
     this.fulltext.limit = 40;
     this.fulltext.query = this.query.fulltext;
     this.fulltext.page = this.query.page || 1;
-    if (this.isMonograph()) {
+    if (this.isMonograph() || this.isOmnibus()) {
       this.orderingType = 'none';
     } else {
       this.orderingType = 'fulltext';
@@ -436,11 +451,11 @@ export class PeriodicalService {
     return this.fulltext ? this.fulltext.query : null;
   }
 
-  private initMonographUnit(units: DocumentItem[]) {
+  private initUnits(units: DocumentItem[]) {
     this.gridLayoutEnabled = false;
     this.calendarLayoutEnabled = false;
     this.yearsLayoutEnabled = false;
-    this.titles = units;
+    this.units = units;
     this.activeLayout = 'title';
     this.state = PeriodicalState.Success;
   }

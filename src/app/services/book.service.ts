@@ -158,13 +158,10 @@ export class BookService {
                 return;
             }
             if (item.getParentDoctype() == 'oldprintomnibusvolume') {
-                console.log(console.log('params', params));
                 if (params.pageUuid) {
-                    console.log('redirecting to konvolut with page selected');
                     this.history.removeCurrent();
                     this.router.navigate(['/view', item.getParentUuid()], { replaceUrl: true, queryParams: { page: params.pageUuid, fulltext: this.fulltextQuery } });
                 } else {
-                    console.log('redirecting to konvolut with page NOT selected');
                     this.router.navigate(['/view', item.getParentUuid()], { replaceUrl: true, queryParams: { parent: item.uuid, fulltext: this.fulltextQuery } });
                 }
                 return;
@@ -984,6 +981,9 @@ export class BookService {
             this.fulltextAllPages = false;
         }
         this.activeNavigationTab = tab;
+        if (tab == 'pages') {
+            this.goToPage(this.getPage());
+        }
     }
 
     onInternalPartSelected(internalPart: InternalPart) {

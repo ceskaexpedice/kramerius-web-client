@@ -25,6 +25,7 @@ export class DocumentItem {
     east: number;
     licences: string[] = [];
     originUrl: string;
+    index: number;
 
     selected: boolean = false;
     licence: string;

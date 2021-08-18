@@ -270,7 +270,8 @@
     "unit_number": "Číslo",
     "unit_list": "Přejít na svazek knih",
     "next_unit": "Následující část:",
-    "previous_unit": "Předchozi část:",   
+    "previous_unit": "Předchozi část:",  
+    "omnibus_list": "Přejít na seznam části konvolutu",
     "shelf_locator": "Signatura: {{shelf_locator}}",
     "btn_show_metadata": "Zobrazit metadata",
     "btn_hide_metadata": "Skrýt metadata",
@@ -301,6 +302,7 @@
       "none": "Hledat",
       "periodical": "Hledat v periodiku",
       "periodicalvolume": "Hledat v ročníku",
+      "oldprintomnibusvolume": "Hledat v konvolutu",
       "monograph": "Hledat ve svazku knih"
     },
     "ordering": {

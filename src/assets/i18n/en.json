@@ -270,7 +270,8 @@
     "unit_number": "Number",
     "unit_list": "Part list",
     "next_unit": "Next part:",
-    "previous_unit": "Previous part:",       
+    "previous_unit": "Previous part:",  
+    "omnibus_list": "Konvolut pats",     
     "shelf_locator": "Shelf/Call number: {{shelf_locator}}",
     "btn_show_metadata": "Show metadata",
     "btn_hide_metadata": "Hide metadata",
@@ -301,6 +302,7 @@
       "none": "Search",
       "periodical": "Search in periodical",
       "periodicalvolume": "Search in volume",
+      "oldprintomnibusvolume": "Search in omnibus",
       "monograph": "Search in monograph bundle"
     },
     "ordering": {
