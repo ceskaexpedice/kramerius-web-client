@@ -20,6 +20,8 @@ export class PeriodicalService {
 
   query: PeriodicalQuery;
   items: PeriodicalItem[];
+  titles: DocumentItem[];
+
 
   yearItems: PeriodicalItem[];
   minYear: number;
@@ -348,7 +350,11 @@ export class PeriodicalService {
         this.api.getPeriodicalItemsDetails(unitPids).subscribe((items: PeriodicalItem[]) => {
           for (const item of items) {
             for (const page of this.fulltext.pages) {
-              page.type = 'monograph_unit_page';
+              if (page.context['page']) {
+                page.type = 'monograph_unit_page';
+              } else {
+                page.type = 'monograph_unit';
+              }
               if (item.uuid === page.context['monographunit']) {
                 page.title = item.name;
                 page.part = item.number;
@@ -536,10 +542,26 @@ export class PeriodicalService {
   }
 
   private initMonographUnit() {
-    this.gridLayoutEnabled = true;
+    this.gridLayoutEnabled = false;
     this.calendarLayoutEnabled = false;
     this.yearsLayoutEnabled = false;
-    this.activeLayout = 'grid';
+
+    this.titles = [];
+    for (const item of this.items) {
+      const title = new DocumentItem();
+      title.public = item.public;
+      title.title = item.name;
+      title.uuid = item.uuid;
+      title.public = item.public;
+      title.doctype = item.doctype;
+      title.licences = item.licences;
+      if (item.number){
+        title.description = this.translator.instant('periodical.monographunit', { part: item.number }) as string;
+      }
+      this.titles.push(title);
+    }
+
+    this.activeLayout = 'title';
     this.state = PeriodicalState.Success;
   }
 

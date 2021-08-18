@@ -155,6 +155,8 @@ import { AdminReprePageComponent } from './dialog/dialog-admin/admin-reprepage/a
 import { LicenceService } from './services/licence.service';
 import { LicenceMessagesComponent } from './shared/licence-messages/licence-messages.component';
 import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licences.component';
+import { PeriodicalTitleLayoutComponent } from './periodical/periodical-content/periodical-title-layout/periodical-title-layout.component';
+import { PeriodicalTitleItemComponent } from './periodical/periodical-content/periodical-title-layout/periodical-title-item/periodical-title-item.component';
 
 
 
@@ -262,7 +264,9 @@ export function hljsLanguages() {
     AdminReindexationComponent,
     AdminReprePageComponent,
     LicenceMessagesComponent,
-    DialogLicencesComponent
+    DialogLicencesComponent,
+    PeriodicalTitleLayoutComponent,
+    PeriodicalTitleItemComponent
   ],
   entryComponents: [
     DialogOcrComponent,

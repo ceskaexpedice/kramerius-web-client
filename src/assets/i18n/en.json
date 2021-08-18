@@ -541,7 +541,8 @@
     "colophon": "colophon",
     "interview": "interview",
     "anotation": "annotation",
-    "manuscriptnotes": "manuscript notes"
+    "manuscriptnotes": "manuscript notes",
+    "calibrationtable": "calibration table"
   },
   "calendar" : {
     "months" : {

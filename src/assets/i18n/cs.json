@@ -541,7 +541,8 @@
     "colophon": "tiráž",
     "interview": "rozhovor",
     "anotation": "anotace",
-    "manuscriptnotes": "rukopisná poznámka"
+    "manuscriptnotes": "rukopisná poznámka",
+    "calibrationtable": "kalibrační tabulka"
   },
   "calendar" : {
     "months" : {

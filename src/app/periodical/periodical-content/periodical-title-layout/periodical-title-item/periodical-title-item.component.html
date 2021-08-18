@@ -1,0 +1,22 @@
+<a [routerLink]="settings.getRouteFor(item.getPath())" [queryParams]="periodicalService.getUrlParams()" (click)="analytics.sendEvent('periodical', 'open from', 'title');">
+  <mz-card [hoverable]="true">
+    <mz-card-content>
+      <div class="app-card-content center-align">
+        <div class="app-card-title">
+          {{ item.getTitle() }}
+        </div>
+        <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
+          <ng-container *ngIf="lock">
+            <i mz-icon-mdi [icon]="lock.icon" class="app-lock {{ lock.class }}" mz-tooltip [tooltip]="lock.tooltip"></i>
+          </ng-container>
+        </div>
+        <div class="app-card-subtitle" mz-tooltip [tooltip]="item.getExtendedPart(translator)">
+          <ng-container *ngIf="item.getPart().length < 10; else longPart">
+            {{ 'periodical.' + item.doctype | translate: { part: item.getPart() } }}
+          </ng-container>
+          <ng-template #longPart>{{ item.getPart() }}</ng-template>
+        </div>
+      </div> 
+    </mz-card-content>
+  </mz-card>
+</a>

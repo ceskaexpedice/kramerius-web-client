@@ -148,7 +148,8 @@ export class BookService {
                     this.router.navigate(['/view', issueUuid], { replaceUrl: true, queryParams: { article: params.uuid, fulltext: this.fulltextQuery } });
                 }
                 return;
-            } else if (item.doctype === 'internalpart') {
+            } 
+            if (item.doctype === 'internalpart') {
                 const parentUuid = item.getParentUuid();
                 if (parentUuid) {
                     this.history.removeCurrent();
@@ -156,6 +157,19 @@ export class BookService {
                 }
                 return;
             }
+            if (item.getParentDoctype() == 'oldprintomnibusvolume') {
+                console.log(console.log('params', params));
+                if (params.pageUuid) {
+                    console.log('redirecting to konvolut with page selected');
+                    this.history.removeCurrent();
+                    this.router.navigate(['/view', item.getParentUuid()], { replaceUrl: true, queryParams: { page: params.pageUuid, fulltext: this.fulltextQuery } });
+                } else {
+                    console.log('redirecting to konvolut with page NOT selected');
+                    this.router.navigate(['/view', item.getParentUuid()], { replaceUrl: true, queryParams: { parent: item.uuid, fulltext: this.fulltextQuery } });
+                }
+                return;
+            }
+
             this.isPrivate = !item.public;
             this.api.getMetadata(item.root_uuid).subscribe((metadata: Metadata) => {
                 this.metadata = metadata;
@@ -192,10 +206,10 @@ export class BookService {
                 } else {
                     this.api.getChildren(params.uuid).subscribe(children => {
                         if (children && children.length > 0) {
-                            this.onDataLoaded(children, item.doctype, params.pageUuid, params.articleUuid, params.internalPartUuid);
+                            this.onDataLoaded(children, item.doctype, params);
                         } else {
                             // TODO: Empty document
-                            this.onDataLoaded(children, item.doctype, params.pageUuid, params.articleUuid, params.internalPartUuid);
+                            this.onDataLoaded(children, item.doctype, params);
                         }
                     });
                 }
@@ -330,9 +344,9 @@ export class BookService {
         }
     }
 
-    private addParentPages(pages: any[], parents: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
+    private addParentPages(pages: any[], parents: any[], doctype: string, params: BookParams) {
         if (parents.length === 0) {
-            this.onDataLoaded(pages, null, pageUuid, articleUuid, internalPartUuid);
+            this.onDataLoaded(pages, null, params);
             return;
         }
         const parent = parents.shift();
@@ -344,7 +358,7 @@ export class BookService {
                     pages.push(p);
                 }
             }
-            this.addParentPages(pages, parents, doctype, pageUuid, articleUuid, internalPartUuid);
+            this.addParentPages(pages, parents, doctype, params);
         });
     }
 
@@ -366,7 +380,7 @@ export class BookService {
         this.navigationTabsCount = tabs;
     }
 
-    private onDataLoaded(inputPages: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
+    private onDataLoaded(inputPages: any[], doctype: string, params: BookParams) {
         this.pages = [];
         const pages = [];
         const parents = [];
@@ -379,44 +393,47 @@ export class BookService {
             }
         }
         if (parents.length > 0) {
-            this.addParentPages(pages, parents, doctype, pageUuid, articleUuid, internalPartUuid);
+            this.addParentPages(pages, parents, doctype, params);
             return;
         }
-        const pageIndex = this.arrangePages(pages, pageUuid, doctype);
+        const pageIndex = this.arrangePages(pages, params.pageUuid, doctype);
         this.bookState = BookState.Success;
         if (pageIndex === -1 || (this.pages.length === 0 && this.articles.length === 0)) {
             return;
         }
         this.showNavigationPanel = true;
         this.calcNavigationTabsCount();
-        if (articleUuid || (!pageUuid && this.pages.length === 0)) {
+        if (params.articleUuid || (!params.pageUuid && this.pages.length === 0)) {
             this.activeNavigationTab = 'articles';
             let articleForSelection = this.articles[0];
-            if (articleUuid) {
+            if (params.articleUuid) {
                 for (const article of this.articles) {
-                    if (articleUuid === article.uuid) {
+                    if (params.articleUuid === article.uuid) {
                         articleForSelection = article;
                         break;
                     }
                 }
             }
             this.onArticleSelected(articleForSelection);
-        } else if (internalPartUuid &&  this.internalParts &&  this.internalParts.length > 0) {
+        } else if (params.internalPartUuid &&  this.internalParts &&  this.internalParts.length > 0) {
             this.activeNavigationTab = 'internalparts';
             let selection = this.internalParts[0];
-            if (internalPartUuid) {
+            if (params.internalPartUuid) {
                 for (const internalPart of this.internalParts) {
-                    if (internalPartUuid === internalPart.uuid) {
+                    if (params.internalPartUuid === internalPart.uuid) {
                         selection = internalPart;
                         break;
                     }
                 }
             }
             this.onInternalPartSelected(selection);
+        }else if (params.parentUuid && !params.pageUuid) {
+            this.activeNavigationTab = 'pages'; /// ??
+            this.onParentSelected({ pid: params.parentUuid });
         } else {
             this.activeNavigationTab = 'pages';
             if (this.fulltextQuery) {
-                this.fulltextChanged(this.fulltextQuery, pageUuid);
+                this.fulltextChanged(this.fulltextQuery, params.pageUuid);
             } else {
                 this.goToPageOnIndex(pageIndex, true);
                 if (pageIndex === 0) {
@@ -1237,6 +1254,7 @@ export interface BookParams {
     uuid: string;
     pageUuid: string;
     articleUuid: string;
+    parentUuid: string;
     internalPartUuid: string;
     fulltext: string;
 }

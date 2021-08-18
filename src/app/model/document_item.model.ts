@@ -30,7 +30,7 @@ export class DocumentItem {
     licence: string;
 
     resolveUrl(prefix: string) {
-        if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume') {
+        if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume' || this.doctype === 'oldprintomnibusvolume') {
             this.url = prefix + '/periodical/' + this.uuid;
         } else if (this.doctype === 'soundrecording') {
             this.url = prefix + '/music/' + this.uuid;
@@ -57,6 +57,12 @@ export class DocumentItem {
     public getParentUuid(): string|null {
         if (this.context && this.context.length > 1) {
             return this.context[this.context.length - 2].uuid;
+        }
+    }
+
+    public getParentDoctype(): string  {
+        if (this.context && this.context.length > 1) {
+            return this.context[this.context.length - 2].doctype;
         }
     }
 

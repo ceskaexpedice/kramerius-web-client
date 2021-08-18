@@ -18,6 +18,7 @@ export class PeriodicalFulltextItemComponent implements OnInit {
     private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+    console.log('item', this.item);
   }
 
   getThumb() {
