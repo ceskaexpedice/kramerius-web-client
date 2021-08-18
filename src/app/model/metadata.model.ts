@@ -80,12 +80,7 @@ export class Metadata {
         return this.originUrl;
     }
 
-    // public proarcLink(): string {
-    //     return `http://proarc.kramerius.org/documents/${this.uuid}`;
-    // }
-
     public addToContext(doctype: string, uuid: string) {
-        console.log('addToContext', doctype + ": " + uuid);
         this.context[doctype] = uuid;
     }
 

@@ -189,6 +189,7 @@ export class PeriodicalService {
     this.document = null;
     this.yearItems = null;
     this.items = null;
+    this.units = null;
     this.volumeDetail = null;
     this.fulltext = null;
     this.dates = [];
@@ -306,6 +307,7 @@ export class PeriodicalService {
   }
 
   private initFulltext() {
+    console.log('!!!init ft');
     this.fulltext = new PeriodicalFulltext();
     this.fulltext.limit = 40;
     this.fulltext.query = this.query.fulltext;
@@ -318,19 +320,29 @@ export class PeriodicalService {
     }
     const uuid1 = this.isPeriodicalVolume() ? this.document.root_uuid : this.query.uuid;
     const uuid2 = this.isPeriodicalVolume() ? this.query.uuid : null;
-    this.api.getPeriodicalFulltext(uuid1, uuid2, this.fulltext.getOffset(), this.fulltext.limit, this.query).subscribe(([pages, results]: [PeriodicalFtItem[], number]) => {
+    let models = [];
+    if (this.isMonograph()) {
+      models = ['page', 'monographunit'];
+    } else if (this.isPeriodical() || this.isPeriodicalVolume()) {
+      models = ['page', 'article'];
+    }
+    this.api.getPeriodicalFulltext(uuid1, uuid2, this.fulltext.getOffset(), this.fulltext.limit, this.query, models).subscribe(([pages, results]: [PeriodicalFtItem[], number]) => {
       this.fulltext.pages = pages;
       this.fulltext.results = results;
       const issuePids = [];
       const volumePids = [];
       const unitPids = [];
+      const parentPids = [];
       for (const item of this.fulltext.pages) {
         item.thumb = this.api.getThumbUrl(item.uuid);
-        if (item.type === 'monograph_unit') {
+        if (item.type === 'monograph_unit' || item.type === 'omnibus_unit') {
           continue;
         }
+        if (item.parent && parentPids.indexOf(item.parent) < 0) {
+          parentPids.push(item.parent);
+        }
         const unit = item.context['monographunit'];
-        if (unitPids && unitPids.indexOf(unit) < 0) {
+        if (unit && unitPids.indexOf(unit) < 0) {
           unitPids.push(unit);
         }
         const issue = item.context['periodicalitem'];
@@ -358,6 +370,21 @@ export class PeriodicalService {
               if (item.uuid === page.context['monographunit']) {
                 page.title = item.name;
                 page.part = item.number;
+              }
+            }
+          }
+        });
+      } else if (this.isOmnibus() && parentPids.length > 0) {   
+       this.api.getPeriodicalItemsDetails(parentPids).subscribe((items: PeriodicalItem[]) => {
+          for (const item of items) {
+            for (const page of this.fulltext.pages) {
+              if (page.context['page']) {
+                page.type = 'omnibus_unit_page';
+              } else {
+                page.type = 'omnibus_unit';
+              }
+              if (item.uuid === page.parent) {
+                page.title = item.title;
               }
             }
           }

@@ -15,7 +15,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   container;
   pageSubscription: Subscription;
-  // scrollOptions = {};
   pageIndex;
 
   constructor(public bookService: BookService, public analytics: AnalyticsService) {
@@ -40,8 +39,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       const el = document.getElementById('page-id-' + page.uuid);
       if (el) {
-          el.scrollIntoView( {} );
-          // this.scrollOptions = {behavior: 'smooth'};
+          el.scrollIntoView( {behavior: 'smooth'} );
       }
     }, wait);
     this.pageIndex = page.index + 1;
