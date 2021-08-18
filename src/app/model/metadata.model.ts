@@ -40,9 +40,9 @@ export class Metadata {
     public nextVolume: PeriodicalItem;
     public previousVolume: PeriodicalItem;
 
-    public currentUnit: PeriodicalItem;
-    public nextUnit: PeriodicalItem;
-    public previousUnit: PeriodicalItem;
+    public currentUnit: any;
+    public nextUnit: any;
+    public previousUnit: any;
 
     public article: Article;
     public internalPart: InternalPart;
@@ -177,8 +177,8 @@ export class Metadata {
 
     public getShortTitleWithUnit(): string {
         let title = this.getShortTitle();
-        if (this.currentUnit && this.currentUnit.name) {
-            title = this.currentUnit.name + ' | ' + title;
+        if (this.currentUnit && this.currentUnit.title) {
+            title = this.currentUnit.title + ' | ' + title;
         }
         return title;
     }

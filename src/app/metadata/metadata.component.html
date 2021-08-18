@@ -158,12 +158,12 @@
       </div>
       <div *ngIf="metadata.previousUnit">
         <a [routerLink]="[settings.getRouteFor('view'), metadata.previousUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'previous unit');">
-          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.prettyName() }}
+          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.title}}
         </a>
       </div>
       <div *ngIf="metadata.nextUnit">
         <a [routerLink]="[settings.getRouteFor('view'), metadata.nextUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'next unit');">
-          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.prettyName() }}
+          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.title }}
         </a>
       </div>
       <div class="divider"></div>

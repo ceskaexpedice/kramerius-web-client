@@ -366,17 +366,20 @@ export class SolrService {
     }
 
     private buildPeriodicalQuery(parent: string, type: string, models: string[], query: PeriodicalQuery, applyYear: boolean): string {
-        const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
-        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('date')}`;
+        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('date')},${this.field('authors')},${this.field('rels_ext_index')}`;
         if (this.settings.k5Compat()) {
             q += ',details';
         } else {
-            q += `,${this.field('part_name')},${this.field('part_number')},${this.field('date')},${this.field('issue_type')}`;
+            q += `,${this.field('part_name')},${this.field('part_number')},${this.field('issue_type')}`;
         }
         if (this.licences.on()) {
             q += `,${this.field('licences_search')}`;
         }
-        q += `&q=${this.field('parent_pid')}:${parent} AND (${modelRestriction})`;
+        q += `&q=!${this.field('parent_pid')}:parent AND ${this.field('parent_pid')}:${parent}`;
+        if (models && models.length > 0) {
+            const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
+            q += ` AND (${modelRestriction})`;
+        }
         if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
             q += ` AND ${this.field('accessibility')}: ${query.accessibility}`;
         }
@@ -415,7 +418,7 @@ export class SolrService {
     }
 
     buildMonographUnitsQuery(uuid: string, query: PeriodicalQuery) {
-        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 'unit', ['monographunit', 'page'], query, false);
+        return this.buildPeriodicalQuery(this.utils.escapeUuid(uuid), 'unit', ['monographunit'], query, false);    
     }
 
     buildPeriodicalItemsDetailsQuery(uuids: string[]) {
@@ -1244,6 +1247,46 @@ export class SolrService {
         for (const doc of solr['response']['docs']) {
             items.push(this.periodicalItem(doc));
         }
+        return items;
+    }
+
+    monographUnits(solr): DocumentItem[] {
+        const items: DocumentItem[] = [];
+        for (const doc of solr['response']['docs']) {
+            const item = new DocumentItem();
+            item.uuid = doc[this.field('id')];
+            if (this.settings.k5Compat()) {
+                const details = doc['details'];
+                if (details && details[0]) {
+                    const parts = details[0].split('##');
+                    if (parts.length === 2) {
+                        const pNum = parts[0];
+                        item.title = parts[1];
+                        if (pNum) {
+                            item.title = pNum + '. ' + item.title;
+                        }
+                    }
+                }
+                item.index = doc[this.field('rels_ext_index')][0];
+            } else {
+                const pNum  =doc[this.field('part_number')];
+                item.title = doc[this.field('part_name')];
+                if (pNum) {
+                    item.title = pNum + '. ' + item.title;
+                }
+                item.index = doc[this.field('rels_ext_index')];
+            }
+            item.public = doc[this.field('accessibility')] === 'public';
+            item.doctype = doc[this.field('model')];
+            item.date = doc[this.field('date')];
+            item.authors = doc[this.field('authors')];
+            item.licences = doc[this.field('licences_search')] || []
+            item.resolveUrl(this.settings.getPathPrefix());
+            items.push(item);
+        }
+        items.sort((a: DocumentItem, b: DocumentItem) => {
+            return a.index - b.index;
+        });
         return items;
     }
 

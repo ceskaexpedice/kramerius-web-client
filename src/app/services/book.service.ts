@@ -305,7 +305,7 @@ export class BookService {
     }
 
     private loadMonographUnits(monographUuid: string, unitUud: string) {
-        this.api.getMonographUnits(monographUuid, null).subscribe((units: PeriodicalItem[]) => {
+        this.api.getMonographUnits(monographUuid, null).subscribe((units: DocumentItem[]) => {
             if (!units || units.length < 1) {
                 return;
             }
@@ -319,13 +319,19 @@ export class BookService {
             if (index < 0) {
                 return;
             }
-            this.metadata.currentUnit = units[index];
+            this.metadata.currentUnit = { title: units[index].title };
             this.pageTitle.setTitle(null, this.metadata.getShortTitleWithUnit());
             if (index > 0) {
-                this.metadata.previousUnit = units[index - 1];
+                this.metadata.previousUnit = {
+                    title: units[index - 1].title,
+                    uuid: units[index - 1].uuid
+                };
             }
             if (index < units.length - 1) {
-                this.metadata.nextUnit = units[index + 1];
+                this.metadata.nextUnit = {
+                    title: units[index + 1].title,
+                    uuid: units[index + 1].uuid
+                };
             }
             this.api.getMetadata(unitUud).subscribe((metadata: Metadata) => {
                 this.metadata.addToContext('monographunit', unitUud);
