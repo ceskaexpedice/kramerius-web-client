@@ -544,7 +544,14 @@
     "interview": "rozhovor",
     "anotation": "anotace",
     "manuscriptnotes": "rukopisná poznámka",
-    "calibrationtable": "kalibrační tabulka"
+    "calibrationtable": "kalibrační tabulka",
+    "bibliography": "bibliografie",
+    "booklet": "booklet",
+    "appendix": "dodatek",
+    "imgdisc": "obraz desky",
+    "impressum": "impressum",
+    "sheetmusic": "notový zápis",
+    "case": "pouzdro"
   },
   "calendar" : {
     "months" : {

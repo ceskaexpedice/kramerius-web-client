@@ -544,7 +544,14 @@
     "interview": "interview",
     "anotation": "annotation",
     "manuscriptnotes": "manuscript notes",
-    "calibrationtable": "calibration table"
+    "calibrationtable": "calibration table",
+    "bibliography": "bibliography",
+    "booklet": "booklet",
+    "appendix": "appendix",
+    "imgdisc": "disk image",
+    "impressum": "impressum",
+    "sheetmusic": "sheet music",
+    "case": "case"
   },
   "calendar" : {
     "months" : {
