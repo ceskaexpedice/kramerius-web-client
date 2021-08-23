@@ -39,9 +39,9 @@
           <a (click)="login()">{{ 'navbar.login' | translate }}</a>
         </mz-navbar-item>
       </ng-container>
-      
+
       <mz-navbar-item>
-        <a id="langButton" (click)='onLanguageChanged("cz")'>{{ 'en' | uppercase }}</a>
+        <a id="langButton"'>{{ translator.language | uppercase }}</a>
         <mz-dropdown
         [id]="'dropdown-lang'"
         [align]="'right'"
