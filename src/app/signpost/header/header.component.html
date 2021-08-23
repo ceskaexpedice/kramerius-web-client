@@ -2,8 +2,6 @@
       
 <div class="sp-header-buttons">
   <a (click)="analytics.sendEvent('landing', 'help');" [routerLink]="['/', 'help']" class="sp-header-button">{{ 'sp.header.help' | translate }}</a>
-  <div class="sp-header-button" *ngIf="translator.language == 'cs'" (click)='onLanguageChanged("en")'>English</div>
-  <div class="sp-header-button" *ngIf="translator.language == 'en'" (click)='onLanguageChanged("cs")'>Česky</div>
 </div>
 
 <a class="sp-header-logo" [routerLink]="['/']" mz-tooltip [tooltip]="'sp.logo_tooltip' | translate" [position]="'right'">

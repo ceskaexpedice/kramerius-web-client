@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
     });
     const lang = localStorage.getItem('lang');
     if (lang) {
+      console.log("App component"); //dev
       this.translator.language = lang;
     }
   }
