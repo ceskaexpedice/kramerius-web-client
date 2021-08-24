@@ -34,11 +34,9 @@ export class NavbarComponent implements OnInit {
   }
 
   onLanguageChanged(lang: string) {
-    console.log(this.translator.languageChanged.subscribe(val => console.log(val)));
     this.analytics.sendEvent('navbar', 'language', lang);
     localStorage.setItem('lang', lang);
     this.translator.language = lang;
-    console.log("Translator language: " + this.translator.language + " Selected language: " + lang);
   }
 
   goBack() {

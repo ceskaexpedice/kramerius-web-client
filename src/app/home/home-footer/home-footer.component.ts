@@ -11,6 +11,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class HomeFooterComponent implements OnInit {
 
+  reqs: Observable<string>[];
+  dataArray: string[];
+  dataSet: Map<string, string>;
   data;
   dataCs;
   dataEn ;
@@ -23,14 +26,18 @@ export class HomeFooterComponent implements OnInit {
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();
     });
-    const reqCs = this.http.get(this.appSettings.footer['cs'], { observe: 'response', responseType: 'text' })
-    .map(response => response['body']);
-    const reqEn = this.http.get(this.appSettings.footer['en'], { observe: 'response', responseType: 'text' })
-    .map(response => response['body']);
-    forkJoin([reqCs, reqEn])
+    this.appSettings.footer.forEach(element => {
+      this.reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
+      .map(response => response['body']));
+    });
+    forkJoin(this.reqs)
     .subscribe( result => {
-      this.dataCs = this._sanitizer.bypassSecurityTrustHtml(result[0]);
-      this.dataEn = this._sanitizer.bypassSecurityTrustHtml(result[1]);
+      result.forEach(element => {
+        this.dataArray.push(element);
+      });
+      Object.keys(this.appSettings.footer).map(function(e, i){
+        this.dataMap.set(e, this._sanitizer.bypassSecurityTrustHtml(this.dataArray[i]));
+      });
       this.localeChanged();
     },
     error => {
@@ -38,11 +45,7 @@ export class HomeFooterComponent implements OnInit {
   }
 
   private localeChanged() {
-    if (this.translator.language === 'cs') {
-      this.data = this.dataCs;
-    } else {
-      this.data = this.dataEn;
-    }
+    this.data = this.dataSet.get(this.translator.language);
   }
 
 }

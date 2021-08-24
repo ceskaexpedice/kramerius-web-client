@@ -57,7 +57,16 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
   }
 
   private getLocalizedAvailability(): string {
-    return this.translator.language === 'cs' ? 'Dostupné také z' : 'Available also from';
+    switch(this.translator.language){
+      case 'cs':
+        return 'Dostupné také z';
+      case 'en':
+        return 'Available also from';
+      case 'de':
+        return 'Auch verfügbar aus';
+      case 'sk':
+        return 'Dostupné také z';
+    } //TODO: Udelat nejak responzivne
   }
 
 }

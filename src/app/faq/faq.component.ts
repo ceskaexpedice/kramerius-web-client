@@ -11,6 +11,10 @@ import { Router } from '@angular/router';
 })
 export class FaqComponent implements OnInit {
 
+  appSettings: AppSettings;
+  reqs: Observable<string>[];
+  dataArray: string[];
+  dataSet: Map<string, string>;
   data = '';
   dataCs = '';
   dataEn = '';
@@ -27,14 +31,18 @@ export class FaqComponent implements OnInit {
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();
     });
-    const reqCs = this.http.get(this.settings.faqPage['cs'], { observe: 'response', responseType: 'text' })
-    .map(response => response['body']);
-    const reqEn = this.http.get(this.settings.faqPage['en'], { observe: 'response', responseType: 'text' })
-    .map(response => response['body']);
-    forkJoin([reqCs, reqEn])
+    this.appSettings.faqPage.forEach(element => {
+      this.reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
+      .map(response => response['body']));
+    });
+    forkJoin(this.reqs)
     .subscribe( result => {
-      this.dataCs = result[0];
-      this.dataEn = result[1];
+      result.forEach(element => {
+        this.dataArray.push(element);
+      });
+      Object.keys(this.appSettings.faqPage).map(function(e, i){
+        this.dataMap.set(e, this.dataArray[i]);
+      });
       this.localeChanged();
       this.loading = false;
     },
@@ -44,11 +52,7 @@ export class FaqComponent implements OnInit {
   }
 
   private localeChanged() {
-    if (this.translator.language === 'cs') {
-      this.data = this.dataCs;
-    } else {
-      this.data = this.dataEn;
-    }
+    this.data = this.dataSet.get(this.translator.language);
   }
 
 }

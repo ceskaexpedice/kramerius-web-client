@@ -155,7 +155,7 @@ export class DialogPdfGeneratorComponent extends MzBaseModal implements OnInit {
 
 
   private getLanguage(): string {
-    return this.translator.language === 'cs' ? 'cs' : 'en';
+    return this.translator.language;
   }
 
 }
