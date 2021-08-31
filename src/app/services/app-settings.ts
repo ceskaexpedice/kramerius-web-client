@@ -36,6 +36,7 @@ export class AppSettings {
   public mapSearch: boolean;
   public hiddenLocks: boolean;
 
+  public flags = APP_GLOBAL.flags;
   public langs = APP_GLOBAL.lang;
   public matomo_url = APP_GLOBAL.matomo_url;
   public share_url = APP_GLOBAL.share_url;
@@ -48,9 +49,9 @@ export class AppSettings {
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public advancedSearch = APP_GLOBAL.advancedSearch;
-  public aboutPage = APP_GLOBAL.aboutPage;
-  public faqPage = APP_GLOBAL.faqPage;
-  public footer = APP_GLOBAL.footer;
+  public aboutPage : [string, string] = APP_GLOBAL.aboutPage;
+  public faqPage : [string, string] = APP_GLOBAL.faqPage;
+  public footer : [string, string] = APP_GLOBAL.footer;
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
   public landingPage = !!APP_GLOBAL.landingPage;

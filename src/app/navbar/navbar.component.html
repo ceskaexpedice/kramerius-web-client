@@ -53,7 +53,7 @@
         [inDuration]="300"
         [outDuration]="300"
         [stopPropagation]="true">
-          <mz-dropdown-item *ngFor="let lang of appSettings.langs"><a (click)="onLanguageChanged(lang)">{{ lang | uppercase}}</a></mz-dropdown-item>
+          <mz-dropdown-item *ngFor="let lang of appSettings.langs"><a style="padding-left: 33%; padding-right: 30%;" (click)="onLanguageChanged(lang)"><img src="{{appSettings.flags[lang]}}" height="30px" width="30px" style="align-content: center;"></a></mz-dropdown-item>
         </mz-dropdown>
       </mz-navbar-item>
 

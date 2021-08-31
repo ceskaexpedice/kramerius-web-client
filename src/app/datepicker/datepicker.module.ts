@@ -6,7 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { NgSlimScrollModule } from 'ngx-slimscroll';
 import { DatepickerComponent } from './datepicker.component';
 import { MzTooltipModule } from 'ngx-materialize';
-import { APP_GLOBAL } from '../../environments/environment.prod';
+
+declare var APP_GLOBAL: any;
 
 @NgModule({
   declarations: [DatepickerComponent ],

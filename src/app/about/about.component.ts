@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Translator } from 'angular-translator';
 import { AppSettings } from '../services/app-settings';
 import { Router } from '@angular/router';
-import { isThursday } from 'date-fns';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -22,28 +21,31 @@ export class AboutComponent implements OnInit {
   loading: boolean;
 
   constructor(private http: HttpClient, private translator: Translator, private appSettings: AppSettings, private router: Router) {
+    this.reqs = [];
+    this.dataArray = [];
+    this.dataSet = new Map<string, string>();
     if (!appSettings.aboutPage) {
       this.router.navigate([this.appSettings.getRouteFor('')]);
     }
   }
-
   ngOnInit() {
     this.loading = true;
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();
     });
-    this.appSettings.aboutPage.forEach(element => {
-      this.reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
-      .map(response => response['body']));
-    });
+    for(const [key, element] of Object.entries(this.appSettings.aboutPage)){
+        this.reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
+        .map(response => response['body']));
+    }
     forkJoin(this.reqs)
     .subscribe( result => {
-      result.forEach(element => {
-        this.dataArray.push(element);
-      });
-      Object.keys(this.appSettings.aboutPage).map(function(e, i){
-        this.dataMap.set(e, this.dataArray[i]);
-      });
+      for(const element in result)
+        this.dataArray.push(result[element]);
+      let keys = Object.keys(this.appSettings.aboutPage);
+      for(let i = 0; i < this.dataArray.length; i++){
+        this.dataSet.set(keys[i], this.dataArray[i]);
+      }
+
       this.localeChanged();
       this.loading = false;
     },
