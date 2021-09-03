@@ -260,7 +260,6 @@
     "issue": "Issue",
     "unit": "Part",
     "page": "Page",
-    "supplement": "Supplement",
     "volume_list": "Volume list",
     "previous_volume": "Previous volume",   
     "next_volume": "Next volume",
@@ -271,7 +270,8 @@
     "unit_number": "Number",
     "unit_list": "Part list",
     "next_unit": "Next part:",
-    "previous_unit": "Previous part:",       
+    "previous_unit": "Previous part:",  
+    "omnibus_list": "Konvolut pats",     
     "shelf_locator": "Shelf/Call number: {{shelf_locator}}",
     "btn_show_metadata": "Show metadata",
     "btn_hide_metadata": "Hide metadata",
@@ -302,6 +302,7 @@
       "none": "Search",
       "periodical": "Search in periodical",
       "periodicalvolume": "Search in volume",
+      "oldprintomnibusvolume": "Search in omnibus",
       "monograph": "Search in monograph bundle"
     },
     "ordering": {
@@ -490,7 +491,8 @@
     "soundunit" : "Sound Units",
     "track" : "Tracks",
     "collection" : "Collections",
-    "oldprintomnibusvolume": "Omnibuses"
+    "oldprintomnibusvolume": "Omnibuses",
+    "oldprintomnibusvolumepart": "Parts"
   },
   "issue_type": {
     "morning": "morning edition",
@@ -541,7 +543,15 @@
     "colophon": "colophon",
     "interview": "interview",
     "anotation": "annotation",
-    "manuscriptnotes": "manuscript notes"
+    "manuscriptnotes": "manuscript notes",
+    "calibrationtable": "calibration table",
+    "bibliography": "bibliography",
+    "booklet": "booklet",
+    "appendix": "appendix",
+    "imgdisc": "disk image",
+    "impressum": "impressum",
+    "sheetmusic": "sheet music",
+    "case": "case"
   },
   "calendar" : {
     "months" : {

@@ -15,42 +15,38 @@ export class PeriodicalFtItem {
     thumb: string;
     text: string;
     query: string;
+    model: string;
     type: string; // 'page', 'monograph_unit_page', 'monograph_unit', 'article'
-    path: string;
-    queryParams: any;
+    parent: string;
+    licences: string[] = [];
 
     constructor() {
         this.context = {};
     }
 
     getPath(): string {
-        if (this.path) {
-            return this.path;
-        }
         if (this.type === 'page' || this.type === 'monograph_unit_page') {
             const uuid = this.context['article'] || this.context['monographunit'] || this.context['periodicalitem']  || this.context['supplement'] || this.context['periodicalvolume'];
-            this.path = 'view/' + uuid;
+            return 'view/' + uuid;
+        } else if (this.type === 'omnibus_unit_page') {
+            const uuid = this.context['oldprintomnibusvolume'];
+            return 'view/' + uuid; 
         } else if (this.type === 'article') {
             const uuid = this.context['periodicalitem'] || this.context['periodicalvolume'];
-            this.path = 'view/' + uuid;
+            return 'view/' + uuid;
         } else {
-            this.path = 'view/' + this.uuid;
+            return  'view/' + this.uuid;
         }
-        return this.path;
     }
 
     getQuery() {
-        if (this.queryParams) {
-            return this.queryParams;
-        }
-        if (this.type === 'page' || this.type === 'monograph_unit_page') {
-            this.queryParams = { page: this.uuid, fulltext: this.query };
+        if (this.type === 'page' || this.type === 'monograph_unit_page' || this.type === 'omnibus_unit_page') {
+            return { page: this.uuid, fulltext: this.query };
         } else if (this.type === 'article') {
-            this.queryParams = { article: this.uuid };
+            return { article: this.uuid };
         } else {
-            this.queryParams = {};
+            return {};
         }
-        return this.queryParams;
     }
 
 }
