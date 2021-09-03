@@ -73,6 +73,9 @@ app-periodical-fulltext-item {
               opacity: 0.8;
               margin: auto;
               top: 0; left: 0; bottom: 0; right: 0;
+              &.app-lock-licence-open, &.app-lock-licence-locked {
+                color: $app-licence-color;
+              }
             }
           }
         }
@@ -90,6 +93,10 @@ app-periodical-fulltext-item {
             line-height: 17px;
             height: 17px;
             margin-bottom: 3px;
+            &.app-card-row-2col {
+              height: 34px;
+              margin-bottom: 6px;
+            }
             .app-card-row-right {
               float: right;
             }
@@ -100,16 +107,16 @@ app-periodical-fulltext-item {
               display: -webkit-box;
               text-overflow: ellipsis;           
             }
-            &.app-main-title {
-              font-weight: 600; 
-              margin-bottom: 5px;
-              overflow: hidden;
-              line-height: 20px;
-              max-height: 40px;
-              -webkit-line-clamp: 2;
-              display: -webkit-box;
-              text-overflow: ellipsis;
-            }
+            // &.app-main-title {
+            //   font-weight: 600; 
+            //   margin-bottom: 5px;
+            //   overflow: hidden;
+            //   line-height: 20px;
+            //   max-height: 40px;
+            //   -webkit-line-clamp: 2;
+            //   display: -webkit-box;
+            //   text-overflow: ellipsis;
+            // }
           }
 
           .app-card-doctype {
@@ -124,6 +131,24 @@ app-periodical-fulltext-item {
             }
             &.app-card-monograph {
               background: $app-type-monograph;
+            }
+            &.app-card-map {
+              background: $app-type-map;
+            }
+            &.app-card-graphic {
+              background: $app-type-graphic;
+            }
+            &.app-card-sheetmusic {
+              background: $app-type-sheetmusic;
+            }
+            &.app-card-archive {
+              background: $app-type-archive;
+            }
+            &.app-card-manuscript {
+              background: $app-type-manuscript;
+            }
+            &.app-card-oldprintomnibusvolume {
+              background: $app-type-oldprintomnibusvolume;
             }
           }
 

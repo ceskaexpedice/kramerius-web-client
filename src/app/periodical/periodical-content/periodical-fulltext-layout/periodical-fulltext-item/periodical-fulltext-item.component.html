@@ -1,9 +1,11 @@
-<a [routerLink]="appSettings.getRouteFor(item.getPath())" [queryParams]="item.getQuery()" (click)="analytics.sendEvent('periodical', 'open from', 'fulltext');">
+<a [routerLink]="settings.getRouteFor(item.getPath())" [queryParams]="item.getQuery()" (click)="analytics.sendEvent('periodical', 'open from', 'fulltext');">
   <mz-card  [hoverable]="true">
     <mz-card-content>
-      <div class="app-card-media">
+      <div class="app-card-media" >
         <div class="app-card-thumb" [style.background-image]="getThumb()">
-          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+          <ng-container *ngIf="lock">
+            <i mz-icon-mdi [icon]="lock.icon" class="app-lock {{ lock.class }}" [position]="'bottom'" mz-tooltip [tooltip]="lock.tooltip"></i>
+          </ng-container>
         </div>
       </div>
 
@@ -21,28 +23,40 @@
         </ng-container>
 
         <ng-container *ngIf="item.type === 'monograph_unit_page'">
-          <div class="app-card-row">
-            <div class="app-card-row-left">{{item.title}}</div>
+          <div class="app-card-row app-card-row-2col">
+            <div class="app-card-row-left">
+              <span *ngIf="item.part">{{item.part}}. </span>
+              {{item.title}}
+            </div>
           </div>
-          <div class="app-card-row">
-            <div class="app-card-row-left">{{ 'metadata.unit' | translate }} {{item.part}}</div>
+        </ng-container>
+
+        <ng-container *ngIf="item.type === 'omnibus_unit_page'">
+          <div class="app-card-row app-card-row-2col">
+            <div class="app-card-row-left">{{item.title}}</div>
           </div>
         </ng-container>
 
         <ng-container *ngIf="item.type === 'monograph_unit'">
-          <div class="app-card-row app-main-title">{{item.title}}</div>
-          <div class="app-card-row">{{ 'metadata.unit' | translate }} {{item.part}}</div>
+          <div class="app-card-title">
+            <span *ngIf="item.part">{{item.part}}. </span>
+            {{item.title}}
+          </div>
           <div class="app-card-doctype app-card-monograph">{{ 'model.monograph' | translate }}</div>
         </ng-container>
-  
 
+        <ng-container *ngIf="item.type === 'omnibus_unit'">
+          <div class="app-card-title">{{item.title}}</div>
+          <div class="app-card-doctype app-card-{{item.model}}">{{ 'model.' + item.model | translate }}</div>
+        </ng-container>
+  
         <ng-container *ngIf="item.type === 'article'">
           <div class="app-card-row app-main-title">{{item.title}}</div>
           <div class="app-card-row">{{ item.authors }}</div>
           <div class="app-card-doctype app-card-article">{{ 'model.article' | translate }}</div>
         </ng-container>
 
-        <ng-container *ngIf="item.type === 'page' || item.type === 'monograph_unit_page'">
+        <ng-container *ngIf="item.type === 'page' || item.type === 'monograph_unit_page' || item.type === 'omnibus_unit_page'">
           <div class="app-card-row">
             <div class="app-card-row-right"></div>
             <div class="app-card-row-left" *ngIf="item.page">{{ 'metadata.page' | translate }} {{item.page}}</div>
