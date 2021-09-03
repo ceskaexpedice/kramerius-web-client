@@ -18,6 +18,7 @@ export class PeriodicalFtItem {
     model: string;
     type: string; // 'page', 'monograph_unit_page', 'monograph_unit', 'article'
     parent: string;
+    licences: string[] = [];
 
     constructor() {
         this.context = {};

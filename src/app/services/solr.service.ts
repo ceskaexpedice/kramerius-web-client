@@ -555,7 +555,10 @@ export class SolrService {
     }
 
     buildPeriodicalFulltextSearchQuery(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery, models: string[]): string {
-        const fl = `${this.field('id')},${this.field('model')},${this.field('model_path')},${this.field('parent_pid')},${this.field('pid_path')},${this.field('authors')},${this.field('accessibility')},${this.field('title')}`;
+        let fl = `${this.field('id')},${this.field('model')},${this.field('model_path')},${this.field('parent_pid')},${this.field('pid_path')},${this.field('authors')},${this.field('accessibility')},${this.field('title')}`;
+        if (this.licences.on()) {
+            fl += `,${this.field('licences_search')}`;
+        }
         let fq = `!${this.field('id')}:"${periodicalUuid}"`;
         if (volumeUuid) {
             fq += `${this.field('pid_path')}:${this.utils.escapeUuid(periodicalUuid)}/${this.utils.escapeUuid(volumeUuid)}/*`;
@@ -1173,6 +1176,7 @@ export class SolrService {
             const item = new PeriodicalFtItem();
             item.uuid = doc[this.field('id')];
             item.public = doc[this.field('accessibility')] === 'public';
+            item.licences = doc[this.field('licences_search')] || []
             if (doc[this.field('model')] === 'article') {
                 item.type = 'article';
                 item.authors = doc[this.field('authors')];
@@ -1186,7 +1190,6 @@ export class SolrService {
                 item.type = 'page';
                 item.page = doc[this.field('title')];
                 item.query = query;
-                console.log('item.query', item.query);
                 const parent = doc[this.field('parent_pid')];
                 if (Array.isArray(parent) && parent.length > 0) {
                     item.parent = parent[0];

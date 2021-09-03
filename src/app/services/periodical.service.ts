@@ -307,7 +307,6 @@ export class PeriodicalService {
   }
 
   private initFulltext() {
-    console.log('!!!init ft');
     this.fulltext = new PeriodicalFulltext();
     this.fulltext.limit = 40;
     this.fulltext.query = this.query.fulltext;

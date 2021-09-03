@@ -1,9 +1,11 @@
-<a [routerLink]="appSettings.getRouteFor(item.getPath())" [queryParams]="item.getQuery()" (click)="analytics.sendEvent('periodical', 'open from', 'fulltext');">
+<a [routerLink]="settings.getRouteFor(item.getPath())" [queryParams]="item.getQuery()" (click)="analytics.sendEvent('periodical', 'open from', 'fulltext');">
   <mz-card  [hoverable]="true">
     <mz-card-content>
-      <div class="app-card-media">
+      <div class="app-card-media" >
         <div class="app-card-thumb" [style.background-image]="getThumb()">
-          <i *ngIf="!item.public" mz-icon-mdi [icon]="'lock'" [class]="'app-lock'" mz-tooltip [tooltip]="'search.inaccessible_document' | translate" [position]="'top'"></i>
+          <ng-container *ngIf="lock">
+            <i mz-icon-mdi [icon]="lock.icon" class="app-lock {{ lock.class }}" [position]="'bottom'" mz-tooltip [tooltip]="lock.tooltip"></i>
+          </ng-container>
         </div>
       </div>
 
