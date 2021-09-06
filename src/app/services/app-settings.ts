@@ -36,7 +36,6 @@ export class AppSettings {
   public mapSearch: boolean;
   public hiddenLocks: boolean;
 
-  public flags = APP_GLOBAL.flags;
   public langs = APP_GLOBAL.lang;
   public ga = APP_GLOBAL.ga;
   public matomo = APP_GLOBAL.matomo;
@@ -57,6 +56,12 @@ export class AppSettings {
   public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
   public landingPage = !!APP_GLOBAL.landingPage;
 
+  public flags: {
+    'cs': '/assets/img/flag_cs.png',
+    'en': '/assets/img/flag_en.png',
+    'de': '/assets/img/flag_de.png',
+    'sk': '/assets/img/flag_sk.png'
+  }
   public actions = {
     'pdf': AppSettings.action('pdf', 'always'), 
     'print': AppSettings.action('print', 'always'), 
