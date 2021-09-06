@@ -2,7 +2,7 @@
 
 <div class="app-filters-wrapper">
   <app-search-filters-used *ngIf="searchService.query.anyFilter()"></app-search-filters-used>
-  
+
   <mz-collapsible [mode]="'expandable'" *ngIf="filters.indexOf('accessibility') > -1">
     <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
@@ -76,8 +76,6 @@
     </mz-collapsible-item>
   </mz-collapsible>  
 
-
-
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.doctypes.length && filters.indexOf('doctypes') > -1">
     <mz-collapsible-item [active]="collapsedFilter">
       <mz-collapsible-item-header>
@@ -102,6 +100,31 @@
     </mz-collapsible-item>
   </mz-collapsible>     
 
+  <mz-collapsible [mode]="'expandable'">
+    <mz-collapsible-item [active]="collapsedFilter">
+      <mz-collapsible-item-header>
+        {{ 'search.year-range.label' | translate }}
+        <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
+        <i mz-icon-mdi [icon]="'chevron-left'" [class]="'app-clean-mg'"></i>
+      </mz-collapsible-item-header>
+      <mz-collapsible-item-body>
+        <div class="year-range-wrapper">
+          <div class="year-range">
+            <span>{{ 'search.year-range.from' | translate }}</span>
+            <input [(ngModel)]="yearFrom" (change)="onYearFromValueChanged()" type="number" (click)="$event.target.select()">
+            <span>{{ 'search.year-range.to' | translate }}</span>
+            <input [(ngModel)]="yearTo" (change)="onYearToValueChanged()" type="number" (click)="$event.target.select()">
+          </div>
+
+          <a class="light-blue darken-3 z-depth-0 btn waves-effect waves-light" mz-button (click)="applyYearRange()">
+            <span>{{ 'search.year-range.apply' | translate }}</span>
+          </a>
+        </div>
+
+
+      </mz-collapsible-item-body>
+    </mz-collapsible-item>
+  </mz-collapsible>
 
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.keywords.length && filters.indexOf('keywords') > -1">
     <mz-collapsible-item [active]="collapsedFilter">
@@ -132,6 +155,7 @@
       </mz-collapsible-item-body>
     </mz-collapsible-item>
   </mz-collapsible>
+
 
 
   <mz-collapsible [mode]="'expandable'" *ngIf="searchService.authors.length && filters.indexOf('authors') > -1">
@@ -385,31 +409,7 @@
 
 
 
-  <mz-collapsible [mode]="'expandable'">
-    <mz-collapsible-item [active]="collapsedFilter">
-      <mz-collapsible-item-header>
-        {{ 'search.year-range.label' | translate }}
-        <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
-        <i mz-icon-mdi [icon]="'chevron-left'" [class]="'app-clean-mg'"></i>
-      </mz-collapsible-item-header>
-      <mz-collapsible-item-body>
-        <div class="year-range-wrapper">
-          <div class="year-range">
-            <span>{{ 'search.year-range.from' | translate }}</span>
-            <input [(ngModel)]="yearFrom" (change)="onYearFromValueChanged()" type="number" (click)="$event.target.select()">
-            <span>{{ 'search.year-range.to' | translate }}</span>
-            <input [(ngModel)]="yearTo" (change)="onYearToValueChanged()" type="number" (click)="$event.target.select()">
-          </div>
 
-          <a class="light-blue darken-3 z-depth-0 btn waves-effect waves-light" mz-button (click)="applyYearRange()">
-            <span>{{ 'search.year-range.apply' | translate }}</span>
-          </a>
-        </div>
-
-
-      </mz-collapsible-item-body>
-    </mz-collapsible-item>
-  </mz-collapsible>
 
 
 </div>
