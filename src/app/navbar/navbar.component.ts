@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
 
   mobileSearchBarExpanded = false;
   richCollections = false;
+  langSwitch = 1;
 
   constructor(
     public translator: Translator,
@@ -28,6 +29,7 @@ export class NavbarComponent implements OnInit {
     public service: LibrarySearchService,
     public analytics: AnalyticsService,
     public state: AppState) {
+      this.langSwitch = (this.translator.language == this.appSettings.langs[0]) ? 1 : 0;
   }
 
   ngOnInit() {
@@ -37,6 +39,11 @@ export class NavbarComponent implements OnInit {
     this.analytics.sendEvent('navbar', 'language', lang);
     localStorage.setItem('lang', lang);
     this.translator.language = lang;
+    this.langSwitch = (this.translator.language == this.appSettings.langs[0]) ? 1 : 0;
+  }
+
+  binaryLanguageChange(){
+    this.onLanguageChanged(this.appSettings.langs[this.langSwitch++ % 2]);
   }
 
   goBack() {
@@ -80,6 +87,10 @@ export class NavbarComponent implements OnInit {
         this.router.navigate(['/']);
       });
     }
+  }
+
+  arrayDropdownLenghtAssesment(func): boolean{
+    return Boolean(func());
   }
 
 }

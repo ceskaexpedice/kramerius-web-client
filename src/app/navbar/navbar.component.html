@@ -41,7 +41,8 @@
       </ng-container>
 
       <mz-navbar-item>
-        <a id="langButton">{{ translator.language | uppercase }}</a>
+        <a *ngIf="this.appSettings.langs.length == 2" (click)="binaryLanguageChange()">{{ appSettings.longLanguageNames[appSettings.langs[langSwitch % 2]] }}</a>
+        <a *ngIf="this.appSettings.langs.length > 2" (click)="binaryLanguageChange()" id="langButton">{{ appSettings.longLanguageNames[appSettings.langs[langSwitch % 2]] }}</a>
         <mz-dropdown
         [id]="'dropdown-lang'"
         [align]="'right'"

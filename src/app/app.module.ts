@@ -295,7 +295,7 @@ export function hljsLanguages() {
     AppRoutingModule,
     NgxGalleryModule,
     TranslatorModule.forRoot({
-      providedLanguages: APP_GLOBAL.lang,
+      providedLanguages: APP_GLOBAL.lang || ['cs', 'en'],
       defaultLanguage: 'cs',
       loaderOptions: {
         path: 'assets/i18n/{{language}}.json?v2.1.2'

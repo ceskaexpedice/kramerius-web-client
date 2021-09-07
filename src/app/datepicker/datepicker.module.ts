@@ -18,7 +18,7 @@ declare var APP_GLOBAL: any;
     RouterModule,
     MzTooltipModule,
     TranslatorModule.forRoot({
-      providedLanguages: APP_GLOBAL.lang,
+      providedLanguages: APP_GLOBAL.lang || ['cs', 'en'],
       defaultLanguage: 'cs'
     })
   ],
