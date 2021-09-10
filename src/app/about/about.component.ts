@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Translator } from 'angular-translator';
 import { AppSettings } from '../services/app-settings';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-about',
@@ -11,30 +12,40 @@ import { Router } from '@angular/router';
 })
 export class AboutComponent implements OnInit {
 
+  reqs: Observable<string>[];
+  dataArray: string[];
+  dataSet: Map<string, string>;
   data = '';
   dataCs = '';
   dataEn = '';
   loading: boolean;
 
   constructor(private http: HttpClient, private translator: Translator, private appSettings: AppSettings, private router: Router) {
+    this.reqs = [];
+    this.dataArray = [];
+    this.dataSet = new Map<string, string>();
     if (!appSettings.aboutPage) {
       this.router.navigate([this.appSettings.getRouteFor('')]);
     }
   }
-
   ngOnInit() {
     this.loading = true;
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();
     });
-    const reqCs = this.http.get(this.appSettings.aboutPage['cs'], { observe: 'response', responseType: 'text' })
-    .map(response => response['body']);
-    const reqEn = this.http.get(this.appSettings.aboutPage['en'], { observe: 'response', responseType: 'text' })
-    .map(response => response['body']);
-    forkJoin([reqCs, reqEn])
+    for(const [key, element] of Object.entries(this.appSettings.aboutPage)){
+        this.reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
+        .map(response => response['body']));
+    }
+    forkJoin(this.reqs)
     .subscribe( result => {
-      this.dataCs = result[0];
-      this.dataEn = result[1];
+      for(const element in result)
+        this.dataArray.push(result[element]);
+      let keys = Object.keys(this.appSettings.aboutPage);
+      for(let i = 0; i < this.dataArray.length; i++){
+        this.dataSet.set(keys[i], this.dataArray[i]);
+      }
+
       this.localeChanged();
       this.loading = false;
     },
@@ -44,11 +55,7 @@ export class AboutComponent implements OnInit {
   }
 
   private localeChanged() {
-    if (this.translator.language === 'cs') {
-      this.data = this.dataCs;
-    } else {
-      this.data = this.dataEn;
-    }
+    this.data = this.dataSet.get(this.translator.language);
   }
 
 }

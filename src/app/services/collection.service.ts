@@ -2,6 +2,8 @@ import { Collection } from './../model/collection.model';
 import { Translator } from 'angular-translator';
 import { Injectable } from '@angular/core';
 
+//TODO: Predelat toto
+
 @Injectable()
 export class CollectionService {
 

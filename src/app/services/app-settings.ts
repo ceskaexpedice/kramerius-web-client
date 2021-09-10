@@ -36,6 +36,7 @@ export class AppSettings {
   public mapSearch: boolean;
   public hiddenLocks: boolean;
 
+  public langs = APP_GLOBAL.lang || ['cs', 'en'];
   public ga = APP_GLOBAL.ga;
   public matomo = APP_GLOBAL.matomo;
   public share_url = APP_GLOBAL.share_url;
@@ -48,12 +49,26 @@ export class AppSettings {
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public advancedSearch = APP_GLOBAL.advancedSearch;
-  public aboutPage = APP_GLOBAL.aboutPage;
-  public faqPage = APP_GLOBAL.faqPage;
-  public footer = APP_GLOBAL.footer;
+  public aboutPage : [string, string] = APP_GLOBAL.aboutPage;
+  public faqPage : [string, string] = APP_GLOBAL.faqPage;
+  public footer : [string, string] = APP_GLOBAL.footer;
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
   public landingPage = !!APP_GLOBAL.landingPage;
+
+  public flags = {
+    'cs': '/assets/img/flag_cs.png',
+    'en': '/assets/img/flag_en.png',
+    'de': '/assets/img/flag_de.png',
+    'sk': '/assets/img/flag_sk.png'
+  }
+
+  public longLanguageNames = {
+    'cs': 'Čeština',
+    'en': 'English',
+    'de': 'Deutsch',
+    'sk': 'Slovenčina'
+  }
 
   public actions = {
     'pdf': AppSettings.action('pdf', 'always'), 

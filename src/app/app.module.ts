@@ -159,6 +159,8 @@ import { LicenceMessagesComponent } from './shared/licence-messages/licence-mess
 import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licences.component';
 import { PeriodicalUnitLayoutComponent } from './periodical/periodical-content/periodical-unit-layout/periodical-unit-layout.component';
 
+declare var APP_GLOBAL: any;
+
 export function hljsLanguages() {
   return [
     {name: 'json', func: json},
@@ -293,7 +295,7 @@ export function hljsLanguages() {
     AppRoutingModule,
     NgxGalleryModule,
     TranslatorModule.forRoot({
-      providedLanguages: ['en', 'cs'],
+      providedLanguages: APP_GLOBAL.lang || ['cs', 'en'],
       defaultLanguage: 'cs',
       loaderOptions: {
         path: 'assets/i18n/{{language}}.json?v2.1.2'

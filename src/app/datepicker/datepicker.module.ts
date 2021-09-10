@@ -7,6 +7,8 @@ import { NgSlimScrollModule } from 'ngx-slimscroll';
 import { DatepickerComponent } from './datepicker.component';
 import { MzTooltipModule } from 'ngx-materialize';
 
+declare var APP_GLOBAL: any;
+
 @NgModule({
   declarations: [DatepickerComponent ],
   imports: [
@@ -16,10 +18,10 @@ import { MzTooltipModule } from 'ngx-materialize';
     RouterModule,
     MzTooltipModule,
     TranslatorModule.forRoot({
-      providedLanguages: ['en', 'cs'],
+      providedLanguages: APP_GLOBAL.lang || ['cs', 'en'],
       defaultLanguage: 'cs'
     })
   ],
   exports: [ DatepickerComponent, CommonModule, FormsModule, NgSlimScrollModule, MzTooltipModule ]
 })
-export class DatepickerModule { }
+export class DatepickerModule {}

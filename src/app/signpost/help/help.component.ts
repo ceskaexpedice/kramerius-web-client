@@ -5,6 +5,7 @@ import { Translator } from 'angular-translator';
 import { AppSettings } from '../../services/app-settings';
 import { PageTitleService } from '../../services/page-title.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-signpost-help',
@@ -13,6 +14,9 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 })
 export class SignpostHelpComponent implements OnInit {
 
+  reqs: Observable<string>[];
+  dataArray: string[];
+  dataSet: Map<string, string>;
   data = '';
   dataCs = '';
   dataEn = '';
@@ -23,26 +27,32 @@ export class SignpostHelpComponent implements OnInit {
     private appSettings: AppSettings, private router: Router,
     private http: HttpClient, private translator: Translator
   ) {
-
+    this.reqs = [];
+    this.dataArray = [];
+    this.dataSet = new Map<string, string>();
   }
 
   ngOnInit() {
     if (!this.appSettings.landingPage) {
       this.router.navigate([this.appSettings.getRouteFor('')]);
     }
-    this.pageTitle.setLandingPageTitle("help");
     this.loading = true;
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();
     });
-    const reqCs = this.http.get('/assets/shared/sp/help.cs.html', { observe: 'response', responseType: 'text' })
-    .map(response => response['body']);
-    const reqEn = this.http.get('/assets/shared/sp/help.en.html', { observe: 'response', responseType: 'text' })
-    .map(response => response['body']);
-    forkJoin([reqCs, reqEn])
+    for(const [key, element] of Object.entries(this.appSettings.aboutPage)){
+        this.reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
+        .map(response => response['body']));
+    }
+    forkJoin(this.reqs)
     .subscribe( result => {
-      this.dataCs = result[0];
-      this.dataEn = result[1];
+      for(const element in result)
+        this.dataArray.push(result[element]);
+      let keys = Object.keys(this.appSettings.aboutPage);
+      for(let i = 0; i < this.dataArray.length; i++){
+        this.dataSet.set(keys[i], this.dataArray[i]);
+      }
+
       this.localeChanged();
       this.loading = false;
     },
@@ -52,11 +62,7 @@ export class SignpostHelpComponent implements OnInit {
   }
 
   private localeChanged() {
-    if (this.translator.language === 'cs') {
-      this.data = this.dataCs;
-    } else {
-      this.data = this.dataEn;
-    }
+    this.data = this.dataSet.get(this.translator.language);
   }
 
 

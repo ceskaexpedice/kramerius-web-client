@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.11.0",
-    "@angular/cli": "^7.1.2",
+    "@angular/cli": "^7.3.10",
     "@angular/compiler-cli": "7.1.2",
     "@angular/language-service": "7.1.2",
     "@types/google.analytics": "0.0.36",
