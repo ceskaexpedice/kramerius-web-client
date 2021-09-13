@@ -35,22 +35,11 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
     if (!this.selection.citation) {
       this.cloudApi.getCitation(item.uuid).subscribe( (citation: string) => {
         const link = this.shareService.getPersistentLink(item.uuid);
-        item.citation = `${citation} ${this.getLocalizedAvailability()}: ${link}`;
+        const locText = this.translator.instant("share.available_from");
+        item.citation = `${citation} ${locText}: ${link}`;
       });
     }
   }
 
-  private getLocalizedAvailability(): string {
-    switch(this.translator.language){
-      case 'cs':
-        return 'Dostupné také z';
-      case 'en':
-        return 'Available also from';
-      case 'de':
-        return 'Auch verfügbar aus';
-      case 'sk':
-        return 'Dostupné také z';
-    } //TODO: Udelat nejak responzivne
-  }
 
 }

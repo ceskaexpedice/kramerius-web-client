@@ -15,6 +15,15 @@
     "copied_to_clipboard": "Zkopirováno do schránky",
     "num_of_docs": "{{ count == 1 ? 'titul' : count < 5 ? 'tituly' : 'titulů' }}"
   },
+  "lang": {
+    "cs": "Čeština",
+    "en": "English",
+    "de": "Deutsch",
+    "sk": "Slovenčina"
+  },
+  "share": {
+    "available_from": "Dostupné také z"
+  },
   "page-not-found": {
     "title": "Stránka nebyla nalezena",
     "go": "Přejděte na",

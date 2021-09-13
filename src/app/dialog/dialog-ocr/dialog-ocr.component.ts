@@ -28,22 +28,7 @@ export class DialogOcrComponent extends MzBaseModal implements OnInit {
     }
     this.cloudApi.getCitation(this.uuid).subscribe( (citation: string) => {
       const link = this.shareService.getPersistentLink(this.uuid);
-      var tmp;
-      switch(this.translator.language){
-        case 'cs':
-          tmp = 'Dostupné také z';
-          break;
-        case 'en':
-          tmp = 'Available also from';
-          break;
-        case 'de':
-          tmp = 'Auch verfügbar aus';
-          break;
-        case 'sk':
-          tmp = 'Dostupné také z';
-          break;
-      } //TODO: Udelat nejak responzivne
-      const locText = tmp;
+      const locText = this.translator.instant("share.available_from");
       this.citation = `${citation} ${locText}: ${link}`;
     });
   }
