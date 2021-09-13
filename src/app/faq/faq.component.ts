@@ -12,51 +12,50 @@ import { Observable } from 'rxjs/Rx';
 })
 export class FaqComponent implements OnInit {
   
-  reqs: Observable<string>[];
-  dataArray: string[];
-  dataSet: Map<string, string>;
+  private dataSet: Map<string, string>;
   data = '';
-  dataCs = '';
-  dataEn = '';
   loading: boolean;
 
-  constructor(private http: HttpClient, private translator: Translator, private settings: AppSettings, private router: Router, private appSettings: AppSettings) {
-    this.reqs = [];
-    this.dataArray = [];
+  constructor(private http: HttpClient, private translator: Translator, private appSettings: AppSettings, private router: Router) {
     this.dataSet = new Map<string, string>();
-    if (!settings.faqPage) {
-      this.router.navigate([this.settings.getRouteFor('')]);
+    if (!appSettings.faqPage) {
+      this.router.navigate([this.appSettings.getRouteFor('')]);
     }
   }
-
   ngOnInit() {
     this.loading = true;
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();
     });
+    const reqs = [];
+    const dataArray = [];
     for(const [key, element] of Object.entries(this.appSettings.faqPage)){
-      this.reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
-      .map(response => response['body']));
-  }
-  forkJoin(this.reqs)
-  .subscribe( result => {
-    for(const element in result)
-      this.dataArray.push(result[element]);
-    let keys = Object.keys(this.appSettings.faqPage);
-    for(let i = 0; i < this.dataArray.length; i++){
-      this.dataSet.set(keys[i], this.dataArray[i]);
+        reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
+        .map(response => response['body']));
     }
-
-    this.localeChanged();
-    this.loading = false;
-  },
-  error => {
-    this.loading = false;
-  });
+    forkJoin(reqs)
+    .subscribe( result => {
+      for(const element in result) {
+        dataArray.push(result[element]);
+      }
+      let keys = Object.keys(this.appSettings.faqPage);
+      for(let i = 0; i < dataArray.length; i++){
+        this.dataSet.set(keys[i], dataArray[i]);
+      }
+      this.localeChanged();
+      this.loading = false;
+    },
+    error => {
+      this.loading = false;
+    });
   }
 
   private localeChanged() {
-    this.data = this.dataSet.get(this.translator.language);
+    if (this.dataSet.has(this.translator.language)) {
+      this.data = this.dataSet.get(this.translator.language);
+    } else {
+      this.data = this.dataSet.get('en') || this.dataSet.get('cs')
+    }
   }
 
 }

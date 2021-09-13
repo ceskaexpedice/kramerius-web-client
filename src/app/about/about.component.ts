@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Translator } from 'angular-translator';
 import { AppSettings } from '../services/app-settings';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-about',
@@ -12,17 +11,11 @@ import { Observable } from 'rxjs';
 })
 export class AboutComponent implements OnInit {
 
-  reqs: Observable<string>[];
-  dataArray: string[];
-  dataSet: Map<string, string>;
+  private dataSet: Map<string, string>;
   data = '';
-  dataCs = '';
-  dataEn = '';
   loading: boolean;
 
   constructor(private http: HttpClient, private translator: Translator, private appSettings: AppSettings, private router: Router) {
-    this.reqs = [];
-    this.dataArray = [];
     this.dataSet = new Map<string, string>();
     if (!appSettings.aboutPage) {
       this.router.navigate([this.appSettings.getRouteFor('')]);
@@ -33,19 +26,21 @@ export class AboutComponent implements OnInit {
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();
     });
+    const reqs = [];
+    const dataArray = [];
     for(const [key, element] of Object.entries(this.appSettings.aboutPage)){
-        this.reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
+        reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
         .map(response => response['body']));
     }
-    forkJoin(this.reqs)
+    forkJoin(reqs)
     .subscribe( result => {
-      for(const element in result)
-        this.dataArray.push(result[element]);
-      let keys = Object.keys(this.appSettings.aboutPage);
-      for(let i = 0; i < this.dataArray.length; i++){
-        this.dataSet.set(keys[i], this.dataArray[i]);
+      for(const element in result) {
+        dataArray.push(result[element]);
       }
-
+      let keys = Object.keys(this.appSettings.aboutPage);
+      for(let i = 0; i < dataArray.length; i++){
+        this.dataSet.set(keys[i], dataArray[i]);
+      }
       this.localeChanged();
       this.loading = false;
     },
@@ -55,7 +50,11 @@ export class AboutComponent implements OnInit {
   }
 
   private localeChanged() {
-    this.data = this.dataSet.get(this.translator.language);
+    if (this.dataSet.has(this.translator.language)) {
+      this.data = this.dataSet.get(this.translator.language);
+    } else {
+      this.data = this.dataSet.get('en') || this.dataSet.get('cs')
+    }
   }
 
 }

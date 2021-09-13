@@ -4,7 +4,6 @@ import { AppSettings } from '../../services/app-settings';
 import { Translator } from 'angular-translator';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-home-footer',
@@ -12,43 +11,49 @@ import { Observable } from 'rxjs/Rx';
 })
 export class HomeFooterComponent implements OnInit {
 
-  reqs: Observable<string>[];
-  dataArray: string[];
-  dataSet: Map<string, SafeHtml>;
-  data;
-  dataCs;
-  dataEn ;
+  private dataSet: Map<string, SafeHtml>;
+  data: SafeHtml;
+  loading: boolean;
 
   constructor(private http: HttpClient, private translator: Translator, private appSettings: AppSettings, private _sanitizer: DomSanitizer) {
-    this.reqs = [];
-    this.dataArray = [];
     this.dataSet = new Map<string, string>();
   }
-
   ngOnInit() {
+    this.loading = true;
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();
     });
+    const reqs = [];
+    const dataArray = [];
     for(const [key, element] of Object.entries(this.appSettings.footer)){
-      this.reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
-      .map(response => response['body']));
-    } 
-    forkJoin(this.reqs)
+        reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
+        .map(response => response['body']));
+    }
+    forkJoin(reqs)
     .subscribe( result => {
-      for(const element in result)
-        this.dataArray.push(result[element]);
-      let keys = Object.keys(this.appSettings.aboutPage);
-      for(let i = 0; i < this.dataArray.length; i++){
-        this.dataSet.set(keys[i], this._sanitizer.bypassSecurityTrustHtml(this.dataArray[i]));
+      for(const element in result) {
+        dataArray.push(result[element]);
+      }
+      let keys = Object.keys(this.appSettings.footer);
+      for(let i = 0; i < dataArray.length; i++){
+        this.dataSet.set(keys[i], dataArray[i]);
+        this.dataSet.set(keys[i], this._sanitizer.bypassSecurityTrustHtml(dataArray[i]));
+
       }
       this.localeChanged();
+      this.loading = false;
     },
     error => {
+      this.loading = false;
     });
   }
 
   private localeChanged() {
-    this.data = this.dataSet.get(this.translator.language);
+    if (this.dataSet.has(this.translator.language)) {
+      this.data = this.dataSet.get(this.translator.language);
+    } else {
+      this.data = this.dataSet.get('en') || this.dataSet.get('cs')
+    }
   }
 
 }
