@@ -36,7 +36,7 @@ export class AppSettings {
   public mapSearch: boolean;
   public hiddenLocks: boolean;
 
-  public static langs = ['cs', 'en'];
+  public static langs = ['cs', 'en', 'de', 'sk'];
   public ga = APP_GLOBAL.ga;
   public matomo = APP_GLOBAL.matomo;
   public share_url = APP_GLOBAL.share_url;
@@ -48,7 +48,7 @@ export class AppSettings {
   public auth = APP_GLOBAL.auth;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
-  public advancedSearch = APP_GLOBAL.advancedSearch;
+  public advancedSearch = false;
   public aboutPage : [string, string] = APP_GLOBAL.aboutPage;
   public faqPage : [string, string] = APP_GLOBAL.faqPage;
   public footer : [string, string] = APP_GLOBAL.footer;

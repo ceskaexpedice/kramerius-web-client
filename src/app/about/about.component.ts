@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Translator } from 'angular-translator';
 import { AppSettings } from '../services/app-settings';
 import { Router } from '@angular/router';
+import { PageTitleService } from '../services/page-title.service';
 
 @Component({
   selector: 'app-about',
@@ -15,13 +16,14 @@ export class AboutComponent implements OnInit {
   data = '';
   loading: boolean;
 
-  constructor(private http: HttpClient, private translator: Translator, private appSettings: AppSettings, private router: Router) {
+  constructor(private http: HttpClient, private pageTitle: PageTitleService, private translator: Translator, private appSettings: AppSettings, private router: Router) {
     this.dataSet = new Map<string, string>();
     if (!appSettings.aboutPage) {
       this.router.navigate([this.appSettings.getRouteFor('')]);
     }
   }
   ngOnInit() {
+    this.pageTitle.setTitle('about', null);
     this.loading = true;
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();

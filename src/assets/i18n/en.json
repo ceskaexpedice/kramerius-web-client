@@ -10,7 +10,6 @@
     "set_page_number": "Set page number",
     "show_whole_title": "Show whole title",
     "hide_whole_title": "Hide whole title",
-    "beta_version": "Beta version",
     "copy_to_clipboard": "Copy to clipboard",
     "copied_to_clipboard": "Copied to clipboard",
     "num_of_docs": "{{ count == 1 ? 'document' : 'documents' }}"
@@ -34,7 +33,8 @@
     "search": "Search",
     "browse": "Browse",
     "collections": "Collections",
-    "help": "Help"
+    "about": "About",
+    "faq": "FAQ"
   },
   "sp": {
     "title": "Digital Library",
@@ -68,13 +68,11 @@
   "navbar": {
     "collections": "Collections",
     "browse": "Browse",
-    "help": "Help",
     "about": "About",
     "faq": "FAQ",
     "back": "Back for previous page",
     "home": "Home page",
     "checkbox_label": "only public",
-    "main_navigation": "Main navigation",
     "login": "Log in",
     "logout": "Log out"
   },
@@ -99,10 +97,6 @@
     "btn_hide_filters": "Hide filters"
   },
   "toolbar": {
-    "tooltip_show_chartbar": "Show chart bar",
-    "tooltip_hide_chartbar": "Hidde chart bar",
-    "tooltip_show_date": "Show date from - to",
-    "tooltip_hide_date": "Hidde date from - to",
     "tooltip_display_grid": "Display grid",
     "tooltip_display_years": "Display years",
     "tooltip_display_calendar": "Display calendar",
@@ -111,7 +105,6 @@
   },
   "search": {
     "k3": "Search in the old digitization",
-    "advanced": "Advanced Search",
     "results": "Results",
     "keywords": "Keyword",
     "doctypes": "Document Type",   
@@ -140,38 +133,11 @@
       "accessible": "All accessible documents",
       "all": "All"
     },
-    "datepicker": {
-      "label_start_date": "Start date",
-      "label_end_date": "End date",
-      "btn_use_this_settings": "Use this settings"
-    },
     "year-range": {
       "label": "Publishing Year",
       "from": "From",
       "to": "To",
       "apply": "Apply"
-    }
-  },
-  "advanced_search": {
-    "title": "Advances Search",
-    "field": {
-      "tab": "Field",
-      "field": "Where to search?",
-      "value": "Query",
-      "value_placeholder": "Fill in your query",
-      "all": "All",
-      "title": "Title",
-      "author": "Author",
-      "keyword": "Keyword",
-      "issn": "ISSN",
-      "isbn": "ISBN",
-      "ddt": "DDT",
-      "mdt": "MDT",
-      "geoname": "Geographic name",
-      "search": "Search"
-    },
-    "query": {
-      "tab": "Query"
     }
   },
   "browse": {
@@ -240,7 +206,6 @@
     "btn_search": "Search",
     "tab_visited": "Visited",
     "tab_recommended": "Recommended",        
-    "tab_requested": "The most requested",
     "tab_latest": "Latest",
     "select_library": "Select Library"
   },
@@ -282,8 +247,6 @@
     "previous_unit": "Previous part:",  
     "omnibus_list": "Konvolut pats",     
     "shelf_locator": "Shelf/Call number: {{shelf_locator}}",
-    "btn_show_metadata": "Show metadata",
-    "btn_hide_metadata": "Hide metadata",
     "authors_info": "More about authors",
     "donator": "Supported by",
     "policy_private": "Not publicly accessible document"
@@ -303,7 +266,6 @@
     "periodicalitem": "Issue {{part}}",
     "monographunit": "Unit {{part}}",
     "supplement": "Supplement {{part}}",
-    "virtual_issue": "Uncategorized",
     "previous_volume": "Previous Volume",   
     "next_volume": "Next Volume",
     "volume_list": "Volume list",
@@ -324,7 +286,6 @@
     "tooltip_zoom_in": "Zoom in",
     "tooltip_zoom_out": "Zoom out",
     "tooltip_rotate_right": "Rotate right",
-    "tooltip_rotate_left": "Rotate left",
     "tooltip_fit_to_screen": "Fit to screen",
     "tooltip_enter_fullscreen": "Enter Fullscreen",
     "tooltip_exit_fullscreen": "Exit fullscreen",
@@ -354,12 +315,6 @@
     "all_pages": "All Pages"
   },
   "book_toolbar": {
-    "tooltip_show_metadata": "Show metadata",
-    "tooltip_hide_metadata": "Hide metadata",
-    "tooltip_show_navigation": "Show navigation",
-    "tooltip_hide_navigation": "Hide navigation",
-    "tooltip_show_viewer": "Show viewer",
-    "tooltip_hide_viewer": "Hide viewer",
     "desc_reading": "Reading",
     "desc_navigation": "Navigation",
     "desc_information": "Information"
