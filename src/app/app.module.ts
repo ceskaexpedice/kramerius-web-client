@@ -298,7 +298,7 @@ export function hljsLanguages() {
       providedLanguages: AppSettings.langs,
       defaultLanguage: 'cs',
       loaderOptions: {
-        path: 'assets/i18n/{{language}}.json?v2.1.2'
+        path: 'assets/i18n/{{language}}.json?v2.1.3'
       }
     }),
     MzButtonModule,

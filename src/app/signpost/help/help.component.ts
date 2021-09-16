@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { Translator } from 'angular-translator';
 import { AppSettings } from '../../services/app-settings';
 import { PageTitleService } from '../../services/page-title.service';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-signpost-help',
@@ -14,57 +12,36 @@ import { Observable } from 'rxjs/Rx';
 })
 export class SignpostHelpComponent implements OnInit {
 
-  reqs: Observable<string>[];
-  dataArray: string[];
-  dataSet: Map<string, string>;
+
   data = '';
-  dataCs = '';
-  dataEn = '';
   loading: boolean;
 
-  constructor(
-    private pageTitle: PageTitleService,
-    private appSettings: AppSettings, private router: Router,
-    private http: HttpClient, private translator: Translator
-  ) {
-    this.reqs = [];
-    this.dataArray = [];
-    this.dataSet = new Map<string, string>();
+  constructor(private http: HttpClient, private pageTitle: PageTitleService, private translator: Translator, private appSettings: AppSettings, private router: Router) {
+    if (!appSettings.landingPage) {
+      this.router.navigate([this.appSettings.getRouteFor('')]);
+    }
   }
-
   ngOnInit() {
     if (!this.appSettings.landingPage) {
       this.router.navigate([this.appSettings.getRouteFor('')]);
     }
-    this.loading = true;
+    this.pageTitle.setTitle('help', null);
     this.translator.languageChanged.subscribe(() => {
       this.localeChanged();
     });
-    for(const [key, element] of Object.entries(this.appSettings.aboutPage)){
-        this.reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
-        .map(response => response['body']));
-    }
-    forkJoin(this.reqs)
-    .subscribe( result => {
-      for(const element in result)
-        this.dataArray.push(result[element]);
-      let keys = Object.keys(this.appSettings.aboutPage);
-      for(let i = 0; i < this.dataArray.length; i++){
-        this.dataSet.set(keys[i], this.dataArray[i]);
-      }
-
-      this.localeChanged();
-      this.loading = false;
-    },
-    error => {
-      this.loading = false;
-    });
+    this.localeChanged();
   }
 
   private localeChanged() {
-    this.data = this.dataSet.get(this.translator.language);
+    this.loading = true;
+    const res = `/assets/shared/sp/help.${this.translator.language}.html`;
+    this.http.get(res, { observe: 'response', responseType: 'text' }).subscribe(response => {
+      this.data = response['body'];
+      this.loading = false;
+    },
+    (error) => {
+      this.data = "";
+    });
   }
-
-
 
 }

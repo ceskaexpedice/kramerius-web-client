@@ -6,8 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { NgSlimScrollModule } from 'ngx-slimscroll';
 import { DatepickerComponent } from './datepicker.component';
 import { MzTooltipModule } from 'ngx-materialize';
-
-declare var APP_GLOBAL: any;
+import { AppSettings } from '../services/app-settings';
 
 @NgModule({
   declarations: [DatepickerComponent ],
@@ -18,7 +17,7 @@ declare var APP_GLOBAL: any;
     RouterModule,
     MzTooltipModule,
     TranslatorModule.forRoot({
-      providedLanguages: APP_GLOBAL.lang || ['cs', 'en'],
+      providedLanguages: AppSettings.langs,
       defaultLanguage: 'cs'
     })
   ],
