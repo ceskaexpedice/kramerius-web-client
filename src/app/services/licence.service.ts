@@ -40,7 +40,8 @@ export class LicenceService {
       return licence;
     }
     const lang = this.translator.language;
-    return this.licences[licence].message[lang] || licence;
+    const l = this.licences[licence];
+    return l.message[lang] || l.message['en'] || l.message['cs'] || licence;
   }
 
   label(licence: string): string {
@@ -51,7 +52,8 @@ export class LicenceService {
       return licence;
     }
     const lang = this.translator.language;
-    return this.licences[licence].label[lang] || licence;
+    const l = this.licences[licence];
+    return l.label[lang] || l.label['en'] || l.label['cs'] || licence;
   }
 
   labels(licences: string[]): string {
