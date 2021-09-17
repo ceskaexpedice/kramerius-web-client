@@ -18,23 +18,23 @@
     <mz-navbar-item-container [align]="'right'" [class.app-col-right-home]="state.atHome()" class="app-buttons">
       
       <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
-          <ng-container *ngIf="appSettings.k5Compat(); else newCollections">
-            <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
-            <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
-          </ng-container>
-          <ng-template #newCollections>
-            <a (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
-          </ng-template>
-        </mz-navbar-item>
-        <mz-navbar-item routerLinkActive="active" #browse="routerLinkActive">
-          <a (click)="analytics.sendEvent('navbar', 'browse');" [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
-        </mz-navbar-item>
-        <mz-navbar-item routerLinkActive="active" *ngIf="appSettings.aboutPage">
-          <a (click)="analytics.sendEvent('navbar', 'about');" [routerLink]="appSettings.getRouteFor('about')">{{ 'navbar.about' | translate }}</a>
-        </mz-navbar-item>
-        <mz-navbar-item routerLinkActive="active" *ngIf="appSettings.faqPage">
-          <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
-        </mz-navbar-item>
+        <ng-container *ngIf="appSettings.k5Compat(); else newCollections">
+          <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
+          <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
+        </ng-container>
+        <ng-template #newCollections>
+          <a (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
+        </ng-template>
+      </mz-navbar-item>
+      <mz-navbar-item routerLinkActive="active" #browse="routerLinkActive">
+        <a (click)="analytics.sendEvent('navbar', 'browse');" [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
+      </mz-navbar-item>
+      <mz-navbar-item routerLinkActive="active" *ngIf="appSettings.aboutPage">
+        <a (click)="analytics.sendEvent('navbar', 'about');" [routerLink]="appSettings.getRouteFor('about')">{{ 'navbar.about' | translate }}</a>
+      </mz-navbar-item>
+      <mz-navbar-item routerLinkActive="active" *ngIf="appSettings.faqPage">
+        <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
+      </mz-navbar-item>
 
       <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin">
         <mz-navbar-item *ngIf="authService.isLoggedIn()">
@@ -44,6 +44,10 @@
           <a (click)="login()">{{ 'navbar.login' | translate }}</a>
         </mz-navbar-item>
       </ng-container>
+
+      <mz-navbar-item *ngIf="!appSettings.auth && account.serviceEnabled() && !account.isLoggedIn()">
+        <a [routerLink]="appSettings.getRouteFor('signin')">{{ 'navbar.login' | translate }}</a>
+      </mz-navbar-item>  
 
       <mz-navbar-item class="app-language">
         <div *ngIf="languages().length > 1" id="btn-dropdown-language">
@@ -69,14 +73,10 @@
         </mz-dropdown>
       </mz-navbar-item>
 
-      <ng-container *ngIf="!appSettings.auth && account.serviceEnabled()">
-
-        <mz-navbar-item *ngIf="account.isLoggedIn()" class="app-profile">
-         
-          <img *ngIf="account.getImage()" class="app-profile-img" [src]="account.getImage()" id="btn-dropdown-profile">
-          <div *ngIf="!account.getImage()" class="app-profile-txt" id="btn-dropdown-profile">{{ account.getTextProfile() }}</div>
-
-          <mz-dropdown
+      <mz-navbar-item class="app-profile" *ngIf="!appSettings.auth && account.serviceEnabled() && account.isLoggedIn()">
+        <img *ngIf="account.getImage()" class="app-profile-img" [src]="account.getImage()" id="btn-dropdown-profile">
+        <div *ngIf="!account.getImage()" class="app-profile-txt" id="btn-dropdown-profile">{{ account.getTextProfile() }}</div>
+        <mz-dropdown
           [id]="'dropdown-profile'"
           [align]="'left'"
           [belowOrigin]="true"
@@ -88,25 +88,12 @@
           [outDuration]="300"
           [stopPropagation]="true"
         >
-          <mz-dropdown-item><div class="app-profile-name">{{ account.getName() }}</div></mz-dropdown-item>
-          <mz-dropdown-item><a [routerLink]="appSettings.getRouteFor('favourites')">Oblíbené</a></mz-dropdown-item>
-          <mz-dropdown-divider></mz-dropdown-divider>
-          <mz-dropdown-item><a (click)="logout()">{{ 'navbar.logout' | translate }}</a></mz-dropdown-item>
-        </mz-dropdown>
-
-
-        </mz-navbar-item>
-        <mz-navbar-item *ngIf="!account.isLoggedIn()">
-            <a [routerLink]="appSettings.getRouteFor('signin')">{{ 'navbar.login' | translate }}</a>
-          </mz-navbar-item>  
-
-
-
-
-
-
-      </ng-container>
-
+        <mz-dropdown-item><div class="app-profile-name">{{ account.getName() }}</div></mz-dropdown-item>
+        <mz-dropdown-item><a [routerLink]="appSettings.getRouteFor('favourites')">Oblíbené</a></mz-dropdown-item>
+        <mz-dropdown-divider></mz-dropdown-divider>
+        <mz-dropdown-item><a (click)="logout()">{{ 'navbar.logout' | translate }}</a></mz-dropdown-item>
+      </mz-dropdown>
+    </mz-navbar-item>
 
     </mz-navbar-item-container>
     <a class="right app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="!state.atHome()">
