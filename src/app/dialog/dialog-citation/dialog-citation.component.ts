@@ -24,23 +24,7 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
   }
 
   ngOnInit(): void {
-    for (const doctype of SolrService.allDoctypes) {
-      if (this.metadata.context[doctype]) {
-        this.data.push({
-          type: doctype,
-          citation: null,
-          uuid: this.metadata.context[doctype]
-        });
-      }
-    }
-    if (this.metadata.activePage) {
-      this.data.push({
-        type: 'page',
-        citation: null,
-        uuid: this.metadata.activePage.uuid
-      });
-    }
-    this.data.reverse();
+    this.data = this.metadata.getFullContext(SolrService.allDoctypes);
     if (this.data.length > 0) {
       this.changeTab(this.data[0]);
     }
@@ -51,13 +35,11 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
     if (!this.selection.citation) {
       this.cloudApi.getCitation(item.uuid).subscribe( (citation: string) => {
         const link = this.shareService.getPersistentLink(item.uuid);
-        item.citation = `${citation} ${this.getLocalizedAvailability()}: ${link}`;
+        const locText = this.translator.instant("share.available_from");
+        item.citation = `${citation} ${locText}: ${link}`;
       });
     }
   }
 
-  private getLocalizedAvailability(): string {
-    return this.translator.language === 'cs' ? 'Dostupné také z' : 'Available also from';
-  }
 
 }

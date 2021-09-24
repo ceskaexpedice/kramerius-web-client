@@ -5,12 +5,12 @@ import { Translator } from 'angular-translator';
 import { Router, NavigationEnd } from '@angular/router';
 import { AppState } from './app.state';
 import { Location } from '@angular/common';
-import { AuthService } from './services/auth.service';
 
 import { MatomoInjector } from 'ngx-matomo';
 import { MzModalService } from 'ngx-materialize';
 import { DialogDownloadComponent } from './dialog/dialog-download/dialog-download.component';
 import { CookieService } from 'ngx-cookie-service';
+import { AnalyticsService } from './services/analytics.service';
 
 @Component({
   selector: 'app-root',
@@ -25,20 +25,22 @@ export class AppComponent implements OnInit {
     private location: Location,
     private history: HistoryService,
     private router: Router,
-    private appSettings: AppSettings,
-    private auth: AuthService,
+    private settings: AppSettings,
+    private analytics: AnalyticsService,
     public state: AppState,
     private modalService: MzModalService,
     private cookieService : CookieService,
-    private matomoInjector: MatomoInjector) {
-      this.matomoInjector.init(this.appSettings.matomo_url, 5);
+    private matomoInjector: MatomoInjector,
+    private appSettings: AppSettings) {
   }
 
   ngOnInit() {
+    if (this.settings.matomo) {
+      this.matomoInjector.init(this.settings.matomo, 5);
+    }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        (<any>window).gaaa('set', 'page', event.urlAfterRedirects);
-        (<any>window).gaaa('send', 'pageview');
+        this.analytics.sendPageView(event.urlAfterRedirects);
         this.history.push(this.location.path());
         this.state.pageUrl = event.url;
       }

@@ -81,7 +81,8 @@ app-navbar {
               display: none;
             }
           }
-        }        
+        }
+          
         &.app-col-right-home {
           width: auto;
           float: right;
@@ -89,6 +90,35 @@ app-navbar {
           $large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
           .app-buttons {
             display: initial;
+          }
+        }
+        .app-language {
+          margin-right: 5px;
+          #btn-dropdown-language {
+            height: 68px;
+            padding: 14px 16px;
+            img {
+              height: 40px;
+            }
+          }
+          .dropdown-content {
+            mz-dropdown-item {
+              .app-language {
+                width: 145px;
+                line-height: 60px;
+                img {
+                  height: 30px;
+                  width: 30px;
+                  float: right;
+                  margin-top: 15px;
+                  margin-right: 15px;
+                  margin-left: 15px;
+                }
+                .app-language-name {
+                  text-align: right;
+                }
+              }
+            }
           }
         }
         .app-profile {

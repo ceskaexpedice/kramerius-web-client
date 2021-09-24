@@ -2,6 +2,7 @@ import { Metadata } from './metadata.model';
 import { Translator } from 'angular-translator';
 
 export class PeriodicalItem {
+    title: string;
     date: string;
     name: string;
     number: string;

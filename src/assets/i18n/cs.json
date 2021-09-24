@@ -10,10 +10,18 @@
     "set_page_number": "Zadejte číslo stránky",
     "show_whole_title": "Ukaž celý titulek",
     "hide_whole_title": "Skryj celý titulek",
-    "beta_version": "Beta verze",
     "copy_to_clipboard": "Zkopírovat do schránky",
     "copied_to_clipboard": "Zkopirováno do schránky",
     "num_of_docs": "{{ count == 1 ? 'titul' : count < 5 ? 'tituly' : 'titulů' }}"
+  },
+  "lang": {
+    "cs": "Čeština",
+    "en": "English",
+    "de": "Deutsch",
+    "sk": "Slovenčina"
+  },
+  "share": {
+    "available_from": "Dostupné také z"
   },
   "page-not-found": {
     "title": "Stránka nebyla nalezena",
@@ -25,7 +33,9 @@
     "search": "Hledání",
     "browse": "Procházení",
     "collections": "Sbírky",
-    "help": "Nápověda"
+    "about": "Informace",
+    "help": "Nápověda",
+    "faq": "FAQ"
   },
   "sp": {
     "title": "Digitální knihovna",
@@ -59,13 +69,11 @@
   "navbar": {
     "collections": "Sbírky",
     "browse": "Procházet",
-    "help": "Nápověda",
     "about": "Informace",
     "faq": "FAQ",
     "back": "Zpět na předchozí stránku",
     "home": "Domovská stránka",
     "checkbox_label": "pouze veřejné",
-    "main_navigation": "Hlavní navigace",
     "login": "Přihlásit",
     "logout": "Odhlásit"
   },
@@ -90,10 +98,6 @@
     "btn_hide_filters": "Skýt filtry"
   },
   "toolbar": {
-    "tooltip_show_chartbar": "Zobrazit časovou osu",
-    "tooltip_hide_chartbar": "Skrýt časovou osu",
-    "tooltip_show_date": "Zobrazit časové rozmezí od - do",
-    "tooltip_hide_date": "Skrýt časové rozmezí od - do",
     "tooltip_display_grid": "Zobraz mřížku",
     "tooltip_display_years": "Zobraz roky",
     "tooltip_display_calendar": "Zobraz kalendář",
@@ -102,7 +106,6 @@
   },
   "search": {
     "k3": "Hledat ve staré digitalizaci",
-    "advanced": "Pokročilé hledání",
     "results": "Výsledky",
     "keywords": "Klíčové slovo",
     "doctypes": "Typ dokumentu",
@@ -131,38 +134,11 @@
       "accessible": "Všechny dostupné dokumenty",
       "all": "Vše"
     },
-    "datepicker": {
-      "label_start_date": "Počáteční datum",
-      "label_end_date": "Konečné datum",
-      "btn_use_this_settings": "Použít toto nastavení"
-    },
     "year-range": {
       "label": "Rok vydání",
       "from": "Od",
       "to": "Do",
       "apply": "Použít"
-    }
-  },
-  "advanced_search": {
-    "title": "Pokročilé vyhledávání",
-    "field": {
-      "tab": "Pole",
-      "field": "V čem hledat?",
-      "value": "Dotaz",
-      "value_placeholder": "Zadejte hledaný dotaz",
-      "all": "Vše",
-      "title": "Název",
-      "author": "Autor",
-      "keyword": "Klíčové slovo",
-      "issn": "ISSN",
-      "isbn": "ISBN",
-      "ddt": "DDT",
-      "mdt": "MDT",
-      "geoname": "Geografický název",
-      "search": "Vyhledat"
-    },
-    "query": {
-      "tab": "Dotaz"
     }
   },
   "browse": {
@@ -231,7 +207,6 @@
     "btn_search": "Hledej",
     "tab_visited": "Navštívené",
     "tab_recommended": "Doporučené",    
-    "tab_requested": "Nejžádanějsí",
     "tab_latest": "Nejnovější",
     "select_library": "Vybrat knihovnu"
   },
@@ -260,21 +235,19 @@
     "issue": "Číslo",
     "unit": "Část",
     "page": "Strana",
-    "supplement": "Příloha",
     "volume_list": "Přejít na periodikum",
-    "previous_volume": "Předchozi ročník",   
+    "previous_volume": "Předchozí ročník",   
     "next_volume": "Následující ročník",
     "issue_date": "Datum vydání",
-    "previous_issue": "Předchozi číslo",   
+    "previous_issue": "Předchozí číslo",   
     "issue_list": "Přejít na ročník",
     "next_issue": "Následující číslo",
     "unit_number": "Číslo",
     "unit_list": "Přejít na svazek knih",
     "next_unit": "Následující část:",
-    "previous_unit": "Předchozi část:",   
+    "previous_unit": "Předchozí část:",  
+    "omnibus_list": "Přejít na seznam části konvolutu",
     "shelf_locator": "Signatura: {{shelf_locator}}",
-    "btn_show_metadata": "Zobrazit metadata",
-    "btn_hide_metadata": "Skrýt metadata",
     "authors_info": "Více o autorech",
     "donator": "S podporou",
     "policy_private": "Dokument není veřejně přístupný"
@@ -294,14 +267,14 @@
     "periodicalitem": "Číslo {{part}}",
     "monographunit": "Část {{part}}",
     "supplement": "Příloha {{part}}",
-    "virtual_issue": "Nezařazené",
-    "previous_volume": "Předchozi ročník",   
+    "previous_volume": "Předchozí ročník",   
     "next_volume": "Následující ročník",
     "volume_list": "Seznam ročníků",
     "search": {
       "none": "Hledat",
       "periodical": "Hledat v periodiku",
       "periodicalvolume": "Hledat v ročníku",
+      "oldprintomnibusvolume": "Hledat v konvolutu",
       "monograph": "Hledat ve svazku knih"
     },
     "ordering": {
@@ -314,7 +287,6 @@
     "tooltip_zoom_in": "Přiblížit",
     "tooltip_zoom_out": "Oddálit",
     "tooltip_rotate_right": "Otočit doprava",
-    "tooltip_rotate_left": "Otočit doleva",
     "tooltip_fit_to_screen": "Přizpůsobit obrazovce",
     "tooltip_enter_fullscreen": "Zapnout fullscreen",
     "tooltip_exit_fullscreen": "Vypnout fullscreen",
@@ -344,12 +316,6 @@
     "all_pages": "Všechny stránky"
   },
   "book_toolbar": {
-    "tooltip_show_metadata": "Zobrazit metadata",
-    "tooltip_hide_metadata": "Skrýt metadata",
-    "tooltip_show_navigation": "Zobrazit navigaci",
-    "tooltip_hide_navigation": "Skrýt navigaci",
-    "tooltip_show_viewer": "Zobrazit čtečku",
-    "tooltip_hide_viewer": "Skrýt čtečku",
     "desc_reading": "Čtení",
     "desc_navigation": "Navigace",
     "desc_information": "Informace"
@@ -490,7 +456,8 @@
     "soundunit" : "Alba",
     "track" : "Nahrávky",
     "collection": "Sbírky",
-    "oldprintomnibusvolume": "Konvoluty"
+    "oldprintomnibusvolume": "Konvoluty",
+    "oldprintomnibusvolumepart": "Části"
   },
   "issue_type": {
     "morning": "ranní vydání",
@@ -541,7 +508,15 @@
     "colophon": "tiráž",
     "interview": "rozhovor",
     "anotation": "anotace",
-    "manuscriptnotes": "rukopisná poznámka"
+    "manuscriptnotes": "rukopisná poznámka",
+    "calibrationtable": "kalibrační tabulka",
+    "bibliography": "bibliografie",
+    "booklet": "booklet",
+    "appendix": "dodatek",
+    "imgdisc": "obraz desky",
+    "impressum": "impressum",
+    "sheetmusic": "notový zápis",
+    "case": "pouzdro"
   },
   "calendar" : {
     "months" : {
