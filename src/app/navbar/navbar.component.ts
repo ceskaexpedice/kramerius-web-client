@@ -33,6 +33,10 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
 
+  languages(): string[] {
+    return AppSettings.langs;
+  }
+
   onLanguageChanged(lang: string) {
     this.analytics.sendEvent('navbar', 'language', lang);
     localStorage.setItem('lang', lang);

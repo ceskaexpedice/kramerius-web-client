@@ -37,7 +37,9 @@ export class AppSettings {
   public hiddenLocks: boolean;
 
   public downloadApp = APP_GLOBAL.downloadApp;
-  public matomo_url = APP_GLOBAL.matomo_url;
+  public static langs = ['cs', 'en', 'de', 'sk'];
+  public ga = APP_GLOBAL.ga;
+  public matomo = APP_GLOBAL.matomo;
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
   public enablePeriodicalIsssuesCalendarLayout = APP_GLOBAL.enablePeriodicalIsssuesCalendarLayout;
@@ -47,13 +49,14 @@ export class AppSettings {
   public auth = APP_GLOBAL.auth;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
-  public advancedSearch = APP_GLOBAL.advancedSearch;
-  public aboutPage = APP_GLOBAL.aboutPage;
-  public faqPage = APP_GLOBAL.faqPage;
-  public footer = APP_GLOBAL.footer;
+  public advancedSearch = false;
+  public aboutPage : [string, string] = APP_GLOBAL.aboutPage;
+  public faqPage : [string, string] = APP_GLOBAL.faqPage;
+  public footer : [string, string] = APP_GLOBAL.footer;
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
   public landingPage = !!APP_GLOBAL.landingPage;
+
 
   public actions = {
     'pdf': AppSettings.action('pdf', 'always'), 

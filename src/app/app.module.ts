@@ -158,8 +158,9 @@ import { LicenceService } from './services/licence.service';
 import { LicenceMessagesComponent } from './shared/licence-messages/licence-messages.component';
 import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licences.component';
 import { DialogDownloadComponent } from './dialog/dialog-download/dialog-download.component';
+import { PeriodicalUnitLayoutComponent } from './periodical/periodical-content/periodical-unit-layout/periodical-unit-layout.component';
 
-
+declare var APP_GLOBAL: any;
 
 export function hljsLanguages() {
   return [
@@ -266,7 +267,8 @@ export function hljsLanguages() {
     AdminReprePageComponent,
     LicenceMessagesComponent,
     DialogLicencesComponent,
-    DialogDownloadComponent
+    DialogDownloadComponent,
+    PeriodicalUnitLayoutComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -296,10 +298,10 @@ export function hljsLanguages() {
     AppRoutingModule,
     NgxGalleryModule,
     TranslatorModule.forRoot({
-      providedLanguages: ['en', 'cs'],
+      providedLanguages: AppSettings.langs,
       defaultLanguage: 'cs',
       loaderOptions: {
-        path: 'assets/i18n/{{language}}.json?v2.1.1'
+        path: 'assets/i18n/{{language}}.json?v2.1.3'
       }
     }),
     MzButtonModule,

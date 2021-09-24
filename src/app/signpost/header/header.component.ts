@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Translator } from 'angular-translator';
 import { AnalyticsService } from '../../services/analytics.service';
+import { AppSettings } from '../../services/app-settings';
 
 @Component({
   selector: 'app-signpost-header',
@@ -14,6 +15,10 @@ export class SignpostHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  languages(): string[] {
+    return AppSettings.langs;
   }
 
   onLanguageChanged(lang: string) {

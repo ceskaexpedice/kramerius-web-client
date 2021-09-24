@@ -1,5 +1,3 @@
-export declare let APP_GLOBAL: any;
-
 export const environment = {
   production: true,
   cloudApiBase: 'https://api.kramerius.cloud/api/v1',

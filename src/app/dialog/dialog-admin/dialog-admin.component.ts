@@ -25,24 +25,11 @@ export class DialogAdminComponent extends MzBaseModal implements OnInit {
     this.data = [];
     this.category = this.locals.getProperty('admin.edit.category') || 'accessibility';
     if (this.metadata) {
-      for (const doctype of SolrService.allDoctypes) {
-        if (this.metadata.context[doctype]) {
-          const uuid = this.metadata.context[doctype];
-          if (uuid) {
-            this.data.push({
-              type: doctype,
-              uuids: [uuid]
-            });
-          }
-        }
-      }
-      if (this.metadata.activePage) {
-        this.data.push({
-          type: 'page',
-          uuids: [this.metadata.activePage.uuid]
-        });
-      }
       this.data.reverse();
+      this.data = this.metadata.getFullContext(SolrService.allDoctypes);
+      for (let item of this.data) {
+        item.uuids = [item.uuid];
+      }
       if (this.data.length == 1) {
         this.changeTab(this.data[0]);
       } else if (this.data.length > 1) {
