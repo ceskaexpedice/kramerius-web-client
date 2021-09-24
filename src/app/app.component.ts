@@ -59,9 +59,9 @@ export class AppComponent implements OnInit {
       if(deviceInfo.match(".*Android.*") != null){
         device = "Android";
       }else device = "iPhone";
-      this.modalService.open(DialogDownloadComponent, {title: "Chcete si nás uložit do mobilu?", 
-                                                      message: "Mějte svou knihovnu vždy po ruce", 
-                                                      button: "Zavřít",
+      this.modalService.open(DialogDownloadComponent, {title: String(this.translator.instant('download-dialog.title')),
+                                                      message: String(this.translator.instant('download-dialog.message')),
+                                                      button: String(this.translator.instant('common.close')),
                                                       imageURL: "assets/shared/img/app-promo.png",
                                                       deviceType: device});
       this.cookieService.set("isOffered", "offered");

@@ -1085,5 +1085,10 @@
     "wdc" : "Dřevořezbář",
     "wde" : "Dřevorytec",
     "wit" : "Svědek"
+  },
+  "availability": "Dostupné také z",
+  "download-dialog" : {
+    "title" : "Chcete si nás uložit do mobilu?",
+    "message" : "Mějte svou knihovnu vždy po ruce"
   }
 }
