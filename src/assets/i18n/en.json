@@ -1425,7 +1425,6 @@
     "wpr" : "Writer of preface",
     "wst" : "Writer of supplementary textual content"
   },
-  "availability": "Available also from",
   "download-dialog" : {
     "title" : "Do you want to download the app to your phone?",
     "message" : "Always have your library at your fingertips"
