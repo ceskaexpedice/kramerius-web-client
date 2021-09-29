@@ -41,5 +41,4 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
     }
   }
 
-
 }
