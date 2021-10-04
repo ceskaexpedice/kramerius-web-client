@@ -34,6 +34,7 @@
     "mdi": "^2.2.43",
     "ng-lazyload-image": "^5.1.1",
     "ng2-completer": "^2.0.8",
+    "ng2-pdf-viewer": "^7.0.1",
     "ngx-clipboard": "^11.1.9",
     "ngx-cookie-service": "^2.1.0",
     "ngx-gallery": "^5.9.0",
