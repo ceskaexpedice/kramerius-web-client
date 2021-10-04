@@ -355,15 +355,22 @@ export class SolrService {
     }
 
     buildBookChildrenQuery(parent: string, own: boolean): string {
-        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('page_type')},${this.field('page_number')}`;
+        let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')}`;
         if (this.licences.on()) {
             q += `,${this.field('licences_search')}`;
         }
-        q += `&q=${this.field(own ? 'parent_pid' : 'step_parent_pid')}:"${parent}"`;
-        q += `&sort=${this.field('rels_ext_index')} asc`;
+        if (this.settings.k5Compat()) {
+            q += `,details,${this.field('rels_ext_index')}`;
+            q += `&q=${this.field('parent_pid')}:"${parent}"`;
+        } else {
+            q += `,${this.field('page_type')},${this.field('page_number')}`;
+            q += `&q=${this.field(own ? 'parent_pid' : 'step_parent_pid')}:"${parent}"`;
+            q += `&sort=${this.field('rels_ext_index')} asc`;
+        }
         q += '&rows=2000&start=0';
         return q;
     }
+
 
     private buildPeriodicalQuery(parent: string, type: string, models: string[], query: PeriodicalQuery, applyYear: boolean): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('date')},${this.field('authors')},${this.field('rels_ext_index')}`;
@@ -1360,15 +1367,36 @@ export class SolrService {
 
     bookChildItems(solr): any[] {
         const items = [];
+        const k5 = this.settings.k5Compat();
         for (const doc of solr['response']['docs']) {
-            items.push({
+            const page = {
                 model: doc[this.field('model')],
                 pid: doc[this.field('id')],
-                type: doc[this.field('page_type')] || 'unknown',
                 licences: doc[this.field('licences_search')] || [],
-                number: doc[this.field('page_number')],
                 title: doc[this.field('title')],
                 policy: doc[this.field('accessibility')]
+            }
+            if (k5) {
+                const details = doc['details'];
+                page['index'] = doc[this.field('rels_ext_index')][0] || 0;
+                if (details && details[0]) {
+                    const parts = details[0].split('##');
+                    if (parts.length >= 1) {
+                        page['number'] = parts[0].trim();
+                    }
+                    if (parts.length >= 2) {
+                        page['type'] = parts[1].trim();
+                    }
+                }
+            } else {
+                page['type'] = doc[this.field('page_type')] || 'unknown';
+                page['number'] = doc[this.field('page_number')];
+            }
+            items.push(page);
+        }
+        if (k5) {
+            items.sort((x, y) => {
+                return x['index'] - y['index'];
             });
         }
         return items;

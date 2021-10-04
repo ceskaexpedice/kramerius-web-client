@@ -260,6 +260,10 @@
       "k3tok5": {
         "url": "https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/k3tok5",
         "name": "K3 to K5"
+      },
+      "eodopen": {
+        "url": "https://eodopen.eu/",
+        "name": "EODOPEN"
       }
     },
     "periodical": {

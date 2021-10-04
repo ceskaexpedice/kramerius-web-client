@@ -365,23 +365,16 @@ export class KrameriusApiService {
         return this.doGetBlob(url);
     }
 
-
-
-    // getChildren(uuid: string): Observable<any[]> {
-    //     return this.doGet(this.getItemUrl(uuid) + '/children')
-    //         .map(res => <any[]> res);
-    // }
-
-
     getChildren(uuid: string, own: boolean = true): Observable<any> {
-        if (this.settings.k5Compat()) {
-            return this.doGet(this.getItemUrl(uuid) + '/children')
-                .map(response => this.utils.parseBookChild(response));
-        } else {
+        // if (this.settings.k5Compat()) {
+        //     return this.doGet(this.getItemUrl(uuid) + '/children')
+        //         .map(response => this.utils.parseBookChild(response));
+        // } else {
             return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, own))
                 .map(response => this.solr.bookChildItems(response));
-        }
+        // }
     }
+
 
     getRawChildren(uuid: string): Observable<any> {
         if (this.settings.k5Compat()) {
@@ -418,7 +411,7 @@ export class KrameriusApiService {
                 imageType = 'image/jpeg';
             }
             return {
-                licences: json['dnnt-labels'],
+                // licences: json['dnnt-labels'],
                 licence: json['providedByLabel'],
                 replicatedFrom: json['replicatedFrom'],
                 imageType: imageType
