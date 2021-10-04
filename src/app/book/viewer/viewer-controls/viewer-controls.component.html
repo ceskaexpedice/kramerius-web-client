@@ -1,5 +1,5 @@
 <div class="app-view-controls">
-  <i class="app-mdi-page-left" (click)="bookService.goToPrevious();analytics.sendEvent('viewer', 'controls', 'previous page');" [class.app-inactive]="!bookService.hasPrevious()"
+  <i class="app-mdi-page-left" (click)="goToPrevious()" [class.app-inactive]="!hasPrevious()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_left' | translate" [position]="'top'"></i>
   <i class="app-mdi-zoom-in hide-on-small-only" (click)="controlsService.zoomIn();analytics.sendEvent('viewer', 'controls', 'zoom in');"
     mz-tooltip [tooltip]="'view_controls.tooltip_zoom_in' | translate" [position]="'top'"></i>
@@ -21,6 +21,6 @@
     mz-tooltip [tooltip]="'view_controls.tooltip_select_text' | translate" [position]="'top'"></i>
   <i class="app-mdi-crop-image hide-on-small-only" *ngIf="showImageCrop()" (click)="onCropImageClicked()" [class.app-inactive]="!bookService.cropEnabled()"
     mz-tooltip [tooltip]="'view_controls.tooltip_crop_image' | translate" [position]="'top'"></i>
-  <i disabled class="app-mdi-page-right" (click)="bookService.goToNext();analytics.sendEvent('viewer', 'controls', 'next page');" [class.app-inactive]="!bookService.hasNext()"
+  <i disabled class="app-mdi-page-right" (click)="goToNext()" [class.app-inactive]="!hasNext()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_right' | translate" [position]="'top'"></i>
 </div>

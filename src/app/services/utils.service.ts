@@ -1,8 +1,6 @@
 import { AppSettings } from './app-settings';
 import { DocumentItem, Context } from './../model/document_item.model';
 import { Injectable } from '@angular/core';
-import { PeriodicalItem } from '../model/periodicalItem.model';
-
 
 @Injectable()
 export class Utils {
@@ -27,34 +25,6 @@ export class Utils {
         }
         return items;
     }
-
-    // parseBookChild(jsonArray): any[] {
-    //     const result = [];
-    //     for (const json of jsonArray) {
-    //         const item = {
-    //             model: json['model'],
-    //             pid: json['pid'],
-    //             policy: json['policy'],
-    //             title: json['title'],
-
-    //         }
-    //         const details = json['details'];
-    //         let type = 'unknown';
-    //         let number = '';
-    //         if (details && details['type']) {
-    //             type = details['type'].toLowerCase();
-    //         }
-    //         if (details && details['pagenumber']) {
-    //             number = details['pagenumber'].trim();
-    //         }
-    //         item['type'] = type;
-    //         item['number'] = number;
-    //         result.push(item);
-    //     }
-    //     return result;
-    // }
-
-
 
     parseItem(json): DocumentItem {
         const item = new DocumentItem();

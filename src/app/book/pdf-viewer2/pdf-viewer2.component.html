@@ -1,9 +1,21 @@
-<!-- <iframe *ngIf="bookService.pdf" [src]="bookService.pdfPath" width="100%" height="100%" frameborder="0"></iframe> -->
+<div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
+
+<app-viewer-controls *ngIf="!bookService.isPageInaccessible()" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 
 
-<pdf-viewer *ngIf="bookService.pdf" [src]="bookService.pdfPath"
-[render-text]="true"
-style="display: block;"></pdf-viewer>
+<pdf-viewer *ngIf="bookService.pdf" [src]="bookService.pdf"
+    [render-text]="true"
+    [rotation]="rotation"
+    [zoom]="zoom"
+    [(page)]="pdfService.pageIndex"
+    [zoom-scale]="zoomScale"
+    [autoresize]="true"
+    [original-size]="false"
+    (page-rendered)="pageRendered($event)"
+    (error)="onError($event)"
+    (after-load-complete)="afterLoadComplete($event)"
+    >
+</pdf-viewer>
 
 
 <span *ngIf="controlsService.leftPanelVisible && bookService.showNavigationPanel"
@@ -52,8 +64,10 @@ mz-tooltip
     message="alert.failed_to_load_image">
 </app-alert>
 
-<mz-spinner *ngIf="bookService.isPageLoading()"
+<mz-spinner *ngIf="bookService.isPageLoading() || pdfLoading"
     class="medium-centered-spinner"
     [color]="'blue'"
     [size]="'medium'">
 </mz-spinner>
+
+</div>

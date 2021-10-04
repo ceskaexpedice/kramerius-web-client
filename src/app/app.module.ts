@@ -160,6 +160,7 @@ import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licence
 import { PeriodicalUnitLayoutComponent } from './periodical/periodical-content/periodical-unit-layout/periodical-unit-layout.component';
 import { PdfViewer2Component } from './book/pdf-viewer2/pdf-viewer2.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { PdfService } from './services/pdf.service';
 
 declare var APP_GLOBAL: any;
 
@@ -377,6 +378,7 @@ export function hljsLanguages() {
     LoggerService,
     LicenceService,
     AdminApiService,
+    PdfService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

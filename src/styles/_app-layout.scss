@@ -10,6 +10,7 @@ app-root {
 
 app-root {
   main {
+    overflow: hidden;
     width: 100%;
     height: calc(100% - #{$navbar-height});
     

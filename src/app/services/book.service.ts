@@ -864,6 +864,10 @@ export class BookService {
         return !this.fulltextQuery && this.getPage() && (this.getPage().position === PagePosition.Left || this.getPage().position === PagePosition.Right);
     }
 
+    isPdf(): boolean {
+       return this.viewer == 'pdf';
+    }
+
     goToPageOnIndex(index: number, replaceState = false) {
         this.viewer = 'image';
         if (index >= this.pages.length) {
