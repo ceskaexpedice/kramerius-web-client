@@ -5,7 +5,7 @@
     mz-tooltip [tooltip]="'view_controls.tooltip_zoom_in' | translate" [position]="'top'"></i>
   <i class="app-mdi-zoom-out hide-on-small-only" *ngIf="showZoom()" (click)="controlsService.zoomOut();analytics.sendEvent('viewer', 'controls', 'zoom out');"
     mz-tooltip [tooltip]="'view_controls.tooltip_zoom_out' | translate" [position]="'top'"></i>
-  <i class="app-mdi-fit-to-screen hide-on-small-only" *ngIf="showZoom()" (click)="controlsService.fitToScreen();analytics.sendEvent('viewer', 'controls', 'fit to screen');"
+  <i class="app-mdi-fit-to-screen hide-on-small-only" *ngIf="showFitToScreen()" (click)="controlsService.fitToScreen();analytics.sendEvent('viewer', 'controls', 'fit to screen');"
     mz-tooltip [tooltip]="'view_controls.tooltip_fit_to_screen' | translate" [position]="'top'"></i>
   <i class="app-mdi-fullscreen" *ngIf="controlsService.fullscreenAvailable && !controlsService.fullscreenEnabled()" (click)="controlsService.enterFullscreen();analytics.sendEvent('viewer', 'controls', 'enter fullscreen');"
     mz-tooltip [tooltip]="'view_controls.tooltip_enter_fullscreen' | translate" [position]="'top'"></i>

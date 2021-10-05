@@ -3,7 +3,7 @@ import { AngularEpubViewerComponent } from 'angular-epub-viewer';
 import { ViewChild } from '@angular/core';
 import { EpubService } from '../../services/epub.service';
 import { interval, Subscription } from 'rxjs';
-import { ViewerControlsService } from '../../services/viewer-controls.service';
+import { ViewerActions, ViewerControlsService } from '../../services/viewer-controls.service';
 import { BookService } from '../../services/book.service';
 import { Author, Metadata, Publisher, TitleInfo } from '../../model/metadata.model';
 
@@ -15,24 +15,29 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
 
   @ViewChild('epubViewer') epubViewer: AngularEpubViewerComponent;
 
+  private viewerActionsSubscription: Subscription;
+
   public hideOnInactivity = false;
   public lastMouseMove = 0;
   private intervalSubscription: Subscription;
 
-  constructor(public epub: EpubService, public controlsService: ViewerControlsService, private bookService: BookService) {
+  constructor(public epub: EpubService, 
+    public controlsService: ViewerControlsService, private bookService: BookService) {
   }
 
   ngOnInit() {
-    this.epub.init(this.epubViewer);
-
-    this.epubViewer.openLink('/assets/shared/zivot_proti_smrti.epub');
-
+    // this.epubViewer.openLink('/assets/shared/zivot_proti_smrti.epub');
+    this.epubViewer.openLink('/assets/shared/sdilejteneztozakazou.epub');
     this.intervalSubscription = interval(4000).subscribe( () => {
       const lastMouseDist = new Date().getTime() - this.lastMouseMove;
       if (lastMouseDist >= 4000) {
         this.hideOnInactivity = true;
       }
     });  
+
+    this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
+      this.onActionPerformed(action);
+    });
 
     // setInterval(_ => {
     //   if (document.activeElement.tagName == "IFRAME") {
@@ -47,6 +52,17 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
   //   this.epubViewer.epub.on('renderer:click', (event) => {
 
   // }
+
+  private onActionPerformed(action: ViewerActions) {
+    switch (action) {
+      case ViewerActions.zoomIn:
+        this.epub.zoomIn();
+        break;
+      case ViewerActions.zoomOut:
+        this.epub.zoomOut();
+        break;
+    }
+  }
 
   onDocumentReady(event) {
     this.epubViewer.epub.on('renderer:click', (event) => {
@@ -65,9 +81,13 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
       }
     });
     this.epubViewer.epub.setGap(50);
+    this.epub.init(this.epubViewer);
   }
 
   ngOnDestroy() { 
+    if (this.viewerActionsSubscription) {
+      this.viewerActionsSubscription.unsubscribe();
+    }    
     if (this.intervalSubscription) {
       this.intervalSubscription.unsubscribe();
     }
@@ -106,7 +126,7 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
       if (metadata.language) {
         if (metadata.language == 'ar-SA') {
           lang = "ara";
-        } else if (metadata.language == 'cs' || metadata.language == 'cs-CZ') {
+        } else if (metadata.language == 'cs' || metadata.language == 'cs-CZ' || metadata.language == 'cz') {
           lang = "cze";
         }
       }

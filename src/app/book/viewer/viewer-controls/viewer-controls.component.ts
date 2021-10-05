@@ -45,6 +45,10 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   showZoom(): boolean {
+    return true;// !this.bookService.isEpub();
+  }
+
+  showFitToScreen(): boolean {
     return !this.bookService.isEpub();
   }
 

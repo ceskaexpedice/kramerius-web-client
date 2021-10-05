@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularEpubViewerComponent, EpubSearchResult } from 'angular-epub-viewer';
+import { AngularEpubViewerComponent } from 'angular-epub-viewer';
 
 declare var EPUBJS: any;
 
@@ -14,6 +14,7 @@ export class EpubService {
     searching = false;
     searchInProgress = false;
     searchResults;
+    fontSize = 16;
 
     constructor() {
 
@@ -26,6 +27,30 @@ export class EpubService {
         this.toc = [];
         this.searchResults = [];
         this.epubViewer = epubViewer;
+        this.setFontSize();
+    }
+
+
+    private setFontSize() {
+        this.epubViewer.setStyle('font-size', this.fontSize + 'px');
+    }
+
+    zoomIn() {
+        if (this.fontSize >= 36) {
+            return;
+        }        
+        this.fontSize += 4;
+        this.setFontSize();
+        this.epubViewer.computePagination();
+    }
+
+    zoomOut() {
+        if (this.fontSize <= 8) {
+            return;
+        }
+        this.fontSize -= 4;
+        this.setFontSize();
+        this.epubViewer.computePagination();
     }
 
     onSearch() {
@@ -134,7 +159,7 @@ export class EpubService {
     
     onLocationFound(location: any) {
         this.location = location;
-        console.log('onLocationFound', location);
+        // console.log('onLocationFound', location);
     }
 
     isChapterSelected(chapter): boolean {
@@ -147,6 +172,7 @@ export class EpubService {
     onPaginationComputed(pages: any) {
         // console.log('onPaginationComputed', pages);
         this.pages = pages;
+        // console.log('onPaginationComputed - loca', this.epubViewer.currentLocation);
     }
 
 }
