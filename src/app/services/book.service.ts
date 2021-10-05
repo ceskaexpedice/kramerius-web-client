@@ -880,6 +880,10 @@ export class BookService {
        return this.viewer == 'pdf';
     }
 
+    isImage(): boolean {
+        return this.viewer == 'image';
+     }
+
     goToPageOnIndex(index: number, replaceState = false) {
         this.viewer = 'image';
         if (index >= this.pages.length) {

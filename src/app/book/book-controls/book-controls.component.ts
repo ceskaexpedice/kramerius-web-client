@@ -28,11 +28,11 @@ export class BookControlsComponent implements OnInit {
   }
 
   showPageJpeg(): boolean {
-    return !this.bookService.isEpub() && this.bookService.isActionAvailable('jpeg');
+    return this.bookService.isImage() && this.bookService.isActionAvailable('jpeg');
   }
 
   showPageOcr(): boolean {
-    return !this.bookService.isEpub() && this.bookService.isActionAvailable('text');
+    return this.bookService.isImage() && this.bookService.isActionAvailable('text');
   }
 
   openFile(event) {

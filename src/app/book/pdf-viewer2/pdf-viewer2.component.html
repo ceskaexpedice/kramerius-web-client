@@ -1,9 +1,12 @@
 <div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
 
 <app-viewer-controls *ngIf="!bookService.isPageInaccessible()" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
+<!-- *ngIf="bookService.pdf" [src]="'/assets/shared/A-2_2021-web.pdf'" -->
 
 
-<pdf-viewer *ngIf="bookService.pdf" [src]="bookService.pdf"
+<pdf-viewer 
+    
+    *ngIf="bookService.pdf" [src]="bookService.pdf"
     [render-text]="true"
     [rotation]="rotation"
     [zoom]="zoom"

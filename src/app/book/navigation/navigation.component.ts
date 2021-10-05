@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AnalyticsService } from '../../services/analytics.service';
 import { EpubService } from '../../services/epub.service';
+import { PdfService } from '../../services/pdf.service';
 
 declare var $: any;
 
@@ -21,6 +22,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   constructor(public bookService: BookService, 
     public epubService: EpubService,
+    public pdfService: PdfService,
     public analytics: AnalyticsService) {
 
   }
