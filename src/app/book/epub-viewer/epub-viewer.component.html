@@ -1,0 +1,62 @@
+<div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
+
+    <app-viewer-controls [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
+    
+
+    <angular-epub-viewer #epubViewer style="height: 100%;
+    width: 100%;padding: 25px; display: block;background: #fff;"
+    [autoTOC]="true"
+    [autoMetadata]="true"
+    [autoPagination]="true"
+    (mousemove)="onMouseMove()"
+    (onSearchFinished)="epub.onSearchFinished($event)"
+    (onLocationFound)="epub.onLocationFound($event)"
+    (onPaginationComputed)="epub.onPaginationComputed($event)"
+    (onTOCLoaded)="epub.onTOCLoaded($event)"
+    (onDocumentReady)="onDocumentReady($event)"
+    ></angular-epub-viewer>
+   
+    <!-- (onMetadataLoaded)="onMetadataLoaded($event)" -->
+
+    <span *ngIf="controlsService.leftPanelVisible" [class.hide-on-inactivity]="hideOnInactivity"
+class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.hideLeftPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_hide_left' | translate" 
+[position]="'right'">
+<i class="app-mdi-menu-left" [class.app-mdi-tablet]="controlsService.leftPanelVisible"></i>
+</span>
+
+<span *ngIf="!controlsService.leftPanelVisible" [class.hide-on-inactivity]="hideOnInactivity"
+class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.showLeftPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_show_left' | translate" 
+[position]="'right'">
+<i class="app-mdi-menu-right"></i>
+</span>
+
+<span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
+[class.hide-on-inactivity]="hideOnInactivity"
+class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.hideRightPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_hide_right' | translate" 
+[position]="'left'">
+<i class="app-mdi-menu-right" [class.app-mdi-tablet]="controlsService.rightPanelVisible"></i>
+</span>
+
+<span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
+[class.hide-on-inactivity]="hideOnInactivity"
+class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.showRightPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_show_right' | translate" 
+[position]="'left'">
+<i class="app-mdi-menu-left"></i>
+</span>
+
+
+
+</div>
+

@@ -7,9 +7,16 @@
     [class.app-panel-mobile-hidden]="bookService.activeMobilePanel != 'navigation'">
   </app-navigation>
   
-  <app-viewer *ngIf="bookService.viewer === 'image'"></app-viewer>
   
-  <app-pdf-viewer2 *ngIf="bookService.viewer === 'pdf'"></app-pdf-viewer2>
+  <app-epub-viewer *ngIf="bookService.getUuid() == 'uuid:9ebcb206-24b7-4dc7-b367-3d9ad7179c23'; else foo"></app-epub-viewer>
+  
+  <ng-template #foo>
+    <app-viewer *ngIf="bookService.viewer === 'image'"></app-viewer>
+    
+    <app-pdf-viewer2 *ngIf="bookService.viewer === 'pdf'"></app-pdf-viewer2>
+  </ng-template>
+
+
 
   <app-metadata *ngIf="!bookService.isDocLoading()"
     [class.app-panel-hidden]="!viewerControls.rightPanelVisible" 

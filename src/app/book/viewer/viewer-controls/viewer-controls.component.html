@@ -1,17 +1,17 @@
 <div class="app-view-controls">
   <i class="app-mdi-page-left" (click)="goToPrevious()" [class.app-inactive]="!hasPrevious()"
     mz-tooltip [tooltip]="'view_controls.tooltip_page_left' | translate" [position]="'top'"></i>
-  <i class="app-mdi-zoom-in hide-on-small-only" (click)="controlsService.zoomIn();analytics.sendEvent('viewer', 'controls', 'zoom in');"
+  <i class="app-mdi-zoom-in hide-on-small-only" *ngIf="showZoom()" (click)="controlsService.zoomIn();analytics.sendEvent('viewer', 'controls', 'zoom in');"
     mz-tooltip [tooltip]="'view_controls.tooltip_zoom_in' | translate" [position]="'top'"></i>
-  <i class="app-mdi-zoom-out hide-on-small-only" (click)="controlsService.zoomOut();analytics.sendEvent('viewer', 'controls', 'zoom out');"
+  <i class="app-mdi-zoom-out hide-on-small-only" *ngIf="showZoom()" (click)="controlsService.zoomOut();analytics.sendEvent('viewer', 'controls', 'zoom out');"
     mz-tooltip [tooltip]="'view_controls.tooltip_zoom_out' | translate" [position]="'top'"></i>
-  <i class="app-mdi-fit-to-screen hide-on-small-only" (click)="controlsService.fitToScreen();analytics.sendEvent('viewer', 'controls', 'fit to screen');"
+  <i class="app-mdi-fit-to-screen hide-on-small-only" *ngIf="showZoom()" (click)="controlsService.fitToScreen();analytics.sendEvent('viewer', 'controls', 'fit to screen');"
     mz-tooltip [tooltip]="'view_controls.tooltip_fit_to_screen' | translate" [position]="'top'"></i>
   <i class="app-mdi-fullscreen" *ngIf="controlsService.fullscreenAvailable && !controlsService.fullscreenEnabled()" (click)="controlsService.enterFullscreen();analytics.sendEvent('viewer', 'controls', 'enter fullscreen');"
     mz-tooltip [tooltip]="'view_controls.tooltip_enter_fullscreen' | translate" [position]="'top'"></i>
   <i class="app-mdi-fullscreen-exit" *ngIf="controlsService.fullscreenAvailable && controlsService.fullscreenEnabled()" (click)="controlsService.exitFullscreen();analytics.sendEvent('viewer', 'controls', 'exit fullscreen');"
     mz-tooltip [tooltip]="'view_controls.tooltip_exit_fullscreen' | translate" [position]="'top'"></i>
-  <i class="app-mdi-rotate-right hide-on-small-only" (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate');"
+  <i class="app-mdi-rotate-right hide-on-small-only" *ngIf="showRotation()"  (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate');"
     mz-tooltip [tooltip]="'view_controls.tooltip_rotate_right' | translate" [position]="'top'"></i>
   <i class="app-mdi-double-page hide-on-small-only" *ngIf="showDoublePageOff()" (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page off');" style="padding-top:5px;"
     mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_off' | translate" [position]="'top'"></i>

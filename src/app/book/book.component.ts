@@ -5,6 +5,7 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { AnalyticsService } from '../services/analytics.service';
 import { PdfService } from '../services/pdf.service';
+import { EpubService } from '../services/epub.service';
 
 @Component({
   selector: 'app-book',
@@ -15,6 +16,7 @@ export class BookComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               public bookService: BookService,
               private pdfService: PdfService,
+              private epubService: EpubService,
               public analytics: AnalyticsService,
               public viewerControls: ViewerControlsService) {
 
@@ -24,14 +26,18 @@ export class BookComponent implements OnInit, OnDestroy {
   keyEvent(event: KeyboardEvent) {
     if (event && (event.keyCode === 37 || event.keyCode === 38)) {
       this.analytics.sendEvent('viewer', 'keyboard', 'previous page');
-      if (this.bookService.isPdf()) {
+      if (this.bookService.isEpub()) {
+        this.epubService.goToPrevious();
+      } else if (this.bookService.isPdf()) {
         this.pdfService.goToPrevious();
       } else {
         this.bookService.goToPrevious();
       }
     } else if (event && (event.keyCode === 39 || event.keyCode === 40)) {
       this.analytics.sendEvent('viewer', 'keyboard', 'next page');
-      if (this.bookService.isPdf()) {
+      if (this.bookService.isEpub()) {
+        this.epubService.goToNext();
+      } else if (this.bookService.isPdf()) {
         this.pdfService.goToNext();
       } else {
         this.bookService.goToNext();

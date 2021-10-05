@@ -1,4 +1,4 @@
-<app-book-controls *ngIf="bookService.viewer === 'image'" class="hide-on-small-only"></app-book-controls>
+<app-book-controls *ngIf="!bookService.isPdf()" class="hide-on-small-only"></app-book-controls>
 
 <div class="app-navigation-tabs" *ngIf="bookService.navigationTabsCount > 1">
   <ul class="tabs">
@@ -37,7 +37,6 @@
   <div *ngFor="let parent of bookService.extraParents" (click)="bookService.onParentSelected(parent)" class="app-internalpart" [class.app-internalpart-selected]="bookService.getPage().parentUuid === parent.pid">{{ parent.title }}</div>
 </div>
 
-
 <app-book-search [class.app-hidden]="bookService.activeNavigationTab !== 'pages'"></app-book-search>
 
 <div class="app-navigation-header" *ngIf="bookService.getPageCount() > 1" [class.app-hidden]="bookService.activeNavigationTab !== 'pages'">
@@ -46,6 +45,43 @@
   <span>{{bookService.getPageCount()}}</span>
   <span>{{ 'common.of_pages' | translate }}</span>
 </div>
+
+
+
+
+<ng-container *ngIf="bookService.isEpub()">
+
+  <div class="app-epub-search-bar-wrapper" style="min-height: 45px;">
+    <div class="app-epub-search-bar" [class.app-is-query]="query" *ngIf="epubService.totalPages()">
+      <input (keyup.enter)="epubService.onSearch()" type="text" placeholder="Hledat" [(ngModel)]="epubService.searchQuery" />
+      <i *ngIf="epubService.searchQuery" mz-icon-mdi [icon]="'close'" (click)="epubService.cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
+      <i mz-icon-mdi [icon]="'magnify'" (click)="epubService.onSearch()"  class="app-cursor-pointer"></i>
+    </div>
+  </div>
+
+  <div class="app-navigation-header" style="min-height: 44px;">
+    <ng-container *ngIf="epubService.totalPages() && !epubService.searching">
+      <input class="app-current-page" [value]="epubService.location ? epubService.location.page : 0" (change)="epubService.goToPage($event.target.value)" type="text" pattern="[0-9]*" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
+      <span>{{ 'common.of' | translate }}</span>
+      <span>{{ epubService.totalPages() }}</span>
+      <span>{{ 'common.of_pages' | translate }}</span>
+    </ng-container>
+  </div>
+
+
+  <div class="app-navigation-toc" *ngIf="!epubService.searching">
+    <div *ngFor="let item of epubService.toc" class="app-item" [class.app-item-selected]="epubService.isChapterSelected(item)" (click)="epubService.goToChapter(item)">{{ item.label.trim() }}</div>
+  </div>
+
+  <div class="app-navigation-toc" *ngIf="epubService.searching">
+    <div *ngFor="let item of epubService.searchResults" class="app-item" (click)="epubService.goToSnippet(item)">
+      <span [innerHTML]="item.snippet | safeHtml"></span>
+    </div>
+  </div>
+
+</ng-container>
+
+
 
 <div class="app-navigation-pages" id="app-navigation-container" [class.app-is-query]="bookService.getFulltextQuery()" [class.app-hidden]="bookService.activeNavigationTab !== 'pages'">
   <ng-container *ngIf="!bookService.getFulltextQuery() || bookService.fulltextAllPages; else showSnippets">

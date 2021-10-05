@@ -4,6 +4,7 @@ import { BookService } from './../../services/book.service';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AnalyticsService } from '../../services/analytics.service';
+import { EpubService } from '../../services/epub.service';
 
 declare var $: any;
 
@@ -17,7 +18,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
   pageSubscription: Subscription;
   pageIndex;
 
-  constructor(public bookService: BookService, public analytics: AnalyticsService) {
+  constructor(public bookService: BookService, 
+    public epubService: EpubService,
+    public analytics: AnalyticsService) {
 
   }
 
@@ -48,7 +51,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   onKeyUp(event) {
     if (event.keyCode === 13) {
-      this.onPageIndexChanged();
+      if (this.bookService.isEpub()) {
+        console.log('keyup', event)
+        // this.epubService.goToPage()
+      } else {
+        this.onPageIndexChanged();
+      }
     }
     event.stopPropagation();
   }

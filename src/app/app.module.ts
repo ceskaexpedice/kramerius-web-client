@@ -161,6 +161,9 @@ import { PeriodicalUnitLayoutComponent } from './periodical/periodical-content/p
 import { PdfViewer2Component } from './book/pdf-viewer2/pdf-viewer2.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { PdfService } from './services/pdf.service';
+import { AngularEpubViewerModule } from 'angular-epub-viewer';
+import { EpubViewerComponent } from './book/epub-viewer/epub-viewer.component';
+import { EpubService } from './services/epub.service';
 
 declare var APP_GLOBAL: any;
 
@@ -270,7 +273,8 @@ export function hljsLanguages() {
     AdminReprePageComponent,
     LicenceMessagesComponent,
     DialogLicencesComponent,
-    PeriodicalUnitLayoutComponent
+    PeriodicalUnitLayoutComponent,
+    EpubViewerComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -306,6 +310,7 @@ export function hljsLanguages() {
       }
     }),
     PdfViewerModule,
+    AngularEpubViewerModule,
     MzButtonModule,
     MzInputModule,
     MzModalModule,
@@ -379,6 +384,7 @@ export function hljsLanguages() {
     LicenceService,
     AdminApiService,
     PdfService,
+    EpubService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

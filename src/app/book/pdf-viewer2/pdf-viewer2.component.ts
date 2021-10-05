@@ -58,6 +58,10 @@ export class PdfViewer2Component implements  OnInit {
     this.rotation = 0;
     this.zoom = 1;
     this.pdfLoading = false;
+
+    pdfData.getOutline().then((outline: any[]) => {
+      console.log('outline', outline);
+    });
   }
 
   pageRendered(e) {

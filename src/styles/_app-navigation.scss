@@ -40,6 +40,63 @@ app-navigation {
       display: none;
     }
   }
+
+
+
+.app-epub-search-bar-wrapper {
+  width: 100%;
+  padding: 0 20px 0 20px;
+  display: block;
+  height: $app-fulltext-search-bar-height;
+  @include set-border(bottom, 1, solid, $app-grey-l-2);
+
+  .app-epub-search-bar {
+    position: relative;
+
+    input {
+      @extend .app-clean-mg;
+      border-bottom-color: transparent;
+      padding-left: 30px;
+      width: calc(100% - 30px);
+      
+      &::placeholder {
+        color: $app-grey;
+      }
+    }
+
+    .mdi-close {
+      position: absolute;
+      right: 0;
+      top: 5px;
+      color: $app-grey;
+    }
+    
+    .mdi-magnify {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      color: $app-grey;
+    }
+    
+    &.app-is-query {
+      input {
+        border-bottom: 1px solid $primary-color !important;
+        box-shadow: 0 1px 0 0 $primary-color;
+      }
+    }
+    
+    &.app-is-query, &:focus-within {
+      .mdi-magnify  {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+
+
+
+
   
   @import "styles/app-book-controls";
   @import "styles/app-book-tabs";
@@ -48,4 +105,5 @@ app-navigation {
   @import "styles/app-navigation-articles";
   @import "styles/app-navigation-internalparts";
   @import "styles/app-navigation-pages";
+  @import "styles/app-navigation-toc";
 }

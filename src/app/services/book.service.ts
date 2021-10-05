@@ -198,7 +198,10 @@ export class BookService {
                 this.localStorageService.addToVisited(item, this.metadata);
                 this.metadata.licences = this.licences;
                 this.metadata.licence = this.licence;
-                if (item.pdf) {
+                if (item.uuid == 'uuid:9ebcb206-24b7-4dc7-b367-3d9ad7179c23') {
+                    this.bookState = BookState.Success;
+                    this.setupEpub();
+                } else if (item.pdf) {
                     this.showNavigationPanel = false;
                     this.bookState = BookState.Success;
                     this.assignPdfPath(params.uuid);
@@ -219,11 +222,13 @@ export class BookService {
                 this.router.navigateByUrl(this.settings.getRouteFor('404'), { skipLocationChange: true });
             }
         });
-
     }
 
-
-
+    setupEpub() {
+        this.viewer = 'epub';
+        this.activeNavigationTab = 'epubToc';
+        this.showNavigationPanel = true;
+    }
 
     getUuid(): string {
         return this.uuid;
@@ -863,6 +868,10 @@ export class BookService {
     doublePageSupported() {
         return !this.fulltextQuery && this.getPage() && (this.getPage().position === PagePosition.Left || this.getPage().position === PagePosition.Right);
     }
+
+    isEpub(): boolean {
+        return this.viewer == 'epub';
+     }
 
     isPdf(): boolean {
        return this.viewer == 'pdf';
