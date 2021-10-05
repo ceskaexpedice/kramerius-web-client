@@ -4,6 +4,8 @@ import { ViewChild } from '@angular/core';
 import { EpubService } from '../../services/epub.service';
 import { interval, Subscription } from 'rxjs';
 import { ViewerControlsService } from '../../services/viewer-controls.service';
+import { BookService } from '../../services/book.service';
+import { Author, Metadata, Publisher, TitleInfo } from '../../model/metadata.model';
 
 @Component({
   selector: 'app-epub-viewer',
@@ -17,7 +19,7 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
   public lastMouseMove = 0;
   private intervalSubscription: Subscription;
 
-  constructor(public epub: EpubService, public controlsService: ViewerControlsService) {
+  constructor(public epub: EpubService, public controlsService: ViewerControlsService, private bookService: BookService) {
   }
 
   ngOnInit() {
@@ -62,6 +64,7 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
           this.epub.goToNext();
       }
     });
+    this.epubViewer.epub.setGap(50);
   }
 
   ngOnDestroy() { 
@@ -75,9 +78,80 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
     this.hideOnInactivity = false;
   }
 
-  // onMetadataLoaded(metadata: any) {
-  //   console.log('onMetadataLoaded', metadata);
-  // }
+  onMetadataLoaded(metadata: any) {
+    console.log('onMetadataLoaded', metadata);
+    const m = new Metadata();
+
+
+    const titleInfo = new TitleInfo();
+    titleInfo.nonSort = "";
+    titleInfo.title = metadata.bookTitle;
+    titleInfo.subTitle = "";
+    titleInfo.partNumber = "";
+    titleInfo.partName  = "";
+    m.titles = [titleInfo];
+
+    if (metadata.creator) {
+      const author = new Author();
+      author.type = "";
+      author.name = metadata.creator;
+      author.usage = "";
+      author.date = "";
+      author.primary = true;
+      m.authors = [author];
+    }
+    
+    if (metadata.language) {
+      let lang = "";
+      if (metadata.language) {
+        if (metadata.language == 'ar-SA') {
+          lang = "ara";
+        } else if (metadata.language == 'cs' || metadata.language == 'cs-CZ') {
+          lang = "cze";
+        }
+      }
+      m.languages = [lang];
+    }
+
+    const publisher = new Publisher();
+    publisher.name = metadata.publisher;
+    if (metadata.pubdate.split("-").length == 3) {
+      publisher.date = metadata.pubdate.split("-")[2].substring(0,2) + ". " + metadata.pubdate.split("-")[1] + ". " + metadata.pubdate.split("-")[0];
+    } else {
+      publisher.date = metadata.pubdate;
+    }
+    publisher.place = "";
+    m.publishers = [publisher];
+
+    if (metadata.description) {
+      m.notes = [metadata.description]
+    }
+
+    if (metadata.identifier) {
+      if (metadata.identifier.indexOf('ISBN') == 0) {
+        m.identifiers = { 'isbn':  metadata.identifier.substring(4, metadata.identifier.length)}
+      }
+    }
+
+
+    this.bookService.metadata = m;
+  }
 
 
 }
+
+
+
+// bookTitle: "Život proti smrti"
+// creator: "Marie Pujmanová"
+// description: ""
+// direction: null
+// identifier: "urn:uuid:b3c73870-0821-429f-b9ec-950374386c83"
+// language: "ar-SA"
+// layout: ""
+// modified_date: ""
+// orientation: ""
+// pubdate: "2018-10-09"
+// publisher: "Městská knihovna v Praze"
+// rights: ""
+// spread: ""

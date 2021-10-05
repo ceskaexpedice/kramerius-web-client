@@ -13,10 +13,10 @@
     (onLocationFound)="epub.onLocationFound($event)"
     (onPaginationComputed)="epub.onPaginationComputed($event)"
     (onTOCLoaded)="epub.onTOCLoaded($event)"
+    (onMetadataLoaded)="onMetadataLoaded($event)"
     (onDocumentReady)="onDocumentReady($event)"
     ></angular-epub-viewer>
    
-    <!-- (onMetadataLoaded)="onMetadataLoaded($event)" -->
 
     <span *ngIf="controlsService.leftPanelVisible" [class.hide-on-inactivity]="hideOnInactivity"
 class="app-handle app-left-handle valign-wrapper hide-on-small-only" 

@@ -170,6 +170,11 @@ export class BookService {
             }
 
             this.isPrivate = !item.public;
+            if (item.uuid == 'uuid:9ebcb206-24b7-4dc7-b367-3d9ad7179c23') {
+                this.bookState = BookState.Success;
+                this.setupEpub();
+                return;
+            }
             this.api.getMetadata(item.root_uuid).subscribe((metadata: Metadata) => {
                 this.metadata = metadata;
                 this.metadata.assignDocument(item);
@@ -198,10 +203,8 @@ export class BookService {
                 this.localStorageService.addToVisited(item, this.metadata);
                 this.metadata.licences = this.licences;
                 this.metadata.licence = this.licence;
-                if (item.uuid == 'uuid:9ebcb206-24b7-4dc7-b367-3d9ad7179c23') {
-                    this.bookState = BookState.Success;
-                    this.setupEpub();
-                } else if (item.pdf) {
+
+                if (item.pdf) {
                     this.showNavigationPanel = false;
                     this.bookState = BookState.Success;
                     this.assignPdfPath(params.uuid);
