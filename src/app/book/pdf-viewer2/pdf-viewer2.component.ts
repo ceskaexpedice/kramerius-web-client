@@ -24,7 +24,7 @@ export class PdfViewer2Component implements  OnInit {
 
   constructor(public bookService: BookService, 
               public settings: AppSettings,
-              public pdfService: PdfService,
+              public pdf: PdfService,
               public krameriusInfo: KrameriusInfoService,
               public controlsService: ViewerControlsService) {
   }
@@ -54,14 +54,10 @@ export class PdfViewer2Component implements  OnInit {
 
   afterLoadComplete(pdfData: any) {
     console.log('afterLoadComplete', pdfData);
-    this.pdfService.init(pdfData.numPages);
+    this.pdf.init(pdfData);
     this.rotation = 0;
     this.zoom = 1;
     this.pdfLoading = false;
-
-    pdfData.getOutline().then((outline: any[]) => {
-      console.log('outline', outline);
-    });
   }
 
   pageRendered(e) {

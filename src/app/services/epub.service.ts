@@ -133,6 +133,7 @@ export class EpubService {
     }   
 
     goToChapter(chapter: any) {
+        console.log('goToChapter', chapter);
         this.epubViewer.goTo(chapter.cfi);
     }
 
@@ -159,6 +160,7 @@ export class EpubService {
     
     onLocationFound(location: any) {
         this.location = location;
+        console.log('=====', location);
         // console.log('onLocationFound', location);
     }
 

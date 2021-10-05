@@ -9,9 +9,12 @@ export class PdfService {
 
     constructor() {}
 
-    init(totalPages: number) {
+    init(data: any) {
         this.pageIndex = 1;
-        this.totalPages = totalPages;
+        this.totalPages = data.numPages;
+        data.getOutline().then((outline: any[]) => {
+            console.log('outline', outline);
+        });
     }
 
     hasNext(): boolean {
