@@ -17,7 +17,6 @@ export class PdfViewer2Component implements  OnInit {
   private intervalSubscription: Subscription;
   pdfLoading: boolean;
   rotation: number = 0;
-  zoom: number = 1;
   zoomScale = 'page-fit';
 
   public hideOnInactivity = false;
@@ -59,7 +58,7 @@ export class PdfViewer2Component implements  OnInit {
     console.log('afterLoadComplete', pdfData);
     this.pdf.init(pdfData, this.pdfComponent);
     this.rotation = 0;
-    this.zoom = 1;
+    this.pdf.zoom = 1;
     this.pdfLoading = false;
   }
 
@@ -83,10 +82,10 @@ export class PdfViewer2Component implements  OnInit {
   private onActionPerformed(action: ViewerActions) {
     switch (action) {
       case ViewerActions.zoomIn:
-        this.zoom += 0.2;
+        this.pdf.zoomIn();
         break;
       case ViewerActions.zoomOut:
-        this.zoom -= 0.2;
+        this.pdf.zoomOut();
         break;
       case ViewerActions.rotateRight:
        this.rotation = this.rotation + 90 % 360;
@@ -95,7 +94,7 @@ export class PdfViewer2Component implements  OnInit {
       //   this.updateSize();
       //   break;
       case ViewerActions.fitToScreen:
-        this.zoom = 1;
+        this.pdf.zoom = 1;
         this.zoomScale = 'page-fit';
         break;
     }

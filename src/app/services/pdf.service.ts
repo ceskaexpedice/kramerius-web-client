@@ -11,6 +11,8 @@ export class PdfService {
     searching = false
     searchQuery: string;
     lastSearchQuery: string;
+    zoom: number = 1;
+    lastZoom: number = 1;
 
 
     constructor() {}
@@ -29,7 +31,27 @@ export class PdfService {
         });
     }
 
+    setZoom(zoom: number) {
+        this.zoom = zoom;
+        this.lastZoom = zoom;
+    }
+
+    zoomIn() {
+        this.zoom += 0.2;
+        this.lastZoom = this.zoom;
+    }
+
+    zoomOut() {
+        this.zoom -= 0.2;
+        this.lastZoom = this.zoom;
+    }
+
     onSearch() {
+        if (!this.searchQuery) {
+            this.cleanQuery();
+            return;
+        }
+        // this.searching = true;
         if (this.lastSearchQuery !== this.searchQuery) {
             this.lastSearchQuery = this.searchQuery;
             this.pdfComponent.pdfFindController.executeCommand('find', {
@@ -44,6 +66,17 @@ export class PdfService {
         }
     }
 
+
+    cleanQuery() {
+        this.searchQuery = "";
+        this.lastSearchQuery = "";
+        this.pdfComponent.pdfFindController.executeCommand('find', {
+            query: this.searchQuery,
+            highlightAll: true
+        });
+        // this.searching = false;
+    }
+
     goToPage(index: number) {
         if (index < 1 || index > this.totalPages) {
             return;
@@ -53,7 +86,7 @@ export class PdfService {
 
     goTo(destination: any) {
         this.pdfComponent.pdfLinkService.navigateTo(destination);
-      }
+    }
 
     hasNext(): boolean {
         return this.pageIndex < this.totalPages;

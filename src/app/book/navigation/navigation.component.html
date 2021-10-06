@@ -3,7 +3,6 @@
 
 
 <ng-container *ngIf="bookService.isImage()">
----
 <div class="app-navigation-tabs" *ngIf="bookService.navigationTabsCount > 1">
   <ul class="tabs">
     <li *ngIf="bookService.allPages.length > 0"  class="tab tab-{{bookService.navigationTabsCount}}">
@@ -113,34 +112,43 @@
 
 <ng-container *ngIf="bookService.isPdf()">
 
-  <div class="app-epub-search-bar-wrapper" style="min-height: 45px;">
-    <div class="app-epub-search-bar" [class.app-is-query]="query" *ngIf="pdfService.totalPages">
-      <input (keyup.enter)="pdfService.onSearch()" type="text" placeholder="Hledat" [(ngModel)]="pdfService.searchQuery" />
-      <i *ngIf="pdfService.searchQuery" mz-icon-mdi [icon]="'close'" (click)="pdfService.cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
-      <i mz-icon-mdi [icon]="'magnify'" (click)="pdfService.onSearch()"  class="app-cursor-pointer"></i>
+  <div class="app-navigation-articles" *ngIf="bookService.activeNavigationTab === 'articles'; else pdfNav">
+    <div *ngFor="let article of bookService.articles" (click)="bookService.onArticleSelected(article)" class="app-article" [class.app-article-selected]="article === bookService.article">{{ article.title }}</div>
+  </div>
+
+  <ng-template #pdfNav>
+    <div class="app-epub-search-bar-wrapper" style="min-height: 45px;">
+      <div class="app-epub-search-bar" [class.app-is-query]="query" *ngIf="pdfService.totalPages">
+        <input (keyup.enter)="pdfService.onSearch()" type="text" placeholder="Hledat" [(ngModel)]="pdfService.searchQuery" />
+        <i *ngIf="pdfService.searchQuery" mz-icon-mdi [icon]="'close'" (click)="pdfService.cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
+        <i mz-icon-mdi [icon]="'magnify'" (click)="pdfService.onSearch()"  class="app-cursor-pointer"></i>
+      </div>
     </div>
-  </div>
+  
+    <div class="app-navigation-header" style="min-height: 44px;">
+      <ng-container *ngIf="pdfService.totalPages && !pdfService.searching">
+        <input class="app-current-page" [value]="pdfService.pageIndex" (change)="pdfService.goToPage($event.target.value)" type="text" pattern="[0-9]*" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
+        <span>{{ 'common.of' | translate }}</span>
+        <span>{{ pdfService.totalPages }}</span>
+        <span style="margin-left: 7px;">{{ 'common.of_pages' | translate }}</span>
+        <i mz-icon-mdi [icon]="epubTocExpanded ? 'chevron-down' : 'chevron-left'" style="float:right; height: 30px; cursor: pointer; color: #888;" (click)="epubTocExpanded = !epubTocExpanded"></i>
+      </ng-container>
+    </div>
 
-  <div class="app-navigation-header" style="min-height: 44px;">
-    <ng-container *ngIf="pdfService.totalPages && !pdfService.searching">
-      <input class="app-current-page" [value]="pdfService.pageIndex" (change)="pdfService.goToPage($event.target.value)" type="text" pattern="[0-9]*" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
-      <span>{{ 'common.of' | translate }}</span>
-      <span>{{ pdfService.totalPages }}</span>
-      <span style="margin-left: 7px;">{{ 'common.of_pages' | translate }}</span>
-      <i mz-icon-mdi [icon]="epubTocExpanded ? 'chevron-down' : 'chevron-left'" style="float:right; height: 30px; cursor: pointer; color: #888;" (click)="epubTocExpanded = !epubTocExpanded"></i>
-    </ng-container>
-  </div>
-
-  <div class="app-navigation-toc" *ngIf="!pdfService.searching">
-    <ng-container *ngFor="let item of pdfService.outline">
-      <div class="app-item" (click)="pdfService.goTo(item.dest)">{{ item.title.trim() }}</div>
-      <ng-container *ngIf="epubTocExpanded">
-        <ng-container *ngFor="let subitem of item.items">
-          <div class="app-item app-sub" (click)="pdfService.goTo(subitem.dest)">{{ subitem.title.trim() }}</div>
+    <div class="app-navigation-toc" *ngIf="!pdfService.searching">
+      <ng-container *ngFor="let item of pdfService.outline">
+        <div class="app-item" (click)="pdfService.goTo(item.dest)">{{ item.title.trim() }}</div>
+        <ng-container *ngIf="epubTocExpanded">
+          <ng-container *ngFor="let subitem of item.items">
+            <div class="app-item app-sub" (click)="pdfService.goTo(subitem.dest)">{{ subitem.title.trim() }}</div>
+          </ng-container>
         </ng-container>
       </ng-container>
-    </ng-container>
-  </div>
+    </div>
+  </ng-template>
+
+
+
 
   <!-- <div class="app-navigation-toc" *ngIf="epubService.searching">
     <div *ngFor="let item of epubService.searchResults" class="app-item" (click)="epubService.goToSnippet(item)">
