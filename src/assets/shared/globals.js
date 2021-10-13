@@ -27,7 +27,7 @@ actions: {
   jpeg: 'public',
   text: 'public',
   citation: 'always',
-  metadata: 'public',
+  metadata: 'available',
   share: 'public',
   selection: 'public',
   crop: 'public'
@@ -109,6 +109,17 @@ actions: {
             en: '/assets/shared/licences/dnntt.en.html'
           },
           bar: false,
+          actions: {
+            pdf: false,
+            print: false,
+            jpeg: false,
+            text: false,
+            citation: true,
+            metadata: true,
+            share: true,
+            selection: false,
+            crop: false
+          },
           watermark: {
             defaultText: 'DNNT',
             color: 'rgba(0, 0, 0, 0.6)',

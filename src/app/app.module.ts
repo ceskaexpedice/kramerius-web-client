@@ -155,7 +155,7 @@ import { AdminReprePageComponent } from './dialog/dialog-admin/admin-reprepage/a
 import { LicenceService } from './services/licence.service';
 import { LicenceMessagesComponent } from './shared/licence-messages/licence-messages.component';
 import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licences.component';
-
+import { PeriodicalUnitLayoutComponent } from './periodical/periodical-content/periodical-unit-layout/periodical-unit-layout.component';
 
 export function hljsLanguages() {
   return [
@@ -261,7 +261,8 @@ export function hljsLanguages() {
     AdminReindexationComponent,
     AdminReprePageComponent,
     LicenceMessagesComponent,
-    DialogLicencesComponent
+    DialogLicencesComponent,
+    PeriodicalUnitLayoutComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -292,7 +293,7 @@ export function hljsLanguages() {
       providedLanguages: ['en', 'cs'],
       defaultLanguage: 'cs',
       loaderOptions: {
-        path: 'assets/i18n/{{language}}.json?v2.1.1'
+        path: 'assets/i18n/{{language}}.json?v2.1.2'
       }
     }),
     MzButtonModule,

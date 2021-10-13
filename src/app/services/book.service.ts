@@ -79,7 +79,7 @@ export class BookService {
     public providedByLabel: string;
     public iiifEnabled = false;
 
-    private supplementUuids = [];
+    private extraParents = [];
 
     constructor(private location: Location,
         private altoService: AltoService,
@@ -131,7 +131,7 @@ export class BookService {
 
     init(params: BookParams) {
         this.clear();
-        this.supplementUuids = [];
+        this.extraParents = [];
         this.uuid = params.uuid;
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
@@ -147,11 +147,24 @@ export class BookService {
                     this.router.navigate(['/view', issueUuid], { replaceUrl: true, queryParams: { article: params.uuid, fulltext: this.fulltextQuery } });
                 }
                 return;
-            } else if (item.doctype === 'internalpart') {
+            }
+            if (item.doctype === 'internalpart') {
                 const parentUuid = item.getParentUuid();
                 if (parentUuid) {
                     this.history.removeCurrent();
                     this.router.navigate(['/view', parentUuid], { replaceUrl: true, queryParams: { chapter: params.uuid, fulltext: this.fulltextQuery } });
+                }
+                return;
+            }
+            if (item.getParentDoctype() == 'oldprintomnibusvolume') {
+                console.log(console.log('params', params));
+                if (params.pageUuid) {
+                    console.log('redirecting to konvolut with page selected');
+                    this.history.removeCurrent();
+                    this.router.navigate(['/view', item.getParentUuid()], { replaceUrl: true, queryParams: { page: params.pageUuid, fulltext: this.fulltextQuery } });
+                } else {
+                    console.log('redirecting to konvolut with page NOT selected');
+                    this.router.navigate(['/view', item.getParentUuid()], { replaceUrl: true, queryParams: { parent: item.uuid, fulltext: this.fulltextQuery } });
                 }
                 return;
             }
@@ -182,7 +195,7 @@ export class BookService {
                     this.loadVolumes(item.root_uuid, this.uuid);
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
-                this.licences = item.licences;
+                this.licences = this.licenceService.availableLicences(item.licences);
                 this.licence = item.licence;
                 if (item.pdf) {
                     this.licences = item.licences
@@ -192,10 +205,10 @@ export class BookService {
                 } else {
                     this.api.getChildren(params.uuid).subscribe(children => {
                         if (children && children.length > 0) {
-                            this.onDataLoaded(children, item.doctype, params.pageUuid, params.articleUuid, params.internalPartUuid);
+                            this.onDataLoaded(children, item.doctype, params);
                         } else {
                             // TODO: Empty document
-                            this.onDataLoaded(children, item.doctype, params.pageUuid, params.articleUuid, params.internalPartUuid);
+                            this.onDataLoaded(children, item.doctype, params);
                         }
                     });
                 }
@@ -289,7 +302,7 @@ export class BookService {
     }
 
     private loadMonographUnits(monographUuid: string, unitUud: string) {
-        this.api.getMonographUnits(monographUuid, null).subscribe((units: PeriodicalItem[]) => {
+        this.api.getMonographUnits(monographUuid, null).subscribe((units: DocumentItem[]) => {
             if (!units || units.length < 1) {
                 return;
             }
@@ -303,13 +316,19 @@ export class BookService {
             if (index < 0) {
                 return;
             }
-            this.metadata.currentUnit = units[index];
+            this.metadata.currentUnit = { title: units[index].title };
             this.pageTitle.setTitle(null, this.metadata.getShortTitleWithUnit());
             if (index > 0) {
-                this.metadata.previousUnit = units[index - 1];
+                this.metadata.previousUnit = {
+                  title: units[index - 1].title,
+                  uuid: units[index - 1].uuid
+                };
             }
             if (index < units.length - 1) {
-                this.metadata.nextUnit = units[index + 1];
+                this.metadata.nextUnit = {
+                   title: units[index + 1].title,
+                   uuid: units[index + 1].uuid
+               };
             }
             this.api.getMetadata(unitUud).subscribe((metadata: Metadata) => {
                 this.metadata.addToContext('monographunit', unitUud);
@@ -319,20 +338,30 @@ export class BookService {
     }
 
 
-    private addSupplementPages(pages: any[], supplements: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
-        if (supplements.length === 0) {
-            this.onDataLoaded(pages, null, pageUuid, articleUuid, internalPartUuid);
+    onParentSelected(parent: any) {
+        for (const page of this.pages) {
+            if (page.parentUuid == parent.pid) {
+                this.goToPageOnIndex(page.index);
+                return;
+            }
+        }
+    }
+
+    private addParentPages(pages: any[], parents: any[], doctype: string, params: BookParams) {
+      if (parents.length === 0) {
+            this.onDataLoaded(pages, null, params);
             return;
         }
-        const supplement = supplements.shift();
-        this.api.getChildren(supplement['pid']).subscribe(children => {
+        const parent = parents.shift();
+        this.api.getChildren(parent['pid']).subscribe(children => {
             for (const p of children) {
                 if (p['model'] === 'page') {
-                    p['supplement_uuid'] = supplement['pid'];
+                    p['parent_uuid'] = parent['pid'];
+                    p['parent_doctype'] = parent['model'];
                     pages.push(p);
                 }
             }
-            this.addSupplementPages(pages, supplements, doctype, pageUuid, articleUuid, internalPartUuid);
+            this.addParentPages(pages, parents, doctype, params);
         });
     }
 
@@ -348,60 +377,66 @@ export class BookService {
         if (this.internalParts.length > 0) {
             tabs += 1;
         }
+        if (this.metadata.doctype == 'oldprintomnibusvolume' && !this.fulltextQuery) {
+            tabs += 1;
+        }
         this.navigationTabsCount = tabs;
     }
 
-    private onDataLoaded(inputPages: any[], doctype: string, pageUuid: string, articleUuid: string, internalPartUuid: string) {
+    private onDataLoaded(inputPages: any[], doctype: string, params: BookParams) {
         this.pages = [];
         const pages = [];
-        const supplements = [];
+        const parents = [];
         for (const p of inputPages) {
-            if (p['model'] === 'supplement') {
-                supplements.push(p);
-                this.supplementUuids.push(p.pid);
+            if (p['model'] === 'supplement' || (doctype == 'oldprintomnibusvolume' && p['model'] != 'page')) {
+                parents.push(p);
+                this.extraParents.push(p.pid);
             } else {
                 pages.push(p);
             }
         }
-        if (supplements.length > 0) {
-            this.addSupplementPages(pages, supplements, doctype, pageUuid, articleUuid, internalPartUuid);
+        if (parents.length > 0) {
+            this.addParentPages(pages, parents, doctype, params);
             return;
         }
-        const pageIndex = this.arrangePages(pages, pageUuid, doctype);
+        const pageIndex = this.arrangePages(pages, params.pageUuid, doctype);
         this.bookState = BookState.Success;
         if (pageIndex === -1 || (this.pages.length === 0 && this.articles.length === 0)) {
             return;
         }
         this.showNavigationPanel = true;
         this.calcNavigationTabsCount();
-        if (articleUuid || (!pageUuid && this.pages.length === 0)) {
+        if (params.articleUuid || (!params.pageUuid && this.pages.length === 0)) {
             this.activeNavigationTab = 'articles';
             let articleForSelection = this.articles[0];
-            if (articleUuid) {
+            if (params.articleUuid) {
                 for (const article of this.articles) {
-                    if (articleUuid === article.uuid) {
+                    if (params.articleUuid === article.uuid) {
                         articleForSelection = article;
                         break;
                     }
                 }
             }
             this.onArticleSelected(articleForSelection);
-        } else if (internalPartUuid &&  this.internalParts &&  this.internalParts.length > 0) {
+        } else if (params.internalPartUuid &&  this.internalParts &&  this.internalParts.length > 0) {
             this.activeNavigationTab = 'internalparts';
             let selection = this.internalParts[0];
-            if (internalPartUuid) {
+            if (params.internalPartUuid) {
                 for (const internalPart of this.internalParts) {
-                    if (internalPartUuid === internalPart.uuid) {
+                    if (params.internalPartUuid === internalPart.uuid) {
                         selection = internalPart;
                         break;
                     }
                 }
             }
             this.onInternalPartSelected(selection);
+        } else if (params.parentUuid && !params.pageUuid) {
+            this.activeNavigationTab = 'pages'; /// ??
+            this.onParentSelected({ pid: params.parentUuid });
         } else {
             this.activeNavigationTab = 'pages';
             if (this.fulltextQuery) {
-                this.fulltextChanged(this.fulltextQuery, pageUuid);
+                this.fulltextChanged(this.fulltextQuery, params.pageUuid);
             } else {
                 this.goToPageOnIndex(pageIndex, true);
                 if (pageIndex === 0) {
@@ -442,7 +477,8 @@ export class BookService {
             } else if (p['model'] === 'page') {
                 const page = new Page();
                 page.uuid = p['pid'];
-                page.supplementUuid = p['supplement_uuid'];
+                page.parentUuid = p['parent_uuid'];
+                page.parentDoctype = p['parent_doctype'];
                 page.public = p['policy'] === 'public';
                 page.type = p['type'] ? p['type'].toLowerCase() : '';
                 page.number = p['number'];
@@ -460,7 +496,7 @@ export class BookService {
                 if (uuid === page.uuid) {
                     currentPage = index;
                 }
-                if ((page.type === 'backcover' || page.supplementUuid) && firstBackSingle === -1) {
+                if ((page.type === 'backcover' || page.parentUuid) && firstBackSingle === -1) {
                     firstBackSingle = index;
                 } else if (page.type === 'titlepage') {
                     titlePage = index;
@@ -759,11 +795,15 @@ export class BookService {
         this.fulltextQuery = query;
         this.fulltextAllPages = false;
         this.publishNewPages(BookPageState.Loading);
+        this.calcNavigationTabsCount();
         if (!query) {
             this.cancelFulltext();
             return;
         }
-        const uuids = [this.uuid].concat(this.supplementUuids);
+        const uuids = [this.uuid];
+        for (const p of this.extraParents) {
+            uuids.push(p.pid);
+        }
         this.api.getDocumentFulltextPage(uuids, query).subscribe((result: any[]) => {
             this.ftPages = [];
             let index = 0;
@@ -858,15 +898,16 @@ export class BookService {
         const page = this.getPage();
         page.selected = true;
 
-        if (page.supplementUuid) {
-            const uuid = page.supplementUuid;
-            this.api.getMetadata(uuid, 'supplement').subscribe((metadata: Metadata) => {
-                if (uuid === this.getPage().supplementUuid) {
-                    this.metadata.pageSupplementMetadata = metadata;
+        if (page.parentUuid) {
+            const uuid = page.parentUuid;
+            this.api.getMetadata(uuid).subscribe((metadata: Metadata) => {
+                if (uuid === this.getPage().parentUuid) {
+                    this.metadata.extraParentMetadata = metadata;
+                    metadata.doctype = page.parentDoctype;
                 }
             });
         } else {
-            this.metadata.pageSupplementMetadata = null;
+            this.metadata.extraParentMetadata = null;
         }
 
         let pages = page.number + '';
@@ -948,6 +989,9 @@ export class BookService {
             this.fulltextAllPages = false;
         }
         this.activeNavigationTab = tab;
+        if (tab == 'pages') {
+            this.goToPage(this.getPage());
+        }
     }
 
     onInternalPartSelected(internalPart: InternalPart) {
@@ -1001,6 +1045,9 @@ export class BookService {
                 article.metadata = metadata;
             });
         } else {
+            if (this.metadata) {
+                 this.metadata.addToContext('article', article.uuid);
+            }
             this.onArticleLoaded(article);
         }
     }
@@ -1045,11 +1092,13 @@ export class BookService {
             if (leftPage.licences) {
                 this.licence = leftPage.licence;
                 this.metadata.licence = this.licence;
-                this.licences = leftPage.licences;
+                leftPage.licences = this.licenceService.availableLicences(leftPage.licences);
+                this.licences = leftPage.licences
             } else if (rightPage && rightPage.licence) {
                 this.licence = rightPage.licence;
                 this.metadata.licence = this.licence;
-                this.licences = rightPage.licences;
+                rightPage.licences = this.licenceService.availableLicences(rightPage.licences);
+                this.licences = rightPage.licences
             }
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
@@ -1220,6 +1269,7 @@ export interface BookParams {
     uuid: string;
     pageUuid: string;
     articleUuid: string;
+    parentUuid: string;
     internalPartUuid: string;
     fulltext: string;
 }

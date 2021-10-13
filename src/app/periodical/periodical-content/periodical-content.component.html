@@ -1,20 +1,28 @@
 <div class="app-periodical-content-wrapper" *ngIf="periodicalService.isStateSuccess()">
   <app-periodical-toolbar></app-periodical-toolbar>
 
-  <app-periodical-grid-layout
-    *ngIf="!periodicalService.fulltext && periodicalService.activeLayout=='grid'">
-  </app-periodical-grid-layout>  
+  <ng-container *ngIf="!periodicalService.fulltext">
 
-  <app-periodical-years-layout
-    *ngIf="!periodicalService.fulltext && periodicalService.activeLayout=='years'">
-  </app-periodical-years-layout>    
+    <app-periodical-unit-layout
+      *ngIf="periodicalService.activeLayout=='title'">
+    </app-periodical-unit-layout>
 
-  <app-periodical-calendar-layout
-    *ngIf="!periodicalService.fulltext && periodicalService.activeLayout=='calendar'">
-  </app-periodical-calendar-layout> 
-  
+    <app-periodical-grid-layout
+      *ngIf="periodicalService.activeLayout=='grid'">
+    </app-periodical-grid-layout>
+
+    <app-periodical-years-layout
+      *ngIf="periodicalService.activeLayout=='years'">
+    </app-periodical-years-layout>
+
+    <app-periodical-calendar-layout
+      *ngIf="periodicalService.activeLayout=='calendar'">
+    </app-periodical-calendar-layout>
+
+  </ng-container>
+
   <app-periodical-fulltext-layout
     *ngIf="periodicalService.fulltext">
-  </app-periodical-fulltext-layout> 
+  </app-periodical-fulltext-layout>
 
 </div>

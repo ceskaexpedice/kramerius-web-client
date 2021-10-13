@@ -1,7 +1,7 @@
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Page } from './../../model/page.model';
 import { BookService } from './../../services/book.service';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AnalyticsService } from '../../services/analytics.service';
 
@@ -15,7 +15,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   container;
   pageSubscription: Subscription;
-  scrollOptions = {};
+  //scrollOptions = {};
   pageIndex;
 
   constructor(public bookService: BookService, public analytics: AnalyticsService) {
@@ -24,20 +24,26 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.container = document.getElementById('app-navigation-container');
+    this.goToPage(this.bookService.getPage());
     this.pageSubscription = this.bookService.watchPage().subscribe(
       pages => {
         const page = pages[0];
-        if (!page) {
-          return;
-        }
-        const el = document.getElementById('page-id-' + page.uuid);
-        if (el) {
-            el.scrollIntoView(this.scrollOptions);
-            this.scrollOptions = {behavior: 'smooth'};
-        }
-        this.pageIndex = page.index + 1;
+        this.goToPage(page, 100);
       }
     );
+  }
+
+  private goToPage(page: Page, wait = 0) {
+    if (!page) {
+      return;
+    }
+    setTimeout(() => {
+      const el = document.getElementById('page-id-' + page.uuid);
+      if (el) {
+          el.scrollIntoView( {behavior: 'smooth'} );
+      }
+    }, wait);
+    this.pageIndex = page.index + 1;
   }
 
   onKeyUp(event) {

@@ -284,7 +284,8 @@
     "unit_number": "Číslo",
     "unit_list": "Přejít na svazek knih",
     "next_unit": "Následující část:",
-    "previous_unit": "Předchozi část:",
+    "previous_unit": "Předchozí část:",
+    "omnibus_list": "Přejít na seznam části konvolutu",
     "shelf_locator": "Signatura: {{shelf_locator}}",
     "btn_show_metadata": "Zobrazit metadata",
     "btn_hide_metadata": "Skrýt metadata",
@@ -317,7 +318,13 @@
       "none": "Hledat",
       "periodical": "Hledat v periodiku",
       "periodicalvolume": "Hledat v ročníku",
+      "oldprintomnibusvolume": "Hledat v konvolutu",
       "monograph": "Hledat ve svazku knih"
+    },
+    "ordering": {
+      "relevance": "Podle Relevance",
+      "latest": "Od nejnovějších",
+      "earliest": "Od nejstarších"
     }
   },
   "view_controls": {
@@ -446,7 +453,8 @@
     "soundunit" : "Album",
     "track" : "Nahrávka",
     "collection": "Sbírka",
-    "oldprintomnibusvolume": "Konvolut"
+    "oldprintomnibusvolume": "Konvoluty",
+    "oldprintomnibusvolumepart": "Části"
   },
   "model_2p" : {
     "monograph" : "Knihy",
@@ -565,7 +573,15 @@
     "colophon": "tiráž",
     "interview": "rozhovor",
     "anotation": "anotace",
-    "manuscriptnotes": "rukopisná poznámka"
+    "manuscriptnotes": "rukopisná poznámka",
+    "calibrationtable": "kalibrační tabulka",
+    "bibliography": "bibliografie",
+    "booklet": "booklet",
+    "appendix": "dodatek",
+    "imgdisc": "obraz desky",
+    "impressum": "impressum",
+    "sheetmusic": "notový zápis",
+    "case": "pouzdro"
   },
   "calendar" : {
     "months" : {

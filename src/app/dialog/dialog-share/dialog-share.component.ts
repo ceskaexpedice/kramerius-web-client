@@ -23,24 +23,14 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
   }
 
   ngOnInit(): void {
-    for (const doctype of SolrService.allDoctypes) {
-      if (this.metadata.context[doctype]) {
-        const uuid = this.metadata.context[doctype];
-        if (uuid) {
-          this.data.push({
-            type: doctype,
-            link: this.shareService.getPersistentLink(uuid)
-          });
-        }
+    this.data = this.metadata.getFullContext(SolrService.allDoctypes);
+    for (let item of this.data) {
+      if (item.type == 'page') {
+        item.link = this.shareService.getPersistentLinkByUrl();
+      } else {
+        item.link = this.shareService.getPersistentLink(item.uuid);
       }
     }
-    if (this.metadata.activePages) {
-      this.data.push({
-        type: 'page',
-        link: this.shareService.getPersistentLinkByUrl()
-      });
-    }
-    this.data.reverse();
     if (this.data.length > 0) {
       this.selection = this.data[0];
     }

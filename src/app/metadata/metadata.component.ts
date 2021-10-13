@@ -71,6 +71,10 @@ export class MetadataComponent implements OnInit {
     this.modalService.open(DialogAuthosComponent, { authors: this.metadata.authors} );
   }
 
+  anyLicence(): boolean {
+    return this.licences.availableLicences(this.metadata.licences).length > 0;
+  }
+
   showPrivateDialog() {
     this.analytics.sendEvent('metadata', 'private-dialog');
     this.modalService.open(DialogLicencesComponent, { licences: this.metadata.licences, full: true });
@@ -114,7 +118,7 @@ export class MetadataComponent implements OnInit {
       }
     }
     const value = this.settings.actions[action];
-    return value === 'always' || (value === 'public' && this.metadata.isPublic);
+    return value === 'always' || (value=="available" && !this.bookService.isPageInaccessible()) || (value === 'public' && this.metadata.isPublic);
   }
 
 }

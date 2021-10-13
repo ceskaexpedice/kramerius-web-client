@@ -26,12 +26,13 @@ export class DocumentItem {
     //dnnt = false;
     licences: string[] = [];
     originUrl: string;
+    index: number;
     selected: boolean = false;
     licence: string;
 
 
     resolveUrl(prefix: string) {
-        if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume') {
+        if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume' || this.doctype === 'oldprintomnibusvolume') {
             this.url = prefix + '/periodical/' + this.uuid;
         } else if (this.doctype === 'soundrecording') {
             this.url = prefix + '/music/' + this.uuid;
@@ -60,6 +61,12 @@ export class DocumentItem {
             return this.context[this.context.length - 2].uuid;
         }
     }
+
+    public getParentDoctype(): string  {
+       if (this.context && this.context.length > 1) {
+           return this.context[this.context.length - 2].doctype;
+       }
+   }
 
     public isPoint(): boolean {
         return this.south === this.north && this.east === this.west;

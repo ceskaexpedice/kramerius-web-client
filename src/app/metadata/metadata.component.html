@@ -51,6 +51,13 @@
 
       <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
 
+      <div *ngIf="metadata.doctype == 'oldprintomnibusvolume' && metadata.extraParentMetadata">
+        <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'omnibus list');">
+          {{ 'metadata.omnibus_list' | translate }}
+        </a>
+      </div>
+
+
       <div *ngIf="metadata.currentUnit">
         <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'unit list');">
           {{ 'metadata.unit_list' | translate }}
@@ -67,7 +74,7 @@
     </ng-container>
 
     <div *ngIf="!metadata.isPublic" class="app-policy">
-      <i mz-icon-mdi [size]="'18px'" [icon]="metadata.licence ? 'camera-off' : 'lock'" [class.app-lock-licence-open]="metadata.licences && metadata.licences.length > 0" class="app-lock {{getLockClass()}}"></i>
+      <i mz-icon-mdi [size]="'18px'" [icon]="metadata.licence ? 'camera-off' : 'lock'" [class.app-lock-licence-open]="anyLicence()" class="app-lock {{getLockClass()}}"></i>
       <span class="app-message">{{ 'metadata.policy_private' | translate }}
       <i (click)="showPrivateDialog()" mz-icon-mdi icon="information-outline" class="app-help" [size]="'15px'"></i></span>
       <ng-container *ngIf="metadata.licence">
@@ -158,12 +165,12 @@
       </div>
       <div *ngIf="metadata.previousUnit">
         <a [routerLink]="[settings.getRouteFor('view'), metadata.previousUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'previous unit');">
-          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.prettyName() }}
+          {{ 'metadata.previous_unit' | translate }} {{ metadata.previousUnit.title() }}
         </a>
       </div>
       <div *ngIf="metadata.nextUnit">
         <a [routerLink]="[settings.getRouteFor('view'), metadata.nextUnit.uuid]" class="single-line" (click)="analytics.sendEvent('metadata', 'link', 'next unit');">
-          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.prettyName() }}
+          {{ 'metadata.next_unit' | translate }} {{ metadata.nextUnit.title() }}
         </a>
       </div>
       <div class="divider"></div>
@@ -192,9 +199,9 @@
 
 
 
-    <div *ngIf="metadata.pageSupplementMetadata">
-      <label>{{ 'metadata.supplement' | translate }}</label>
-      <app-metadata [metadata]="metadata.pageSupplementMetadata" class="app-nested" [showControls]="false"></app-metadata>
+    <div *ngIf="metadata.extraParentMetadata">
+      <label>{{ 'model.' + metadata.extraParentMetadata.doctype | translate }}</label>
+      <app-metadata [metadata]="metadata.extraParentMetadata" class="app-nested" [showControls]="false"></app-metadata>
       <div class="divider"></div>
     </div>
 

@@ -20,7 +20,7 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
 
   resource: string;
 
-  constructor(private api: KrameriusApiService, 
+  constructor(private api: KrameriusApiService,
     private solr: SolrService,
     private locals: LocalStorageService,
     private translator: Translator) {
@@ -29,25 +29,11 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
 
   ngOnInit(): void {
     this.resource = this.locals.getProperty('admin.metadata.resource') || 'mods';
-    for (const doctype of SolrService.allDoctypes) {
-      if (this.metadata.context[doctype]) {
-        this.data.push({
-          tab: doctype,
-          uuid: this.metadata.context[doctype]
-        });
-      }
-    }
-    if (this.metadata.activePage) {
-      this.data.push({
-        tab: 'page',
-        uuid: this.metadata.activePage.uuid
-      });
-    }
-    this.data.reverse();
+    this.data = this.metadata.getFullContext(SolrService.allDoctypes);
     if (this.data.length == 1) {
       this.changeTab(this.data[0]);
     } else if (this.data.length > 1) {
-      if (this.data[0].tab == 'page') {
+      if (this.data[0].type == 'page') {
         this.changeTab(this.data[1]);
       } else {
         this.changeTab(this.data[0]);
@@ -70,14 +56,14 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
 
   reload() {
     this.url = this.getUrl(this.selection.uuid);
-    if (this.selection.tab === 'page' && this.resource === 'alto' && !this.metadata.isPublic) {
-      this.selection[this.resource] = String(this.translator.instant('metadata-dialog.missing', 
-      { 
-        model: this.selection.tab.toUpperCase(),
+    if (this.selection.type === 'page' && this.resource === 'alto' && !this.metadata.isPublic) {
+      this.selection[this.resource] = String(this.translator.instant('metadata-dialog.missing',
+      {
+        model: this.selection.type.toUpperCase(),
         resource: this.resource.toUpperCase()
       }));
       return;
-    } 
+    }
     if (!this.selection[this.resource]) {
       this.getRequest(this.selection.uuid).subscribe((result: string) => {
         if (this.resource === 'dc' || this.resource === 'mods' || this.resource === 'alto' || this.resource === 'foxml') {
@@ -97,9 +83,9 @@ export class DialogAdminMetadataComponent extends MzBaseModal implements OnInit 
         }
       },
       () => {
-        this.selection[this.resource] = String(this.translator.instant('metadata-dialog.missing', 
-        { 
-          model: this.selection.tab.toUpperCase(),
+        this.selection[this.resource] = String(this.translator.instant('metadata-dialog.missing',
+        {
+          model: this.selection.type.toUpperCase(),
           resource: this.resource.toUpperCase()
         }));
       });

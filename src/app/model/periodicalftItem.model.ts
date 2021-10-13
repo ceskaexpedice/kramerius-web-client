@@ -16,41 +16,39 @@ export class PeriodicalFtItem {
     text: string;
     query: string;
     type: string; // 'page', 'monograph_unit_page', 'monograph_unit', 'article'
+    model: string;
     path: string;
     queryParams: any;
+    parent: string;
+    licences: string[] = [];
 
     constructor() {
         this.context = {};
     }
 
     getPath(): string {
-        if (this.path) {
-            return this.path;
-        }
-        if (this.type === 'page' || this.type === 'monograph_unit_page') {
-            const uuid = this.context['article'] || this.context['monographunit'] || this.context['periodicalitem']  || this.context['supplement'] || this.context['periodicalvolume'];
-            this.path = 'view/' + uuid;
-        } else if (this.type === 'article') {
-            const uuid = this.context['periodicalitem'] || this.context['periodicalvolume'];
-            this.path = 'view/' + uuid;
-        } else {
-            this.path = 'view/' + this.uuid;
-        }
-        return this.path;
-    }
+         if (this.type === 'page' || this.type === 'monograph_unit_page') {
+             const uuid = this.context['article'] || this.context['monographunit'] || this.context['periodicalitem']  || this.context['supplement'] || this.context['periodicalvolume'];
+             return 'view/' + uuid;
+         } else if (this.type === 'omnibus_unit_page') {
+             const uuid = this.context['oldprintomnibusvolume'];
+             return 'view/' + uuid;
+         } else if (this.type === 'article') {
+             const uuid = this.context['periodicalitem'] || this.context['periodicalvolume'];
+             return 'view/' + uuid;
+         } else {
+             return  'view/' + this.uuid;
+         }
+     }
 
-    getQuery() {
-        if (this.queryParams) {
-            return this.queryParams;
-        }
-        if (this.type === 'page' || this.type === 'monograph_unit_page') {
-            this.queryParams = { page: this.uuid, fulltext: this.query };
-        } else if (this.type === 'article') {
-            this.queryParams = { article: this.uuid };
-        } else {
-            this.queryParams = {};
-        }
-        return this.queryParams;
-    }
+     getQuery() {
+         if (this.type === 'page' || this.type === 'monograph_unit_page' || this.type === 'omnibus_unit_page') {
+             return { page: this.uuid, fulltext: this.query };
+         } else if (this.type === 'article') {
+             return { article: this.uuid };
+         } else {
+             return {};
+         }
+     }
 
-}
+ }

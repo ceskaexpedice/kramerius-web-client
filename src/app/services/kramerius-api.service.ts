@@ -144,9 +144,9 @@ export class KrameriusApiService {
             .map(response => this.solr.searchAutocompleteResults(response, term));
     }
 
-    getPeriodicalFulltext(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery): Observable<[PeriodicalFtItem[], number]> {
-        return this.getSearchResults(this.solr.buildPeriodicalFulltextSearchQuery(periodicalUuid, volumeUuid, offset, limit, query))
-            .map(response => [this.solr.periodicalFullTextItems(response, query.fulltext), this.solr.numberOfResults(response)] as [PeriodicalFtItem[], number]);
+    getPeriodicalFulltext(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery, models: string[]): Observable<[PeriodicalFtItem[], number]> {
+       return this.getSearchResults(this.solr.buildPeriodicalFulltextSearchQuery(periodicalUuid, volumeUuid, offset, limit, query, models))
+           .map(response => [this.solr.periodicalFullTextItems(response, query.fulltext), this.solr.numberOfResults(response)] as [PeriodicalFtItem[], number]);
     }
 
     getPeriodicalItemsDetails(uuids: string[]): Observable<PeriodicalItem[]> {
@@ -164,9 +164,14 @@ export class KrameriusApiService {
             .map(response => this.solr.periodicalItems(response, 'periodicalitem', uuid));
     }
 
-    getMonographUnits(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
+    getMonographUnits(uuid: string, query: PeriodicalQuery): Observable<DocumentItem[]> {
         return this.getSearchResults(this.solr.buildMonographUnitsQuery(uuid, query))
-            .map(response => this.solr.periodicalItems(response, 'monographunit'));
+            .map(response => this.solr.monographUnits(response));
+    }
+
+    getOmnibusUnits(uuid: string, query: PeriodicalQuery): Observable<DocumentItem[]> {
+        return this.getSearchResults(this.solr.buildOmnibusUnitsQuery(uuid, query))
+            .map(response => this.solr.omnibusUnits(response));
     }
 
     getBrowseItems(query: BrowseQuery): Observable<[BrowseItem[], number]> {

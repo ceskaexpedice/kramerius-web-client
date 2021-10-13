@@ -3,7 +3,8 @@ export class Page {
     snippet: string;
     loaded = false;
     uuid: string;
-    supplementUuid: string;
+    parentDoctype: string;
+    parentUuid: string;
     type: string;
     number: string;
     index: number;
