@@ -1271,7 +1271,8 @@ export class SolrService {
                         }
                     }
                 }
-                item.index = doc[this.field('rels_ext_index')][0];
+                if(doc[this.field('rels_ext_index')] instanceof Array) { item.index = doc[this.field('rels_ext_index')][0]; }
+                else { item.index = doc[this.field('rels_ext_index')]; }
             } else {
                 const pNum  =doc[this.field('part_number')];
                 item.title = doc[this.field('part_name')] || '';
