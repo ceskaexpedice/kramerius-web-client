@@ -7,6 +7,9 @@ import { AppState } from './app.state';
 import { Location } from '@angular/common';
 
 import { MatomoInjector } from 'ngx-matomo';
+import { MzModalService } from 'ngx-materialize';
+import { DialogDownloadComponent } from './dialog/dialog-download/dialog-download.component';
+import { CookieService } from 'ngx-cookie-service';
 import { AnalyticsService } from './services/analytics.service';
 
 @Component({
@@ -25,7 +28,10 @@ export class AppComponent implements OnInit {
     private settings: AppSettings,
     private analytics: AnalyticsService,
     public state: AppState,
-    private matomoInjector: MatomoInjector) {
+    private modalService: MzModalService,
+    private cookieService : CookieService,
+    private matomoInjector: MatomoInjector,
+    private appSettings: AppSettings) {
   }
 
   ngOnInit() {
@@ -43,5 +49,26 @@ export class AppComponent implements OnInit {
     if (lang) {
       this.translator.language = lang;
     }
+
+    this.openDownloadDialog()
+  }
+
+  openDownloadDialog(){
+    var deviceInfo : string = navigator.userAgent;
+    var device : string;
+
+    if(this.appSettings.downloadApp && (deviceInfo.match(".*iPhone.*|.*iPad.*|.*Android.*") != null) && !this.cookieService.check("isOffered")){
+      if(deviceInfo.match(".*Android.*") != null){
+        device = "Android";
+      }else device = "iPhone";
+      this.modalService.open(DialogDownloadComponent, {title: String(this.translator.instant('download-dialog.title')),
+                                                      message: String(this.translator.instant('download-dialog.message')),
+                                                      button: String(this.translator.instant('common.close')),
+                                                      imageURL: "assets/shared/img/app-promo.png",
+                                                      deviceType: device});
+      this.cookieService.set("isOffered", "offered");
+    }
+
+    
   }
 }

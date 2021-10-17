@@ -36,6 +36,7 @@ export class AppSettings {
   public mapSearch: boolean;
   public hiddenLocks: boolean;
 
+  public downloadApp = APP_GLOBAL.downloadApp;
   public static langs = ['cs', 'en', 'de', 'sk'];
   public ga = APP_GLOBAL.ga;
   public matomo = APP_GLOBAL.matomo;

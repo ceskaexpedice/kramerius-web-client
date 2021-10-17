@@ -1,0 +1,14 @@
+<mz-modal [fixedFooter]="true" [bottomSheet]="true">
+  <mz-modal-content>
+    <div style="bottom: 0px;">
+      <h6 style="border-bottom: 1px solid #ccc; padding-bottom: 2px; bottom:0px;">{{ title | translate }}</h6>
+      <img src="{{ imageURL }}" style="max-width: 100%; bottom:0px;">
+    </div>
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>{{ button | translate }}</button>
+    <button mz-button [flat]="true" (click)="redirectStore(deviceType)" style="padding: 0px; margin-left: 14px; margin-right: 14px;">
+      <img src="{{ downloadImgURL }}" width="128px" height="36px" style="border-radius: 4px; border: none;">
+    </button>
+  </mz-modal-footer>
+</mz-modal>
