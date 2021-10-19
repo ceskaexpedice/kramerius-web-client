@@ -3,15 +3,15 @@
       "of": "of",
       "cancel" : "Abbrechen",
       "close" : "Schließen",
-      "warning": "__Varování",
+      "warning": "Warnung",
       "of_pages": "Seiten",
       "n_pages": "{{ count == 1 ? 'seite' : 'seiten' }}",
-      "n_occurrences": "{{ count == 1 ? '__výskyt' : count < 5 ? '__výskyty' : '__výskytů' }}",
-      "set_page_number": "__Zadejte číslo stránky",
-      "show_whole_title": "__Ukaž celý titulek",
-      "hide_whole_title": "__Skryj celý titulek",
-      "copy_to_clipboard": "__Zkopírovat do schránky",
-      "copied_to_clipboard": "__Zkopirováno do schránky",
+      "n_occurrences": "{{ count == 1 ? 'Erscheinungsbild' : count < 5 ? 'Erscheinungsbilder' : 'Erscheinungsbilder' }}",
+      "set_page_number": "Seitenzahl eingeben",
+      "show_whole_title": "Vollständigen Titel anzeigen",
+      "hide_whole_title": "Vollständigen Titel ausblenden",
+      "copy_to_clipboard": "In den Zwischenspeicher kopieren",
+      "copied_to_clipboard": "In den Zwischenspeicher kopiert",
       "num_of_docs": "{{ count == 1 ? '__titul' : count < 5 ? '__tituly' : '__titulů' }}"
     },
     "lang": {
@@ -21,46 +21,46 @@
       "sk": "Slovenčina"
     },
     "share": {
-      "available_from": "__Dostupné také z"
+      "available_from": "Erhältlich auch bei"
     },
     "page-not-found": {
-      "title": "__Stránka nebyla nalezena",
-      "go": "__Přejděte na",
-      "home": "__úvodní stránku"
+      "title": "Seite nicht gefunden",
+      "go": "Gehen Sie zu",
+      "home": "Startseite"
     },
     "title": {
       "main": "Digitale Bibliothek Kramerius",
       "search": "Suchen",
       "browse": "Browsen",
       "collections": "Sammlungen",
-      "about": "__About",
-      "help": "__Nápověda",
+      "about": "Über",
+      "help": "Hilfe",
       "faq": "FAQ"
     },
     "sp": {
       "title": "Digitale Bibliothek",
       "logo": "/assets/shared/sp/logo_main_de.png",
-      "logo_tooltip": "__Zpět na rozcestník",
+      "logo_tooltip": "Zurück zum Internetportal ",
       "header": {
         "logo": "/assets/shared/sp/logo_header_de.png",
-        "help": "__Nápověda"
+        "help": "Hilfe"
       },
-      "message": "__Tisíce digitalizovaných dokumentů z českých knihoven na jednom místě.",
+      "message": "Tausende von digitalisierten Dokumenten aus tschechischen Bibliotheken an einem Ort",
       "message2": " ",
       "external_subtitle": " ",
-      "external_title": "__Dočasné zpřístupnění digitalizovaných dokumentů včetně autorsky chráněných děl pro studenty a pedagogy vyšších odborných a vysokých škol a vědecké pracovníky.",
+      "external_title": "Temporärer Zugang zu digitalisierten Dokumenten, einschließlich urheberrechtlich geschützter Werke, für Studenten und Lehrkräfte von höheren Berufs- und Hochschuleinrichtungen sowie für Forscher",
       "category": {
-        "major": "__Hlavní knihovny",
-        "regional": "__Krajské knihovny",
-        "university": "__Vysoké školy",
-        "museum": "__Muzea",
-        "archive": "__Archivy",
-        "other": "__Další instituce a projekty"
+        "major": "Hauptbibliotheken",
+        "regional": "Regionalbibliotheken",
+        "university": "Universitäten",
+        "museum": "Museen",
+        "archive": "Archive",
+        "other": "Andere Institutionen und Projekte"
       },
       "footer": {
         "logo": "/assets/shared/sp/logo-mzk.png",
-        "contact": "__Provozovatel",
-        "contact_name": "__Moravská zemská knihovna v Brně",
+        "contact": "Betreiber",
+        "contact_name": "Mährische Landesbibliothek in Brünn",
         "contact_address1": "Kounicova 65a",
         "contact_address2": "601 87 Brno",
         "contact_address3": " "
@@ -71,51 +71,51 @@
       "browse": "Browsen",
       "about": "Informationen",
       "faq": "FAQ",
-      "back": "__Zpět na předchozí stránku",
+      "back": "Zurück zur vorherigen Seite",
       "home": "Home",
-      "checkbox_label": "__pouze veřejné",
-      "login": "__Přihlásit",
-      "logout": "__Odhlásit"
+      "checkbox_label": "nur öffentlich",
+      "login": "Anmelden",
+      "logout": "Abmelden"
     },
     "searchbar": {
       "main": {
-        "all": "__Hledat v celé digitální knihovně",
-        "public": "__Hledat ve veřejných dokumentech digitální knihovny",
-        "filters": "__Hledat s filtry",
-        "collection": "__Hledat ve sbírce",
-        "collection_with_filters": "__Hledat ve sbírce s filtry"
+        "all": "In der ganzen digitalen Bibliothek suchen",
+        "public": "In öffentlichen digitalen Bibliotheksdokumenten suchen",
+        "filters": "Mit Filtern suchen",
+        "collection": "In der Sammlung suchen",
+        "collection_with_filters": "In der Sammlung suchen"
       },
       "document": "Suchen im Dokument",
-      "delete_query": "__Vymazat dotaz"
+      "delete_query": "Anfrage löschen"
     },
     "filters": {
-      "used_header": "__Aktivní filtry",
-      "tooltip_remove_filter": "__Zrušit tento filtr",
-      "tooltip_remove_filter_all": "__Zrušit všechny aktivní filtry",
+      "used_header": "Aktive Filter",
+      "tooltip_remove_filter": "Diesen Filter löschen",
+      "tooltip_remove_filter_all": "Alle aktiven Filter löschen",
       "btn_show_more": "Mehr anzeigen",
       "btn_show_less": "Weniger anzeigen",
-      "btn_show_filters": "__Zobraz filtry",
-      "btn_hide_filters": "__Skýt filtry"
+      "btn_show_filters": "Filter anzeigen",
+      "btn_hide_filters": "Filter ausblenden"
     },
     "toolbar": {
-      "tooltip_display_grid": "__Zobraz mřížku",
-      "tooltip_display_years": "__Zobraz roky",
-      "tooltip_display_calendar": "__Zobraz kalendář",
-      "tooltip_display_map": "__Zobrazit výsledky na mapě",
-      "tooltip_display_cards": "__Zobrazit karty s výsledky"
+      "tooltip_display_grid": "Raster anzeigen",
+      "tooltip_display_years": "Jahre anzeigen",
+      "tooltip_display_calendar": "Kalender anzeigen",
+      "tooltip_display_map": "Ergebnisse auf der Karte anzeigen",
+      "tooltip_display_cards": "Ergebniskarten anzeigen"
     },
     "search": {
-      "k3": "__Hledat ve staré digitalizaci",
-      "results": "__Výsledky",
+      "k3": "Suche in alter Digitalisierung",
+      "results": "Ergebnisse",
       "keywords": "Schlagwort",
       "doctypes": "Objektkategorie",
       "collections": "Sammlung",
       "languages": "Sprache",
-      "licences": "__Licence",
+      "licences": "Lizenz",
       "locations": "Eigentümer (Original)",
       "geonames": "Geographische Lage",
       "publishers": "Publikationsangaben",
-      "places": "__Místo vydání",
+      "places": "Ort der Publikation",
       "genres": "Genre",
       "authors": "Geistige(r) Schöpfer",
       "inaccessible_document": "Das Dokument ist öffentlich nicht zugänglich",
@@ -131,13 +131,13 @@
         "label": "Zugänglichkeit",
         "public": "Öffentlich",
         "private": "Nicht öffentlich",
-        "accessible": "__Všechny dostupné dokumenty",
+        "accessible": "Alle verfügbaren Dokumente",
         "all": "Alles"
       },
       "year-range": {
         "label": "Erscheinungsjahr",
-        "from": "__Od",
-        "to": "__Do",
+        "from": "Von",
+        "to": "Bis",
         "apply": "Anwenden"
       }
     },
@@ -147,27 +147,27 @@
         "doctypes": "Objektkategorie",
         "authors": "Geistige(r) Schöpfer",
         "publishers": "Publikationsangaben",
-        "places": "__Místo vydání",
+        "places": "Ort der Publikation",
         "collections": "Sammlung",
         "keywords": "Schlagwort",
         "languages": "Sprache",
-        "licences": "__Licence",
+        "licences": "Lizenz",
         "genres": "Genre",
         "locations": "Eigentümer (Original)",
         "geonames": "Geographische Lage"
       },
       "search": {
-        "doctypes": "__Vyhledat typ dokumentu",
-        "authors": "__Vyhledat autora",
-        "publishers": "__Vyhledat nakladatele",
-        "places": "__Vyhledat místo vydání",
-        "collections": "__Vyhledat sbírku",
-        "keywords": "__Vyhledat klíčové slovo", 
-        "languages": "__Vyhledat jazyk",
-        "licences": "__Vyhledat licenci",
-        "genres": "__Vyhledat žánr",
-        "locations": "__Vyhledat místo uložení",
-        "geonames": "__Vyhledat geografický název"
+        "doctypes": "Dokumenttyp suchen",
+        "authors": "Autor suchen",
+        "publishers": "Verleger suchen",
+        "places": "Ort der Publikation suchen",
+        "collections": "Sammlung suchen",
+        "keywords": "Stichwort suchen",
+        "languages": "Sprache suchen",
+        "licences": "Lizenz suchen",
+        "genres": "Genre suchen",
+        "locations": "Einen Speicherort suchen",
+        "geonames": "Einen geografischen Namen suchen"
       },
       "ordering": {
         "label": "Ordnen",      
@@ -178,41 +178,41 @@
     },
     "music": {
       "playlist": {
-        "soundunit": "__ČÁST ALBA",
-        "track": "__SKLADBA"
+        "soundunit": "Teil des Albums",
+        "track": "Die Komposition"
       },
       "toolbar": {
-        "playing": "__Přehrávání"
+        "playing": "Abspielen"
       },
-      "inaccessible_track": "__Nahrávka není veřejně dostupná.",
-      "download_track": "__Stáhnout nahrávku"
+      "inaccessible_track": "Die Audioaufzeichnung ist nicht öffentlich zugänglich",
+      "download_track": "Die Audioaufzeichnung herunterladen"
     },
     "licence": {
-      "private_label": "__Dokument není veřejně přístupný",
+      "private_label": "Bis",
       "private_message": "__Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
-      "licences_before": "__Tento dokument spadá pod následující licence",
-      "licences_after": "__Pokud se k dokumentu nemůžete dostat v rámci licencí, pak platí obecná pravidla pro veřejně nedostupné dokumenty",
-      "metadata_licence": "__Zpřítupněno pod licencí"
+      "licences_before": "Dieses Dokument untersteht den folgenden Lizenzen",
+      "licences_after": "Wenn Sie im Rahmen der Lizenzen keinen Zugang zu dem Dokument haben, gelten die allgemeinen Regeln für nicht öffentliche Dokumente",
+      "metadata_licence": "Zugänglich unter Lizenz"
     },
     "alert": {
-      "warning": "__Upozornění",
+      "warning": "Hinweis",
       "error": "Fehler",
-      "no_results_found": "__Nebyly nalezeny žádné výsledky. Prosím, zkuste jiný dotaz.",
-      "failed_to_load_image": "__Obrázek se nepodařilo načíst",
+      "no_results_found": "Es wurden keine Ergebnisse gefunden. Bitte versuchen Sie eine andere Anfrage.",
+      "failed_to_load_image": "Bild konnte nicht geladen werden",
       "book_no_results": "Keine Treffer"
     },
     "home": {
       "title": "Digitale Bibliothek Kramerius",
-      "btn_enter": "__Vstupte",
-      "btn_search": "__Hledej",
-      "tab_visited": "__Navštívené",
+      "btn_enter": "Treten Sie ein",
+      "btn_search": "Suche",
+      "tab_visited": "Besuchte",
       "tab_recommended": "Empfehlungen",    
-      "tab_latest": "__Nejnovější",
-      "select_library": "__Vybrat knihovnu"
+      "tab_latest": "Neueste",
+      "select_library": "Bibliothek wählen"
     },
     "metadata": {
       "author": "Geistige(r) Schöpfer",
-      "author_other": "__Dalši tvůrci",
+      "author_other": "Andere Autoren",
       "publisher": "Publikationsangaben",
       "keywords": "Schlagwörter",
       "languages": "Sprache",
@@ -224,12 +224,12 @@
       "extent": "Umfang",
       "physical_description": "Physische Beschreibung",
       "cartographic_data": "Kartographische Daten",
-      "scale": "__Měřítko",
+      "scale": "Maßstab",
       "doctype": "Objektkategorie",        
       "notes": "Anmerkungen",
       "genres": "Genre",
-      "article": "__Článek",
-      "review_of": "__Recenze na",
+      "article": "Artikel",
+      "review_of": "Rezensionen über",
       "volume": "Jahrgang",
       "volume_year": "Erscheinungsjahr",
       "issue": "Nummer",
@@ -246,16 +246,16 @@
       "unit_list": "Liste der Teile",
       "next_unit": "Nachfolgende Teil:",
       "previous_unit": "Vorherige Teil",  
-      "omnibus_list": "__Přejít na seznam části konvolutu",
+      "omnibus_list": "Weiter zur Liste der Teile des Bandes",
       "shelf_locator": "Signatur: {{shelf_locator}}",
-      "authors_info": "__Více o autorech",
-      "donator": "__S podporou",
+      "authors_info": "Mehr zu den Autoren",
+      "donator": "Mit Unterstützung von",
       "policy_private": "Das Dokument ist öffentlich nicht zugänglich"
     },
     "donator": {
       "norway": {
         "url": "http://www.eeagrants.org",
-        "name": "__Norské fondy"
+        "name": "Norwegische Fonds"
       },
       "k3tok5": {
         "url": "https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/k3tok5",
@@ -274,7 +274,7 @@
         "none": "Suchen",
         "periodical": "Suchen im Periodikum",
         "periodicalvolume": "Suchen im Jahrgang",
-        "oldprintomnibusvolume": "__Hledat v konvolutu",
+        "oldprintomnibusvolume": "im Konvolut suchen",
         "monograph": "Suchen im Buch"
       },
       "ordering": {
@@ -288,64 +288,64 @@
       "tooltip_zoom_out": "Herauszoomen",
       "tooltip_rotate_right": "Drehen",
       "tooltip_fit_to_screen": "An Fenstergröße anpassen",
-      "tooltip_enter_fullscreen": "__Zapnout fullscreen",
-      "tooltip_exit_fullscreen": "__Vypnout fullscreen",
+      "tooltip_enter_fullscreen": "Vollbildmodus einschalten",
+      "tooltip_exit_fullscreen": "Vollbildmodus ausschalten",
       "tooltip_doublepage_on": "Doppelseitenansicht",
       "tooltip_doublepage_off": "Einzelseitenansicht",
-      "tooltip_page_left": "__Přejít na předchozí stránku",
-      "tooltip_page_right": "__Přejít na další stránku",
-      "tooltip_hide_left": "__Schovat náhledy",
-      "tooltip_show_left": "__Zobrazit náhledy",
-      "tooltip_hide_right": "__Schovat podrobnosti",
-      "tooltip_show_right": "__Zobrazit podrobnosti",
+      "tooltip_page_left": "Zur vorherigen Seite gehen",
+      "tooltip_page_right": "Zur nächsten Seite gehen",
+      "tooltip_hide_left": "Vorschaubilder ausblenden",
+      "tooltip_show_left": "Vorschaubilder anzeigen",
+      "tooltip_hide_right": "Details ausblenden",
+      "tooltip_show_right": "Details anzeigen",
       "tooltip_select_text": "Text ausschneiden",
-      "tooltip_crop_image": "__Výřez obrázků"
+      "tooltip_crop_image": "Bilder ausschneiden"
     },
     "book_controls": {
       "tooltip_print": "Drucken",
       "tooltip_pdf": "PDF erstellen",
       "tooltip_jpg": "JPEG (Seite)",
       "tooltip_ocr": "OCR-Volltext",
-      "tooltip_quote": "__Zobrazit citaci",
-      "tooltip_share": "__Sdílet",
-      "tooltip_metadata": "__Metadata",
-      "tooltip_edit": "__Zobrazit administrátorské nástroje",
-      "tooltip_citation": "__Citace",
-      "tooltip_mark_favourite": "__Přidat do oblíbených",
-      "tooltip_unmark_favourite": "__Odebrat z oblíbených",
-      "all_pages": "__Všechny stránky"
+      "tooltip_quote": "Zitieren anzeigen",
+      "tooltip_share": "Weiterleiten",
+      "tooltip_metadata": "Metadaten",
+      "tooltip_edit": "Administratoren-Tools anzeigen",
+      "tooltip_citation": "Zitieren",
+      "tooltip_mark_favourite": "Zu Favoriten hinzufügen",
+      "tooltip_unmark_favourite": "Von",
+      "all_pages": "Alle Seiten"
     },
     "book_toolbar": {
-      "desc_reading": "__Čtení",
-      "desc_navigation": "__Navigace",
-      "desc_information": "__Informace"
+      "desc_reading": "Lesen",
+      "desc_navigation": "Navigation",
+      "desc_information": "Information"
     },
     "pdf-dialog": {
-      "title_generate": "__Příprava ke stažení",
-      "title_prepare": "__Příprava k tisku",
-      "tip_shift": "__Tip: přes stisknutou klávesu Shift můžete vybrat více stránek naráz",
-      "selection1": "__Máte {{ num == 1 ? '__vybranou' : ( num < 5 ? '__vybrané' : '__vybraných') }}",
-      "selection2": "{{ num == 1 ? '__stranu' : ( num < 5 ? '__strany' : '__stran') }}",
-      "selection": "__Nemáte vybranou žádnou stranu",
-      "select_all": "__Vybrat vše",
-      "deselect_all": "__Zrušit výběr",
-      "warning_too_manny_pages": "__Je překročen maximální počet stran",
-      "warning_generate": "__Vytváření PDF dokumentu může trvat několik minut v závislosti na počtu vybraných stránek.",
-      "error_generate": "__PDF dokument se nepodařilo stáhnout",
-      "action_generate": "__Stáhnout PDF",
-      "action_prepare": "__Připravit k tisku"
+      "title_generate": "Vorbereiten des Herunterladens",
+      "title_prepare": "Vorbereitung zum Druck",
+      "tip_shift": "Tipp: Sie können mehrere Seiten auf einmal auswählen, indem Sie die Umschalttaste gedrückt halten",
+      "selection1": "Sie haben {{ num == 1 ? 'ausgewählte' : ( num < 5 ? 'ausgewählte' : 'ausgewählte') }}",
+      "selection2": "{{ num == 1 ? 'Seite' : ( num < 5 ? 'Seiten' : 'Seiten') }}",
+      "selection": "Sie haben keine Seite ausgewählt",
+      "select_all": "Alles auswählen",
+      "deselect_all": "Auswahl löschen",
+      "warning_too_manny_pages": "Die maximale Anzahl von Seiten ist überschritten",
+      "warning_generate": "Die Erstellung eines PDF-Dokuments kann je nach Anzahl der ausgewählten Seiten mehrere Minuten dauern.",
+      "error_generate": "PDF-Dokument konnte nicht heruntergeladen werden",
+      "action_generate": "Als PDF herunterladen",
+      "action_prepare": "Zum Druck vorbereiten"
     },
     "metadata-dialog": {
-      "title": "__Metadata pro",
-      "missing": "__Objekt {{ model }} __neobsahuje {{ resource }}"
+      "title": "Metadaten",
+      "missing": "Das Objekt {{ model }} enthält nicht {{ resource }}"
     },
     "citation-dialog": {
-      "title": "__Citace"
+      "title": "Zitieren"
     },
     "share-dialog": {
-      "title": "__Sdílet",
-      "link": "__Odkaz pro sdílení",
-      "social": "__Sdílet na sociálních sítích"
+      "title": "Weiterleiten",
+      "link": "Von",
+      "social": "Weiterleiten"
     },
     "authors-dialog": {
       "title": "Informationen über den/die Geistige(r) Schöpfer",
@@ -355,22 +355,22 @@
     },
     "dialogs": {
       "private_sheetmusic": {
-        "message": "__Autorsky chráněné hudebniny bohužel nelze žádným způsobem kopírovat z důvodu výjimky v Autorském zákoně."
+        "message": "Leider darf urheberrechtlich geschützte Musik aufgrund einer Ausnahme im Urheberrechtsgesetz nicht kopiert werden"
       },
       "private_document_pdf": {
-        "message": "__Z autorsky chráněných dokumentů nelze generovat PDF."
+        "message": "Aus urheberrechtlich geschützten Dokumenten können keine PDFs erstellt werden."
       },
       "private_document_jpeg": {
-        "message": "__Stránka není veřejně dostupná."
+        "message": "Die Website ist nicht öffentlich zugänglich."
       },
       "missing_alto": {
-        "message": "__Vybranou oblast nelze převést na text, protože ke stránce není dostupný strukturovaný textový přepis."
+        "message": "Der ausgewählte Bereich kann nicht in Text umgewandelt werden, da kein strukturiertes Texttranskript für die Seite verfügbar ist."
       }
     },
     "model" : {
       "monograph" : "Buch",
       "monographunit" : "Buch",
-      "monographbundle" : "__Svazek knih",
+      "monographbundle" : "Bücherbände",
       "periodical" : "Periodikum",
       "map" : "Karte",
       "sheetmusic" : "Musiknoten",
@@ -379,7 +379,7 @@
       "soundrecording" : "Tonaufnahmen",
       "periodicalvolume" : "Jahrgang des Periodikums",
       "periodicalitem" : "Nummer des Periodikums",
-      "clippingsvolume" : "__Sbírka výstřižků",
+      "clippingsvolume" : "Sammlung von Dokumentenausschnitten",
       "manuscript" : "Manuskript",
       "page" : "Seite",
       "supplement" : "Beilage",
@@ -388,12 +388,12 @@
       "soundunit" : "Album",
       "track" : "Einspielung",
       "collection": "Sammlung",
-      "oldprintomnibusvolume": "__Konvolut"
+      "oldprintomnibusvolume": "Konvolut"
     },
     "model_2p" : {
       "monograph" : "Buch",
       "monographunit" : "Buch",
-      "monographbundle" : "__Svazek knih",
+      "monographbundle" : "Bücherbände",
       "periodical" : "Periodikum",
       "map" : "Karte",
       "sheetmusic" : "Musiknoten",
@@ -402,7 +402,7 @@
       "soundrecording" : "Tonaufnahmen",
       "periodicalvolume" : "Jahrgang des Periodikums",
       "periodicalitem" : "Nummer des Periodikums",
-      "clippingsvolume" : "__Sbírka výstřižků",
+      "clippingsvolume" : "Sammlung von Dokumentenausschnitten",
       "manuscript" : "Manuskript",
       "page" : "Seite",
       "supplement" : "Beilage",
@@ -411,12 +411,12 @@
       "soundunit" : "Album",
       "track" : "Einspielung",
       "collection": "Sammlung",
-      "oldprintomnibusvolume": "__Konvolut"
+      "oldprintomnibusvolume": "Konvolut"
     },
     "model_4p" : {
       "monograph" : "Buch",
       "monographunit" : "Buch",
-      "monographbundle" : "__Svazek knih",
+      "monographbundle" : "Bücherbände",
       "periodical" : "Periodikum",
       "map" : "Karte",
       "sheetmusic" : "Musiknoten",
@@ -425,7 +425,7 @@
       "soundrecording" : "Tonaufnahmen",
       "periodicalvolume" : "Jahrgang des Periodikums",
       "periodicalitem" : "Nummer des Periodikums",
-      "clippingsvolume" : "__Sbírka výstřižků",
+      "clippingsvolume" : "Sammlung von Dokumentenausschnitten",
       "manuscript" : "Manuskript",
       "page" : "Seite",
       "supplement" : "Beilage",
@@ -434,7 +434,7 @@
       "soundunit" : "Album",
       "track" : "Einspielung",
       "collection": "Sammlung",
-      "oldprintomnibusvolume": "__Konvolut"
+      "oldprintomnibusvolume": "Konvolut"
     },
     "model_plural" : {
       "monograph" : "Bücher",
@@ -447,7 +447,7 @@
       "soundrecording" : "Tonaufnahmen",
       "periodicalvolume" : "Jahrgänge des Periodikums",
       "periodicalitem" : "Nummern des Periodikums",
-      "clippingsvolume" : "__Sbírky výstřižků",
+      "clippingsvolume" : "Sammlungen von Dokumentenausschnitten",
       "manuscript" : "Manuskripte",
       "page" : "Seiten",
       "supplement" : "Beilagen",
@@ -456,13 +456,13 @@
       "soundunit" : "Alben",
       "track" : "Einspielungen",
       "collection": "Sammlungen",
-      "oldprintomnibusvolume": "__Konvoluty",
-      "oldprintomnibusvolumepart": "__Části"
+      "oldprintomnibusvolume": "Konvolut",
+      "oldprintomnibusvolumepart": "Teile"
     },
     "issue_type": {
-      "morning": "__ranní vydání",
-      "afternoon": "__odpolední vydání",
-      "evening": "__večerní vydání"
+      "morning": "Morgenausgabe",
+      "afternoon": "Nachmittagsausgabe",
+      "evening": "Abendausgabe"
     },
     "page_type": {
       "unknown" : "Seite",
@@ -497,26 +497,26 @@
       "imprimatur" : "Imprimatur",
       "listofsupplements" : "Liste der Beilagen",
       "preface" : "Vorwort",
-      "news": "__zprávy",
-      "abstract": "__abstrakt",
-      "introduction": "__úvod",
-      "review": "__recenze",
-      "mainarticle": "__hlavní článek",
-      "editorial": "__úvodník",
-      "obituary": "__nekrolog",
-      "bibliographicalportrait": "__medailonek",
-      "colophon": "__tiráž",
-      "interview": "__rozhovor",
-      "anotation": "__anotace",
-      "manuscriptnotes": "__rukopisná poznámka",
-      "calibrationtable": "__kalibrační tabulka",
-      "bibliography": "__bibliografie",
-      "booklet": "__booklet",
-      "appendix": "__dodatek",
-      "imgdisc": "__obraz desky",
-      "impressum": "__impressum",
-      "sheetmusic": "__notový zápis",
-      "case": "__pouzdro"
+      "news": "Nachrichten",
+      "abstract": "Zusammenfassung",
+      "introduction": "Einführung",
+      "review": "Bewertung",
+      "mainarticle": "Hauptartikel",
+      "editorial": "Einführung",
+      "obituary": "Nachruf",
+      "bibliographicalportrait": "Portrait",
+      "colophon": "Editorial",
+      "interview": "Interview",
+      "anotation": "Anmerkung",
+      "manuscriptnotes": "handschriftliche Anmerkung",
+      "calibrationtable": "Kalibrierungstabelle",
+      "bibliography": "Bibliographie",
+      "booklet": "Broschüre",
+      "appendix": "Anhang",
+      "imgdisc": "Schallplatten-Coverbilder",
+      "impressum": "Impressum",
+      "sheetmusic": "Musiknoten",
+      "case": "Musikinstrumentenkasten"
     },
     "calendar" : {
       "months" : {
