@@ -53,6 +53,16 @@ export class EpubService {
         this.epubViewer.computePagination();
     }
 
+    getCfiFromHref(href)  {
+        const id = href.split('#')[1];
+        const book = this.epubViewer.epub;
+        console.log('spine', book.spine);
+        const item = book.spine.get(href)
+        item.load(book.load.bind(book))
+        const el = id ? item.document.getElementById(id) : item.document.body
+        return item.cfiFromElement(el)
+    }
+
     onSearch() {
         if (this.searchInProgress) {
             return;
@@ -132,9 +142,34 @@ export class EpubService {
         this.epubViewer.previousPage();
     }   
 
+
+//     cfi: "epubcfi(/6/18[Kapit_02.xhtml])"
+// href: "Text/Kapit_02.xhtml"
+
+// cfi: "epubcfi(/6/18[Kapit_02.xhtml#_idParaDest-11])"
+// href: "Text/Kapit_02.xhtml#_idParaDest-11"
+
+//     //http://localhost:4200/mzk/view/OEBPS/Text/Kapit_02.xhtml#_idParaDest-11
     goToChapter(chapter: any) {
+
+    
+
         console.log('goToChapter', chapter);
-        this.epubViewer.goTo(chapter.cfi);
+        const book = this.epubViewer.epub;
+        const context = this;
+        var epubcfi = new EPUBJS.EpubCFI();
+        epubcfi.generateCfiFromHref(chapter.href, book).then(function(cfi){
+            console.log('--cfi', cfi);
+            context.epubViewer.goTo(cfi);
+
+        });
+
+        // // console.log(chapter.href = " -> " + this.getCfiFromHref(chapter.href));
+        // const spine = book.spine;//.get(chapter.href);
+        // console.log('spine', spine);
+        // console.log('book.navigation.get', book.navigation.get(chapter.href));
+        // // chapter.cfi = "epubcfi(/6/18[Kapit_02.xhtml#_idParaDest-23])";
+        // this.epubViewer.goTo(chapter.href);
     }
 
     goToSnippet(snippet: any) {
