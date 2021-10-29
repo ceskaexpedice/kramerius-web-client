@@ -12,7 +12,7 @@
       "hide_whole_title": "Vollständigen Titel ausblenden",
       "copy_to_clipboard": "In den Zwischenspeicher kopieren",
       "copied_to_clipboard": "In den Zwischenspeicher kopiert",
-      "num_of_docs": "{{ count == 1 ? '__titul' : count < 5 ? '__tituly' : '__titulů' }}"
+      "num_of_docs": "{{ count == 1 ? 'Titel' : count < 5 ? 'Titel' : 'Titel' }}"
     },
     "lang": {
       "cs": "Čeština",
@@ -102,7 +102,7 @@
       "tooltip_display_years": "Jahre anzeigen",
       "tooltip_display_calendar": "Kalender anzeigen",
       "tooltip_display_map": "Ergebnisse auf der Karte anzeigen",
-      "tooltip_display_cards": "Ergebniskarten anzeigen"
+      "tooltip_display_cards": "Ergebnisse anzeigen"
     },
     "search": {
       "k3": "Suche in alter Digitalisierung",
@@ -188,8 +188,8 @@
       "download_track": "Die Audioaufzeichnung herunterladen"
     },
     "licence": {
-      "private_label": "Bis",
-      "private_message": "__Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
+      "private_label": "Das Dokument ist nicht öffentlich zugänglich",
+      "private_message": "Dieses Dokument ist immer noch durch das Urheberrechtsgesetz (Nr. 121/2000 Slg.) geschützt und kann daher erst 70 Jahre nach dem Tod aller Autoren (einschließlich des Übersetzers, Illustrators usw.) und 50 Jahre nach der Herausgabe des Werks öffentlich zugänglich gemacht werden. Der Zugriff auf das Dokument ist über Computer im Gebäude der Bibliothek möglich, die das Dokument besitzt. Informationen zu den Eigentumsverhältnissen des angeforderten Dokuments finden Sie in den Angaben rechts unter „Speicherort“.",
       "licences_before": "Dieses Dokument untersteht den folgenden Lizenzen",
       "licences_after": "Wenn Sie im Rahmen der Lizenzen keinen Zugang zu dem Dokument haben, gelten die allgemeinen Regeln für nicht öffentliche Dokumente",
       "metadata_licence": "Zugänglich unter Lizenz"
@@ -260,7 +260,12 @@
       "k3tok5": {
         "url": "https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/k3tok5",
         "name": "K3 to K5"
-      }
+      },
+      "eodopen": {
+        "url": "https://eodopen.eu",
+        "name": "EODOPEN"
+    }
+
     },
     "periodical": {
       "periodicalvolume": "Jahrgang {{part}}",
