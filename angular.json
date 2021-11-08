@@ -79,8 +79,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/materialize-css/dist/js/materialize.min.js",
-              "src/assets/js/ol-custom.js"
+              "node_modules/materialize-css/dist/js/materialize.min.js"
             ],
             "styles": [
               "src/styles.scss",
