@@ -58,7 +58,7 @@ export class SolrService {
         },
         'licences_search': {
             '1.0': 'dnnt-labels',
-            '2.0': ''
+            '2.0': 'licenses'
         },
         'licences_facet': {
             '1.0': 'dnnt-labels',
