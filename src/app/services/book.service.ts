@@ -137,6 +137,14 @@ export class BookService {
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
+
+        if (params.uuid == 'epub') {
+            this.bookState = BookState.Success;
+            this.setupEpub();
+            return;
+        }
+
+
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
             this.licences = this.licenceService.availableLicences(item.licences);
             this.licence = item.licence;
@@ -170,11 +178,11 @@ export class BookService {
             }
 
             this.isPrivate = !item.public;
-            if (item.uuid == 'uuid:9ebcb206-24b7-4dc7-b367-3d9ad7179c23') {
-                this.bookState = BookState.Success;
-                this.setupEpub();
-                return;
-            }
+            // if (item.uuid == 'uuid:9ebcb206-24b7-4dc7-b367-3d9ad7179c23') {
+            //     this.bookState = BookState.Success;
+            //     this.setupEpub();
+            //     return;
+            // }
             this.api.getMetadata(item.root_uuid).subscribe((metadata: Metadata) => {
                 this.metadata = metadata;
                 this.metadata.assignDocument(item);
