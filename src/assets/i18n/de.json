@@ -31,7 +31,7 @@
     "title": {
       "main": "Digitale Bibliothek Kramerius",
       "search": "Suchen",
-      "browse": "Browsen",
+      "browse": "Durchsuchen",
       "collections": "Sammlungen",
       "about": "Über",
       "help": "Hilfe",
@@ -68,7 +68,7 @@
     },
     "navbar": {
       "collections": "Sammlungen",
-      "browse": "Browsen",
+      "browse": "Durchsuchen",
       "about": "Informationen",
       "faq": "FAQ",
       "back": "Zurück zur vorherigen Seite",
@@ -79,13 +79,13 @@
     },
     "searchbar": {
       "main": {
-        "all": "In der ganzen digitalen Bibliothek suchen",
+        "all": "ZuIn der gesamten digitalen Bibliothek suchen",
         "public": "In öffentlichen digitalen Bibliotheksdokumenten suchen",
         "filters": "Mit Filtern suchen",
         "collection": "In der Sammlung suchen",
         "collection_with_filters": "In der Sammlung suchen"
       },
-      "document": "Suchen im Dokument",
+      "document": "Im Dokument suchen",
       "delete_query": "Anfrage löschen"
     },
     "filters": {
@@ -203,7 +203,7 @@
     },
     "home": {
       "title": "Digitale Bibliothek Kramerius",
-      "btn_enter": "Treten Sie ein",
+      "btn_enter": "Zur Bibliothek",
       "btn_search": "Suche",
       "tab_visited": "Besuchte",
       "tab_recommended": "Empfehlungen",    
@@ -1158,7 +1158,7 @@
       "zza" : "Zazaki"
     },
     "relator" : {
-      "cre" : "Geistiger Schöpfer",
+      "cre" : "Urheber(in)",
       "arc" : "Architekt",
       "lsa" : "Landschaftsarchitekt",
       "art" : "Künstler",
