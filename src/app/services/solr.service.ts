@@ -692,7 +692,7 @@ export class SolrService {
             t = t.replace(/  /g, ' ');
         }
         const searchField = this.field('title');
-        let q = `defType=edismax&fl=${this.field('id')},${this.field('title')}&q=${searchField}:${t.split(' ').join(` AND  ${searchField}:`)}`;
+        let q = `defType=edismax&qf=${searchField}&fl=${this.field('id')},${this.field('title')}&q=${t.split(' ').join(` AND `)}`;
         if (!term.endsWith(' ') && !term.endsWith(':')) {
             q+='*';
         }
