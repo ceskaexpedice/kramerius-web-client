@@ -962,10 +962,13 @@ export class BookService {
             this.publishNewPages(BookPageState.Loading);
             this.fetchPageData(page, rightPage);
         } else {
-            // this.licence = page.licence;
-            // if (rightPage && !this.licence) {
-            //     this.licence = rightPage.licence;
-            // }
+            //// doc license from the page ????
+            this.licence = page.licence;
+            if (rightPage && !this.licence) {
+                this.licence = rightPage.licence;
+            }
+            this.metadata.licence = this.licence;
+            ////
             if (page.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (page.imageType === PageImageType.PDF) {
@@ -1116,10 +1119,13 @@ export class BookService {
             if (rightPage) {
                 rightPage.assignPageData(result[1]);
             }           
-            // this.licence = leftPage.licence;
-            // if (rightPage && !this.licence) {
-            //     this.licence = rightPage.licence;
-            // }
+            //// doc license from the page ????
+            this.licence = leftPage.licence;
+            if (rightPage && !this.licence) {
+                this.licence = rightPage.licence;
+            }
+            this.metadata.licence = this.licence;
+            ////
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {

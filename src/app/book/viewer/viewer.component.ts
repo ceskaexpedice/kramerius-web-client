@@ -290,7 +290,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
     let watermarkText: string;
     if (this.authService.isLoggedIn()) {
-      watermarkText = this.authService.getUserId();
+      watermarkText = this.authService.getUserId() || this.authService.getUserName();
     } else {
       watermarkText = config['defaultText'];
     }

@@ -2,7 +2,8 @@
 export class User {
 
   id: number;
-  name: string;
+  firstname: string;
+  surname: string;
   username: string;
   password: string;
   code: string;
@@ -13,9 +14,10 @@ export class User {
     if (json) {
       const id = json['id'];
       const user = new User(id);
-      user.name = json['firstname'] + ' ' + json['surname'];
+      user.firstname = json['firstname'];
+      user.surname = json['surname'];
       user.code = json['session'] ? json['session']['session_eppn'] : '';
-      user.licences = json['labels'] || [];
+      user.licences = json['licenses'] || [];
       user.username = username;
       user.password = passwod;
       return user;

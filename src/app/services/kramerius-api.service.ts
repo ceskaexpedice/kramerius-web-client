@@ -40,6 +40,8 @@ export class KrameriusApiService {
         private settings: AppSettings,
         private mods: ModsParserService,
         private solr: SolrService) {
+        // this.http.get('/search/api/v5.0/user?shib=default').subscribe((a)=>{
+        // });
     }
 
     private handleError(error: Response) {
@@ -395,7 +397,7 @@ export class KrameriusApiService {
             return this.doGet(this.getItemUrl(uuid))
                 .map(response => this.parseItemInfoForPage(response));
         } else {
-            return this.doGet(this.getItemUrl(uuid) + '/info/image')
+            return this.doGet(this.getItemUrl(uuid) + '/info')
                 .map(response => this.parseItemInfoForPage(response));
         }
     }
@@ -418,7 +420,8 @@ export class KrameriusApiService {
             }
         } else {
             return {
-                imageType: json['type']
+                imageType: json['image'] ? json['image']['type'] : null,
+                licence: json['providedByLicenses'] && json['providedByLicenses'].length > 0 ? json['providedByLicenses'][0] : null
             }
         }
     }

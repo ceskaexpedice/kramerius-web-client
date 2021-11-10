@@ -62,7 +62,7 @@ export class SolrService {
         },
         'licences_facet': {
             '1.0': 'dnnt-labels',
-            '2.0': ''
+            '2.0': 'licenses'
         },
         'locations_search': {
             '1.0': 'mods.physicalLocation',
