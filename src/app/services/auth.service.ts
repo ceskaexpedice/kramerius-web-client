@@ -24,6 +24,8 @@ export class AuthService {
     login(username: string, password: string, callback: (user: User) => void = null) {
         return this.krameriusApi.getUserInfo(username, password).subscribe(user => {
             this.user = user;
+            console.log('USER', this.user);
+            console.log('Licences', this.user.licences);
             this.licences.assignUserLicences(this.user.licences);
             this.cache.clear();
             if (callback) {
@@ -56,5 +58,12 @@ export class AuthService {
             return '';
         }
         return this.user.code;
+    }
+
+    getUserName(): string {
+        if (!this.user) {
+            return '';
+        }
+        return this.user.firstname;
     }
 }

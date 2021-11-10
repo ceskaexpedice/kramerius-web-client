@@ -334,9 +334,9 @@ export class PeriodicalService {
       const parentPids = [];
       for (const item of this.fulltext.pages) {
         item.thumb = this.api.getThumbUrl(item.uuid);
-        if (item.type === 'monograph_unit' || item.type === 'omnibus_unit') {
-          continue;
-        }
+        // if (item.type === 'monograph_unit' || item.type === 'omnibus_unit') {
+        //   continue;
+        // }
         if (item.parent && parentPids.indexOf(item.parent) < 0) {
           parentPids.push(item.parent);
         }

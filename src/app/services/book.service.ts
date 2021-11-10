@@ -137,7 +137,17 @@ export class BookService {
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
+
+        if (params.uuid == 'epub') {
+            this.bookState = BookState.Success;
+            this.setupEpub();
+            return;
+        }
+
+
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
+            this.licences = this.licenceService.availableLicences(item.licences);
+            this.licence = item.licence;
             if (item.doctype === 'article') {
                 if (params.articleUuid) {
                     return;
@@ -168,6 +178,11 @@ export class BookService {
             }
 
             this.isPrivate = !item.public;
+            // if (item.uuid == 'uuid:9ebcb206-24b7-4dc7-b367-3d9ad7179c23') {
+            //     this.bookState = BookState.Success;
+            //     this.setupEpub();
+            //     return;
+            // }
             this.api.getMetadata(item.root_uuid).subscribe((metadata: Metadata) => {
                 this.metadata = metadata;
                 this.metadata.assignDocument(item);
@@ -194,10 +209,11 @@ export class BookService {
                     this.loadVolumes(item.root_uuid, this.uuid);
                 }
                 this.localStorageService.addToVisited(item, this.metadata);
-                this.licences = this.licenceService.availableLicences(item.licences);
-                this.licence = item.licence;
+                this.metadata.licences = this.licences;
+                this.metadata.licence = this.licence;
+
                 if (item.pdf) {
-                    this.showNavigationPanel = false;
+                    this.showNavigationPanel = true;
                     this.bookState = BookState.Success;
                     this.assignPdfPath(params.uuid);
                 } else {
@@ -217,11 +233,13 @@ export class BookService {
                 this.router.navigateByUrl(this.settings.getRouteFor('404'), { skipLocationChange: true });
             }
         });
-
     }
 
-
-
+    setupEpub() {
+        this.viewer = 'epub';
+        this.activeNavigationTab = 'epubToc';
+        this.showNavigationPanel = true;
+    }
 
     getUuid(): string {
         return this.uuid;
@@ -482,6 +500,7 @@ export class BookService {
                 page.public = p['policy'] === 'public';
                 page.type = p['type'] ? p['type'].toLowerCase() : '';
                 page.number = p['number'];
+                page.licences = p['licences'];
                 if (!page.number) {
                     page.number = p['title'];
                 }
@@ -507,8 +526,6 @@ export class BookService {
                             || page.type === 'spine')) {
                     lastSingle = index;
                 }
-                page.licences = this.licences;
-                page.licence = this.licence;
                 this.pages.push(page);
                 this.allPages.push(page);
                 index += 1;
@@ -863,6 +880,18 @@ export class BookService {
         return !this.fulltextQuery && this.getPage() && (this.getPage().position === PagePosition.Left || this.getPage().position === PagePosition.Right);
     }
 
+    isEpub(): boolean {
+        return this.viewer == 'epub';
+     }
+
+    isPdf(): boolean {
+       return this.viewer == 'pdf';
+    }
+
+    isImage(): boolean {
+        return this.viewer == 'image';
+     }
+
     goToPageOnIndex(index: number, replaceState = false) {
         this.viewer = 'image';
         if (index >= this.pages.length) {
@@ -933,7 +962,16 @@ export class BookService {
             this.publishNewPages(BookPageState.Loading);
             this.fetchPageData(page, rightPage);
         } else {
-            if (page.imageType === PageImageType.PDF) {
+            //// doc license from the page ????
+            this.licence = page.licence;
+            if (rightPage && !this.licence) {
+                this.licence = rightPage.licence;
+            }
+            this.metadata.licence = this.licence;
+            ////
+            if (page.imageType === PageImageType.None) {
+                this.publishNewPages(BookPageState.Failure);
+            } else if (page.imageType === PageImageType.PDF) {
                 this.onPdfPageSelected(page, rightPage);
             } else {
                 this.publishNewPages(BookPageState.Success);
@@ -1080,25 +1118,21 @@ export class BookService {
             leftPage.assignPageData(result[0]);
             if (rightPage) {
                 rightPage.assignPageData(result[1]);
-            }
-            if (leftPage.licences) {
-                this.licence = leftPage.licence;
-                this.metadata.licence = this.licence;
-                leftPage.licences = this.licenceService.availableLicences(leftPage.licences);
-                this.licences = leftPage.licences
-            } else if (rightPage && rightPage.licence) {
+            }           
+            //// doc license from the page ????
+            this.licence = leftPage.licence;
+            if (rightPage && !this.licence) {
                 this.licence = rightPage.licence;
-                this.metadata.licence = this.licence;
-                rightPage.licences = this.licenceService.availableLicences(rightPage.licences);
-                this.licences = rightPage.licences
             }
+            this.metadata.licence = this.licence;
+            ////
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {
                 this.onPdfPageSelected(leftPage, rightPage);
             } else {
                 this.publishNewPages(BookPageState.Success);
-            }
+            } 
         },
         (error: AppError)  => {
             if (error instanceof UnauthorizedError) {

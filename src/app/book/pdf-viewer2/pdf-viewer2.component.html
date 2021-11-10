@@ -1,0 +1,78 @@
+<div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
+
+<app-viewer-controls *ngIf="!bookService.isPageInaccessible()" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
+<!-- *ngIf="bookService.pdf" [src]="'/assets/shared/A-2_2021-web.pdf'" -->
+
+
+<pdf-viewer 
+    
+    *ngIf="bookService.pdf" [src]="bookService.pdf"
+    [render-text]="true"
+    [rotation]="rotation"
+    [stick-to-page]="true"
+    [show-all]="true"
+    [zoom]="pdf.zoom"
+    [(page)]="pdf.pageIndex"
+    [zoom-scale]="zoomScale"
+    [autoresize]="true"
+    [original-size]="false"
+    (page-rendered)="pageRendered($event)"
+    (error)="onError($event)"
+    (after-load-complete)="afterLoadComplete($event)"
+    >
+</pdf-viewer>
+
+
+<span *ngIf="controlsService.leftPanelVisible && bookService.showNavigationPanel"
+class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.hideLeftPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_hide_left' | translate" 
+[position]="'right'">
+<i class="app-mdi-menu-left" [class.app-mdi-tablet]="controlsService.leftPanelVisible"></i>
+</span>
+
+<span *ngIf="!controlsService.leftPanelVisible && bookService.showNavigationPanel"
+class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.showLeftPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_show_left' | translate" 
+[position]="'right'">
+<i class="app-mdi-menu-right"></i>
+</span>
+
+<span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
+class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.hideRightPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_hide_right' | translate" 
+[position]="'left'">
+<i class="app-mdi-menu-right" [class.app-mdi-tablet]="controlsService.rightPanelVisible"></i>
+</span>
+
+<span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
+class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+(click)="controlsService.showRightPanel()" 
+mz-tooltip 
+[tooltip]="'view_controls.tooltip_show_right' | translate" 
+[position]="'left'">
+<i class="app-mdi-menu-left"></i>
+</span>
+
+<ng-container *ngIf="bookService.isPageInaccessible()">
+      <app-licence-messages [full]="true" [licences]="bookService.licences"></app-licence-messages>
+</ng-container>
+
+<app-alert *ngIf="bookService.isPageFailure()"
+    type="danger"
+    label="alert.error"
+    message="alert.failed_to_load_image">
+</app-alert>
+
+<mz-spinner *ngIf="bookService.isPageLoading() || pdfLoading"
+    class="medium-centered-spinner"
+    [color]="'blue'"
+    [size]="'medium'">
+</mz-spinner>
+
+</div>

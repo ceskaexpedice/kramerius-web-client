@@ -262,10 +262,9 @@
         "name": "K3 to K5"
       },
       "eodopen": {
-        "url": "https://eodopen.eu",
+        "url": "https://eodopen.eu/",
         "name": "EODOPEN"
-    }
-
+      }
     },
     "periodical": {
       "periodicalvolume": "Jahrgang {{part}}",

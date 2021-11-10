@@ -7,9 +7,9 @@
     [class.app-panel-mobile-hidden]="bookService.activeMobilePanel != 'navigation'">
   </app-navigation>
   
+  <app-epub-viewer *ngIf="bookService.viewer === 'epub'"></app-epub-viewer>
   <app-viewer *ngIf="bookService.viewer === 'image'"></app-viewer>
-  
-  <app-pdf-viewer *ngIf="bookService.viewer === 'pdf'"></app-pdf-viewer>
+  <app-pdf-viewer2 *ngIf="bookService.viewer === 'pdf'"></app-pdf-viewer2>
 
   <app-metadata *ngIf="!bookService.isDocLoading()"
     [class.app-panel-hidden]="!viewerControls.rightPanelVisible" 

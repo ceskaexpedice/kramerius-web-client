@@ -41,7 +41,6 @@ export class Page {
             return;
         }
         this.loaded = true;
-        this.licences = data['licences'] || [];
         this.licence = data['licence'];
         if (data['replicatedFrom'] && data['replicatedFrom'].length > 0) {
             this.originUrl = data['replicatedFrom'][0];

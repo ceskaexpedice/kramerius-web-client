@@ -158,6 +158,12 @@ import { LicenceService } from './services/licence.service';
 import { LicenceMessagesComponent } from './shared/licence-messages/licence-messages.component';
 import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licences.component';
 import { PeriodicalUnitLayoutComponent } from './periodical/periodical-content/periodical-unit-layout/periodical-unit-layout.component';
+import { PdfViewer2Component } from './book/pdf-viewer2/pdf-viewer2.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { PdfService } from './services/pdf.service';
+import { AngularEpubViewerModule } from 'angular-epub-viewer';
+import { EpubViewerComponent } from './book/epub-viewer/epub-viewer.component';
+import { EpubService } from './services/epub.service';
 
 declare var APP_GLOBAL: any;
 
@@ -230,6 +236,7 @@ export function hljsLanguages() {
     BookToolbarComponent,
     MusicToolbarComponent,
     PdfViewerComponent,
+    PdfViewer2Component,
     PeriodicalCountComponent,
     PeriodicalSearchComponent,
     PeriodicalFiltersComponent,
@@ -266,7 +273,8 @@ export function hljsLanguages() {
     AdminReprePageComponent,
     LicenceMessagesComponent,
     DialogLicencesComponent,
-    PeriodicalUnitLayoutComponent
+    PeriodicalUnitLayoutComponent,
+    EpubViewerComponent
   ],
   entryComponents: [
     DialogOcrComponent,
@@ -301,6 +309,8 @@ export function hljsLanguages() {
         path: 'assets/i18n/{{language}}.json?v2.1.3'
       }
     }),
+    PdfViewerModule,
+    AngularEpubViewerModule,
     MzButtonModule,
     MzInputModule,
     MzModalModule,
@@ -373,6 +383,8 @@ export function hljsLanguages() {
     LoggerService,
     LicenceService,
     AdminApiService,
+    PdfService,
+    EpubService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
