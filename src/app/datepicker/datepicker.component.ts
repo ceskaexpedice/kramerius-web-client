@@ -59,7 +59,7 @@ export class DatepickerComponent implements OnInit {
 
   init(): void {
     const start = startOfMonth(this.date);
-    const end = endOfMonth(this.date);
+    const end =  this.endOfMonth(start);
     this.days = eachDay(start, end).map(date => {
       const items = this.daysItems[date.getDate() + ''] || [];
       return {
@@ -106,6 +106,13 @@ export class DatepickerComponent implements OnInit {
 
 
 
+  }
+
+
+  endOfMonth(date: Date) : Date {
+    const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    endDate.setHours(12);
+    return endDate;
   }
 
 }
