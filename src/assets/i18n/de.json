@@ -55,7 +55,8 @@
         "university": "Universitäten",
         "museum": "Museen",
         "archive": "Archive",
-        "other": "Andere Institutionen und Projekte"
+        "other": "Andere Institutionen und Projekte",
+        "experimental": ""
       },
       "footer": {
         "logo": "/assets/shared/sp/logo-mzk.png",
