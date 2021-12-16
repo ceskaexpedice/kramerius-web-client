@@ -17,7 +17,7 @@
         <span class="app-desc">{{ 'model_plural.internalpart' | translate }}</span>
       </a>
     </li>
-    <li *ngIf="bookService.metadata.doctype == 'oldprintomnibusvolume' && !bookService.getFulltextQuery()" class="tab tab-{{bookService.navigationTabsCount}}">
+    <li *ngIf="bookService.metadata.doctype == 'oldprintomnibusvolume' && bookService.extraParents.length > 0 && !bookService.getFulltextQuery()" class="tab tab-{{bookService.navigationTabsCount}}">
       <a (click)="bookService.changeNavigationTab('konvolutparts');analytics.sendEvent('viewer', 'navigation', 'konvolutparts');" [class.active]="bookService.activeNavigationTab === 'konvolutparts'">
         <span class="app-desc">{{ 'model_plural.oldprintomnibusvolumepart' | translate }}</span>
       </a>
