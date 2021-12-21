@@ -131,6 +131,11 @@ export class KrameriusApiService {
         return this.doGet(this.getSearchResultsUrl(query));
     }
 
+    getNumberOfRootsPages(root: string): Observable<number> {
+        return this.getSearchResults(this.solr.buildNumberOfRootsPagesQuery(root))
+            .map(response => this.solr.numberOfResults(response));
+    }
+
     getNewest(): Observable<DocumentItem[]> {
         return this.getSearchResults(this.solr.getNewestQuery())
             .map(response => this.solr.documentItems(response));

@@ -371,6 +371,9 @@ export class SolrService {
         return q;
     }
 
+    buildNumberOfRootsPagesQuery(root: string) {
+        return `q=${this.field('root_pid')}:"${root}" AND ${this.field('model')}:page&rows=0`;
+    }
 
     private buildPeriodicalQuery(parent: string, type: string, models: string[], query: PeriodicalQuery, applyYear: boolean): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('date')},${this.field('authors')},${this.field('rels_ext_index')}`;
@@ -411,7 +414,6 @@ export class SolrService {
         q += '&rows=1500&start=0';
         return q;
     }
-
 
 
     buildPeriodicalVolumesQuery(uuid: string, query: PeriodicalQuery) {

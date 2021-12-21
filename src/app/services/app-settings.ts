@@ -35,6 +35,9 @@ export class AppSettings {
   public static langs = ['cs', 'en', 'de', 'sk'];
   public ga = APP_GLOBAL.ga;
   public matomo = APP_GLOBAL.matomo;
+  public maxOmnibusParts: number;
+  public maxOmnibusPages: number;
+
   public share_url = APP_GLOBAL.share_url;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
   public enablePeriodicalIsssuesCalendarLayout = APP_GLOBAL.enablePeriodicalIsssuesCalendarLayout;
@@ -124,6 +127,8 @@ export class AppSettings {
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = !!kramerius.mapSearch;
     this.hiddenLocks = !!kramerius.hiddenLocks;
+    this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
+    this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
     this.currentCode = this.code;
     this.listner.next(kramerius);
   }
@@ -192,4 +197,6 @@ interface KrameriusData {
   mapSearch: boolean;
   hiddenLocks: boolean;
   type: string;
+  maxOmnibusParts: number;
+  maxOmnibusPages: number;
 }
