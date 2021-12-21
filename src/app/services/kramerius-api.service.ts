@@ -75,7 +75,7 @@ export class KrameriusApiService {
         if (this.settings.k5Compat()) {
             return `${url}/search/api/v5.0`;
         }
-        return `${url}/search/api/client/v6.0`;
+        return `${url}/search/api/client/v7.0`;
     }
 
     private getK5CompatApiUrl(): string {

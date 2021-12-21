@@ -11,7 +11,6 @@ export class AppSettings {
   private listner = new Subject<KrameriusData>();
   kramerius$ = this.listner.asObservable();
 
-
   public multiKramerius: boolean;
   public currentCode: string;
 
@@ -20,15 +19,12 @@ export class AppSettings {
   public logo: string;
   public logoHome: string;
   public url: string;
-  public adminUrl: string;
   public schemaVersion: string;
-  public solrVersion: string;
   public code: string;
   public richCollections: boolean;
   public joinedDoctypes: boolean;
   public doctypes: string[];
   public filters: string[];
-  public lemmatization: boolean;
   public iiifEnabled: boolean;
   public k3: string;
   public customRightMessage: boolean;
@@ -55,7 +51,6 @@ export class AppSettings {
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
   public landingPage = !!APP_GLOBAL.landingPage;
-
 
   public actions = {
     'pdf': AppSettings.action('pdf', 'always'), 
@@ -123,7 +118,6 @@ export class AppSettings {
     this.joinedDoctypes = kramerius.joinedDoctypes;
     this.doctypes = kramerius.doctypes;
     this.filters = kramerius.filters || [];
-    this.lemmatization = kramerius.lemmatization;
     this.iiifEnabled = kramerius.iiif;
     this.k3 = kramerius.k3;
     this.originLink = kramerius.originLink;
@@ -131,7 +125,6 @@ export class AppSettings {
     this.mapSearch = !!kramerius.mapSearch;
     this.hiddenLocks = !!kramerius.hiddenLocks;
     this.currentCode = this.code;
-    this.adminUrl = kramerius.adminUrl;
     this.listner.next(kramerius);
   }
 
@@ -170,10 +163,6 @@ export class AppSettings {
     return this.schemaVersion === '1.0';
   }
 
-  public admin(): boolean {
-    return !!this.adminUrl;
-  }
-
   private static action(action: string, defaultValue: string): string {
     if (!APP_GLOBAL.actions) {
       return defaultValue;
@@ -195,7 +184,6 @@ interface KrameriusData {
   joinedDoctypes: boolean;
   doctypes: string[];
   filters: string[];
-  lemmatization: boolean;
   iiif: boolean;
   k3: string;
   licences: any;
@@ -204,5 +192,4 @@ interface KrameriusData {
   mapSearch: boolean;
   hiddenLocks: boolean;
   type: string;
-  adminUrl: string;
 }
