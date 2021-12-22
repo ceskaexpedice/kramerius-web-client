@@ -1,4 +1,3 @@
-import { AccountService } from './../services/account.service';
 import { Component, OnInit } from '@angular/core';
 
 
@@ -9,9 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FavouritesComponent implements OnInit {
 
-  constructor(public account: AccountService) {
+  constructor() {
   }
-
 
   ngOnInit() {
   }

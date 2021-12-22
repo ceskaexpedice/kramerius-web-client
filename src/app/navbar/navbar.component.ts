@@ -1,4 +1,3 @@
-import { AccountService } from './../services/account.service';
 import { AnalyticsService } from './../services/analytics.service';
 import { AuthService } from './../services/auth.service';
 import { AppSettings } from './../services/app-settings';
@@ -22,7 +21,6 @@ export class NavbarComponent implements OnInit {
     public translator: Translator,
     public router: Router,
     public authService: AuthService,
-    public account: AccountService,
     public appSettings: AppSettings,
     private history: HistoryService,
     public service: LibrarySearchService,
@@ -60,7 +58,11 @@ export class NavbarComponent implements OnInit {
       window.open(url, '_top');
     } else if (this.appSettings.krameriusLogin && !this.authService.isLoggedIn()) {
       this.analytics.sendEvent('navbar', 'login');
-      this.authService.redirectUrl = window.location.href;  
+      this.authService.redirectUrl = window.location.pathname;  
+      this.router.navigate(['/login']);
+    } else if (this.appSettings.k7 && !this.authService.isLoggedIn()) {
+      this.analytics.sendEvent('navbar', 'login k7');
+      this.authService.redirectUrl = window.location.pathname;  
       this.router.navigate(['/login']);
     }
   }
@@ -68,7 +70,6 @@ export class NavbarComponent implements OnInit {
   logout() {
     if (this.appSettings.auth) {
       this.analytics.sendEvent('navbar', 'logout-shib');
-
       this.authService.logout(() => {
         const url = `${this.appSettings.auth.logoutUrl}?return=${window.location.href}`;
         window.open(url, '_top');
@@ -78,9 +79,9 @@ export class NavbarComponent implements OnInit {
       this.authService.logout(() => {
         this.router.navigate(['/']);
       });
-    } else if (this.account.serviceEnabled()) {
-      this.analytics.sendEvent('navbar', 'logout-c');
-      this.account.logout(() => {
+    } else if (this.appSettings.k7 && this.authService.isLoggedIn()) {
+      this.analytics.sendEvent('navbar', 'logout k7');
+      this.authService.logout(() => {
         this.router.navigate(['/']);
       });
     }

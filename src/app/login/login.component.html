@@ -22,7 +22,7 @@
             type="password">
         </mz-input-container>
 
-        <div *ngIf="state === 'failure'" class="app-error">Přihlášení se nezdařilo</div>
+        <div *ngIf="state === 'failure'" class="app-error">{{ message }}</div>
 
         <button mz-button (click)="login()">
             Přihlásit

@@ -95,6 +95,10 @@ export class KrameriusApiService {
         return this.getItemUrl(uuid) + '/streams/' + stream;
     }
 
+    private getK7AuthUrl(): string {
+        return `${this.getbaseUrl()}/search/api/auth/token`;
+    }
+
     getFullJpegUrl(uuid: string): string {
         if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
@@ -286,9 +290,8 @@ export class KrameriusApiService {
         return this.getApiUrl() + '/search?' + query;
     }
 
-
     getUserInfo(username: string, password: string): Observable<User> {
-        const url = this.getK5CompatApiUrl() + '/user';
+        const url = this.getApiUrl() + '/user';
         const headerParams = {
             'Content-Type': 'application/json',
         };
@@ -302,6 +305,12 @@ export class KrameriusApiService {
             .map(response => User.fromJson(response, username, password));
     }
 
+    auth(username: string, password: string): Observable<string> {
+        const url = this.getK7AuthUrl();
+        const body = `username=${username}&password=${password}`;
+        return this.http.post(url, body)
+            .map(response => response['access_token']);
+    }
 
     logout() {
         const url = this.getK5CompatApiUrl() + '/user/logout';

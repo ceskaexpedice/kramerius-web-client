@@ -52,8 +52,8 @@ export class AppSettings {
   public faqPage : [string, string] = APP_GLOBAL.faqPage;
   public footer : [string, string] = APP_GLOBAL.footer;
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
-  public cloudEnabled = !!APP_GLOBAL.cloudEnabled;
   public landingPage = !!APP_GLOBAL.landingPage;
+  public k7 = !!APP_GLOBAL.k7;
 
   public actions = {
     'pdf': AppSettings.action('pdf', 'always'), 

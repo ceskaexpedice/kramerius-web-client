@@ -2,9 +2,9 @@ import { ShareService } from './../../services/share.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { MzBaseModal } from 'ngx-materialize';
 import { Metadata } from '../../model/metadata.model';
-import { CloudApiService } from '../../services/cloud-api.service';
 import { SolrService } from '../../services/solr.service';
 import { Translator } from 'angular-translator';
+import { CitationService } from '../../services/citation.service';
 
 @Component({
   selector: 'app-dialog-citation',
@@ -19,7 +19,7 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
   data = [];
   selection;
 
-  constructor(private cloudApi: CloudApiService, private shareService: ShareService, private translator: Translator) {
+  constructor(private citationService: CitationService, private shareService: ShareService, private translator: Translator) {
     super();
   }
 
@@ -33,7 +33,7 @@ export class DialogCitationComponent extends MzBaseModal implements OnInit {
   changeTab(item) {
     this.selection = item;
     if (!this.selection.citation) {
-      this.cloudApi.getCitation(item.uuid).subscribe( (citation: string) => {
+      this.citationService.getCitation(item.uuid).subscribe( (citation: string) => {
         const link = this.shareService.getPersistentLink(item.uuid);
         const locText = this.translator.instant("share.available_from");
         item.citation = `${citation} ${locText}: ${link}`;

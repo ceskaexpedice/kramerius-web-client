@@ -1,7 +1,4 @@
 import { DialogPdfGeneratorComponent } from './dialog/dialog-pdf-generator/dialog-pdf-generator.component';
-import { ForgotPasswordComponent } from './account/forgot-password/forgot-password.component';
-import { SigninComponent } from './account/signin/signin.component';
-import { AccountService } from './services/account.service';
 import { DialogCitationComponent } from './dialog/dialog-citation/dialog-citation.component';
 import { AuthService } from './services/auth.service';
 import { SimpleDialogComponent } from './dialog/simple-dialog/simple-dialog.component';
@@ -115,14 +112,10 @@ import { AnalyticsService } from './services/analytics.service';
 import { DatepickerModule } from './datepicker';
 import { HomeFooterComponent } from './home/home-footer/home-footer.component';
 import { KrameriusInfoService } from './services/kramerius-info.service';
-import { CloudApiService } from './services/cloud-api.service';
 import { AngularTokenModule } from 'angular-token';
 import { environment } from '../environments/environment';
 import { FavouritesComponent } from './favourites/favourites.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './account/register/register.component';
-import { ResetPasswordComponent } from './account/reset-password/reset-password.component';
-import { OmniauthComponent } from './account/omniauth/omniauth.component';
 import { DocumentSearchService } from './services/document-search.service';
 
 import { AgmCoreModule } from '@agm/core';
@@ -164,6 +157,8 @@ import { PdfService } from './services/pdf.service';
 import { AngularEpubViewerModule } from 'angular-epub-viewer';
 import { EpubViewerComponent } from './book/epub-viewer/epub-viewer.component';
 import { EpubService } from './services/epub.service';
+import { CitationService } from './services/citation.service';
+import { AuthInterceptor } from './services/auth-interceptor.service';
 
 declare var APP_GLOBAL: any;
 
@@ -251,11 +246,6 @@ export function hljsLanguages() {
     HomeFooterComponent,
     FavouritesComponent,
     LoginComponent,
-    SigninComponent,
-    RegisterComponent,
-    ForgotPasswordComponent,
-    ResetPasswordComponent,
-    OmniauthComponent,
     DialogAdminMetadataComponent,
     MapBrowseComponent,
     DialogAdvancedSearchComponent,
@@ -369,14 +359,12 @@ export function hljsLanguages() {
     AppSettings,
     HttpRequestCache,
     Title,
-    AuthService,
     PageTitleService,
     CookieService,
     ShareService,
     AnalyticsService,
     KrameriusInfoService,
-    CloudApiService,
-    AccountService,
+    CitationService,
     AngularTokenModule,
     IiifService,
     ZoomifyService,
@@ -385,7 +373,8 @@ export function hljsLanguages() {
     AdminApiService,
     PdfService,
     EpubService,
-    { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

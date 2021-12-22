@@ -14,6 +14,7 @@ import { ZoomifyService } from '../../services/zoomify.service';
 import { AltoService } from '../../services/alto-service';
 import { LoggerService } from '../../services/logger.service';
 import { LicenceService } from '../../services/licence.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 declare var ol: any;
 
@@ -69,13 +70,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
   }
 
-
   constructor(public bookService: BookService,
               public authService: AuthService,
               public settings: AppSettings,
               public licences: LicenceService,
               private http: HttpClient,
               private iiif: IiifService,
+              private locals: LocalStorageService,
               private logger: LoggerService,
               private zoomify: ZoomifyService,
               private alto: AltoService,
@@ -594,11 +595,19 @@ export class ViewerComponent implements OnInit, OnDestroy {
       zoomifyOptions['crossOrigin'] = 'Anonymous';
       imageOptions['crossOrigin'] = 'Anonymous';
     }
+    const zoomifySource = new ol.source.Zoomify(zoomifyOptions);
+    const imageSource = new ol.source.ImageStatic(imageOptions);
+
+    const token = this.locals.getProperty('auth.token');
+    if (token) {
+      zoomifySource.setTileLoadFunction(this.buildCustomLoader(token));
+      imageSource.imageLoadFunction = (this.buildCustomLoader(token));
+    }
     const zLayer = new ol.layer.Tile({
-      source: new ol.source.Zoomify(zoomifyOptions)
+      source: zoomifySource
     });    
     const iLayer = new ol.layer.Image({
-      source: new ol.source.ImageStatic(imageOptions)
+      source: imageSource
     });
     this.view.addLayer(iLayer);
     this.view.addLayer(zLayer);
@@ -620,22 +629,19 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else if (type === 2) {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
-
-    // const projection = new ol.proj.Projection({
-    //   code: 'IMAGE',
-    //   units: 'pixels',
-    //   extent: extent
-    // });
-    const iLayer = new ol.layer.Image({
-      source: new ol.source.ImageStatic({
-        url: url,
-        imageSize: [width, height],
-        // projection: projection,
-        imageExtent: extent
-        // crossOrigin: 'Anonymous'
-      })
+    const source = new ol.source.ImageStatic({
+      url: url,
+      imageSize: [width, height],
+      imageExtent: extent
     });
+    const token = this.locals.getProperty('auth.token');
+    if (token) {
+      source.imageLoadFunction = (this.buildCustomLoader(token));
+    }
 
+    const iLayer = new ol.layer.Image({
+      source: source
+    });
     this.view.addLayer(iLayer);
     if (type === 2) {
       this.imageLayer2 = iLayer;
@@ -675,6 +681,26 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     return day + '.' + month + '.' + year;
+  }
+
+
+  buildCustomLoader(token): any {
+    return (tile, src) => {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", src);
+      xhr.responseType = "arraybuffer";
+      if (token) {
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+      }
+      xhr.onload = function () {
+          var arrayBufferView = new Uint8Array(this.response);
+          var blob = new Blob([arrayBufferView], { type: 'image/png' });
+          var urlCreator = window.URL || window.webkitURL;
+          var imageUrl = urlCreator.createObjectURL(blob);
+          tile.getImage().src = imageUrl;
+      };
+      xhr.send();
+    }
   }
 
 }

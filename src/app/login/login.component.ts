@@ -11,10 +11,10 @@ export class LoginComponent implements OnInit {
   
   username: string;
   password: string;
-
+  message: string;
   state: string; // none | loading | failure
 
-  constructor(private authService: AuthService,
+  constructor(private auth: AuthService,
               public router: Router) { }
 
   ngOnInit() {
@@ -22,14 +22,15 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authService.login(this.username, this.password, (user: User) => {
-        if (user) {
-          if (this.authService.redirectUrl) {
-            window.open(this.authService.redirectUrl, '_top');
+    this.auth.login(this.username, this.password, (status: string) => {
+        if (status == 'ok') {
+          if (this.auth.redirectUrl) {
+            this.router.navigateByUrl(this.auth.redirectUrl);
           } else {
             this.router.navigate(['/']);
           }
         } else {
+          this.message = status;
           this.state = 'failure';
         }
       }

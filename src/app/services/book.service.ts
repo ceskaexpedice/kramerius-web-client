@@ -1,4 +1,3 @@
-import { AccountService } from './account.service';
 import { AppSettings } from './app-settings';
 import { DocumentItem } from './../model/document_item.model';
 import { Metadata } from './../model/metadata.model';
@@ -96,7 +95,6 @@ export class BookService {
         private history: HistoryService,
         private router: Router,
         private licenceService: LicenceService,
-        private account: AccountService,
         private modalService: MzModalService) {
     }
 
@@ -542,15 +540,6 @@ export class BookService {
                 this.fulltextChanged(this.fulltextQuery, params.pageUuid);
             } else {
                 this.goToPageOnIndex(pageIndex, true);
-                if (pageIndex === 0) {
-                    if (this.account.serviceEnabled()) {
-                        this.account.getLastPageIndex(this.uuid, (index: number) => {
-                            if (this.activePageIndex === 0 && index && index !== 0) {
-                                this.goToPageOnIndex(index);
-                            }
-                        });
-                    }
-                }
             }
         }
     }
@@ -667,9 +656,6 @@ export class BookService {
 
     goToPage(page: Page) {
         this.goToPageOnIndex(page.index);
-        if (this.account.serviceEnabled()) {
-            this.account.setLastPageIndex(this.uuid, page.index, null);
-        }
     }
 
     goToPageWithUuid(uuid: string) {
@@ -686,9 +672,6 @@ export class BookService {
             const n = this.doublePage ? 2 : 1;
             const index = this.activePageIndex + n;
             this.goToPageOnIndex(index);
-            if (this.account.serviceEnabled()) {
-                this.account.setLastPageIndex(this.uuid, index, null);
-            }
         }
     }
 
@@ -696,9 +679,6 @@ export class BookService {
         if (this.hasPrevious()) {
             const index = this.activePageIndex - 1;
             this.goToPageOnIndex(index);
-            if (this.account.serviceEnabled()) {
-                this.account.setLastPageIndex(this.uuid, index, null);
-            }
         }
     }
 
