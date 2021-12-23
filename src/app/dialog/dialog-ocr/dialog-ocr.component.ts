@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MzBaseModal } from 'ngx-materialize';
 import { ShareService } from '../../services/share.service';
-import { CloudApiService } from '../../services/cloud-api.service';
 import { AppSettings } from '../../services/app-settings';
 import { Translator } from 'angular-translator';
+import { CitationService } from '../../services/citation.service';
 
 @Component({
   selector: 'app-dialog-ocr',
@@ -18,7 +18,7 @@ export class DialogOcrComponent extends MzBaseModal implements OnInit {
 
   citation: string;
 
-  constructor(private cloudApi: CloudApiService, private translator: Translator, private shareService: ShareService, private settings: AppSettings) {
+  constructor(private citationService: CitationService, private translator: Translator, private shareService: ShareService, private settings: AppSettings) {
     super();
   }
 
@@ -26,7 +26,7 @@ export class DialogOcrComponent extends MzBaseModal implements OnInit {
     if (!this.showCitation) {
       return;
     }
-    this.cloudApi.getCitation(this.uuid).subscribe( (citation: string) => {
+    this.citationService.getCitation(this.uuid).subscribe( (citation: string) => {
       const link = this.shareService.getPersistentLink(this.uuid);
       const locText = this.translator.instant("share.available_from");
       this.citation = `${citation} ${locText}: ${link}`;

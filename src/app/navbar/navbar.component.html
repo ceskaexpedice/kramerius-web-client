@@ -36,7 +36,7 @@
         <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
       </mz-navbar-item>
 
-      <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin">
+      <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.k7">
         <mz-navbar-item *ngIf="authService.isLoggedIn()">
           <a (click)="logout()">{{ 'navbar.logout' | translate }}</a>
         </mz-navbar-item>
@@ -45,9 +45,9 @@
         </mz-navbar-item>
       </ng-container>
 
-      <mz-navbar-item *ngIf="!appSettings.auth && account.serviceEnabled() && !account.isLoggedIn()">
+      <!-- <mz-navbar-item *ngIf="!appSettings.auth && account.serviceEnabled() && !account.isLoggedIn()">
         <a [routerLink]="appSettings.getRouteFor('signin')">{{ 'navbar.login' | translate }}</a>
-      </mz-navbar-item>  
+      </mz-navbar-item>   -->
 
       <mz-navbar-item class="app-language">
         <div *ngIf="languages().length > 1" id="btn-dropdown-language">
@@ -73,7 +73,7 @@
         </mz-dropdown>
       </mz-navbar-item>
 
-      <mz-navbar-item class="app-profile" *ngIf="!appSettings.auth && account.serviceEnabled() && account.isLoggedIn()">
+      <!-- <mz-navbar-item class="app-profile" *ngIf="!appSettings.auth && account.serviceEnabled() && account.isLoggedIn()">
         <img *ngIf="account.getImage()" class="app-profile-img" [src]="account.getImage()" id="btn-dropdown-profile">
         <div *ngIf="!account.getImage()" class="app-profile-txt" id="btn-dropdown-profile">{{ account.getTextProfile() }}</div>
         <mz-dropdown
@@ -93,7 +93,7 @@
         <mz-dropdown-divider></mz-dropdown-divider>
         <mz-dropdown-item><a (click)="logout()">{{ 'navbar.logout' | translate }}</a></mz-dropdown-item>
       </mz-dropdown>
-    </mz-navbar-item>
+    </mz-navbar-item> -->
 
     </mz-navbar-item-container>
     <a class="right app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="!state.atHome()">

@@ -11,7 +11,7 @@ export class AdminApiService {
   }
 
   getBaseUrl(): string {
-    return `${this.appSettings.url}/search/api/admin/v1.0`;
+    return `${this.appSettings.url}/search/api/admin/v7.0`;
   }
 
   private doGet(path: string, params, type = 'json'): Observable<Object> {

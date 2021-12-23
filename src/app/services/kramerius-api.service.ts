@@ -75,7 +75,7 @@ export class KrameriusApiService {
         if (this.settings.k5Compat()) {
             return `${url}/search/api/v5.0`;
         }
-        return `${url}/search/api/client/v6.0`;
+        return `${url}/search/api/client/v7.0`;
     }
 
     private getK5CompatApiUrl(): string {
@@ -93,6 +93,10 @@ export class KrameriusApiService {
 
     private getItemStreamUrl(uuid: string, stream: string) {
         return this.getItemUrl(uuid) + '/streams/' + stream;
+    }
+
+    private getK7AuthUrl(): string {
+        return `${this.getbaseUrl()}/search/api/auth/token`;
     }
 
     getFullJpegUrl(uuid: string): string {
@@ -129,6 +133,11 @@ export class KrameriusApiService {
 
     getSearchResults(query: string) {
         return this.doGet(this.getSearchResultsUrl(query));
+    }
+
+    getNumberOfRootsPages(root: string): Observable<number> {
+        return this.getSearchResults(this.solr.buildNumberOfRootsPagesQuery(root))
+            .map(response => this.solr.numberOfResults(response));
     }
 
     getNewest(): Observable<DocumentItem[]> {
@@ -281,9 +290,8 @@ export class KrameriusApiService {
         return this.getApiUrl() + '/search?' + query;
     }
 
-
     getUserInfo(username: string, password: string): Observable<User> {
-        const url = this.getK5CompatApiUrl() + '/user';
+        const url = this.getApiUrl() + '/user';
         const headerParams = {
             'Content-Type': 'application/json',
         };
@@ -297,9 +305,15 @@ export class KrameriusApiService {
             .map(response => User.fromJson(response, username, password));
     }
 
+    auth(username: string, password: string): Observable<string> {
+        const url = this.getK7AuthUrl();
+        const body = `username=${username}&password=${password}`;
+        return this.http.post(url, body)
+            .map(response => response['access_token']);
+    }
 
     logout() {
-        const url = this.getK5CompatApiUrl() + '/user/logout';
+        const url = this.getApiUrl() + '/user/logout';
         return this.http.get(url).catch(this.handleError);
     }
 

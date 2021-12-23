@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpInterceptor, HttpHandler } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from './auth.service';
+import { AppSettings } from './app-settings';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private locals: LocalStorageService, private settings: AppSettings) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const user = this.authService.user;
-    if (user) {
+    console.log('interceptor', request.url);
+    if (!request.url.startsWith(this.settings.url)) {
+      return next.handle(request);
+    }
+    const token = this.locals.getProperty('auth.token');
+    if (token) {
       request = request.clone({
         setHeaders: {
-          'Authorization': 'Basic ' + btoa(user.username + ':' + user.password)
+          'Authorization': 'Bearer ' + token
         }
-        // ,
-        // withCredentials: true
       });
     }
     return next.handle(request);

@@ -38,7 +38,7 @@
 
     <ul>
 
-<ng-container *ngIf="account.serviceEnabled() && account.isLoggedIn() && account.hasRole('kramerius_admin')">
+<!-- <ng-container *ngIf="account.serviceEnabled() && account.isLoggedIn() && account.hasRole('kramerius_admin')">
 
      
       <li *ngIf="search.adminSelection" (click)="search.openAdminActions()" class="serch-content-type-button" [class.active]="true">
@@ -52,7 +52,7 @@
           <i class="app-mdi-check"></i>
         </span>
       </li>
-    </ng-container>
+    </ng-container> -->
 
 
       <li *ngIf="settings.mapSearch" (click)="search.selectContentType('grid')" class="serch-content-type-button" [class.active]="search.contentType == 'grid'">
