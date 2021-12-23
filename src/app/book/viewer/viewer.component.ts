@@ -695,7 +695,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       xhr.onload = function () {
           var arrayBufferView = new Uint8Array(this.response);
           var blob = new Blob([arrayBufferView], { type: 'image/png' });
-          var urlCreator = window.URL || window.webkitURL;
+          var urlCreator = window.URL || window['webkitURL'];
           var imageUrl = urlCreator.createObjectURL(blob);
           tile.getImage().src = imageUrl;
       };

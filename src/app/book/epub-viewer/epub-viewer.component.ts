@@ -26,8 +26,7 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.epubViewer.openLink('/assets/shared/zivot_proti_smrti.epub');
-    this.epubViewer.openLink('/assets/shared/Makroekonomie.epub');
+    this.epub.init(this.epubViewer);
     this.intervalSubscription = interval(4000).subscribe( () => {
       const lastMouseDist = new Date().getTime() - this.lastMouseMove;
       if (lastMouseDist >= 4000) {

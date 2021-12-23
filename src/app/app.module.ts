@@ -114,7 +114,6 @@ import { HomeFooterComponent } from './home/home-footer/home-footer.component';
 import { KrameriusInfoService } from './services/kramerius-info.service';
 import { AngularTokenModule } from 'angular-token';
 import { environment } from '../environments/environment';
-import { FavouritesComponent } from './favourites/favourites.component';
 import { LoginComponent } from './login/login.component';
 import { DocumentSearchService } from './services/document-search.service';
 
@@ -244,7 +243,6 @@ export function hljsLanguages() {
     AboutComponent,
     FaqComponent,
     HomeFooterComponent,
-    FavouritesComponent,
     LoginComponent,
     DialogAdminMetadataComponent,
     MapBrowseComponent,
@@ -296,7 +294,7 @@ export function hljsLanguages() {
       providedLanguages: AppSettings.langs,
       defaultLanguage: 'cs',
       loaderOptions: {
-        path: 'assets/i18n/{{language}}.json?v2.1.3'
+        path: 'assets/i18n/{{language}}.json?v2.2.0'
       }
     }),
     PdfViewerModule,

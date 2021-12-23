@@ -75,8 +75,10 @@ export class AuthService {
         }
         if (this.settings.k7) {
             this.locals.setProperty("auth.token", '');
-            this.cache.clear();
-            this.userInfo(null, null, callback);
+            this.api.logout().subscribe(user => {
+                this.cache.clear();
+                this.userInfo(null, null, callback);
+            });
         } else {
             this.api.logout().subscribe(user => {
                 this.cache.clear();
@@ -102,5 +104,17 @@ export class AuthService {
             return '';
         }
         return this.user.firstname;
+    }
+
+    isAdmin(): boolean {
+        if (!this.settings.k7 || !this.isLoggedIn() || !this.user.roles) {
+            return false;
+        }
+        for (const role of this.user.roles) {
+            if (role['name'] == 'k4_admins' || role['name'] == 'kramerius_admin') {
+                return true;
+            }
+        }
+        return false;
     }
 }

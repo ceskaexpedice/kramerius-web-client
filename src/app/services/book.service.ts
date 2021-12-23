@@ -267,7 +267,7 @@ export class BookService {
             this.metadata.licences = this.licences;
             this.metadata.licence = this.licence;
             if (item.pdf) {
-                this.showNavigationPanel = false;
+                this.showNavigationPanel = true;
                 this.bookState = BookState.Success;
                 this.assignPdfPath(params.uuid);
             } else {

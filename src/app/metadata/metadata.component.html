@@ -10,11 +10,11 @@
       <i *ngIf="showMetadata()" class="app-mdi-metadata app-cursor-pointer" (click)="onShowMetadata()"
         mz-tooltip [tooltip]="'book_controls.tooltip_metadata' | translate"  [position]="'bottom'">
       </i>
-      <!-- <ng-container *ngIf="account.serviceEnabled() && account.isLoggedIn()">
-        <i *ngIf="account.hasRole('kramerius_admin')" class="app-mdi-edit app-cursor-pointer" target="_blank" (click)="openAdminActions()"
+      <ng-container *ngIf="auth.isAdmin()">
+        <i class="app-mdi-edit app-cursor-pointer" target="_blank" (click)="openAdminActions()"
           mz-tooltip [tooltip]="'book_controls.tooltip_edit' | translate"  [position]="'bottom'">
         </i> 
-      </ng-container> -->
+      </ng-container>
   </div>
 
   <div class="app-metadata-content">

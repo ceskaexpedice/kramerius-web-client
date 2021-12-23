@@ -313,7 +313,7 @@ export class KrameriusApiService {
     }
 
     logout() {
-        const url = this.getK5CompatApiUrl() + '/user/logout';
+        const url = this.getApiUrl() + '/user/logout';
         return this.http.get(url).catch(this.handleError);
     }
 

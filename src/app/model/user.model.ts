@@ -8,7 +8,8 @@ export class User {
   password: string;
   code: string;
   licences: string[];
-  
+  roles: string[];
+
 
   static fromJson(json, username, passwod): User {
     if (json) {
@@ -18,6 +19,7 @@ export class User {
       user.surname = json['surname'];
       user.code = json['session'] ? json['session']['session_eppn'] : '';
       user.licences = json['licenses'] || [];
+      user.roles = json['roles'] || [];
       user.username = username;
       user.password = passwod;
       return user;
