@@ -16,11 +16,9 @@
 </div>
 <div class="row">
   <div class="col s12">
-    <a mz-button (click)="onSearchButtonClick()" class="app-button">
-      <i *ngIf="!searchStr" mz-icon-mdi [icon]="'arrow-right'" [align]="'left'"></i>
-      <i *ngIf="searchStr" mz-icon-mdi [icon]="'magnify'" [align]="'left'"></i>
+    <div mz-button (click)="onSearchButtonClick()" class="app-button app-button-primary">
       <span *ngIf="!searchStr">{{'home.btn_enter' | translate}}</span>
       <span *ngIf="searchStr">{{'home.btn_search' | translate}}</span>
-    </a>
+    </div>
   </div>
 </div>

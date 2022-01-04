@@ -56,14 +56,14 @@ app-home-search-bar {
         }
       }      
     }
-    .app-button {
-      @extend .light-blue;
-      @extend .darken-3;
-      @extend .z-depth-0;
-      &:hover {
-        @extend .darken-2;
-      }
-    }
+    // .app-button {
+    //   @extend .light-blue;
+    //   @extend .darken-3;
+    //   @extend .z-depth-0;
+    //   &:hover {
+    //     @extend .darken-2;
+    //   }
+    // }
   }
   .checkbox-field {
     display: block;
