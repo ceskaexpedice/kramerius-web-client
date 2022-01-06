@@ -8,7 +8,6 @@
   box-shadow: 0 2px 2px 0 rgba(38, 50, 56, 0), 0 1px 5px 0 rgba(38, 50, 56, 0.12), 0 3px 1px -20px rgba(38, 50, 56, 0.1);
   height: 68px;
   line-height: 68px;
-  overflow: hidden;
   .app-arrow-left {
     float:left;
     height: 68px;
@@ -76,6 +75,9 @@
           }
         }
       }
+      app-navbar-search-bar {
+        flex: 1;
+      }
       .app-buttons {
         display: initial;
         .app-navbar-item {
@@ -83,7 +85,7 @@
           a {
             line-height: 68px;
             transition: background-color .3s;
-            font-size: 1rem;
+            font-size: 14px;
             color: #757575;
             display: block;
             padding: 0 15px;

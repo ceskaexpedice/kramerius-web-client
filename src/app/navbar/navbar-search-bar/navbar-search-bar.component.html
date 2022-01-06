@@ -4,6 +4,6 @@
     [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="getPlaceholder()" [inputName]="'autocomplete-input'">
     </ng2-completer>
   </div>
-  <i mz-icon-mdi [icon]="'magnify'" (click)="onMagnifyIconClick()" class="app-cursor-pointer"></i>
-  <i *ngIf="searchStr" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate"></i>
+  <mat-icon (click)="onMagnifyIconClick()" class="app-button-search">search</mat-icon>
+  <mat-icon *ngIf="searchStr" (click)="cleanQuery()" class="app-button-close" [matTooltip]="'searchbar.delete_query' | translate">close</mat-icon>
 </div>

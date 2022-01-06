@@ -9,7 +9,8 @@ import { Translator } from 'angular-translator';
 
 @Component({
   selector: 'app-home-search-bar',
-  templateUrl: './home-search-bar.component.html'
+  templateUrl: './home-search-bar.component.html',
+  styleUrls: ['./home-search-bar.component.scss']
 })
 export class HomeSearchBarComponent implements OnInit {
 

@@ -21,7 +21,7 @@
 // @import "styles/app-navbar";
 @import "styles/app-logo";
 // @import "styles/app-home-logo";
-@import "styles/app-search-bar";
+// @import "styles/app-search-bar";//
 @import "styles/app-autocomplete";
 @import "styles/app-ng-datepicker";
 @import "styles/app-document-card";
@@ -76,7 +76,9 @@
 }
 
 
-html, body { height: 100%; }
+html, body { 
+    height: 100%; 
+}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
