@@ -5,55 +5,42 @@
   <span [class.app-brand-text-hide]="appSettings.hideHomeTitle" class="app-brand-text app-brand-top app-single-kramerius">{{ appSettings.title }}</span>
 </div>
 
-
-
-
-
 <div class="brand-logo" [class.app-logo-big]="appSettings.bigHomeLogo" *ngIf="appSettings.multiKramerius && appSettings.landingPage">
-  <a mz-tooltip [tooltip]="'home.select_library' | translate" [position]="'top'" [routerLink]="['/']" (click)="analytics.sendEvent('home', 'landing', appSettings.code);">
+  <a [matTooltip]="'home.select_library' | translate" matTooltipPosition="above" [routerLink]="['/']" (click)="analytics.sendEvent('home', 'landing', appSettings.code);">
     <span>
       <span class="app-brand-img app-brand-top">
         <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
       </span>
       <span *ngIf="!appSettings.hideHomeTitle" class="app-brand-text app-brand-top">{{ appSettings.title }}</span>
-      <i mz-icon-mdi [icon]="'chevron-down'" class="app-clean-mg app-brand-handle"></i>
+      <mat-icon class="app-clean-mg app-brand-handle">expand_more</mat-icon>
     </span>
   </a>
 </div>
 
-
-
-
 <div class="brand-logo" [class.app-logo-big]="appSettings.bigHomeLogo" *ngIf="appSettings.multiKramerius && !appSettings.landingPage">
-  <div id="app-logo-dropdown-selector" mz-tooltip [tooltip]="'home.select_library' | translate" [position]="'top'">
+  <div [matMenuTriggerFor]="librariesMenu" [matTooltip]="'home.select_library' | translate" matTooltipPosition="above">
     <span>
       <span class="app-brand-img app-brand-top">
         <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.title }}" />
       </span>
       <span *ngIf="!appSettings.hideHomeTitle" class="app-brand-text app-brand-top">{{ appSettings.title }}</span>
-      <i mz-icon-mdi [icon]="'chevron-down'" class="app-clean-mg app-brand-handle"></i>
+      <mat-icon class="app-clean-mg app-brand-handle">expand_more</mat-icon>
     </span>
   </div>
 
-  <mz-dropdown
-    [id]="'logo-dropdown'"
-    [align]="'left'"
-    [belowOrigin]="false"
-    [constrainWidth]="true"
-    [dropdownButtonId]="'app-logo-dropdown-selector'"
-    [gutter]="true"
-    [hover]="false"
-    [inDuration]="300"
-    [outDuration]="300"
-    [stopPropagation]="true"
-  >
-    <mz-dropdown-item *ngFor="let kramerius of appSettings.krameriusList">
-      <a [routerLink]="['/' + kramerius.code]" (click)="analytics.sendEvent('home', 'kramerius', kramerius.title);">
-        <span class="app-brand-img">
+  <mat-menu #librariesMenu="matMenu" xPosition="after" class="app-libraries-menu">
+    <ng-template matMenuContent ngFor>
+      <a class="app-dropdown-item" *ngFor="let kramerius of appSettings.krameriusList" [routerLink]="['/' + kramerius.code]" (click)="analytics.sendEvent('home', 'kramerius', kramerius.title);">
+        <div class="app-brand-img">
           <img src="{{ kramerius.logo }}" class="img-responsive app-pipe" alt="{{ kramerius.title }}" />
-        </span>
-        <span class="app-brand-text">{{ kramerius.title }}</span>
+        </div>
+        <div class="app-brand-text">{{ kramerius.title }}</div>
       </a>
-    </mz-dropdown-item>
-  </mz-dropdown>
+    </ng-template>
+  </mat-menu>
+
 </div>
+
+
+
+

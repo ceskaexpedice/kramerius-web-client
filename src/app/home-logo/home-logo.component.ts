@@ -4,7 +4,8 @@ import { AnalyticsService } from '../services/analytics.service';
 
 @Component({
   selector: 'app-home-logo',
-  templateUrl: './home-logo.component.html'
+  templateUrl: './home-logo.component.html',
+  styleUrls: ['./home-logo.component.scss']
 })
 export class HomeLogoComponent implements OnInit {
 

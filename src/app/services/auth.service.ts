@@ -25,7 +25,6 @@ export class AuthService {
         }
     }
 
-
     login(username: string, password: string, callback: (status: string) => void = null) {
         if (this.settings.k7) {
             this.k7Login(username, password, callback);
@@ -33,7 +32,6 @@ export class AuthService {
             this.userInfo(username, password, callback);
         }
     }
-
 
     userInfo(username: string, password: string, callback: (status: string) => void = null) {
         this.api.getUserInfo(username, password).subscribe(user => {

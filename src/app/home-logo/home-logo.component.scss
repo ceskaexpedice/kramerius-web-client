@@ -1,10 +1,13 @@
-app-home-logo {
-  .brand-logo {
+@import './src/variables.scss';
+
+
+.brand-logo {
     font-size: inherit;
     position: inherit;
     display: table;
     line-height: normal;
     // height: 40px;
+    cursor: pointer;
     margin-right: auto;
     margin-left: auto;    
     @media #{$medium-and-down} {
@@ -38,26 +41,26 @@ app-home-logo {
     }
 
 
-    #app-logo-dropdown-selector {
-      width: 450px;
-      @media (max-width: 500px) {
-        width: 400px;
-      }
-      @media (max-width: 450px) {
-        width: 350px;
-      }
-      @media (max-width: 400px) {
-        width: 300px;
-      }
-      @media (max-width: 350px) {
-        width: 250px;
-      }
-      @media (max-width: 300px) {
-        width: 100%;
-      }
-      text-align: center;
-      cursor: pointer;
-    }
+    // #app-logo-dropdown-selector {
+    //   width: 450px;
+    //   @media (max-width: 500px) {
+    //     width: 400px;
+    //   }
+    //   @media (max-width: 450px) {
+    //     width: 350px;
+    //   }
+    //   @media (max-width: 400px) {
+    //     width: 300px;
+    //   }
+    //   @media (max-width: 350px) {
+    //     width: 250px;
+    //   }
+    //   @media (max-width: 300px) {
+    //     width: 100%;
+    //   }
+    //   text-align: center;
+    //   cursor: pointer;
+    // }
   }
 
   .app-logo-big.brand-logo {
@@ -86,4 +89,34 @@ app-home-logo {
     }
 
 
+
+::ng-deep {
+  .app-libraries-menu {
+    .app-dropdown-item {
+      display: block;
+      overflow: hidden;
+      padding: 5px 10px;
+      cursor: pointer;
+      .app-brand-img {
+        float: left;
+        margin-right: 10px;
+        height: 40px;
+        img {
+          height: 40px;
+        }
+      }
+      .app-brand-text {
+        font-size: 14px;
+        line-height: 18px;
+        color: $app-grey;
+        vertical-align: text-top;
+        display: flex;
+        height: 40px;
+        align-items: center;
+      }
+      &:hover {
+        background: #e5e5e5;
+      }
+    }
+  }
 }

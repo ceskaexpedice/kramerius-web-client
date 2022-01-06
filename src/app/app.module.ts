@@ -158,6 +158,7 @@ import { EpubViewerComponent } from './book/epub-viewer/epub-viewer.component';
 import { EpubService } from './services/epub.service';
 import { CitationService } from './services/citation.service';
 import { AuthInterceptor } from './services/auth-interceptor.service';
+import { MaterialModule } from './material.module';
 
 declare var APP_GLOBAL: any;
 
@@ -285,6 +286,7 @@ export function hljsLanguages() {
     DatepickerModule,
     Ng2CompleterModule,
     MatomoModule,
+    MaterialModule,
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset
     }),

@@ -1,23 +1,26 @@
+@import './theme.scss';
+@import './variables.scss';
+
 // --- ROOT STYLE ---
 
-@import "styles/app-pallete";
-@import "styles/app-color";
+// @import "styles/app-pallete";
+// @import "styles/app-color";
 
 @import "styles/app-variables";
 
 @import "../node_modules/materialize-css/sass/materialize.scss";
 @import "../node_modules/mdi/scss/materialdesignicons.scss";
 
-@import "styles/fontface/roboto-condensed/roboto-condensed-fontface";
+// @import "styles/fontface/roboto-condensed/roboto-condensed-fontface";
 
 @import "styles/app-mixins";
 @import "styles/app-mdi";
 @import "styles/app-alert";
 @import "styles/app-layout";
 @import "styles/app-global";
-@import "styles/app-navbar";
+// @import "styles/app-navbar";
 @import "styles/app-logo";
-@import "styles/app-home-logo";
+// @import "styles/app-home-logo";
 @import "styles/app-search-bar";
 @import "styles/app-autocomplete";
 @import "styles/app-ng-datepicker";
@@ -73,34 +76,40 @@
 }
 
 
-.app-button {
-    cursor: pointer;
-    display: inline-block;
-    padding: 0px 16px;
-    border-radius: 4px;
-    user-select: none;
-    letter-spacing: .5px;
-    text-decoration: none;
-    overflow: hidden;
-    transition: .3s ease-out;
-    font-size: 16px;
-    text-transform: uppercase;
-    line-height: 37px;
-    &:hover {
-        background: #eee;
-    }
-    &.app-button-primary {
-      color: #fff;
-      background-color: $primary-color;
-      &:hover {
-        background-color: $primary-color-light;
-      }
-    }
-    &.app-disabled {
-      user-select: none;
-      pointer-events: none;
-      background: #e8e8e8 !important; 
-      color: #ababab !important;
-      cursor: default;
-    }
-}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+  
+  * {
+    box-sizing: border-box;    
+  }
+  
+  :-ms-fullscreen {
+    width: auto;
+    height: auto;
+    margin: auto;
+  }
+  
+  a, .app-cursor-pointer {
+    cursor: pointer !important;
+  }
+  
+  // font
+  .app-font-bold {
+    font-family: 'Roboto-Condensed-Bold';
+  }
+  
+  //cleaners
+  .app-clean-mg {
+    margin: 0 !important;
+  }
+  
+  .app-clean-pd {
+    padding: 0 !important;
+  }
+  
+  .app-clean-border {
+    border: 0 !important;
+  }
+

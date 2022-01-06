@@ -91,13 +91,13 @@ app-home-search-bar {
   
   // mq
   @media #{$extra-large-and-up} {
-    .checkbox-field {
+    mat-checkbox {
       display: inline-block;
       padding-left: 20px;
       margin-top: 0;
     }
     .app-hide-filter {
-      .checkbox-field {
+      mat-checkbox {
         display: inline-block;
         visibility: hidden;
       }
@@ -113,46 +113,6 @@ app-home-search-bar {
 // navbar
 app-navbar-search-bar {
   flex: 1;
-  // @media #{$extra-large-and-up} {
-  //   .app-search-bar-wrapper {
-  //     // width: 600px;
-  //     width: calc(100% - 455px);
-  //   }
-  // }
-
-  // @media only screen and (max-width: 1300px) {
-  //   .app-search-bar-wrapper {
-  //     width: 430px;
-  //   }
-  // }
-
-  // @media only screen and (max-width: 1190px) {
-  //   .app-search-bar-wrapper {
-  //     width: 355px;
-  //   }
-  // }
-
-  // @media only screen and (max-width: 1090px) {
-  //   .app-search-bar-wrapper {
-  //     width: 310px;
-  //   }
-  // }
-
-  // @media only screen and (max-width: 1040px) {
-  //   .app-search-bar-wrapper {
-  //     width: 270px;
-  //   }
-  // }
-
-  // @media only screen and (max-width: 991px) {
-  //   .app-search-bar-wrapper {
-  //     width: calc(100% - 16px);
-  //   }
-  // }
-
-
-
-
   @media #{$small-400-and-down} {
     display: none;
     

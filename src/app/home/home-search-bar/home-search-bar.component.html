@@ -9,16 +9,12 @@
       <i mz-icon-mdi [icon]="'magnify'" (click)="onMagnifyIconClick()" class="app-cursor-pointer"></i>
       <i *ngIf="searchStr" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
     </div>
-    <mz-checkbox-container [class.app-hide-filter]="!appSettings.availableFilter('accessibility')">
-      <input mz-checkbox [(ngModel)]="accessibilityFilter" [label]="'navbar.checkbox_label' | translate" id="checkbox-id" type="checkbox" (change)="onAccessibilityFilterChanged()">
-    </mz-checkbox-container> 
+    <mat-checkbox [class.app-hide-filter]="!appSettings.availableFilter('accessibility')" color="primary" (change)="onAccessibilityFilterChanged()" [(ngModel)]="accessibilityFilter">{{ 'navbar.checkbox_label' | translate }}</mat-checkbox>
+
   </div>
 </div>
 <div class="row">
   <div class="col s12">
-    <div mz-button (click)="onSearchButtonClick()" class="app-button app-button-primary">
-      <span *ngIf="!searchStr">{{'home.btn_enter' | translate}}</span>
-      <span *ngIf="searchStr">{{'home.btn_search' | translate}}</span>
-    </div>
+    <button (click)="onSearchButtonClick()" mat-raised-button color="primary">{{ (!!searchStr ? 'home.btn_search' : 'home.btn_enter') | translate }}</button>
   </div>
 </div>

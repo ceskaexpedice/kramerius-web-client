@@ -1,23 +1,22 @@
-<mz-navbar class="clearfix">
+<div class="app-navbar">
   <div *ngIf="!state.atHome()" class="col app-col-left" [class.app-col-hidden]="mobileSearchBarExpanded">
     <a class="app-arrow-left" (click)="goBack()">
-      <i mz-icon-mdi [icon]="'arrow-left'" [align]="'left'" mz-tooltip [tooltip]="'navbar.back' | translate" [position]="'right'" ></i>
+      <mat-icon [matTooltip]="'navbar.back' | translate" matTooltipPosition="above">arrow_back</mat-icon>
     </a>
     <app-logo></app-logo>
   </div>
 
-  <div *ngIf="state.atHome() && appSettings.landingPage" class="sp-header-logo" mz-tooltip [tooltip]="'sp.logo_tooltip' | translate" [position]="'right'">
+  <div *ngIf="state.atHome() && appSettings.landingPage" class="sp-header-logo" [matTooltip]="'sp.logo_tooltip' | translate" matTooltipPosition="right">
     <a [routerLink]="['/']">
       <img [src]="'sp.header.logo' | translate">
     </a>
   </div>
-
   
   <div class="col app-col-right" [class.app-col-right-home]="state.atHome()" [class.app-search-bar-displayed]="mobileSearchBarExpanded">
     <app-navbar-search-bar *ngIf="!state.atHome()" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
-    <mz-navbar-item-container [align]="'right'" [class.app-col-right-home]="state.atHome()" class="app-buttons">
+    <div [align]="'right'" class="app-buttons">
       
-      <mz-navbar-item routerLinkActive="active" #collections="routerLinkActive">
+      <div class="app-navbar-item">
         <ng-container *ngIf="appSettings.k5Compat(); else newCollections">
           <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
           <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
@@ -25,80 +24,50 @@
         <ng-template #newCollections>
           <a (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
         </ng-template>
-      </mz-navbar-item>
-      <mz-navbar-item routerLinkActive="active" #browse="routerLinkActive">
+      </div>
+      <div class="app-navbar-item">
         <a (click)="analytics.sendEvent('navbar', 'browse');" [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
-      </mz-navbar-item>
-      <mz-navbar-item routerLinkActive="active" *ngIf="appSettings.aboutPage">
+      </div>
+      <div class="app-navbar-item" *ngIf="appSettings.aboutPage">
         <a (click)="analytics.sendEvent('navbar', 'about');" [routerLink]="appSettings.getRouteFor('about')">{{ 'navbar.about' | translate }}</a>
-      </mz-navbar-item>
-      <mz-navbar-item routerLinkActive="active" *ngIf="appSettings.faqPage">
+      </div>
+      <div class="app-navbar-item" *ngIf="appSettings.faqPage">
         <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
-      </mz-navbar-item>
+      </div>
 
       <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.k7">
-        <mz-navbar-item *ngIf="authService.isLoggedIn()">
+        <div class="app-navbar-item" *ngIf="authService.isLoggedIn()">
           <a (click)="logout()">{{ 'navbar.logout' | translate }}</a>
-        </mz-navbar-item>
-        <mz-navbar-item *ngIf="!authService.isLoggedIn()">
+        </div>
+        <div class="app-navbar-item" *ngIf="!authService.isLoggedIn()">
           <a (click)="login()">{{ 'navbar.login' | translate }}</a>
-        </mz-navbar-item>
+        </div>
       </ng-container>
 
-      <!-- <mz-navbar-item *ngIf="!appSettings.auth && account.serviceEnabled() && !account.isLoggedIn()">
-        <a [routerLink]="appSettings.getRouteFor('signin')">{{ 'navbar.login' | translate }}</a>
-      </mz-navbar-item>   -->
 
-      <mz-navbar-item class="app-language">
-        <div *ngIf="languages().length > 1" id="btn-dropdown-language">
+
+      <div class="app-language">
+        <div *ngIf="languages().length > 1" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu">
           <img src="assets/img/flag_{{translator.language}}.png">
         </div>
-        <mz-dropdown
-        [id]="'dropdown-lang'"
-        [align]="'right'"
-        [belowOrigin]="true"
-        [constrainWidth]="false"
-        [dropdownButtonId]="'btn-dropdown-language'"
-        [gutter]="false"
-        [hover]="true"
-        [inDuration]="300"
-        [outDuration]="300"
-        [stopPropagation]="true">
-          <mz-dropdown-item *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)">
-            <div class="app-language">
-              <img src="assets/img/flag_{{lang}}.png">
-              <div class="app-language-name">{{ 'lang.' + lang | translate }}</div>
+
+        <mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
+          <ng-template matMenuContent ngFor>
+            <div class="app-dropdown-item" *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)">
+              <div class="app-language">
+                <img src="assets/img/flag_{{lang}}.png">
+                <div class="app-language-name">{{ 'lang.' + lang | translate }}</div>
+              </div>
             </div>
-          </mz-dropdown-item>
-        </mz-dropdown>
-      </mz-navbar-item>
+          </ng-template>
+        </mat-menu>
 
-      <!-- <mz-navbar-item class="app-profile" *ngIf="!appSettings.auth && account.serviceEnabled() && account.isLoggedIn()">
-        <img *ngIf="account.getImage()" class="app-profile-img" [src]="account.getImage()" id="btn-dropdown-profile">
-        <div *ngIf="!account.getImage()" class="app-profile-txt" id="btn-dropdown-profile">{{ account.getTextProfile() }}</div>
-        <mz-dropdown
-          [id]="'dropdown-profile'"
-          [align]="'left'"
-          [belowOrigin]="true"
-          [constrainWidth]="true"
-          [dropdownButtonId]="'btn-dropdown-profile'"
-          [gutter]="true"
-          [hover]="false"
-          [inDuration]="300"
-          [outDuration]="300"
-          [stopPropagation]="true"
-        >
-        <mz-dropdown-item><div class="app-profile-name">{{ account.getName() }}</div></mz-dropdown-item>
-        <mz-dropdown-item><a [routerLink]="appSettings.getRouteFor('favourites')">Oblíbené</a></mz-dropdown-item>
-        <mz-dropdown-divider></mz-dropdown-divider>
-        <mz-dropdown-item><a (click)="logout()">{{ 'navbar.logout' | translate }}</a></mz-dropdown-item>
-      </mz-dropdown>
-    </mz-navbar-item> -->
+      </div>
 
-    </mz-navbar-item-container>
-    <a class="right app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="!state.atHome()">
-      <i *ngIf="!mobileSearchBarExpanded" mz-icon-mdi [icon]="'magnify'"></i>
-      <i *ngIf="mobileSearchBarExpanded" mz-icon-mdi [icon]="'close'"></i>
+    </div>
+    <a class="app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="!state.atHome()">
+      <mat-icon  *ngIf="!mobileSearchBarExpanded">search</mat-icon>
+      <mat-icon  *ngIf="mobileSearchBarExpanded">close</mat-icon>
     </a>
   </div>
-</mz-navbar>
+</div>
