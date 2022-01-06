@@ -5,7 +5,7 @@ app-browse-toolbar {
   height: $app-toolbar-height;
   line-height: $app-toolbar-height;
   padding: 0 1rem;
-  @include set-border(bottom, 1, solid, $app-grey-l-2);
+  border-bottom: 1px solid $app-grey-l-2;
   position: relative;
   
   & > .row {
@@ -60,7 +60,7 @@ app-browse-toolbar {
 
             &:not(:first-child) {
               & > span {
-                @include set-border(left, 1, solid, $app-grey-l-2);
+                border-left: 1px solid $app-grey-l-2;
               } 
             }
           }

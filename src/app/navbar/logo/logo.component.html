@@ -1,0 +1,24 @@
+<div class="app-logo" id="app-search-dropdown-selector">
+
+  <a [routerLink]="settings.getRouteFor('')" (click)="analytics.sendEvent('navbar', 'home');" class="brand-logo" title="{{'navbar.home' | translate}}">
+  
+  <span class="app-brand-img">
+    <img src="{{ settings.logo }}" class="img-responsive app-pipe" alt="{{'navbar.home' | translate }}" />
+  </span>
+
+  <span class="app-brand-text hide-on-small-only">{{ settings.title }}</span>
+  
+  </a>  
+  <mat-icon *ngIf="settings.multiKramerius && state.atSearchScreen()" [matMenuTriggerFor]="librariesMenu" class="app-dropdown-selector">expand_more</mat-icon>
+  </div>
+
+
+
+  <mat-menu #librariesMenu="matMenu" xPosition="before" class="app-libraries-menu">
+    <ng-template matMenuContent ngFor>
+      <div class="app-dropdown-item" *ngFor="let kramerius of settings.krameriusList" (click)="changeLibrary(kramerius)">
+          <img src="{{ kramerius.logo }}" class="app-library-icon" />
+          <div class="app-library-name">{{ kramerius.title }} </div>
+      </div>
+    </ng-template>
+  </mat-menu>

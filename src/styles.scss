@@ -19,7 +19,7 @@
 @import "styles/app-layout";
 @import "styles/app-global";
 // @import "styles/app-navbar";
-@import "styles/app-logo";
+// @import "styles/app-logo";
 // @import "styles/app-home-logo";
 // @import "styles/app-search-bar";//
 @import "styles/app-autocomplete";
@@ -41,39 +41,6 @@
 @import "styles/app-page-not-found";
 @import "styles/app-login";
 
-
-#app-search-library-dropdown {
-    overflow: auto !important;
-    margin-left: 28px !important;
-    li {
-        transition: none;
-    }
-    .app-search-dropdown-library {
-        .app-library-icon {
-            float: left;
-            margin-right: 10px;
-            width: 24px;
-            margin-left: -2px;
-        }
-        .app-library-name {
-            font-size: 14px;
-            color: #777;
-        }
-        @media only screen and (max-width: 600px) {
-            padding: 10px 0;
-            text-align: center;
-            .app-library-icon {
-                float: none;
-                margin: 0;
-                width: 30px;
-            }
-            .app-library-name {
-                display: none;
-            }
-        }
-
-    }
-}
 
 
 html, body { 

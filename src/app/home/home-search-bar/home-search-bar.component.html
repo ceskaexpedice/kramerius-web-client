@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col s12 m12 l12 offset-xl1 xl11">
-    <div class="app-search-bar-wrapper left-align" [class.app-hover]="searchStr">
+    <div class="app-search-bar-wrapper" [class.app-hover]="searchStr">
       <div class="input-field">
         <ng2-completer #completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="searchStr" [matchClass]="'highlight'"
         [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="getPlaceholder()" [inputName]="'autocomplete-input'">

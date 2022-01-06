@@ -7,8 +7,7 @@ app-book-search {
   .app-book-search-bar-wrapper {
     width: 100%;
     padding: 0 20px 0 20px;
-    @include set-border(bottom, 1, solid, $app-grey-l-2);
-
+    border-bottom: 1px solid $app-grey-l-2;
     .app-book-search-bar {
       position: relative;
       height: 47px;

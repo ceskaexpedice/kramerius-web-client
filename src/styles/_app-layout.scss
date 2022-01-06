@@ -36,7 +36,7 @@ app-root {
       height: 100%;
       z-index: 10;
       background-color: $app-grey-l-5;
-      @include set-border(right, 1, solid, $app-grey-l-2);
+      border-right: 1px solid $app-grey-l-2;
     }
 
 
@@ -47,17 +47,6 @@ app-root {
         height: 100%;
         overflow: auto;
         background-color: $app-grey-l-4;
-      }
-    }
-    
-    // home
-    app-home {
-      .app-content-wrapper {
-        flex: 1;
-        height: 100%;
-        overflow: auto;
-        
-        @import "styles/app-home";
       }
     }
     

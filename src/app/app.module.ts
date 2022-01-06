@@ -1,6 +1,5 @@
 import { DialogPdfGeneratorComponent } from './dialog/dialog-pdf-generator/dialog-pdf-generator.component';
 import { DialogCitationComponent } from './dialog/dialog-citation/dialog-citation.component';
-import { AuthService } from './services/auth.service';
 import { SimpleDialogComponent } from './dialog/simple-dialog/simple-dialog.component';
 import { AppSettings } from './services/app-settings';
 import { PeriodicalFulltextItemComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-item/periodical-fulltext-item.component';
@@ -74,7 +73,7 @@ import { SearchCalendarComponent } from './search/search-calendar/search-calenda
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.component';
 import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
-import { LogoComponent } from './logo/logo.component';
+import { LogoComponent } from './navbar/logo/logo.component';
 import { PersistentLinkComponent } from './persistent-link/persistent-link.component';
 import { PeriodicalService } from './services/periodical.service';
 import { BrowseSearchComponent } from './browse/browse-search/browse-search.component';
@@ -96,7 +95,7 @@ import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconMod
 import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HomeLogoComponent } from './home-logo/home-logo.component';
+import { HomeLogoComponent } from './home/home-logo/home-logo.component';
 import { HttpRequestCache } from './services/http-request-cache.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CachingInterceptor } from './services/caching-interceptor.service';

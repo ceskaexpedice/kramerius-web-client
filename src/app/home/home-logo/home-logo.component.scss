@@ -1,0 +1,98 @@
+@import './src/variables.scss';
+
+
+.brand-logo {
+  font-size: inherit;
+  position: inherit;
+  display: table;
+  line-height: normal;
+  // height: 40px;
+  cursor: pointer;
+  margin-right: auto;
+  margin-left: auto;    
+  @media #{$medium-and-down} {
+    transform: none;
+  }
+
+  .app-brand-img {
+    display: table-cell;
+    vertical-align: middle;
+
+    img {
+      height: 40px;
+    }
+  }
+
+  .app-brand-text {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 10px;
+    font-size: 1.1rem;
+    line-height: 1.1rem;
+    color: $app-grey;
+    &.app-brand-text-hide {
+      display: none;
+    }
+  }
+  .app-brand-handle {
+    display: table-cell;
+    vertical-align: middle;
+    color: #666;
+  }
+}
+
+.app-logo-big.brand-logo {
+  .app-brand-top.app-brand-img {
+    display: block; 
+    margin-top: -60px; 
+    margin-bottom: 10px;
+    @media #{$medium-and-down} {
+      margin-top: -20px; 
+    }
+    img {
+      height: 142px;
+      @media #{$medium-and-down} {
+        height: 110px;
+      }
+    }
+  }
+  .app-brand-top.app-brand-text.app-single-kramerius {
+    display: block; 
+    margin-bottom: 10px;
+    padding: 0;
+    &.app-brand-text-hide {
+      display: none;
+    }
+  }
+}
+
+::ng-deep {
+  .app-libraries-menu {
+    .app-dropdown-item {
+      display: block;
+      overflow: hidden;
+      padding: 5px 10px;
+      cursor: pointer;
+      .app-brand-img {
+        float: left;
+        margin-right: 10px;
+        height: 40px;
+        img {
+          height: 40px;
+        }
+      }
+      .app-brand-text {
+        font-size: 14px;
+        line-height: 18px;
+        color: $app-grey;
+        vertical-align: text-top;
+        display: flex;
+        height: 40px;
+        align-items: center;
+      }
+      &:hover {
+        background: #e5e5e5;
+      }
+    }
+  }
+}

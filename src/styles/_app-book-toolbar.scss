@@ -3,10 +3,8 @@
 app-book-toolbar {
   display: block;
   height: $app-toolbar-height;
-  //padding: 0 1rem;
-  @include set-border(bottom, 1, solid, $app-grey-l-2);
+  border-bottom: 1px solid $app-grey-l-2;
   position: relative;
-          
   .col {
     @extend .app-clean-pd;
     
@@ -61,93 +59,5 @@ app-book-toolbar {
       display: none;
     }
     
-    /* old 
-    &.app-nav-item {
-      height: $app-toolbar-height;
-      overflow: hidden;
-      line-height: $app-toolbar-height;
-      
-      ul {
-        li {
-          &.active {
-            color: $primary-color;
-          }
-
-          & > span {
-            padding: 0 0.5rem;
-
-            &.app-mdi-in {
-              padding-right: 0.4rem;
-            }
-
-            label {
-              font-size: inherit;
-            }
-            
-            .app-desc {
-              padding-left: 0.5rem;
-              
-              // mq
-              @media #{$small-350-and-down} {
-                display: none;
-              }
-            }
-          }
-
-          &:not(:first-child) {
-            & > span {
-              @include set-border(left, 1, solid, $app-grey-l-2);
-            } 
-          }
-          
-          @media #{$small-and-down} {
-            &.app-nav-item-info {
-              display: block;
-            }
-            
-            &:last-child {
-              & > span {
-                padding-right: 0;
-              }
-            }
-          }
-          
-          @media #{$medium-and-up} {
-            &:nth-last-child(2) {
-              & > span {
-                padding-right: 0;
-              }
-            }
-          }
-        }
-      }
-      
-      //mq
-      @media #{$small-400-and-down} {
-        width: 50%;
-        
-        &.app-mq-small-1 {
-          width: 100%;
-        }
-      }
-    }*/
-    
-    // common
-    /*ul {
-      @extend .app-clean-mg;
-
-      li {
-        float: left;
-        color: $app-grey-l-1;
-
-        &:not(.active) {
-          span {
-            &:hover {
-              color: $app-grey-d-1;
-            } 
-          }
-        }
-      }
-    }*/
   }
 }

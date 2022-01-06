@@ -1,0 +1,121 @@
+@import './src/variables.scss';
+
+.app-logo {
+    position: relative;
+    margin-left: 30px;
+    .app-dropdown-selector {  
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: 0px;
+        padding: 0 1px 0 5px;
+        color: #aaa;
+        cursor: pointer;
+        &:before {
+            font-size: 22px;
+        }
+        @media only screen and (min-width: 601px) {
+            top: 67px;
+            right: 11px;
+            height: 55px;
+            display: block;
+            width: 40px;
+            line-height: 55px;
+            padding: 0px 14px;
+        }
+    }
+    .brand-logo {
+        font-size: inherit;
+        position: inherit;
+        display: table;
+        line-height: normal;
+        height: $navbar-height;
+        left: initial !important;
+        // mq
+        @media #{$medium-and-down} {
+          transform: none;
+        }
+    
+        .app-brand-img {
+          display: table-cell;
+          vertical-align: middle;
+    
+          img {
+            height: 34px;
+          }
+        }
+    
+        .app-brand-text {
+          display: table-cell;
+          vertical-align: middle;
+          padding: 0 8px;
+          font-size: 0.9rem;
+          line-height: 1.1rem;
+          color: $app-grey;
+        }
+    
+        // only for navbar
+        .app-pipe {
+          app-navbar & {
+            padding-left: 10px;
+            border-left: 1px solid $app-grey-l-2;
+          }
+        }
+        
+        // only for home
+        .home-top & {
+          height: 40px;
+          margin-right: auto;
+          margin-left: auto;
+    
+          .app-brand-img {
+            img:not(.app-logo-default) {
+              height: 40px;
+            }
+          }
+    
+          .app-brand-text {
+            font-size: 1.1rem;
+            line-height: 1.1rem;
+          } 
+        }
+    }
+}
+
+
+::ng-deep {
+    .app-libraries-menu {
+        .app-dropdown-item{
+            display: block;
+            overflow: hidden;
+            padding: 8px 10px;
+            cursor: pointer;
+            .app-library-icon {
+                float: left;
+                margin-right: 10px;
+                width: 24px;
+                margin-left: -2px;
+            }
+            .app-library-name {
+                font-size: 14px;
+                color: #777;
+            }
+            @media only screen and (max-width: 600px) {
+                padding: 10px 0;
+                text-align: center;
+                .app-library-icon {
+                    float: none;
+                    margin: 0;
+                    width: 30px;
+                }
+                .app-library-name {
+                    display: none;
+                }
+            }
+            &:hover {
+                background: #e5e5e5;
+            }
+
+        }
+    }
+}

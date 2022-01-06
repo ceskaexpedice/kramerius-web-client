@@ -4,8 +4,7 @@
   .tabs {
     overflow: inherit;
     background: transparent;
-    @include set-border(bottom, 1, solid, $app-grey-l-2);
-
+    border-bottom: 1px solid $app-grey-l-2;
     .tab  {
       &.tab-1 {
         width: 100%;
