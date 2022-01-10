@@ -1,33 +1,17 @@
 <div class="app-login-wrapper">
+  <div class="app-login-card">
 
-  <div class="app-title">Přihlašte se</div>
+    <div class="app-title">Přihlašte se</div>
+    
+    <div class="app-label">Jméno</div>
+    <input [(ngModel)]="username" placeholder="Zadejte uživatelské jméno" type="text">
 
-    <mz-input-container>
-        <input mz-input
-          [label]="'Jméno'"
-          [(ngModel)]="username"
-          [validate]="false"
-          id="username-input"
-          placeholder="Zadejte uživatelské jméno"
-          type="text">
-      </mz-input-container>
+    <div class="app-label">Zadejte heslo</div>
+    <input (ngModel)]="password" placeholder="Zadejte heslo" type="password">
 
-      <mz-input-container>
-          <input mz-input
-            [label]="'Heslo'"
-            [(ngModel)]="password"
-            [validate]="false"
-            id="password-input"
-            placeholder="Zadejte heslo"
-            type="password">
-        </mz-input-container>
-
-        <div *ngIf="state === 'failure'" class="app-error">{{ message }}</div>
-
-        <button mz-button (click)="login()">
-            Přihlásit
-          </button>
-
-
-
+    <div *ngIf="state === 'failure'" class="app-error">{{ message }}</div>
+    
+    <button (click)="login()" mat-raised-button color="primary">Přihlásit</button>
+    
+  </div>
 </div>
