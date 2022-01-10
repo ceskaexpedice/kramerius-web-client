@@ -15,17 +15,14 @@
 
 @import "styles/app-mixins";
 @import "styles/app-mdi";
-@import "styles/app-alert";
 @import "styles/app-layout";
 @import "styles/app-global";
 // @import "styles/app-navbar";
 // @import "styles/app-logo";
 // @import "styles/app-home-logo";
 // @import "styles/app-search-bar";//
-@import "styles/app-autocomplete";
-@import "styles/app-ng-datepicker";
-@import "styles/app-document-card";
-@import "styles/app-paginator";
+// @import "styles/app-document-card";
+// @import "styles/app-paginator";
 @import "styles/app-dialog";
 @import "styles/app-dialog-pdf";
 @import "styles/app-dialog-pdf-generator";
@@ -41,6 +38,16 @@
 @import "styles/app-page-not-found";
 @import "styles/app-login";
 
+
+
+// done
+@import "styles/app-about";
+@import "styles/app-autocomplete";
+@import "styles/app-ng-datepicker";
+
+
+// todo
+@import "styles/app-alert";
 
 
 html, body { 

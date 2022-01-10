@@ -125,7 +125,7 @@ export class LicenceService {
       };
     } else if (this.accessible(licences)) {
       return {
-        icon: 'camera-off',
+        icon: 'no_photography',
         class: 'app-lock-licence-open',
         tooltip: this.labels(licences)
       };

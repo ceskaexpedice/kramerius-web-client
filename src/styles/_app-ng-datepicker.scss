@@ -9,20 +9,19 @@
     font-size: 14px;
     width: 200px;
     outline: none;
-    @include set-border(all, 1, solid, $app-grey-c-1);
+    border: 1px solid $app-grey-c-1;
   }
 
   .ngx-datepicker-calendar-container {
-    background-color: color("shades", "white");
+    background-color: #fff;
     border-radius: $app-border-radius;
-    @include setCardShadow(0, 0, 0, $app-grey-l-2);
-    
+    box-shadow: 0 2px 2px 0 transparent, 0 1px 5px 0 rgba(0, 0, 0, 0.1), 0 3px 1px -20px rgba(0, 0, 0, 0.1);
     // header
     .topbar-container {
       width: 100%;
       height: 50px;
       padding: 15px;
-      @include set-border(bottom, 1, solid, $app-grey-l-2);
+      border-bottom: 1px solid $app-grey-l-2;
       background-color: $app-grey-l-5;
       display: flex;
       justify-content: space-between;
@@ -85,7 +84,7 @@
             }
           }
           a.day-unit-inner {
-            @extend .app-font-bold;
+            font-weight: 500;
             color: $primary-color;
             background-color: $app-grey-l-3;
             position: relative;;

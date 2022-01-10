@@ -10,7 +10,8 @@ import { LicenceService } from '../../services/licence.service';
 
 @Component({
   selector: 'app-document-card',
-  templateUrl: './document-card.component.html'
+  templateUrl: './document-card.component.html',
+  styleUrls: ['./document-card.component.scss']
 })
 export class DocumentCardComponent implements OnInit {
   @Input() item: DocumentItem;

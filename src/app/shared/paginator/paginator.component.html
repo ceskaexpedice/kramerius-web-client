@@ -1,12 +1,13 @@
-<ul class="pagination" *ngIf="numberOfPages() > 1">
-  <li [class.disabled]="!hasPrevious()" class="waves-effect app-arrow">
-    <a (click)="onPrevious()"><i mz-icon-mdi [icon]="'chevron-left'"></i></a>
-  </li>
-  <li *ngFor="let page of pages()" [class.active]="isActive(page)" class="waves-effect" >
-    <a (click)="onIndex(page)">{{page}}</a>
-  </li>
-  <li [class.disabled]="!hasNext()" class="waves-effect app-arrow">
-    <a (click)="onNext()"><i mz-icon-mdi [icon]="'chevron-right'"></i></a>
-  </li>
-</ul>
-
+<div class="app-paginator">
+  <ul *ngIf="numberOfPages() > 1">
+    <li [class.disabled]="!hasPrevious()" class="app-arrow">
+      <mat-icon (click)="onPrevious()">chevron_left</mat-icon>
+    </li>
+    <li *ngFor="let page of pages()" [class.app-active]="isActive(page)" class="waves-effect" >
+      <a (click)="onIndex(page)">{{page}}</a>
+    </li>
+    <li [class.disabled]="!hasNext()" class="app-arrow">
+      <mat-icon (click)="onNext()">chevron_right</mat-icon>
+    </li>
+  </ul>
+</div>

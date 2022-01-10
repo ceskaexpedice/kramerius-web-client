@@ -1,0 +1,45 @@
+@import './src/variables.scss';
+
+.app-paginator {
+    text-align: center;
+    ul {
+      margin-top: 20px;
+      padding-left: 0;
+      list-style-type: none;
+      li {
+        display: inline-block;
+        border-radius: 2px;
+        text-align: center;
+        vertical-align: top;
+        height: 30px;
+        list-style-type: none;
+        &:not(.app-arrow):not(.active):hover {
+          background-color: $app-grey-l-2;
+        }
+        a {
+            color: #444;
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: 0 10px;
+            line-height: 30px;
+        }
+        &.app-active {
+            background-color: $primary-color;
+            a {
+                color: #fff;
+            }
+          }
+        &.disabled {
+          opacity: 0.3;
+          a {
+            cursor: default !important;
+          }
+        }
+        mat-icon {
+            line-height: 30px;
+            user-select: none;
+            cursor: pointer;
+        }
+      }
+    }
+  }

@@ -1,50 +1,44 @@
 
 <a *ngIf="item" routerLink="{{item.url}}" [queryParams]="item.params" (click)="analytics.sendEvent(in, 'document', item.title);">
-  <mz-card [hoverable]="true">
-    <mz-card-content>
-      <div class="app-card-mark {{item.doctype}}"></div>
-      <div class="app-card-media">
-        <div class="app-card-thumb" [style.background-image]="thumb">
-          <ng-container *ngIf="lock">
-            <i mz-icon-mdi [icon]="lock.icon" class="app-lock {{ lock.class }}" mz-tooltip [tooltip]="lock.tooltip"></i>
-          </ng-container>
+  <div class="app-card-content-wrapper">
+    <div class="app-card-mark {{item.doctype}}"></div>
+    <div class="app-card-media">
+      <div class="app-card-thumb" [style.background-image]="thumb">
+        <div matTooltipPosition="above" [matTooltip]="lock.tooltip" class="app-lock {{ lock.class }}" *ngIf="lock">
+          <mat-icon>{{ lock.icon }}</mat-icon>
         </div>
       </div>
-      <div class="app-card-content">
-        <div *ngIf="item.title" class="app-card-title">
-          {{ getTitle() }}
-        </div>
-        <div *ngIf="item.authors && item.authors.length > 0" class="app-card-authors">
-          <i mz-icon-mdi [icon]="'account'" [class]="'app-clean-mg'"></i>
-          {{item.authors[0]}}
-        </div>
-        <div *ngIf="item.date" class="app-card-date">
-          <i mz-icon-mdi [icon]="'calendar-check'" [class]="'app-clean-mg'"></i>
-          {{item.date}}
-        </div>
-
-
-        <div *ngIf="item.description" class="app-card-description">
-          {{ getDescription() }}
-        </div>
-
-
-        <div *ngIf="item.hits" class="app-card-hits">
-          <strong>{{item.hits}}</strong> {{ 'common.n_occurrences' | translate: { count: item.hits } }}
-        </div>
-        <img *ngIf="item.library" class="app-card-logo" src="{{ libraryLogo() }}" >
-        <div *ngIf="item.doctype" class="app-card-doctype app-doctype-{{item.doctype}}">
-          {{ 'model.' + item.doctype | translate }}
-        </div>
-      </div>
-
-
-      <div *ngIf="selectable" class="app-selectable" [class.app-selected]="item.selected"
-      (click)="item.selected = !item.selected; $event.preventDefault();$event.stopPropagation()">
-      <div class="app-check"></div>
     </div>
 
+    <div class="app-card-content">
+      <div *ngIf="item.title" class="app-card-title">
+        {{ getTitle() }}
+      </div>
+      <div *ngIf="item.authors && item.authors.length > 0" class="app-card-authors">
+        <mat-icon>person</mat-icon>
+        {{item.authors[0]}}
+      </div>
+      <div *ngIf="item.date" class="app-card-authors">
+        <mat-icon>today</mat-icon>
+        {{item.date}}
+      </div>
 
-    </mz-card-content>
-  </mz-card>
+      <div *ngIf="item.description" class="app-card-description">
+        {{ getDescription() }}
+      </div>
+
+      <div *ngIf="item.hits" class="app-card-hits">
+        <strong>{{item.hits}}</strong> {{ 'common.n_occurrences' | translate: { count: item.hits } }}
+      </div>
+      <img *ngIf="item.library" class="app-card-logo" src="{{ libraryLogo() }}" >
+      <div *ngIf="item.doctype" class="app-card-doctype app-doctype-{{item.doctype}}">
+        {{ 'model.' + item.doctype | translate }}
+      </div>
+    </div>
+
+  </div>
+  <div *ngIf="selectable" class="app-selectable" [class.app-selected]="item.selected"
+    (click)="item.selected = !item.selected; $event.preventDefault();$event.stopPropagation()">
+    <div class="app-check"></div>
+  </div>
 </a>
