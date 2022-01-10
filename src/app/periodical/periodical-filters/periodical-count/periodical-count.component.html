@@ -1,7 +1,10 @@
-<mz-collection *ngIf="periodicalService.fulltext">
-  <mz-collection-item>{{ 'search.results' | translate }}: {{ periodicalService.fulltext.getResultsRange() }}  <span class="grey-text text-lighten-2">/</span> <span class="app-font-bold">{{periodicalService.getNumberOfResults()}}</span></mz-collection-item>
-</mz-collection>
-<mz-collection *ngIf="!periodicalService.fulltext">
-  <mz-collection-item>{{ 'search.results' | translate }}: <span class="app-font-bold">{{periodicalService.getNumberOfResults()}}</span></mz-collection-item>
-</mz-collection>
+<div class="app-count" *ngIf="periodicalService.fulltext">
+  <span>{{ 'search.results' | translate }}: {{ periodicalService.fulltext.getResultsRange() }}</span>
+  <span class="app-slash">/</span> 
+  <span class="app-all">{{periodicalService.getNumberOfResults()}}</span>
+</div>
+<div class="app-count" *ngIf="!periodicalService.fulltext">
+  <span>{{ 'search.results' | translate }}: </span>
+  <span class="app-all">{{periodicalService.getNumberOfResults()}}</span>
+</div>
 

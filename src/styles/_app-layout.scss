@@ -63,8 +63,7 @@ app-root {
       .app-search-wrapper {
         flex: 1;
         height: 100%;
-        background-color: color("shades", "white");
-
+        background-color: #fff;
         @import "styles/app-search-toolbar";
         @import "styles/app-search-chart-bar";
         @import "styles/app-search-calendar";
@@ -81,8 +80,7 @@ app-root {
       .app-browse-wrapper {
         flex: 1;
         height: 100%;
-        background-color: color("shades", "white");
-
+        background-color: #fff;
         @import "styles/app-browse-toolbar";
         @import "styles/app-browse-results";
       }

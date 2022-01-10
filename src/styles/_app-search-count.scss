@@ -7,20 +7,23 @@ app-periodical-count {
   display: block;
   height: $app-toolbar-height;
   line-height: $app-toolbar-height;
-  @include set-border(bottom, 1, solid, $app-grey-l-2);
+  border-bottom: 1px solid $app-grey-l-2;
   background-color: $app-white;
-  
-  .collection {
+  .app-count {
     border: none;
     height: 100%;
-    @extend .app-clean-mg;
     color: $app-grey-d-1;
-    
-    .collection-item {
-      padding: 15px 20px;
-      .app-divider {
-        padding: 0 3px;
-      }
+    padding: 0px 20px;
+    margin: 0 !important;
+    .app-all {
+      font-weight: 500;
+    }
+    .app-slash {
+      color: #e0e0e0;
+      padding: 0 3px;
+    }
+    .app-divider {
+      padding: 0 3px;
     }
   }
 }
