@@ -5,10 +5,10 @@
     <div [innerHTML]="data"></div>
   </div>
   
-  <mz-spinner *ngIf="loading"
+  <mat-spinner *ngIf="loading"
         class="medium-centered-spinner" 
-        [color]="'blue'"
-        [size]="'medium'">
-  </mz-spinner>
+        [strokeWidth]="3" 
+        [diameter]="40">
+  </mat-spinner>
   
 </div>

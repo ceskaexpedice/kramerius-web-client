@@ -28,10 +28,14 @@
     }
     .app-language {
       margin-right: 5px;
-      float: right;
-      #btn-dropdown-language {
+      float: left;
+      .app-dropdown-language {
         height: 68px;
         padding: 14px 16px;
+        cursor: pointer;
+        &:hover {
+          background: #dadada;
+        }
         img {
           height: 40px;
         }
@@ -54,23 +58,27 @@
   }
 }
 
-::ng-deep .dropdown-content {
-  mz-dropdown-item {
-    .app-language {
-      width: 145px;
-      line-height: 60px;
-      img {
-        height: 30px;
-        width: 30px;
-        float: right;
-        margin-top: 15px;
-        margin-right: 15px;
-        margin-left: 15px;
+::ng-deep {
+  .app-languages-menu {
+    .app-dropdown-item {
+      .app-language {
+        width: 145px;
+        line-height: 60px;
+        img {
+          height: 30px;
+          width: 30px;
+          float: right;
+          margin-top: 15px;
+          margin-right: 15px;
+          margin-left: 15px;
+        }
+        .app-language-name {
+          text-align: right;
+        }
       }
-      .app-language-name {
-        text-align: right;
+      &:hover {
+        background: #e5e5e5;
       }
     }
   }
 }
-

@@ -1,32 +1,27 @@
 <div class="sp-header">
       
 <div class="sp-header-buttons">
+  
+  <a (click)="analytics.sendEvent('landing', 'help');" [routerLink]="['/', 'help']" class="sp-header-button">{{ 'sp.header.help' | translate }}</a>
 
   <div class="app-language">
-    <div *ngIf="languages().length > 1" id="btn-dropdown-language">
+    <div *ngIf="languages().length > 1" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu">
       <img src="assets/img/flag_{{translator.language}}.png">
     </div>
-    <mz-dropdown
-    [id]="'dropdown-lang'"
-    [align]="'right'"
-    [belowOrigin]="true"
-    [constrainWidth]="false"
-    [dropdownButtonId]="'btn-dropdown-language'"
-    [gutter]="false"
-    [hover]="true"
-    [inDuration]="300"
-    [outDuration]="300"
-    [stopPropagation]="true">
-      <mz-dropdown-item *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)">
-        <div class="app-language">
-          <img src="assets/img/flag_{{lang}}.png">
-          <div class="app-language-name">{{ 'lang.' + lang | translate }}</div>
+
+    <mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
+      <ng-template matMenuContent ngFor>
+        <div class="app-dropdown-item" *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)">
+          <div class="app-language">
+            <img src="assets/img/flag_{{lang}}.png">
+            <div class="app-language-name">{{ 'lang.' + lang | translate }}</div>
+          </div>
         </div>
-      </mz-dropdown-item>
-    </mz-dropdown>
+      </ng-template>
+    </mat-menu>
+
   </div>
 
-  <a (click)="analytics.sendEvent('landing', 'help');" [routerLink]="['/', 'help']" class="sp-header-button">{{ 'sp.header.help' | translate }}</a>
 </div>
 
 <a class="sp-header-logo" [routerLink]="['/']" mz-tooltip [tooltip]="'sp.logo_tooltip' | translate" [position]="'right'">
