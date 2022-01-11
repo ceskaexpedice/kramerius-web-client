@@ -91,7 +91,6 @@ app-root {
         @import "styles/app-pdf-viewer";
         @import "styles/app-viewer-controls";      
         @import "styles/app-navigation";
-        @import "styles/app-metadata";
       }
     }
     
@@ -100,13 +99,11 @@ app-root {
       @import "styles/app-search-filters";
       @import "styles/app-periodical-filters";
       @import "styles/app-periodical-content";
-      @import "styles/app-metadata";
     }
 
     // music
     app-music  {
       @import "styles/app-music-player";
-      @import "styles/app-metadata";
     }
   }
 }
