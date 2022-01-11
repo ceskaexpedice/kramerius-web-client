@@ -81,7 +81,6 @@ app-root {
         flex: 1;
         height: 100%;
         background-color: #fff;
-        @import "styles/app-browse-toolbar";
         @import "styles/app-browse-results";
       }
     }

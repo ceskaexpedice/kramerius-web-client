@@ -93,3 +93,23 @@ mz-spinner.app-small-spinner {
   background: #0277bd44;
   border: solid 1px #0277bd
 }
+
+
+
+
+
+
+.app-dropdown-menu {
+  .app-dropdown-item {
+    display: block;
+    overflow: hidden;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 18px;
+    color: $app-grey-d-1;
+    &:hover {
+      background: #e5e5e5;
+    }
+  }
+}

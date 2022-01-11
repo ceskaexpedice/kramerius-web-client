@@ -1,24 +1,31 @@
-<div class="row app-clean-mg">
+<div class="app-browse-toolbar row app-clean-mg">
   <!-- Show just for small devices -->
   <div class="col s2 app-col-left hide-on-med-and-up">
     <a (click)="toggleFilters()">
-      <i *ngIf="browseService.activeMobilePanel == 'results'" mz-icon-mdi [icon]="'filter'"></i>
-      <i *ngIf="browseService.activeMobilePanel == 'filters'" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
+      <mat-icon *ngIf="browseService.activeMobilePanel == 'results'">filter_alt</mat-icon>
+      <mat-icon *ngIf="browseService.activeMobilePanel == 'filters'" class="grey-text">filter_alt_off</mat-icon>
     </a>
   </div>
   <div class="col s10 m12 l12 xl12 app-col-right">
-    <ul class="right">
-      <li>
-        <span class="app-cursor-pointer app-mdi-in">
-          <label>{{ 'browse.ordering.label' | translate }}: </label>
-          <a id="app-btn-sort" href="#">{{ 'browse.ordering.' + browseService.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
-          <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-            <mz-dropdown-item><a (click)="browseService.changeOrdering('occurrence')">{{ 'browse.ordering.occurrence' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="browseService.changeOrdering('alphabetical')">{{ 'browse.ordering.alphabetical' | translate }}</a></mz-dropdown-item>            
-          </mz-dropdown>
-        </span>
-      </li>
-    </ul>
+    <div class="app-ordering">
+      <label>{{ 'browse.ordering.label' | translate }}: </label>
+      <span class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
+        <span>{{ 'browse.ordering.' + browseService.query.ordering | translate }}</span>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </span>
+    </div>
   </div>
 </div>
 
+
+
+<mat-menu #orderingMenu="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
+  <ng-template matMenuContent>
+    <div class="app-dropdown-item" (click)="browseService.changeOrdering('occurrence')">
+      {{ 'browse.ordering.occurrence' | translate }}
+    </div>
+    <div class="app-dropdown-item" (click)="browseService.changeOrdering('alphabetical')">
+      {{ 'browse.ordering.alphabetical' | translate }}
+    </div>
+  </ng-template>
+</mat-menu>
