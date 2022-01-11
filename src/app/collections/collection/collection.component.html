@@ -1,21 +1,14 @@
 <a *ngIf="collection" routerLink="/search" [queryParams]="{ collections: collection.pid }" (click)="analytics.sendEvent('collections', 'open', collection.title);">
-    <mz-card [hoverable]="true">
-      <mz-card-content>
-        <div class="app-card-media">
-          <div class="app-card-thumb" [style.background-image]="getThumb()">
-          </div>
-        </div>
-        <div class="app-card-content">
-          <div  class="app-card-title">
-            {{ collection.title}}
-          </div>
-          <div class="app-card-description">
-            {{ collection.description}}
-          </div>
-          <div *ngIf="collection.count" class="app-card-count">
-            <strong>{{collection.count}}</strong> {{ 'common.num_of_docs' | translate: { count: collection.count } }}
-          </div>
-        </div>
-      </mz-card-content>
-    </mz-card>
-  </a>
+  <div class="app-card-wrapper">
+    <div class="app-card-media">
+      <div class="app-card-thumb" [style.background-image]="getThumb()"></div>
+    </div>
+    <div class="app-card-content">
+      <div  class="app-card-title">{{ collection.title}}</div>
+      <div class="app-card-description">{{ collection.description}}</div>
+      <div *ngIf="collection.count" class="app-card-count">
+        <strong>{{collection.count}}</strong> {{ 'common.num_of_docs' | translate: { count: collection.count } }}
+      </div>
+    </div>
+  </div>
+</a>

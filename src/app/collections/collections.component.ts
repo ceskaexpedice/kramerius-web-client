@@ -5,7 +5,8 @@ import { PageTitleService } from '../services/page-title.service';
 
 @Component({
   selector: 'app-collections',
-  templateUrl: './collections.component.html'
+  templateUrl: './collections.component.html',
+  styleUrls: ['./collections.component.scss']
 })
 export class CollectionsComponent implements OnInit {
 

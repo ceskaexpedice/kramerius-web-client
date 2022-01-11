@@ -6,7 +6,9 @@ import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-collection',
-  templateUrl: './collection.component.html'
+  templateUrl: './collection.component.html',
+  styleUrls: ['./collection.component.scss']
+
 })
 export class CollectionComponent implements OnInit {
 

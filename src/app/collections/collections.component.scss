@@ -1,0 +1,13 @@
+@import './src/variables.scss';
+
+.app-collections-wrapper {
+  overflow: auto;
+  display: block;
+  height: 100%;
+  background-color: $app-grey-l-4;
+  padding: 1rem 0.5rem 0.5rem;
+  @media (min-width: 1200px) {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+  }
+}
