@@ -1,0 +1,39 @@
+@import './src/variables.scss';
+
+a {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  border-radius: unset;
+  background: #fff;
+  box-shadow: 0 2px 2px 0 transparent, 0 1px 5px 0 rgba(0,0,0,0.1), 0 3px 1px -20px rgba(0,0,0,0.1);
+  border: 1px solid $app-grey-l-2;
+  &:hover:not(.app-missing) {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 1px solid #d3d3d3;
+  }
+  .app-card-content {
+    text-align: center;
+    height: 55px;
+    line-height: 55px;
+    overflow: hidden;
+    position: relative;
+    font-weight: 400;
+    color: $app-grey-d-3;
+    .app-lock {
+      color: $app-grey-d-2;
+      opacity: 0.6;
+      position: absolute;
+      top: 0;
+      left: 10px;
+      &.app-lock-licence-open, &.app-lock-licence-locked {
+        color: $app-licence-color;
+      }
+    }
+  }  
+  &.app-missing {
+    background-color: $app-grey-l-4;
+    color: $app-grey-l-1;
+    cursor: default !important;
+  } 
+}

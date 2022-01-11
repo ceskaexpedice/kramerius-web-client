@@ -3,7 +3,8 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-periodical-fulltext-layout',
-  templateUrl: './periodical-fulltext-layout.component.html'
+  templateUrl: './periodical-fulltext-layout.component.html',
+  styleUrls: ['./periodical-fulltext-layout.component.scss']
 })
 export class PeriodicalFulltextLayoutComponent implements OnInit {
 

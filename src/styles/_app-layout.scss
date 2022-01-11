@@ -12,7 +12,7 @@ app-root {
   main {
     overflow: hidden;
     width: 100%;
-    height: calc(100% - #{$navbar-height});
+    height: calc(100% - 69px);
     
     // common behavior
     app-search,

@@ -9,7 +9,8 @@ import { LicenceService } from '../../../../services/licence.service';
 
 @Component({
   selector: 'app-periodical-grid-item',
-  templateUrl: './periodical-grid-item.component.html'
+  templateUrl: './periodical-grid-item.component.html',
+  styleUrls: ['./periodical-grid-item.component.scss']
 })
 export class PeriodicalGridItemComponent implements OnInit {
   @Input() item: PeriodicalItem;

@@ -1,0 +1,47 @@
+.app-periodical-years-layout-wrapper {
+  height: 100%;
+  overflow: auto;
+  padding: 0.5rem;
+  app-periodical-years-item {
+    width: 8.3333%;
+    @media (max-width: 2700px) {
+      width: 9.0909%;
+    }
+    @media (max-width: 2500px) {
+      width: 10%;
+    }
+    @media (max-width: 2300px) {
+      width: 11.11110%;
+    }
+    @media (max-width: 2100px) {
+      width: 12.5%;
+    }
+    @media (max-width: 1900px) {
+      width: 14.2857%;
+    }
+    @media (max-width: 1750px) {
+      width: 16.66666%;
+    }
+    @media (max-width: 1600px) {
+      width: 20%;
+    }
+    @media (max-width: 1450px) {
+      width: 25%;
+    }
+    @media (max-width: 1300px) {
+      width: 33.33333%;
+    }
+    @media (max-width: 1150px) {
+      width: 50%;
+    }
+    @media (max-width: 992px) {
+      width: 33.33333%;
+    }
+    @media (max-width: 400px) {
+      width: 50%;
+    }
+    float: left;
+    padding: 0.5rem;
+    display: block;
+  }
+}

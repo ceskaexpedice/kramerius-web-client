@@ -1,52 +1,23 @@
-// --- PERIODICAL FULLTEXT ITEM ---
+@import './src/variables.scss';
 
-app-periodical-fulltext-item {
-  float: left;
-  width:16.66666%;
-  @media (max-width: 2300px) {
-    //width:20%;
-    width:25%;
+a {
+  background: #fff;
+  position: relative;
+  display: block;
+  cursor: pointer;
+  border-radius: unset;
+  height: 144px;
+  box-shadow: 0 2px 2px 0 transparent, 0 1px 5px 0 rgba(0,0,0,0.1), 0 3px 1px -20px rgba(0,0,0,0.1);
+  border: 1px solid $app-grey-l-2;
+  &:hover {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 1px solid #d3d3d3;
   }
-  @media (max-width: 1900px) {
-    //width:25%;
-    width:33.33333%;
-  }
-  @media (max-width: 1500px) {
-    //width:33.33333%;
-    width:50%;
-  }
-  @media (max-width: 1260px) {
-    //width:50%;
-    width:100%;
-  }
-  @media (max-width: 992px) {
-    width:50%;
-  }
-  @media (max-width: 800px) {
-    width:100%;
-  }
-  
- 
-  
-  .card {
-    @extend .app-cursor-pointer;
-    margin: 0.5rem;
-    height: 144px;
-    border-radius: unset;
-    @include setCardShadow(0, 0, 0, $app-grey-l-2);
-    &>div {
-      height: 100%;
-    }  
-    .card-content {
-      padding: 10px;
-      height: 100%;
-      // overflow: hidden;
-      height: 100%;
-
-      mz-card-content {
-        display: table;
-        width: 100%;
-        height: 100%;
+  .app-card-content-wrapper {
+    padding: 10px;
+    display: table;
+    width: 100%;
+    height: 100%;
 
         .app-card-media {
           display: table-cell;
@@ -61,10 +32,11 @@ app-periodical-fulltext-item {
             background-size: contain;
             position: relative;
             .app-lock {
-              @extend .z-depth-2;
-              background: color("shades", "white");
+              box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.30);
+              background: #fff;
               height: 36px;
               width: 36px;
+              padding: 6px;
               display: block;
               border-radius: 50%;
               text-align: center;
@@ -107,16 +79,6 @@ app-periodical-fulltext-item {
               display: -webkit-box;
               text-overflow: ellipsis;           
             }
-            // &.app-main-title {
-            //   font-weight: 600; 
-            //   margin-bottom: 5px;
-            //   overflow: hidden;
-            //   line-height: 20px;
-            //   max-height: 40px;
-            //   -webkit-line-clamp: 2;
-            //   display: -webkit-box;
-            //   text-overflow: ellipsis;
-            // }
           }
 
           .app-card-doctype {
@@ -174,13 +136,17 @@ app-periodical-fulltext-item {
             margin-top: 5px;
             height: 64px;
             word-break: break-word;
-            strong {
-              color: $primary-color;
-              @extend .app-font-bold;
-            }
           }
         }
       } 
     }
+
+
+  ::ng-deep {
+    .app-card-ocr {
+        strong {
+          color: $primary-color;
+          font-weight: 500;
+        }
+    }
   }
-}

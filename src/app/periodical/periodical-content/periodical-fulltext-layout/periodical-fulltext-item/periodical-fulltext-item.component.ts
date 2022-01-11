@@ -9,6 +9,7 @@ import { LicenceService } from '../../../../services/licence.service';
 @Component({
   selector: 'app-periodical-fulltext-item',
   templateUrl: './periodical-fulltext-item.component.html',
+  styleUrls: ['./periodical-fulltext-item.component.scss']
 })
 export class PeriodicalFulltextItemComponent implements OnInit {
   @Input() item: PeriodicalFtItem;

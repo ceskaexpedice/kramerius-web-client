@@ -1,4 +1,3 @@
-
 <a *ngIf="item" routerLink="{{item.url}}" [queryParams]="item.params" (click)="analytics.sendEvent(in, 'document', item.title);">
   <div class="app-card-content-wrapper">
     <div class="app-card-mark {{item.doctype}}"></div>

@@ -1,11 +1,10 @@
 <a [routerLink]="settings.getRouteFor(item.getPath())" [queryParams]="item.getQuery()" (click)="analytics.sendEvent('periodical', 'open from', 'fulltext');">
-  <mz-card  [hoverable]="true">
-    <mz-card-content>
+  <div class="app-card-content-wrapper">
       <div class="app-card-media" >
         <div class="app-card-thumb" [style.background-image]="getThumb()">
-          <ng-container *ngIf="lock">
-            <i mz-icon-mdi [icon]="lock.icon" class="app-lock {{ lock.class }}" [position]="'bottom'" mz-tooltip [tooltip]="lock.tooltip"></i>
-          </ng-container>
+          <div matTooltipPosition="above" [matTooltip]="lock.tooltip" class="app-lock {{ lock.class }}" *ngIf="lock">
+            <mat-icon>{{ lock.icon }}</mat-icon>
+          </div>
         </div>
       </div>
 
@@ -66,6 +65,5 @@
 
       </div>
 
-    </mz-card-content>
-  </mz-card>
+    </div>
 </a>

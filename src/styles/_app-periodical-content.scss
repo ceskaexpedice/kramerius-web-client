@@ -19,13 +19,7 @@ app-periodical-content {
       display: block;
       background-color: $app-grey-l-4;
     }
-    
     @import "styles/app-periodical-toolbar";
-    @import "styles/app-periodical-grid-layout";
-    @import "styles/app-periodical-unit-layout";
-    @import "styles/app-periodical-fulltext-layout";
-    @import "styles/app-periodical-calendar-layout";
-    @import "styles/app-periodical-years-layout";
   }
 }
 

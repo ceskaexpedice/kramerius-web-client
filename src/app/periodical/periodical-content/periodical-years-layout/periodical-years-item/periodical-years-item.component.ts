@@ -8,7 +8,8 @@ import { LicenceService } from '../../../../services/licence.service';
 
 @Component({
   selector: 'app-periodical-years-item',
-  templateUrl: './periodical-years-item.component.html'
+  templateUrl: './periodical-years-item.component.html',
+  styleUrls: ['./periodical-years-item.component.scss']
 })
 export class PeriodicalYearsItemComponent  {
 
