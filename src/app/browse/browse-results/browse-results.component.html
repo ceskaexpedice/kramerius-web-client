@@ -1,23 +1,25 @@
-<a *ngFor="let item of browseService.results; let odd=odd; let even=even;" 
-      class="app-browse-item" 
-      [ngClass]="{ odd: odd, even: even, hidden: !item.name}"
-      [routerLink]="appSettings.getRouteFor('search')" [queryParams]="getParams(item.value)"
-      >
-  <div class="right">{{item.count}}x</div>
-  <div>{{item.name | appUpcase }}</div>
-</a>
+<div class="app-browse-results">
+  <a *ngFor="let item of browseService.results; let odd=odd; let even=even;" 
+        class="app-browse-item" 
+        [ngClass]="{ odd: odd, even: even, hidden: !item.name}"
+        [routerLink]="appSettings.getRouteFor('search')" [queryParams]="getParams(item.value)"
+        >
+    <div class="right">{{item.count}}x</div>
+    <div>{{item.name | appUpcase }}</div>
+  </a>
 
-<div class="clearfix"></div>
+  <div class="clearfix"></div>
 
-<app-paginator [activeIndex]="browseService.query.page"
-               [overallCount]="browseService.getNumberOfResults()"
-               [step]="browseService.query.getRows()"
-               (next)="browseService.nextPage()"
-               (previous)="browseService.previousPage()"
-               (change)="browseService.onPage($event)">
-</app-paginator> 
-<mz-spinner *ngIf="browseService.loading"
-            class="medium-centered-spinner" 
-           [color]="'blue'"
-           [size]="'medium'">
-</mz-spinner>
+  <app-paginator [activeIndex]="browseService.query.page"
+                [overallCount]="browseService.getNumberOfResults()"
+                [step]="browseService.query.getRows()"
+                (next)="browseService.nextPage()"
+                (previous)="browseService.previousPage()"
+                (change)="browseService.onPage($event)">
+  </app-paginator> 
+
+  <mat-spinner class="medium-centered-spinner"  *ngIf="browseService.loading" [strokeWidth]="3" [diameter]="40">
+  </mat-spinner>
+
+
+</div>

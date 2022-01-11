@@ -1,0 +1,44 @@
+@import './src/variables.scss';
+
+.app-browse-search-bar-wrapper {
+  width: 100%;
+  // height: $app-fulltext-search-bar-height;
+  padding: 0 20px 0 20px;
+  border-bottom: 1px solid $app-grey-l-2;
+  .app-browse-search-bar {
+    position: relative;
+    input {
+      margin: 0;
+      border-bottom-color: transparent;
+      padding-left: 30px;
+      width: calc(100% - 30px);
+      &::placeholder {
+        color: $app-grey;
+      }
+    }
+    mat-icon {
+      cursor: pointer;
+      top: 11px;
+      position: absolute;
+      color: $app-grey;
+      &.app-close {
+        right: 0;
+      }
+      &.app-magnify {
+        left: 0;
+      }
+    }
+    &.app-is-query {
+      input {
+        border-bottom: 1px solid $primary-color !important;
+        box-shadow: 0 1px 0 0 $primary-color;
+      }
+    }
+    
+    &.app-is-query, &:focus-within {
+      .app-magnify  {
+        color: $primary-color;
+      }
+    }
+  }
+}

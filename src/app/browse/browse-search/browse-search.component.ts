@@ -5,7 +5,8 @@ import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-browse-search',
-  templateUrl: './browse-search.component.html'
+  templateUrl: './browse-search.component.html',
+  styleUrls: ['./browse-search.component.scss']
 })
 export class BrowseSearchComponent implements OnInit {
 

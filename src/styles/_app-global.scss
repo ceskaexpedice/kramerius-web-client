@@ -113,3 +113,9 @@ mz-spinner.app-small-spinner {
     }
   }
 }
+
+mat-spinner.medium-centered-spinner {
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+}

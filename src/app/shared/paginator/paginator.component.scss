@@ -13,7 +13,7 @@
         vertical-align: top;
         height: 30px;
         list-style-type: none;
-        &:not(.app-arrow):not(.active):hover {
+        &:not(.app-arrow):not(.app-active):hover {
           background-color: $app-grey-l-2;
         }
         a {
