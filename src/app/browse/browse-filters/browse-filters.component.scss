@@ -1,0 +1,30 @@
+@import './src/variables.scss';
+
+.app-filters-wrapper {
+  .app-filter-panel {
+    box-shadow: none;
+    background: transparent;
+    border-bottom: 1px solid $app-grey-l-2;
+    mat-expansion-panel-header {
+      height: 48px !important;
+      font-weight: 500;
+      &:hover {
+        background: transparent !important;
+      }
+    }
+    .app-filter-items {
+      margin-top: -5px;
+      .app-filter-item {
+        line-height: 22px;
+        cursor: pointer;
+        &.app-selected {
+          font-weight: 600;
+        }
+        color: $app-grey-d-1;
+        &:hover {
+          color: $app-grey-d-4;
+        }
+      }
+    }
+  }
+}

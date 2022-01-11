@@ -1,0 +1,36 @@
+@import './src/variables.scss';
+
+
+
+.app-filters-mobile {
+  display: none;
+  width: 100%;
+}
+.app-filters-desktop {
+  display: block;
+}
+@media #{$small-and-down} {
+  .app-filters-mobile {
+    float: none;
+    position: absolute;
+    width: 100%!important;
+    top: calc(68px + 55px);
+    left: 0;
+    height: calc(100% - 68px - 55px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+    display: block;
+    border: none!important;
+  }
+  .app-filters-desktop {
+    display: none;
+  }
+  .app-mobile-hidden {
+    display: none;
+  }
+}
+
+.app-browse-wrapper {
+  flex: 1;
+  height: 100%;
+  background-color: #fff;
+}

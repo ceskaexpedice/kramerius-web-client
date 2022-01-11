@@ -5,7 +5,8 @@ import { PageTitleService } from '../services/page-title.service';
 
 @Component({
   selector: 'app-browse',
-  templateUrl: './browse.component.html'
+  templateUrl: './browse.component.html',
+  styleUrls: ['./browse.component.scss']
 })
 export class BrowseComponent implements OnInit {
 

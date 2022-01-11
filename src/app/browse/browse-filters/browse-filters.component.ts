@@ -5,10 +5,10 @@ import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-browse-filters',
-  templateUrl: './browse-filters.component.html'
+  templateUrl: './browse-filters.component.html',
+  styleUrls: ['./browse-filters.component.scss']
 })
 export class BrowseFiltersComponent implements OnInit {
-  @Input() collapsedFilter: boolean;
 
   filters: string[];
   accessibilityEnabled = false;

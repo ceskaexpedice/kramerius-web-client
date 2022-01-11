@@ -2,58 +2,48 @@
 
 <app-browse-search></app-browse-search>
 
-<div class="app-filters-wrapper">
-  <mz-collapsible [mode]="'expandable'" *ngIf="accessibilityEnabled">
-      <mz-collapsible-item [active]="collapsedFilter">
-        <mz-collapsible-item-header>
-          {{ 'search.accessibility.label' | translate }}   
-          <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
-          <i mz-icon-mdi [icon]="'chevron-left'" [class]="'app-clean-mg'"></i>
-        </mz-collapsible-item-header>
-        <mz-collapsible-item-body>
-        <mz-collection>
-          <ng-container>
-            <mz-collection-item>
-              <span class="app-row" [class.selected]="browseService.query.accessibility == 'public'">
-                <a (click)="browseService.setAccessibility('public');analytics.sendEvent('browse', 'accessibility', 'public');">{{'search.accessibility.public' | translate }}</a>
-              </span>
-            </mz-collection-item>
-            <mz-collection-item>
-              <span class="app-row" [class.selected]="browseService.query.accessibility == 'private'">
-                <a (click)="browseService.setAccessibility('private');analytics.sendEvent('browse', 'accessibility', 'private');">{{'search.accessibility.private' | translate }}</a>
-              </span>
-            </mz-collection-item>
-            <mz-collection-item>
-                <span class="app-row" [class.selected]="browseService.query.accessibility == 'all'">
-                  <a (click)="browseService.setAccessibility('all');analytics.sendEvent('browse', 'accessibility', 'all');">{{'search.accessibility.all' | translate }}</a>
-                </span>
-              </mz-collection-item>
-          </ng-container>
-        </mz-collection>
-        </mz-collapsible-item-body>
-      </mz-collapsible-item>
-    </mz-collapsible> 
+<mat-accordion [displayMode]="'flat'" [multi]="true" class="app-filters-wrapper">
 
+  <mat-expansion-panel class="app-filter-panel" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ 'search.accessibility.label' | translate }}   
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="app-filter-items">
 
-  <mz-collapsible [mode]="'expandable'">
-    <mz-collapsible-item [active]="collapsedFilter">
-      <mz-collapsible-item-header>
+      <div class="app-filter-item" [class.app-selected]="browseService.query.accessibility == 'public'"
+      (click)="browseService.setAccessibility('public');analytics.sendEvent('browse', 'accessibility', 'public');">
+        {{'search.accessibility.public' | translate }}
+      </div>
+
+      <div class="app-filter-item" [class.app-selected]="browseService.query.accessibility == 'private'"
+      (click)="browseService.setAccessibility('private');analytics.sendEvent('browse', 'accessibility', 'private');">
+        {{'search.accessibility.private' | translate }}
+      </div>
+    
+      <div class="app-filter-item" [class.app-selected]="browseService.query.accessibility == 'all'"
+      (click)="browseService.setAccessibility('all');analytics.sendEvent('browse', 'accessibility', 'all');">
+        {{'search.accessibility.all' | translate }}
+      </div>
+      
+    </div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel class="app-filter-panel" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
         {{ 'browse.category.label' | translate }}   
-        <i mz-icon-mdi [icon]="'chevron-down'" [class]="'app-clean-mg'"></i>
-        <i mz-icon-mdi [icon]="'chevron-left'" [class]="'app-clean-mg'"></i>
-      </mz-collapsible-item-header>
-      <mz-collapsible-item-body>
-      <mz-collection>
-        <ng-container>
-          <mz-collection-item *ngFor="let filter of filters">
-              <span class="app-row" [class.selected]="browseService.query.category == filter">
-                <a (click)="browseService.setCategory(filter);analytics.sendEvent('browse', 'category', filter);">{{'browse.category.' + filter | translate }}</a>
-              </span>
-          </mz-collection-item>
-        </ng-container>
-      </mz-collection>
-      </mz-collapsible-item-body>
-    </mz-collapsible-item>
-  </mz-collapsible> 
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="app-filter-items">
+      <div *ngFor="let filter of filters" class="app-filter-item" [class.app-selected]="browseService.query.category == filter"
+      (click)="browseService.setCategory(filter);analytics.sendEvent('browse', 'category', filter);">
+        {{'browse.category.' + filter | translate }}
+      </div>
+    </div>
 
-</div>
+  </mat-expansion-panel>
+
+</mat-accordion>
+
