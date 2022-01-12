@@ -4,9 +4,9 @@
 
     <a class="app-list-item" *ngFor="let item of searchService.results" routerLink="{{item.url}}" (mouseenter)="focusedItem = item">
         <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)">
-            <ng-container *ngIf="getLock(item)">
-                <i mz-icon-mdi [icon]="getLock(item).icon" class="app-lock {{ getLock(item).class }}" mz-tooltip [tooltip]="getLock(item).tooltip"></i>
-            </ng-container>
+            <div [matTooltip]="getLock(item).tooltip" class="app-lock {{ getLock(item).class }}" *ngIf="getLock(item)">
+                <mat-icon>{{ getLock(item).icon }}</mat-icon>
+            </div>
         </div>
         <div class="app-item-title">{{item.title}}</div>
         <div *ngIf="item.date" class="app-item-date">{{item.date}}</div>
@@ -27,23 +27,6 @@
         (idle)="onIdle()">
 
 
-
-
-
-        <!-- <agm-circle *ngIf="focusedItem && focusedItem.isPoint" [latitude]="focusedItem.north" [longitude]="focusedItem.west" 
-        [radius]="5000"
-        [fillColor]="'#dd2222'"
-        [fillOpacity]="0.5"
-        [strokeColor]="'#dd2222'"
-        [strokeOpacity]="1"
-        [strokeWeight]="2"
-    [circleDraggable]="false"
-        [editable]="false"
-        >
-    </agm-circle> -->
-
-
-
     <agm-marker *ngIf="focusedItem && focusedItem.isPoint()" [latitude]="focusedItem.north" [longitude]="focusedItem.west" ></agm-marker>
 
     <agm-rectangle *ngIf="focusedItem && !focusedItem.isPoint()" 
@@ -57,21 +40,6 @@
                     [strokeOpacity]="1"
                     >
     </agm-rectangle>
-
-<!--         
-        <agm-marker-cluster maxZoom="13" imagePath="https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclustererplus/images/m">
-    <agm-marker (markerClick)="onMarkerClick(item)" (mouseOver)="window.open()" (mouseOut)="window.close()" *ngFor="let item of items" [latitude]="item.latitude"
-    [longitude]="item.longitude">
-    <agm-info-window #window>
-        <div class="app-marker-thumb" [style.background-image]="thumb(item['pid'])"></div>
-        <div class="app-marker-title">{{item.title}}</div>
-        <div *ngIf="item.date" class="app-marker-date">{{item.date}}</div>
-        <div *ngIf="item.authors" class="app-marker-authors">{{item.authors}}</div>
-        <div *ngIf="item.geonames" class="app-marker-geonames">{{item.geonames}}</div>
-    </agm-info-window>
-  </agm-marker>
-</agm-marker-cluster> -->
-
 
 </agm-map>
 

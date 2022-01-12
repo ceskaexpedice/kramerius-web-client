@@ -12,7 +12,8 @@ import { LicenceService } from '../../services/licence.service';
 
 @Component({
   selector: 'app-map-browse',
-  templateUrl: './map-browse.component.html'
+  templateUrl: './map-browse.component.html',
+  styleUrls: ['./map-browse.component.scss']
 })
 export class MapBrowseComponent implements OnInit {
 
