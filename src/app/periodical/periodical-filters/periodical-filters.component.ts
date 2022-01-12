@@ -4,7 +4,8 @@ import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-periodical-filters',
-  templateUrl: './periodical-filters.component.html'
+  templateUrl: './periodical-filters.component.html',
+  styleUrls: ['./periodical-filters.component.scss']
 })
 export class PeriodicalFiltersComponent implements OnInit {
 
@@ -41,9 +42,5 @@ export class PeriodicalFiltersComponent implements OnInit {
     this.analytics.sendEvent('periodical', 'year', this.yearFrom + '-' + this.yearTo);
     this.periodicalService.setYearRange(this.yearFrom, this.yearTo);
   }
-
-
-
-
 
 }

@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-periodical-content',
-  templateUrl: './periodical-content.component.html'
+  templateUrl: './periodical-content.component.html',
+  styleUrls: ['./periodical-content.component.scss']
 })
 export class PeriodicalContentComponent implements OnInit {
 

@@ -6,7 +6,9 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
 
 @Component({
   selector: 'app-periodical',
-  templateUrl: './periodical.component.html'
+  templateUrl: './periodical.component.html',
+  styleUrls: ['./periodical.component.scss']
+
 })
 export class PeriodicalComponent implements OnInit, OnDestroy {
 

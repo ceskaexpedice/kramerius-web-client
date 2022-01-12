@@ -94,13 +94,6 @@ app-root {
       }
     }
     
-    // periodical
-    app-periodical  {
-      @import "styles/app-search-filters";
-      @import "styles/app-periodical-filters";
-      @import "styles/app-periodical-content";
-    }
-
     // music
     app-music  {
       @import "styles/app-music-player";

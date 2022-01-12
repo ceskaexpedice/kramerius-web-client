@@ -27,5 +27,20 @@
         }
       }
     }
+    .year-range-wrapper {
+      padding: 0;
+      .year-range {
+        span {
+          color: #888;
+        }
+        input {
+          width: 70px !important;
+          margin: 0 10px !important;
+        }
+      }
+      button {
+        margin-top: 20px;
+      }
+    }
   }
 }

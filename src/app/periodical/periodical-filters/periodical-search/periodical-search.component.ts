@@ -5,7 +5,8 @@ import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-periodical-search',
-  templateUrl: './periodical-search.component.html'
+  templateUrl: './periodical-search.component.html',
+  styleUrls: ['./periodical-search.component.scss']
 })
 export class PeriodicalSearchComponent implements OnInit {
 

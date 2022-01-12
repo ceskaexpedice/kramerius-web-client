@@ -1,7 +1,7 @@
 <div class="app-periodical-search-bar-wrapper">
   <div class="app-periodical-search-bar" [class.app-is-query]="query">
     <input (keyup)="onKeyUp($event)" type="text" [placeholder]="'periodical.search.' + periodicalService.getType() | translate" [(ngModel)]="query" />
-    <i mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
-    <i mz-icon-mdi [icon]="'magnify'" (click)="onMagnifyIconClick()"  class="app-cursor-pointer"></i>
+    <mat-icon class="app-close" *ngIf="query" (click)="cleanQuery()" [matTooltip]="'searchbar.delete_query' | translate">close</mat-icon>
+    <mat-icon class="app-magnify" (click)="onMagnifyIconClick()">search</mat-icon>
   </div>
 </div>
