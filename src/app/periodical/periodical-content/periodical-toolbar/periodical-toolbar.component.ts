@@ -4,7 +4,8 @@ import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-periodical-toolbar',
-  templateUrl: './periodical-toolbar.component.html'
+  templateUrl: './periodical-toolbar.component.html',
+  styleUrls: ['./periodical-toolbar.component.scss']
 })
 export class PeriodicalToolbarComponent implements OnInit {
 

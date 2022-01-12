@@ -1,15 +1,16 @@
-// --- PERIODICAL TOOLBAR ---
+@import './src/variables.scss';
 
-app-periodical-toolbar {
+.app-periodical-toolbar {
   display: block;
   height: $app-toolbar-height;
-  padding: 0 1rem;
-  @include set-border(bottom, 1, solid, $app-grey-l-2);
+  // padding: 0 1rem;
+  padding-left: 14px;
+  padding-right: 6px;
+  border-bottom: 1px solid $app-grey-l-2;
   position: relative;
           
   .col {
-    @extend .app-clean-pd;
-    
+   padding: 0;
     &.app-periodical-info {
       .app-periodical-title {
         display: block;
@@ -19,18 +20,15 @@ app-periodical-toolbar {
         overflow: hidden;
         font-size: 1.4rem;
       }
-      
-      i {
+      mat-icon {
         color: $app-grey;
-        display: inline-block;
-        display: block;
-        float: left;
         margin-top: 15px;
+        float: left;
+        display: block;
       }
-      
       &:hover {
-        i, .app-periodical-title {
-          color: color("shades", "black");
+        mat-icon, .app-periodical-title:not(.app-periodical-root) {
+          color: #000;
         }
       }
       
@@ -83,11 +81,11 @@ app-periodical-toolbar {
           vertical-align: bottom !important;
         }
 
-        &:not(.disabled):hover {
-          color: color("shades", "black");
+        &:not(.app-disabled):hover {
+          color: #000;
         }
 
-        &.disabled {
+        &.app-disabled {
           opacity: 0.3;
           cursor: default !important;
         }
@@ -113,72 +111,49 @@ app-periodical-toolbar {
       height: $app-toolbar-height;
       overflow: hidden;
       line-height: $app-toolbar-height;
-      
+      margin-right: -8px;
       ul {
         li {
+          user-select: none;
+          padding: 0 8px;
+          cursor: pointer;
+          color: $app-grey-l-1;
+          &:not(.active) {
+            &:hover {
+              color: $app-grey-d-1;
+            } 
+          }
           &.active {
             color: $primary-color;
-            
             @media #{$small-and-down} {
               &.active-mobile-dismiss {
                 color: $app-grey-l-1;
-                
                 &:hover {
                   color: $app-grey-d-1;
                 }
               }
             }
           }
-
-          span {
-            padding: 0 0.5rem;
-
-            &.app-mdi-in {
-              padding-right: 0.4rem;
-            }
-
-            label {
-              font-size: inherit;
-            }
+          mat-icon {
+            line-height: inherit;
+            // border-left: 1px solid $app-grey-l-2;
           }
-
-          &:not(:first-child) {
-            & > span {
-              @include set-border(left, 1, solid, $app-grey-l-2);
-            } 
-          }
-          
           &.app-nav-item-sort {
             #app-sort {
               z-index: 1060;
             }
-            
-            &.app-fulltext-active {
-              & > span {
-                border-left: none;
-              }
-            }
-            
             // mq
             @media #{$small-400-and-down} {
               display: none;
             }
           }
-          
           &.app-nav-item-mobile {
             display: none;
           }
-          
           // mq
           @media #{$small-and-down} {
             &.app-nav-item-mobile {
               display: block;
-            }
-            
-            &:last-child {
-              & > span {
-                padding-right: 0;
-              }
             }
           }
           
@@ -187,29 +162,12 @@ app-periodical-toolbar {
               display: block;
             }
           }
-          
-          @media #{$medium-and-up} {
-            &:nth-last-child(1) {
-              & > span {
-                padding-right: 0;
-              }
-            }
-          }
-          
-          @media #{$large-and-up} {
-            &:nth-child(2) {
-              & > span {
-                border-left: none; 
-              }
-            }
-          }
         }
       }
       
       //mq
       @media #{$small-800-and-down} {
         width: 55%;
-        
         &.app-no-volume-detail {
           width: 55%;
         }
@@ -236,19 +194,9 @@ app-periodical-toolbar {
     
     // common
     ul {
-      @extend .app-clean-mg;
-
+      margin: 0;
       li {
         float: left;
-        color: $app-grey-l-1;
-
-        &:not(.active) {
-          span {
-            &:hover {
-              color: $app-grey-d-1;
-            } 
-          }
-        }
       }
     }
   }

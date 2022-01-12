@@ -1,80 +1,82 @@
-<div class="row app-clean-mg">
+<div class="app-periodical-toolbar row app-clean-mg">
   <div class="col app-periodical-info" [ngClass]="{'s6 m5 l7 xl9 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <a *ngIf="periodicalService.isPeriodicalVolume() && periodicalService.metadata.getTitle()" [routerLink]="['/periodical', periodicalService.document.root_uuid]" [queryParams]="periodicalService.getUrlParams()">
-      <i class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.volume_list' | translate" position="bottom"></i>
+      <mat-icon [matTooltip]="'periodical.volume_list' | translate">chevron_left</mat-icon>
       <span class="app-periodical-title">{{ periodicalService.metadata.getTitle() }}</span>
     </a>
-    <span *ngIf="periodicalService.isPeriodical() || periodicalService.isMonograph()" class="app-periodical-title">{{ periodicalService.metadata.getTitle() }}</span>
+    <span *ngIf="periodicalService.isPeriodical() || periodicalService.isMonograph()" class="app-periodical-title app-periodical-root">{{ periodicalService.metadata.getTitle() }}</span>
   </div>
-  
   
   <div class="col s4 m4 l4 xl2 app-volume-info center-align" *ngIf="periodicalService.volumeDetail">
     <div>
       <a *ngIf="periodicalService.volumeDetail.previous" [routerLink]="['/periodical', periodicalService.volumeDetail.previous.uuid]" [queryParams]="periodicalService.getUrlParams()"
-        class="app-mdi-periodical-previous" mz-tooltip [tooltip]="'periodical.previous_volume' | translate" [position]="'bottom'">
+         [matTooltip]="'periodical.previous_volume' | translate">
+        <mat-icon>chevron_left</mat-icon>
       </a>
-      <a *ngIf="!periodicalService.volumeDetail.previous" class="app-mdi-periodical-previous disabled"></a>
+      <a *ngIf="!periodicalService.volumeDetail.previous" class="app-disabled"><mat-icon>chevron_left</mat-icon></a>
       <span class="app-volume-title">{{ periodicalService.volumeDetail.current.getTitle() }}</span>
       <a *ngIf="periodicalService.volumeDetail.next" [routerLink]="['/periodical', periodicalService.volumeDetail.next.uuid]" [queryParams]="periodicalService.getUrlParams()"
-        class="app-mdi-periodical-next" mz-tooltip [tooltip]="'periodical.next_volume' | translate" [position]="'bottom'">
+        [matTooltip]="'periodical.next_volume' | translate">
+        <mat-icon>chevron_right</mat-icon>
       </a>
-      <a *ngIf="!periodicalService.volumeDetail.next" class="app-mdi-periodical-next disabled"></a>
+      <a *ngIf="!periodicalService.volumeDetail.next" class="app-disabled"><mat-icon>chevron_right</mat-icon></a>
     </div>
   </div>
 
   <div class="col app-nav-item" [ngClass]="{'s6 m7 l5 xl3 app-mq-small-1 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <ul class="right">
 
-      <li *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid'" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
-        <span disabled id="app-btn-sort" class="app-cursor-pointer" mz-tooltip [tooltip]="'search.ordering.label' | translate" [position]="'top'">
-          <i class="app-mdi-sort"></i>
-        </span>
-        <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(false)">{{ 'periodical.ordering.earliest' | translate }}</a></mz-dropdown-item>
-          <mz-dropdown-item><a (click)="periodicalService.setReverseOrder(true)">{{ 'periodical.ordering.latest' | translate }}</a></mz-dropdown-item>
-        </mz-dropdown>
+      <li [matMenuTriggerFor]="orderingMenu1" *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid'" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+        <mat-icon>sort</mat-icon>
+        <mat-menu #orderingMenu1="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
+          <ng-template matMenuContent>
+            <div class="app-dropdown-item" (click)="periodicalService.setReverseOrder(false)">
+              {{ 'periodical.ordering.earliest' | translate }}
+            </div>
+            <div class="app-dropdown-item" (click)="periodicalService.setReverseOrder(true)">
+              {{ 'periodical.ordering.latest' | translate }}
+            </div>
+          </ng-template>
+        </mat-menu>
       </li>
-      <li *ngIf="periodicalService.orderingType === 'fulltext'" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
-        <span disabled id="app-btn-sort" class="app-cursor-pointer" mz-tooltip [tooltip]="'search.ordering.label' | translate" [position]="'top'">
-          <i class="app-mdi-sort"></i>
-        </span>
-        <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-          <mz-dropdown-item><a (click)="periodicalService.setOrdering('relevance')">{{ 'periodical.ordering.relevance' | translate }}</a></mz-dropdown-item>
-          <mz-dropdown-item><a (click)="periodicalService.setOrdering('earliest')">{{ 'periodical.ordering.earliest' | translate }}</a></mz-dropdown-item>
-          <mz-dropdown-item><a (click)="periodicalService.setOrdering('latest')">{{ 'periodical.ordering.latest' | translate }}</a></mz-dropdown-item>
-        </mz-dropdown>
+      <li [matMenuTriggerFor]="orderingMenu2" *ngIf="periodicalService.orderingType === 'fulltext'" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+        <mat-icon>sort</mat-icon>
+        <mat-menu #orderingMenu2="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
+          <ng-template matMenuContent>
+            <div class="app-dropdown-item" (click)="periodicalService.setOrdering('relevance')">
+              {{ 'periodical.ordering.relevance' | translate }}
+            </div>
+            <div class="app-dropdown-item" (click)="periodicalService.setOrdering('earliest')">
+              {{ 'periodical.ordering.earliest' | translate }}
+            </div>
+            <div class="app-dropdown-item" (click)="periodicalService.setOrdering('latest')">
+              {{ 'periodical.ordering.latest' | translate }}
+            </div>
+          </ng-template>
+        </mat-menu>
       </li>
-
-      <li class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'filters'">
-        <span (click)="periodicalService.activeMobilePanel = 'filters'" class="app-cursor-pointer">
-          <i class="app-mdi-filter"></i>
-        </span>
+      <li class="app-nav-item-mobile app-nav-item-tablet" (click)="periodicalService.activeMobilePanel = 'filters'" [class.active]="periodicalService.activeMobilePanel == 'filters'">
+        <mat-icon >filter_alt</mat-icon>
       </li>
-      <li *ngIf="!periodicalService.fulltext && periodicalService.gridLayoutEnabled" (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid' && periodicalService.activeMobilePanel != 'filters'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
-        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_grid' | translate" [position]="'top'" class="app-cursor-pointer">
-          <i class="app-mdi-view-grid"></i>
-        </span>
+      <li *ngIf="!periodicalService.fulltext && periodicalService.gridLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_grid' | translate"  (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid' && periodicalService.activeMobilePanel != 'filters'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
+        <mat-icon>grid_view</mat-icon>
       </li>
-      <li *ngIf="!periodicalService.fulltext && periodicalService.yearsLayoutEnabled" (click)="selectLayout('years')" class="layout-button" [class.active]="periodicalService.activeLayout == 'years'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
-        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_years' | translate" [position]="'top'" class="app-cursor-pointer">
-          <i class="app-mdi-calendar-blank"></i>
-        </span>
+      <li *ngIf="!periodicalService.fulltext && periodicalService.yearsLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_years' | translate" (click)="selectLayout('years')" class="layout-button" [class.active]="periodicalService.activeLayout == 'years'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
+        <mat-icon>calendar_today</mat-icon>
       </li>
-      <li *ngIf="!periodicalService.fulltext && periodicalService.calendarLayoutEnabled" (click)="selectLayout('calendar')" class="layout-button" [class.active]="periodicalService.activeLayout == 'calendar'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
-        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_calendar' | translate" [position]="'top'" class="app-cursor-pointer">
-          <i class="app-mdi-calendar-range"></i>
-        </span>
+      <li *ngIf="!periodicalService.fulltext && periodicalService.calendarLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_calendar' | translate" (click)="selectLayout('calendar')" class="layout-button" [class.active]="periodicalService.activeLayout == 'calendar'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
+        <mat-icon>calendar_month</mat-icon>
       </li>
-      <li *ngIf="periodicalService.fulltext" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'content'">
-        <span (click)="periodicalService.activeMobilePanel = 'content'" class="app-cursor-pointer">
-          <i class="app-mdi-view-grid"></i>
-        </span>
+      <li *ngIf="periodicalService.fulltext" (click)="periodicalService.activeMobilePanel = 'content'" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'content'">
+        <mat-icon>grid_view</mat-icon>
       </li>
-      <li class="app-nav-item-mobile" [class.active]="periodicalService.activeMobilePanel == 'metadata'">
-        <span (click)="periodicalService.activeMobilePanel = 'metadata'" class="app-cursor-pointer">
-          <i class="app-mdi-information"></i>
-        </span>
+      <li class="app-nav-item-mobile" (click)="periodicalService.activeMobilePanel = 'metadata'" [class.active]="periodicalService.activeMobilePanel == 'metadata'">
+        <mat-icon>info</mat-icon>
       </li>
     </ul>
   </div>
 </div>
+
+
+
+
