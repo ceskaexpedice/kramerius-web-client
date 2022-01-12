@@ -1,0 +1,90 @@
+@import './src/variables.scss';
+
+.app-music-playlist-wrapper {
+  height: 100%;  
+  .app-tracks {
+    padding: 20px 10px;
+    .app-track {
+        overflow: hidden;
+        cursor: pointer;
+        line-height: 40px;
+        height: 40px;
+        &:not(:last-child) {
+          border-bottom: 1px solid $app-grey-l-3;
+        }
+        .app-download-button {
+          color: $app-grey-l-1;
+          float: right;
+          line-height: inherit;
+          font-size: 20px;
+          &:hover {
+            color: $app-black;
+          }
+        }
+        .app-track-left {
+            width: 50px;
+            float: left;      
+            .app-track-number {
+                font-size: 15px;
+                color: $app-grey-d-1;
+                margin-left: 10px;
+            }
+            .mat-icon {
+                display: none;
+                float: left;
+                margin-top: 8px;
+                margin-left: 3px;
+                color: $app-grey-d-1;
+            }
+        }
+        .app-track-label {
+            display: flex;
+            .app-track-title {
+                .app-icon-lock {
+                    font-size: 16px;
+                    line-height: 16px;
+                    height: 18px;
+                    vertical-align: middle;
+                    width: 16px;
+                    color: $app-grey-l-1;
+                    margin-right: 3px;
+                    margin-left: -4px;
+                }
+                font-size: 15px;
+                color: $app-grey-d-1;
+                word-break: break-all;
+            }
+            .app-divider {
+                height: 4px;
+                width: 4px;
+                margin: 5px 8px;
+                border-radius: 50%;
+                background: $app-grey-d-3;
+                margin-top: 18px;
+            }
+            .app-track-unit {
+                color: $app-grey-d-2;
+                word-break: break-all;
+            }
+        }
+        &:hover {
+            background-color: #fff;
+            .app-track-left {
+                .app-track-number {
+                    display: none;
+                }
+                .mat-icon {
+                    display: block;
+                }
+            }
+        }
+        &.app-active {
+            font-weight: 600;
+            color: #000;
+            .app-track-number {
+                color: #000 !important;
+            }
+        }
+    }
+  }
+}

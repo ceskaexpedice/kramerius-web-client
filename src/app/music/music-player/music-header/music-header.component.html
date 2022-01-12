@@ -1,8 +1,15 @@
-<div class="app-music-header-wrapper">
-  <div class="app-cover-image-wrapper">
+<div class="app-music-header">
+  <div class="app-album-image">
     <ngx-gallery [options]="galleryOptions" [images]="musicService.galleryImages"></ngx-gallery>
-
   </div>
+  <div class="app-album-title-wrapper">
   <div class="app-album-title">{{ musicService.getAlbumTitle() }}</div>
-  <div class="app-album-author">{{ musicService.getAlbumAuthor() }}</div>
+  </div>
+  <div class="app-album-bottom">
+      <div class="app-album-artist">{{ musicService.getAlbumAuthor() }}</div>
+      <ng-container *ngIf="musicService.getAlbumDate()">
+          <div class="app-divider"></div>
+          <div class="app-album-artist">{{ musicService.getAlbumDate() }}</div>
+      </ng-container>
+  </div>
 </div>

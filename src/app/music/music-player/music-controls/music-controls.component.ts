@@ -1,27 +1,24 @@
-import { DomSanitizer } from '@angular/platform-browser';
 import { MusicService } from './../../../services/music.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-music-controls',
-  templateUrl: './music-controls.component.html'
+  templateUrl: './music-controls.component.html',
+  styleUrls: ['./music-controls.component.scss']
 })
 export class MusicControlsComponent implements OnInit {
 
   @ViewChild('trackSlider') trackSlider: ElementRef;
 
+  @ViewChild('progressContainer') progressContainer: any;
 
   constructor(public musicService: MusicService,
-    public analytics: AnalyticsService,
-    private _sanitizer: DomSanitizer) { }
-
-
+    public analytics: AnalyticsService) { }
 
   play() {
     this.analytics.sendEvent('music', 'play');
     this.musicService.playTrack();
-
   }
 
   pause() {
@@ -33,11 +30,14 @@ export class MusicControlsComponent implements OnInit {
   }
 
   soundUnitImage() {
-    return this._sanitizer.bypassSecurityTrustStyle('url("' + this.musicService.getSoundUnitImageUrl() + '")');
+    return this.musicService.getSoundUnitImageUrl();
   }
 
-  trackSliderChanged() {
-    this.musicService.changeTrackPosition(this.trackSlider.nativeElement.value);
+  onProgressClick(event: any) {
+    const width = this.progressContainer.nativeElement.clientWidth;
+    const point = event.clientX;
+    const p = point / width;
+    this.musicService.changeProgress(p);
   }
 
 }

@@ -1,0 +1,115 @@
+@import './src/variables.scss';
+
+.app-player {
+  background: #fff;
+  height: 90px;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  .app-progress-container {
+      background-color: $app-grey-l-3;
+      border-radius: 5px;
+      cursor: pointer;
+      height: 4px;
+      margin-top: 2px;
+      margin-bottom: 6px;
+      width: 100%;
+      .app-progress {
+          background-color: $primary-color;
+          border-radius: 5px;
+          height: 100%;
+          width: 40%;
+          transition: width 0.1s linear;
+          }
+  }
+  .app-player-left {
+      padding-left: 6px;
+      float: left;
+      //    background: green;
+      width: calc((100% - 150px) / 2 );
+      .app-player-image {
+          width: 80px;
+          float: left;
+          img {
+              height: 68px;
+          }
+      }
+      .app-player-track {
+          font-size: 15px;
+          color: #000;
+          line-height: 20px;
+          height: 20px;
+          margin-top: 4px;
+          margin-bottom: 6px;
+          overflow: hidden;
+      }
+      .app-player-album {
+              height: 18px;
+              overflow: hidden;
+              .app-album-title, .app-album-artist, .app-album-date {
+                  font-size: 13px;
+                  cursor: pointer;
+                  color: $app-grey-d-1;
+                  line-height: 18px;
+                  float: left;
+              }
+              .app-divider {
+                  float: left;
+                  height: 4px;
+                  width: 4px;
+                  margin: 5px 8px;
+                  border-radius: 50%;
+                  background: $app-grey-l-1;
+              }
+      }
+  }
+  .app-player-center {
+      width: 150px;
+      padding-left: 30px;
+      float: left;
+      text-align: center;
+      .app-player-buttons {
+        height: 50px;
+            mat-icon {
+                user-select: none;
+                cursor: pointer;
+                color: $primary-color;
+                width: 35px;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                &.app-active, &:hover {
+                  color: $primary-color-dark;
+                } 
+                &.app-player-play {
+                    font-size: 50px;
+                    width: 50px;
+
+                }
+                &.app-disabled {
+                    user-select: none;
+                    pointer-events: none;
+                    color: $app-grey-l-1;
+                }
+            }
+          }
+          .app-player-duration {
+              color: $app-grey-d-2;
+              user-select: none;
+          }
+          .app-player-error {
+              color: #e94545;
+              margin: 0 -38px;
+          }
+  }
+  @media only screen and (max-width: 1000px) {
+          .app-player-left {
+              width: calc(100% - 130px);
+          }
+          .app-player-center {
+              width: 120px;
+              padding-left: 5px;
+          }
+      }
+
+  }

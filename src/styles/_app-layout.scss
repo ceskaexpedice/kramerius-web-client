@@ -39,22 +39,6 @@ app-root {
       border-right: 1px solid $app-grey-l-2;
     }
 
-
-    // libraries
-    app-libraries {
-      .app-content-wrapper {
-        flex: 1;
-        height: 100%;
-        overflow: auto;
-        background-color: $app-grey-l-4;
-      }
-    }
-    
-    // help
-    app-help {
-      @import "styles/app-help";
-    }
-
     // search
     app-search {
       @import "styles/app-search-count";
@@ -92,11 +76,6 @@ app-root {
         @import "styles/app-viewer-controls";      
         @import "styles/app-navigation";
       }
-    }
-    
-    // music
-    app-music  {
-      @import "styles/app-music-player";
     }
   }
 }

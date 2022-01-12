@@ -1,8 +1,10 @@
 <div class="app-music-player-wrapper" *ngIf="musicService.isStateSuccess()">
   <app-music-toolbar class="hide-on-med-and-up"></app-music-toolbar>
   <div class="app-music-content-wrapper">
-    <app-music-header></app-music-header>
-    <app-music-playlist></app-music-playlist>
+    <div class="app-music-content">
+      <app-music-header></app-music-header>
+      <app-music-playlist></app-music-playlist>
+    </div>
   </div>
   <app-music-controls></app-music-controls>
 </div>

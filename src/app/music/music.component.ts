@@ -1,12 +1,11 @@
 import { ActivatedRoute } from '@angular/router';
-import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MusicService } from '../services/music.service';
-import { AppState } from './../app.state';
 
 @Component({
   selector: 'app-music',
-  templateUrl: './music.component.html'
+  templateUrl: './music.component.html',
+  styleUrls: ['./music.component.scss']
 })
 export class MusicComponent implements OnInit, OnDestroy {
 

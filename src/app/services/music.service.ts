@@ -42,6 +42,7 @@ export class MusicService {
 
   downloadingTrackIndex: number;
 
+  progress: number;
 
   constructor(private modsParserService: ModsParserService,
     private modalService: MzModalService,
@@ -170,6 +171,7 @@ export class MusicService {
     this.trackDuration = -1;
     this.trackPositionText = '';
     this.trackDurationText = '';
+    this.progress = 0;
     this.canPlay = false;
     this.playing = false;
     if (!track) {
@@ -187,6 +189,9 @@ export class MusicService {
     this.audio.ontimeupdate = () => {
       this.trackPosition = Math.round(this.audio.currentTime);
       this.trackPositionText = this.formatTime(this.trackPosition);
+      if (this.trackDuration) {
+        this.progress = this.trackPosition / this.trackDuration;
+      }
     };
     this.audio.onloadedmetadata = () => {
       this.trackDuration = Math.round(this.audio.duration);
@@ -256,8 +261,8 @@ export class MusicService {
     }
   }
 
-  changeTrackPosition(value: number) {
-    this.audio.currentTime = value;
+  changeProgress(progress: number) {
+    this.audio.currentTime = progress * this.trackDuration;
   }
 
   getSoundUnitImageUrl(): string {
@@ -275,6 +280,12 @@ export class MusicService {
       return this.metadata.authors[0].name;
     }
     return '';
+  }
+
+  getAlbumDate(): string {
+    if (this.metadata.publishers && this.metadata.publishers.length > 0) {
+      return this.metadata.publishers[0].date
+    }
   }
 
 

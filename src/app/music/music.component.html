@@ -1,11 +1,7 @@
 <app-music-player *ngIf="musicService.isStateSuccess()"></app-music-player>
 
-<div *ngIf="musicService.isStateLoading()" class="spinner-wrapper">
-  <mz-spinner
-    class="medium-centered-spinner"
-    [color]="'blue'"
-    [size]="'medium'">
-  </mz-spinner>
+<div *ngIf="musicService.isStateLoading()" class="app-spinner-wrapper">
+  <mat-spinner class="medium-centered-spinner" [strokeWidth]="3" [diameter]="40"></mat-spinner>
 </div>
 
 <app-metadata [metadata]="musicService.metadata" [class.app-panel-mobile-hidden]="musicService.activeMobilePanel != 'metadata'" class="app-music-metadata"></app-metadata>

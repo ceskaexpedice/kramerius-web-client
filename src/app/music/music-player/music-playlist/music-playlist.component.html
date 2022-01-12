@@ -1,27 +1,25 @@
 <div class="app-music-playlist-wrapper">
-  <div class="app-music-playlist-header">
-    <div class="app-music-playlist-header-item app-music-playlist-header-icon"></div>
-    <div class="app-music-playlist-header-item app-music-playlist-header-name">{{ 'music.playlist.track' | translate }}</div>
-    <div class="app-music-playlist-header-item hide-on-small-only hide-on-med-only">{{ 'music.playlist.soundunit' | translate }}</div>
-  </div>
-  <div class="app-music-track-list">
-    <div *ngFor="let track of musicService.tracks">
-      <div class="app-music-track" (click)="musicService.selectTrack(track)" [class.playing]="musicService.isPlaying()" [class.active]="musicService.isActiveTrack(track)">
-        <div class="app-music-track-download">
-          <mz-spinner *ngIf="musicService.downloadedTrack === track"
-            class="app-small-spinner"
-            [color]="'blue'">
-          </mz-spinner>
-          <i *ngIf="musicService.downloadedTrack !== track" (click)="musicService.downloadTrack($event, track)" mz-tooltip [tooltip]="'music.download_track' | translate" [position]="'bottom'" mz-icon-mdi [size]="'18px'" [icon]="'download'" class="app-music-track-download-icon"></i>
+ 
+ 
+ 
+
+  <div class="app-tracks">
+    <div class="app-track" [class.app-active]="musicService.isActiveTrack(track)" (click)="musicService.selectTrack(track)" *ngFor="let track of musicService.tracks; let index = index;">
+        <mat-icon (click)="musicService.downloadTrack($event, track)" [matTooltip]="'music.download_track' | translate" class="app-download-button" *ngIf="musicService.downloadedTrack !== track">download</mat-icon>
+        <div class="app-track-left">
+            <div class="app-track-number">{{ index + 1 }}</div>
+            <mat-icon *ngIf="!musicService.isActiveTrack(track) || !musicService.isPlaying()">play_arrow</mat-icon>
+            <mat-icon *ngIf="musicService.isActiveTrack(track) && musicService.isPlaying()">pause</mat-icon>
         </div>
-        <div class="app-music-track-icon">
-          <i *ngIf="!track.isPublic" mz-icon-mdi [size]="'18px'" [icon]="'lock'" class="app-music-track-lock"></i>
-          <i mz-icon-mdi [size]="'18px'" [icon]="'play'" class="app-music-track-play"></i>
-          <i mz-icon-mdi [size]="'18px'" [icon]="'pause'" class="app-music-track-pause"></i>
+        <div class="app-track-label">
+            <div class="app-track-title">
+                <mat-icon class="app-icon-lock" *ngIf="!track.isPublic">lock</mat-icon>
+                {{ track.name }}
+            </div>
+            <ng-container *ngIf="track.unit">
+                <div class="app-divider"></div>
+                <div class="app-track-unit">{{ track.unit.name }}</div>
+            </ng-container>
         </div>
-        <div class="app-music-track-name">{{ track.name }}</div>
-        <div class="app-music-track-unit hide-on-small-only hide-on-med-only">{{ track.unit.name }}</div>
-      </div>
     </div>
-  </div>
 </div>

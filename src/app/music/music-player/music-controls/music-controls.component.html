@@ -1,32 +1,31 @@
-<div class="app-music-controls-wrapper">
-  <div class="app-controls-buttons-wrapper">
-      <i *ngIf="musicService.activeTrack && !musicService.isPlaying()" 
-          mz-icon-mdi 
-          (click)="play()"
-          [size]="'48px'" 
-          [icon]="'play'"  
-          class="app-controls-button app-controls-button-play">
-      </i>
-      <i *ngIf="musicService.activeTrack && musicService.isPlaying()" 
-          mz-icon-mdi 
-          (click)="pause()"
-          [size]="'48px'" 
-          [icon]="'pause'" 
-          class="app-controls-button app-controls-button-pause">
-      </i>
+<div class="app-music-controls">
+
+  <div class="app-player">
+
+  <div #progressContainer class="app-progress-container" (click)="onProgressClick($event)">
+      <div class="app-progress" [style.width]="(musicService.progress * 100) + '%'"></div>
   </div>
-  <div class="app-soundunit-info-wrapper hide-on-small-only hide-on-med-only">
-      <div class="app-soundunit-info" *ngIf="musicService.activeTrack">
-        <div class="app-soundunit-image" [style.background-image]="soundUnitImage()"></div>
-        <div class="app-track-title">{{ musicService.activeTrack.name }}</div>
-        <div class="app-soundunit-title">{{ musicService.activeTrack.unit.name }}</div>
+
+      <div class="app-player-left">
+        <ng-container *ngIf="musicService.activeTrack">
+          <div class="app-player-image">
+              <img [src]="soundUnitImage()">
+          </div>
+          <div class="app-player-track">{{ musicService.activeTrack.name }}</div>
+          <div class="app-player-album">
+              <div class="app-album-title">{{ musicService.activeTrack.unit.name }}</div>
+          </div>
+        </ng-container>
       </div>
-  </div>
-  <div class="app-track-progress-wrapper">
-      <div class="app-track-position">{{ musicService.trackPositionText }}</div>
-      <div class="app-track-slider">
-        <input #trackSlider (change)="trackSliderChanged()" type="range" value="{{ musicService.trackPosition }}" step="1" min="0" max="{{ musicService.trackDuration }}"/>
+
+      <div class="app-player-center">
+          <div class="app-player-buttons">
+              <mat-icon *ngIf="!musicService.isPlaying()" (click)="play()" class="app-player-play">play_circle</mat-icon>
+              <mat-icon *ngIf="musicService.isPlaying()" (click)="pause()" class="app-player-play">pause_circle</mat-icon>
+          </div>
+          <div class="app-player-duration" *ngIf="musicService.trackDurationText">
+              {{ musicService.trackPositionText }} / {{ musicService.trackDurationText }}
+          </div>
       </div>
-      <div class="app-track-duration">{{ musicService.trackDurationText }}</div>
   </div>
 </div>
