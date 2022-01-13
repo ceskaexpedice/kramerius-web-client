@@ -1,0 +1,44 @@
+@import './src/variables.scss';
+
+.app-search-filters-used {
+  border-bottom: 1px solid $app-grey-l-2;
+  padding: 15px 20px;
+  .app-header {
+    position: relative;
+    font-weight: 500;
+    color: $primary-color;
+    line-height: 20px;
+    margin-bottom: 5px;
+    .mat-icon {
+      position: absolute;
+      top: 0px;
+      right: -10px;
+      color: $app-red;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  }
+  .app-filter {
+    cursor: pointer;
+    color: $app-grey-d-1;
+    mat-icon {
+      font-size: 18px;
+      vertical-align: middle;
+      &.app-licence {
+        color: $app-licence-color;
+      }
+      &.app-close {
+        display: none;
+      }
+    }
+    &:hover {
+      color: $app-red;
+      mat-icon {
+        display: none;
+        &.app-close {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

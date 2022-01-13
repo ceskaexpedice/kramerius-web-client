@@ -1,146 +1,92 @@
-<mz-collection>
-  <mz-collection-header>
+<div class="app-search-filters-used">
+
+  <div class="app-header">
     {{'filters.used_header' | translate}}
-    <i mz-icon-mdi (click)="searchService.removeAllFilters()" [icon]="'close-circle'" [class]="'app-clean-mg app-cursor-pointer'" mz-tooltip [tooltip]="'filters.tooltip_remove_filter_all' | translate" [position]="'top'"></i>
-  </mz-collection-header>
+    <mat-icon [matTooltip]="'filters.tooltip_remove_filter_all' | translate" (click)="searchService.removeAllFilters()">close</mat-icon>
+  </div>
 
-  <mz-collection-item *ngIf="searchService.query.hasQueryString()">
-    <span (click)="searchService.removeQueryString()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'magnify'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ searchService.query.query }}
-    </span>
-  </mz-collection-item>
+  <div *ngIf="searchService.query.hasQueryString()" (click)="searchService.removeQueryString()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>search</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ searchService.query.query }}
+  </div>
 
-  <mz-collection-item *ngIf="searchService.query.isCustomFieldSet()">
-      <span (click)="searchService.removeCustomField()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-        <i mz-icon-mdi [icon]="'magnify'" [class]="'app-clean-mg'"></i>
-        <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-        {{ searchService.query.getCustomValue() }}
-      </span>
-  </mz-collection-item>
+  <div *ngIf="searchService.query.accessibility != 'all'" (click)="searchService.removeAccessibilityFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>{{ searchService.query.accessibility === 'private' ? 'lock' : 'lock_open' }}</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ 'search.accessibility.' + searchService.query.accessibility | translate }}
+  </div>
 
-  <mz-collection-item *ngIf="searchService.query.accessibility === 'public'">
-    <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'lock-open'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'search.accessibility.public' | translate }}
-    </span>
-  </mz-collection-item>
+  <div *ngFor="let licence of searchService.query.licences" (click)="searchService.removeFilter(searchService.query.licences, licence)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon class="app-licence">{{ licences.accessible([licence]) ? 'no_photography' : 'lock' }}</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ licences.label(licence) }}
+  </div>
 
-  <mz-collection-item *ngIf="searchService.query.accessibility === 'private'">
-    <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'lock'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'search.accessibility.private' | translate }}
-    </span>
-  </mz-collection-item>
+  <div *ngFor="let keyword of searchService.query.keywords" (click)="searchService.removeFilter(searchService.query.keywords, keyword)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>star</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ keyword | appUpcase }}
+  </div>
 
-  <mz-collection-item *ngIf="searchService.query.accessibility === 'accessible'">
-    <span (click)="searchService.removeAccessibilityFilter()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'lock-open'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'search.accessibility.accessible' | translate }}
-    </span>
-  </mz-collection-item>
+  <div *ngFor="let doctype of searchService.query.doctypes" (click)="searchService.removeFilter(searchService.query.doctypes, doctype)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>category</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ 'model.' + doctype | translate | appUpcase }}
+  </div>
 
-  <mz-collection-item *ngFor="let licence of searchService.query.licences">
-    <span (click)="searchService.removeFilter(searchService.query.licences, licence)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="licences.accessible([licence]) ? 'camera-off' : 'lock'" class="app-clean-mg app-licence"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ licences.label(licence) }}
-    </span>
-  </mz-collection-item>
+  <div *ngFor="let author of searchService.query.authors" (click)="searchService.removeFilter(searchService.query.authors, author)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>person</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ author | appUpcase }}
+  </div>
 
+  <div *ngFor="let publisher of searchService.query.publishers" (click)="searchService.removeFilter(searchService.query.publishers, publisher)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>people</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ publisher | appUpcase }}
+  </div>
 
-  <mz-collection-item *ngFor="let keyword of searchService.query.keywords">
-    <span (click)="searchService.removeFilter(searchService.query.keywords, keyword)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'star'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ keyword | appUpcase }}
-    </span>
-  </mz-collection-item>
+  <div *ngFor="let place of searchService.query.places" (click)="searchService.removeFilter(searchService.query.places, place)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>place</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ place | appUpcase }}
+  </div>
 
-  <mz-collection-item *ngFor="let doctype of searchService.query.doctypes">
-    <span (click)="searchService.removeFilter(searchService.query.doctypes, doctype)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'file-document'" [class]="'app-clean-mg'" [class]="'app-mdi-' + doctype"></i>
-      <!--<i [class]="'app-mdi-' + doctype"></i>-->
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'model.' + doctype | translate | appUpcase }}
-    </span>
-  </mz-collection-item>
+  <div *ngFor="let genre of searchService.query.genres" (click)="searchService.removeFilter(searchService.query.genres, genre)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>label</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ genre | appUpcase }}
+  </div>
 
-  <mz-collection-item *ngFor="let author of searchService.query.authors">
-    <span (click)="searchService.removeFilter(searchService.query.authors, author)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'account'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ author | appUpcase }}
-    </span>
-  </mz-collection-item>
+  <div *ngFor="let geoname of searchService.query.geonames" (click)="searchService.removeFilter(searchService.query.geonames, geoname)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>map</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ geoname | appUpcase }}
+  </div>
 
-  <mz-collection-item *ngFor="let publisher of searchService.query.publishers">
-    <span (click)="searchService.removeFilter(searchService.query.publishers, publisher)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'account-multiple'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ publisher | appUpcase }}
-    </span>
-  </mz-collection-item>
+  <div *ngFor="let location of searchService.query.locations" (click)="searchService.removeFilter(searchService.query.locations, location)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>home</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ 'sigla.' + location.toUpperCase() | translate | appRemovePrefix:'sigla.' }}
+  </div>
 
-  <mz-collection-item *ngFor="let place of searchService.query.places">
-    <span (click)="searchService.removeFilter(searchService.query.places, place)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'map'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ place | appUpcase }}
-    </span>
-  </mz-collection-item>
+  <div *ngFor="let language of searchService.query.languages" (click)="searchService.removeFilter(searchService.query.languages, language)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>translate</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ 'language.' + language | translate | appUpcase }}
+  </div>
 
-  <mz-collection-item *ngFor="let genre of searchService.query.genres">
-    <span (click)="searchService.removeFilter(searchService.query.genres, genre)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'book-variant'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ genre | appUpcase }}
-    </span>
-  </mz-collection-item>
+  <div *ngFor="let collection of searchService.query.collections" (click)="searchService.removeFilter(searchService.query.collections, collection)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>palette</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ collections.getNameByPid(collection) | appUpcase }}
+  </div>
 
-  <mz-collection-item *ngFor="let geoname of searchService.query.geonames">
-    <span (click)="searchService.removeFilter(searchService.query.geonames, geoname)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'map'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ geoname | appUpcase }}
-    </span>
-  </mz-collection-item>
+  <div *ngIf="searchService.query.isYearRangeSet()" (click)="searchService.setYearRange()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>date_range</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ searchService.query.from }} - {{ searchService.query.to }}
+  </div>
 
-  <mz-collection-item *ngFor="let location of searchService.query.locations">
-    <span (click)="searchService.removeFilter(searchService.query.locations, location)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'home'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'sigla.' + location.toUpperCase() | translate | appRemovePrefix:'sigla.' }}
-    </span>
-  </mz-collection-item>
-
-  <mz-collection-item *ngFor="let language of searchService.query.languages">
-    <span (click)="searchService.removeFilter(searchService.query.languages, language)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'translate'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ 'language.' + language | translate | appUpcase }}
-    </span>
-  </mz-collection-item>
-
-  <mz-collection-item *ngFor="let collection of searchService.query.collections">
-    <span (click)="searchService.removeFilter(searchService.query.collections, collection)" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'palette'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      {{ collections.getNameByPid(collection) | appUpcase }}
-    </span>
-  </mz-collection-item>
-
-  <mz-collection-item *ngIf=searchService.query.isYearRangeSet()>
-    <span (click)="searchService.setYearRange()" class="app-cursor-pointer" mz-tooltip [tooltip]="'filters.tooltip_remove_filter' | translate" [position]="'top'">
-      <i mz-icon-mdi [icon]="'calendar-range'" [class]="'app-clean-mg'"></i>
-      <i mz-icon-mdi [icon]="'close'" [class]="'app-clean-mg'"></i>
-      <span> {{ searchService.query.from }} - {{ searchService.query.to }}</span>
-    </span>
-  </mz-collection-item>
-
-
-</mz-collection>
+</div>

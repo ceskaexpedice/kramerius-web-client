@@ -1,0 +1,22 @@
+@import './src/variables.scss';
+
+.app-count {
+    border: none;
+    height: 100%;
+    color: $app-grey-d-1;
+    padding: 0px 20px;
+    height: $app-toolbar-height;
+    line-height: $app-toolbar-height;
+    border-bottom: 1px solid $app-grey-l-2;
+    background: #fff;
+    .app-all {
+      font-weight: 500;
+    }
+    .app-slash {
+      color: #e0e0e0;
+      padding: 0 3px;
+    }
+    .app-divider {
+      padding: 0 3px;
+    }
+}

@@ -51,7 +51,6 @@ import { ViewerComponent } from './book/viewer/viewer.component';
 import { MatomoModule } from 'ngx-matomo';
 
 import { BookComponent } from './book/book.component';
-import { HelpComponent } from './help/help.component';
 import { HomeComponent } from './home/home.component';
 import { BrowseComponent } from './browse/browse.component';
 import { NavigationComponent } from './book/navigation/navigation.component';
@@ -68,8 +67,6 @@ import { SearchCountComponent } from './search/search-count/search-count.compone
 import { SearchToolbarComponent } from './search/search-toolbar/search-toolbar.component';
 import { HomeSearchBarComponent } from './home/home-search-bar/home-search-bar.component';
 import { NavbarSearchBarComponent } from './navbar/navbar-search-bar/navbar-search-bar.component';
-import { SearchChartBarComponent } from './search/search-chart-bar/search-chart-bar.component';
-import { SearchCalendarComponent } from './search/search-calendar/search-calendar.component';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.component';
 import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
@@ -174,7 +171,6 @@ export function hljsLanguages() {
     NavbarComponent,
     ViewerComponent,
     BookComponent,
-    HelpComponent,
     AboutComponent,
     HomeComponent,
     BrowseComponent,
@@ -202,8 +198,6 @@ export function hljsLanguages() {
     ViewerControlsComponent,
     HomeSearchBarComponent,
     NavbarSearchBarComponent,
-    SearchChartBarComponent,
-    SearchCalendarComponent,
     BrowseFiltersComponent,
     BrowseCountComponent,
     BrowseResultsComponent,

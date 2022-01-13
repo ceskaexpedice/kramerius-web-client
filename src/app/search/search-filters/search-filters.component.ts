@@ -9,10 +9,13 @@ import { DialogLicencesComponent } from '../../dialog/dialog-licences/dialog-lic
 
 @Component({
   selector: 'app-search-filters',
-  templateUrl: './search-filters.component.html'
+  templateUrl: './search-filters.component.html',
+  styleUrls: ['./search-filters.component.scss']
 })
 export class SearchFiltersComponent implements OnInit {
-  @Input() collapsedFilter: boolean;
+
+
+  collapsedFilter = true;
 
   yearFrom: number;
   yearTo: number;

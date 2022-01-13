@@ -1,0 +1,76 @@
+@import './src/variables.scss';
+
+
+.app-filters-wrapper {
+  height: calc(100% - #{$app-toolbar-height});
+  overflow: auto;
+  .app-filter-panel {
+    box-shadow: none;
+    background: transparent;
+    border-bottom: 1px solid $app-grey-l-2;
+    mat-expansion-panel-header {
+      height: 48px !important;
+      font-weight: 500;
+      &:hover {
+        background: transparent !important;
+      }
+    }
+    .app-filter-items {
+      margin-top: -5px;
+      .app-filter-item {
+        line-height: 22px;
+        cursor: pointer;
+        &.app-selected {
+          font-weight: 600;
+        }
+        color: $app-grey-d-1;
+        &:hover {
+          color: $app-grey-d-4;
+        }
+        &.app-expand {
+          color: $primary-color;
+          &:hover {
+            color: $primary-color-dark;
+          }
+        }
+        span {
+          float: right;
+          margin-left: 5px;
+        }
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          vertical-align: middle;
+        }
+        .app-lock {
+          float: left;
+          color: $app-licence-color;
+          margin-right: 4px;
+
+        }
+        .app-licence-info {
+          color: #999;
+          cursor: pointer;
+          &:hover {
+            color: #111;
+          }
+        }
+      }
+    }
+    .year-range-wrapper {
+      padding: 0;
+      .year-range {
+        span {
+          color: #888;
+        }
+        input {
+          width: 70px !important;
+          margin: 0 10px !important;
+        }
+      }
+      button {
+        margin-top: 20px;
+      }
+    }
+  }
+}

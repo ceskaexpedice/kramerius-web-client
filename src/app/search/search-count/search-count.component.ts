@@ -3,7 +3,8 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-search-count',
-  templateUrl: './search-count.component.html'
+  templateUrl: './search-count.component.html',
+  styleUrls: ['./search-count.component.scss']
 })
 export class SearchCountComponent implements OnInit {
 

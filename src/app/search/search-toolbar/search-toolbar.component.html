@@ -38,21 +38,6 @@
 
     <ul>
 
-<!-- <ng-container *ngIf="account.serviceEnabled() && account.isLoggedIn() && account.hasRole('kramerius_admin')">
-
-     
-      <li *ngIf="search.adminSelection" (click)="search.openAdminActions()" class="serch-content-type-button" [class.active]="true">
-        <span mz-tooltip [tooltip]="'book_controls.tooltip_edit' | translate" [position]="'top'" class="app-cursor-pointer app-btn-icon">
-          <i class="app-mdi-edit"></i>
-        </span>
-      </li>
-
-      <li (click)="search.toggleAdminSelection()" class="serch-content-type-button" [class.active]="search.adminSelection">
-        <span mz-tooltip [tooltip]="'Výběr pro administraci'" [position]="'top'" class="app-cursor-pointer app-btn-icon">
-          <i class="app-mdi-check"></i>
-        </span>
-      </li>
-    </ng-container> -->
 
 
       <li *ngIf="settings.mapSearch" (click)="search.selectContentType('grid')" class="serch-content-type-button" [class.active]="search.contentType == 'grid'">

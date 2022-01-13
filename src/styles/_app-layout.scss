@@ -41,16 +41,16 @@ app-root {
 
     // search
     app-search {
-      @import "styles/app-search-count";
-      @import "styles/app-search-filters-used";
-      @import "styles/app-search-filters";
+      // @import "styles/app-search-count";
+      // @import "styles/app-search-filters-used";
+      // @import "styles/app-search-filters";
       .app-search-wrapper {
         flex: 1;
         height: 100%;
         background-color: #fff;
         @import "styles/app-search-toolbar";
-        @import "styles/app-search-chart-bar";
-        @import "styles/app-search-calendar";
+        // @import "styles/app-search-chart-bar";
+        // @import "styles/app-search-calendar";
         @import "styles/app-search-results";
         // @import "styles/app-map-browse";
       }
@@ -70,7 +70,7 @@ app-root {
         }
         
         @import "styles/app-book-toolbar";
-        @import "styles/app-search-count";
+        // @import "styles/app-search-count";
         @import "styles/app-viewer";
         @import "styles/app-pdf-viewer";
         @import "styles/app-viewer-controls";      
