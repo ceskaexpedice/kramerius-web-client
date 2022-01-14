@@ -1,0 +1,74 @@
+@import './src/variables.scss';
+
+.app-search-toolbar {
+  display: block;
+  height: $app-toolbar-height;
+  line-height: $app-toolbar-height;
+  border-bottom: 1px solid $app-grey-l-2;
+  position: relative;
+  z-index: 990;
+  padding: 0 13px;
+  .app-col-left {
+    a {
+      float: left;
+      display: block;
+      line-height: inherit;
+      margin-right: 10px;
+      height: 30px;
+      mat-icon {
+        line-height: inherit;
+      }
+    }
+    .app-collection-title {
+      height: 55px;
+      line-height: 55px;
+      overflow: hidden;
+      float: left;
+      font-size: 1.4rem;
+      color: $app-grey-d-1;
+    }
+    .app-hide-on-med {
+      @media #{$medium-and-down} {
+          display: none !important;
+      }    
+    }
+  }
+
+  .app-col-right {
+    float: right;
+    .app-view-button {
+      float: left;
+      user-select: none;
+      padding: 0 8px;
+      height: 30px;
+      margin-top: 7px;
+      cursor: pointer;
+      color: $app-grey-l-1;
+      &:not(.app-active) {
+        &:hover {
+          color: $app-grey-d-1;
+        } 
+      }
+      &.app-active {
+        color: $primary-color;
+      }
+      &:last-child {
+        margin-right: 8px;
+      }
+    }
+    .app-ordering {
+      margin-top: 16px;
+      color: $primary-color;
+      line-height: 24px;
+      margin-left: 10px;
+      float: left;
+      .label {
+        color: $app-grey-l-1;
+      }
+      cursor: pointer;
+      mat-icon {
+        vertical-align: middle;
+      }
+    }
+  }
+}

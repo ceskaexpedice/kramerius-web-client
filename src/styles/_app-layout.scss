@@ -38,23 +38,6 @@ app-root {
       background-color: $app-grey-l-5;
       border-right: 1px solid $app-grey-l-2;
     }
-
-    // search
-    app-search {
-      // @import "styles/app-search-count";
-      // @import "styles/app-search-filters-used";
-      // @import "styles/app-search-filters";
-      .app-search-wrapper {
-        flex: 1;
-        height: 100%;
-        background-color: #fff;
-        @import "styles/app-search-toolbar";
-        // @import "styles/app-search-chart-bar";
-        // @import "styles/app-search-calendar";
-        @import "styles/app-search-results";
-        // @import "styles/app-map-browse";
-      }
-    }
     
     // book
     app-book {

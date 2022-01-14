@@ -1,70 +1,52 @@
-<div class="row app-clean-mg">
+<div class="app-search-toolbar">
 
-
-
-  
-    <div class="col app-col app-col-left">
-      <ng-container *ngIf="search.collection">
-        <span style="color: #757575;
-      height: 55px;
-      line-height: 55px;
-      overflow: hidden;
-      font-size: 1.4rem;">
-        {{ search.getCollectionTitle() }}
-        </span>
+  <div class="app-col-right">
+      <ng-container *ngIf="settings.mapSearch">
+        <div [matTooltip]="'toolbar.tooltip_display_cards' | translate"  (click)="search.selectContentType('grid')" class="app-view-button" [class.app-active]="search.contentType == 'grid'">
+          <mat-icon>grid_view</mat-icon>
+        </div>
+        <div [matTooltip]="'toolbar.tooltip_display_map' | translate"  (click)="search.selectContentType('map')" class="app-view-button" [class.app-active]="search.contentType == 'map'">
+          <mat-icon>map</mat-icon>
+        </div>
       </ng-container>
-
-      <ul>
-        <li class="hide-on-med-and-up">
-          <a (click)="toggleFilters()">
-            <i *ngIf="search.activeMobilePanel == 'results'" mz-icon-mdi [icon]="'filter'"></i>
-            <i *ngIf="search.activeMobilePanel == 'filters'" mz-icon-mdi [icon]="'filter-remove'" class="grey-text"></i>
-          </a>
-        </li>
-        <li>
-          <span *ngIf="settings.k3"><a [href]="search.buildK3Link()" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
-        </li>
-        <li>
-          <span *ngIf="settings.advancedSearch"class="app-btn-txt" (click)="search.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
-        </li>
-      </ul>
-    </div>
-
-
-
-  <div class="col app-col app-col-right">
-
-
-
-    <ul>
-
-
-
-      <li *ngIf="settings.mapSearch" (click)="search.selectContentType('grid')" class="serch-content-type-button" [class.active]="search.contentType == 'grid'">
-        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_cards' | translate" [position]="'top'" class="app-cursor-pointer app-btn-icon">
-          <i class="app-mdi-view-grid"></i>
-        </span>
-      </li>
-      <li *ngIf="settings.mapSearch" (click)="search.selectContentType('map')" class="serch-content-type-button" [class.active]="search.contentType == 'map'">
-        <span mz-tooltip [tooltip]="'toolbar.tooltip_display_map' | translate" [position]="'top'" class="app-cursor-pointer app-btn-icon">
-          <i class="app-mdi-view-map"></i>
-        </span>
-      </li>
-      <li *ngIf="search.contentType == 'grid'">
-        <span class="app-cursor-pointer app-mdi-in app-btn-icon">
+      <div *ngIf="search.contentType == 'grid'" class="app-ordering">
           <label>{{ 'search.ordering.label' | translate }}: </label>
-          <a id="app-btn-sort" href="#">{{ 'search.ordering.' + search.query.ordering | translate }} <i class="app-mdi-menu-down"></i></a>
-          <mz-dropdown [id]="'app-sort'" [dropdownButtonId]="'app-btn-sort'" [constrainWidth]="false">
-            <mz-dropdown-item *ngIf="search.query.relevanceOrderingEnabled()"><a (click)="search.changeOrdering('relevance')">{{ 'search.ordering.relevance' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="search.changeOrdering('alphabetical')">{{ 'search.ordering.alphabetical' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="search.changeOrdering('newest')">{{ 'search.ordering.newest' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="search.changeOrdering('latest')">{{ 'search.ordering.latest' | translate }}</a></mz-dropdown-item>
-            <mz-dropdown-item><a (click)="search.changeOrdering('earliest')">{{ 'search.ordering.earliest' | translate }}</a></mz-dropdown-item>            
-          </mz-dropdown>
-        </span>
-      </li>
-    </ul>
+          <span class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
+            <span>{{ 'search.ordering.' + search.query.ordering | translate }}</span>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </span>
+        </div>
   </div>
 
+    <div class="app-col-left">
+      <a (click)="toggleFilters()" class="hide-on-med-and-up app-filter-toggle">
+        <mat-icon *ngIf="search.activeMobilePanel == 'results'">filter_alt</mat-icon>
+        <mat-icon *ngIf="search.activeMobilePanel == 'filters'" class="grey-text">filter_alt_off</mat-icon>
+      </a>
+      <span class="app-collection-title" *ngIf="search.collection" class="app-hide-on-med">
+        {{ search.getCollectionTitle() }}
+      </span>
+      <span *ngIf="settings.k3"><a [href]="search.buildK3Link()" class="app-hide-on-med" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
+    </div>
 
 </div>
+
+<mat-menu #orderingMenu="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
+  <ng-template matMenuContent>
+    <div class="app-dropdown-item" (click)="search.changeOrdering('relevance')" *ngIf="search.query.relevanceOrderingEnabled()">
+      {{ 'search.ordering.relevance' | translate }}
+    </div>
+    <div class="app-dropdown-item" (click)="search.changeOrdering('alphabetical')">
+      {{ 'search.ordering.alphabetical' | translate }}
+    </div>
+    <div class="app-dropdown-item" (click)="search.changeOrdering('newest')">
+      {{ 'search.ordering.newest' | translate }}
+    </div>
+    <div class="app-dropdown-item" (click)="search.changeOrdering('latest')">
+      {{ 'search.ordering.latest' | translate }}
+    </div>
+    <div class="app-dropdown-item" (click)="search.changeOrdering('earliest')">
+      {{ 'search.ordering.earliest' | translate }}
+    </div>
+  </ng-template>
+</mat-menu>

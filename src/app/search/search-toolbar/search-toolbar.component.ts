@@ -5,7 +5,9 @@ import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-search-toolbar',
-  templateUrl: './search-toolbar.component.html'
+  templateUrl: './search-toolbar.component.html',
+  styleUrls: ['./search-toolbar.component.scss']
+
 })
 export class SearchToolbarComponent implements OnInit {
 

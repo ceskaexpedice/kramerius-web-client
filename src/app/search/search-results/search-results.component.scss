@@ -1,16 +1,12 @@
-// --- SEARCH RESULTS --
+@import './src/variables.scss';
 
-app-search-results {
+.app-search-results {
   display: block;
   height: calc(100% - #{$app-toolbar-height});
   overflow: auto;
   padding: 0.5rem;
   background-color: $app-grey-l-4;
-  
-  &.app-search-results-no-toolbar {
-    height: 100%;
-  }
-  
+  position: relative;
   app-document-card {
     float: left;
     width:16.66666%;
