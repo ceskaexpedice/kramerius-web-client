@@ -82,6 +82,13 @@
       }
       app-navbar-search-bar {
         flex: 1;
+        @media only screen and (max-width: 400px) {
+          display: none;
+          &.app-search-bar-show {
+            display: initial;
+            margin-right: 32px;
+          }
+        }
       }
       .app-buttons {
         display: initial;

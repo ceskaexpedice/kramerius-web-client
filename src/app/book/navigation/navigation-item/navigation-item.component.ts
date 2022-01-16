@@ -5,7 +5,9 @@ import { LicenceService } from '../../../services/licence.service';
 
 @Component({
   selector: 'app-navigation-item',
-  templateUrl: './navigation-item.component.html'
+  templateUrl: './navigation-item.component.html',
+  styleUrls: ['./navigation-item.component.scss']
+
 })
 export class NavigationItemComponent implements OnInit {
   @Input() page: Page;

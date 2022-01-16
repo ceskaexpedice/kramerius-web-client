@@ -9,7 +9,8 @@ import { Author, Metadata, Publisher, TitleInfo } from '../../model/metadata.mod
 
 @Component({
   selector: 'app-epub-viewer',
-  templateUrl: './epub-viewer.component.html'
+  templateUrl: './epub-viewer.component.html',
+  styleUrls: ['./epub-viewer.component.scss']
 })
 export class EpubViewerComponent implements  OnInit, OnDestroy {
 

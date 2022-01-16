@@ -20,7 +20,8 @@ declare var ol: any;
 
 @Component({
   selector: 'app-viewer',
-  templateUrl: './viewer.component.html'
+  templateUrl: './viewer.component.html',
+  styleUrls: ['./viewer.component.scss']
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   

@@ -82,7 +82,6 @@ import { MusicControlsComponent } from './music/music-player/music-controls/musi
 import { BookToolbarComponent } from './book/book-toolbar/book-toolbar.component';
 import { MusicToolbarComponent } from './music/music-player/music-toolbar/music-toolbar.component';
 
-import { PdfViewerComponent } from './book/pdf-viewer/pdf-viewer.component';
 import { PeriodicalCountComponent } from './periodical/periodical-filters/periodical-count/periodical-count.component';
 import { PeriodicalSearchComponent } from './periodical/periodical-filters/periodical-search/periodical-search.component';
 import { PeriodicalFiltersComponent } from './periodical/periodical-filters/periodical-filters.component';
@@ -223,7 +222,6 @@ export function hljsLanguages() {
     MusicControlsComponent,
     BookToolbarComponent,
     MusicToolbarComponent,
-    PdfViewerComponent,
     PdfViewer2Component,
     PeriodicalCountComponent,
     PeriodicalSearchComponent,

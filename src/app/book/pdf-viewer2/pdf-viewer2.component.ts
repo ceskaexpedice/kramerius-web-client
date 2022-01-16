@@ -9,7 +9,8 @@ import { PdfViewerComponent } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-pdf-viewer2',
-  templateUrl: './pdf-viewer2.component.html'
+  templateUrl: './pdf-viewer2.component.html',
+  styleUrls: ['./pdf-viewer2.component.scss']
 })
 export class PdfViewer2Component implements  OnInit {
 

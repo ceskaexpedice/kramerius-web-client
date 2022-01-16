@@ -14,7 +14,7 @@
   
   <div class="col app-col-right" [class.app-col-right-home]="state.atHome()" [class.app-search-bar-displayed]="mobileSearchBarExpanded">
     <app-navbar-search-bar *ngIf="!state.atHome()" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
-    <div [align]="'right'" class="app-buttons">
+    <div class="app-buttons">
       
       <div class="app-navbar-item">
         <ng-container *ngIf="appSettings.k5Compat(); else newCollections">

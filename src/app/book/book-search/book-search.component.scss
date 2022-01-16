@@ -1,0 +1,49 @@
+@import './src/variables.scss';
+
+.app-book-search-bar-wrapper {
+  width: 100%;
+  padding: 0 20px 0 20px;
+  border-bottom: 1px solid $app-grey-l-2;
+  mat-checkbox {
+    display: block;
+    margin: 10px 5px;
+  }
+  .app-book-search-bar {
+    position: relative;
+    height: 47px;
+    ::ng-deep {
+      input {
+        margin: 0;
+        height: 46px;
+        border-bottom-color: transparent;
+        padding-left: 30px;
+        padding-right: 30px;
+        width: calc(100% - 60px);
+        &::placeholder {
+          color: $app-grey;
+        }
+      }
+    }
+    mat-icon {
+      cursor: pointer;
+      top: 11px;
+      position: absolute;
+      color: $app-grey;
+      &.app-close {
+        right: 0;
+      }
+      &.app-magnify {
+        left: 0;
+      }
+    }
+    &:focus-within {
+      .app-magnify  {
+        color: $primary-color;
+      }
+    }
+    &.app-is-query {
+      border-bottom: 1px solid $primary-color !important;
+      box-shadow: 0 1px 0 0 $primary-color;
+    }
+  }
+}

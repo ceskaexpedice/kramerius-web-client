@@ -7,7 +7,9 @@ import { EpubService } from '../../../services/epub.service';
 
 @Component({
   selector: 'app-viewer-controls',
-  templateUrl: './viewer-controls.component.html'})
+  templateUrl: './viewer-controls.component.html',
+  styleUrls: ['./viewer-controls.component.scss']
+})
 export class ViewerControlsComponent implements OnInit {
 
   constructor(

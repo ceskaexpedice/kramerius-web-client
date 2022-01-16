@@ -1,0 +1,56 @@
+@import './src/variables.scss';
+
+.app-book-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row;
+  @media #{$small-and-down} {
+    height: calc(100% - #{$app-toolbar-height});
+  }
+  app-viewer {
+    flex: 1;
+    height: 100%;
+  }
+  app-navigation {
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s;
+    border-right: 1px solid $app-grey-l-2;
+    
+    &.app-panel-hidden {
+      margin-left: -$app-side-col-width;
+      overflow: hidden;
+    }
+    
+    // mq
+    @media #{$medium-and-down} {
+      &.app-panel-mobile-hidden {
+        margin-left: -$app-side-col-width;
+        transition: margin-right 0.0s;
+        overflow: hidden;
+      }
+      &.app-panel-hidden {
+        margin-left: 0;
+        overflow: inherit;
+      }
+    }
+    
+    @media #{$small-and-down} {
+      display: block;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: $app-toolbar-height;
+      margin-left: 0 !important;
+      border: none;
+      height: calc(#{$app-mobile-panel-height} - #{$app-toolbar-height});
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+      z-index: 1001;
+      
+      &.app-panel-mobile-hidden {
+        display: none;
+      }
+    }
+  }
+}

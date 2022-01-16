@@ -2,9 +2,9 @@
   <div class="app-snippet-content">
     <div class="app-snippet-thumb-wrapper">
       <div class="app-snippet-thumb" [scrollTarget]="container" [lazyLoad]="page.thumb">
-        <ng-container *ngIf="lock">
-          <i mz-icon-mdi [icon]="lock.icon" class="app-lock {{ lock.class }}"></i>
-        </ng-container>        
+        <div *ngIf="lock" class="app-lock {{ lock.class }}">
+          <mat-icon>{{ lock.icon }}</mat-icon>
+        </div>    
       </div>
     </div>
     <div class="app-snippet-right">

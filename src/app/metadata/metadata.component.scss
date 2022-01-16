@@ -7,6 +7,9 @@
       font-weight: 500;
       color: $app-grey-d-4;
     }
+    a {
+      font-weight: 400;
+    }
      .app-metadata-controls {
       display: block;
       height: 55px;
@@ -19,6 +22,7 @@
         cursor: pointer;
         margin-left: 17px; 
         margin-right: 17px;  
+        font-size: 21px;
         float: right;  
         color: $app-grey;
         line-height: inherit;

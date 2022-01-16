@@ -8,7 +8,9 @@ import { DocumentSearchService } from '../../services/document-search.service';
 
 @Component({
   selector: 'app-book-search',
-  templateUrl: './book-search.component.html'})
+  templateUrl: './book-search.component.html',
+  styleUrls: ['./book-search.component.scss']
+})
 export class BookSearchComponent implements OnInit, OnDestroy {
 
   fulltextQuery: string;

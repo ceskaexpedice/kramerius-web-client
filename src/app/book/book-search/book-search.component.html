@@ -1,13 +1,11 @@
 <div class="app-book-search-bar-wrapper">
-  <div class="app-book-search-bar" [class.app-is-query]="bookService.getFulltextQuery()">
-    <ng2-completer  #completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="fulltextQuery" [matchClass]="'highlight'"
+  <div class="app-book-search-bar" [class.app-is-query]="fulltextQuery">
+    <ng2-completer #completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="fulltextQuery" [matchClass]="'highlight'"
     [datasource]="service" [minSearchLength]="2" [inputClass]="'autocomplete'" [placeholder]="'searchbar.document' | translate" [inputName]="'autocomplete-input'">
     </ng2-completer>
 
-    <i *ngIf="bookService.getFulltextQuery()" mz-icon-mdi [icon]="'close'" (click)="cleanQuery()" class="app-cursor-pointer"></i>
-    <i mz-icon-mdi [icon]="'magnify'" (click)="onMagnifyIconClick()"  class="app-cursor-pointer"></i>
+    <mat-icon class="app-close" *ngIf="fulltextQuery" (click)="cleanQuery()">close</mat-icon>
+    <mat-icon class="app-magnify" (click)="onMagnifyIconClick()">search</mat-icon>
   </div>
-  <mz-checkbox-container *ngIf="bookService.getFulltextQuery()">
-    <input mz-checkbox (change)="checkboxChanged()" [(ngModel)]="bookService.fulltextAllPages" [label]="'book_controls.all_pages' | translate" id="checkbox-id" type="checkbox">
-  </mz-checkbox-container> 
+  <mat-checkbox *ngIf="bookService.getFulltextQuery()" color="primary" (change)="checkboxChanged()" [(ngModel)]="bookService.fulltextAllPages">{{ 'book_controls.all_pages' | translate }}</mat-checkbox>
 </div>

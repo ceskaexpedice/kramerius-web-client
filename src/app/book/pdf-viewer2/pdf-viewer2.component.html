@@ -1,7 +1,6 @@
 <div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
 
 <app-viewer-controls *ngIf="!bookService.isPageInaccessible()" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
-<!-- *ngIf="bookService.pdf" [src]="'/assets/shared/A-2_2021-web.pdf'" -->
 
 
 <pdf-viewer 
@@ -23,40 +22,32 @@
 </pdf-viewer>
 
 
-<span *ngIf="controlsService.leftPanelVisible && bookService.showNavigationPanel"
+<span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
 class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
 (click)="controlsService.hideLeftPanel()" 
-mz-tooltip 
-[tooltip]="'view_controls.tooltip_hide_left' | translate" 
-[position]="'right'">
-<i class="app-mdi-menu-left" [class.app-mdi-tablet]="controlsService.leftPanelVisible"></i>
+[matTooltip]="'view_controls.tooltip_hide_left' | translate">
+<mat-icon>arrow_left</mat-icon>
 </span>
 
-<span *ngIf="!controlsService.leftPanelVisible && bookService.showNavigationPanel"
+<span *ngIf="!controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
 class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
 (click)="controlsService.showLeftPanel()" 
-mz-tooltip 
-[tooltip]="'view_controls.tooltip_show_left' | translate" 
-[position]="'right'">
-<i class="app-mdi-menu-right"></i>
+[matTooltip]="'view_controls.tooltip_show_left' | translate">
+<mat-icon>arrow_right</mat-icon>
 </span>
 
 <span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
-class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
-(click)="controlsService.hideRightPanel()" 
-mz-tooltip 
-[tooltip]="'view_controls.tooltip_hide_right' | translate" 
-[position]="'left'">
-<i class="app-mdi-menu-right" [class.app-mdi-tablet]="controlsService.rightPanelVisible"></i>
+    class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+    (click)="controlsService.hideRightPanel()" 
+    [matTooltip]="'view_controls.tooltip_hide_right' | translate">
+    <mat-icon>arrow_right</mat-icon>
 </span>
 
 <span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
 class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
 (click)="controlsService.showRightPanel()" 
-mz-tooltip 
-[tooltip]="'view_controls.tooltip_show_right' | translate" 
-[position]="'left'">
-<i class="app-mdi-menu-left"></i>
+[matTooltip]="'view_controls.tooltip_show_right' | translate">
+<mat-icon>arrow_left</mat-icon>
 </span>
 
 <ng-container *ngIf="bookService.isPageInaccessible()">
@@ -69,10 +60,10 @@ mz-tooltip
     message="alert.failed_to_load_image">
 </app-alert>
 
-<mz-spinner *ngIf="bookService.isPageLoading() || pdfLoading"
-    class="medium-centered-spinner"
-    [color]="'blue'"
-    [size]="'medium'">
-</mz-spinner>
+<mat-spinner *ngIf="bookService.isPageLoading() || pdfLoading" 
+    class="medium-centered-spinner" 
+    [strokeWidth]="3"
+    [diameter]="40">
+</mat-spinner>
 
 </div>

@@ -7,7 +7,9 @@ declare var $: any;
 
 @Component({
   selector: 'app-book-controls',
-  templateUrl: './book-controls.component.html'})
+  templateUrl: './book-controls.component.html',
+  styleUrls: ['./book-controls.component.scss']
+})
 export class BookControlsComponent implements OnInit {
 
 

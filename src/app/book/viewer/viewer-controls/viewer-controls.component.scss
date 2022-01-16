@@ -1,0 +1,44 @@
+@import './src/variables.scss';
+  
+.app-view-controls {
+  position: absolute;
+  left: 50%;
+  z-index: 1000;
+  bottom: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  transition: opacity .4s ease 0s;
+  opacity: 1;
+  margin-right: -50%;
+  display: inline-block;
+  -webkit-transform: translate(-50%, 0%);    
+  transform: translate(-50%, 0%);
+  border-radius: 2px;
+  padding: 5px 10px 2px;
+  user-select: none;
+
+  mat-icon {
+    cursor: pointer;
+    margin-left: 10px; 
+    margin-right: 10px;  
+    font-size: 21px;
+    float: left;  
+    color: $app-grey;
+    line-height: inherit;
+    height: inherit;
+    &:hover:not(.app-inactive) {
+      color: #000;
+    }
+    &:first-child {
+      margin-right: 20px;
+    }
+    &:last-child {
+      margin-left: 20px;
+    }
+    &.app-inactive {
+      opacity: 0.2;
+      cursor: default !important;
+    }
+  }
+}
+  

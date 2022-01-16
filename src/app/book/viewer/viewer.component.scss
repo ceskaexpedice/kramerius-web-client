@@ -1,16 +1,12 @@
-// --- Viwer ---
 
-app-viewer {
-  flex: 1;
-  height: 100%;
-  
+  @import './src/variables.scss';
+
   .app-viewer-wrapper {
     width: 100%;
     height: 100%;
     overflow: hidden;
     background-color: $app-grey-l-4;    
     position: relative;
-
     .app-licence-bar {
       position: absolute;
       top: 0;
@@ -49,14 +45,12 @@ app-viewer {
       overflow: auto;
       height: 100%;
     }
-
     .hide-on-inactivity {
       opacity: 0;
       transition-property: opacity;
       transition-duration: 0.5s;
       transition-timing-function: linear;
     }
-
     .app-handle {
       position: absolute;
       top: 10px;
@@ -68,48 +62,23 @@ app-viewer {
       
       &.app-left-handle {
         left: 0;
-        @include set-border(right-top-bottom, 1, solid, #{$app-grey-l-2});
+        border: 1px solid #{$app-grey-l-2};
+        border-left: none;
         border-top-right-radius: $app-border-radius-sidebar;
         border-bottom-right-radius: $app-border-radius-sidebar;
-      
-        @media #{$medium-and-down} {
-          .app-mdi-tablet {
-            &:before {
-              content: "\F35F";
-            }
-          }
-          .app-mdi-menu-right {
-            &:before {
-              content: "\F35E";
-            }
-          }
-        }
       }
       
       &.app-right-handle {
         right: 0;
-        @include set-border(left-top-bottom, 1, solid, #{$app-grey-l-2});
+        border: 1px solid #{$app-grey-l-2};
+        border-right: none;
         border-top-left-radius: $app-border-radius-sidebar;
         border-bottom-left-radius: $app-border-radius-sidebar;
-    
-        @media #{$medium-and-down} {
-          .app-mdi-tablet {
-            &:before {
-              content: "\F35E";
-            }
-          }
-          .app-mdi-menu-left {
-            &:before {
-              content: "\F35F";
-            }
-          }
-        }
       }
   
       &:hover {
-        color: color("shades", "black");  
+        color: #000;
         background: $app-grey-l-2;
       }
     }
   }
-}

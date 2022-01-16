@@ -1,9 +1,10 @@
+@import './src/variables.scss';
+
 .app-snippet {
   padding: 5px;
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  // height: 150px;
   margin-left: -6px;
   margin-right: -6px;
   &:hover {
@@ -46,8 +47,9 @@
           left: 0;
           bottom: 0;
           right: 0;
-          &:before {
-            font-size: 17px;
+          mat-icon {
+            font-size: 18px;
+            padding: 3px;
           }
           &.app-lock-licence-open, &.app-lock-licence-locked {
             color: $app-licence-color;
@@ -78,9 +80,11 @@
         margin-top: 4px;
         // height: 64px;
         word-break: break-word;
-        strong {
-          color: $primary-color;
-          @extend .app-font-bold;
+        ::ng-deep {
+          strong {
+            color: $primary-color;
+            font-weight: 500;
+          }
         }
       }
     }

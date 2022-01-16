@@ -1,10 +1,10 @@
 import { BookService } from './../../services/book.service';
 import { Component, OnInit } from '@angular/core';
-import { AppState } from './../../app.state';
 
 @Component({
   selector: 'app-book-toolbar',
-  templateUrl: './book-toolbar.component.html'
+  templateUrl: './book-toolbar.component.html',
+  styleUrls: ['./book-toolbar.component.scss']
 })
 export class BookToolbarComponent implements OnInit {
 

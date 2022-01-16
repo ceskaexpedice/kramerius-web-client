@@ -1,8 +1,8 @@
 <div class="app-item app-display-{{ page.display }}" id="page-id-{{page.uuid}}" (click)="onPageClicked()" [class.app-active]="page.selected">
   <div class="app-item-thumb" [scrollTarget]="container" [lazyLoad]="page.thumb">
-    <ng-container *ngIf="lock">
-      <i mz-icon-mdi [icon]="lock.icon" class="app-lock {{ lock.class }}"></i>
-    </ng-container>  
+    <div *ngIf="lock" class="app-lock {{ lock.class }}">
+      <mat-icon>{{ lock.icon }}</mat-icon>
+    </div>
   </div>
   <div class="app-item-title">
     {{ page.number }}

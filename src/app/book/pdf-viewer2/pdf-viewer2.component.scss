@@ -1,0 +1,70 @@
+@import './src/variables.scss';
+
+.app-viewer-wrapper  {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  .app-viewer-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: $app-grey-l-4;    
+    position: relative;
+
+    pdf-viewer {
+      display: block;
+      overflow: auto;
+      height: 100%;
+      width: 100%;
+    }
+    
+
+    app-licence-messages {
+      display: block;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 12px 10px;
+      overflow: auto;
+      height: 100%;
+    }
+
+    .hide-on-inactivity {
+      opacity: 0;
+      transition-property: opacity;
+      transition-duration: 0.5s;
+      transition-timing-function: linear;
+    }
+
+    .app-handle {
+      position: absolute;
+      top: 10px;
+      height: 40px;
+      z-index: 990;
+      background: rgba(255, 255, 255, 0.9);
+      color: $app-grey;
+      cursor: pointer;
+      
+      &.app-left-handle {
+        left: 0;
+        border: 1px solid #{$app-grey-l-2};
+        border-left: none;
+        border-top-right-radius: $app-border-radius-sidebar;
+        border-bottom-right-radius: $app-border-radius-sidebar;
+      }
+      
+      &.app-right-handle {
+        right: 0;
+        border: 1px solid #{$app-grey-l-2};
+        border-right: none;
+        border-top-left-radius: $app-border-radius-sidebar;
+        border-bottom-left-radius: $app-border-radius-sidebar;
+      }
+  
+      &:hover {
+        color: #000;
+        background: $app-grey-l-2;
+      }
+    }
+  }
+}

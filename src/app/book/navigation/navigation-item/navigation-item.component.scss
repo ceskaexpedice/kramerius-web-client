@@ -1,7 +1,6 @@
-// --- NAVIGATION ITEM ---
+@import './src/variables.scss';
 
 .app-item {
-  //padding: 2px;
   padding: 5px;
   cursor: pointer;
   width: 33.333%;
@@ -9,16 +8,13 @@
   float: left;
   position: relative;
   &:hover {
-    //opacity: 0.6;
     box-shadow: 0 8px 17px 0 rgba(38, 50, 56, 0.2), 0 6px 20px 0 rgba(38, 50, 56, 0.2);
   }
   .app-item-thumb {
     background-repeat: no-repeat;
     width: 100%;
     height: 120px;
-    overflow: hidden;
-    // background-size: cover;
-    // background-position-x: center;    
+    overflow: hidden;    
     background-color: #c5c5c5;
     border: solid 1px #adadad;
     background-size: contain;
@@ -39,8 +35,9 @@
       left: 0;
       bottom: 0;
       right: 0;
-      &:before {
-        font-size: 17px;
+      mat-icon {
+        font-size: 18px;
+        padding: 3px;
       }
       &.app-lock-licence-open, &.app-lock-licence-locked {
         color: $app-licence-color;
@@ -55,7 +52,7 @@
     padding: 2px;
     text-align: center;
     background: rgba(255, 255, 255, 0.6);
-    color: color("shades", "black");
+    color: #000;
   }
   .app-item-name {
     position: absolute;
@@ -66,7 +63,7 @@
     display: none;
     text-align: center;
     background: rgba(255, 255, 255, 0.8);
-    color: color("shades", "black");
+    color: #000;
   }
   .app-item-type {
     position: absolute;
@@ -78,7 +75,7 @@
     width: calc(100% - 10px);
     word-break: break-word;
     background: rgba(255, 255, 255, 0.8);
-    color: color("shades", "black");
+    color: #000;
   }
   &.app-display-2 {
     opacity: 0.6;
@@ -91,10 +88,6 @@
   }
   &.app-active {
     background: $primary-color;
-    // .app-item-title {
-    //   background: $primary-color;
-    //   color: #fff
-    // }
   }
   &:hover {
     .app-item-type {

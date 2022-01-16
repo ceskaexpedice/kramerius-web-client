@@ -1,26 +1,68 @@
 <div class="app-view-controls">
-  <i class="app-mdi-page-left" (click)="goToPrevious()" [class.app-inactive]="!hasPrevious()"
-    mz-tooltip [tooltip]="'view_controls.tooltip_page_left' | translate" [position]="'top'"></i>
-  <i class="app-mdi-zoom-in hide-on-small-only" *ngIf="showZoom()" (click)="controlsService.zoomIn();analytics.sendEvent('viewer', 'controls', 'zoom in');"
-    mz-tooltip [tooltip]="'view_controls.tooltip_zoom_in' | translate" [position]="'top'"></i>
-  <i class="app-mdi-zoom-out hide-on-small-only" *ngIf="showZoom()" (click)="controlsService.zoomOut();analytics.sendEvent('viewer', 'controls', 'zoom out');"
-    mz-tooltip [tooltip]="'view_controls.tooltip_zoom_out' | translate" [position]="'top'"></i>
-  <i class="app-mdi-fit-to-screen hide-on-small-only" *ngIf="showFitToScreen()" (click)="controlsService.fitToScreen();analytics.sendEvent('viewer', 'controls', 'fit to screen');"
-    mz-tooltip [tooltip]="'view_controls.tooltip_fit_to_screen' | translate" [position]="'top'"></i>
-  <i class="app-mdi-fullscreen" *ngIf="controlsService.fullscreenAvailable && !controlsService.fullscreenEnabled()" (click)="controlsService.enterFullscreen();analytics.sendEvent('viewer', 'controls', 'enter fullscreen');"
-    mz-tooltip [tooltip]="'view_controls.tooltip_enter_fullscreen' | translate" [position]="'top'"></i>
-  <i class="app-mdi-fullscreen-exit" *ngIf="controlsService.fullscreenAvailable && controlsService.fullscreenEnabled()" (click)="controlsService.exitFullscreen();analytics.sendEvent('viewer', 'controls', 'exit fullscreen');"
-    mz-tooltip [tooltip]="'view_controls.tooltip_exit_fullscreen' | translate" [position]="'top'"></i>
-  <i class="app-mdi-rotate-right hide-on-small-only" *ngIf="showRotation()"  (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate');"
-    mz-tooltip [tooltip]="'view_controls.tooltip_rotate_right' | translate" [position]="'top'"></i>
-  <i class="app-mdi-double-page hide-on-small-only" *ngIf="showDoublePageOff()" (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page off');" style="padding-top:5px;"
-    mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_off' | translate" [position]="'top'"></i>
-  <i class="app-mdi-double-page hide-on-small-only" *ngIf="showDoublePageOn()" (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page on');" style="padding-top:5px;"
-    mz-tooltip [tooltip]="'view_controls.tooltip_doublepage_on' | translate" [position]="'top'"></i>
-  <i class="app-mdi-select-text hide-on-small-only" *ngIf="showSelectText()" (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text');"
-    mz-tooltip [tooltip]="'view_controls.tooltip_select_text' | translate" [position]="'top'"></i>
-  <i class="app-mdi-crop-image hide-on-small-only" *ngIf="showImageCrop()" (click)="onCropImageClicked()" [class.app-inactive]="!bookService.cropEnabled()"
-    mz-tooltip [tooltip]="'view_controls.tooltip_crop_image' | translate" [position]="'top'"></i>
-  <i disabled class="app-mdi-page-right" (click)="goToNext()" [class.app-inactive]="!hasNext()"
-    mz-tooltip [tooltip]="'view_controls.tooltip_page_right' | translate" [position]="'top'"></i>
+
+
+  <mat-icon (click)="goToPrevious()" [matTooltip]="'view_controls.tooltip_page_left' | translate" [class.app-inactive]="!hasPrevious()">chevron_left</mat-icon>
+
+  <mat-icon (click)="controlsService.zoomIn();analytics.sendEvent('viewer', 'controls', 'zoom in');"
+            [matTooltip]="'view_controls.tooltip_zoom_in' | translate" 
+            *ngIf="showZoom()">
+            add_circle_outline
+  </mat-icon>
+
+  <mat-icon (click)="controlsService.zoomOut();analytics.sendEvent('viewer', 'controls', 'zoom out');"
+            [matTooltip]="'view_controls.tooltip_zoom_out' | translate" 
+            *ngIf="showZoom()">
+            remove_circle_outline
+  </mat-icon>
+
+  <mat-icon (click)="controlsService.fitToScreen();analytics.sendEvent('viewer', 'controls', 'fit to screen')"
+            [matTooltip]="'view_controls.tooltip_fit_to_screen' | translate"
+            *ngIf="showFitToScreen()">
+            fit_screen
+  </mat-icon>
+
+  <mat-icon (click)="controlsService.enterFullscreen();analytics.sendEvent('viewer', 'controls', 'enter fullscreen')"
+            [matTooltip]="'view_controls.tooltip_enter_fullscreen' | translate" 
+            *ngIf="controlsService.fullscreenAvailable && !controlsService.fullscreenEnabled()">
+            fullscreen
+  </mat-icon>
+
+  <mat-icon (click)="controlsService.exitFullscreen();analytics.sendEvent('viewer', 'controls', 'exit fullscreen');"
+            [matTooltip]="'view_controls.tooltip_exit_fullscreen' | translate" 
+            *ngIf="controlsService.fullscreenAvailable && controlsService.fullscreenEnabled()">
+            fullscreen_exit
+  </mat-icon>
+
+  <mat-icon (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate')"
+            [matTooltip]="'view_controls.tooltip_rotate_right' | translate" 
+            *ngIf="showRotation()">
+            rotate_right
+  </mat-icon>
+
+  <mat-icon (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page off')"
+            [matTooltip]="'view_controls.tooltip_doublepage_off' | translate" 
+            *ngIf="showDoublePageOff()">
+            auto_stories
+  </mat-icon>
+
+  <mat-icon (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page on')"
+            [matTooltip]="'view_controls.tooltip_doublepage_on' | translate" 
+            *ngIf="showDoublePageOn()">
+            auto_stories
+  </mat-icon>
+
+  <mat-icon (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text')"
+            [matTooltip]="'view_controls.tooltip_select_text' | translate" 
+            *ngIf="showSelectText()">
+            title
+  </mat-icon>
+
+  <mat-icon (click)="onCropImageClicked()"
+            [matTooltip]="'view_controls.tooltip_crop_image' | translate" 
+            *ngIf="showImageCrop()">
+            crop
+  </mat-icon>
+
+  <mat-icon (click)="goToNext()" [matTooltip]="'view_controls.tooltip_page_right' | translate" [class.app-inactive]="!hasNext()">chevron_right</mat-icon>
+
 </div>

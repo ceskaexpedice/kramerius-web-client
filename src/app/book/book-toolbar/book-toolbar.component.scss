@@ -1,0 +1,39 @@
+@import './src/variables.scss';
+
+.app-book-toolbar {
+  display: block;
+  height: calc(#{$app-toolbar-height} - 1px);
+  border-bottom: 1px solid $app-grey-l-2;
+  background-color: #fff;
+  .app-tab {
+    float: left;
+    width: 33.33%;
+    color: $app-grey-l-1; 
+    text-align: center;
+    line-height: calc(#{$app-toolbar-height} - 1px);
+    height: calc(#{$app-toolbar-height} - 1px);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    &.app-active {
+      color: $primary-color; 
+      border-bottom-color: $primary-color;
+    }
+    mat-icon {
+      display: none;
+      margin: 0 auto;
+      line-height: inherit;
+      @media #{$small-350-and-down} {
+        display: block;
+      }
+    }
+    .app-desc {
+      @media #{$small-350-and-down} {
+        display: none;
+      }
+    }
+  }
+}
+ 
+          
+
+          

@@ -5,7 +5,8 @@ import { LicenceService } from '../../../services/licence.service';
 
 @Component({
   selector: 'app-navigation-snippet',
-  templateUrl: './navigation-snippet.component.html'
+  templateUrl: './navigation-snippet.component.html',
+  styleUrls: ['./navigation-snippet.component.scss']
 })
 export class NavigationSnippetComponent implements OnInit {
   @Input() page: Page;

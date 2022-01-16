@@ -1,15 +1,7 @@
-<mz-collection>
-  <mz-collection-item>
-    <i *ngIf="showPrintPreparation()" class="app-mdi-book-print app-cursor-pointer" (click)="print()"
-       mz-tooltip [tooltip]="'book_controls.tooltip_print' | translate" [position]="'bottom'"></i>
-    <i *ngIf="showPdfGeneration()" class="app-mdi-book-pdf app-cursor-pointer" (click)="pdf()"
-       mz-tooltip [tooltip]="'book_controls.tooltip_pdf' | translate" [position]="'bottom'"></i>
-    <i *ngIf="showPageJpeg()" class="app-mdi-book-jpg app-cursor-pointer" (click)="jpeg()"
-       mz-tooltip [tooltip]="'book_controls.tooltip_jpg' | translate" [position]="'bottom'"></i>
-    <i *ngIf="showPageOcr()" class="app-mdi-book-ocr app-cursor-pointer" (click)="ocr()"
-       mz-tooltip [tooltip]="'book_controls.tooltip_ocr' | translate" [position]="'bottom'"></i>
-  </mz-collection-item>
-</mz-collection>
-
-
+<div class="app-book-controls">
+   <mat-icon *ngIf="showPrintPreparation()" (click)="print()" [matTooltip]="'book_controls.tooltip_print' | translate">print</mat-icon>
+   <mat-icon *ngIf="showPdfGeneration()" (click)="pdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate">picture_as_pdf</mat-icon>
+   <mat-icon *ngIf="showPageJpeg()" (click)="jpeg()" [matTooltip]="'book_controls.tooltip_jpg' | translate">image</mat-icon>
+   <mat-icon *ngIf="showPageOcr()" (click)="ocr()" [matTooltip]="'book_controls.tooltip_ocr' | translate">title</mat-icon>
+</div>
 <input style="display: none" id="app-file-input" type="file" accept="application/epub+zip" (change)="openFile($event)">

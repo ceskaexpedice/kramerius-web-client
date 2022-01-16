@@ -1,21 +1,14 @@
-<div class="row app-clean-mg">
-  <div class="col s12">
-    <ul class="tabs">
-      <li class="tab col s3" *ngIf="bookService.showNavigationPanel">
-        <a (click)="bookService.activeMobilePanel = 'navigation'" [class.active]="bookService.activeMobilePanel == 'navigation'">
-          <i mz-icon-mdi [icon]="'view-grid'"></i><span class="app-desc">{{'book_toolbar.desc_navigation' | translate}}</span>
-        </a>
-      </li> 
-      <li class="tab col s3">
-        <a (click)="bookService.activeMobilePanel = 'viewer'" [class.active]="bookService.activeMobilePanel == 'viewer'">
-          <i mz-icon-mdi [icon]="'book-open-page-variant'"></i><span class="app-desc">{{'book_toolbar.desc_reading' | translate}}</span>
-        </a>
-      </li>
-      <li class="tab col s3">
-        <a (click)="bookService.activeMobilePanel = 'metadata'" [class.active]="bookService.activeMobilePanel == 'metadata'">
-          <i mz-icon-mdi [icon]="'information'"></i><span class="app-desc">{{'book_toolbar.desc_information' | translate}}</span>
-        </a>
-      </li>
-    </ul>
+<div class="app-book-toolbar">
+  <div class="app-tab" (click)="bookService.activeMobilePanel = 'navigation'" [class.app-active]="bookService.activeMobilePanel == 'navigation'">
+    <mat-icon>menu</mat-icon>
+    <span class="app-desc">{{'book_toolbar.desc_navigation' | translate}}</span>
+  </div>
+  <div class="app-tab" (click)="bookService.activeMobilePanel = 'viewer'" [class.app-active]="bookService.activeMobilePanel == 'viewer'">
+    <mat-icon>menu_book</mat-icon>
+    <span class="app-desc">{{'book_toolbar.desc_reading' | translate}}</span>
+  </div>  
+  <div class="app-tab" (click)="bookService.activeMobilePanel = 'metadata'" [class.app-active]="bookService.activeMobilePanel == 'metadata'">
+    <mat-icon>info</mat-icon>
+    <span class="app-desc">{{'book_toolbar.desc_information' | translate}}</span>
   </div>
 </div>

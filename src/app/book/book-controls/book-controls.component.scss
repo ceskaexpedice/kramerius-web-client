@@ -1,0 +1,25 @@
+@import './src/variables.scss';
+
+.app-book-controls {
+  display: block;
+  height: 55px;
+  line-height: 55px;
+  border-width: 0 0 1px 0;
+  padding-left: 20px;
+  border-style: solid;
+  border-color: #e0e0e0;
+  background-color: #FFFFFF;
+  mat-icon {
+    cursor: pointer;
+    margin-left: 20px; 
+    margin-right: 20px;  
+    font-size: 21px;
+    float: left;  
+    color: $app-grey;
+    line-height: inherit;
+    height: inherit;
+    &:hover {
+      color: #000;
+    }
+  }
+}

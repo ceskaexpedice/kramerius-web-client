@@ -17,44 +17,50 @@
     (onDocumentReady)="onDocumentReady($event)"
     ></angular-epub-viewer>
    
+    <span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
+    class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+    (click)="controlsService.hideLeftPanel()" 
+    [matTooltip]="'view_controls.tooltip_hide_left' | translate">
+    <mat-icon>arrow_left</mat-icon>
+    </span>
+    
+    <span *ngIf="!controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
+    class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+    (click)="controlsService.showLeftPanel()" 
+    [matTooltip]="'view_controls.tooltip_show_left' | translate">
+    <mat-icon>arrow_right</mat-icon>
+    </span>
+    
+    <span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
+        class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+        (click)="controlsService.hideRightPanel()" 
+        [matTooltip]="'view_controls.tooltip_hide_right' | translate">
+        <mat-icon>arrow_right</mat-icon>
+    </span>
+    
+    <span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
+    class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+    (click)="controlsService.showRightPanel()" 
+    [matTooltip]="'view_controls.tooltip_show_right' | translate">
+    <mat-icon>arrow_left</mat-icon>
+    </span>
 
-    <span *ngIf="controlsService.leftPanelVisible" [class.hide-on-inactivity]="hideOnInactivity"
-class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
-(click)="controlsService.hideLeftPanel()" 
-mz-tooltip 
-[tooltip]="'view_controls.tooltip_hide_left' | translate" 
-[position]="'right'">
-<i class="app-mdi-menu-left" [class.app-mdi-tablet]="controlsService.leftPanelVisible"></i>
-</span>
 
-<span *ngIf="!controlsService.leftPanelVisible" [class.hide-on-inactivity]="hideOnInactivity"
-class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
-(click)="controlsService.showLeftPanel()" 
-mz-tooltip 
-[tooltip]="'view_controls.tooltip_show_left' | translate" 
-[position]="'right'">
-<i class="app-mdi-menu-right"></i>
-</span>
-
-<span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
-[class.hide-on-inactivity]="hideOnInactivity"
-class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
-(click)="controlsService.hideRightPanel()" 
-mz-tooltip 
-[tooltip]="'view_controls.tooltip_hide_right' | translate" 
-[position]="'left'">
-<i class="app-mdi-menu-right" [class.app-mdi-tablet]="controlsService.rightPanelVisible"></i>
-</span>
-
-<span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
-[class.hide-on-inactivity]="hideOnInactivity"
-class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
-(click)="controlsService.showRightPanel()" 
-mz-tooltip 
-[tooltip]="'view_controls.tooltip_show_right' | translate" 
-[position]="'left'">
-<i class="app-mdi-menu-left"></i>
-</span>
+    <ng-container *ngIf="bookService.isPageInaccessible()">
+        <app-licence-messages [full]="true" [licences]="bookService.licences"></app-licence-messages>
+  </ng-container>
+  
+  <app-alert *ngIf="bookService.isPageFailure()"
+      type="danger"
+      label="alert.error"
+      message="alert.failed_to_load_image">
+  </app-alert>
+  
+  <mat-spinner *ngIf="bookService.isPageLoading()" 
+      class="medium-centered-spinner" 
+      [strokeWidth]="3"
+      [diameter]="40">
+  </mat-spinner>
 
 
 
