@@ -177,14 +177,11 @@
       "count_suffix": "Dokumente"
     },
     "music": {
-      "playlist": {
-        "soundunit": "Teil des Albums",
-        "track": "Die Komposition"
-      },
       "toolbar": {
         "playing": "Abspielen"
       },
       "inaccessible_track": "Die Audioaufzeichnung ist nicht öffentlich zugänglich",
+      "unknown_error": "Failed to load the track",
       "download_track": "Die Audioaufzeichnung herunterladen"
     },
     "licence": {

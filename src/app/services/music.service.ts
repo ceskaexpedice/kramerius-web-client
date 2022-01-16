@@ -34,6 +34,7 @@ export class MusicService {
   trackDuration: number;
   trackPositionText: string;
   trackDurationText: string;
+  error: string;
 
   activeMobilePanel: String;
 
@@ -173,6 +174,7 @@ export class MusicService {
     this.progress = 0;
     this.canPlay = false;
     this.playing = false;
+    this.error = null;
     if (!track) {
       return;
     }
@@ -207,6 +209,16 @@ export class MusicService {
         this.playTrack();
       }
     };
+    this.audio.onerror = (er: any) => {
+      this.canPlay = false;
+      console.log('onError', er);
+      if (!track.isPublic) {
+        this.error = 'inaccessible_track';
+      } else {
+        this.error = 'unknown_error';
+      }
+    };
+
   }
 
 

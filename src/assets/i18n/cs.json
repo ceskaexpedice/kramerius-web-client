@@ -177,14 +177,11 @@
     "count_suffix": "dokumentů"
   },
   "music": {
-    "playlist": {
-      "soundunit": "ČÁST ALBA",
-      "track": "SKLADBA"
-    },
     "toolbar": {
       "playing": "Přehrávání"
     },
     "inaccessible_track": "Nahrávka není veřejně dostupná.",
+    "unknown_error": "Nahrávku se nepodařilo načíst.",
     "download_track": "Stáhnout nahrávku"
   },
   "licence": {

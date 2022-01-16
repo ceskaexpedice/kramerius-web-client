@@ -177,14 +177,11 @@
     "count_suffix": "documents"
   },
   "music": {
-    "playlist": {
-      "soundunit": "ALBUM PART",
-      "track": "TRACK"
-    },
     "toolbar": {
       "playing": "Playing"
     },
     "inaccessible_track": "The track is not publically accessible",
+    "unknown_error": "Failed to load the track",
     "download_track": "Download track"
   },
   "licence": {

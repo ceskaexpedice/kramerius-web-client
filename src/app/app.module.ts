@@ -201,7 +201,6 @@ export function hljsLanguages() {
     AlertComponent,
     BookControlsComponent,
     DialogOcrComponent,
-    DialogPdfGeneratorComponent,
     DialogCitationComponent,
     DialogAuthosComponent,
     LogoComponent,

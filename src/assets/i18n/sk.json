@@ -177,14 +177,11 @@
       "count_suffix": "dokumentov"
     },
     "music": {
-      "playlist": {
-        "soundunit": "ČASŤ ALBUMU",
-        "track": "SKLADBA"
-      },
       "toolbar": {
         "playing": "Prehrávanie"
       },
       "inaccessible_track": "Nahrávka nie je verejne dostupná.",
+      "unknown_error": "Nahrávku sa nepodarilo načítať.",
       "download_track": "Stiahnuť nahrávku"
     },
     "licence": {

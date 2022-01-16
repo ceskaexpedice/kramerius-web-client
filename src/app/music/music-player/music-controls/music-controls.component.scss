@@ -68,18 +68,24 @@
       padding-left: 30px;
       float: left;
       text-align: center;
+      .app-player-error {
+        color: #e94545;
+        margin-top: 3px;
+        font-size: 14px;
+        line-height: 18px;
+      }
       .app-player-buttons {
         height: 50px;
             mat-icon {
                 user-select: none;
                 cursor: pointer;
-                color: $primary-color;
+                color: $app-grey-d-3;
                 width: 35px;
                 height: 50px;
                 line-height: 50px;
                 text-align: center;
                 &.app-active, &:hover {
-                  color: $primary-color-dark;
+                  color: $app-grey-d-4;
                 } 
                 &.app-player-play {
                     font-size: 50px;
@@ -96,10 +102,6 @@
           .app-player-duration {
               color: $app-grey-d-2;
               user-select: none;
-          }
-          .app-player-error {
-              color: #e94545;
-              margin: 0 -38px;
           }
   }
   @media only screen and (max-width: 1000px) {

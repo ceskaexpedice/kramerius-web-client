@@ -19,6 +19,7 @@
       </div>
 
       <div class="app-player-center">
+        <ng-container *ngIf="!musicService.error && musicService.canPlay">
           <div class="app-player-buttons">
               <mat-icon *ngIf="!musicService.isPlaying()" (click)="play()" class="app-player-play">play_circle</mat-icon>
               <mat-icon *ngIf="musicService.isPlaying()" (click)="pause()" class="app-player-play">pause_circle</mat-icon>
@@ -26,6 +27,10 @@
           <div class="app-player-duration" *ngIf="musicService.trackDurationText">
               {{ musicService.trackPositionText }} / {{ musicService.trackDurationText }}
           </div>
+        </ng-container>
+        <div class="app-player-error" *ngIf="musicService.error">
+          {{ 'music.' + musicService.error | translate }}
+        </div>
       </div>
   </div>
 </div>
