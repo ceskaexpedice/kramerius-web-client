@@ -29,6 +29,8 @@ import { IiifService } from './iiif.service';
 import { LoggerService } from './logger.service';
 import { PeriodicalItem } from '../model/periodicalItem.model';
 import { LicenceService } from './licence.service';
+import { MatDialog } from '@angular/material';
+import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
 
 
 
@@ -89,6 +91,7 @@ export class BookService {
         private localStorageService: LocalStorageService,
         private api: KrameriusApiService,
         private iiif: IiifService,
+        private dialog: MatDialog,
         private logger: LoggerService,
         private translator: Translator,
         private sanitizer: DomSanitizer,
@@ -916,14 +919,23 @@ export class BookService {
                 button: 'common.close'
             });
         } else {
-            this.modalService.open(DialogPdfGeneratorComponent, {
+            const opts = {
                 pageCount: this.getPageCount(),
                 currentPage: this.getPage().index,
                 doublePage: this.doublePage,
                 pages: this.pages,
                 type: type,
                 name: this.metadata.getShortTitle()
-            });
+            };
+            this.dialog.open(PdfDialogComponent, { data: opts, autoFocus: false });
+            // this.modalService.open(DialogPdfGeneratorComponent, {
+            //     pageCount: this.getPageCount(),
+            //     currentPage: this.getPage().index,
+            //     doublePage: this.doublePage,
+            //     pages: this.pages,
+            //     type: type,
+            //     name: this.metadata.getShortTitle()
+            // });
         }
     }
 

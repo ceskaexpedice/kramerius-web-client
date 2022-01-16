@@ -13,8 +13,8 @@
 
 // @import "styles/fontface/roboto-condensed/roboto-condensed-fontface";
 
-@import "styles/app-mixins";
-@import "styles/app-mdi";
+// @import "styles/app-mixins";
+// @import "styles/app-mdi";
 @import "styles/app-layout";
 @import "styles/app-global";
 // @import "styles/app-navbar";
@@ -24,8 +24,8 @@
 // @import "styles/app-document-card";
 // @import "styles/app-paginator";
 @import "styles/app-dialog";
-@import "styles/app-dialog-pdf";
-@import "styles/app-dialog-pdf-generator";
+// @import "styles/app-dialog-pdf";
+// @import "styles/app-dialog-pdf-generator";
 // @import "styles/app-dialog-share";
 @import "styles/app-dialog-admin";
 @import "styles/app-dialog-citation";
@@ -99,3 +99,12 @@ body {
     background-color: inherit;
   }
 
+
+
+  .cdk-overlay-pane {
+    max-width: 100vw !important;
+  }
+
+  .mat-dialog-container {
+    padding: 0 !important;
+  }

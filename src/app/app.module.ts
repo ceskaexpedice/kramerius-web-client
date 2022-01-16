@@ -9,7 +9,6 @@ import { BookSearchComponent } from './book/book-search/book-search.component';
 import { AltoService } from './services/alto-service';
 import { CollectionService } from './services/collection.service';
 import { HistoryService } from './services/history.service';
-import { DialogPdfComponent } from './dialog/dialog-pdf/dialog-pdf.component';
 import { BookControlsComponent } from './book/book-controls/book-controls.component';
 import { BrowseToolbarComponent } from './browse/browse-toolbar/browse-toolbar.component';
 import { AlertComponent } from './shared/alert/alert.component';
@@ -153,8 +152,7 @@ import { CitationService } from './services/citation.service';
 import { AuthInterceptor } from './services/auth-interceptor.service';
 import { MaterialModule } from './material.module';
 import { ShareDialogComponent } from './dialog/share-dialog/share-dialog.component';
-
-declare var APP_GLOBAL: any;
+import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
 
 export function hljsLanguages() {
   return [
@@ -204,7 +202,6 @@ export function hljsLanguages() {
     AlertComponent,
     BookControlsComponent,
     DialogOcrComponent,
-    DialogPdfComponent,
     DialogPdfGeneratorComponent,
     DialogCitationComponent,
     DialogAuthosComponent,
@@ -252,11 +249,11 @@ export function hljsLanguages() {
     DialogLicencesComponent,
     PeriodicalUnitLayoutComponent,
     EpubViewerComponent,
-    ShareDialogComponent
+    ShareDialogComponent,
+    PdfDialogComponent
   ],
   entryComponents: [
     DialogOcrComponent,
-    DialogPdfComponent,
     DialogCitationComponent,
     SimpleDialogComponent,
     DialogAuthosComponent,
@@ -264,7 +261,8 @@ export function hljsLanguages() {
     DialogAdminMetadataComponent,
     DialogAdminComponent,
     DialogLicencesComponent,
-    ShareDialogComponent
+    ShareDialogComponent,
+    PdfDialogComponent
   ],
   imports: [
     BrowserModule,

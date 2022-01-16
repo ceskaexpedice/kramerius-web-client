@@ -1,22 +1,18 @@
 <div class="app-pdf app-dialog">
 
-  <div class="app-pages-wrapper">
-    <div class="app-pages">
-      <div *ngFor="let page of pages" (click)="onPageSelected(page, $event)" class="app-page-wrapper" [class.active]="selection[page.uuid]">
-        <div class="app-page-thumb" [style.background-image]="thumb(page)"></div>
-        <div class="app-page-title">{{page.number}}</div>
-        <i class="app-mdi-check app-page-check"></i>
-      </div>
+  <div class="app-pages">
+    <div *ngFor="let page of pages" (click)="onPageSelected(page, $event)" class="app-page" [class.active]="selection[page.uuid]">
+      <div class="app-page-thumb" [style.background-image]="thumb(page)"></div>
+      <div class="app-page-title">{{page.number}}</div>
+      <mat-icon>check</mat-icon>
     </div>
   </div>
 
   <div class="app-dialog-actions">
-
     <mat-spinner *ngIf="inProgress"
             [strokeWidth]="2" 
-            [diameter]="20">
+            [diameter]="28">
     </mat-spinner>
-
     <div class="app-messages" *ngIf="!inProgress">
       <div class="app-info" [class.app-warn]="selectedPages > maxPageCount">
         <ng-container *ngIf="selectedPages > 0">
@@ -42,13 +38,8 @@
     <div class="app-progress" *ngIf="inProgress">
       {{ 'pdf-dialog.warning_generate' | translate }}
     </div>
-
-    <button mat-raised-button color="default" (click)="onCancel()">{{ 'common.cancel' | translate }}</button>
-    <button mat-raised-button color="primary" (click)="onCancel()" [disabled]="inProgress || selectedPages > maxPageCount || selectedPages == 0">{{ 'pdf-dialog.action_' + type | translate }}</button>
-
-
-    <!-- <button mz-button [flat]="true" mz-modal-close>{{ 'common.cancel' | translate }}</button> -->
-    <!-- <button mz-button (click)="action()" [disabled]="inProgress || selectedPages > maxPageCount || selectedPages == 0">{{ 'pdf-dialog.action_' + type | translate }}</button> -->
+    <button mat-raised-button color="primary" (click)="action()" [disabled]="inProgress || selectedPages > maxPageCount || selectedPages == 0">{{ 'pdf-dialog.action_' + type | translate }}</button>
+    <button mat-button (click)="onCancel()">{{ 'common.cancel' | translate }}</button>
   </div>
 
 </div>

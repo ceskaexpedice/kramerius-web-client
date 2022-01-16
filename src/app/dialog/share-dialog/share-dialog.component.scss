@@ -2,7 +2,8 @@
 
 .app-share {
   max-width: 700px;
-  width: calc(100vw - 50px);
+  width: calc(100vw - 10px);
+  padding: 20px;
   .app-dialog-content {
     overflow: hidden;
     margin: 0px auto;
