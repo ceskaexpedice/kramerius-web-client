@@ -50,17 +50,17 @@
 }
 
 // others
-button {
-  @extend .z-depth-0;
-  i {
-    &.left {
-      margin-right: 5px;
-    }
-    &.right {
-      margin-left: 5px;
-    } 
-  }
-}
+// button {
+//   @extend .z-depth-0;
+//   i {
+//     &.left {
+//       margin-right: 5px;
+//     }
+//     &.right {
+//       margin-left: 5px;
+//     } 
+//   }
+// }
 
 // mdi
 i.left {

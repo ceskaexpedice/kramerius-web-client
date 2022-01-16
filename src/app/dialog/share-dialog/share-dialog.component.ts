@@ -1,38 +1,40 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MzBaseModal, MzToastService } from 'ngx-materialize';
+
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Translator } from 'angular-translator';
-import { Metadata } from '../../model/metadata.model';
 import { ShareService } from '../../services/share.service';
 import { SolrService } from '../../services/solr.service';
 
 @Component({
-  selector: 'app-dialog-share',
-  templateUrl: './dialog-share.component.html'
+  templateUrl: './share-dialog.component.html',
+  styleUrls: ['./share-dialog.component.scss']
 })
-export class DialogShareComponent extends MzBaseModal implements OnInit {
-  @Input() metadata: Metadata;
+export class ShareDialogComponent implements OnInit {
 
-  data = [];
+  items = [];
   selection;
 
+  constructor(
+    public dialogRef: MatDialogRef<ShareDialogComponent>,
+    private shareService: ShareService,
+    private translator: Translator,
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) private data: any) { }
 
-  constructor(private toastService: MzToastService,
-              private shareService: ShareService,
-              private translator: Translator) {
-    super();
-  }
+
 
   ngOnInit(): void {
-    this.data = this.metadata.getFullContext(SolrService.allDoctypes);
-    for (let item of this.data) {
+    this.items = this.data['metadata'].getFullContext(SolrService.allDoctypes);
+    for (let item of this.items) {
       if (item.type == 'page') {
         item.link = this.shareService.getPersistentLinkByUrl();
       } else {
         item.link = this.shareService.getPersistentLink(item.uuid);
       }
     }
-    if (this.data.length > 0) {
-      this.selection = this.data[0];
+    if (this.items.length > 0) {
+      this.selection = this.items[0];
     }
   }
 
@@ -62,8 +64,12 @@ export class DialogShareComponent extends MzBaseModal implements OnInit {
 
   onCopied(callback) {
     if (callback && callback['isSuccess']) {
-      this.toastService.show(<string> this.translator.instant('common.copied_to_clipboard'), 1000);
+      this.snackBar.open(<string> this.translator.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
     }
+  }
+
+  onCancel() {
+    this.dialogRef.close();
   }
 
 }

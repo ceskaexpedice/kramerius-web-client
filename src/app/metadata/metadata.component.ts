@@ -5,13 +5,14 @@ import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { MzModalService } from 'ngx-materialize';
 import { AnalyticsService } from '../services/analytics.service';
-import { DialogShareComponent } from '../dialog/dialog-share/dialog-share.component';
 import { DialogAdminMetadataComponent } from '../dialog/dialog-admin-metadata/dialog-admin-metadata.component';
 import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.component';
 import { AuthService } from '../services/auth.service';
 import { LicenceService } from '../services/licence.service';
 import { BookService } from '../services/book.service';
 import { DialogLicencesComponent } from '../dialog/dialog-licences/dialog-licences.component';
+import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-metadata',
@@ -31,6 +32,7 @@ export class MetadataComponent implements OnInit {
 
   constructor(private modalService: MzModalService,
               public analytics: AnalyticsService,
+              private dialog: MatDialog,
               public bookService: BookService,
               public licences: LicenceService,
               public auth: AuthService,
@@ -85,7 +87,8 @@ export class MetadataComponent implements OnInit {
 
   onShare() {
     this.analytics.sendEvent('metadata', 'share');
-    this.modalService.open(DialogShareComponent, { metadata: this.metadata });
+      let opts = { metadata: this.metadata };
+      this.dialog.open(ShareDialogComponent, { data: opts, autoFocus: false });
   }
 
   onShowMetadata() {

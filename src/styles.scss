@@ -9,7 +9,7 @@
 @import "styles/app-variables";
 
 @import "../node_modules/materialize-css/sass/materialize.scss";
-@import "../node_modules/mdi/scss/materialdesignicons.scss";
+// @import "../node_modules/mdi/scss/materialdesignicons.scss";
 
 // @import "styles/fontface/roboto-condensed/roboto-condensed-fontface";
 
@@ -26,7 +26,7 @@
 @import "styles/app-dialog";
 @import "styles/app-dialog-pdf";
 @import "styles/app-dialog-pdf-generator";
-@import "styles/app-dialog-share";
+// @import "styles/app-dialog-share";
 @import "styles/app-dialog-admin";
 @import "styles/app-dialog-citation";
 @import "styles/app-dialog-metadata";
@@ -91,5 +91,11 @@ body {
   
   .app-clean-border {
     border: 0 !important;
+  }
+
+
+  button:focus {
+    outline: none;
+    background-color: inherit;
   }
 

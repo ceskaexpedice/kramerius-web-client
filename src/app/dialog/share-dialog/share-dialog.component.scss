@@ -1,0 +1,40 @@
+@import './src/variables.scss';
+
+.app-share {
+  max-width: 700px;
+  width: calc(100vw - 50px);
+  .app-dialog-content {
+    overflow: hidden;
+    margin: 0px auto;
+    .app-label {
+      margin-top: 15px;
+      font-size: 12px;
+      color: $app-grey-d-1;
+    }
+    .app-link {
+      position: relative;
+      mat-icon {
+        position: absolute;
+        right: 0px;
+        cursor: pointer;
+        top: 4px;
+      }
+    }
+    .app-social {
+      padding-top: 10px;
+      img {
+        border: 0;
+        width: 40px;
+        margin-right: 16px;
+        opacity: 0.6;
+        cursor: pointer;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  .app-dialog-actions {
+    margin-top: 20px;
+  }
+}

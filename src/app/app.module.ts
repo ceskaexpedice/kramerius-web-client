@@ -9,7 +9,6 @@ import { BookSearchComponent } from './book/book-search/book-search.component';
 import { AltoService } from './services/alto-service';
 import { CollectionService } from './services/collection.service';
 import { HistoryService } from './services/history.service';
-import { DialogShareComponent } from './dialog/dialog-share/dialog-share.component';
 import { DialogPdfComponent } from './dialog/dialog-pdf/dialog-pdf.component';
 import { BookControlsComponent } from './book/book-controls/book-controls.component';
 import { BrowseToolbarComponent } from './browse/browse-toolbar/browse-toolbar.component';
@@ -124,7 +123,6 @@ import { CollectionComponent } from './collections/collection/collection.compone
 import { IiifService } from './services/iiif.service';
 import { ZoomifyService } from './services/zoomify.service';
 import { LoggerService } from './services/logger.service';
-import { DialogAdvancedSearchComponent } from './dialog/dialog-advanced-search/dialog-advanced-search.component';
 import { LandingComponent } from './landing/landing.component';
 import { FaqComponent } from './faq/faq.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
@@ -154,6 +152,7 @@ import { EpubService } from './services/epub.service';
 import { CitationService } from './services/citation.service';
 import { AuthInterceptor } from './services/auth-interceptor.service';
 import { MaterialModule } from './material.module';
+import { ShareDialogComponent } from './dialog/share-dialog/share-dialog.component';
 
 declare var APP_GLOBAL: any;
 
@@ -207,7 +206,6 @@ export function hljsLanguages() {
     DialogOcrComponent,
     DialogPdfComponent,
     DialogPdfGeneratorComponent,
-    DialogShareComponent,
     DialogCitationComponent,
     DialogAuthosComponent,
     LogoComponent,
@@ -238,7 +236,6 @@ export function hljsLanguages() {
     LoginComponent,
     DialogAdminMetadataComponent,
     MapBrowseComponent,
-    DialogAdvancedSearchComponent,
     LandingComponent,
     SafeHtmlPipe,
     DialogAdminComponent,
@@ -254,20 +251,20 @@ export function hljsLanguages() {
     LicenceMessagesComponent,
     DialogLicencesComponent,
     PeriodicalUnitLayoutComponent,
-    EpubViewerComponent
+    EpubViewerComponent,
+    ShareDialogComponent
   ],
   entryComponents: [
     DialogOcrComponent,
     DialogPdfComponent,
-    DialogShareComponent,
     DialogCitationComponent,
     SimpleDialogComponent,
     DialogAuthosComponent,
     DialogPdfGeneratorComponent,
     DialogAdminMetadataComponent,
-    DialogAdvancedSearchComponent,
     DialogAdminComponent,
-    DialogLicencesComponent
+    DialogLicencesComponent,
+    ShareDialogComponent
   ],
   imports: [
     BrowserModule,

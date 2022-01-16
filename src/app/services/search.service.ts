@@ -9,7 +9,6 @@ import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
 import { MzModalService } from 'ngx-materialize';
-import { DialogAdvancedSearchComponent } from '../dialog/dialog-advanced-search/dialog-advanced-search.component';
 import { Translator } from 'angular-translator';
 import { Metadata } from '../model/metadata.model';
 import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.component';
@@ -133,14 +132,6 @@ export class SearchService {
             this.query.clearBoundingBox();
         }
         this.reload(false);
-    }
-
-    public showAdvancedSearchDialog() {
-        const options = {
-            fieldType: this.query.isCustomFieldSet() ? this.query.getCustomField() : 'all',
-            fieldValue: this.query.isCustomFieldSet() ? this.query.getCustomValue() : '',
-        };
-        this.modalService.open(DialogAdvancedSearchComponent,  options );
     }
 
     public reload(preservePage: boolean) {
