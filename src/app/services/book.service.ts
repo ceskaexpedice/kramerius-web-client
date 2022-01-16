@@ -18,19 +18,18 @@ import { DialogOcrComponent } from '../dialog/dialog-ocr/dialog-ocr.component';
 import { forkJoin} from 'rxjs/observable/forkJoin';
 import { Article } from '../model/article.model';
 import { HistoryService } from './history.service';
-import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.component';
 import { DomSanitizer} from '@angular/platform-browser';
 import { PageTitleService } from './page-title.service';
 import { InternalPart } from '../model/internal_part.model';
 import { Translator } from 'angular-translator';
 import { AnalyticsService } from './analytics.service';
-import { DialogPdfGeneratorComponent } from '../dialog/dialog-pdf-generator/dialog-pdf-generator.component';
 import { IiifService } from './iiif.service';
 import { LoggerService } from './logger.service';
 import { PeriodicalItem } from '../model/periodicalItem.model';
 import { LicenceService } from './licence.service';
 import { MatDialog } from '@angular/material';
 import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
+import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
 
 
 
@@ -759,11 +758,11 @@ export class BookService {
             },
             error => {
                 if (error instanceof NotFoundError) {
-                    this.modalService.open(SimpleDialogComponent, {
+                    this.dialog.open(BasicDialogComponent, { data: {
                         title: 'common.warning',
                         message: 'dialogs.missing_alto.message',
                         button: 'common.close'
-                    });
+                    }, autoFocus: false });
                 }
             }
         );
@@ -771,11 +770,11 @@ export class BookService {
 
     showImageCrop(extent, right: boolean) {
         if (this.pageState === BookPageState.Inaccessible) {
-            this.modalService.open(SimpleDialogComponent, {
+            this.dialog.open(BasicDialogComponent, { data: {
                 title: 'common.warning',
                 message: 'dialogs.private_document_jpeg.message',
                 button: 'common.close'
-            });
+            }, autoFocus: false });
         } else if (this.pageState === BookPageState.Success && this.iiifEnabled) {
             const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
             const url = this.iiif.imageCrop(this.api.getIiifBaseUrl(uuid), extent[0], extent[1], extent[2], extent[3]);
@@ -787,11 +786,11 @@ export class BookService {
 
     showJpeg() {
         if (this.pageState === BookPageState.Inaccessible) {
-           this.modalService.open(SimpleDialogComponent, {
+            this.dialog.open(BasicDialogComponent, { data: {
                 title: 'common.warning',
                 message: 'dialogs.private_document_jpeg.message',
                 button: 'common.close'
-            });
+            }, autoFocus: false });
         } else if (this.pageState === BookPageState.Success) {
             if (this.iiifEnabled) {
                 window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getPage().uuid)), '_blank');
@@ -907,17 +906,17 @@ export class BookService {
 
     private showPdfDialog(type: string) {
         if (this.isPrivate && this.metadata.model === 'sheetmusic') {
-            this.modalService.open(SimpleDialogComponent, {
+            this.dialog.open(BasicDialogComponent, { data: {
                 title: 'common.warning',
                 message: 'dialogs.private_sheetmusic.message',
                 button: 'common.close'
-            });
+            }, autoFocus: false });
         } else if (this.isPrivate && type === 'generate') {
-            this.modalService.open(SimpleDialogComponent, {
+            this.dialog.open(BasicDialogComponent, { data: {
                 title: 'common.warning',
                 message: 'dialogs.private_document_pdf.message',
                 button: 'common.close'
-            });
+            }, autoFocus: false });
         } else {
             const opts = {
                 pageCount: this.getPageCount(),
@@ -928,14 +927,6 @@ export class BookService {
                 name: this.metadata.getShortTitle()
             };
             this.dialog.open(PdfDialogComponent, { data: opts, autoFocus: false });
-            // this.modalService.open(DialogPdfGeneratorComponent, {
-            //     pageCount: this.getPageCount(),
-            //     currentPage: this.getPage().index,
-            //     doublePage: this.doublePage,
-            //     pages: this.pages,
-            //     type: type,
-            //     name: this.metadata.getShortTitle()
-            // });
         }
     }
 

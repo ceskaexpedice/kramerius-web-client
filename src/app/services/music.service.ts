@@ -2,19 +2,18 @@ import { SoundUnit } from './../model/soundunit.model';
 import { Track } from './../model/track.model';
 import { KrameriusApiService } from './kramerius-api.service';
 import { LocalStorageService } from './local-storage.service';
-import { ModsParserService } from './mods-parser.service';
 import { saveAs } from 'file-saver';
 import { DocumentItem } from './../model/document_item.model';
 import { Injectable } from '@angular/core';
 import { Metadata } from '../model/metadata.model';
 import { NgxGalleryImage } from 'ngx-gallery';
-import { MzModalService } from 'ngx-materialize';
-import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.component';
 import { PageTitleService } from './page-title.service';
 import { NotFoundError } from '../common/errors/not-found-error';
 import { Router } from '@angular/router';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
+import { MatDialog } from '@angular/material';
+import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
 
 @Injectable()
 export class MusicService {
@@ -44,12 +43,12 @@ export class MusicService {
 
   progress: number;
 
-  constructor(private modsParserService: ModsParserService,
-    private modalService: MzModalService,
+  constructor(
     private router: Router,
     private appSettings: AppSettings,
     private pageTitle: PageTitleService,
     public analytics: AnalyticsService,
+    private dialog: MatDialog,
     private localStorageService: LocalStorageService,
     private krameriusApiService: KrameriusApiService) {
   }
@@ -220,11 +219,11 @@ export class MusicService {
         return;
     }
     if (!track.isPublic) {
-      this.modalService.open(SimpleDialogComponent, {
+      this.dialog.open(BasicDialogComponent, { data: {
         title: 'common.warning',
         message: 'music.inaccessible_track',
         button: 'common.close'
-      });
+    }, autoFocus: false });
       return;
     }
     this.downloadedTrack = track;

@@ -1,6 +1,4 @@
-import { DialogPdfGeneratorComponent } from './dialog/dialog-pdf-generator/dialog-pdf-generator.component';
 import { DialogCitationComponent } from './dialog/dialog-citation/dialog-citation.component';
-import { SimpleDialogComponent } from './dialog/simple-dialog/simple-dialog.component';
 import { AppSettings } from './services/app-settings';
 import { PeriodicalFulltextItemComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-item/periodical-fulltext-item.component';
 import { PeriodicalFulltextLayoutComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-layout.component';
@@ -153,6 +151,7 @@ import { AuthInterceptor } from './services/auth-interceptor.service';
 import { MaterialModule } from './material.module';
 import { ShareDialogComponent } from './dialog/share-dialog/share-dialog.component';
 import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
+import { BasicDialogComponent } from './dialog/basic-dialog/basic-dialog.component';
 
 export function hljsLanguages() {
   return [
@@ -221,7 +220,6 @@ export function hljsLanguages() {
     PeriodicalCountComponent,
     PeriodicalSearchComponent,
     PeriodicalFiltersComponent,
-    SimpleDialogComponent,
     CollectionsComponent,
     CollectionComponent,
     NotFoundComponent,
@@ -250,19 +248,19 @@ export function hljsLanguages() {
     PeriodicalUnitLayoutComponent,
     EpubViewerComponent,
     ShareDialogComponent,
-    PdfDialogComponent
+    PdfDialogComponent,
+    BasicDialogComponent
   ],
   entryComponents: [
     DialogOcrComponent,
     DialogCitationComponent,
-    SimpleDialogComponent,
     DialogAuthosComponent,
-    DialogPdfGeneratorComponent,
     DialogAdminMetadataComponent,
     DialogAdminComponent,
     DialogLicencesComponent,
     ShareDialogComponent,
-    PdfDialogComponent
+    PdfDialogComponent,
+    BasicDialogComponent
   ],
   imports: [
     BrowserModule,
