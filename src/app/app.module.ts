@@ -1,4 +1,3 @@
-import { DialogCitationComponent } from './dialog/dialog-citation/dialog-citation.component';
 import { AppSettings } from './services/app-settings';
 import { PeriodicalFulltextItemComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-item/periodical-fulltext-item.component';
 import { PeriodicalFulltextLayoutComponent } from './periodical/periodical-content/periodical-fulltext-layout/periodical-fulltext-layout.component';
@@ -65,7 +64,6 @@ import { HomeSearchBarComponent } from './home/home-search-bar/home-search-bar.c
 import { NavbarSearchBarComponent } from './navbar/navbar-search-bar/navbar-search-bar.component';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { BrowseFiltersComponent } from './browse/browse-filters/browse-filters.component';
-import { DialogOcrComponent } from './dialog/dialog-ocr/dialog-ocr.component';
 import { LogoComponent } from './navbar/logo/logo.component';
 import { PersistentLinkComponent } from './persistent-link/persistent-link.component';
 import { PeriodicalService } from './services/periodical.service';
@@ -84,7 +82,6 @@ import { PeriodicalFiltersComponent } from './periodical/periodical-filters/peri
 
 import { NgxGalleryModule } from 'ngx-gallery';
 import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzRadioButtonModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
-import { DialogAuthosComponent } from './dialog/dialog-authors/dialog-authors.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeLogoComponent } from './home/home-logo/home-logo.component';
@@ -152,6 +149,9 @@ import { MaterialModule } from './material.module';
 import { ShareDialogComponent } from './dialog/share-dialog/share-dialog.component';
 import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
 import { BasicDialogComponent } from './dialog/basic-dialog/basic-dialog.component';
+import { OcrDialogComponent } from './dialog/ocr-dialog/ocr-dialog.component';
+import { AuthorsDialogComponent } from './dialog/authors-dialog/authors-dialog.component';
+import { CitationDialogComponent } from './dialog/citation-dialog/citation-dialog.component';
 
 export function hljsLanguages() {
   return [
@@ -200,9 +200,6 @@ export function hljsLanguages() {
     PaginatorComponent,
     AlertComponent,
     BookControlsComponent,
-    DialogOcrComponent,
-    DialogCitationComponent,
-    DialogAuthosComponent,
     LogoComponent,
     HomeLogoComponent,
     BookSearchComponent,
@@ -248,18 +245,21 @@ export function hljsLanguages() {
     EpubViewerComponent,
     ShareDialogComponent,
     PdfDialogComponent,
-    BasicDialogComponent
+    BasicDialogComponent,
+    OcrDialogComponent,
+    AuthorsDialogComponent,
+    CitationDialogComponent
   ],
   entryComponents: [
-    DialogOcrComponent,
-    DialogCitationComponent,
-    DialogAuthosComponent,
     DialogAdminMetadataComponent,
     DialogAdminComponent,
     DialogLicencesComponent,
     ShareDialogComponent,
     PdfDialogComponent,
-    BasicDialogComponent
+    BasicDialogComponent,
+    OcrDialogComponent,
+    AuthorsDialogComponent,
+    CitationDialogComponent
   ],
   imports: [
     BrowserModule,

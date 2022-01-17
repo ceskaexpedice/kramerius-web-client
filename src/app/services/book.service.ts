@@ -13,8 +13,6 @@ import { Page, PagePosition, PageImageType } from './../model/page.model';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MzModalService } from 'ngx-materialize';
-import { DialogOcrComponent } from '../dialog/dialog-ocr/dialog-ocr.component';
 import { forkJoin} from 'rxjs/observable/forkJoin';
 import { Article } from '../model/article.model';
 import { HistoryService } from './history.service';
@@ -27,11 +25,10 @@ import { IiifService } from './iiif.service';
 import { LoggerService } from './logger.service';
 import { PeriodicalItem } from '../model/periodicalItem.model';
 import { LicenceService } from './licence.service';
-import { MatDialog } from '@angular/material';
+import { MatBottomSheet, MatDialog } from '@angular/material';
 import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
 import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
-
-
+import { OcrDialogComponent } from '../dialog/ocr-dialog/ocr-dialog.component';
 
 @Injectable()
 export class BookService {
@@ -96,15 +93,14 @@ export class BookService {
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
-        private licenceService: LicenceService,
-        private modalService: MzModalService) {
+        private bottomSheet: MatBottomSheet,
+        private licenceService: LicenceService) {
     }
 
     private assignPdfPath(uuid: string) {
         this.viewer = 'pdf';
         this.publishNewPages(BookPageState.Loading);
         this.api.getPdfPreviewBlob(uuid).subscribe(() => {
-            // this.bookState = BookState.Success;
             this.publishNewPages(BookPageState.Success);
             if (uuid === null) {
                 this.pdf = null;
@@ -739,7 +735,7 @@ export class BookService {
             if (result.length > 1) {
                 options['ocr2'] = result[1];
             }
-            this.modalService.open(DialogOcrComponent, options);
+            this.bottomSheet.open(OcrDialogComponent, { data: options });
         });
     }
 
@@ -754,7 +750,7 @@ export class BookService {
                     uuid: this.getPage().uuid,
                     showCitation: this.isActionAvailable('citation')
                 };
-                this.modalService.open(DialogOcrComponent, options);
+                this.bottomSheet.open(OcrDialogComponent, { data: options });
             },
             error => {
                 if (error instanceof NotFoundError) {

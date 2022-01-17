@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatExpansionModule } from '@angular/material';
+import { MatBottomSheetModule, MatExpansionModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -42,8 +42,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatDividerModule,
     MatChipsModule,
     MatButtonToggleModule,
-    MatExpansionModule
-
+    MatExpansionModule,
+    MatBottomSheetModule
   ];
 
   @NgModule({

@@ -1,0 +1,16 @@
+<div class="app-ocr-dialog">
+
+  <div class="app-text">
+    {{ data.ocr }}
+    <div *ngIf="data.ocr2" style="margin-top:15px;">
+      {{ data.ocr2 }}
+    </div>
+  </div>
+
+  <div class="app-citation" *ngIf="citation"  [innerHtml]="citation"></div>
+
+  <div class="app-dialog-actions">
+    <button mat-button (click)="onCancel()">{{ 'common.close' | translate }}</button>
+  </div>
+
+</div>

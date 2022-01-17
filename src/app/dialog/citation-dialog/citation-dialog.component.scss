@@ -1,0 +1,18 @@
+@import './src/variables.scss';
+
+.app-citation {
+  max-width: 700px;
+  width: calc(100vw - 10px);
+  padding: 20px;
+  .app-dialog-content {
+    overflow: hidden;
+    margin: 0px auto;
+    font-size: 14px;
+    color: #222;
+    margin-top: 10px;
+  }
+  .app-dialog-actions {
+    text-align: right;
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,30 @@
+<div class="app-share app-dialog">
+
+  <div class="app-dialog-title">{{ 'authors-dialog.title' | translate }}</div>
+
+
+    <div class="app-dialog-content">
+      <div class="app-row app-header">
+        <div class="app-cell app-name">{{ 'authors-dialog.name' | translate }}</div>
+        <div class="app-cell app-date">{{ 'authors-dialog.date' | translate }}</div>
+        <div class="app-cell app-role">{{ 'authors-dialog.role' | translate }}</div>
+      </div>
+      <div class="app-row" *ngFor="let author of data.authors; let even=even;" [ngClass]="{ even: even }">
+        <div class="app-cell app-name">
+            <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author-from-dialog');onCancel()">{{ author.name }}</a>
+        </div>
+        <div class="app-cell app-date">{{ author.date }}</div>
+        <div class="app-cell app-role">
+          <span *ngFor="let role of author.roles; let last=last">
+              {{ 'relator.' + role | translate }}<span *ngIf="!last">, </span>
+          </span>
+        </div>
+      </div>
+    </div>
+      
+
+  <div class="app-dialog-actions">
+    <button mat-raised-button color="default" (click)="onCancel()">{{ 'common.close' | translate }}</button>
+  </div>
+
+</div>

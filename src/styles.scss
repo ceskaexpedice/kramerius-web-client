@@ -31,14 +31,12 @@
 @import "styles/app-dialog-citation";
 @import "styles/app-dialog-metadata";
 @import "styles/app-dialog-admin-metadata";
-@import "styles/app-dialog-advanced-search";
+// @import "styles/app-dialog-advanced-search";
 @import "styles/app-dialog-authors";
 @import "styles/app-dialog-sheetmusic-warning";
 @import "styles/app-dialog-policy";
 // @import "styles/app-page-not-found";
 // @import "styles/app-login";
-
-
 
 // done
 @import "styles/app-about";
@@ -103,6 +101,10 @@ body {
 
   .cdk-overlay-pane {
     max-width: 100vw !important;
+  }
+
+  .mat-bottom-sheet-container-medium, .mat-bottom-sheet-container-large {
+    max-width: 100vw !important; 
   }
 
   .mat-dialog-container {

@@ -1,5 +1,3 @@
-import { DialogCitationComponent } from './../dialog/dialog-citation/dialog-citation.component';
-import { DialogAuthosComponent } from './../dialog/dialog-authors/dialog-authors.component';
 import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, Input } from '@angular/core';
@@ -13,6 +11,8 @@ import { BookService } from '../services/book.service';
 import { DialogLicencesComponent } from '../dialog/dialog-licences/dialog-licences.component';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 import { MatDialog } from '@angular/material';
+import { AuthorsDialogComponent } from '../dialog/authors-dialog/authors-dialog.component';
+import { CitationDialogComponent } from '../dialog/citation-dialog/citation-dialog.component';
 
 @Component({
   selector: 'app-metadata',
@@ -63,7 +63,7 @@ export class MetadataComponent implements OnInit {
 
   onShowAuthors() {
     this.analytics.sendEvent('metadata', 'authors');
-    this.modalService.open(DialogAuthosComponent, { authors: this.metadata.authors} );
+    this.dialog.open(AuthorsDialogComponent, { data: { authors: this.metadata.authors }, autoFocus: false });
   }
 
   anyLicence(): boolean {
@@ -82,7 +82,7 @@ export class MetadataComponent implements OnInit {
 
   onShowCitation() {
     this.analytics.sendEvent('metadata', 'citation');
-    this.modalService.open(DialogCitationComponent, { metadata: this.metadata });
+    this.dialog.open(CitationDialogComponent, { data: { metadata: this.metadata }, autoFocus: false });
   }
 
   onShare() {
