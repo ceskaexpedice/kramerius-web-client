@@ -111,7 +111,6 @@ import { AgmCoreModule } from '@agm/core';
 import { HighlightModule } from 'ngx-highlightjs';
 import xml from 'highlight.js/lib/languages/xml';
 import json from 'highlight.js/lib/languages/json';
-import { DialogAdminMetadataComponent } from './dialog/dialog-admin-metadata/dialog-admin-metadata.component';
 import { MapBrowseComponent } from './map/browse/map-browse.component';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { IiifService } from './services/iiif.service';
@@ -135,7 +134,6 @@ import { AdminReindexationComponent } from './dialog/dialog-admin/admin-reindexa
 import { AdminReprePageComponent } from './dialog/dialog-admin/admin-reprepage/admin-reprepage.component';
 import { LicenceService } from './services/licence.service';
 import { LicenceMessagesComponent } from './shared/licence-messages/licence-messages.component';
-import { DialogLicencesComponent } from './dialog/dialog-licences/dialog-licences.component';
 import { PeriodicalUnitLayoutComponent } from './periodical/periodical-content/periodical-unit-layout/periodical-unit-layout.component';
 import { PdfViewer2Component } from './book/pdf-viewer2/pdf-viewer2.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -152,6 +150,8 @@ import { BasicDialogComponent } from './dialog/basic-dialog/basic-dialog.compone
 import { OcrDialogComponent } from './dialog/ocr-dialog/ocr-dialog.component';
 import { AuthorsDialogComponent } from './dialog/authors-dialog/authors-dialog.component';
 import { CitationDialogComponent } from './dialog/citation-dialog/citation-dialog.component';
+import { MetadataDialogComponent } from './dialog/metadata-dialog/metadata-dialog.component';
+import { LicenceDialogComponent } from './dialog/licence-dialog/licence-dialog.component';
 
 export function hljsLanguages() {
   return [
@@ -225,7 +225,6 @@ export function hljsLanguages() {
     FaqComponent,
     HomeFooterComponent,
     LoginComponent,
-    DialogAdminMetadataComponent,
     MapBrowseComponent,
     LandingComponent,
     SafeHtmlPipe,
@@ -240,7 +239,6 @@ export function hljsLanguages() {
     AdminReindexationComponent,
     AdminReprePageComponent,
     LicenceMessagesComponent,
-    DialogLicencesComponent,
     PeriodicalUnitLayoutComponent,
     EpubViewerComponent,
     ShareDialogComponent,
@@ -248,18 +246,20 @@ export function hljsLanguages() {
     BasicDialogComponent,
     OcrDialogComponent,
     AuthorsDialogComponent,
-    CitationDialogComponent
+    CitationDialogComponent,
+    MetadataDialogComponent,
+    LicenceDialogComponent
   ],
   entryComponents: [
-    DialogAdminMetadataComponent,
     DialogAdminComponent,
-    DialogLicencesComponent,
     ShareDialogComponent,
     PdfDialogComponent,
     BasicDialogComponent,
     OcrDialogComponent,
     AuthorsDialogComponent,
-    CitationDialogComponent
+    CitationDialogComponent,
+    MetadataDialogComponent,
+    LicenceDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,44 @@
+<div class="app-metadata-dialog app-dialog">
+
+  <div class="app-tabs" *ngIf="selection">
+    <a *ngIf="url" style="float: right;" target="_blank" [href]="url">URL</a>
+    <div [matMenuTriggerFor]="resourceMenu" class="app-dialog-title">{{ resource }}</div>
+    <div *ngFor="let item of items" class="app-tab" [class.active]="selection.type === item.type" (click)="changeTab(item)">
+      {{ 'model.' + item.type | translate | lowercase }}
+    </div>
+  </div>
+
+  <div class="app-dialog-content" *ngIf="selection">
+      <div class="app-tab-content" *ngIf="selection[resource]">
+          <code [highlight]="selection[resource]"></code>
+      </div>
+      <div *ngIf="!selection[resource]" style="padding-top: 20px;">
+          <mz-spinner
+            [color]="'blue'"
+            [size]="'small'">
+          </mz-spinner>
+      </div>
+  </div>
+
+  <div class="app-dialog-actions">
+    <button mat-button (click)="onCancel()">{{ 'common.close' | translate }}</button>
+  </div>
+
+</div>
+
+<mat-menu #resourceMenu="matMenu" xPosition="after" class="app-dropdown-menu">
+  <ng-template matMenuContent>
+    <div class="app-dropdown-item" (click)="changeResource('mods')">mods</div>
+    <div class="app-dropdown-item" (click)="changeResource('dc')">dc</div>
+    <div class="app-dropdown-item" (click)="changeResource('solr')">solr</div>
+    <div class="app-dropdown-item" (click)="changeResource('foxml')">foxml</div>
+    <mat-divider></mat-divider>
+    <div class="app-dropdown-item" (click)="changeResource('alto')">alto</div>
+    <div class="app-dropdown-item" (click)="changeResource('ocr')">ocr</div>
+    <mat-divider></mat-divider>
+    <div class="app-dropdown-item" (click)="changeResource('item')">item</div>
+    <div class="app-dropdown-item" (click)="changeResource('children')">children</div>
+    <mat-divider></mat-divider>
+    <div class="app-dropdown-item" (click)="changeResource('iiif')">iiif</div>
+  </ng-template>
+</mat-menu>
