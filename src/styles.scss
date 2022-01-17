@@ -16,7 +16,7 @@
 // @import "styles/app-mixins";
 // @import "styles/app-mdi";
 @import "styles/app-layout";
-@import "styles/app-global";
+// @import "styles/app-global";
 // @import "styles/app-navbar";
 // @import "styles/app-logo";
 // @import "styles/app-home-logo";
@@ -109,4 +109,89 @@ body {
 
   .mat-dialog-container {
     padding: 0 !important;
+  }
+
+
+  .ol-dragbox {
+    background: #0277bd44;
+    border: solid 1px #0277bd;
+  }
+  
+  
+  .app-dropdown-menu {
+    .app-dropdown-item {
+      display: block;
+      overflow: hidden;
+      padding: 10px 10px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 18px;
+      color: $app-grey-d-1;
+      &:hover {
+        background: #e5e5e5;
+      }
+    }
+  }
+  
+  mat-spinner.medium-centered-spinner {
+    position: absolute;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+  }
+  
+  
+  app-metadata {
+    margin-left: auto;
+    transition: margin-right 0.3s;
+    border-left: 1px solid $app-grey-l-2;
+    &.app-panel-hidden {
+      margin-right: -$app-side-col-width;
+      overflow: hidden;
+    }
+    @media #{$medium-and-down} {
+      &.app-book-metadata {
+        &.app-panel-mobile-hidden {
+          margin-right: -$app-side-col-width;
+          transition: margin-right 0.0s;
+          overflow: hidden;
+        }
+        &.app-panel-hidden {
+          margin-right: 0;
+          overflow: inherit;
+        }
+      }
+    }
+    @media #{$small-and-down} {
+      &:not(.app-nested) {
+        position: absolute;
+        width: 100%;
+        top: calc(#{$navbar-height} + #{$app-toolbar-height});
+        left: 0;
+        border: 0;
+        height: calc(#{$app-mobile-panel-height} - #{$navbar-height} - #{$app-toolbar-height});
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+        display: block;
+        z-index: 1001;
+      }
+      &.app-panel-mobile-hidden {
+        display: none;
+      }
+      &.app-book-metadata {
+        top: $app-toolbar-height;
+        height: calc(#{$app-mobile-panel-height} - #{$app-toolbar-height});
+      }
+    }
+    &.app-nested {
+      width: auto;
+      margin: 5px 0 20px;
+      border-left: 5px solid $app-grey-l-2;
+      display: block;
+      .app-metadata-wrapper {
+        overflow: unset;
+        .app-metadata-content {
+          padding: 8px 0 0 8px;
+          margin-bottom: -10px;
+        }
+      }
+    }
   }

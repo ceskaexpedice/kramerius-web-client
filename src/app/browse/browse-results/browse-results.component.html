@@ -8,8 +8,6 @@
     <div>{{item.name | appUpcase }}</div>
   </a>
 
-  <div class="clearfix"></div>
-
   <app-paginator [activeIndex]="browseService.query.page"
                 [overallCount]="browseService.getNumberOfResults()"
                 [step]="browseService.query.getRows()"

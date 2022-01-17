@@ -8,9 +8,10 @@
   @media #{$small-and-down} {
     height: calc(100% - #{$app-toolbar-height});
   }
-  app-viewer {
+  app-viewer, app-epub-viewer, app-pdf-viewer2 {
     flex: 1;
     height: 100%;
+    overflow: hidden;
   }
   app-navigation {
     display: flex;

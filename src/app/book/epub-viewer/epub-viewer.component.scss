@@ -1,10 +1,11 @@
 @import './src/variables.scss';
 
 .app-viewer-wrapper  {
-  flex: 1;
-  height: 100%;
   width: 100%;
+  height: 100%;
   overflow: hidden;
+  background-color: $app-grey-l-4;    
+  position: relative;
   .app-viewer-wrapper {
     width: 100%;
     height: 100%;

@@ -25,7 +25,7 @@
        class="app-tab app-tab-{{bookService.navigationTabsCount}}">
     <span class="app-desc">{{ 'model_plural.internalpart' | translate }}</span>
   </div>
-  
+
   <div *ngIf="bookService.metadata.doctype == 'oldprintomnibusvolume' && bookService.extraParents.length > 0 && !bookService.getFulltextQuery()" 
        (click)="bookService.changeNavigationTab('konvolutparts');analytics.sendEvent('viewer', 'navigation', 'konvolutparts')"
        [class.app-active]="bookService.activeNavigationTab === 'konvolutparts'" 
@@ -49,7 +49,7 @@
 <app-book-search [class.app-hidden]="bookService.activeNavigationTab !== 'pages'"></app-book-search>
 
 <div class="app-navigation-header" *ngIf="bookService.getPageCount() > 1" [class.app-hidden]="bookService.activeNavigationTab !== 'pages'">
-  <input class="app-current-page" (keyup)="onKeyUp($event)" type="text" pattern="[0-9]*" value="23" [(ngModel)]="pageIndex" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
+  <input class="app-current-page" (keyup)="onKeyUp($event)" type="text" pattern="[0-9]*" value="23" [(ngModel)]="pageIndex" [matTooltip]="'common.set_page_number' | translate" />
   <span>{{ 'common.of' | translate }}</span>
   <span>{{bookService.getPageCount()}}</span>
   <span>{{ 'common.of_pages' | translate }}</span>
@@ -75,18 +75,18 @@
   <div class="app-epub-search-bar-wrapper" style="min-height: 45px;">
     <div class="app-epub-search-bar" [class.app-is-query]="query" *ngIf="epubService.totalPages()">
       <input (keyup.enter)="epubService.onSearch()" type="text" placeholder="Hledat" [(ngModel)]="epubService.searchQuery" />
-      <i *ngIf="epubService.searchQuery" mz-icon-mdi [icon]="'close'" (click)="epubService.cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
-      <i mz-icon-mdi [icon]="'magnify'" (click)="epubService.onSearch()"  class="app-cursor-pointer"></i>
+      <mat-icon class="app-close" *ngIf="epubService.searchQuery" (click)="epubService.cleanQuery()" [matTooltip]="'searchbar.delete_query' | translate">close</mat-icon>
+      <mat-icon class="app-magnify" (click)="epubService.onSearch()">search</mat-icon>
     </div>
   </div>
 
   <div class="app-navigation-header" style="min-height: 44px;">
     <ng-container *ngIf="epubService.totalPages() && !epubService.searching">
-      <input class="app-current-page" [value]="epubService.location ? epubService.location.page : 0" (change)="epubService.goToPage($event.target.value)" type="text" pattern="[0-9]*" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
+      <input class="app-current-page" [value]="epubService.location ? epubService.location.page : 0" (change)="epubService.goToPage($event.target.value)" type="text" pattern="[0-9]*" [matTooltip]="'common.set_page_number' | translate" />
       <span>{{ 'common.of' | translate }}</span>
       <span>{{ epubService.totalPages() }}</span>
       <span style="margin-left: 7px;">{{ 'common.of_pages' | translate }}</span>
-      <i mz-icon-mdi [icon]="epubTocExpanded ? 'chevron-down' : 'chevron-left'" style="float:right; height: 30px; cursor: pointer; color: #888;" (click)="epubTocExpanded = !epubTocExpanded"></i>
+      <mat-icon style="float:right; line-height: inherit; cursor: pointer; color: #888;" (click)="epubTocExpanded = !epubTocExpanded">{{ epubTocExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
     </ng-container>
   </div>
 
@@ -126,18 +126,18 @@
     <div class="app-epub-search-bar-wrapper" style="min-height: 45px;">
       <div class="app-epub-search-bar" [class.app-is-query]="query" *ngIf="pdfService.totalPages">
         <input (keyup.enter)="pdfService.onSearch()" type="text" placeholder="Hledat" [(ngModel)]="pdfService.searchQuery" />
-        <i *ngIf="pdfService.searchQuery" mz-icon-mdi [icon]="'close'" (click)="pdfService.cleanQuery()" class="app-cursor-pointer" mz-tooltip [tooltip]="'searchbar.delete_query' | translate" [position]="'top'"></i>
-        <i mz-icon-mdi [icon]="'magnify'" (click)="pdfService.onSearch()"  class="app-cursor-pointer"></i>
+        <mat-icon class="app-close" *ngIf="pdfService.searchQuery" (click)="pdfService.cleanQuery()" [matTooltip]="'searchbar.delete_query' | translate">close</mat-icon>
+        <mat-icon class="app-magnify" (click)="pdfService.onSearch()">search</mat-icon>
       </div>
     </div>
   
     <div class="app-navigation-header" style="min-height: 44px;">
       <ng-container *ngIf="pdfService.totalPages && !pdfService.searching">
-        <input class="app-current-page" [value]="pdfService.pageIndex" (change)="pdfService.goToPage($event.target.value)" type="text" pattern="[0-9]*" mz-tooltip [tooltip]="'common.set_page_number' | translate" [position]="'top'" />
+        <input class="app-current-page" [value]="pdfService.pageIndex" (change)="pdfService.goToPage($event.target.value)" type="text" pattern="[0-9]*" [matTooltip]="'common.set_page_number' | translate"/>
         <span>{{ 'common.of' | translate }}</span>
         <span>{{ pdfService.totalPages }}</span>
         <span style="margin-left: 7px;">{{ 'common.of_pages' | translate }}</span>
-        <i mz-icon-mdi [icon]="epubTocExpanded ? 'chevron-down' : 'chevron-left'" style="float:right; height: 30px; cursor: pointer; color: #888;" (click)="epubTocExpanded = !epubTocExpanded"></i>
+        <mat-icon style="float:right; line-height: inherit; cursor: pointer; color: #888;" (click)="epubTocExpanded = !epubTocExpanded">{{ epubTocExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
       </ng-container>
     </div>
 

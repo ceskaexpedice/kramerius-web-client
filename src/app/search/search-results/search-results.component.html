@@ -27,10 +27,7 @@
     </app-alert>
 
 
-
     <app-document-card *ngFor="let item of searchService.results" [selectable]="searchService.adminSelection" [in]="'search'" [item]="item"></app-document-card>
-    <div class="clearfix"></div>
-
     <app-paginator [activeIndex]="searchService.query.page"
             [overallCount]="searchService.getNumberOfResults()"
             [step]="searchService.query.getRows()"

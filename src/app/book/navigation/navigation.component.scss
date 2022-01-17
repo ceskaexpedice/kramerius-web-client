@@ -216,21 +216,18 @@ app-book-search {
         color: $app-grey;
       }
     }
-
-    .mdi-close {
+    mat-icon {
+      cursor: pointer;
+      top: 11px;
       position: absolute;
-      right: 0;
-      top: 5px;
       color: $app-grey;
+      &.app-close {
+        right: 0;
+      }
+      &.app-magnify {
+        left: 0;
+      }
     }
-    
-    .mdi-magnify {
-      position: absolute;
-      left: 0;
-      top: 5px;
-      color: $app-grey;
-    }
-    
     &.app-is-query {
       input {
         border-bottom: 1px solid $primary-color !important;

@@ -26,6 +26,11 @@
       width:100%;
     }
   }
+  app-paginator {
+    display: block;
+    clear: both;
+    padding-top: 1px;
+  }
 
   .app-collection-navigation {
     // height: 40px;

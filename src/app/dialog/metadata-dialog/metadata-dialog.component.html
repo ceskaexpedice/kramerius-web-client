@@ -12,12 +12,10 @@
       <div class="app-tab-content" *ngIf="selection[resource]">
           <code [highlight]="selection[resource]"></code>
       </div>
-      <div *ngIf="!selection[resource]" style="padding-top: 20px;">
-          <mz-spinner
-            [color]="'blue'"
-            [size]="'small'">
-          </mz-spinner>
-      </div>
+      <mat-spinner *ngIf="!selection[resource]"
+        [strokeWidth]="2" 
+        [diameter]="20">
+      </mat-spinner>
   </div>
 
   <div class="app-dialog-actions">

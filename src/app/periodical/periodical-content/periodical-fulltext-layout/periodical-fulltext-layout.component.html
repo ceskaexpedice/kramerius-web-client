@@ -1,13 +1,10 @@
 <div id="app-periodical-fulltext-container" class="app-periodical-fulltext-layout-wrapper">
   <app-periodical-fulltext-item [item]="item" *ngFor="let item of periodicalService.fulltext.pages"></app-periodical-fulltext-item>
-  
   <app-alert *ngIf="periodicalService.getNumberOfResults() === 0"
     type="warning"
     label="alert.warning"
     message="alert.no_results_found">
   </app-alert>
-
-  <div class="clearfix"></div>
 
   <app-paginator [activeIndex]="periodicalService.fulltext.page"
           [overallCount]="periodicalService.fulltext.results"
