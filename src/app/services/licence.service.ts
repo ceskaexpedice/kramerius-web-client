@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { AppSettings } from './app-settings';
 
 
 @Injectable()
@@ -8,7 +9,11 @@ export class LicenceService {
   userLicences: string[];
   licences: any;
 
-  constructor(private translate: TranslateService) {}
+  constructor(private translate: TranslateService, private settings: AppSettings) {
+    this.settings.kramerius$.subscribe(() =>  {
+      this.assignLicences(this.settings.licences);
+    });
+  }
 
   assignLicences(licences: any) {
       this.licences = licences;

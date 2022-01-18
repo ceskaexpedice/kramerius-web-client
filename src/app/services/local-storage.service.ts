@@ -7,7 +7,6 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class LocalStorageService {
 
-
     public static FEATURED_TAB = 'featured_tab';
     private static ACCESSIBILITY_FILTER = 'accessibility_filter';
     public static DOUBLE_PAGE = 'double_page';
@@ -16,7 +15,6 @@ export class LocalStorageService {
     public static PERIODICAL_VOLUMES_REVERSE_ORDER = 'periodical_volumes_reverse_order';
     public static PERIODICAL_ISSUES_REVERSE_ORDER = 'periodical_issues_reverse_order';
     public static PERIODICAL_FULLTEXT_SORT = 'periodical_fulltext_sort';
-
 
     constructor(private appSettings: AppSettings) {
     }

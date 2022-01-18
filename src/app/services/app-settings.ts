@@ -1,7 +1,5 @@
-import { CollectionService } from './collection.service';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { LicenceService } from './licence.service';
 
 declare var APP_GLOBAL: any;
 
@@ -31,6 +29,7 @@ export class AppSettings {
   public originLink: boolean;
   public mapSearch: boolean;
   public hiddenLocks: boolean;
+  public licences: any;
 
   public static langs = ['cs', 'en', 'de', 'sk'];
   public ga = APP_GLOBAL.ga;
@@ -73,7 +72,7 @@ export class AppSettings {
   public krameriusList: KrameriusData[];
   public krameriusVsList = APP_GLOBAL.krameriusVsList;
 
-  constructor(private collectionsService: CollectionService, private licenceService: LicenceService) {
+  constructor() {
     this.krameriusList = [];
     for (const k of APP_GLOBAL.krameriusList) {
       this.krameriusList.push(k);
@@ -108,8 +107,6 @@ export class AppSettings {
   }
 
   public assignKramerius(kramerius: KrameriusData) {
-    this.collectionsService.clear();
-    this.licenceService.assignLicences(kramerius.licences);
     this.code = kramerius.code;
     this.title = kramerius.title;
     this.subtitle = kramerius.subtitle;
@@ -126,6 +123,7 @@ export class AppSettings {
     this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = !!kramerius.mapSearch;
+    this.licences = kramerius.licences;
     this.hiddenLocks = !!kramerius.hiddenLocks;
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;

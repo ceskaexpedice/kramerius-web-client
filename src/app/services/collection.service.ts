@@ -1,6 +1,7 @@
 import { Collection } from './../model/collection.model';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { AppSettings } from './app-settings';
 
 @Injectable()
 export class CollectionService {
@@ -8,10 +9,14 @@ export class CollectionService {
     public collections: Collection[];
     private cache = {};
 
-    constructor(private translate: TranslateService) {
+    constructor(private translate: TranslateService, private settings: AppSettings) {
         this.translate.onLangChange.subscribe(() => {
             this.localeChanged();
         });
+        this.settings.kramerius$.subscribe(() =>  {
+                this.clear();
+            }
+        );
     }
 
     public clear() {

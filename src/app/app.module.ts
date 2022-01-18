@@ -353,8 +353,8 @@ export function appInitializerFactory(translate: TranslateService) {
       deps: [ TranslateService ],
       multi: true
     },
-    // { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
