@@ -2,7 +2,7 @@ import { PageTitleService } from './../services/page-title.service';
 import { SearchService } from './../services/search.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { combineLatest } from 'rxjs/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-search',

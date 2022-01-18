@@ -1,7 +1,7 @@
 import { BookService } from './book.service';
 import { KrameriusApiService } from './kramerius-api.service';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { CompleterItem, CompleterData } from 'ng2-completer';
 import { SolrService } from './solr.service';
 

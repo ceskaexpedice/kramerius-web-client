@@ -1,7 +1,7 @@
 import { Page } from './../../model/page.model';
 import { BookService } from './../../services/book.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { AnalyticsService } from '../../services/analytics.service';
 import { EpubService } from '../../services/epub.service';
 import { PdfService } from '../../services/pdf.service';

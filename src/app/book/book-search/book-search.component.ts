@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { BookService } from './../../services/book.service';
 import { Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';

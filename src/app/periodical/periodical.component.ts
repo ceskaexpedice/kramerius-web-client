@@ -2,7 +2,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PeriodicalService } from '../services/periodical.service';
 import { PeriodicalQuery } from './periodical_query.model';
-import { combineLatest } from 'rxjs/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-periodical',

@@ -2,7 +2,7 @@ import { ViewerControlsService } from '../services/viewer-controls.service';
 import { BookService } from './../services/book.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { combineLatest } from 'rxjs/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 import { AnalyticsService } from '../services/analytics.service';
 import { PdfService } from '../services/pdf.service';
 import { EpubService } from '../services/epub.service';
