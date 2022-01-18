@@ -262,17 +262,6 @@ export function appInitializerFactory(translate: TranslateService) {
     AdminDialogComponent,
     PluralPipe
   ],
-  entryComponents: [
-    ShareDialogComponent,
-    PdfDialogComponent,
-    BasicDialogComponent,
-    OcrDialogComponent,
-    AuthorsDialogComponent,
-    CitationDialogComponent,
-    MetadataDialogComponent,
-    LicenceDialogComponent,
-    AdminDialogComponent
-  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
