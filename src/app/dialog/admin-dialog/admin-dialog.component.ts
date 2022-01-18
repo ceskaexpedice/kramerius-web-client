@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Metadata } from '../../model/metadata.model';
 import { SolrService } from '../../services/solr.service';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   templateUrl: './admin-dialog.component.html',

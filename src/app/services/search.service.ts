@@ -12,7 +12,7 @@ import { Translator } from 'angular-translator';
 import { Metadata } from '../model/metadata.model';
 import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { LicenceService } from './licence.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Injectable()

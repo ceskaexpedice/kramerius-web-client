@@ -12,7 +12,7 @@ import { NotFoundError } from '../common/errors/not-found-error';
 import { Router } from '@angular/router';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
 
 @Injectable()

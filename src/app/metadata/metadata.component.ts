@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { LicenceService } from '../services/licence.service';
 import { BookService } from '../services/book.service';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthorsDialogComponent } from '../dialog/authors-dialog/authors-dialog.component';
 import { CitationDialogComponent } from '../dialog/citation-dialog/citation-dialog.component';
 import { MetadataDialogComponent } from '../dialog/metadata-dialog/metadata-dialog.component';

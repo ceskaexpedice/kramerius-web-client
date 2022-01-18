@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { KrameriusApiService } from '../../../services/kramerius-api.service';
 import { SolrService } from '../../../services/solr.service';

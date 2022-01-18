@@ -10,7 +10,6 @@ import { throwError } from 'rxjs';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
-import { Response } from '@angular/http/src/static_response';
 import { AppSettings } from './app-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user.model';

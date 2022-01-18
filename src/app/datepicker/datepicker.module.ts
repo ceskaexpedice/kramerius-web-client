@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { NgSlimScrollModule } from 'ngx-slimscroll';
 import { DatepickerComponent } from './datepicker.component';
 import { AppSettings } from '../services/app-settings';
-import { MatTooltipModule } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [DatepickerComponent ],

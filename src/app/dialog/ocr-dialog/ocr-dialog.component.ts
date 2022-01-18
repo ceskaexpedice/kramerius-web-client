@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { ShareService } from '../../services/share.service';
 import { Translator } from 'angular-translator';
 import { CitationService } from '../../services/citation.service';
-import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
+import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-ocr-dialog',
