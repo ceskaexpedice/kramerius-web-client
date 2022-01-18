@@ -8,7 +8,6 @@ import { AnalyticsService } from '../../services/analytics.service';
   selector: 'app-collection',
   templateUrl: './collection.component.html',
   styleUrls: ['./collection.component.scss']
-
 })
 export class CollectionComponent implements OnInit {
 

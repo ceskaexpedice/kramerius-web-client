@@ -16,9 +16,9 @@
     <div class="app-messages" *ngIf="!inProgress">
       <div class="app-info" [class.app-warn]="selectedPages > maxPageCount">
         <ng-container *ngIf="selectedPages > 0">
-        {{ 'pdf-dialog.selection1' | translate: { num: selectedPages } }}
+          {{ 'pdf-dialog.selection1' | appPlural: selectedPages }}
         <strong>{{ selectedPages }}</strong>
-        {{ 'pdf-dialog.selection2' | translate: { num: selectedPages } }}
+          {{ 'pdf-dialog.selection2' | appPlural: selectedPages }}
         (limit <strong>{{ maxPageCount }}</strong>)
       </ng-container>
       <ng-container *ngIf="selectedPages == 0">

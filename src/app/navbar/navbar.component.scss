@@ -144,6 +144,7 @@
 ::ng-deep {
   .app-languages-menu {
     .app-dropdown-item {
+      cursor: pointer;
       .app-language {
         width: 145px;
         line-height: 60px;

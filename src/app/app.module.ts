@@ -151,6 +151,7 @@ import { LicenceDialogComponent } from './dialog/licence-dialog/licence-dialog.c
 import { AdminDialogComponent } from './dialog/admin-dialog/admin-dialog.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { PluralPipe } from './pipes/plural.pipe';
 
 export function hljsLanguages() {
   return [
@@ -258,7 +259,8 @@ export function appInitializerFactory(translate: TranslateService) {
     CitationDialogComponent,
     MetadataDialogComponent,
     LicenceDialogComponent,
-    AdminDialogComponent
+    AdminDialogComponent,
+    PluralPipe
   ],
   entryComponents: [
     ShareDialogComponent,

@@ -58,6 +58,9 @@ a {
         color: $app-grey-d-2;
         position: absolute;
         bottom: 0;
+        strong {
+          margin-right: 5px;
+        }
       }
     } 
   }

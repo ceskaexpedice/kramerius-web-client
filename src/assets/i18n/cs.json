@@ -5,14 +5,26 @@
     "close": "Zavřít",
     "warning": "Varování",
     "of_pages": "stránek",
-    "n_pages": "{{ count == 1 ? 'stránka' : count < 5 ? 'stránky' : 'stránek' }}",
-    "n_occurrences": "{{ count == 1 ? 'výskyt' : count < 5 ? 'výskyty' : 'výskytů' }}",
+    "n_pages": {
+      "one": "stránka",
+      "few": "stránky",
+      "many": "stránek"
+    },
+    "n_occurrences": {
+      "one": "výskyt",
+      "few": "výskyty",
+      "many": "výskytů"
+    },
     "set_page_number": "Zadejte číslo stránky",
     "show_whole_title": "Ukaž celý titulek",
     "hide_whole_title": "Skryj celý titulek",
     "copy_to_clipboard": "Zkopírovat do schránky",
     "copied_to_clipboard": "Zkopirováno do schránky",
-    "num_of_docs": "{{ count == 1 ? 'titul' : count < 5 ? 'tituly' : 'titulů' }}"
+    "num_of_docs": {
+      "one": "titul",
+      "few": "tituly",
+      "many": "titulů"
+    }
   },
   "lang": {
     "cs": "Čeština",
@@ -325,8 +337,16 @@
     "title_generate": "Příprava ke stažení",
     "title_prepare": "Příprava k tisku",
     "tip_shift": "Tip: přes stisknutou klávesu Shift můžete vybrat více stránek naráz",
-    "selection1": "Máte {{ num == 1 ? 'vybranou' : ( num < 5 ? 'vybrané' : 'vybraných') }}",
-    "selection2": "{{ num == 1 ? 'stranu' : ( num < 5 ? 'strany' : 'stran') }}",
+    "selection1": {
+      "one": "Máte vybranou",
+      "few": "Máte vybrané",
+      "many": "Máte vybraných"
+    },
+    "selection2": {
+      "one": "stranu",
+      "few": "strany",
+      "many": "stran"
+    },
     "selection": "Nemáte vybranou žádnou stranu",
     "select_all": "Vybrat vše",
     "deselect_all": "Zrušit výběr",

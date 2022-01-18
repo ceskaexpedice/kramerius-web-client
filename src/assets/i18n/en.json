@@ -5,14 +5,26 @@
     "close": "Close",    
     "warning": "Warning",
     "of_pages": "pages",
-    "n_pages": "{{ count == 1 ? 'page' : 'pages' }}",
-    "n_occurrences": "{{ count == 1 ? 'occurrence' : 'occurrences' }}",
+    "n_pages": {
+      "one": "page",
+      "few": "pages",
+      "many": "pages"
+    },
+    "n_occurrences": {
+      "one": "occurrence",
+      "few": "occurrences",
+      "many": "occurrences"
+    },
     "set_page_number": "Set page number",
     "show_whole_title": "Show whole title",
     "hide_whole_title": "Hide whole title",
     "copy_to_clipboard": "Copy to clipboard",
     "copied_to_clipboard": "Copied to clipboard",
-    "num_of_docs": "{{ count == 1 ? 'document' : 'documents' }}"
+    "num_of_docs": {
+      "one": "document",
+      "few": "documents",
+      "many": "documents"
+    }
   },
   "lang": {
     "cs": "Čeština",
@@ -325,8 +337,16 @@
     "title_generate": "Prepare to download",
     "title_prepare": "Prepare to print",
     "tip_shift": "Hint: with pressed Shift key you can select multiple pages at once",
-    "selection1": " ",
-    "selection2": "{{ num == 1 ? 'page' : 'pages' }} selected",
+    "selection1": {
+      "one": "",
+      "few": "",
+      "many": ""
+    },
+    "selection2": {
+      "one": "page selected",
+      "few": "pages selected",
+      "many": "pages selected"
+    },
     "selection": "No page selected",
     "select_all": "Select all",
     "deselect_all": "Cancel selection",

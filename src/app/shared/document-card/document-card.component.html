@@ -27,7 +27,8 @@
       </div>
 
       <div *ngIf="item.hits" class="app-card-hits">
-        <strong>{{item.hits}}</strong> {{ 'common.n_occurrences' | translate: { count: item.hits } }}
+        <strong>{{item.hits}}</strong> 
+        <span>{{ 'common.n_occurrences' | appPlural : item.hits }}</span>
       </div>
       <img *ngIf="item.library" class="app-card-logo" src="{{ libraryLogo() }}" >
       <div *ngIf="item.doctype" class="app-card-doctype app-doctype-{{item.doctype}}">

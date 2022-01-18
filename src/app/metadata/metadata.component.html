@@ -267,7 +267,7 @@
         <ng-template #noLinkLocation>
           <div class="app-value" *ngIf="location.physicalLocation">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</div>
         </ng-template>
-        <div class="app-value" *ngIf="location.shelfLocator">{{ 'metadata.shelf_locator' | translate: { shelf_locator: location.shelfLocator } }}</div>
+        <div class="app-value" *ngIf="location.shelfLocator" translate [translateParams]="{ shelf_locator: location.shelfLocator }">metadata.shelf_locator</div>
       </div>
       <div class="divider"></div>
     </div>

@@ -6,8 +6,9 @@
     <div class="app-card-content">
       <div  class="app-card-title">{{ collection.title}}</div>
       <div class="app-card-description">{{ collection.description}}</div>
-      <div *ngIf="collection.count" class="app-card-count">
-        <strong>{{collection.count}}</strong> {{ 'common.num_of_docs' | translate: { count: collection.count } }}
+      <div *ngIf="collection && collection.count" class="app-card-count">
+        <strong>{{collection.count}}</strong>
+        <span>{{ 'common.num_of_docs' | appPlural : collection.count }}</span>
       </div>
     </div>
   </div>

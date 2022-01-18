@@ -5,14 +5,26 @@
       "close" : "Schließen",
       "warning": "Warnung",
       "of_pages": "Seiten",
-      "n_pages": "{{ count == 1 ? 'seite' : 'seiten' }}",
-      "n_occurrences": "{{ count == 1 ? 'Erscheinungsbild' : count < 5 ? 'Erscheinungsbilder' : 'Erscheinungsbilder' }}",
+      "n_pages": {
+        "one": "seite",
+        "few": "seiten",
+        "many": "seiten"
+      },
+      "n_occurrences": {
+        "one": "Erscheinungsbild",
+        "few": "Erscheinungsbilder",
+        "many": "Erscheinungsbilder"
+      },
       "set_page_number": "Seitenzahl eingeben",
       "show_whole_title": "Vollständigen Titel anzeigen",
       "hide_whole_title": "Vollständigen Titel ausblenden",
       "copy_to_clipboard": "In den Zwischenspeicher kopieren",
       "copied_to_clipboard": "In den Zwischenspeicher kopiert",
-      "num_of_docs": "{{ count == 1 ? 'Titel' : count < 5 ? 'Titel' : 'Titel' }}"
+      "num_of_docs": {
+        "one": "Titel",
+        "few": "Titel",
+        "many": "Titel"
+      }
     },
     "lang": {
       "cs": "Čeština",
@@ -325,8 +337,16 @@
       "title_generate": "Vorbereiten des Herunterladens",
       "title_prepare": "Vorbereitung zum Druck",
       "tip_shift": "Tipp: Sie können mehrere Seiten auf einmal auswählen, indem Sie die Umschalttaste gedrückt halten",
-      "selection1": "Sie haben {{ num == 1 ? 'ausgewählte' : ( num < 5 ? 'ausgewählte' : 'ausgewählte') }}",
-      "selection2": "{{ num == 1 ? 'Seite' : ( num < 5 ? 'Seiten' : 'Seiten') }}",
+      "selection1": {
+        "one": "Sie haben ausgewählte",
+        "few": "Sie haben ausgewählte",
+        "many": "Sie haben ausgewählte"
+      },
+      "selection2": {
+        "one": "Seite",
+        "few": "Seiten",
+        "many": "Seiten"
+      },
       "selection": "Sie haben keine Seite ausgewählt",
       "select_all": "Alles auswählen",
       "deselect_all": "Auswahl löschen",
