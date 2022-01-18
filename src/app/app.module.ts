@@ -94,7 +94,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ShareService } from './services/share.service';
 import { AboutComponent } from './about/about.component';
 import { AnalyticsService } from './services/analytics.service';
-import { DatepickerModule } from './datepicker';
+// import { DatepickerModule } from './datepicker';
 import { HomeFooterComponent } from './home/home-footer/home-footer.component';
 import { KrameriusInfoService } from './services/kramerius-info.service';
 import { AngularTokenModule } from 'angular-token';
@@ -152,6 +152,9 @@ import { AdminDialogComponent } from './dialog/admin-dialog/admin-dialog.compone
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PluralPipe } from './pipes/plural.pipe';
+import { NgSlimScrollModule } from 'ngx-slimscroll';
+import { DatepickerComponent } from './datepicker/datepicker.component';
+// import { DatepickerComponent } from './datepicker';
 
 export function hljsLanguages() {
   return [
@@ -260,14 +263,16 @@ export function appInitializerFactory(translate: TranslateService) {
     MetadataDialogComponent,
     LicenceDialogComponent,
     AdminDialogComponent,
-    PluralPipe
+    PluralPipe,
+    DatepickerComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    DatepickerModule,
+    NgSlimScrollModule,
+    // DatepickerModule,
     Ng2CompleterModule,
     MatomoModule,
     MaterialModule,
