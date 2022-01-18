@@ -6,9 +6,9 @@
 // @import "styles/app-pallete";
 // @import "styles/app-color";
 
-@import "styles/app-variables";
+// @import "styles/app-variables";
 
-@import "../node_modules/materialize-css/sass/materialize.scss";
+// @import "../node_modules/materialize-css/sass/materialize.scss";
 // @import "../node_modules/mdi/scss/materialdesignicons.scss";
 
 // @import "styles/fontface/roboto-condensed/roboto-condensed-fontface";
@@ -42,10 +42,12 @@
 @import "styles/app-about";
 @import "styles/app-autocomplete";
 @import "styles/app-ng-datepicker";
+// @import "styles/app-alert";
 
 
-// todo
-@import "styles/app-alert";
+@import "styles/materialize/variables";
+@import "styles/materialize/global";
+@import "styles/materialize/grid";
 
 
 html, body { 
@@ -54,6 +56,7 @@ html, body {
 body { 
   margin: 0; 
   font-family: Roboto, "Helvetica Neue", sans-serif; 
+  font-size: 15px;
 }
 
 
@@ -195,3 +198,58 @@ body {
       }
     }
   }
+
+  .align-right {
+    text-align: right;
+  }
+
+  .float-right {
+    float: right;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  html{
+    line-height: 1.5;
+    @media only screen and (min-width: 0) {
+      font-size: 14px;
+    }
+    @media only screen and (min-width: $medium-screen) {
+      font-size: 14.5px;
+    }
+    @media only screen and (min-width: $large-screen) {
+      font-size: 14px;
+    }
+  }
+
+  input {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    outline: 0;
+    height: 3rem;
+    width: 100%;
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    box-sizing: content-box;
+    transition: all .3s;
+    border-bottom: 1px solid #9e9e9e;
+  }
+
+label {
+  font-size: .8rem;
+  color: $app-grey;
+}
+
+::placeholder {
+  color: $app-grey-l-1;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}

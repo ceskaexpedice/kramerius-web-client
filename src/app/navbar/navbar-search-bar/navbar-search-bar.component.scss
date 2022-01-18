@@ -16,7 +16,7 @@
     position: absolute;
     line-height: normal;
     height: auto;
-    top: 0.6rem;
+    top: 10px;
     color: $app-grey;
     cursor: pointer;
     &.app-button-search {
@@ -31,12 +31,12 @@
       padding-right: 3rem;
       margin-top: 0;
       input[type=search] {
-        height: $app-search-bar-height;
-        line-height: $app-search-bar-height;
+        display: block;
+        // height: $app-search-bar-height;
+        // line-height: $app-search-bar-height;
         padding-left: 3rem;
         border: none !important;
         width: calc(100% - 4rem);
-
         &:focus {
           background-color: transparent;
           box-shadow: none !important;
@@ -48,18 +48,3 @@
     }   
   }
 }
-
-// app-navbar-search-bar {
-//   flex: 1;
-//   @media #{$small-400-and-down} {
-//     display: none;
-    
-//     &.app-search-bar-show {
-//       display: initial;
-      
-//       .app-search-bar-wrapper {
-//         width: calc(100% - 50px);
-//       }
-//     }
-//   }
-// }

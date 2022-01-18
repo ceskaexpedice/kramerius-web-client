@@ -1,0 +1,260 @@
+
+ul {
+  &:not(.browser-default) {
+    padding-left: 0;
+    list-style-type: none;
+
+    & > li {
+      list-style-type: none;
+    }
+  }
+}
+
+a {
+	color: $link-color;
+	text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*********************
+  Media Query Classes
+**********************/
+.hide-on-small-only, .hide-on-small-and-down {
+  @media #{$small-and-down} {
+    display: none !important;
+  }
+}
+.hide-on-med-and-down {
+  @media #{$medium-and-down} {
+    display: none !important;
+  }
+}
+.hide-on-med-and-up {
+  @media #{$medium-and-up} {
+    display: none !important;
+  }
+}
+.hide-on-med-only {
+  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
+    display: none !important;
+  }
+}
+.hide-on-large-only {
+  @media #{$large-and-up} {
+    display: none !important;
+  }
+}
+.show-on-large {
+  @media #{$large-and-up} {
+    display: block !important;
+  }
+}
+.show-on-medium {
+  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
+    display: block !important;
+  }
+}
+.show-on-small {
+  @media #{$small-and-down} {
+    display: block !important;
+  }
+}
+.show-on-medium-and-up {
+  @media #{$medium-and-up} {
+    display: block !important;
+  }
+}
+.show-on-medium-and-down {
+  @media #{$medium-and-down} {
+    display: block !important;
+  }
+}
+
+
+// Center text on mobile
+.center-on-small-only {
+  @media #{$small-and-down} {
+    text-align: center;
+  }
+}
+
+
+
+// // Tables
+// table, th, td {
+//    border: none;
+// }
+
+// table {
+//   width:100%;
+//   display: table;
+
+//   &.bordered > thead > tr,
+//   &.bordered > tbody > tr {
+//     border-bottom: 1px solid $table-border-color;
+//   }
+
+//   &.striped > tbody {
+//     > tr:nth-child(odd) {
+//       background-color: $table-striped-color;
+//     }
+
+//     > tr > td {
+//       border-radius: 0;
+//     }
+//   }
+
+//   &.highlight > tbody > tr {
+//     transition: background-color .25s ease;
+//     &:hover {
+//       background-color: $table-striped-color;
+//     }
+//   }
+
+//   &.centered {
+//     thead tr th, tbody tr td {
+//       text-align: center;
+//     }
+//   }
+
+// }
+
+// thead {
+//   border-bottom: 1px solid $table-border-color;
+// }
+
+// td, th{
+//   padding: 15px 5px;
+//   display: table-cell;
+//   text-align: left;
+//   vertical-align: middle;
+//   border-radius: 2px;
+// }
+
+// // Responsive Table
+// @media #{$medium-and-down} {
+
+//   table.responsive-table {
+//     width: 100%;
+//     border-collapse: collapse;
+//     border-spacing: 0;
+//     display: block;
+//     position: relative;
+
+//     td:empty:before {
+//       content: '\00a0';
+//     }
+
+//     th,
+//     td {
+//       margin: 0;
+//       vertical-align: top;
+//     }
+
+//     th { text-align: left; }
+//     thead {
+//       display: block;
+//       float: left;
+
+//       tr {
+//         display: block;
+//         padding: 0 10px 0 0;
+
+//         th::before {
+//           content: "\00a0";
+//         }
+//       }
+//     }
+//     tbody {
+//       display: block;
+//       width: auto;
+//       position: relative;
+//       overflow-x: auto;
+//       white-space: nowrap;
+
+//       tr {
+//         display: inline-block;
+//         vertical-align: top;
+//       }
+//     }
+//     th {
+//       display: block;
+//       text-align: right;
+//     }
+//     td {
+//       display: block;
+//       min-height: 1.25em;
+//       text-align: left;
+//     }
+//     tr { padding: 0 10px; }
+
+//     /* sort out borders */
+//     thead {
+//       border: 0;
+//       border-right: 1px solid $table-border-color;
+//     }
+
+//     &.bordered {
+//       th { border-bottom: 0; border-left: 0; }
+//       td { border-left: 0; border-right: 0; border-bottom: 0; }
+//       tr { border: 0; }
+//       tbody tr { border-right: 1px solid $table-border-color; }
+//     }
+
+//   }
+
+// }
+
+
+
+/*******************
+  Utility Classes
+*******************/
+
+.hide {
+  display: none !important;
+}
+
+// Text Align
+.left-align {
+  text-align: left;
+}
+.right-align {
+  text-align: right
+}
+.center, .center-align {
+  text-align: center;
+}
+
+.left {
+  float: left !important;
+}
+.right {
+  float: right !important;
+}
+
+// No Text Select
+.no-select {
+  user-select: none;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-padding {
+  padding: 0 !important;
+}

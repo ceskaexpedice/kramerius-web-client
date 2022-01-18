@@ -81,7 +81,6 @@ import { PeriodicalSearchComponent } from './periodical/periodical-filters/perio
 import { PeriodicalFiltersComponent } from './periodical/periodical-filters/periodical-filters.component';
 
 import { NgxGalleryModule } from 'ngx-gallery';
-import { MzButtonModule, MzInputModule, MzModalModule, MzNavbarModule, MzIconModule, MzRadioButtonModule, MzIconMdiModule, MzTooltipModule, MzSidenavModule, MzSpinnerModule, MzBadgeModule, MzTabModule, MzCollapsibleModule, MzCollectionModule, MzCardModule, MzDropdownModule, MzCheckboxModule, MzDatepickerModule, MzToastModule } from 'ngx-materialize';
 import { CollectionsComponent } from './collections/collections.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeLogoComponent } from './home/home-logo/home-logo.component';
@@ -284,25 +283,6 @@ export function hljsLanguages() {
     }),
     PdfViewerModule,
     AngularEpubViewerModule,
-    MzButtonModule,
-    MzInputModule,
-    MzModalModule,
-    MzNavbarModule,
-    MzIconModule,
-    MzIconMdiModule,
-    MzTooltipModule,
-    MzSidenavModule,
-    MzSpinnerModule,
-    MzBadgeModule,
-    MzTabModule,
-    MzCollapsibleModule,
-    MzCollectionModule,
-    MzCardModule,
-    MzToastModule,
-    MzDropdownModule,
-    MzCheckboxModule,
-    MzRadioButtonModule,
-    MzDatepickerModule,
     ClipboardModule,
     AngularTokenModule.forRoot({
       apiBase: environment.cloudApiBase,

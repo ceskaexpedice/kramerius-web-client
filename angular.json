@@ -27,7 +27,6 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/materialize-css/dist/js/materialize.min.js",
               "src/assets/js/ol.js",
               "node_modules/epubjs/build/epub.js",
               "node_modules/epubjs/build/libs/zip.min.js"
@@ -78,8 +77,6 @@
             "polyfills": "src/polyfills-ie.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/materialize-css/dist/js/materialize.min.js"
             ],
             "styles": [
               "src/styles.scss",

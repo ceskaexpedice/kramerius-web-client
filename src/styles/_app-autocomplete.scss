@@ -1,8 +1,7 @@
 // --- AUTOCOMPLETE ---
 
 .completer-dropdown-holder {
-  margin-top: -15px;
-  
+  margin-top: 4px;
   .completer-dropdown {
     text-align: left;
     border: 1px solid $app-grey-l-2 !important;
@@ -22,7 +21,7 @@
     .completer-row-wrapper {
       .completer-row {
         width: 100% !important;
-        padding: 0 0 0 3rem !important;
+        padding: 0 0 0 34px !important;
         margin-bottom: 0 !important;
         display: inherit !important;
         &.completer-selected-row {

@@ -24,7 +24,7 @@
   </div>
 
   <div class="col app-nav-item" [ngClass]="{'s6 m7 l5 xl3 app-mq-small-1 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
-    <ul class="right">
+    <ul class="float-right">
 
       <li [matMenuTriggerFor]="orderingMenu1" *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid'" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
         <mat-icon>sort</mat-icon>

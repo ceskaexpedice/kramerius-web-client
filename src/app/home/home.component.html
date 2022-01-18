@@ -19,14 +19,14 @@
   </section>
 
   <div class="container app-featured">
-    <div class="tabs">
-      <div class="tab" [class.active]="selectedTab === 'visited'" (click)="changeTab('visited')">
+    <div class="app-tabs">
+      <div class="app-tab" [class.app-active]="selectedTab === 'visited'" (click)="changeTab('visited')">
         {{ 'home.tab_visited' | translate }}
       </div>
-      <div class="tab" [class.active]="selectedTab === 'newest'" (click)="changeTab('newest')">
+      <div class="app-tab" [class.app-active]="selectedTab === 'newest'" (click)="changeTab('newest')">
         {{ 'home.tab_latest' | translate }}
       </div>
-      <div class="tab" [class.active]="selectedTab === 'recommended'" (click)="changeTab('recommended')">
+      <div class="app-tab" [class.app-active]="selectedTab === 'recommended'" (click)="changeTab('recommended')">
         {{ 'home.tab_recommended' | translate }}
       </div>
     </div>

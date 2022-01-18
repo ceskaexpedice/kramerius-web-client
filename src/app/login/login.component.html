@@ -7,7 +7,7 @@
     <input [(ngModel)]="username" placeholder="Zadejte uživatelské jméno" type="text">
 
     <div class="app-label">Zadejte heslo</div>
-    <input (ngModel)]="password" placeholder="Zadejte heslo" type="password">
+    <input [(ngModel)]="password" placeholder="Zadejte heslo" type="password">
 
     <div *ngIf="state === 'failure'" class="app-error">{{ message }}</div>
     
