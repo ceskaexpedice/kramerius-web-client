@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { ShareService } from '../../services/share.service';
-import { Translator } from 'angular-translator';
 import { CitationService } from '../../services/citation.service';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ocr-dialog',
@@ -15,10 +15,10 @@ export class OcrDialogComponent implements OnInit {
 
   constructor(private bottomSheetRef: MatBottomSheetRef<OcrDialogComponent>,
     private citationService: CitationService, 
-    private translator: Translator, 
+    private translate: TranslateService, 
     private changeDetectorRef: ChangeDetectorRef,
     private shareService: ShareService,
-    @Inject(MAT_BOTTOM_SHEET_DATA) private data: any
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
     ) {
   }
 
@@ -28,7 +28,7 @@ export class OcrDialogComponent implements OnInit {
     }
     this.citationService.getCitation(this.data.uuid).subscribe( (citation: string) => {
       const link = this.shareService.getPersistentLink(this.data.uuid);
-      const locText = this.translator.instant("share.available_from");
+      const locText = this.translate.instant("share.available_from");
       this.citation = `${citation} ${locText}: ${link}`;
       this.changeDetectorRef.detectChanges();
     });

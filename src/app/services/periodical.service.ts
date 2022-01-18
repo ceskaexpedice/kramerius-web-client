@@ -12,7 +12,7 @@ import { PageTitleService } from './page-title.service';
 import { NotFoundError } from '../common/errors/not-found-error';
 import { HistoryService } from './history.service';
 import { AnalyticsService } from './analytics.service';
-import { Translator } from 'angular-translator';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class PeriodicalService {
@@ -49,7 +49,7 @@ export class PeriodicalService {
     private history: HistoryService,
     private pageTitle: PageTitleService,
     private analytics: AnalyticsService,
-    private translator: Translator,
+    private translate: TranslateService,
     private localStorageService: LocalStorageService,
     private api: KrameriusApiService) {
   }
@@ -578,7 +578,7 @@ export class PeriodicalService {
             if (!this.daysOfMonthsItems[month][day]) {
               this.daysOfMonthsItems[month][day] = [];
             }
-            this.daysOfMonthsItems[month][day].push({ uuid: item.uuid, title: item.getExtendedPart(this.translator) });
+            this.daysOfMonthsItems[month][day].push({ uuid: item.uuid, title: item.getExtendedPart(this.translate) });
           }
         }
       }

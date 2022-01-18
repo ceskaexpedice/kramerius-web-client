@@ -1,6 +1,6 @@
 import { MusicService } from './../../../services/music.service';
 import { Component, OnInit } from '@angular/core';
-import { NgxGalleryOptions } from 'ngx-gallery';
+// import { NgxGalleryOptions } from 'ngx-gallery';
 
 @Component({
   selector: 'app-music-header',
@@ -9,17 +9,17 @@ import { NgxGalleryOptions } from 'ngx-gallery';
 })
 export class MusicHeaderComponent implements OnInit {
 
-  galleryOptions: NgxGalleryOptions[];
+  // galleryOptions: NgxGalleryOptions[];
 
   constructor(public musicService: MusicService) { }
 
   ngOnInit() {
-    this.galleryOptions = [
-      { 'previewCloseOnClick': true, 'previewCloseOnEsc': true, 'thumbnails': false, 'width': '250px', 'height': '250px',
-        'arrowPrevIcon':  'fa fa-chevron-left',
-        'arrowNextIcon':  'fa fa-chevron-right',
-        'closeIcon':  'fa fa-times'}
-    ];
+    // this.galleryOptions = [
+    //   { 'previewCloseOnClick': true, 'previewCloseOnEsc': true, 'thumbnails': false, 'width': '250px', 'height': '250px',
+    //     'arrowPrevIcon':  'fa fa-chevron-left',
+    //     'arrowNextIcon':  'fa fa-chevron-right',
+    //     'closeIcon':  'fa fa-times'}
+    // ];
   }
 
 }

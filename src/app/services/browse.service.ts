@@ -1,4 +1,3 @@
-import { Translator } from 'angular-translator';
 import { KrameriusApiService } from './kramerius-api.service';
 import { Router } from '@angular/router';
 import { BrowseQuery } from './../browse/browse_query.model';
@@ -8,6 +7,7 @@ import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
 import { BrowseItem } from '../model/browse_item.model';
 import { LicenceService } from './licence.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable()
@@ -24,13 +24,13 @@ export class BrowseService {
 
     constructor(
         private router: Router,
-        private translator: Translator,
+        private translate: TranslateService,
         private licences: LicenceService,
         private collectionService: CollectionService,
         private settings: AppSettings,
         private analytics: AnalyticsService,
         private api: KrameriusApiService) {
-            translator.languageChanged.subscribe(() => {
+            translate.onLangChange.subscribe(() => {
                 this.translateResults();
             });
     }
@@ -142,25 +142,23 @@ export class BrowseService {
             return;
         }
         if (this.getCategory() === 'languages') {
-            this.translator.waitForTranslation().then(() => {
-                const filteredResults = [];
-                for (const item of this.backupResults) {
-                    item['name'] = this.translator.instant('language.' + item['value']);
-                    if (!item['name'].startsWith('language.')) {
-                        if (this.getText()) {
-                            if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
-                                filteredResults.push(item);
-                            }
-                        } else {
+            const filteredResults = [];
+            for (const item of this.backupResults) {
+                item['name'] = this.translate.instant('language.' + item['value']);
+                if (!item['name'].startsWith('language.')) {
+                    if (this.getText()) {
+                        if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
                             filteredResults.push(item);
                         }
+                    } else {
+                        filteredResults.push(item);
                     }
                 }
-                this.results = filteredResults;
-                this.numberOfResults = this.results.length;
-                this.sortResult();
-                this.loading = false;
-            });
+            }
+            this.results = filteredResults;
+            this.numberOfResults = this.results.length;
+            this.sortResult();
+            this.loading = false;
         } else  if (this.getCategory() === 'licences') {
             const filteredResults = [];
             for (const item of this.backupResults) {
@@ -180,46 +178,42 @@ export class BrowseService {
             this.sortResult();
             this.loading = false;
         } else if (this.getCategory() === 'doctypes') {
-            this.translator.waitForTranslation().then(() => {
-                const filteredResults = [];
-                for (const item of this.backupResults) {
-                    item['name'] = this.translator.instant('model_plural.' + item['value']);
-                    if (!this.getText() || item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
-                        filteredResults.push(item);
-                    }
+            const filteredResults = [];
+            for (const item of this.backupResults) {
+                item['name'] = this.translate.instant('model_plural.' + item['value']);
+                if (!this.getText() || item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
+                    filteredResults.push(item);
                 }
-                this.results = filteredResults;
-                this.numberOfResults = this.results.length;
-                this.sortResult();
-                this.loading = false;
-            });
+            }
+            this.results = filteredResults;
+            this.numberOfResults = this.results.length;
+            this.sortResult();
+            this.loading = false;
         } else if (this.getCategory() === 'locations') {
-            this.translator.waitForTranslation().then(() => {
-                const filteredResults = [];
-                for (const item of this.backupResults) {
-                    if (/^[a-z]{3}[0-9]{3}$/.test(item['value'])) {
-                        item['value'] = item['value'].toUpperCase();
+            const filteredResults = [];
+            for (const item of this.backupResults) {
+                if (/^[a-z]{3}[0-9]{3}$/.test(item['value'])) {
+                    item['value'] = item['value'].toUpperCase();
+                }
+                item['name'] = this.translate.instant('sigla.' + item['value']);
+                if (item['name'].startsWith('sigla.')) {
+                    if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(item['value'])) {
+                            continue;
                     }
-                    item['name'] = this.translator.instant('sigla.' + item['value']);
-                    if (item['name'].startsWith('sigla.')) {
-                        if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(item['value'])) {
-                             continue;
-                        }
-                        item['name'] = item['name'].substring(6);
-                    }
-                    if (this.getText()) {
-                        if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
-                            filteredResults.push(item);
-                        }
-                    } else {
+                    item['name'] = item['name'].substring(6);
+                }
+                if (this.getText()) {
+                    if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
                         filteredResults.push(item);
                     }
+                } else {
+                    filteredResults.push(item);
                 }
-                this.results = filteredResults;
-                this.numberOfResults = this.results.length;
-                this.sortResult();
-                this.loading = false;
-            });
+            }
+            this.results = filteredResults;
+            this.numberOfResults = this.results.length;
+            this.sortResult();
+            this.loading = false;
         } else if (this.getCategory() === 'collections') {
             if (this.collectionService.ready()) {
                 const filteredResults = [];

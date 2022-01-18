@@ -6,7 +6,7 @@ import { saveAs } from 'file-saver';
 import { DocumentItem } from './../model/document_item.model';
 import { Injectable } from '@angular/core';
 import { Metadata } from '../model/metadata.model';
-import { NgxGalleryImage } from 'ngx-gallery';
+// import { NgxGalleryImage } from 'ngx-gallery';
 import { PageTitleService } from './page-title.service';
 import { NotFoundError } from '../common/errors/not-found-error';
 import { Router } from '@angular/router';
@@ -38,7 +38,7 @@ export class MusicService {
 
   activeMobilePanel: String;
 
-  galleryImages: NgxGalleryImage[];
+  galleryImages: any[];
 
   downloadingTrackIndex: number;
 

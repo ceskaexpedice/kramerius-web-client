@@ -23,7 +23,8 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
   private intervalSubscription: Subscription;
 
   constructor(public epub: EpubService, 
-    public controlsService: ViewerControlsService, private bookService: BookService) {
+    public controlsService: ViewerControlsService, 
+    public bookService: BookService) {
   }
 
   ngOnInit() {

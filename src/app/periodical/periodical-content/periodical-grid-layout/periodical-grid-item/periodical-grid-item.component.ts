@@ -4,8 +4,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AppSettings } from '../../../../services/app-settings';
 import { AnalyticsService } from '../../../../services/analytics.service';
 import { AuthService } from '../../../../services/auth.service';
-import { Translator } from 'angular-translator';
 import { LicenceService } from '../../../../services/licence.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-periodical-grid-item',
@@ -16,13 +16,12 @@ export class PeriodicalGridItemComponent implements OnInit {
   @Input() item: PeriodicalItem;
   @Input() container;
   lock: any;
-
-
+  
   constructor(public periodicalService: PeriodicalService,
               public analytics: AnalyticsService,
               public auth: AuthService,
               private licences: LicenceService,
-              public translator: Translator,
+              public translate: TranslateService,
               public settings: AppSettings) { }
 
   ngOnInit() {

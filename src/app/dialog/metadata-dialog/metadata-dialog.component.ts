@@ -1,11 +1,11 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Translator } from 'angular-translator';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { SolrService } from '../../services/solr.service';
 import { parseString, Builder } from 'xml2js';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: './metadata-dialog.component.html',
@@ -24,7 +24,7 @@ export class MetadataDialogComponent implements OnInit {
     private solr: SolrService,
     private api: KrameriusApiService,
     private locals: LocalStorageService,
-    private translator: Translator,
+    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) private data: any) { }
 
 
@@ -57,7 +57,7 @@ export class MetadataDialogComponent implements OnInit {
     reload() {
       this.url = this.getUrl(this.selection.uuid);
       if (this.selection.type === 'page' && this.resource === 'alto' && !this.data.metadata.isPublic) {
-        this.selection[this.resource] = String(this.translator.instant('metadata-dialog.missing', 
+        this.selection[this.resource] = String(this.translate.instant('metadata-dialog.missing', 
         { 
           model: this.selection.type.toUpperCase(),
           resource: this.resource.toUpperCase()
@@ -83,7 +83,7 @@ export class MetadataDialogComponent implements OnInit {
           }
         },
         () => {
-          this.selection[this.resource] = String(this.translator.instant('metadata-dialog.missing', 
+          this.selection[this.resource] = String(this.translate.instant('metadata-dialog.missing', 
           { 
             model: this.selection.type.toUpperCase(),
             resource: this.resource.toUpperCase()

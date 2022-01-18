@@ -2,12 +2,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Translator } from 'angular-translator';
 import { Page } from '../../model/page.model';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { KrameriusInfoService } from '../../services/kramerius-info.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { saveAs } from 'file-saver';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: './pdf-dialog.component.html',
@@ -37,7 +37,7 @@ export class PdfDialogComponent implements OnInit {
             private krameriusApi: KrameriusApiService,
             private krameriusInfo: KrameriusInfoService,
             private _sanitizer: DomSanitizer,
-            private translator: Translator,
+            private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) private data: any) { }
 
 
@@ -155,8 +155,9 @@ export class PdfDialogComponent implements OnInit {
   }
 
   private getLanguage(): string {
-    return this.translator.language === 'cs' ? 'cs' : 'en';
+    return this.translate.currentLang === 'cs' ? 'cs' : 'en';
   }
+  
   onCancel() {
     this.dialogRef.close();
   }

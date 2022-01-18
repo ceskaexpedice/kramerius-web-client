@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettings } from '../../services/app-settings';
-import { Translator } from 'angular-translator';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home-footer',
@@ -15,12 +15,12 @@ export class HomeFooterComponent implements OnInit {
   data: SafeHtml;
   loading: boolean;
 
-  constructor(private http: HttpClient, private translator: Translator, private appSettings: AppSettings, private _sanitizer: DomSanitizer) {
+  constructor(private http: HttpClient, private translate: TranslateService, private appSettings: AppSettings, private _sanitizer: DomSanitizer) {
     this.dataSet = new Map<string, string>();
   }
   ngOnInit() {
     this.loading = true;
-    this.translator.languageChanged.subscribe(() => {
+    this.translate.onLangChange.subscribe(() => {
       this.localeChanged();
     });
     const reqs = [];
@@ -49,8 +49,8 @@ export class HomeFooterComponent implements OnInit {
   }
 
   private localeChanged() {
-    if (this.dataSet.has(this.translator.language)) {
-      this.data = this.dataSet.get(this.translator.language);
+    if (this.dataSet.has(this.translate.currentLang)) {
+      this.data = this.dataSet.get(this.translate.currentLang);
     } else {
       this.data = this.dataSet.get('en') || this.dataSet.get('cs')
     }

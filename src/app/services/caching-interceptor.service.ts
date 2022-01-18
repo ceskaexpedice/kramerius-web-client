@@ -1,5 +1,4 @@
 import { environment } from './../../environments/environment.prod';
-import { AppSettings } from './app-settings';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpResponse, HttpInterceptor, HttpHandler } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';

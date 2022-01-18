@@ -1,11 +1,11 @@
 <div class="ngx-datepicker-container">
   <div class="ngx-datepicker-calendar-container">
     <div class="topbar-container">
-      <span class="topbar-title">{{ 'calendar.months.' + date.getMonth() | translate }}</span>
+      <span class="topbar-title">{{ 'calendar.months.' + date.getMonth() }}</span>
     </div>
     <div class="main-calendar-container">
       <div class="main-calendar-day-names">
-        <span class="day-name-unit" *ngFor="let day of [0,1,2,3,4,5,6]">{{ 'calendar.days.' + day | translate }}</span>
+        <span class="day-name-unit" *ngFor="let day of [0,1,2,3,4,5,6]">{{ 'calendar.days.' + day }}</span>
       </div>
       <div class="main-calendar-days">
         <span class="day-unit" *ngFor="let day of days; let i = index;">

@@ -8,11 +8,11 @@ import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
-import { Translator } from 'angular-translator';
 import { Metadata } from '../model/metadata.model';
 import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { LicenceService } from './licence.service';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable()
@@ -50,7 +50,7 @@ export class SearchService {
     constructor(
         private router: Router,
         public licenceService: LicenceService,
-        private translator: Translator,
+        private translate: TranslateService,
         private collectionService: CollectionService,
         private solr: SolrService,
         private analytics: AnalyticsService,
@@ -83,20 +83,20 @@ export class SearchService {
         const q = this.query;
         if (!q.anyFilter()) {
             if (q.collection) {
-                return String(this.translator.instant('searchbar.main.collection'));
+                return String(this.translate.instant('searchbar.main.collection'));
             } else {
-                return String(this.translator.instant('searchbar.main.all'));
+                return String(this.translate.instant('searchbar.main.all'));
             }
         }
         if (!q.collection && q.onlyPublicFilterChecked()) {
-            return String(this.translator.instant('searchbar.main.public'));
+            return String(this.translate.instant('searchbar.main.public'));
         }
         let filters = [];
         if (q.accessibility !== 'all') {
-            filters.push(this.translator.instant('search.accessibility.' + q.accessibility));
+            filters.push(this.translate.instant('search.accessibility.' + q.accessibility));
         }
         for (const item of q.doctypes) {
-            filters.push(this.translator.instant('model.' + item));
+            filters.push(this.translate.instant('model.' + item));
         }
         filters = filters.concat(q.authors);
         if (q.isYearRangeSet()) {
@@ -109,7 +109,7 @@ export class SearchService {
         filters = filters.concat(q.genres);
         filters = filters.concat(q.collections);
         for (const item of q.languages) {
-            filters.push(this.translator.instant('language.' + item));
+            filters.push(this.translate.instant('language.' + item));
         }
         for (const item of q.licences) {
             filters.push(this.licenceService.label(item));
@@ -118,10 +118,10 @@ export class SearchService {
             filters.push(q.getCustomValue());
         }
         for (const item of q.locations) {
-            filters.push(this.translator.instant('sigla.' + item.toUpperCase()));
+            filters.push(this.translate.instant('sigla.' + item.toUpperCase()));
         }
         const key = q.collection ? 'collection_with_filters' : 'filters';
-        return this.translator.instant('searchbar.main.' + key) + ' ' + filters.join(', ');
+        return this.translate.instant('searchbar.main.' + key) + ' ' + filters.join(', ');
     }
 
     selectContentType(contentType: string) {
@@ -294,7 +294,7 @@ export class SearchService {
     }
 
     getCollectionContent() {
-      if (this.translator.language == 'en' && this.collection.notes.length > 1) {
+      if (this.translate.currentLang == 'en' && this.collection.notes.length > 1) {
         return this.collection.notes[1] || '';
       } else if (this.collection.notes.length >= 1) {
         return this.collection.notes[0] || '';
@@ -303,7 +303,7 @@ export class SearchService {
     }
 
     getCollectionTitle() {
-        if (this.translator.language == 'en') {
+        if (this.translate.currentLang == 'en') {
             return this.collection.getCollectionTitle('eng');
         } else {
             return this.collection.getCollectionTitle('cze');
@@ -311,7 +311,7 @@ export class SearchService {
     }
 
     getCollectionNavTitle(item) {
-        if (this.translator.language == 'en' && item.titleEn) {
+        if (this.translate.currentLang == 'en' && item.titleEn) {
             return item.titleEn;
         } else {
             return item.title;

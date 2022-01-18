@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
-import { Translator } from 'angular-translator';
+import { TranslateService } from '@ngx-translate/core';
 import { KrameriusInfo } from '../../model/krameriusInfo.model';
 import { AppSettings } from '../../services/app-settings';
 import { KrameriusInfoService } from '../../services/kramerius-info.service';
@@ -20,10 +20,10 @@ export class LicenceMessagesComponent implements OnInit {
   loading: boolean;
   html;
 
-  constructor(private krameriusInfo: KrameriusInfoService, private settings: AppSettings, private licenceService: LicenceService, private translator: Translator, private http: HttpClient) { }
+  constructor(private krameriusInfo: KrameriusInfoService, private settings: AppSettings, private licenceService: LicenceService, private translate: TranslateService, private http: HttpClient) { }
 
   ngOnInit() {
-    this.translator.languageChanged.subscribe(() => {
+    this.translate.onLangChange.subscribe(() => {
       this.reload();
     });
     this.reload();
@@ -35,19 +35,19 @@ export class LicenceMessagesComponent implements OnInit {
       if (this.settings.customRightMessage) {
         this.loadKrameriusMessage();
       } else {
-        this.html = `<h3>${this.translator.instant("licence.private_label")}</h3>`;
-        this.html += this.translator.instant("licence.private_message");
+        this.html = `<h3>${this.translate.instant("licence.private_label")}</h3>`;
+        this.html += this.translate.instant("licence.private_message");
       }
       return;
     }
     const licences = this.licenceService.availableLicences(this.licences);
     if (this.full) {
-      this.html += `<h3>${this.translator.instant("licence.private_label")}</h3>`;
+      this.html += `<h3>${this.translate.instant("licence.private_label")}</h3>`;
     }
     if (this.full && licences.length > 0) {
-      this.html += `<div class="app-licence-hint">${this.translator.instant("licence.licences_before")}</div>`;
+      this.html += `<div class="app-licence-hint">${this.translate.instant("licence.licences_before")}</div>`;
       this.loadLicences(licences, () => {
-        this.html += `<div class="app-licence-hint">${this.translator.instant("licence.licences_after")}</div>`;
+        this.html += `<div class="app-licence-hint">${this.translate.instant("licence.licences_after")}</div>`;
         this.loadLicences(['_private'], () => {
           this.loading = false;
         });

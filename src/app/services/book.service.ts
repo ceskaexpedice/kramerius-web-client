@@ -19,7 +19,6 @@ import { HistoryService } from './history.service';
 import { DomSanitizer} from '@angular/platform-browser';
 import { PageTitleService } from './page-title.service';
 import { InternalPart } from '../model/internal_part.model';
-import { Translator } from 'angular-translator';
 import { AnalyticsService } from './analytics.service';
 import { IiifService } from './iiif.service';
 import { LoggerService } from './logger.service';
@@ -30,6 +29,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
 import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
 import { OcrDialogComponent } from '../dialog/ocr-dialog/ocr-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class BookService {
@@ -90,7 +90,7 @@ export class BookService {
         private iiif: IiifService,
         private dialog: MatDialog,
         private logger: LoggerService,
-        private translator: Translator,
+        private translate: TranslateService,
         private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
@@ -110,7 +110,7 @@ export class BookService {
             }
             this.pdf = this.api.getPdfUrl(uuid);
             let url = 'assets/pdf/viewer.html?file=' + encodeURIComponent(this.pdf);
-            url += '&lang=' + this.translator.language;
+            url += '&lang=' + this.translate.currentLang;
             if (this.fulltextQuery) {
                 url += '&query=' + this.fulltextQuery;
             }

@@ -9,7 +9,7 @@
         <mat-icon>{{ lock.icon }}</mat-icon>
       </div>
     </div>
-    <div class="app-card-subtitle" [matTooltip]="item.getExtendedPart(translator)">
+    <div class="app-card-subtitle" [matTooltip]="item.getExtendedPart(translate)">
       <ng-container *ngIf="item.getPart().length < 10; else longPart">
         {{ 'periodical.' + item.doctype | translate: { part: item.getPart() } }}
       </ng-container>

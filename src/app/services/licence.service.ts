@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Translator } from 'angular-translator';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable()
@@ -8,7 +8,7 @@ export class LicenceService {
   userLicences: string[];
   licences: any;
 
-  constructor(private translator: Translator) {}
+  constructor(private translate: TranslateService) {}
 
   assignLicences(licences: any) {
       this.licences = licences;
@@ -39,7 +39,7 @@ export class LicenceService {
     if (!this.licences[licence].message) {
       return licence;
     }
-    const lang = this.translator.language;
+    const lang = this.translate.currentLang;
     const l = this.licences[licence];
     return l.message[lang] || l.message['en'] || l.message['cs'] || licence;
   }
@@ -51,7 +51,7 @@ export class LicenceService {
     if (!this.licences[licence].label) {
       return licence;
     }
-    const lang = this.translator.language;
+    const lang = this.translate.currentLang;
     const l = this.licences[licence];
     return l.label[lang] || l.label['en'] || l.label['cs'] || licence;
   }
@@ -121,7 +121,7 @@ export class LicenceService {
       return {
         icon: 'lock',
         class: 'app-lock-private',
-        tooltip: this.label('_private') // this.translator.instant('search.inaccessible_document')
+        tooltip: this.label('_private')
       };
     } else if (this.accessible(licences)) {
       return {

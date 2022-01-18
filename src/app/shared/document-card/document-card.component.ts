@@ -5,8 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Component, OnInit, Input } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AuthService } from '../../services/auth.service';
-import { Translator } from 'angular-translator';
 import { LicenceService } from '../../services/licence.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-document-card',
@@ -23,7 +23,7 @@ export class DocumentCardComponent implements OnInit {
 
   constructor(private krameriusApiService: KrameriusApiService,
               private settings: AppSettings,
-              private translator: Translator,
+              private translate: TranslateService,
               public auth: AuthService,
               private licences: LicenceService,
               public analytics: AnalyticsService,
@@ -34,11 +34,11 @@ export class DocumentCardComponent implements OnInit {
   }
 
   getTitle() {
-    return this.item.getTitle ? this.item.getTitle(this.translator.language) : this.item.title;
+    return this.item.getTitle ? this.item.getTitle(this.translate.currentLang) : this.item.title;
   }
 
   getDescription() {
-    return this.item.getDescription ? this.item.getDescription(this.translator.language) : this.item.description;
+    return this.item.getDescription ? this.item.getDescription(this.translate.currentLang) : this.item.description;
   }
 
   libraryLogo(): string {

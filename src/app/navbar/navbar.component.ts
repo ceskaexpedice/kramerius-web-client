@@ -4,9 +4,9 @@ import { AppSettings } from './../services/app-settings';
 import { LibrarySearchService } from './../services/library-search.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Translator } from 'angular-translator';
 import { AppState } from '../app.state';
 import { HistoryService } from '../services/history.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
@@ -19,8 +19,8 @@ export class NavbarComponent implements OnInit {
   richCollections = false;
 
   constructor(
-    public translator: Translator,
     public router: Router,
+    public translate: TranslateService,
     public authService: AuthService,
     public appSettings: AppSettings,
     private history: HistoryService,
@@ -39,7 +39,7 @@ export class NavbarComponent implements OnInit {
   onLanguageChanged(lang: string) {
     this.analytics.sendEvent('navbar', 'language', lang);
     localStorage.setItem('lang', lang);
-    this.translator.language = lang;
+    this.translate.use(lang);
   }
 
   goBack() {

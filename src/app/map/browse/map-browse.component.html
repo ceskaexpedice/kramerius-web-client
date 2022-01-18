@@ -17,13 +17,19 @@
 </div>
 
 
-<agm-map 
+<!-- <agm-map 
         [latitude]="lat" 
         [longitude]="lng" 
         [zoom]="zoom" 
         (mapReady)="onMapReady($event)"
         [streetViewControl]="false"
         (boundsChange)="onBoundsChange($event)" 
+        (idle)="onIdle()"> -->
+
+        <agm-map 
+        [latitude]="lat" 
+        [longitude]="lng" 
+        [zoom]="zoom" 
         (idle)="onIdle()">
 
 

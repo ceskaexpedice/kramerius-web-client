@@ -5,16 +5,16 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { AppSettings } from './app-settings';
-import { Translator } from 'angular-translator';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class CitationService {
 
-    constructor(private http: HttpClient, private appSettings: AppSettings, private translator: Translator) {
+    constructor(private http: HttpClient, private appSettings: AppSettings, private translate: TranslateService) {
     }
 
     getCitation(uuid: string): Observable<string> {
-        const lang = this.translator.language;
+        const lang = this.translate.currentLang;
         const url = `https://citace.kramerius.cloud/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html&lang=${lang}`;
         return this.doGetText(url);
     }

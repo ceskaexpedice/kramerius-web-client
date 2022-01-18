@@ -6,7 +6,7 @@
 
   <div class="app-language">
     <div *ngIf="languages().length > 1" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu">
-      <img src="assets/img/flag_{{translator.language}}.png">
+      <img src="assets/img/flag_{{translate.currentLang}}.png">
     </div>
 
     <mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">

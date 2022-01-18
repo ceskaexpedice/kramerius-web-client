@@ -1,7 +1,7 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Translator } from 'angular-translator';
+import { TranslateService } from '@ngx-translate/core';
 import { CitationService } from '../../services/citation.service';
 import { ShareService } from '../../services/share.service';
 import { SolrService } from '../../services/solr.service';
@@ -19,7 +19,7 @@ export class CitationDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CitationDialogComponent>,
     private citationService: CitationService, 
     private shareService: ShareService, 
-    private translator: Translator,
+    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) private data: any) { }
 
 
@@ -35,7 +35,7 @@ export class CitationDialogComponent implements OnInit {
       if (!this.selection.citation) {
         this.citationService.getCitation(item.uuid).subscribe( (citation: string) => {
           const link = this.shareService.getPersistentLink(item.uuid);
-          const locText = this.translator.instant("share.available_from");
+          const locText = this.translate.instant("share.available_from");
           item.citation = `${citation} ${locText}: ${link}`;
         });
       }

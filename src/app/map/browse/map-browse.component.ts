@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { LatLngBounds } from '@agm/core';
+// import { LatLngBounds } from '@agm/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { SearchService } from '../../services/search.service';
 import { DocumentItem } from '../../model/document_item.model';
 import { AppSettings } from '../../services/app-settings';
 import { AuthService } from '../../services/auth.service';
-import { ControlPosition, ZoomControlStyle } from '@agm/core/services/google-maps-types';
+// import { ControlPosition, ZoomControlStyle } from '@agm/core/services/google-maps-types';
 import { LicenceService } from '../../services/licence.service';
 
 
@@ -21,7 +21,7 @@ export class MapBrowseComponent implements OnInit {
   lng = 16.595591;
   zoom = 9;
 
-  bounds: LatLngBounds;
+  // bounds: LatLngBounds;
 
   focusedItem: DocumentItem;
 
@@ -51,29 +51,29 @@ export class MapBrowseComponent implements OnInit {
   }
 
   onMapReady(map) {
-    map.setOptions({
-        zoomControl: 'true',
-        zoomControlOptions: {
-            position: ControlPosition.RIGHT_TOP,
-            style: ZoomControlStyle.DEFAULT
-        }
-    });
-}
-
-  onBoundsChange(bounds: LatLngBounds) {
-    this.bounds = bounds;
+    // map.setOptions({
+    //     zoomControl: 'true',
+    //     zoomControlOptions: {
+    //         position: ControlPosition.RIGHT_TOP,
+    //         style: ZoomControlStyle.DEFAULT
+    //     }
+    // });
   }
+
+  // onBoundsChange(bounds: LatLngBounds) {
+  //   this.bounds = bounds;
+  // }
 
   onIdle() {
     this.reload();
   }
 
   reload() {
-    const north = this.bounds.getNorthEast().lat();
-    const south = this.bounds.getSouthWest().lat();
-    const east = this.bounds.getNorthEast().lng();
-    const west = this.bounds.getSouthWest().lng();
-    this.searchService.setBoundingBox(north, south, west, east);
+    // const north = this.bounds.getNorthEast().lat();
+    // const south = this.bounds.getSouthWest().lat();
+    // const east = this.bounds.getNorthEast().lng();
+    // const west = this.bounds.getSouthWest().lng();
+    // this.searchService.setBoundingBox(north, south, west, east);
   }
 
   thumb(uuid: string) {

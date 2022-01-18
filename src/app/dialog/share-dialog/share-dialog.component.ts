@@ -2,9 +2,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Translator } from 'angular-translator';
 import { ShareService } from '../../services/share.service';
 import { SolrService } from '../../services/solr.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: './share-dialog.component.html',
@@ -18,7 +18,7 @@ export class ShareDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ShareDialogComponent>,
     private shareService: ShareService,
-    private translator: Translator,
+    private translate: TranslateService,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) private data: any) { }
 
@@ -64,7 +64,7 @@ export class ShareDialogComponent implements OnInit {
 
   onCopied(callback) {
     if (callback && callback['isSuccess']) {
-      this.snackBar.open(<string> this.translator.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.snackBar.open(<string> this.translate.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
     }
   }
 

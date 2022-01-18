@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Translator } from 'angular-translator';
+import { TranslateService } from '@ngx-translate/core';
 import { AppSettings } from '../../services/app-settings';
 import { PageTitleService } from '../../services/page-title.service';
 
@@ -16,7 +16,7 @@ export class SignpostHelpComponent implements OnInit {
   data = '';
   loading: boolean;
 
-  constructor(private http: HttpClient, private pageTitle: PageTitleService, private translator: Translator, private appSettings: AppSettings, private router: Router) {
+  constructor(private http: HttpClient, private pageTitle: PageTitleService, private translate: TranslateService, private appSettings: AppSettings, private router: Router) {
     if (!appSettings.landingPage) {
       this.router.navigate([this.appSettings.getRouteFor('')]);
     }
@@ -26,7 +26,7 @@ export class SignpostHelpComponent implements OnInit {
       this.router.navigate([this.appSettings.getRouteFor('')]);
     }
     this.pageTitle.setTitle('help', null);
-    this.translator.languageChanged.subscribe(() => {
+    this.translate.onLangChange.subscribe(() => {
       this.localeChanged();
     });
     this.localeChanged();
@@ -34,7 +34,7 @@ export class SignpostHelpComponent implements OnInit {
 
   private localeChanged() {
     this.loading = true;
-    const res = `/assets/shared/sp/help.${this.translator.language}.html`;
+    const res = `/assets/shared/sp/help.${this.translate.currentLang}.html`;
     this.http.get(res, { observe: 'response', responseType: 'text' }).subscribe(response => {
       this.data = response['body'];
       this.loading = false;

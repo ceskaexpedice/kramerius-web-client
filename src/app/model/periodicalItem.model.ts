@@ -1,5 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Metadata } from './metadata.model';
-import { Translator } from 'angular-translator';
 
 export class PeriodicalItem {
     title: string;
@@ -58,11 +58,11 @@ export class PeriodicalItem {
         return this.number;
     }
 
-    getExtendedPart(translator: Translator = null): string {
+    getExtendedPart(translate: TranslateService = null): string {
         let result = '';
         const num = this.number || '';
-        if (translator) {
-            result += (translator.instant('periodical.' + this.doctype, { part: num }) as string);
+        if (translate) {
+            result += (translate.instant('periodical.' + this.doctype, { part: num }) as string);
         } else {
             result += num;
         }
@@ -72,8 +72,8 @@ export class PeriodicalItem {
             }
             result += this.name;
         }
-        if (translator && ['morning', 'afternoon', 'evening'].indexOf(this.editionType) > -1) {
-            result += ' (' + (translator.instant('issue_type.' + this.editionType) as string) + ')';
+        if (translate && ['morning', 'afternoon', 'evening'].indexOf(this.editionType) > -1) {
+            result += ' (' + (translate.instant('issue_type.' + this.editionType) as string) + ')';
         }
         return result;
     }

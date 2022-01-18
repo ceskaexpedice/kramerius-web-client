@@ -79,4 +79,8 @@ export class AdminDialogComponent implements OnInit {
     }
   }
 
+  onCancel() {
+    this.dialogRef.close();
+  }
+
 }

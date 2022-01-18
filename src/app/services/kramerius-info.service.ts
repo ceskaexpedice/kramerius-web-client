@@ -1,9 +1,9 @@
 import { AppSettings } from './app-settings';
 import { KrameriusInfo } from './../model/krameriusInfo.model';
 import { KrameriusApiService } from './kramerius-api.service';
-import { Translator } from 'angular-translator';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class KrameriusInfoService {
@@ -12,9 +12,9 @@ export class KrameriusInfoService {
     private dataSubject = new ReplaySubject<KrameriusInfo>(1);
     data$: Observable<KrameriusInfo> = this.dataSubject.asObservable();
 
-    constructor(private translator: Translator, private api: KrameriusApiService, private settings: AppSettings) {
+    constructor(private translate: TranslateService, private api: KrameriusApiService, private settings: AppSettings) {
         this.reload();
-        this.translator.languageChanged.subscribe(() => {
+        this.translate.onLangChange.subscribe(() => {
             this.reload();
         });
         this.settings.kramerius$.subscribe(
@@ -25,7 +25,7 @@ export class KrameriusInfoService {
     }
 
     reload() {
-        this.api.getKrameriusInfo(this.translator.language).subscribe(
+        this.api.getKrameriusInfo(this.translate.currentLang).subscribe(
             info => this.dataSubject.next(info)
         );
     }

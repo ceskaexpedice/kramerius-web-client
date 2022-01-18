@@ -32,8 +32,7 @@ import { ModsParserService } from './services/mods-parser.service';
 import { BookService } from './services/book.service';
 import { KrameriusApiService } from './services/kramerius-api.service';
 import { BrowserModule, Title } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { TranslatorModule } from 'angular-translator';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
@@ -80,12 +79,11 @@ import { PeriodicalCountComponent } from './periodical/periodical-filters/period
 import { PeriodicalSearchComponent } from './periodical/periodical-filters/periodical-search/periodical-search.component';
 import { PeriodicalFiltersComponent } from './periodical/periodical-filters/periodical-filters.component';
 
-import { NgxGalleryModule } from 'ngx-gallery';
 import { CollectionsComponent } from './collections/collections.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeLogoComponent } from './home/home-logo/home-logo.component';
 import { HttpRequestCache } from './services/http-request-cache.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from '@angular/common/http';
 import { CachingInterceptor } from './services/caching-interceptor.service';
 import { PageTitleService } from './services/page-title.service';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -151,12 +149,25 @@ import { CitationDialogComponent } from './dialog/citation-dialog/citation-dialo
 import { MetadataDialogComponent } from './dialog/metadata-dialog/metadata-dialog.component';
 import { LicenceDialogComponent } from './dialog/licence-dialog/licence-dialog.component';
 import { AdminDialogComponent } from './dialog/admin-dialog/admin-dialog.component';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 
 export function hljsLanguages() {
   return [
     {name: 'json', func: json},
     {name: 'xml', func: xml}
   ];
+}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.2.0');
+}
+
+export function appInitializerFactory(translate: TranslateService) {
+  return () => {
+    translate.setDefaultLang('cs');
+    return translate.use('cs').toPromise();
+  };
 }
 
 @NgModule({
@@ -273,13 +284,13 @@ export function hljsLanguages() {
       preset: intersectionObserverPreset
     }),
     AppRoutingModule,
-    NgxGalleryModule,
-    TranslatorModule.forRoot({
-      providedLanguages: AppSettings.langs,
+    TranslateModule.forRoot({
       defaultLanguage: 'cs',
-      loaderOptions: {
-        path: 'assets/i18n/{{language}}.json?v2.2.0'
-      }
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+    }
     }),
     PdfViewerModule,
     AngularEpubViewerModule,
@@ -336,8 +347,14 @@ export function hljsLanguages() {
     AdminApiService,
     PdfService,
     EpubService,
-    { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [ TranslateService ],
+      multi: true
+    },
+    // { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
