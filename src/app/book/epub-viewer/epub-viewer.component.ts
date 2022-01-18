@@ -14,7 +14,7 @@ import { Author, Metadata, Publisher, TitleInfo } from '../../model/metadata.mod
 })
 export class EpubViewerComponent implements  OnInit, OnDestroy {
 
-  @ViewChild('epubViewer') epubViewer: AngularEpubViewerComponent;
+  @ViewChild('epubViewer', { static: true }) epubViewer: AngularEpubViewerComponent;
 
   private viewerActionsSubscription: Subscription;
 

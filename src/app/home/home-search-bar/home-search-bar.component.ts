@@ -20,7 +20,7 @@ export class HomeSearchBarComponent implements OnInit {
 
   searchStr: string;
 
-  @ViewChild('completer') completer: CompleterCmp;
+  @ViewChild('completer', { static: true }) completer: CompleterCmp;
 
   constructor(
     public router: Router,

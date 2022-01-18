@@ -9,9 +9,9 @@ import { AnalyticsService } from '../../../services/analytics.service';
 })
 export class MusicControlsComponent implements OnInit {
 
-  @ViewChild('trackSlider') trackSlider: ElementRef;
+  @ViewChild('trackSlider', { static: false }) trackSlider: ElementRef;
 
-  @ViewChild('progressContainer') progressContainer: any;
+  @ViewChild('progressContainer', { static: true }) progressContainer: any;
 
   constructor(public musicService: MusicService,
     public analytics: AnalyticsService) { }

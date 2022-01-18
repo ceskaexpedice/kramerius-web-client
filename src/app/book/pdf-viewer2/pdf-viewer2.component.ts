@@ -23,7 +23,7 @@ export class PdfViewer2Component implements  OnInit {
   public hideOnInactivity = false;
   public lastMouseMove = 0;
 
-  @ViewChild(PdfViewerComponent) private pdfComponent: PdfViewerComponent;
+  @ViewChild(PdfViewerComponent, { static: false }) private pdfComponent: PdfViewerComponent;
 
   constructor(public bookService: BookService, 
               public settings: AppSettings,

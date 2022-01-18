@@ -389,11 +389,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
       rq.push(this.http.get(this.zoomify.properties(url2), { observe: 'response', responseType: 'text' }));
     }
     forkJoin(rq).subscribe((results) => {
-      const p1 = this.zoomify.parseProperties(results[0].body);
+      const p1 = this.zoomify.parseProperties(results[0]['body']);
       w1 = p1.width;
       h1 = p1.height;
       if (url2 && results.length > 1) {
-        const p2 = this.zoomify.parseProperties(results[1].body);
+        const p2 = this.zoomify.parseProperties(results[1]['body']);
         w2 = p2.width;
         h2 = p2.height;
       }
@@ -427,11 +427,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
       rq.push(this.http.get(this.iiif.imageManifest(url2)));
     }
     forkJoin(rq).subscribe((results) => {
-      w1 = results[0].width;
-      h1 = results[0].height;
+      w1 = results[0]['width'];
+      h1 = results[0]['height'];
       if (url2 && results.length > 1) {
-        w2 = results[1].width;
-        h2 = results[1].height;
+        w2 = results[1]['width'];
+        h2 = results[1]['height'];
       }
       this.setDimensions(w1, h1, w2, h2);
       if (url2 && results.length > 1) {

@@ -1,7 +1,6 @@
 import { Subscription } from 'rxjs/Subscription';
 import { BookService } from './../../services/book.service';
-import { Component, OnInit, ViewChild} from '@angular/core';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { CompleterCmp } from 'ng2-completer';
 import { DocumentSearchService } from '../../services/document-search.service';
@@ -17,7 +16,7 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   // allPages: boolean;
   pageSubscription: Subscription;
 
-  @ViewChild('completer') completer: CompleterCmp;
+  @ViewChild('completer', { static: true }) completer: CompleterCmp;
 
 
   constructor(public bookService: BookService,
