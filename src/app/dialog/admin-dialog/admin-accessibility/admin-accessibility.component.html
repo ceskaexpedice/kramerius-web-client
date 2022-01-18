@@ -1,0 +1,25 @@
+<div *ngIf="state != 'loading'" class="app-accessibility">
+
+  <div class="app-label">Viditelnost</div>
+  
+  <mat-radio-group [(ngModel)]="accessibility">
+    <mat-radio-button value="PUBLIC">Veřejné</mat-radio-button>
+    <mat-radio-button value="PRIVATE">Neveřejné</mat-radio-button>
+  </mat-radio-group>
+
+  <div class="app-label">Aplikovat na</div>
+  
+  <mat-radio-group [(ngModel)]="scope">
+    <mat-radio-button value="OBJECT">Objekt</mat-radio-button>
+    <mat-radio-button value="TREE">Objekt a potomky</mat-radio-button>
+  </mat-radio-group>
+
+  <div class="app-actions">
+    <button mat-raised-button [disabled]="state == 'progress'" color="primary" (click)="apply()">Změnit viditelnost</button>
+    <mat-spinner *ngIf="state == 'progress'"
+      [strokeWidth]="2" 
+      [diameter]="20">
+    </mat-spinner>
+  </div>
+
+</div>

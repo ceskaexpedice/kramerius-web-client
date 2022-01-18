@@ -1,0 +1,41 @@
+@import './src/variables.scss';
+
+.app-collections {
+  .app-label {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 5px;
+  }
+  .app-collection-list {
+    margin-left: -8px;
+    .app-collection {
+      line-height: 26px;
+      height: 26px;
+      overflow: hidden;
+      .app-btn {
+        float: left;
+        font-size: 22px;
+        cursor: pointer;
+        padding: 0 10px;
+        color: #ccc;
+      }
+      .app-col-name {
+        color: #444;
+        margin-right: 10px;
+      }
+      .app-col-desc {
+        color: #999;
+        font-size: 12px;
+      }
+      &:hover {
+        .app-btn {
+          display: block;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+  .app-actions {
+    margin-top: 10px;
+  }
+}

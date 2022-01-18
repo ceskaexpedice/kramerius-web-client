@@ -1,0 +1,18 @@
+<div *ngIf="state != 'loading'" class="app-reindexation">
+  
+  <div class="app-label">Reindexovat</div>
+  
+  <mat-radio-group [(ngModel)]="type">
+    <mat-radio-button value="OBJECT">Objekt</mat-radio-button>
+    <mat-radio-button value="TREE_AND_FOSTER_TREES">Objekt a potomky</mat-radio-button>
+  </mat-radio-group>
+
+  <div class="app-actions">
+    <button mat-raised-button [disabled]="state == 'progress'" color="primary" (click)="apply()">Reindexovat</button>
+    <mat-spinner *ngIf="state == 'progress'"
+      [strokeWidth]="2" 
+      [diameter]="20">
+    </mat-spinner>
+  </div>
+
+</div>

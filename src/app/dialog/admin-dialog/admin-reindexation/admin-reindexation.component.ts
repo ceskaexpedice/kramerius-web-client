@@ -1,18 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { AdminApiService } from '../../../services/admin-api.service';
-import { MzToastService } from 'ngx-materialize';
 
 @Component({
-  selector: 'app-admin-accessibility',
-  templateUrl: './admin-accessibility.component.html'
+  selector: 'app-admin-reindexation',
+  templateUrl: './admin-reindexation.component.html',
+  styleUrls: ['./admin-reindexation.component.scss']
 })
-export class AdminAccessibilityComponent implements OnInit {
+export class AdminReindexationComponent implements OnInit {
 
   state: string;
   _uuids: string[];
 
-  accessibility: string;
-  scope: string;
+  type: string;
 
   @Input() 
   set uuids(uuids: string[]) {
@@ -20,13 +20,12 @@ export class AdminAccessibilityComponent implements OnInit {
   }
 
   constructor(
-    private toastService: MzToastService,
+    private snackBar: MatSnackBar,
     private adminApi: AdminApiService) {
   }
 
   ngOnInit(): void {
-    this.accessibility = 'PUBLIC';
-    this.scope = 'OBJECT';
+    this.type = 'OBJECT';
   }
 
   onUuidChanged(uuids: string[]) {
@@ -36,16 +35,14 @@ export class AdminAccessibilityComponent implements OnInit {
 
   apply(index = 0) {
     this.state = 'progress';
-    this.adminApi.changeAccessibility(this._uuids[index], this.scope, this.accessibility).subscribe(() => {
+    this.adminApi.reindex(this._uuids[index], this.type).subscribe(() => {
       if (index + 1 >= this._uuids.length) {
-        this.toastService.show("Změna viditelnosti byla naplánována", 3000);
+        this.snackBar.open("Reindexace byla naplánována", '', { duration: 3000, verticalPosition: 'bottom' });
         this.state = 'ok';
       } else {
         this.apply(index + 1);
       }
     });
   }
-
-
 
 }

@@ -8,11 +8,11 @@ import { Injectable } from '@angular/core';
 import { CollectionService } from './collection.service';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
-import { MzModalService } from 'ngx-materialize';
 import { Translator } from 'angular-translator';
 import { Metadata } from '../model/metadata.model';
-import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.component';
+import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { LicenceService } from './licence.service';
+import { MatDialog } from '@angular/material';
 
 
 @Injectable()
@@ -57,7 +57,7 @@ export class SearchService {
         private localStorageService: LocalStorageService,
         private api: KrameriusApiService,
         private settings: AppSettings,
-        private modalService: MzModalService) {
+        private dialog: MatDialog) {
     }
 
     public init(context, params) {
@@ -462,7 +462,7 @@ export class SearchService {
         uuids.push(item.uuid);
       }
     }
-    this.modalService.open(DialogAdminComponent, { uuids: uuids } );
+    this.dialog.open(AdminDialogComponent, { data: { uuids: uuids }, autoFocus: false });
   }
 
   toggleAdminSelection() {

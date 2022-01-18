@@ -1,9 +1,8 @@
 import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
 import { Component, OnInit, Input } from '@angular/core';
-import { MzModalService } from 'ngx-materialize';
 import { AnalyticsService } from '../services/analytics.service';
-import { DialogAdminComponent } from '../dialog/dialog-admin/dialog-admin.component';
+import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { AuthService } from '../services/auth.service';
 import { LicenceService } from '../services/licence.service';
 import { BookService } from '../services/book.service';
@@ -30,8 +29,7 @@ export class MetadataComponent implements OnInit {
 
   expand = {}
 
-  constructor(private modalService: MzModalService,
-              public analytics: AnalyticsService,
+  constructor(public analytics: AnalyticsService,
               private dialog: MatDialog,
               public bookService: BookService,
               public licences: LicenceService,
@@ -58,7 +56,7 @@ export class MetadataComponent implements OnInit {
   }
 
   openAdminActions() {
-    this.modalService.open(DialogAdminComponent, { metadata: this.metadata } );
+    this.dialog.open(AdminDialogComponent, { data: { metadata: this.metadata }, autoFocus: false });
   }
 
   onShowAuthors() {

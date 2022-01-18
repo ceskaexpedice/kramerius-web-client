@@ -1,0 +1,28 @@
+@import './src/variables.scss';
+
+.app-reprepage {
+  .app-label {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 5px;
+  } 
+  mat-radio-group {
+    margin-bottom: 20px;
+    display: block;
+    margin-top: 5px;
+    mat-radio-button {
+      padding-left: 10px;
+      display: block;
+      &:not(:first-child) {
+        margin-top: 6px;
+      }
+    }
+  }
+  .app-actions {
+    margin-top: 10px;
+    mat-spinner {
+      display: inline;
+      margin-left: 16px;
+    }
+  }
+}

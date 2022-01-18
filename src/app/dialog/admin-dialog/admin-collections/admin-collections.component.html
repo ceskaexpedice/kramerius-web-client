@@ -10,7 +10,6 @@
       </div>
     </div>
   </ng-container>
-  <!-- <div class="app-label">Přidat do sbírky</div> -->
   <input autocapitalize="off" autocomplete="off" autocorrect="off"  placeholder="Přidat do sbírky" [(ngModel)]="query" (input)="onCollectionSearchChange($event.target.value)">
   <div class="app-collection-list">
     <div *ngFor="let col of collectionsRest" class="app-collection">
@@ -20,12 +19,11 @@
     </div>
   </div>
 
-
-  <div class="app-progress" *ngIf="state == 'progress'">
-    <mz-spinner 
-      [color]="'blue'"
-      [size]="'small'">
-    </mz-spinner>
+  <div class="app-actions">
+    <mat-spinner *ngIf="state == 'progress'"
+      [strokeWidth]="2" 
+      [diameter]="20">
+    </mat-spinner>
   </div>
 
 </div>

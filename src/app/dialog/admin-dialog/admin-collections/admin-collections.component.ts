@@ -1,13 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { KrameriusApiService } from '../../../services/kramerius-api.service';
 import { SolrService } from '../../../services/solr.service';
-import { MzToastService } from 'ngx-materialize';
 
 
 @Component({
   selector: 'app-admin-collections',
-  templateUrl: './admin-collections.component.html'
+  templateUrl: './admin-collections.component.html',
+  styleUrls: ['./admin-collections.component.scss']
 })
 export class AdminCollectionsComponent implements OnInit {
 
@@ -28,7 +29,7 @@ export class AdminCollectionsComponent implements OnInit {
   constructor(
     private api: KrameriusApiService, 
     private solr: SolrService,
-    private toastService: MzToastService,
+    private snackBar: MatSnackBar,
     private adminApi: AdminApiService) {
   }
 
@@ -79,7 +80,7 @@ export class AdminCollectionsComponent implements OnInit {
     this.adminApi.removeItemFromCollection(col.uuid, this._uuids[0]).subscribe(() => {
       this.collectionsIn.splice(this.collectionsIn.indexOf(col), 1);
       this.collectionsRest.unshift(col);
-      this.toastService.show("Odstranění objektu ze sbírky bylo naplánováno", 3000);
+      this.snackBar.open("Odstranění objektu ze sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
       this.state = 'ok';
     });
   }
@@ -92,7 +93,7 @@ export class AdminCollectionsComponent implements OnInit {
         if (this._uuids.length == 1) {
           this.collectionsIn.unshift(col);
         }
-        this.toastService.show("Přidání objektu do sbírky bylo naplánováno", 3000);
+        this.snackBar.open("Přidání objektu do sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
         this.state = 'ok';
       } else {
         this.addToCollection(col, index + 1);

@@ -1,13 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { KrameriusApiService } from '../../../services/kramerius-api.service';
 import { SolrService } from '../../../services/solr.service';
-import { MzToastService } from 'ngx-materialize';
-
 
 @Component({
   selector: 'app-admin-reprepage',
-  templateUrl: './admin-reprepage.component.html'
+  templateUrl: './admin-reprepage.component.html',
+  styleUrls: ['./admin-reprepage.component.scss']
 })
 export class AdminReprePageComponent implements OnInit {
   
@@ -26,7 +26,7 @@ export class AdminReprePageComponent implements OnInit {
   constructor(
     private api: KrameriusApiService, 
     private solr: SolrService,
-    private toastService: MzToastService,
+    private snackBar: MatSnackBar,
     private adminApi: AdminApiService) {
   }
 
@@ -64,7 +64,7 @@ export class AdminReprePageComponent implements OnInit {
   apply() {
     this.state = 'progress';
     this.adminApi.setReprePage(this.objectPid, this._uuid).subscribe(() => {
-      this.toastService.show("Reprezentativní strana byla nastavena", 3000);
+      this.snackBar.open("Reprezentativní strana byla nastavena", '', { duration: 3000, verticalPosition: 'bottom' });
       this.state = 'ok';
     });
   }

@@ -1,50 +1,53 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MzBaseModal } from 'ngx-materialize';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Metadata } from '../../model/metadata.model';
 import { SolrService } from '../../services/solr.service';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'app-dialog-admin',
-  templateUrl: './dialog-admin.component.html'
+  templateUrl: './admin-dialog.component.html',
+  styleUrls: ['./admin-dialog.component.scss']
 })
-export class DialogAdminComponent extends MzBaseModal implements OnInit {
+export class AdminDialogComponent implements OnInit {
 
-  @Input() metadata: Metadata;
-  @Input() uuids: string[];
+  metadata: Metadata;
+  uuids: string[];
 
-  data;
+  items;
   selection;
   category;
 
-  constructor(private locals: LocalStorageService) {
-    super();
+  constructor(public dialogRef: MatDialogRef<AdminDialogComponent>,
+    private locals: LocalStorageService,
+    @Inject(MAT_DIALOG_DATA) private data: any) {
   }
 
   ngOnInit(): void {
-    this.data = [];
+    this.metadata = this.data.metadata;
+    this.uuids = this.data.uuids;
+    this.items = [];
     this.category = this.locals.getProperty('admin.edit.category') || 'accessibility';
     if (this.metadata) {
-      this.data.reverse();
-      this.data = this.metadata.getFullContext(SolrService.allDoctypes);
-      for (let item of this.data) {
+      // this.items.reverse();
+      this.items = this.metadata.getFullContext(SolrService.allDoctypes);
+      for (let item of this.items) {
         item.uuids = [item.uuid];
       }
-      if (this.data.length == 1) {
-        this.changeTab(this.data[0]);
-      } else if (this.data.length > 1) {
-        if (this.data[0].type == 'page') {
-          this.changeTab(this.data[1]);
+      if (this.items.length == 1) {
+        this.changeTab(this.items[0]);
+      } else if (this.items.length > 1) {
+        if (this.items[0].type == 'page') {
+          this.changeTab(this.items[1]);
         } else {
-          this.changeTab(this.data[0]);
+          this.changeTab(this.items[0]);
         }
       }
     } else if (this.uuids) {
-      this.data.push({
+      this.items.push({
         type: 'multiple',
         uuids: this.uuids
       });
-      this.changeTab(this.data[0]);
+      this.changeTab(this.items[0]);
     }
   }
 

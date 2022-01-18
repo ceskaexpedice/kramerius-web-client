@@ -119,7 +119,6 @@ import { LoggerService } from './services/logger.service';
 import { LandingComponent } from './landing/landing.component';
 import { FaqComponent } from './faq/faq.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
-import { DialogAdminComponent } from './dialog/dialog-admin/dialog-admin.component';
 import { AdminApiService } from './services/admin-api.service';
 import { NavigationSnippetComponent } from './book/navigation/navigation-snippet/navigation-snippet.component';
 import { NavigationItemComponent } from './book/navigation/navigation-item/navigation-item.component';
@@ -128,10 +127,10 @@ import { SignpostLibrariesComponent } from './signpost/libraries/libraries.compo
 import { SignpostFooterComponent } from './signpost/footer/footer.component';
 import { SignpostHeaderComponent } from './signpost/header/header.component';
 import { SignpostHelpComponent } from './signpost/help/help.component';
-import { AdminCollectionsComponent } from './dialog/dialog-admin/admin-collections/admin-collections.component';
-import { AdminAccessibilityComponent } from './dialog/dialog-admin/admin-accessibility/admin-accessibility.component';
-import { AdminReindexationComponent } from './dialog/dialog-admin/admin-reindexation/admin-reindexation.component';
-import { AdminReprePageComponent } from './dialog/dialog-admin/admin-reprepage/admin-reprepage.component';
+import { AdminCollectionsComponent } from './dialog/admin-dialog/admin-collections/admin-collections.component';
+import { AdminAccessibilityComponent } from './dialog/admin-dialog/admin-accessibility/admin-accessibility.component';
+import { AdminReindexationComponent } from './dialog/admin-dialog/admin-reindexation/admin-reindexation.component';
+import { AdminReprePageComponent } from './dialog/admin-dialog/admin-reprepage/admin-reprepage.component';
 import { LicenceService } from './services/licence.service';
 import { LicenceMessagesComponent } from './shared/licence-messages/licence-messages.component';
 import { PeriodicalUnitLayoutComponent } from './periodical/periodical-content/periodical-unit-layout/periodical-unit-layout.component';
@@ -152,6 +151,7 @@ import { AuthorsDialogComponent } from './dialog/authors-dialog/authors-dialog.c
 import { CitationDialogComponent } from './dialog/citation-dialog/citation-dialog.component';
 import { MetadataDialogComponent } from './dialog/metadata-dialog/metadata-dialog.component';
 import { LicenceDialogComponent } from './dialog/licence-dialog/licence-dialog.component';
+import { AdminDialogComponent } from './dialog/admin-dialog/admin-dialog.component';
 
 export function hljsLanguages() {
   return [
@@ -228,7 +228,6 @@ export function hljsLanguages() {
     MapBrowseComponent,
     LandingComponent,
     SafeHtmlPipe,
-    DialogAdminComponent,
     SignpostComponent,
     SignpostLibrariesComponent,
     SignpostFooterComponent,
@@ -248,10 +247,10 @@ export function hljsLanguages() {
     AuthorsDialogComponent,
     CitationDialogComponent,
     MetadataDialogComponent,
-    LicenceDialogComponent
+    LicenceDialogComponent,
+    AdminDialogComponent
   ],
   entryComponents: [
-    DialogAdminComponent,
     ShareDialogComponent,
     PdfDialogComponent,
     BasicDialogComponent,
@@ -259,7 +258,8 @@ export function hljsLanguages() {
     AuthorsDialogComponent,
     CitationDialogComponent,
     MetadataDialogComponent,
-    LicenceDialogComponent
+    LicenceDialogComponent,
+    AdminDialogComponent
   ],
   imports: [
     BrowserModule,
