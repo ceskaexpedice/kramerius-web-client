@@ -54,7 +54,7 @@ const ROUTES: Routes = [
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(ROUTES)],
+  imports: [RouterModule.forRoot(ROUTES, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule],
   providers: [RoutingGuardService, RoutingPrefixGuardService]
 })
