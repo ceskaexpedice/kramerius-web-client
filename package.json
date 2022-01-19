@@ -13,16 +13,16 @@
   "private": true,
   "dependencies": {
     "@agm/core": "^3.0.0-beta.0",
-    "@angular/animations": "11.2.14",
+    "@angular/animations": "12.2.15",
     "@angular/cdk": "~11.2.13",
-    "@angular/common": "11.2.14",
-    "@angular/compiler": "11.2.14",
-    "@angular/core": "11.2.14",
-    "@angular/forms": "11.2.14",
+    "@angular/common": "12.2.15",
+    "@angular/compiler": "12.2.15",
+    "@angular/core": "12.2.15",
+    "@angular/forms": "12.2.15",
     "@angular/material": "^11.2.13",
-    "@angular/platform-browser": "11.2.14",
-    "@angular/platform-browser-dynamic": "11.2.14",
-    "@angular/router": "11.2.14",
+    "@angular/platform-browser": "12.2.15",
+    "@angular/platform-browser-dynamic": "12.2.15",
+    "@angular/router": "12.2.15",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^5.0.0",
     "angular-epub-viewer": "^0.1.4",
@@ -53,13 +53,13 @@
     "timers": "^0.1.1",
     "tslib": "^2.0.0",
     "xml-beautifier": "^0.4.3",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1102.18",
-    "@angular/cli": "^11.2.18",
-    "@angular/compiler-cli": "11.2.14",
-    "@angular/language-service": "11.2.14",
+    "@angular-devkit/build-angular": "~12.2.15",
+    "@angular/cli": "^12.2.15",
+    "@angular/compiler-cli": "12.2.15",
+    "@angular/language-service": "12.2.15",
     "@types/googlemaps": "3.39.12",
     "@types/google.analytics": "0.0.36",
     "@types/jasmine": "~3.6.0",
@@ -78,7 +78,7 @@
     "protractor": "~7.0.0",
     "ts-node": "~3.2.0",
     "tslint": "~6.1.0",
-    "typescript": "4.0.8",
+    "typescript": "4.3.5",
     "xml2js": "^0.4.23"
   }
 }
