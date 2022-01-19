@@ -22,7 +22,6 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/highlight.js/styles/atom-one-light.css"
             ],
             "scripts": [
@@ -89,8 +88,7 @@
             "scripts": [
             ],
             "styles": [
-              "src/styles.scss",
-              "node_modules/font-awesome/css/font-awesome.css"
+              "src/styles.scss"
             ],
             "assets": [
               "src/assets",
