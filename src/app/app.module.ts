@@ -154,6 +154,7 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { PluralPipe } from './pipes/plural.pipe';
 import { NgSlimScrollModule } from 'ngx-slimscroll';
 import { DatepickerComponent } from './datepicker/datepicker.component';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 // import { DatepickerComponent } from './datepicker';
 
 export function hljsLanguages() {
@@ -272,7 +273,7 @@ export function appInitializerFactory(translate: TranslateService) {
     HttpClientModule,
     FormsModule,
     NgSlimScrollModule,
-    // DatepickerModule,
+    NgxGalleryModule,
     Ng2CompleterModule,
     MatomoModule,
     MaterialModule,

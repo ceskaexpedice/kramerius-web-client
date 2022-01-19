@@ -14,6 +14,7 @@ import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
 import { MatDialog } from '@angular/material/dialog';
 import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
+import { NgxGalleryImage } from '@kolkov/ngx-gallery';
 
 @Injectable()
 export class MusicService {
@@ -38,7 +39,7 @@ export class MusicService {
 
   activeMobilePanel: String;
 
-  galleryImages: any[];
+  galleryImages: NgxGalleryImage[];
 
   downloadingTrackIndex: number;
 
