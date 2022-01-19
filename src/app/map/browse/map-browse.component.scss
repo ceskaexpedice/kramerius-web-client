@@ -4,9 +4,8 @@
     height: calc(100% - #{$app-toolbar-height});
     overflow: auto;
     background-color: $app-grey-l-4;
-    agm-map {
+    .app-map-wrapper {
         height: 100%;
-        // width: 100%;
         width: calc(100% - 320px);
     }
 

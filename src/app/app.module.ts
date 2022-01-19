@@ -83,7 +83,7 @@ import { CollectionsComponent } from './collections/collections.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeLogoComponent } from './home/home-logo/home-logo.component';
 import { HttpRequestCache } from './services/http-request-cache.service';
-import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient, HttpClientJsonpModule } from '@angular/common/http';
 import { CachingInterceptor } from './services/caching-interceptor.service';
 import { PageTitleService } from './services/page-title.service';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -94,16 +94,12 @@ import { CookieService } from 'ngx-cookie-service';
 import { ShareService } from './services/share.service';
 import { AboutComponent } from './about/about.component';
 import { AnalyticsService } from './services/analytics.service';
-// import { DatepickerModule } from './datepicker';
 import { HomeFooterComponent } from './home/home-footer/home-footer.component';
 import { KrameriusInfoService } from './services/kramerius-info.service';
 import { AngularTokenModule } from 'angular-token';
 import { environment } from '../environments/environment';
 import { LoginComponent } from './login/login.component';
 import { DocumentSearchService } from './services/document-search.service';
-
-import { AgmCoreModule } from '@agm/core';
-
 
 import { HighlightModule } from 'ngx-highlightjs';
 import xml from 'highlight.js/lib/languages/xml';
@@ -155,6 +151,7 @@ import { PluralPipe } from './pipes/plural.pipe';
 import { NgSlimScrollModule } from 'ngx-slimscroll';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { GoogleMapsModule } from '@angular/google-maps';
 // import { DatepickerComponent } from './datepicker';
 
 export function hljsLanguages() {
@@ -271,7 +268,9 @@ export function appInitializerFactory(translate: TranslateService) {
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     FormsModule,
+    GoogleMapsModule,
     NgSlimScrollModule,
     NgxGalleryModule,
     Ng2CompleterModule,
@@ -302,9 +301,9 @@ export function appInitializerFactory(translate: TranslateService) {
       },
       oAuthWindowType: 'newWindow'
     }),
-    AgmCoreModule.forRoot({
-      apiKey: environment.googleMapsApiKey
-    }),
+    // AgmCoreModule.forRoot({
+    //   apiKey: environment.googleMapsApiKey
+    // }),
     HighlightModule.forRoot({
       languages: hljsLanguages
     }),

@@ -16,38 +16,23 @@
 
 </div>
 
+<div *ngIf="apiLoaded | async" class="app-map-wrapper">
+    <google-map #map
+                [options]="options" 
+                width="100%" 
+                height="100%"
+                (idle)="onIdle()">
 
-<!-- <agm-map 
-        [latitude]="lat" 
-        [longitude]="lng" 
-        [zoom]="zoom" 
-        (mapReady)="onMapReady($event)"
-        [streetViewControl]="false"
-        (boundsChange)="onBoundsChange($event)" 
-        (idle)="onIdle()"> -->
+        <map-marker *ngIf="focusedItem && focusedItem.isPoint()" [position]="getPoint()"></map-marker>
 
-        <agm-map 
-        [latitude]="lat" 
-        [longitude]="lng" 
-        [zoom]="zoom" 
-        (idle)="onIdle()">
+        <map-rectangle *ngIf="focusedItem && !focusedItem.isPoint()" 
+                        [bounds]="getBounds()"
+                        [options]="boxOptions"
+                        >
+        </map-rectangle>
 
-
-    <agm-marker *ngIf="focusedItem && focusedItem.isPoint()" [latitude]="focusedItem.north" [longitude]="focusedItem.west" ></agm-marker>
-
-    <agm-rectangle *ngIf="focusedItem && !focusedItem.isPoint()" 
-                    [north]="focusedItem.north" 
-                    [south]="focusedItem.south"                     
-                    [west]="focusedItem.west" 
-                    [east]="focusedItem.east" 
-                    [fillColor]="'#0277bd'"
-                    [fillOpacity]="0.5"
-                    [strokeColor]="'#0277bd'"
-                    [strokeOpacity]="1"
-                    >
-    </agm-rectangle>
-
-</agm-map>
+    </google-map>
+</div>
 
 
 </div>
