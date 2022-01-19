@@ -39,6 +39,14 @@ export class MetadataComponent implements OnInit {
   ngOnInit() {
   }
 
+  toHtml(text: string): string {
+    if (!text) {
+      return "";
+    }
+    const html = text.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+    return html;
+  }
+
   showTitle() {
     this.showingTitle = !this.showingTitle;
   }

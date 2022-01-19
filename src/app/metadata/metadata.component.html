@@ -316,11 +316,11 @@
     
     <div *ngIf="metadata.notes.length > 0">
       <label>{{ 'metadata.notes' | translate }}</label>
-      <div *ngFor="let note of metadata.notes" class="app-value" >{{ note }}</div>
+      <div *ngFor="let note of metadata.notes" class="app-value">
+        <div [innerHTML]="toHtml(note) | safeHtml"></div>
+      </div>
       <div class="divider"></div>
   </div>
-
-
 
 
   <div *ngIf="metadata.review && metadata.review" >
