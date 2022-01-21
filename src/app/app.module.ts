@@ -150,7 +150,6 @@ import { NgSlimScrollModule } from 'ngx-slimscroll';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { GoogleMapsModule } from '@angular/google-maps';
-// import { DatepickerComponent } from './datepicker';
 
 export function hljsLanguages() {
   return [
@@ -160,7 +159,7 @@ export function hljsLanguages() {
 }
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.2.0');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.3.0');
 }
 
 export function appInitializerFactory(translate: TranslateService) {

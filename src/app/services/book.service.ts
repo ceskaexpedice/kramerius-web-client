@@ -1045,6 +1045,10 @@ export class BookService {
         return this.pageState === BookPageState.Failure;
     }
 
+    isPageSuccess() {
+        return this.pageState === BookPageState.Success;
+    }
+
     isDocLoading() {
         return this.bookState === BookState.Loading;
     }

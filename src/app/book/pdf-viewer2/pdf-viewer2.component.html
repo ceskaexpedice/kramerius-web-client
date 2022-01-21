@@ -2,9 +2,7 @@
 
 <app-viewer-controls *ngIf="!bookService.isPageInaccessible()" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 
-
 <pdf-viewer 
-    
     *ngIf="bookService.pdf" [src]="bookService.pdf"
     [render-text]="true"
     [rotation]="rotation"
@@ -59,8 +57,7 @@ class="app-handle app-right-handle valign-wrapper hide-on-small-only"
     label="alert.error"
     message="alert.failed_to_load_image">
 </app-alert>
-
-<mat-spinner *ngIf="bookService.isPageLoading() || pdfLoading" 
+<mat-spinner *ngIf="bookService.isPageLoading() || (bookService.isPageSuccess() && pdfLoading)" 
     class="medium-centered-spinner" 
     [strokeWidth]="3"
     [diameter]="40">

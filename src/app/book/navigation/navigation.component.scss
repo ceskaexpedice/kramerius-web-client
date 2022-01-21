@@ -7,7 +7,7 @@ app-book-search {
   }
 }
 .app-navigation-tabs {
-  overflow: hidden;
+  // overflow: hidden;
   border-bottom: 1px solid $app-grey-l-2;
   .app-tab {
     float: left;
@@ -31,64 +31,7 @@ app-book-search {
       color: $primary-color; 
       border-bottom-color: $primary-color;
     }
-    // mat-icon {
-    //   display: none;
-    //   margin: 0 auto;
-    //   line-height: inherit;
-    //   @media #{$small-350-and-down} {
-    //     display: block;
-    //   }
-    // }
-    // .app-desc {
-    //   @media #{$small-350-and-down} {
-    //     display: none;
-    //   }
-    // }
   }
-
-  // .tabs {
-  //   overflow: inherit;
-  //   background: transparent;
-  //   border-bottom: 1px solid $app-grey-l-2;
-  //   .tab  {
-  //     &.tab-1 {
-  //       width: 100%;
-  //     }
-  //     &.tab-2 {
-  //       width: calc(50% - 1.5px);
-  //     }
-  //     &.tab-3 {
-  //       width: calc(33% - 1.5px);
-  //     }
-  //     a {
-  //       padding: 0px;
-  //       &.active {
-  //         position: relative;
-  
-  //         &:after {
-  //           content: "";
-  //           position: absolute;
-  //           left: 0;
-  //           bottom: 0;
-  //           height: 2px;
-  //           background-color: $primary-color;
-  //           width: 100%;
-  //         }
-  //       }
-
-  //       // @media #{$small-and-down} {
-  //       //   color: $app-grey-l-1;;
-  //       //   &.active {
-  //       //     color: $app-grey-d-1;
-
-  //       //     &:after {
-  //       //       background-color: $app-grey-d-1;
-  //       //     }
-  //       //   }
-  //       // }
-  //     }
-  //   }
-  // }
 }
 
 .app-navigation-tab-content {
@@ -139,7 +82,16 @@ app-book-search {
     }
   }
 }
-
+.app-navigation-articles {
+  overflow: auto;
+  .app-article {
+    padding: 8px 16px;
+    cursor: pointer;
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+}
 
 .app-navigation-toc {
   overflow: auto;
