@@ -40,7 +40,7 @@ export class MapBrowseComponent implements OnInit {
     private licences: LicenceService,
     public settings: AppSettings,
     private _sanitizer: DomSanitizer) {
-      this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.googleMapsApiKey, 'callback')
+      this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + settings.googleMapsApiKey, 'callback')
       .pipe(
         map(() => this.buildOptions() ),
         catchError(() => of(false)),

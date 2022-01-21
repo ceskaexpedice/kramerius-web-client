@@ -5,6 +5,5 @@
 declare let APP_GLOBAL: any;
 
 export const environment = {
-  production: false,
-  googleMapsApiKey: 'AIzaSyCGDIOYeh5bw_vsBcZxZH3GOzmA0aetqBw'
+  production: false
 };

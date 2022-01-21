@@ -38,6 +38,7 @@ export class AppSettings {
   public maxOmnibusPages: number;
 
   public share_url = APP_GLOBAL.share_url;
+  public googleMapsApiKey = APP_GLOBAL.googleMapsApiKey;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
   public enablePeriodicalIsssuesCalendarLayout = APP_GLOBAL.enablePeriodicalIsssuesCalendarLayout;
   public defaultPeriodicalVolumesLayout = APP_GLOBAL.defaultPeriodicalVolumesLayout;
