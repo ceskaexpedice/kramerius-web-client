@@ -1,14 +1,7 @@
-// font path
-$roboto-font-path:          "/assets/fonts/" !default;
-$mdi-font-path:             "assets/fonts" !default;
-
 // colors
 $primary-color:             #0277bd !default; // 0277bd -> hlavni barva, logo, titulky, aktivni filtry, aktivni bg
 $primary-color-light:       lighten($primary-color, 15%) !default;
 $primary-color-dark:        darken($primary-color, 15%) !default;
-
-$secondary-color:           $primary-color !default;
-$link-color:                $primary-color !default;
 
 // custom
 $app-grey:                  #9e9e9e !default; // 9e9e9e -> arrow back next to logo
@@ -26,9 +19,6 @@ $app-grey-d-4:              #212121 !default; // 212121 -> text color black - fa
 $app-grey-c-1:              #050505 !default; // ebebeb -> tabs line, tabs of document type line
 
 $app-red:                   #d50000 !default; // d50000 -> remove color
-$app-orange:                #ffab40 !default; // ffab40 -> count of periodica color
-$app-white:                 #ffffff !default;
-$app-black:                 #000000 !default;
 
 $app-licence-color: #d27e0f;
 // type of document
@@ -69,19 +59,10 @@ $app-toolbar-height:        55px !default;
 // mobile panel - facets, metadata
 $app-mobile-panel-height:   100% !default;
 
-$app-mobile-panelv-height:  100% !default;
-
 // card
 $app-card-title-font-size:  1.1rem !default;
 
-// materialize variables
-$navbar-font-color:         $app-grey-d-1 !default;
 $navbar-height:             68px !default;
-$navbar-height-mobile:      $navbar-height !default;
-
-$button-padding:            0 1rem !default;
-
-$tabs-underline-color:      $primary-color !default;
 
 // Media Query Ranges
 $small-screen-up: 601px !default;

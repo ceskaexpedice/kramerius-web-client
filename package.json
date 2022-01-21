@@ -27,7 +27,6 @@
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^5.0.0",
     "angular-epub-viewer": "^0.1.4",
-    "angular-token": "^7.0.1",
     "buffer": "^5.7.1",
     "core-js": "^2.6.12",
     "date-fns": "^1.30.1",

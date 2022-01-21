@@ -3,12 +3,11 @@
 .app-periodical-toolbar {
   display: block;
   height: $app-toolbar-height;
-  // padding: 0 1rem;
   padding-left: 14px;
   padding-right: 6px;
   border-bottom: 1px solid $app-grey-l-2;
   position: relative;
-          
+  margin: 0;
   .col {
    padding: 0;
     &.app-periodical-info {

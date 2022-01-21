@@ -64,7 +64,7 @@
         &.app-active {
           border-bottom: 3px solid $primary-color;
         }
-        &:hover {
+        &:hover:not(.app-active) {
           color: $primary-color-light;
         }
       }

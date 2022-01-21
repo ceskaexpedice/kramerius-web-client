@@ -13,8 +13,8 @@
       <h1 [class.app-cut]="metadata.getTitle().length > 75 && showingTitle == false">
         {{ metadata.getTitle() }}
       </h1>
-      <mat-icon *ngIf="metadata.getTitle().length > 75 && showingTitle == false" [matTooltip]="'common.show_whole_title' | translate" (click)="showTitle()" class="app-more app-cursor-pointer">more_horiz</mat-icon>
-      <mat-icon *ngIf="metadata.getTitle().length > 75 && showingTitle == true" [matTooltip]="'common.hide_whole_title' | translate" (click)="showTitle()" class="app-more app-cursor-pointer">more_horiz</mat-icon>
+      <mat-icon *ngIf="metadata.getTitle().length > 75 && showingTitle == false" [matTooltip]="'common.show_whole_title' | translate" (click)="showTitle()" class="app-more">more_horiz</mat-icon>
+      <mat-icon *ngIf="metadata.getTitle().length > 75 && showingTitle == true" [matTooltip]="'common.hide_whole_title' | translate" (click)="showTitle()" class="app-more">more_horiz</mat-icon>
       <div class="app-subtitle">{{metadata.titles[0].subTitle}}</div>
       <div>
         <span *ngIf="metadata.titles[0].partNumber" class="app-part-number">{{ metadata.titles[0].partNumber }}. </span>
@@ -77,7 +77,7 @@
       <div *ngFor="let author of metadata.getPrimaryAuthors(); let index=index" class="app-value">
           <a *ngIf="index < 3" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
       </div>
-      <mat-icon [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more app-cursor-pointer">more_horiz</mat-icon>
+      <mat-icon [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more">more_horiz</mat-icon>
       <div class="divider"></div>
     </div>
 
@@ -86,7 +86,7 @@
       <div *ngFor="let author of metadata.getOtherAuthors(); let index=index" class="app-value">
           <a *ngIf="index < 3" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
       </div>
-      <mat-icon [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more app-cursor-pointer">more_horiz</mat-icon>
+      <mat-icon [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more">more_horiz</mat-icon>
       <div class="divider"></div>
     </div>
     
@@ -303,7 +303,7 @@
       <ng-container *ngFor="let abstract of metadata.abstracts; let i = index">
         <div class="app-value" *ngIf="abstract.length > 115 && !expand['abstract' + i]" >{{ abstract.substring(0, 110) + "..." }}</div>
         <div class="app-value" *ngIf="!(abstract.length > 115 && !expand['abstract' + i])" >{{ abstract }}</div>
-        <mat-icon *ngIf="abstract.length > 115" (click)="expand['abstract' + i] = !expand['abstract' + i]" class="app-more app-cursor-pointer">more_horiz</mat-icon>
+        <mat-icon *ngIf="abstract.length > 115" (click)="expand['abstract' + i] = !expand['abstract' + i]" class="app-more">more_horiz</mat-icon>
         <div class="divider"></div>
       </ng-container>
     </div>

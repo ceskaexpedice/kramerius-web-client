@@ -96,8 +96,6 @@ import { AboutComponent } from './about/about.component';
 import { AnalyticsService } from './services/analytics.service';
 import { HomeFooterComponent } from './home/home-footer/home-footer.component';
 import { KrameriusInfoService } from './services/kramerius-info.service';
-import { AngularTokenModule } from 'angular-token';
-import { environment } from '../environments/environment';
 import { LoginComponent } from './login/login.component';
 import { DocumentSearchService } from './services/document-search.service';
 
@@ -291,19 +289,6 @@ export function appInitializerFactory(translate: TranslateService) {
     PdfViewerModule,
     AngularEpubViewerModule,
     ClipboardModule,
-    AngularTokenModule.forRoot({
-      apiBase: environment.cloudApiBase,
-      oAuthBase: environment.cloudApiBase,
-      oAuthCallbackPath: 'omniauth',
-      oAuthPaths: {
-        google: 'auth/google_oauth2',
-        facebook: 'auth/facebook'
-      },
-      oAuthWindowType: 'newWindow'
-    }),
-    // AgmCoreModule.forRoot({
-    //   apiKey: environment.googleMapsApiKey
-    // }),
     HighlightModule.forRoot({
       languages: hljsLanguages
     }),
@@ -335,7 +320,6 @@ export function appInitializerFactory(translate: TranslateService) {
     AnalyticsService,
     KrameriusInfoService,
     CitationService,
-    AngularTokenModule,
     IiifService,
     ZoomifyService,
     LoggerService,

@@ -26,7 +26,6 @@ export class MapBrowseComponent implements OnInit {
   focusedItem: DocumentItem;
   locks: any;
 
-
   apiLoaded: Observable<boolean>;
 
   options: google.maps.MapOptions;

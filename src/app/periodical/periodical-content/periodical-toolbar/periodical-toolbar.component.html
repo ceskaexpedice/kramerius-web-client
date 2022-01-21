@@ -1,4 +1,4 @@
-<div class="app-periodical-toolbar row app-clean-mg">
+<div class="app-periodical-toolbar row">
   <div class="col app-periodical-info" [ngClass]="{'s6 m5 l7 xl9 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <a *ngIf="periodicalService.isPeriodicalVolume() && periodicalService.metadata.getTitle()" [routerLink]="['/periodical', periodicalService.document.root_uuid]" [queryParams]="periodicalService.getUrlParams()">
       <mat-icon [matTooltip]="'periodical.volume_list' | translate">chevron_left</mat-icon>
