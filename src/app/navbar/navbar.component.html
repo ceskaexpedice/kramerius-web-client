@@ -36,7 +36,7 @@
         <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
       </mz-navbar-item>
 
-      <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.k7">
+      <ng-container *ngIf="appSettings.localAuth || appSettings.krameriusLogin || appSettings.k7">
         <mz-navbar-item *ngIf="authService.isLoggedIn()">
           <a (click)="logout()">{{ 'navbar.logout' | translate }}</a>
         </mz-navbar-item>

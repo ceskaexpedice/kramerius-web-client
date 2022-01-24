@@ -52,9 +52,9 @@ export class NavbarComponent implements OnInit {
   }
 
   login() {
-    if (this.appSettings.auth) {
+    if (this.appSettings.localAuth) {
       this.analytics.sendEvent('navbar', 'login-shib');
-      const url = `${this.appSettings.auth.loginUrl}?target=${window.location.href}`;
+      const url = `${this.appSettings.localAuth.loginUrl}?target=${window.location.href}`;
       window.open(url, '_top');
     } else if (this.appSettings.krameriusLogin && !this.authService.isLoggedIn()) {
       this.analytics.sendEvent('navbar', 'login');
@@ -68,10 +68,10 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    if (this.appSettings.auth) {
+    if (this.appSettings.localAuth) {
       this.analytics.sendEvent('navbar', 'logout-shib');
       this.authService.logout(() => {
-        const url = `${this.appSettings.auth.logoutUrl}?return=${window.location.href}`;
+        const url = `${this.appSettings.localAuth.logoutUrl}?return=${window.location.href}`;
         window.open(url, '_top');
       });
     } else if (this.appSettings.krameriusLogin && this.authService.isLoggedIn()) {
