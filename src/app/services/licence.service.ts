@@ -10,12 +10,14 @@ export class LicenceService {
   licences: any;
 
   constructor(private translate: TranslateService, private settings: AppSettings) {
+    this.assignLicences(this.settings.licences);
     this.settings.kramerius$.subscribe(() =>  {
       this.assignLicences(this.settings.licences);
     });
   }
 
   assignLicences(licences: any) {
+    console.log('assignLicences', licences);
       this.licences = licences;
   }
 

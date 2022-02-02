@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (!request.url.startsWith(this.settings.url)) {
       return next.handle(request);
     }
-    const token = this.locals.getProperty('auth.token');
+    const token = this.settings.getToken();
     if (token) {
       request = request.clone({
         setHeaders: {

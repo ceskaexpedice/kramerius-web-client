@@ -37,6 +37,9 @@ export class AppSettings {
   public maxOmnibusParts: number;
   public maxOmnibusPages: number;
 
+  public k7: boolean;
+
+
   public share_url = APP_GLOBAL.share_url;
   public googleMapsApiKey = APP_GLOBAL.googleMapsApiKey;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -53,7 +56,6 @@ export class AppSettings {
   public footer : [string, string] = APP_GLOBAL.footer;
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public landingPage = !!APP_GLOBAL.landingPage;
-  public k7 = !!APP_GLOBAL.k7;
 
   public actions = {
     'pdf': AppSettings.action('pdf', 'always'), 
@@ -128,6 +130,7 @@ export class AppSettings {
     this.hiddenLocks = !!kramerius.hiddenLocks;
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
+    this.k7 = !!kramerius.k7;
     this.currentCode = this.code;
     this.listner.next(kramerius);
   }
@@ -167,6 +170,14 @@ export class AppSettings {
     return this.schemaVersion === '1.0';
   }
 
+  getToken() {
+    return localStorage.getItem('auth.token.' + this.code);
+  }
+
+  setToken(token: string) {
+    return localStorage.setItem('auth.token.' + this.code, token);
+  }
+
   private static action(action: string, defaultValue: string): string {
     if (!APP_GLOBAL.actions) {
       return defaultValue;
@@ -198,4 +209,5 @@ interface KrameriusData {
   type: string;
   maxOmnibusParts: number;
   maxOmnibusPages: number;
+  k7: boolean;
 }

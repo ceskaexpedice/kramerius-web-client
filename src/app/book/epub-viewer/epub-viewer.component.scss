@@ -45,7 +45,7 @@
       background: rgba(255, 255, 255, 0.9);
       color: $app-grey;
       cursor: pointer;
-      
+      padding-top: 8px;
       &.app-left-handle {
         left: 0;
         border: 1px solid #{$app-grey-l-2};

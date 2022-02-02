@@ -108,15 +108,18 @@
           display: none;
         }
       }
-    }
-      
+    } 
     &.app-col-right-home {
       width: auto;
       float: right;
       display: block;
-      $large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
       .app-buttons {
         display: initial;
+        @media only screen and (max-width : 680px) {
+          .app-navbar-item {
+            display: none;
+          }
+        }
       }
     }
     .app-language {

@@ -599,7 +599,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const zoomifySource = new ol.source.Zoomify(zoomifyOptions);
     const imageSource = new ol.source.ImageStatic(imageOptions);
 
-    const token = this.locals.getProperty('auth.token');
+    const token = this.settings.getToken();
     if (token) {
       zoomifySource.setTileLoadFunction(this.buildCustomLoader(token));
       imageSource.imageLoadFunction = (this.buildCustomLoader(token));
@@ -635,7 +635,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       imageSize: [width, height],
       imageExtent: extent
     });
-    const token = this.locals.getProperty('auth.token');
+    const token = this.settings.getToken();
     if (token) {
       source.imageLoadFunction = (this.buildCustomLoader(token));
     }

@@ -1,6 +1,6 @@
 {
     "/search/*": {
-      "target": "https://k7.inovatika.dev",
+      "target": "https://dnnt.mzk.cz",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true

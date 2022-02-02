@@ -20,9 +20,11 @@ export class AuthService {
 
     constructor(private settings: AppSettings, private licences: LicenceService, private api: KrameriusApiService, private locals: LocalStorageService, private cache: HttpRequestCache) {
         console.log('auth constr');
-        if (settings.auth || settings.krameriusLogin || settings.k7) {
-            this.userInfo(null, null);
-        }
+        this.settings.kramerius$.subscribe(() =>  {
+            if (settings.auth || settings.krameriusLogin || settings.k7) {
+                this.userInfo(null, null);
+            }
+        });
     }
 
     login(username: string, password: string, callback: (status: string) => void = null) {
@@ -54,7 +56,7 @@ export class AuthService {
                     callback('Přihlášení se nezdařilo');
                     return;
                 }
-                this.locals.setProperty("auth.token", token);
+                this.settings.setToken(token);
                 this.userInfo(null, null, callback);
             },
             (error) => {
@@ -72,7 +74,7 @@ export class AuthService {
             return;
         }
         if (this.settings.k7) {
-            this.locals.setProperty("auth.token", '');
+            this.settings.setToken('');
             this.api.logout().subscribe(user => {
                 this.cache.clear();
                 this.userInfo(null, null, callback);
