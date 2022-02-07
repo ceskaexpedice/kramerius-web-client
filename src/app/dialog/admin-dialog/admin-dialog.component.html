@@ -5,7 +5,7 @@
     <div *ngFor="let item of items" class="app-tab" [class.active]="selection.type === item.type"
       (click)="changeTab(item)">
       <ng-container *ngIf="selection.type != 'multiple'; else multiple">{{ 'model_2p.' + item.type | translate | lowercase }}</ng-container>
-      <ng-template #multiple>vybrných objektů ({{ selection.uuids.length }})</ng-template>
+      <ng-template #multiple>vybraných objektů ({{ selection.uuids.length }})</ng-template>
     </div>
   </div>
 
