@@ -28,7 +28,7 @@
     </span>
   </div>
 
-  <mat-menu #librariesMenu="matMenu" xPosition="after" class="app-libraries-menu">
+  <mat-menu #librariesMenu="matMenu" xPosition="after" class="app-home-libraries-menu">
     <ng-template matMenuContent ngFor>
       <a class="app-dropdown-item" *ngFor="let kramerius of appSettings.krameriusList" [routerLink]="['/' + kramerius.code]" (click)="analytics.sendEvent('home', 'kramerius', kramerius.title);">
         <div class="app-brand-img">
