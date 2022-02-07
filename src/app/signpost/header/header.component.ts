@@ -10,7 +10,7 @@ import { AppSettings } from '../../services/app-settings';
 })
 export class SignpostHeaderComponent implements OnInit {
 
-  constructor(public analytics: AnalyticsService, private translate: TranslateService,
+  constructor(public analytics: AnalyticsService, private settings: AppSettings, private translate: TranslateService,
     ) {
   }
 
@@ -18,7 +18,7 @@ export class SignpostHeaderComponent implements OnInit {
   }
 
   languages(): string[] {
-    return AppSettings.langs;
+    return this.settings.languages;
   }
 
   onLanguageChanged(lang: string) {

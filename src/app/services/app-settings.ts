@@ -30,8 +30,6 @@ export class AppSettings {
   public mapSearch: boolean;
   public hiddenLocks: boolean;
   public licences: any;
-
-  public static langs = ['cs', 'en', 'de', 'sk'];
   public ga = APP_GLOBAL.ga;
   public matomo = APP_GLOBAL.matomo;
   public maxOmnibusParts: number;
@@ -56,6 +54,7 @@ export class AppSettings {
   public footer : [string, string] = APP_GLOBAL.footer;
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public landingPage = !!APP_GLOBAL.landingPage;
+  public languages: string[] = APP_GLOBAL.languages || ['cs', 'en', 'de', 'sk'];
 
   public actions = {
     'pdf': AppSettings.action('pdf', 'always'), 

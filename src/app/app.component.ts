@@ -39,9 +39,9 @@ export class AppComponent implements OnInit {
         this.state.pageUrl = event.url;
       }
     });
-    const lang = localStorage.getItem('lang');
-    if (lang) {
-      this.translate.use(lang);
-    }
+    // const lang = localStorage.getItem('lang');
+    // if (lang) {
+    //   this.translate.use(lang);
+    // }
   }
 }

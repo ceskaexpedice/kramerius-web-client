@@ -151,6 +151,8 @@ import { DatepickerComponent } from './datepicker/datepicker.component';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { GoogleMapsModule } from '@angular/google-maps';
 
+declare var APP_GLOBAL: any;
+
 export function hljsLanguages() {
   return [
     {name: 'json', func: json},
@@ -164,8 +166,10 @@ export function createTranslateLoader(http: HttpClient) {
 
 export function appInitializerFactory(translate: TranslateService) {
   return () => {
-    translate.setDefaultLang('cs');
-    return translate.use('cs').toPromise();
+    const lang = localStorage.getItem('lang') || APP_GLOBAL.defaultLanguage || 'cs';
+    console.log('setting lang', lang);
+    // translate.setDefaultLang(lang);
+    return translate.use(lang).toPromise();
   };
 }
 
@@ -278,7 +282,6 @@ export function appInitializerFactory(translate: TranslateService) {
     }),
     AppRoutingModule,
     TranslateModule.forRoot({
-      defaultLanguage: 'cs',
       loader: {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),

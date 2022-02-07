@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
   }
 
   languages(): string[] {
-    return AppSettings.langs;
+    return this.appSettings.languages;
   }
 
   onLanguageChanged(lang: string) {
