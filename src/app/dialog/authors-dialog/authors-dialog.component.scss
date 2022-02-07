@@ -1,9 +1,10 @@
 @import './src/variables.scss';
 
-.app-share {
+.app-authors {
   max-width: 700px;
   width: calc(100vw - 10px);
   padding: 20px;
+  overflow: hidden;
   .app-dialog-title {
     margin-bottom: 16px;
   }
@@ -35,5 +36,6 @@
   }
   .app-dialog-actions {
     margin-top: 20px;
+    float: right;
   }
 }

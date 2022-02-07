@@ -42,6 +42,8 @@ button:focus {
 
 .cdk-overlay-pane {
   max-width: 100vw !important;
+  max-height: 100vh !important;
+
 }
 
 .mat-bottom-sheet-container-medium, .mat-bottom-sheet-container-large {
@@ -50,6 +52,7 @@ button:focus {
 
 .mat-dialog-container {
   padding: 0 !important;
+  // height: 100vh !important;
 }
 
 .ol-dragbox {
