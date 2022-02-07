@@ -213,8 +213,9 @@ export class ModsParserService {
         for (const item of array) {
             if (item['$'] && item['$']['type']) {
                 const type = item['$']['type'];
+                const invalid = item['$']['invalid'];
                 let value = String(item['_']);
-                if (!type || !value) {
+                if (!type || !value || invalid == 'yes') {
                     continue;
                 }
                 if (type == 'doi' && !value.startsWith('http')) {
