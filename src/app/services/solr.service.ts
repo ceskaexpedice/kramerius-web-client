@@ -495,7 +495,7 @@ export class SolrService {
            + '&facet.limit=' + query.getRows()
            + '&facet.offset=' + query.getStart()
            + '&rows=0';
-        if (query.text) {
+        if (query.textSearch()) {
             const firstWord = query.text.split(" ")[0].trim();
             q += '&facet.contains=' + firstWord + '&facet.contains.ignoreCase=true';
         }

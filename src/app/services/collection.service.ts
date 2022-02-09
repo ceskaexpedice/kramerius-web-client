@@ -41,6 +41,12 @@ export class CollectionService {
                 if (col.descs) {
                     collection.titleCs = col.descs.cs;
                     collection.titleEn = col.descs.en;
+                    if (collection.titleCs) {
+                        collection.titleCs = collection.titleCs.trim();
+                    }
+                    if (collection.titleEn) {
+                        collection.titleEn = collection.titleEn.trim();
+                    }
                 }
                 if (col.longDescs) {
                     collection.descriptionCs = col.longDescs.cs;
