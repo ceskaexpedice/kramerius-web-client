@@ -162,8 +162,9 @@ app-book-search {
       margin: 0;
       border-bottom-color: transparent;
       padding-left: 30px;
-      width: calc(100% - 30px);
-      
+      width: 100%;
+      padding-right: 30px;
+      box-sizing: border-box;
       &::placeholder {
         color: $app-grey;
       }
