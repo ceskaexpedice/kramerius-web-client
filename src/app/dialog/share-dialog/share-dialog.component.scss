@@ -20,6 +20,10 @@
         cursor: pointer;
         top: 4px;
       }
+      input {
+        box-sizing: border-box;
+        padding-right: 38px;
+      }
     }
     .app-social {
       padding-top: 10px;

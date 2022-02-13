@@ -76,7 +76,7 @@ app-root {
           height: calc(#{$app-mobile-panel-height} - #{$navbar-height} - #{$app-toolbar-height});
           box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
           display: block;
-          z-index: 1001;
+          z-index: 999;
         }
         &.app-panel-mobile-hidden {
           display: none;
