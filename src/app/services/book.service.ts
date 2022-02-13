@@ -488,7 +488,9 @@ export class BookService {
         const pages = [];
         const parents = [];
         for (const p of inputPages) {
-            if (p['model'] === 'supplement' || (doctype == 'oldprintomnibusvolume' && p['model'] != 'page')) {
+            console.log('AAAAA', p);
+
+            if (p['model'] === 'supplement' || (doctype == 'oldprintomnibusvolume' && p['model'] != 'oldprintomnibusvolume' && p['model'] != 'page')) {
                 parents.push(p);
                 this.extraParents.push(p);
             } else {
