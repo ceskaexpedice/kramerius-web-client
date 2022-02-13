@@ -47,7 +47,7 @@
       border: none;
       height: calc(#{$app-mobile-panel-height} - #{$app-toolbar-height});
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
-      z-index: 1001;
+      z-index: 950;
       
       &.app-panel-mobile-hidden {
         display: none;

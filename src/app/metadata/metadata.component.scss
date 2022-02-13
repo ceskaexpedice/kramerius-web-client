@@ -7,9 +7,6 @@
       font-weight: 500;
       color: $app-grey-d-4;
     }
-    a {
-      font-weight: 400;
-    }
      .app-metadata-controls {
       display: block;
       height: 55px;
@@ -34,16 +31,14 @@
     }
     .app-metadata-content {
       padding: 1rem;
-      font-weight: 300;
       overflow: auto;
       height: calc(100% - 55px);
       h1 {
         font-size: 1.1rem;
         line-height: 2rem;
         padding: 5px 0;
-        font-weight: 400;
         margin: 0;
-        color: $app-grey-d-2;
+        color: #3c3c3c;
         &.app-cut {
           line-height: 1.6rem;
           height: 3.2rem;
@@ -89,6 +84,10 @@
       .app-identifier {
         color: $app-grey-d-1;
         font-size: 14px;
+        margin-top: 4px;
+        a {
+        line-break: anywhere;
+        }
       }
       .app-part-number {
         color: $app-grey-d-1;
@@ -96,14 +95,11 @@
       .app-part-name {
         color: $app-grey-d-3;
       }
-      
       .divider {
         margin: 10px 0;
         background: transparent;
       }
-      
       .app-value {
-        font-weight: 400;
         font-size: 15px;
         color: $app-grey-d-2;
       }

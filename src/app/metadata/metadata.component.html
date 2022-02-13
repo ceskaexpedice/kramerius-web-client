@@ -22,11 +22,11 @@
       </div>
 
       <div *ngIf="metadata.hasIdentifier('issn')" class="app-identifier">
-        ISSN {{ metadata.identifiers['issn'] }}
+        ISSN <span class="app-value">{{ metadata.identifiers['issn'] }}</span>
       </div>
 
       <div *ngIf="metadata.hasIdentifier('isbn')" class="app-identifier">
-        ISBN {{ metadata.identifiers['isbn'] }}
+        ISBN <span class="app-value">{{ metadata.identifiers['isbn'] }}</span>
       </div>
 
       <div *ngIf="metadata.hasIdentifier('doi')" class="app-identifier">
