@@ -119,7 +119,7 @@
 <ng-container *ngIf="bookService.isPdf()">
 
   <div class="app-navigation-articles" *ngIf="bookService.activeNavigationTab === 'articles'; else pdfNav">
-    <div *ngFor="let article of bookService.articles" (click)="bookService.onArticleSelected(article)" class="app-article" [class.app-article-selected]="article === bookService.article">{{ article.title }}</div>
+    <div *ngFor="let article of bookService.articles" (click)="bookService.onArticleSelected(article)" class="app-article" [class.app-selected]="article === bookService.article">{{ article.title }}</div>
   </div>
 
   <ng-template #pdfNav>

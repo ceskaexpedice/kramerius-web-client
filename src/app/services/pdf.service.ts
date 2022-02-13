@@ -26,9 +26,11 @@ export class PdfService {
         this.pageIndex = 1;
         this.totalPages = data.numPages;
         data.getOutline().then((outline: any[]) => {
-            console.log('outline', outline);
             this.outline = outline;
         });
+        setTimeout(()=>{                          
+           this.pageIndex = 1;
+        }, 50);
     }
 
     setZoom(zoom: number) {

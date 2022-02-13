@@ -8,14 +8,14 @@
   margin-left: -6px;
   margin-right: -6px;
   &:hover {
-    border-right-color: #00000033;
+    border-left-color: #00000033;
     background: #fff;
     box-shadow: 0 0px 2px 0 #00000033;
   }
-  border-right: 2px solid transparent;
+  border-left: 4px solid transparent;
   &.active {
-    border-right-color: $primary-color;
-    background: #fff;
+    border-left-color: $primary-color;
+    background: #0276bd1c;
     box-shadow: 0 0px 2px 0 #00000033;
   }
   .app-snippet-content {
