@@ -316,7 +316,6 @@ export class KrameriusApiService {
         return this.http.get(url).catch(this.handleError);
     }
 
-
     getRecommended() {
         const url = this.getApiUrl() + '/feed/custom';
         return this.doGet(url)

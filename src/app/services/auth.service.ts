@@ -19,7 +19,9 @@ export class AuthService {
     redirectUrl: string;
 
     constructor(private settings: AppSettings, private licences: LicenceService, private api: KrameriusApiService, private locals: LocalStorageService, private cache: HttpRequestCache) {
-        console.log('auth constr');
+        if (!settings.multiKramerius && (settings.auth || settings.krameriusLogin || settings.k7)) {
+            this.userInfo(null, null);
+        }
         this.settings.kramerius$.subscribe(() =>  {
             if (settings.auth || settings.krameriusLogin || settings.k7) {
                 this.userInfo(null, null);
