@@ -20,6 +20,8 @@
                 <div class="app-divider"></div>
                 <div class="app-track-unit">{{ track.unit.name }}</div>
             </ng-container>
+            <div style="flex: 1"></div>
+            <div class="app-track-length" *ngIf="track.length">{{ track.length * 1000| date:'m:ss' }}</div>
         </div>
     </div>
 </div>

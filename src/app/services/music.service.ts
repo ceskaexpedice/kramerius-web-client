@@ -112,7 +112,7 @@ export class MusicService {
       this.krameriusApiService.getChildren(unit['uuid']).subscribe((tracks) => {
         for (const track of tracks) {
           if (track['model'] === 'track') {
-            this.tracks.push(new Track(track['pid'], track['title'], unit, track['policy'] === 'public'));
+            this.tracks.push(new Track(track['pid'], track['title'], track['length'], unit, track['policy'] === 'public'));
           }
         }
         this.soundUnitIndex += 1;

@@ -5,10 +5,12 @@ export class Track {
     isPublic: boolean;
     name: string;
     unit: SoundUnit;
+    length: number;
 
-    constructor(uuid: string, name: string, unit: SoundUnit, isPublic: boolean) {
+    constructor(uuid: string, name: string, length: number, unit: SoundUnit, isPublic: boolean) {
         this.uuid = uuid;
         this.name = name;
+        this.length = length;
         this.unit = unit;
         this.isPublic = isPublic;
     }

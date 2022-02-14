@@ -66,6 +66,13 @@
                 color: $app-grey-d-2;
                 word-break: break-all;
             }
+            .app-track-length {
+                float: right; 
+                color: $app-grey-d-2;
+                margin-right: 10px; 
+                margin-left: 10px;
+                font-size: 13px;
+            }
         }
         &:hover {
             background-color: #fff;
