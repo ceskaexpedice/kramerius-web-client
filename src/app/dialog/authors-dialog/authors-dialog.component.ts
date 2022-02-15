@@ -15,14 +15,12 @@ export class AuthorsDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<AuthorsDialogComponent>,
-    public analytics: AnalyticsService, public appSettings: AppSettings,
+    public analytics: AnalyticsService, 
+    public settings: AppSettings,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
   ngOnInit(): void {
-    console.log('data', this.data);
-    // this.authors = this.data.authors;
-
   }
 
   onCancel() {

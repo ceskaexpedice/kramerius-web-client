@@ -11,7 +11,8 @@
       </div>
       <div class="app-row" *ngFor="let author of data.authors; let even=even;" [ngClass]="{ even: even }">
         <div class="app-cell app-name">
-            <a [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author-from-dialog');onCancel()">{{ author.name }}</a>
+            <a *ngIf="settings.availableFilter('authors')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author-from-dialog');onCancel()">{{ author.name }}</a>
+            <div *ngIf="!settings.availableFilter('authors')" class="app-value">{{ author.name }}</div>
         </div>
         <div class="app-cell app-date">{{ author.date }}</div>
         <div class="app-cell app-role">

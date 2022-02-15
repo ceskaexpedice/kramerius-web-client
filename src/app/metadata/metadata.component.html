@@ -58,34 +58,40 @@
     </ng-container>
 
     <div *ngIf="!metadata.isPublic" class="app-policy">
-        <mat-icon class="app-lock" [class.app-lock-licence-open]="anyLicence()">{{ metadata.licence ? 'no_photography' : 'lock' }}</mat-icon>
-        <span class="app-message">{{ 'metadata.policy_private' | translate }}</span>
-        <mat-icon class="app-help" (click)="showPrivateDialog()">info</mat-icon>
-        <ng-container *ngIf="metadata.licence">
-          <div class="app-licence-label">
-            {{ 'licence.metadata_licence' | translate }}
-          </div>
-          <div class="app-licence-value" (click)="showLicenceDialog()">
-            {{ licences.label(metadata.licence) }}
-          </div>
-        </ng-container>
+      <mat-icon class="app-lock" [class.app-lock-licence-open]="anyLicence()">{{ metadata.licence ? 'no_photography' : 'lock' }}</mat-icon>
+      <span class="app-message">{{ 'metadata.policy_private' | translate }}</span>
+      <mat-icon class="app-help" (click)="showPrivateDialog()">info</mat-icon>
+      <ng-container *ngIf="metadata.licence">
+        <div class="app-licence-label">
+          {{ 'licence.metadata_licence' | translate }}
+        </div>
+        <div class="app-licence-value" (click)="showLicenceDialog()">
+          {{ licences.label(metadata.licence) }}
+        </div>
+      </ng-container>
       <div class="divider"></div>
     </div>
 
     <div *ngIf="metadata.getPrimaryAuthors().length > 0">
       <label>{{ 'metadata.author' | translate }}</label>
-      <div *ngFor="let author of metadata.getPrimaryAuthors(); let index=index" class="app-value">
-          <a *ngIf="index < 3" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
-      </div>
+      <ng-container *ngFor="let author of metadata.getPrimaryAuthors(); let index=index">
+        <div *ngIf="index < 3">
+          <a *ngIf="settings.availableFilter('authors')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
+          <div *ngIf="!settings.availableFilter('authors')" class="app-value">{{ author.name }}</div>
+        </div>
+      </ng-container>
       <mat-icon [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more">more_horiz</mat-icon>
       <div class="divider"></div>
     </div>
 
     <div *ngIf="metadata.getOtherAuthors().length > 0">
       <label>{{ 'metadata.author_other' | translate }}</label>
-      <div *ngFor="let author of metadata.getOtherAuthors(); let index=index" class="app-value">
-          <a *ngIf="index < 3" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
-      </div>
+      <ng-container *ngFor="let author of metadata.getOtherAuthors(); let index=index">
+        <div *ngIf="index < 3">
+          <a *ngIf="settings.availableFilter('authors')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
+          <div *ngIf="!settings.availableFilter('authors')" class="app-value">{{ author.name }}</div>
+        </div>
+      </ng-container>
       <mat-icon [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more">more_horiz</mat-icon>
       <div class="divider"></div>
     </div>
@@ -189,8 +195,6 @@
       <div class="divider"></div>
     </div>
 
-
-
     <div *ngIf="metadata.donators">
       <label>{{ 'metadata.donator' | translate }}</label>
       <a *ngFor="let donator of metadata.donators" style="display:block" target="_blank" href="{{ 'donator.' + donator + '.url' | translate }}" (click)="analytics.sendEvent('metadata', 'link', 'donator');">
@@ -207,19 +211,22 @@
 
     <div *ngIf="metadata.doctype">
       <label>{{ 'metadata.doctype' | translate }}</label>
-      <div class="app-value" *ngIf="metadata.doctype !== 'monographbundle'">
-          <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{doctypes: metadata.doctype }" (click)="analytics.sendEvent('metadata', 'link', 'doctype');">{{ 'model.' + metadata.doctype | translate }}</a>
+      <div *ngIf="metadata.doctype !== 'monographbundle'">
+        <a *ngIf="settings.availableFilter('doctypes')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{doctypes: metadata.doctype }" (click)="analytics.sendEvent('metadata', 'link', 'doctype');">{{ 'model.' + metadata.doctype | translate }}</a>
+        <div *ngIf="!settings.availableFilter('doctypes')" class="app-value">{{ 'model.' + metadata.doctype | translate }}</div>
       </div>
+
       <div class="app-value" *ngIf="metadata.doctype === 'monographbundle'">
         {{ 'model.' + metadata.doctype | translate }}
-    </div>
+      </div>
       <div class="divider"></div>
     </div>
 
     <div *ngIf="metadata.keywords.length > 0">
       <label>{{ 'metadata.keywords' | translate }}</label>
-      <div *ngFor="let keyword of metadata.keywords" class="app-value" >
-          <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{keywords: keyword }" (click)="analytics.sendEvent('metadata', 'link', 'keyword');">{{ keyword | appUpcase }}</a>
+      <div *ngFor="let keyword of metadata.keywords">
+        <a *ngIf="settings.availableFilter('keywords')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{keywords: keyword }" (click)="analytics.sendEvent('metadata', 'link', 'keyword');">{{ keyword | appUpcase }}</a>
+        <div *ngIf="!settings.availableFilter('keywords')" class="app-value">{{ keyword }}</div>
       </div>
       <div class="divider"></div>
     </div>
@@ -227,12 +234,8 @@
     <div *ngIf="metadata.genres.length > 0">
       <label>{{ 'metadata.genres' | translate }}</label>
       <div *ngFor="let genre of metadata.genres">
-        <ng-container *ngIf="settings.availableFilter('genres'); else noLinkGenre" >
-          <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{genres: genre }" (click)="analytics.sendEvent('metadata', 'link', 'genre');">{{ genre | appUpcase}}</a>
-        </ng-container>
-        <ng-template #noLinkGenre>
-          <div class="app-value">{{ genre }}</div>
-        </ng-template>
+        <a *ngIf="settings.availableFilter('genres')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{genres: genre }" (click)="analytics.sendEvent('metadata', 'link', 'genre');">{{ genre | appUpcase}}</a>
+        <div *ngIf="!settings.availableFilter('genres')" class="app-value">{{ genre }}</div>
       </div>
       <div class="divider"></div>
     </div>
@@ -240,20 +243,17 @@
     <div *ngIf="metadata.geonames.length > 0">
       <label>{{ 'metadata.geonames' | translate }}</label>
       <div *ngFor="let geoname of metadata.geonames">
-        <ng-container *ngIf="settings.availableFilter('geonames'); else noLinkGeoname" >
-          <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{geonames: geoname }" (click)="analytics.sendEvent('metadata', 'link', 'geoname');">{{ geoname | appUpcase}}</a>
-        </ng-container>
-        <ng-template #noLinkGeoname>
-          <div class="app-value">{{ geoname }}</div>
-        </ng-template>
+        <a *ngIf="settings.availableFilter('geonames')"  [routerLink]="settings.getRouteFor('search')" [queryParams]="{geonames: geoname }" (click)="analytics.sendEvent('metadata', 'link', 'geoname');">{{ geoname | appUpcase}}</a>
+        <div *ngIf="!settings.availableFilter('geonames')"  class="app-value">{{ geoname }}</div>
       </div>
       <div class="divider"></div>
     </div>
 
     <div *ngIf="metadata.languages.length > 0">
       <label>{{ 'metadata.languages' | translate }}</label>
-      <div *ngFor="let language of metadata.languages" class="app-value" >
-        <a [routerLink]="settings.getRouteFor('search')" [queryParams]="{languages: language }" (click)="analytics.sendEvent('metadata', 'link', 'language');">{{ 'language.' + language | translate | appUpcase }}</a>
+      <div *ngFor="let language of metadata.languages">
+        <a  *ngIf="settings.availableFilter('languages')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{languages: language }" (click)="analytics.sendEvent('metadata', 'link', 'language');">{{ 'language.' + language | translate | appUpcase }}</a>
+        <div *ngIf="!settings.availableFilter('languages')" class="app-value">{{ 'language.' + language | translate | appUpcase }}</div>
       </div>
       <div class="divider"></div>
     </div>
@@ -261,12 +261,10 @@
     <div *ngIf="metadata.locations.length > 0">
       <label>{{ 'metadata.location' | translate }}</label>
       <div *ngFor="let location of metadata.locations">
-        <ng-container *ngIf="settings.availableFilter('locations'); else noLinkLocation" >
-          <a *ngIf="location.physicalLocation" [routerLink]="settings.getRouteFor('search')" [queryParams]="{locations: location.physicalLocation }" (click)="analytics.sendEvent('metadata', 'link', 'location');">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</a>
+        <ng-container *ngIf="location.physicalLocation">
+          <a *ngIf="settings.availableFilter('locations')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{locations: location.physicalLocation }" (click)="analytics.sendEvent('metadata', 'link', 'location');">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</a>
+          <div *ngIf="!settings.availableFilter('locations')" class="app-value">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</div>
         </ng-container>
-        <ng-template #noLinkLocation>
-          <div class="app-value" *ngIf="location.physicalLocation">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</div>
-        </ng-template>
         <div class="app-value" *ngIf="location.shelfLocator" translate [translateParams]="{ shelf_locator: location.shelfLocator }">metadata.shelf_locator</div>
       </div>
       <div class="divider"></div>
