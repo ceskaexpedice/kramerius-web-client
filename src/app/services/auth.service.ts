@@ -40,8 +40,8 @@ export class AuthService {
     userInfo(username: string, password: string, callback: (status: string) => void = null) {
         this.api.getUserInfo(username, password).subscribe(user => {
             this.user = user;
-            console.log('USER', this.user);
-            console.log('Licences', this.user.licences);
+            // console.log('USER', this.user);
+            // console.log('Licences', this.user.licences);
             this.licences.assignUserLicences(this.user.licences);
             this.cache.clear();
             if (callback) {

@@ -100,7 +100,6 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
   }
 
   onMetadataLoaded(metadata: any) {
-    console.log('onMetadataLoaded', metadata);
     const m = new Metadata();
 
 

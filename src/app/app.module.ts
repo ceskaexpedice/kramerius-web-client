@@ -167,8 +167,6 @@ export function createTranslateLoader(http: HttpClient) {
 export function appInitializerFactory(translate: TranslateService) {
   return () => {
     const lang = localStorage.getItem('lang') || APP_GLOBAL.defaultLanguage || 'cs';
-    console.log('setting lang', lang);
-    // translate.setDefaultLang(lang);
     return translate.use(lang).toPromise();
   };
 }

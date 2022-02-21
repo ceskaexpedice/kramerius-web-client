@@ -17,7 +17,7 @@ export class LicenceService {
   }
 
   assignLicences(licences: any) {
-    console.log('assignLicences', licences);
+    // console.log('assignLicences', licences);
       this.licences = licences;
   }
 

@@ -18,7 +18,7 @@ export class User {
       user.firstname = json['firstname'];
       user.surname = json['surname'];
       user.code = json['session'] ? json['session']['session_eppn'] : '';
-      user.licences = json['licenses'] || [];
+      user.licences = json['licenses'] || json['labels'] || [];
       user.roles = json['roles'] || [];
       user.username = username;
       user.password = passwod;
