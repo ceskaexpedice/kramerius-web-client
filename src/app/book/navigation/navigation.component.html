@@ -92,7 +92,7 @@
 
   <div class="app-navigation-toc" *ngIf="!epubService.searching">
     <ng-container *ngFor="let item of epubService.toc">
-      <div class="app-item" [class.app-item-selected]="epubService.isChapterSelected(item)" (click)="epubService.goToChapter(item)">{{ item.label.trim() }}</div>
+      <div class="app-item" [class.app-selected]="epubService.isChapterSelected(item)" (click)="epubService.goToChapter(item)">{{ item.label.trim() }}</div>
       <ng-container *ngIf="epubTocExpanded">
         <ng-container *ngFor="let subitem of item.subitems">
           <div class="app-item app-sub" (click)="epubService.goToChapter(subitem)">{{ subitem.label.trim() }}</div>
@@ -143,10 +143,10 @@
 
     <div class="app-navigation-toc" *ngIf="!pdfService.searching">
       <ng-container *ngFor="let item of pdfService.outline">
-        <div class="app-item" (click)="pdfService.goTo(item.dest)">{{ item.title.trim() }}</div>
+        <div class="app-item" [class.app-selected]="pdfService.isChapterActive(item, epubTocExpanded)" (click)="pdfService.goTo(item.dest)">{{ item.title.trim() }}</div>
         <ng-container *ngIf="epubTocExpanded">
           <ng-container *ngFor="let subitem of item.items">
-            <div class="app-item app-sub" (click)="pdfService.goTo(subitem.dest)">{{ subitem.title.trim() }}</div>
+            <div class="app-item app-sub" [class.app-selected]="pdfService.isChapterActive(subitem)" (click)="pdfService.goTo(subitem.dest)">{{ subitem.title.trim() }}</div>
           </ng-container>
         </ng-container>
       </ng-container>
