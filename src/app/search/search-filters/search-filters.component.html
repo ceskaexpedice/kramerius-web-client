@@ -63,7 +63,7 @@
       </mat-expansion-panel-header>
       <div class="app-filter-items">
         <div *ngFor="let item of searchService.doctypes"
-              [class.app-selected]="item.value === searchService.query.accessibility"
+              [class.app-selected]="searchService.query.doctypes.indexOf(item.value) >= 0"
               (click)="searchService.toggleFilter(searchService.query.doctypes, item.value);analytics.sendEvent('search', 'doctype', item.value)"
               class="app-filter-item">
               <span>{{item.count}}</span>

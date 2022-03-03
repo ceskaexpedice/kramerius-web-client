@@ -20,10 +20,11 @@
       .app-filter-item {
         line-height: 22px;
         cursor: pointer;
+        color: $app-grey-d-1;
         &.app-selected {
           font-weight: 600;
+          color: $app-grey-d-3;
         }
-        color: $app-grey-d-1;
         &:hover {
           color: $app-grey-d-4;
         }

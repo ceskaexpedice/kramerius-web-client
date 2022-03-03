@@ -1117,9 +1117,12 @@ export class SolrService {
                 }
             } else {
                 if (!joinedDocytypes) {
-                    const ff = f.split('/')[0];
-                    if (map[ff] !== undefined) {
-                        map[ff] += facetFields[i + 1];
+                    const ff = f.split('/');
+                    if (map[ff[0]] !== undefined && (ff[0] != 'convolute' || ff[ff.length - 1] == 'page')) {
+                        map[ff[0]] += facetFields[i + 1];
+                    }
+                    if (map[ff[0]] !== undefined && ff[0] == 'convolute' && map[ff[1]] !== undefined) {
+                        map[ff[1]] += facetFields[i + 1];
                     }
                 } else {
                     const ff = f.split('/');
