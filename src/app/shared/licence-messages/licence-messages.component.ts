@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { map } from 'rxjs/operators';
 import { KrameriusInfo } from '../../model/krameriusInfo.model';
 import { AppSettings } from '../../services/app-settings';
 import { KrameriusInfoService } from '../../services/kramerius-info.service';
@@ -77,7 +78,7 @@ export class LicenceMessagesComponent implements OnInit {
     const uuid = this.getUuidFromUrl();
     const licence = licences.shift();
     const url = this.licenceService.message(licence);
-    this.http.get(url, { observe: 'response', responseType: 'text' }).map(response => response['body']).subscribe((result) => {
+    this.http.get(url, { observe: 'response', responseType: 'text' }).pipe(map(response => response['body'])).subscribe((result) => {
       if (licence != "_private") {
         this.html += `<h5>${this.licenceService.label(licence)}</h5>`;
       }

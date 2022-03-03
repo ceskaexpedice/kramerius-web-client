@@ -1,9 +1,6 @@
 import { KrameriusApiService } from './kramerius-api.service';
 import { Injectable } from '@angular/core';
 import { User } from '../model/user.model';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/shareReplay';
-import 'rxjs/add/operator/do';
 import { HttpRequestCache } from './http-request-cache.service';
 import { AppSettings } from './app-settings';
 import { LicenceService } from './licence.service';

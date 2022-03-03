@@ -4,6 +4,7 @@ import { AppSettings } from '../../services/app-settings';
 import { forkJoin } from 'rxjs';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home-footer',
@@ -27,7 +28,7 @@ export class HomeFooterComponent implements OnInit {
     const dataArray = [];
     for(const [key, element] of Object.entries(this.appSettings.footer)){
         reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
-        .map(response => response['body']));
+        .pipe(map(response => response['body'])));
     }
     forkJoin(reqs)
     .subscribe( result => {

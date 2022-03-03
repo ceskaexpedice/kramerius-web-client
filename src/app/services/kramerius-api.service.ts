@@ -7,8 +7,6 @@ import { NotFoundError } from './../common/errors/not-found-error';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { AppSettings } from './app-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -22,6 +20,7 @@ import { BrowseItem } from '../model/browse_item.model';
 import { BrowseQuery } from '../browse/browse_query.model';
 import { Metadata } from '../model/metadata.model';
 import { ModsParserService } from './mods-parser.service';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class KrameriusApiService {
@@ -53,17 +52,17 @@ export class KrameriusApiService {
     }
 
     private doGet(url: string): Observable<Object> {
-        return this.http.get(encodeURI(url)).catch(this.handleError);
+        return this.http.get(encodeURI(url)).pipe(catchError(this.handleError));
     }
 
     private doGetText(url: string): Observable<string> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'text' })
-            .map(response => response['body']).catch(this.handleError);
+            .pipe(map(response => response['body'], catchError(this.handleError)));
     }
 
     private doGetBlob(url: string): Observable<Blob> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'blob' })
-            .map(response => response['body']).catch(this.handleError);
+            .pipe(map(response => response['body'], catchError(this.handleError)));
     }
 
     private getbaseUrl(): string {
@@ -122,87 +121,79 @@ export class KrameriusApiService {
         }
     }
 
-    // getThumbUrl(uuid: string) {
-    //     return this.getbaseUrl() + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
-    // }
-
-    // getThumbUrlForKramerius(uuid: string, url: string) {
-    //     return url + `/search/img?pid=${uuid}&stream=IMG_THUMB&action=GETRAW`;
-    // }
-
     getSearchResults(query: string) {
         return this.doGet(this.getSearchResultsUrl(query));
     }
 
     getNumberOfRootsPages(root: string): Observable<number> {
         return this.getSearchResults(this.solr.buildNumberOfRootsPagesQuery(root))
-            .map(response => this.solr.numberOfResults(response));
+            .pipe(map(response => this.solr.numberOfResults(response)));
     }
 
     getNewest(): Observable<DocumentItem[]> {
         return this.getSearchResults(this.solr.getNewestQuery())
-            .map(response => this.solr.documentItems(response));
+            .pipe(map(response => this.solr.documentItems(response)));
     }
 
     getFulltextSearchAutocomplete(term: string, uuid: string): Observable<CompleterItem[]> {
         return this.getSearchResults(this.solr.buildFulltextSearchAutocompleteQuery(term, uuid))
-            .map(response => this.solr.fulltextSearchAutocompleteResults(response));
+            .pipe(map(response => this.solr.fulltextSearchAutocompleteResults(response)));
     }
 
     getSearchAutocomplete(term: string, query: SearchQuery, publicOnly: boolean): Observable<CompleterItem[]> {
         return this.getSearchResults(this.solr.buildSearchAutocompleteQuery(term, query, publicOnly))
-            .map(response => this.solr.searchAutocompleteResults(response, term));
+            .pipe(map(response => this.solr.searchAutocompleteResults(response, term)));
     }
 
     getPeriodicalFulltext(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery, models: string[]): Observable<[PeriodicalFtItem[], number]> {
         return this.getSearchResults(this.solr.buildPeriodicalFulltextSearchQuery(periodicalUuid, volumeUuid, offset, limit, query, models))
-            .map(response => [this.solr.periodicalFullTextItems(response, query.fulltext), this.solr.numberOfResults(response)] as [PeriodicalFtItem[], number]);
+            .pipe(map(response => [this.solr.periodicalFullTextItems(response, query.fulltext), this.solr.numberOfResults(response)] as [PeriodicalFtItem[], number]));
     }
 
     getPeriodicalItemsDetails(uuids: string[]): Observable<PeriodicalItem[]> {
         return this.getSearchResults(this.solr.buildPeriodicalItemsDetailsQuery(uuids))
-            .map(response => this.solr.periodicalItemsDetails(response));
+            .pipe(map(response => this.solr.periodicalItemsDetails(response)));
     }
 
     getPeriodicalVolumes(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
         return this.getSearchResults(this.solr.buildPeriodicalVolumesQuery(uuid, query))
-            .map(response => this.solr.periodicalItems(response, 'periodicalvolume'));
+            .pipe(map(response => this.solr.periodicalItems(response, 'periodicalvolume')));
     }
 
     getPeriodicalIssues(uuid: string, query: PeriodicalQuery): Observable<PeriodicalItem[]> {
         return this.getSearchResults(this.solr.buildPeriodicalIssuesQuery(uuid, query))
-            .map(response => this.solr.periodicalItems(response, 'periodicalitem', uuid));
+            .pipe(map(response => this.solr.periodicalItems(response, 'periodicalitem', uuid)));
     }
 
     getMonographUnits(uuid: string, query: PeriodicalQuery): Observable<DocumentItem[]> {
         return this.getSearchResults(this.solr.buildMonographUnitsQuery(uuid, query))
-            .map(response => this.solr.monographUnits(response));
+            .pipe(map(response => this.solr.monographUnits(response)));
     }
 
     getOmnibusUnits(uuid: string, query: PeriodicalQuery): Observable<DocumentItem[]> {
         return this.getSearchResults(this.solr.buildOmnibusUnitsQuery(uuid, query))
-            .map(response => this.solr.omnibusUnits(response));
+            .pipe(map(response => this.solr.omnibusUnits(response)));
     }
 
     getBrowseItems(query: BrowseQuery): Observable<[BrowseItem[], number]> {
         return this.getSearchResults(this.solr.buildBrowseQuery(query))
-            .map(response => this.solr.browseItems(response, query));
+            .pipe(map(response => this.solr.browseItems(response, query)));
     }
 
     getDocumentFulltextPage(uuids: string[], query: string): Observable<string[]> {
         return this.getSearchResults(this.solr.buildDocumentFulltextQuery(uuids, query))
-            .map(response => this.solr.documentFulltextQuery(response));
+            .pipe(map(response => this.solr.documentFulltextQuery(response)));
     }
 
     getMetadata(uuid: string, type: string = 'full'): Observable<Metadata> {
-        return this.getMods(uuid).map(mods => this.mods.parse(mods, uuid, type));
+        return this.getMods(uuid).pipe(map(mods => this.mods.parse(mods, uuid, type)));
     }
 
     getItem(uuid: string): Observable<DocumentItem> {
         if (this.settings.k5Compat()) {
-            return this.doGet(this.getItemUrl(uuid)).map(response => this.utils.parseItem(response));
+            return this.doGet(this.getItemUrl(uuid)).pipe(map(response => this.utils.parseItem(response)));
         } else {
-            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).map(response => this.solr.documentItem(response));
+            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => this.solr.documentItem(response)));
         }
     }
 
@@ -301,37 +292,37 @@ export class KrameriusApiService {
             headers: new HttpHeaders(headerParams)
         };
         return this.http.get(url, httpOptions)
-            .map(response => User.fromJson(response, username, password));
+            .pipe(map(response => User.fromJson(response, username, password)));
     }
 
     auth(username: string, password: string): Observable<string> {
         const url = this.getK7AuthUrl();
         const body = `username=${username}&password=${password}`;
         return this.http.post(url, body)
-            .map(response => response['access_token']);
+            .pipe(map(response => response['access_token']));
     }
 
     logout() {
         const url = this.getApiUrl() + '/user/logout';
-        return this.http.get(url).catch(this.handleError);
+        return this.http.get(url).pipe(catchError(this.handleError));
     }
 
     getRecommended() {
         const url = this.getApiUrl() + '/feed/custom';
         return this.doGet(url)
-            .map(response => this.utils.parseRecommended(response));
+            .pipe(map(response => this.utils.parseRecommended(response)));
     }
 
     getCollections() {
         const url = this.getApiUrl() + '/vc';
         return this.doGet(url)
-            .map(response => response);
+            .pipe(map(response => response));
     }
 
     getKrameriusInfo(language: string): Observable<KrameriusInfo> {
         const url = this.getApiUrl() + '/info?language=' + language;
         return this.doGet(url)
-            .map(response => KrameriusInfo.fromJson(response));
+            .pipe(map(response => KrameriusInfo.fromJson(response)));
     }
 
     getPdfUrl(uuid: string): string {
@@ -352,9 +343,9 @@ export class KrameriusApiService {
 
     getPdfPreviewBlob(uuid: string): Observable<boolean> {
         if (this.settings.k5Compat()) {
-            return this.doGetBlob(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_PREVIEW)).map(() => true);
+            return this.doGetBlob(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_PREVIEW)).pipe(map(() => true));
         } else {
-            return this.doGetBlob(this.getItemUrl(uuid) + '/image').map(() => true);
+            return this.doGetBlob(this.getItemUrl(uuid) + '/image').pipe(map(() => true));
         }
     }
 
@@ -380,13 +371,8 @@ export class KrameriusApiService {
     }
 
     getChildren(uuid: string, own: boolean = true): Observable<any> {
-        // if (this.settings.k5Compat()) {
-        //     return this.doGet(this.getItemUrl(uuid) + '/children')
-        //         .map(response => this.utils.parseBookChild(response));
-        // } else {
-            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, own))
-                .map(response => this.solr.bookChildItems(response));
-        // }
+        return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, own))
+            .pipe(map(response => this.solr.bookChildItems(response)));
     }
 
 
@@ -407,10 +393,10 @@ export class KrameriusApiService {
     getItemInfo(uuid: string): Observable<any> {
         if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid))
-                .map(response => this.parseItemInfoForPage(response));
+                .pipe(map(response => this.parseItemInfoForPage(response)));
         } else {
             return this.doGet(this.getItemUrl(uuid) + '/info')
-                .map(response => this.parseItemInfoForPage(response));
+                .pipe(map(response => this.parseItemInfoForPage(response)));
         }
     }
 
@@ -425,7 +411,6 @@ export class KrameriusApiService {
                 imageType = 'image/jpeg';
             }
             return {
-                // licences: json['dnnt-labels'],
                 licence: json['providedByLabel'],
                 replicatedFrom: json['replicatedFrom'],
                 imageType: imageType
@@ -437,18 +422,6 @@ export class KrameriusApiService {
             }
         }
     }
-
-
-
-
-
-
-
-    // getSiblings(uuid: string) {
-    //     const url = this.getItemUrl(uuid) + '/siblings';
-    //     return this.doGet(url)
-    //       .catch(this.handleError);
-    // }
 
 
 }

@@ -1,10 +1,10 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { AppSettings } from './app-settings';
 import { TranslateService } from '@ngx-translate/core';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class CitationService {
@@ -20,7 +20,7 @@ export class CitationService {
 
     private doGetText(url: string): Observable<string> {
         return this.http.get(encodeURI(url), { observe: 'response', responseType: 'text' })
-        .map(response => response['body']);
+        .pipe(map(response => response['body']));
     }
 
 }

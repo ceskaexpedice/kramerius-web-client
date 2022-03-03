@@ -5,6 +5,7 @@ import { AppSettings } from '../services/app-settings';
 import { Router } from '@angular/router';
 import { PageTitleService } from '../services/page-title.service';
 import { TranslateService } from '@ngx-translate/core';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-about',
@@ -32,7 +33,7 @@ export class AboutComponent implements OnInit {
     const dataArray = [];
     for(const [key, element] of Object.entries(this.appSettings.aboutPage)){
         reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
-        .map(response => response['body']));
+        .pipe(map(response => response['body'])));
     }
     forkJoin(reqs)
     .subscribe( result => {
