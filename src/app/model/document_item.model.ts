@@ -31,7 +31,7 @@ export class DocumentItem {
     licence: string;
 
     resolveUrl(prefix: string) {
-        if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume' || this.doctype === 'oldprintomnibusvolume') {
+        if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume' || this.doctype === 'convolute') {
             this.url = prefix + '/periodical/' + this.uuid;
         } else if (this.doctype === 'soundrecording') {
             this.url = prefix + '/music/' + this.uuid;

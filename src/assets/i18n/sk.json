@@ -287,7 +287,7 @@
         "none": "Hľadať",
         "periodical": "Hľadať v periodiku",
         "periodicalvolume": "Hľadať v ročníku",
-        "oldprintomnibusvolume": "Hľadať v konvolutu",
+        "convolute": "Hľadať v konvolutu",
         "monograph": "Hľadať vo zväzku kníh"
       },
       "ordering": {
@@ -409,7 +409,7 @@
       "soundunit" : "Album",
       "track" : "Nahrávka",
       "collection": "Zbierka",
-      "oldprintomnibusvolume": "Konvolut"
+      "convolute": "Konvolut"
     },
     "model_2p" : {
       "monograph" : "Knihy",
@@ -432,7 +432,7 @@
       "soundunit" : "Alba",
       "track" : "Nahrávky",
       "collection": "Zbierky",
-      "oldprintomnibusvolume": "Konvolutu"
+      "convolute": "Konvolutu"
     },
     "model_4p" : {
       "monograph" : "Knihu",
@@ -455,7 +455,7 @@
       "soundunit" : "Album",
       "track" : "Nahrávku",
       "collection": "Zbierku",
-      "oldprintomnibusvolume": "Konvolut"
+      "convolute": "Konvolut"
     },
     "model_plural" : {
       "monograph" : "Knihy",
@@ -477,8 +477,8 @@
       "soundunit" : "Albumy",
       "track" : "Nahrávky",
       "collection": "Sbírky",
-      "oldprintomnibusvolume": "Konvoluty",
-      "oldprintomnibusvolumepart": "Části"
+      "convolute": "Konvoluty",
+      "convolutepart": "Části"
     },
     "issue_type": {
       "morning": "ranné vydanie",

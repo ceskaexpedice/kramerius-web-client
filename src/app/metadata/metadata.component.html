@@ -36,13 +36,13 @@
       <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
       
 
-      <div *ngIf="metadata.doctype == 'oldprintomnibusvolume'">
+      <div *ngIf="metadata.doctype == 'convolute'">
         <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'omnibus list');">
           {{ 'metadata.omnibus_list' | translate }}
         </a>
       </div>
 
-      <div *ngIf="metadata.currentUnit && metadata.doctype != 'oldprintomnibusvolume'">
+      <div *ngIf="metadata.currentUnit && metadata.doctype != 'convolute'">
         <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'unit list');">
           {{ 'metadata.unit_list' | translate }}
         </a>

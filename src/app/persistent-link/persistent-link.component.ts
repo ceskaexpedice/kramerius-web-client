@@ -41,7 +41,7 @@ export class PersistentLinkComponent implements OnInit {
     } else if (item.doctype === 'article') {
       const parentUuid = item.context[item.context.length - 2].uuid;
       this.router.navigate(['/view', parentUuid], { queryParams: { article: item.uuid } });
-    } else if (item.doctype === 'periodical' || item.doctype === 'periodicalvolume' || item.doctype === 'oldprintomnibusvolume') {
+    } else if (item.doctype === 'periodical' || item.doctype === 'periodicalvolume' || item.doctype === 'convolute') {
       this.router.navigate(['/periodical', item.uuid]);
     } else if (item.doctype === 'soundunit' || item.doctype === 'soundrecording') {
       this.router.navigate(['/music', item.uuid]);

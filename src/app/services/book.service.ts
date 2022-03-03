@@ -165,7 +165,7 @@ export class BookService {
                 }
                 return;
             }
-            if (item.doctype == 'oldprintomnibusvolume') {
+            if (item.doctype == 'convolute') {
                 const maxPages = this.settings.maxOmnibusPages;
                 const maxParts = this.settings.maxOmnibusParts;
                 if (!!maxPages && !!maxParts) {
@@ -187,7 +187,7 @@ export class BookService {
                     return;
                 }
             }
-            if (item.getParentDoctype() == 'oldprintomnibusvolume') {
+            if (item.getParentDoctype() == 'convolute') {
                 const maxPages = this.settings.maxOmnibusPages;
                 const maxParts = this.settings.maxOmnibusParts;
                 if (!maxPages || !maxParts) {
@@ -238,8 +238,8 @@ export class BookService {
             this.metadata.assignDocument(item);
             this.analytics.sendEvent('viewer', 'open', this.metadata.getShortTitle());
             this.pageTitle.setTitle(null, this.metadata.getShortTitle());
-            if (item.getParentDoctype() == 'oldprintomnibusvolume') {
-                this.metadata.doctype = 'oldprintomnibusvolume';
+            if (item.getParentDoctype() == 'convolute') {
+                this.metadata.doctype = 'convolute';
             } else if (item.doctype) {
                 if (item.doctype.startsWith('periodical') || item.doctype === 'supplement') {
                     this.metadata.doctype = 'periodical';
@@ -259,7 +259,7 @@ export class BookService {
             } else if (item.doctype === 'periodicalvolume') {
                 this.loadVolume(this.uuid);
                 this.loadVolumes(item.root_uuid, this.uuid);
-            } else if (item.getParentDoctype() == 'oldprintomnibusvolume') {
+            } else if (item.getParentDoctype() == 'convolute') {
                 this.loadOmnibusUnits(item.getParentUuid(), item);
             }
             this.localStorageService.addToVisited(item, this.metadata);
@@ -477,7 +477,7 @@ export class BookService {
         if (this.internalParts.length > 0) {
             tabs += 1;
         }
-        if (this.metadata.doctype == 'oldprintomnibusvolume' && this.extraParents.length > 0 && !this.fulltextQuery) {
+        if (this.metadata.doctype == 'convolute' && this.extraParents.length > 0 && !this.fulltextQuery) {
             tabs += 1;
         }
         this.navigationTabsCount = tabs;
@@ -488,7 +488,7 @@ export class BookService {
         const pages = [];
         const parents = [];
         for (const p of inputPages) {
-            if (p['model'] === 'supplement' || (doctype == 'oldprintomnibusvolume' && p['model'] != 'oldprintomnibusvolume' && p['model'] != 'page')) {
+            if (p['model'] === 'supplement' || (doctype == 'convolute' && p['model'] != 'convolute' && p['model'] != 'page')) {
                 parents.push(p);
                 this.extraParents.push(p);
             } else {

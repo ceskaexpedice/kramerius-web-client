@@ -77,8 +77,8 @@ export class PeriodicalService {
             });
           }
         } else if (this.isOmnibus()) {
-          this.metadata.doctype = 'oldprintomnibusvolume';
-          this.metadata.addToContext('oldprintomnibusvolume', query.uuid);
+          this.metadata.doctype = 'convolute';
+          this.metadata.addToContext('convolute', query.uuid);
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (query.fulltext) {
             this.initFulltext();
@@ -214,7 +214,7 @@ export class PeriodicalService {
   }
 
   isOmnibus(): boolean {
-    return this.document && this.document.doctype === 'oldprintomnibusvolume';
+    return this.document && this.document.doctype === 'convolute';
   }
 
   getType(): string {

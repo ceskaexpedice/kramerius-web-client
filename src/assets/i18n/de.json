@@ -287,7 +287,7 @@
         "none": "Suchen",
         "periodical": "Suchen im Periodikum",
         "periodicalvolume": "Suchen im Jahrgang",
-        "oldprintomnibusvolume": "im Konvolut suchen",
+        "convolute": "im Konvolut suchen",
         "monograph": "Suchen im Buch"
       },
       "ordering": {
@@ -409,7 +409,7 @@
       "soundunit" : "Album",
       "track" : "Einspielung",
       "collection": "Sammlung",
-      "oldprintomnibusvolume": "Konvolut"
+      "convolute": "Konvolut"
     },
     "model_2p" : {
       "monograph" : "Buch",
@@ -432,7 +432,7 @@
       "soundunit" : "Album",
       "track" : "Einspielung",
       "collection": "Sammlung",
-      "oldprintomnibusvolume": "Konvolut"
+      "convolute": "Konvolut"
     },
     "model_4p" : {
       "monograph" : "Buch",
@@ -455,7 +455,7 @@
       "soundunit" : "Album",
       "track" : "Einspielung",
       "collection": "Sammlung",
-      "oldprintomnibusvolume": "Konvolut"
+      "convolute": "Konvolut"
     },
     "model_plural" : {
       "monograph" : "Bücher",
@@ -477,8 +477,8 @@
       "soundunit" : "Alben",
       "track" : "Einspielungen",
       "collection": "Sammlungen",
-      "oldprintomnibusvolume": "Konvolut",
-      "oldprintomnibusvolumepart": "Teile"
+      "convolute": "Konvolut",
+      "convolutepart": "Teile"
     },
     "issue_type": {
       "morning": "Morgenausgabe",

@@ -26,11 +26,11 @@
     <span class="app-desc">{{ 'model_plural.internalpart' | translate }}</span>
   </div>
 
-  <div *ngIf="bookService.metadata.doctype == 'oldprintomnibusvolume' && bookService.extraParents.length > 0 && !bookService.getFulltextQuery()" 
+  <div *ngIf="bookService.metadata.doctype == 'convolute' && bookService.extraParents.length > 0 && !bookService.getFulltextQuery()" 
        (click)="bookService.changeNavigationTab('konvolutparts');analytics.sendEvent('viewer', 'navigation', 'konvolutparts')"
        [class.app-active]="bookService.activeNavigationTab === 'konvolutparts'" 
        class="app-tab app-tab-{{bookService.navigationTabsCount}}">
-    <span class="app-desc">{{ 'model_plural.oldprintomnibusvolumepart' | translate }}</span>
+    <span class="app-desc">{{ 'model_plural.convolutepart' | translate }}</span>
   </div>
 </div>
 

@@ -294,7 +294,7 @@ export class SolrService {
         }
     }
 
-    public static allDoctypes = ['oldprintomnibusvolume', 'periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
+    public static allDoctypes = ['convolute', 'periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
     'archive', 'soundrecording', 'manuscript', 'monographunit',
     'soundunit', 'track', 'periodicalvolume', 'periodicalitem',
     'article', 'internalpart', 'supplement', 'page'];
@@ -1123,9 +1123,9 @@ export class SolrService {
                     }
                 } else {
                     const ff = f.split('/');
-                    if (ff[0] == 'oldprintomnibusvolume') {
+                    if (ff[0] == 'convolute') {
                         if (ff[ff.length - 1] != 'page') {
-                            map['oldprintomnibusvolume'] -= facetFields[i + 1];
+                            map['convolute'] -= facetFields[i + 1];
                         }
                     }
                 }

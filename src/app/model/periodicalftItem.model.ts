@@ -29,7 +29,7 @@ export class PeriodicalFtItem {
             const uuid = this.context['article'] || this.context['monographunit'] || this.context['periodicalitem']  || this.context['supplement'] || this.context['periodicalvolume'];
             return 'view/' + uuid;
         } else if (this.type === 'omnibus_unit_page') {
-            const uuid = this.context['oldprintomnibusvolume'];
+            const uuid = this.context['convolute'];
             return 'view/' + uuid; 
         } else if (this.type === 'article') {
             const uuid = this.context['periodicalitem'] || this.context['periodicalvolume'];
