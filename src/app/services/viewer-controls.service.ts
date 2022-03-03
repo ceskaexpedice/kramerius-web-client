@@ -80,6 +80,14 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.cropImage);
     }
 
+    doublePageOff() {
+        this.listners.next(ViewerActions.doublePageOff);
+    }
+
+    doublePageOn() {
+        this.listners.next(ViewerActions.doublePageOn);
+    }
+
     enterFullscreen() {
         const el = document.getElementById('app-viewer');
         // go full-screen
@@ -163,5 +171,7 @@ export enum ViewerActions {
     fitToScreen = 5,
     selectText = 6,
     cropImage = 7,
-    updateSite = 8
+    updateSite = 8,
+    doublePageOn = 9,
+    doublePageOff = 10
 }

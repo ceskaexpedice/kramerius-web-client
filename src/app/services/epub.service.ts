@@ -20,19 +20,51 @@ export class EpubService {
 
     }
 
-    init(epubViewer: AngularEpubViewerComponent) {
+    init(epubViewer: AngularEpubViewerComponent, doublePage: boolean) {
         this.pages = [];
         this.location = null;
         this.searchInProgress = false;
         this.toc = [];
         this.searchResults = [];
         this.epubViewer = epubViewer;
+        if (!this.epubViewer.epub) {
+            return false;
+        }
         this.setFontSize();
+        if (doublePage) {
+            this.setDoublePage();
+        } else {
+            this.setSinglePage();
+        }
     }
 
-
     private setFontSize() {
-        this.epubViewer.setStyle('font-size', this.fontSize + 'px');
+        if (!this.epubViewer.epub) {
+            return false;
+        }
+        this.epubViewer.epub.setStyle('font-size', this.fontSize + 'px');
+    }
+
+    setSinglePage() {
+        if (!this.epubViewer.epub) {
+            return false;
+        }
+        // this.epubViewer.epub.setMinSpreadWidth(10000);
+        this.epubViewer.epub.forceSingle(true);
+        this.epubViewer.epub.setStyle('max-width', '700px');
+        this.epubViewer.epub.setStyle('margin-left', 'auto');
+        this.epubViewer.epub.setStyle('margin-right', 'auto');
+    }
+
+    setDoublePage() {
+        if (!this.epubViewer.epub) {
+            return false;
+        }
+        // this.epubViewer.epub.setMinSpreadWidth(500);
+        this.epubViewer.epub.forceSingle(false);
+        this.epubViewer.epub.setStyle('max-width', 'auto');
+        this.epubViewer.epub.setStyle('margin-left', '0');
+        this.epubViewer.epub.setStyle('margin-right', '0');
     }
 
     zoomIn() {

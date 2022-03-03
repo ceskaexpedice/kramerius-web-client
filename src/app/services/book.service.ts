@@ -228,6 +228,7 @@ export class BookService {
     setupEpub() {
         this.viewer = 'epub';
         this.activeNavigationTab = 'epubToc';
+        this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         this.showNavigationPanel = true;
     }
 
@@ -930,10 +931,16 @@ export class BookService {
     toggleDoublePage() {
         this.doublePageEnabled = !this.doublePageEnabled;
         this.localStorageService.setProperty(LocalStorageService.DOUBLE_PAGE, this.doublePageEnabled ? '1' : '0');
+        if (this.isEpub()) {
+            return;
+        }
         this.goToPage(this.getPage());
     }
 
     doublePageSupported() {
+        if (this.isEpub()) {
+            return true;
+        }
         return !this.fulltextQuery && this.getPage() && (this.getPage().position === PagePosition.Left || this.getPage().position === PagePosition.Right);
     }
 

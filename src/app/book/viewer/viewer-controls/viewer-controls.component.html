@@ -39,13 +39,13 @@
             rotate_right
   </mat-icon>
 
-  <mat-icon (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page off')"
+  <mat-icon (click)="bookService.toggleDoublePage();controlsService.doublePageOff();analytics.sendEvent('viewer', 'controls', 'double page off')"
             [matTooltip]="'view_controls.tooltip_doublepage_off' | translate" 
             *ngIf="showDoublePageOff()">
             auto_stories
   </mat-icon>
 
-  <mat-icon (click)="bookService.toggleDoublePage();analytics.sendEvent('viewer', 'controls', 'double page on')"
+  <mat-icon (click)="bookService.toggleDoublePage();controlsService.doublePageOn();analytics.sendEvent('viewer', 'controls', 'double page on')"
             [matTooltip]="'view_controls.tooltip_doublepage_on' | translate" 
             *ngIf="showDoublePageOn()">
             auto_stories
