@@ -21,12 +21,20 @@ export class BookControlsComponent implements OnInit {
   ngOnInit() {
   }
 
+  showEpubUpload(): boolean {
+    return this.bookService.isEpub();
+  }
+
+  showPdfDownload(): boolean {
+    return this.bookService.isPdf() && this.bookService.isActionAvailable('pdf');
+  }
+
   showPdfGeneration(): boolean {
-    return this.bookService.isActionAvailable('pdf');
+    return this.bookService.isImage() && this.bookService.isActionAvailable('pdf');
   }
 
   showPrintPreparation(): boolean {
-    return this.bookService.isActionAvailable('print');
+    return this.bookService.isImage() && this.bookService.isActionAvailable('print');
   }
 
   showPageJpeg(): boolean {
@@ -47,10 +55,6 @@ export class BookControlsComponent implements OnInit {
   }
 
   pdf() {
-    if (this.bookService.isEpub()) {
-      $('#app-file-input').trigger('click');
-      return;
-    }
     this.bookService.generatePdf();
     this.analytics.sendEvent('viewer', 'action', 'pdf');
   }
@@ -63,6 +67,18 @@ export class BookControlsComponent implements OnInit {
   ocr() {
     this.bookService.showOcr();
     this.analytics.sendEvent('viewer', 'action', 'ocr');
+  }
+
+  uploadEpub() {
+    if (this.bookService.isEpub()) {
+      $('#app-file-input').trigger('click');
+      return;
+    }
+  }
+
+  downloadPdf() {
+    this.bookService.downloadPdf();
+    this.analytics.sendEvent('viewer', 'action', 'download');
   }
 
 

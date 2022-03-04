@@ -30,6 +30,7 @@ import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
 import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
 import { OcrDialogComponent } from '../dialog/ocr-dialog/ocr-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { saveAs } from 'file-saver';
 
 @Injectable()
 export class BookService {
@@ -804,6 +805,26 @@ export class BookService {
         }
     }
 
+    downloadPdf() {
+        let title = this.metadata.getTitle();
+        let uuid = this.uuid;
+        if (this.metadata.article && this.metadata.article.type == 'pdf') {
+            title = this.metadata.article.title;
+            uuid = this.metadata.article.uuid;
+        }
+        if (!title) {
+            title = uuid;
+        } 
+        const filename = title.substring(0, 30).trim() + '.pdf';
+        this.api.downloadFile(this.pdf).subscribe(
+            blob => {
+              saveAs(blob, filename);
+            },
+            error => {
+            }
+        );
+    }
+
     generatePdf() {
         this.showPdfDialog('generate');
     }
@@ -1370,23 +1391,24 @@ export interface BookParams {
 
 export enum ViewerImageType {
     IIIF, ZOOMIFY, JPEG
-  }
+}
   
-  export class ViewerData {
-    uuid1: string;
-    uuid2: string;
-    imageType: ViewerImageType;
-    query: string;
-  
-    doublePage(): boolean {
-      return !!this.uuid2;
-    }
-  
-    equals(to: ViewerData): boolean {
-        if (!to) {
-            return false;
-        }
-        return this.uuid1 === to.uuid1 && this.uuid2 === to.uuid2 && this.query === to.query && this.imageType === to.imageType;
-    }
+export class ViewerData {
+uuid1: string;
+uuid2: string;
+imageType: ViewerImageType;
+query: string;
 
-  }
+doublePage(): boolean {
+    return !!this.uuid2;
+}
+
+equals(to: ViewerData): boolean {
+    if (!to) {
+        return false;
+    }
+    return this.uuid1 === to.uuid1 && this.uuid2 === to.uuid2 && this.query === to.query && this.imageType === to.imageType;
+}
+
+}
+

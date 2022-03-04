@@ -3,5 +3,7 @@
    <mat-icon *ngIf="showPdfGeneration()" (click)="pdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate">picture_as_pdf</mat-icon>
    <mat-icon *ngIf="showPageJpeg()" (click)="jpeg()" [matTooltip]="'book_controls.tooltip_jpg' | translate">image</mat-icon>
    <mat-icon *ngIf="showPageOcr()" (click)="ocr()" [matTooltip]="'book_controls.tooltip_ocr' | translate">title</mat-icon>
+   <mat-icon *ngIf="showEpubUpload()" (click)="uploadEpub()" [matTooltip]="'Nahrát epub'" style="float: right;">file_upload</mat-icon>
+   <mat-icon *ngIf="showPdfDownload()" (click)="downloadPdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate" style="float: right;">file_download</mat-icon>
 </div>
 <input style="display: none" id="app-file-input" type="file" accept="application/epub+zip" (change)="openFile($event)">

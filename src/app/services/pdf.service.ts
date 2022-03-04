@@ -36,6 +36,9 @@ export class PdfService {
     }
 
     assignRange(items: any, last: number) {
+        if (!items) {
+            return;
+        }
         const link = this.pdfComponent.pdfLinkService
         for (let i = items.length - 1; i >= 0; i --) {
             const item = items[i];
@@ -122,9 +125,6 @@ export class PdfService {
 
     goTo(destination: any) {
         this.pdfComponent.pdfLinkService.navigateTo(destination);
-
-
-
     }
 
     hasNext(): boolean {

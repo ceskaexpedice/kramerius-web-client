@@ -370,6 +370,11 @@ export class KrameriusApiService {
         return this.doGetBlob(url);
     }
 
+    downloadFile(url: string) {
+        return this.doGetBlob(url);
+    }
+
+
     getChildren(uuid: string, own: boolean = true): Observable<any> {
         return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, own))
             .pipe(map(response => this.solr.bookChildItems(response)));
