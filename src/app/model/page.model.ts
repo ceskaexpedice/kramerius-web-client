@@ -18,6 +18,7 @@ export class Page {
     originUrl: string;
     public: boolean;
     title: string;
+    placement: string;
 
     constructor() {
     }

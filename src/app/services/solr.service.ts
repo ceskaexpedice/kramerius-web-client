@@ -264,6 +264,10 @@ export class SolrService {
             '1.0': '',
             '2.0': 'page.number'
         },
+        'page_placement': {
+            '1.0': '',
+            '2.0': 'page.placement'
+        },
         'has_tiles': {
             '1.0': '',
             '2.0': 'has_tile'
@@ -367,7 +371,7 @@ export class SolrService {
             q += `,details,${this.field('rels_ext_index')}`;
             q += `&q=${this.field('parent_pid')}:"${parent}"`;
         } else {
-            q += `,${this.field('page_type')},${this.field('page_number')},${this.field('track_length')}`;
+            q += `,${this.field('page_type')},${this.field('page_number')},${this.field('page_placement')},${this.field('track_length')}`;
             q += `&q=${this.field(own ? 'parent_pid' : 'step_parent_pid')}:"${parent}"`;
             q += `&sort=${this.field('rels_ext_index')} asc`;
         }
@@ -1406,6 +1410,7 @@ export class SolrService {
             } else {
                 page['type'] = doc[this.field('page_type')] || 'unknown';
                 page['number'] = doc[this.field('page_number')];
+                page['placement'] = doc[this.field('page_placement')];
                 page['length'] = doc[this.field('track_length')];
             }
             items.push(page);

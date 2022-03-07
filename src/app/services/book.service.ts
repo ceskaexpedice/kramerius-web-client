@@ -554,6 +554,7 @@ export class BookService {
         let currentPage = 0;
         this.activeMobilePanel = 'viewer';
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
+        let withPlacement = 0;
         const spines: Page[] = [];
         for (const p of pages) {
             if (p['model'] === 'monographunit') {
@@ -569,6 +570,10 @@ export class BookService {
                 this.internalParts.push(internalPart);
             } else if (p['model'] === 'page') {
                 const page = new Page();
+                if (!!p['placement']) {
+                    withPlacement += 1;
+                    page.placement = p['placement'];
+                }
                 page.uuid = p['pid'];
                 page.parentUuid = p['parent_uuid'];
                 page.parentDoctype = p['parent_doctype'];
@@ -582,7 +587,7 @@ export class BookService {
                 page.setTitle(p['title']);
                 page.thumb = this.api.getThumbUrl(page.uuid);
                 page.position = PagePosition.Single;
-                if (page.type === 'spine') {
+                if (page.type === 'spine' && p['placement'] != 'left' && p['placement'] != 'right') {
                     spines.push(page);
                     continue;
                 }
@@ -618,13 +623,30 @@ export class BookService {
             this.allPages.push(page);
             index += 1;
         }
-        const bounds = this.computeDoublePageBounds(this.pages.length, titlePage, lastSingle, firstBackSingle);
-        if (bounds !== null) {
-            for (let i = bounds[0]; i < bounds[1]; i += 2) {
-                this.pages[i].position = PagePosition.Left;
-                this.pages[i + 1].position = PagePosition.Right;
+        const usePlacement = withPlacement == this.allPages.length;
+        console.log('use mods page placement', usePlacement);
+        if (!usePlacement) {
+            const bounds = this.computeDoublePageBounds(this.pages.length, titlePage, lastSingle, firstBackSingle);
+            if (bounds !== null) {
+                for (let i = bounds[0]; i < bounds[1]; i += 2) {
+                    this.pages[i].position = PagePosition.Left;
+                    this.pages[i + 1].position = PagePosition.Right;
+                }
+            }
+        } else {
+            for (const page of this.allPages) {
+                if (page.placement == 'left') {
+                    page.position = PagePosition.Left;
+                } else if (page.placement == 'right') {
+                    page.position = PagePosition.Right;
+                } else if (page.placement == 'single') {
+                    page.position = PagePosition.Single;
+                } else {
+                    page.position = PagePosition.Single;
+                }
             }
         }
+
         return currentPage;
     }
 
