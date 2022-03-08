@@ -368,7 +368,7 @@ export class SolrService {
             q += `,${this.field('licences_search')}`;
         }
         if (this.settings.k5Compat()) {
-            q += `,details,${this.field('rels_ext_index')}`;
+            q += `,details,${this.field('rels_ext_index')},${this.field('model_path')}`;
             q += `&q=${this.field('parent_pid')}:"${parent}"`;
         } else {
             q += `,${this.field('page_type')},${this.field('page_number')},${this.field('page_placement')},${this.field('track_length')}`;
@@ -1394,8 +1394,19 @@ export class SolrService {
                 const details = doc['details'];
                 let idx = 0;
                 const arr = doc[this.field('rels_ext_index')];
+                const path = doc[this.field('model_path')];
                 if (arr && Array.isArray(arr) && arr.length > 0) {
-                    idx = arr[0] || 0;
+                    let i = 0;
+                    let pl = path[0].length;
+                    if (arr.length > 1 && path.length == arr.length) {
+                        for (let j = 1; j < path.length; j++) {
+                            if (path[j].length < pl) {
+                                pl = path[j].length;
+                                i = j;
+                            }
+                        }
+                    }
+                    idx = arr[i] || 0;
                 }
                 page['index'] = idx;
                 if (details && details[0]) {
