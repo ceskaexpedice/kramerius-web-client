@@ -208,6 +208,7 @@
       "error": "Fehler",
       "no_results_found": "Es wurden keine Ergebnisse gefunden. Bitte versuchen Sie eine andere Anfrage.",
       "failed_to_load_image": "Bild konnte nicht geladen werden",
+      "failed_to_load_pdf": "Failed to load the document",
       "book_no_results": "Keine Treffer"
     },
     "home": {

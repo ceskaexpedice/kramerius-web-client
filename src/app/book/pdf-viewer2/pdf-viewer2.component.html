@@ -1,6 +1,16 @@
 <div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
 
-<app-viewer-controls *ngIf="!bookService.isPageInaccessible()" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
+<app-viewer-controls *ngIf="bookService.pageAvailable" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
+
+<ng-container *ngIf="bookService.isPageInaccessible()">
+    <app-licence-messages [full]="true" [licences]="bookService.licences"></app-licence-messages>
+</ng-container>
+
+<app-alert *ngIf="bookService.isPageFailure()"
+    type="danger"
+    label="alert.error"
+    message="alert.failed_to_load_pdf">
+</app-alert>
 
 <pdf-viewer 
     *ngIf="bookService.pdf" [src]="bookService.pdf"
@@ -20,14 +30,14 @@
 </pdf-viewer>
 
 
-<span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
+<span *ngIf="bookService.showNavigationPanel && controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
 class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
 (click)="controlsService.hideLeftPanel()" 
 [matTooltip]="'view_controls.tooltip_hide_left' | translate">
 <mat-icon>arrow_left</mat-icon>
 </span>
 
-<span *ngIf="!controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
+<span *ngIf="bookService.showNavigationPanel && !controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
 class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
 (click)="controlsService.showLeftPanel()" 
 [matTooltip]="'view_controls.tooltip_show_left' | translate">
@@ -48,16 +58,7 @@ class="app-handle app-right-handle valign-wrapper hide-on-small-only"
 <mat-icon>arrow_left</mat-icon>
 </span>
 
-<ng-container *ngIf="bookService.isPageInaccessible()">
-      <app-licence-messages [full]="true" [licences]="bookService.licences"></app-licence-messages>
-</ng-container>
-
-<app-alert *ngIf="bookService.isPageFailure()"
-    type="danger"
-    label="alert.error"
-    message="alert.failed_to_load_image">
-</app-alert>
-<mat-spinner *ngIf="bookService.isPageLoading() || (bookService.isPageSuccess() && pdfLoading)" 
+<mat-spinner *ngIf="pdfLoading" 
     class="medium-centered-spinner" 
     [strokeWidth]="3"
     [diameter]="40">

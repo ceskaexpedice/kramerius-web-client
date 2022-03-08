@@ -4,8 +4,6 @@ import { Metadata } from './../model/metadata.model';
 import { AltoService } from './alto-service';
 import { LocalStorageService } from './local-storage.service';
 import { NotFoundError } from './../common/errors/not-found-error';
-import { UnauthorizedError } from './../common/errors/unauthorized-error';
-import { AppError } from './../common/errors/app-error';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { KrameriusApiService } from './kramerius-api.service';
@@ -16,7 +14,6 @@ import { Location } from '@angular/common';
 import { forkJoin} from 'rxjs';
 import { Article } from '../model/article.model';
 import { HistoryService } from './history.service';
-import { DomSanitizer} from '@angular/platform-browser';
 import { PageTitleService } from './page-title.service';
 import { InternalPart } from '../model/internal_part.model';
 import { AnalyticsService } from './analytics.service';
@@ -29,7 +26,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
 import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
 import { OcrDialogComponent } from '../dialog/ocr-dialog/ocr-dialog.component';
-import { TranslateService } from '@ngx-translate/core';
 import { saveAs } from 'file-saver';
 
 @Injectable()
@@ -92,41 +88,10 @@ export class BookService {
         private iiif: IiifService,
         private dialog: MatDialog,
         private logger: LoggerService,
-        private translate: TranslateService,
-        private sanitizer: DomSanitizer,
         private history: HistoryService,
         private router: Router,
         private bottomSheet: MatBottomSheet,
         private licenceService: LicenceService) {
-    }
-
-    private assignPdfPath(uuid: string) {
-        this.viewer = 'pdf';
-        this.publishNewPages(BookPageState.Loading);
-        this.api.getPdfPreviewBlob(uuid).subscribe(() => {
-            this.publishNewPages(BookPageState.Success);
-            if (uuid === null) {
-                this.pdf = null;
-                this.pdfPath = null;
-                return;
-            }
-            this.pdf = this.api.getPdfUrl(uuid);
-            let url = 'assets/pdf/viewer.html?file=' + encodeURIComponent(this.pdf);
-            url += '&lang=' + this.translate.currentLang;
-            if (this.fulltextQuery) {
-                url += '&query=' + this.fulltextQuery;
-            }
-            this.pdfPath = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-        },
-        (error: AppError)  => {
-            this.pdf = null;
-            if (error instanceof UnauthorizedError) {
-                this.publishNewPages(BookPageState.Inaccessible);
-            } else {
-                this.publishNewPages(BookPageState.Failure);
-            }
-            return;
-        });
     }
 
     init(params: BookParams) {
@@ -226,12 +191,17 @@ export class BookService {
         });
     }
 
-
     setupEpub() {
         this.viewer = 'epub';
         this.activeNavigationTab = 'epubToc';
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         this.showNavigationPanel = true;
+    }
+
+    private setupPdf(uuid: string) {
+        this.bookState = BookState.Success;
+        this.viewer = 'pdf';
+        this.pdf = this.api.getPdfUrl(uuid);
     }
 
     private getMetadata(item: DocumentItem, params: any) {
@@ -269,9 +239,7 @@ export class BookService {
             this.metadata.licences = this.licences;
             this.metadata.licence = this.licence;
             if (item.pdf) {
-                this.showNavigationPanel = true;
-                this.bookState = BookState.Success;
-                this.assignPdfPath(params.uuid);
+                this.setupPdf(params.uuid);
             } else {
                 this.api.getChildren(params.uuid).subscribe(children => {
                     if (children && children.length > 0) {
@@ -1204,7 +1172,7 @@ export class BookService {
                 urlQuery += '&fulltext=' + this.fulltextQuery;
             }
             this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
-            this.assignPdfPath(article.uuid);
+            this.setupPdf(article.uuid);
         } else if (article.type === 'pages') {
             if (article.firstPageUuid) {
                 this.pageState = BookPageState.Success;
@@ -1257,7 +1225,7 @@ export class BookService {
             rightPage.selected = false;
         }
         this.doublePageEnabled = false;
-        this.assignPdfPath(leftPage.uuid);
+        this.setupPdf(leftPage.uuid);
     }
 
     public onInaccessibleImage() {
@@ -1278,6 +1246,28 @@ export class BookService {
     public onImageFailure() {
         this.pageState = BookPageState.Failure;
         this.pageAvailable = false;
+    }
+
+    onPdfFilure() {
+        this.pageState = BookPageState.Failure;
+        this.pageAvailable = false;
+        if (this.allPages.length == 0 && this.articles.length == 0) {
+            this.showNavigationPanel = false;
+        }
+    }
+
+    onPdfSuccess() {
+        this.pageState = BookPageState.Success;
+        this.pageAvailable = true;
+        this.showNavigationPanel = true;
+    }
+
+    onPdfInaccessible() {
+        this.pageState = BookPageState.Inaccessible;
+        this.pageAvailable = false;
+        if (this.allPages.length == 0 && this.articles.length == 0) {
+            this.showNavigationPanel = false;
+        }
     }
 
     private publishNewPages(state: BookPageState) {

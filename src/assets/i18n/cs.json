@@ -208,6 +208,7 @@
     "error": "Chyba",
     "no_results_found": "Nebyly nalezeny žádné výsledky. Prosím, zkuste jiný dotaz.",
     "failed_to_load_image": "Obrázek se nepodařilo načíst",
+    "failed_to_load_pdf": "Dokument se nepodařilo načíst",
     "book_no_results": "Nebyly nalezeny žádné výsledky"
   },
   "home": {

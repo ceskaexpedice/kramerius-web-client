@@ -60,6 +60,7 @@ export class PdfViewer2Component implements  OnInit {
     this.rotation = 0;
     this.pdf.zoom = 1;
     this.pdfLoading = false;
+    this.bookService.onPdfSuccess();
   }
 
   pageRendered(e) {
@@ -71,7 +72,12 @@ export class PdfViewer2Component implements  OnInit {
   }
 
   onError(error: any) {
-    console.log('error', error);
+    this.pdfLoading = false;
+    if (error && error.status == 403) {
+      this.bookService.onPdfInaccessible();
+    } else {
+      this.bookService.onPdfFilure();
+    }
   }
 
   onMouseMove() {

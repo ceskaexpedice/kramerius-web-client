@@ -1,5 +1,5 @@
 <div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
-  <app-viewer-controls *ngIf="!bookService.isPageInaccessible()" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
+  <app-viewer-controls *ngIf="bookService.pageAvailable" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 
   <span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
         class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
