@@ -462,6 +462,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   onImageSuccess() {
+    this.bookService.onImageSuccess();
     this.imageLoading = false;
     this.view.getView().fit(this.extent);
     this.updateBoxes();
@@ -469,6 +470,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   onImageFailure() {
+    this.bookService.onImageFailure();
     this.imageLoading = false;
   }
 

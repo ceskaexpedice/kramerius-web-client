@@ -60,6 +60,7 @@ export class BookService {
     public pdf: string;
     public pdfPath;
     public isPrivate: boolean;
+    public pageAvailable: boolean;
 
     public articles: Article[];
     public article: Article;
@@ -742,7 +743,7 @@ export class BookService {
           }
         }
         const value = this.settings.actions[action];
-        return value === 'always' || (value === 'public' && !this.isPrivate);
+        return value === 'always' || (value === 'available' && this.pageAvailable) || (value === 'public' && !this.isPrivate);
     }
 
     showOcr() {
@@ -1081,7 +1082,9 @@ export class BookService {
             } else if (page.imageType === PageImageType.PDF) {
                 this.onPdfPageSelected(page, rightPage);
             } else {
-                this.publishNewPages(BookPageState.Success);
+                // this.publishNewPages(BookPageState.Success);
+                this.subject.next(this.getViewerData());
+                this.subjectPages.next([page, rightPage]);
             }
         }
     }
@@ -1242,15 +1245,10 @@ export class BookService {
             } else if (leftPage.imageType === PageImageType.PDF) {
                 this.onPdfPageSelected(leftPage, rightPage);
             } else {
-                this.publishNewPages(BookPageState.Success);
+                // this.publishNewPages(BookPageState.Loading);
+                this.subject.next(this.getViewerData());
+                this.subjectPages.next([leftPage, rightPage]);
             } 
-        },
-        (error: AppError)  => {
-            if (error instanceof UnauthorizedError) {
-                this.publishNewPages(BookPageState.Inaccessible);
-            } else {
-                this.publishNewPages(BookPageState.Failure);
-            }
         });
     }
 
@@ -1263,6 +1261,7 @@ export class BookService {
     }
 
     public onInaccessibleImage() {
+        this.pageAvailable = false;
         if (this.doublePage && this.getRightPage()) {
             this.doublePageEnabled = false;
             this.goToPageOnIndex(this.lastIndex);
@@ -1271,8 +1270,18 @@ export class BookService {
         }
     }
 
+    public onImageSuccess() {
+        this.pageState = BookPageState.Success;
+        this.pageAvailable = true;
+    }
+    
+    public onImageFailure() {
+        this.pageState = BookPageState.Failure;
+        this.pageAvailable = false;
+    }
+
     private publishNewPages(state: BookPageState) {
-        this.logger.info('publishNewPages');
+        this.logger.info('publishNewPages', state);
         const leftPage = this.getPage();
         const rightPage = this.getRightPage();
         if (state !== BookPageState.Success) {

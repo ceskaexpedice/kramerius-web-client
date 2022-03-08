@@ -110,9 +110,9 @@ export class MetadataComponent implements OnInit {
       } else if (l == 2) {
         return false;
       }
-    }
+    }    
     const value = this.settings.actions[action];
-    return value === 'always' || (value=="available" && !this.bookService.isPageInaccessible()) || (value === 'public' && this.metadata.isPublic);
+    return value === 'always' || (value === 'public' && this.metadata.isPublic);
   }
 
 }
