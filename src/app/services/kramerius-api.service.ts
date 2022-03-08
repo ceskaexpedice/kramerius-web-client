@@ -242,12 +242,14 @@ export class KrameriusApiService {
     }
 
     getIiifPresentation(uuid: string): Observable<any> {
-        const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
+        const url = `https://iiif.digitalniknihovna.cz/${this.settings.code}/${uuid}`;
+        // const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
         return this.doGet(url);
     }
 
     getIiifManifestUrl(uuid: string): string {
-        const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
+        const url = `https://iiif.digitalniknihovna.cz/${this.settings.code}/${uuid}`;
+        // const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
         return url;
     }
 
