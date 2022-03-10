@@ -921,7 +921,7 @@ export class BookService {
                 message: 'dialogs.private_sheetmusic.message',
                 button: 'common.close'
             }, autoFocus: false });
-        } else if (this.isPrivate && type === 'generate') {
+        } else if (!this.pageAvailable && type === 'generate') {
             this.dialog.open(BasicDialogComponent, { data: {
                 title: 'common.warning',
                 message: 'dialogs.private_document_pdf.message',
