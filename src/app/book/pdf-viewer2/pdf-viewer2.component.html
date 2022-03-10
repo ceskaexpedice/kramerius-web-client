@@ -1,7 +1,5 @@
 <div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
-
 <app-viewer-controls *ngIf="bookService.pageAvailable" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
-
 <ng-container *ngIf="bookService.isPageInaccessible()">
     <app-licence-messages [full]="true" [licences]="bookService.licences"></app-licence-messages>
 </ng-container>
@@ -13,7 +11,7 @@
 </app-alert>
 
 <pdf-viewer 
-    *ngIf="bookService.pdf" [src]="bookService.pdf"
+    *ngIf="pdf.url" [src]="pdf.url"
     [render-text]="true"
     [rotation]="rotation"
     [stick-to-page]="true"
@@ -58,7 +56,7 @@ class="app-handle app-right-handle valign-wrapper hide-on-small-only"
 <mat-icon>arrow_left</mat-icon>
 </span>
 
-<mat-spinner *ngIf="pdfLoading" 
+<mat-spinner *ngIf="pdf.pdfLoading" 
     class="medium-centered-spinner" 
     [strokeWidth]="3"
     [diameter]="40">

@@ -4,6 +4,9 @@ import { PdfViewerComponent } from 'ng2-pdf-viewer';
 @Injectable()
 export class PdfService {
 
+
+
+    url: string;
     pageIndex: number;
     totalPages: number;
     outline;
@@ -12,11 +15,21 @@ export class PdfService {
     lastSearchQuery: string;
     zoom: number = 1;
     lastZoom: number = 1;
+    pdfLoading: boolean;
 
     constructor() {}
 
     private pdfComponent: PdfViewerComponent;
 
+
+    setUrl(url: string) {
+        this.pdfLoading = true;
+        this.url = url;
+    }
+
+    clear() {
+        this.url = null;
+    }
 
     init(data: any, pdfComponent: PdfViewerComponent) {
         this.pdfComponent = pdfComponent;

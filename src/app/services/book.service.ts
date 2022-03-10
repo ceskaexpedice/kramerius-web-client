@@ -27,6 +27,7 @@ import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
 import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
 import { OcrDialogComponent } from '../dialog/ocr-dialog/ocr-dialog.component';
 import { saveAs } from 'file-saver';
+import { PdfService } from './pdf.service';
 
 @Injectable()
 export class BookService {
@@ -53,8 +54,6 @@ export class BookService {
 
     public metadata: Metadata;
 
-    public pdf: string;
-    public pdfPath;
     public isPrivate: boolean;
     public pageAvailable: boolean;
 
@@ -90,12 +89,13 @@ export class BookService {
         private logger: LoggerService,
         private history: HistoryService,
         private router: Router,
+        private pdf: PdfService,
         private bottomSheet: MatBottomSheet,
         private licenceService: LicenceService) {
     }
 
     init(params: BookParams) {
-        console.log('init', params);
+        // console.log('init', params);
         this.clear();
         this.extraParents = [];
         this.uuid = params.uuid;
@@ -201,7 +201,7 @@ export class BookService {
     private setupPdf(uuid: string) {
         this.bookState = BookState.Success;
         this.viewer = 'pdf';
-        this.pdf = this.api.getPdfUrl(uuid);
+        this.pdf.setUrl(this.api.getPdfUrl(uuid));
     }
 
     private getMetadata(item: DocumentItem, params: any) {
@@ -592,7 +592,7 @@ export class BookService {
             this.allPages.push(page);
             index += 1;
         }
-        const usePlacement = withPlacement == this.allPages.length;
+        const usePlacement = this.allPages.length > 0 && withPlacement == this.allPages.length;
         console.log('use mods page placement', usePlacement);
         if (!usePlacement) {
             const bounds = this.computeDoublePageBounds(this.pages.length, titlePage, lastSingle, firstBackSingle);
@@ -807,7 +807,7 @@ export class BookService {
             title = uuid;
         } 
         const filename = title.substring(0, 30).trim() + '.pdf';
-        this.api.downloadFile(this.pdf).subscribe(
+        this.api.downloadFile(this.pdf.url).subscribe(
             blob => {
               saveAs(blob, filename);
             },
@@ -1107,8 +1107,7 @@ export class BookService {
     }
 
     onInternalPartSelected(internalPart: InternalPart) {
-        this.pdf = null;
-        this.pdfPath = null;
+        this.pdf.clear();
         this.pageState = BookPageState.Loading;
         this.internalPart = internalPart;
         if (!internalPart.metadata) {
@@ -1143,8 +1142,7 @@ export class BookService {
 
 
     onArticleSelected(article: Article) {
-        this.pdf = null;
-        this.pdfPath = null;
+        this.pdf.clear();
         this.pageState = BookPageState.Loading;
         this.article = article;
         if (article.type === 'none') {
@@ -1310,8 +1308,7 @@ export class BookService {
 
 
     clear() {
-        this.pdf = null;
-        this.pdfPath = null;
+        this.pdf.clear();
         this.bookState = BookState.None;
         this.pageState = BookPageState.None;
         this.doublePage = false;

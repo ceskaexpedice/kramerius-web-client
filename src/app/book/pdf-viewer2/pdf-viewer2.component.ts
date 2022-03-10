@@ -16,7 +16,6 @@ export class PdfViewer2Component implements  OnInit {
 
   private viewerActionsSubscription: Subscription;
   private intervalSubscription: Subscription;
-  pdfLoading: boolean;
   rotation: number = 0;
   zoomScale = 'page-fit';
 
@@ -33,7 +32,6 @@ export class PdfViewer2Component implements  OnInit {
   }
 
   ngOnInit() {
-    this.pdfLoading = true;
     this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
       this.onActionPerformed(action);
     });
@@ -59,7 +57,7 @@ export class PdfViewer2Component implements  OnInit {
     this.pdf.init(pdfData, this.pdfComponent);
     this.rotation = 0;
     this.pdf.zoom = 1;
-    this.pdfLoading = false;
+    this.pdf.pdfLoading = false;
     this.bookService.onPdfSuccess();
   }
 
@@ -72,7 +70,7 @@ export class PdfViewer2Component implements  OnInit {
   }
 
   onError(error: any) {
-    this.pdfLoading = false;
+    this.pdf.pdfLoading = false;
     if (error && error.status == 403) {
       this.bookService.onPdfInaccessible();
     } else {
