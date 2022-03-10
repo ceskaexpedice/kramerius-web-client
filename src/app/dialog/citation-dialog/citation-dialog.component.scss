@@ -4,15 +4,31 @@
   max-width: 700px;
   width: calc(100vw - 10px);
   padding: 20px;
+  position: relative;
   .app-dialog-content {
     overflow: hidden;
     margin: 0px auto;
     font-size: 14px;
     color: #222;
     margin-top: 10px;
+    input {
+      height: 0px;
+      position: absolute;
+      top: -1px;
+      width: 1px;
+    }
+    mat-icon.app-share-btn {
+      position: absolute;
+      left: 20px;
+      cursor: pointer;
+      bottom: 26px;
+      font-size: 22px;
+      height: 22px;
+    }
   }
   .app-dialog-actions {
     text-align: right;
     margin-top: 20px;
   }
 }
+

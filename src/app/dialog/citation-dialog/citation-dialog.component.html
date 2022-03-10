@@ -9,7 +9,12 @@
   </div>
 
   <div class="app-dialog-content" *ngIf="selection">
-    <div *ngIf="selection.citation" [innerHtml]="selection.citation"></div>
+    <ng-container *ngIf="selection.citation">
+      <div [innerHtml]="selection.citation"></div>
+      <input #inputTarget [value]="selection.citationTxt" type="text" >
+      <mat-icon class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="inputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
+    </ng-container>
+
     <mat-spinner *ngIf="!selection.citation"
           [strokeWidth]="2" 
           [diameter]="20">
