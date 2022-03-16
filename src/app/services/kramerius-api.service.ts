@@ -98,6 +98,7 @@ export class KrameriusApiService {
     }
 
     getFullJpegUrl(uuid: string): string {
+        // return `${this.getbaseUrl()}/search/img?pid=${uuid}&stream=IMG_FULL&action=SCALE&scaledHeight=200`;
         if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
         } else {
@@ -328,7 +329,11 @@ export class KrameriusApiService {
     }
 
     getPdfUrl(uuid: string): string {
-        return this.getFullJpegUrl(uuid);
+        if (this.settings.k5Compat()) {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
+        } else {
+            return this.getItemUrl(uuid) + '/image';
+        }
     }
 
     getMp3Url(uuid: string): string {

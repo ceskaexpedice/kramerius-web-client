@@ -43,7 +43,7 @@ export class MetadataComponent implements OnInit {
     if (!text) {
       return "";
     }
-    const html = text.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+    const html =  text.replace(/\\\[/g, '__RRR__').replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>').replace(/__RRR__/g, '\[');
     return html;
   }
 
