@@ -6,31 +6,32 @@ import { AppSettings } from './app-settings';
 export class AnalyticsService {
 
   constructor(
-    private setting: AppSettings,
+    private settings: AppSettings,
     private matomoTracker: MatomoTracker
   ) { }
 
   sendEvent(category: string, action: string, label: string = '') {
-    if (this.setting.ga) {
+    if (this.settings.ga) {
       // console.log('analytics', 'sending ga event ' + category + ' - ' + action + ' - ' + label);
       (<any>window).gaaa('send', 'event', category, action, label);
     }
-    if (this.setting.matomo) {
+    if (this.settings.matomo) {
       // console.log('analytics', 'sending matomo event ' + category + ' - ' + action + ' - ' + label);
       this.matomoTracker.trackEvent(category, action, label);
     }
   }
 
   sendPageView(url: string) {
-    if (this.setting.ga) {
+    if (this.settings.ga) {
       // console.log('analytics', 'sending ga page ' + url);
       (<any>window).gaaa('set', 'page', url);
       (<any>window).gaaa('send', 'pageview');
     }
-    if (this.setting.matomo) {
+    if (this.settings.matomo) {
       // console.log('analytics', 'sending matomo page ' + url);
       this.matomoTracker.trackPageView(url);
     }
   }
+
 
 }

@@ -54,6 +54,8 @@ export class AppSettings {
   public footer : [string, string] = APP_GLOBAL.footer;
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public landingPage = !!APP_GLOBAL.landingPage;
+  public cookiebar = !!APP_GLOBAL.cookiebar;
+
   public languages: string[] = APP_GLOBAL.languages || ['cs', 'en', 'de', 'sk'];
 
   public actions = {

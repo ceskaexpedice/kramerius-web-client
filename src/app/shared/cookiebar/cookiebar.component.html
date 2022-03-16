@@ -1,0 +1,62 @@
+
+<div class="app-cookiebar">
+  <div class="app-title">Použití cookies</div>
+
+  <div class="app-message">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam gravida nunc felis, pulvinar porta mi aliquam at. Vivamus sed quam eros. Curabitur ut eros quis risus scelerisque pharetra et vitae urna.  </div>
+
+  <div *ngIf="!showDetail" class="app-show-detail" (click)="showDetail = !showDetail">Podrobné nastavení</div>
+
+<div class="app-detail" *ngIf="showDetail">
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
+      <div class="app-wrapper">
+        <mat-checkbox color="primary" [(ngModel)]="functional" [disabled]="true"></mat-checkbox>
+        <span>Funkční</span>
+      </div>
+    </mat-expansion-panel-header>
+      <div class="app-info-content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam gravida nunc felis, pulvinar porta mi aliquam at. Vivamus sed quam eros. Curabitur ut eros quis risus scelerisque pharetra et vitae urna. Nulla leo nisl, lacinia et luctus ut, sollicitudin et sapien. Mauris nec vulputate felis. Ut porttitor ex id tellus sodales convallis. Sed pharetra urna sed augue elementum blandit. Nulla massa mauris, laoreet eget sapien a, commodo consectetur nibh.      </div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
+      <div class="app-wrapper" (click)="preferential = !preferential; $event.stopPropagation();">
+        <mat-checkbox disableRipple (click)="$event.stopPropagation();" color="primary" [(ngModel)]="preferential"></mat-checkbox>
+        <span>Preferenční</span>
+      </div>
+    </mat-expansion-panel-header>
+      <div class="app-info-content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam gravida nunc felis, pulvinar porta mi aliquam at. Vivamus sed quam eros. Curabitur ut eros quis risus scelerisque pharetra et vitae urna. Nulla leo nisl, lacinia et luctus ut, sollicitudin et sapien. Mauris nec vulputate felis. Ut porttitor ex id tellus sodales convallis. Sed pharetra urna sed augue elementum blandit. Nulla massa mauris, laoreet eget sapien a, commodo consectetur nibh.
+      </div>
+  </mat-expansion-panel>
+
+
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
+        <div class="app-wrapper" (click)="analytical = !analytical; $event.stopPropagation();">
+          <mat-checkbox (click)="$event.stopPropagation();" disableRipple color="primary" [(ngModel)]="analytical"></mat-checkbox>
+          <span>Analytické</span>
+        </div>
+    </mat-expansion-panel-header>
+      <div class="app-info-content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam gravida nunc felis, pulvinar porta mi aliquam at. Vivamus sed quam eros. Curabitur ut eros quis risus scelerisque pharetra et vitae urna. Nulla leo nisl, lacinia et luctus ut, sollicitudin et sapien. Mauris nec vulputate felis. Ut porttitor ex id tellus sodales convallis. Sed pharetra urna sed augue elementum blandit. Nulla massa mauris, laoreet eget sapien a, commodo consectetur nibh.      </div>
+  </mat-expansion-panel>
+
+
+</div>
+
+  <div class="app-buttons" *ngIf="!showDetail">
+    <button mat-flat-button color="primary" (click)="acceptAll()">Povolit všechny</button>
+    <button mat-flat-button color="defaut" (click)="rejectAll()">Odmítnout všechny</button>
+  </div>
+
+  <div class="app-buttons" *ngIf="showDetail">
+    <button mat-flat-button color="primary" (click)="acceptSelected()">Povolit vybrané</button>
+    <button mat-flat-button color="defaut" (click)="showDetail = false">Skrýt podrobnosti</button>
+  </div>
+
+
+
+
+</div>

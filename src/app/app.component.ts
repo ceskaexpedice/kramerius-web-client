@@ -17,8 +17,10 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class AppComponent implements OnInit {
 
+
+  showCookiebar = false;
+
   constructor(
-    private translate: TranslateService,
     private location: Location,
     private history: HistoryService,
     private router: Router,
@@ -29,6 +31,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showCookiebar = !localStorage.getItem('cpref') && this.settings.cookiebar;
     if (this.settings.matomo) {
       this.matomoInjector.init(this.settings.matomo, 5);
     }
@@ -39,9 +42,5 @@ export class AppComponent implements OnInit {
         this.state.pageUrl = event.url;
       }
     });
-    // const lang = localStorage.getItem('lang');
-    // if (lang) {
-    //   this.translate.use(lang);
-    // }
   }
 }

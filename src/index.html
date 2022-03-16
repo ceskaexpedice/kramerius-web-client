@@ -47,8 +47,19 @@
       a.src = g;
       m.parentNode.insertBefore(a, m)
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'gaaa');
-        gaaa('set', 'anonymizeIp', true);
+      if (!!APP_GLOBAL.ga) {
+        console.log('GA init');
+      gaaa('set', 'anonymizeIp', true);
+      if (localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'analytical') {
+        console.log('GA with cookies');
         gaaa('create', APP_GLOBAL.ga, 'auto');
+      } else {
+        console.log('GA without cookies');
+        gaaa('create', APP_GLOBAL.ga, {
+            'storage': 'none',
+        });
+      }
+    }
   </script>
 
 </body>

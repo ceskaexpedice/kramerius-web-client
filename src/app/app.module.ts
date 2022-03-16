@@ -150,6 +150,7 @@ import { NgSlimScrollModule } from 'ngx-slimscroll';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { CookiebarComponent } from './shared/cookiebar/cookiebar.component';
 
 declare var APP_GLOBAL: any;
 
@@ -261,7 +262,8 @@ export function appInitializerFactory(translate: TranslateService) {
     LicenceDialogComponent,
     AdminDialogComponent,
     PluralPipe,
-    DatepickerComponent
+    DatepickerComponent,
+    CookiebarComponent
   ],
   imports: [
     BrowserModule,
