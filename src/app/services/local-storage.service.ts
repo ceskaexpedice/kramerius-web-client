@@ -20,6 +20,9 @@ export class LocalStorageService {
     }
 
     addToVisited(item: DocumentItem, metadata: Metadata) {
+        if (!this.prefAllowed()) {
+            return;
+        }
         if (this.appSettings.doctypes.indexOf(item.doctype) < 0) {
             return;
         }
@@ -56,18 +59,30 @@ export class LocalStorageService {
     }
 
     getVisited(): DocumentItem[] {
+        if (!this.prefAllowed()) {
+            return [];
+        }
         return JSON.parse(localStorage.getItem(this.getVisitedKey()) || '[]');
     }
 
     getProperty(property: string) {
+        if (!this.prefAllowed()) {
+            return null;
+        }
         return localStorage.getItem(property);
     }
 
     setProperty(property: string, value) {
+        if (!this.prefAllowed()) {
+            return;
+        }
         return localStorage.setItem(property, value);
     }
 
     publicFilterChecked(): boolean {
+        if (!this.prefAllowed()) {
+            return this.appSettings.publicFilterDefault;
+        }
         const value = localStorage.getItem(LocalStorageService.ACCESSIBILITY_FILTER);
         if (value === '1') {
             return true;
@@ -78,11 +93,18 @@ export class LocalStorageService {
     }
 
     setPublicFilter(value: boolean) {
+        if (!this.prefAllowed()) {
+            return;
+        }
         this.setProperty(LocalStorageService.ACCESSIBILITY_FILTER, value ? '1' : '0');
     }
 
     private getVisitedKey(): string {
         return 'visited_documents'; // + this.appSettings.code;
+    }
+
+    private prefAllowed(): boolean {
+        return !this.appSettings.cookiebar || localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'preferential';
     }
 
 }

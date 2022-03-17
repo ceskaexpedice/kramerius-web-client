@@ -167,7 +167,11 @@ export function createTranslateLoader(http: HttpClient) {
 
 export function appInitializerFactory(translate: TranslateService) {
   return () => {
-    const lang = localStorage.getItem('lang') || APP_GLOBAL.defaultLanguage || 'cs';
+    let lang = '';
+    if (!APP_GLOBAL.cookiebar || localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'preferential') {
+      lang = localStorage.getItem('lang')
+    }
+    lang = lang || APP_GLOBAL.defaultLanguage || 'cs';
     return translate.use(lang).toPromise();
   };
 }

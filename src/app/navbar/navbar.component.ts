@@ -38,7 +38,9 @@ export class NavbarComponent implements OnInit {
 
   onLanguageChanged(lang: string) {
     this.analytics.sendEvent('navbar', 'language', lang);
-    localStorage.setItem('lang', lang);
+    if (!this.appSettings.cookiebar || localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'preferential') {
+      localStorage.setItem('lang', lang);
+    }
     this.translate.use(lang);
   }
 

@@ -50,7 +50,7 @@
       if (!!APP_GLOBAL.ga) {
         console.log('GA init');
       gaaa('set', 'anonymizeIp', true);
-      if (localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'analytical') {
+      if (!APP_GLOBAL.cookiebar || localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'analytical') {
         console.log('GA with cookies');
         gaaa('create', APP_GLOBAL.ga, 'auto');
       } else {

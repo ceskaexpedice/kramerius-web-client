@@ -23,7 +23,9 @@ export class SignpostHeaderComponent implements OnInit {
 
   onLanguageChanged(lang: string) {
     this.analytics.sendEvent('landing', 'language', lang);
-    localStorage.setItem('lang', lang);
+    if (!this.settings.cookiebar || localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'preferential') {
+      localStorage.setItem('lang', lang);
+    }
     this.translate.use(lang);
   }
 
