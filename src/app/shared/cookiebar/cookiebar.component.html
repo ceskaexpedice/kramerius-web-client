@@ -1,60 +1,55 @@
 
 <div class="app-cookiebar">
-  <div class="app-title">Používáme cookies</div>
+  <div class="app-title">{{ 'cookiebar.title' | translate }}</div>
 
   <div class="app-message">
-    Soubory cookie používáme k analýze údajů o našich návštěvnících, ke zlepšení našich webových stránek, zobrazení personalizovaného obsahu a k tomu, abychom vám poskytli skvělý zážitek z webu.
-  <div *ngIf="!showDetail" class="app-show-detail" (click)="showDetails()">Podrobné nastavení</div>
+    {{ 'cookiebar.message' | translate }}
+    <div *ngIf="!showDetail" class="app-show-detail" (click)="showDetails()">{{ 'cookiebar.show_details' | translate }}</div>
+  </div>
 
-<div class="app-detail" *ngIf="showDetail">
-  <mat-expansion-panel [expanded]="false">
-    <mat-expansion-panel-header>
-      <div class="app-wrapper">
-        <mat-checkbox color="primary" [(ngModel)]="functional" [disabled]="true"></mat-checkbox>
-        <span>Nutné</span>
-      </div>
-    </mat-expansion-panel-header>
-      <div class="app-info-content">
-        Nutné cookies zajišťují, aby byla webová stránka použitelná tak, že umožní základní funkce jako navigace stránky a přístup k zabezpečeným sekcím webové stránky. Webová stránka nemůže správně fungovat bez těchto cookies.
-      </div>
-    </mat-expansion-panel>
-
-  <mat-expansion-panel [expanded]="false">
-    <mat-expansion-panel-header>
-      <div class="app-wrapper" (click)="preferential = !preferential; $event.stopPropagation();">
-        <mat-checkbox disableRipple (click)="$event.stopPropagation();" color="primary" [(ngModel)]="preferential"></mat-checkbox>
-        <span>Preferenční</span>
-      </div>
-    </mat-expansion-panel-header>
-      <div class="app-info-content">
-        Preferenční cookies umožňují, aby si webová stránka zapamatovala informace, které mění, jak se webová stránka chová nebo jak vypadá. Je to například preferovaný jazyk.     
-      </div>
-  </mat-expansion-panel>
-
-
-  <mat-expansion-panel [expanded]="false">
-    <mat-expansion-panel-header>
-        <div class="app-wrapper" (click)="analytical = !analytical; $event.stopPropagation();">
-          <mat-checkbox (click)="$event.stopPropagation();" disableRipple color="primary" [(ngModel)]="analytical"></mat-checkbox>
-          <span>Analytické</span>
+  <div class="app-detail" *ngIf="showDetail">
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header>
+        <div class="app-wrapper">
+          <mat-checkbox color="primary" [(ngModel)]="functional" [disabled]="true"></mat-checkbox>
+          <span>{{ 'cookiebar.functional.label' | translate }}</span>
         </div>
-    </mat-expansion-panel-header>
-      <div class="app-info-content">
-        Analytické cookies nám pomáhají, abychom porozuměli, jak návštěvníci používají webové stránky. Pomáhají nám zlepšovat způsob, jakým webové stránky fungují, například tím, že uživatelům umožňují snadno najít to, co hledají. Tyto soubory cookie neshromažďují informace, které by vás mohly identifikovat.
-      </div>
+      </mat-expansion-panel-header>
+      <div class="app-info-content">{{ 'cookiebar.functional.description' | translate }}</div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header>
+        <div class="app-wrapper" (click)="preferential = !preferential; $event.stopPropagation();">
+          <mat-checkbox disableRipple (click)="$event.stopPropagation();" color="primary" [(ngModel)]="preferential"></mat-checkbox>
+          <span>{{ 'cookiebar.preferential.label' | translate }}</span>
+        </div>
+      </mat-expansion-panel-header>
+      <div class="app-info-content">{{ 'cookiebar.preferential.description' | translate }}</div>
     </mat-expansion-panel>
 
 
-</div>
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header>
+          <div class="app-wrapper" (click)="analytical = !analytical; $event.stopPropagation();">
+            <mat-checkbox (click)="$event.stopPropagation();" disableRipple color="primary" [(ngModel)]="analytical"></mat-checkbox>
+            <span>{{ 'cookiebar.analytical.label' | translate }}</span>
+          </div>
+      </mat-expansion-panel-header>
+      <div class="app-info-content">{{ 'cookiebar.analytical.description' | translate }}</div>
+    </mat-expansion-panel>
+
+
+  </div>
 
   <div class="app-buttons" *ngIf="!showDetail">
-    <button mat-flat-button color="primary" (click)="acceptAll()">Povolit všechny</button>
-    <button mat-flat-button color="defaut" (click)="rejectAll()">Odmítnout všechny</button>
+    <button mat-flat-button color="primary" (click)="acceptAll()">{{ 'cookiebar.accept_all' | translate }}</button>
+    <button mat-stroked-button color="primary" (click)="rejectAll()">{{ 'cookiebar.reject_all' | translate }}</button>
   </div>
 
   <div class="app-buttons" *ngIf="showDetail">
-    <button mat-flat-button color="primary" (click)="acceptSelected()">Povolit vybrané</button>
-    <button mat-flat-button color="defaut" (click)="hideDetails()">Skrýt podrobnosti</button>
+    <button mat-flat-button color="primary" (click)="acceptSelected()">{{ 'cookiebar.accept_selected' | translate }}</button>
+    <button mat-stroked-button (click)="hideDetails()">{{ 'cookiebar.hide_details' | translate }}</button>
   </div>
 
 

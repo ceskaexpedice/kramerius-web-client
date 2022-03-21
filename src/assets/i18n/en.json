@@ -565,6 +565,27 @@
       "6": "Sun"
     }
   },
+  "cookiebar": {
+    "title": "We use cookies",
+    "message": "We use cookies to provide you with the best user experience possible. We need your consent to process them. Thank you for giving us your consent. This helps us improve the site.",
+    "show_details": "Detailed Settings",
+    "hide_details": "Hide Details",
+    "accept_all": "Accept All",
+    "reject_all": "Reject All",
+    "accept_selected": "Accept Selected",
+    "functional": {
+      "label": "Required",
+      "description": "The necessary cookies ensure that the website is usable by enabling basic functions such as site navigation and access to secure sections of the website. The website cannot function properly without these cookies."
+    },
+    "preferential": {
+      "label": "Preferential",
+      "description": "Preferred cookies allow a website to remember information that changes the way the website behaves or looks. This is the preferred language, for example."
+    },
+    "analytical": {
+      "label": "Analytical",
+      "description": "Analytical cookies help us to understand how visitors use the website. They help us improve the way the website works, for example by making it easy for users to find what they are looking for. These cookies do not collect information that could identify you. "
+    }
+  },
   "sigla": {
     "BOA001" : "Moravian Library in Brno",
     "BOE801" : "Museum of Brno Region",

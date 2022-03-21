@@ -565,6 +565,27 @@
         "6": "Ne"
       }
     },
+    "cookiebar": {
+      "title": "Používame cookies",
+      "message": "Aby sme vám mohli poskytnúť čo najlepší užívateľský zážitok, používame cookies. Na ich spracovanie potrebujeme váš súhlas. Ďakujeme, že nám ho dáte, pomáhate nám tak stránky zlepšovať.",
+      "show_details": "Podrobné nastavenie",
+      "hide_details": "Skryť podrobnosti",
+      "accept_all": "Povoliť všetky",
+      "reject_all": "Odmietnuť všetky",
+      "accept_selected": "Povoliť vybrané",
+      "functional": {
+        "label": "Nutné",
+        "description": "Nutné cookies zaisťujú, aby bola webová stránka použiteľná tak, že umožní základné funkcie ako navigácia stránky a prístup k zabezpečeným sekciám webovej stránky. Webová stránka nemôže správne fungovať bez týchto cookies."
+      },
+      "preferential": {
+        "label": "Preferenčné",
+        "description": "Preferenčné cookies umožňujú, aby si webová stránka zapamätala informácie, ktoré menia, ako sa webová stránka chová alebo ako vyzerá. Je to napríklad preferovaný jazyk."
+      },
+      "analytical": {
+        "label": "Analytické",
+        "description": "Analytické cookies nám pomáhajú, aby sme porozumeli, ako návštevníci používajú webové stránky. Pomáhajú nám zlepšovať spôsob, akým webové stránky fungujú, napríklad tým, že používateľom umožňujú ľahko nájsť to, čo hľadajú. Tieto súbory cookie nezhromažďujú informácie, ktoré by vás mohli identifikovať."
+      }
+    },
     "sigla": {
       "BOA001" : "Moravská zemská knihovna v Brně",
       "BOE801" : "Muzeum Brněnska",
