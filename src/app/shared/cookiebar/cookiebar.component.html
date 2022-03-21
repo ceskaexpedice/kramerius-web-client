@@ -4,7 +4,7 @@
 
   <div class="app-message">
     Soubory cookie používáme k analýze údajů o našich návštěvnících, ke zlepšení našich webových stránek, zobrazení personalizovaného obsahu a k tomu, abychom vám poskytli skvělý zážitek z webu.
-  <div *ngIf="!showDetail" class="app-show-detail" (click)="showDetail = !showDetail">Podrobné nastavení</div>
+  <div *ngIf="!showDetail" class="app-show-detail" (click)="showDetails()">Podrobné nastavení</div>
 
 <div class="app-detail" *ngIf="showDetail">
   <mat-expansion-panel [expanded]="false">
@@ -54,7 +54,7 @@
 
   <div class="app-buttons" *ngIf="showDetail">
     <button mat-flat-button color="primary" (click)="acceptSelected()">Povolit vybrané</button>
-    <button mat-flat-button color="defaut" (click)="showDetail = false">Skrýt podrobnosti</button>
+    <button mat-flat-button color="defaut" (click)="hideDetails()">Skrýt podrobnosti</button>
   </div>
 
 

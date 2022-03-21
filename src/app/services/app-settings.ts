@@ -31,6 +31,7 @@ export class AppSettings {
   public hiddenLocks: boolean;
   public licences: any;
   public ga = APP_GLOBAL.ga;
+  public gaCookieless = APP_GLOBAL.gaCookieless;
   public matomo = APP_GLOBAL.matomo;
   public maxOmnibusParts: number;
   public maxOmnibusPages: number;

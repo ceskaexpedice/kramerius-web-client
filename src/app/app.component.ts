@@ -7,7 +7,6 @@ import { Location } from '@angular/common';
 
 import { MatomoInjector } from 'ngx-matomo';
 import { AnalyticsService } from './services/analytics.service';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +31,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.showCookiebar = !localStorage.getItem('cpref') && this.settings.cookiebar;
-    if (this.settings.matomo) {
+    if (this.settings.matomo && (!this.settings.cookiebar || localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'analytical')) {
       this.matomoInjector.init(this.settings.matomo, 5);
     }
     this.router.events.subscribe(event => {

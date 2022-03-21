@@ -48,19 +48,16 @@
       m.parentNode.insertBefore(a, m)
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'gaaa');
       if (!!APP_GLOBAL.ga) {
-        console.log('GA init');
-      gaaa('set', 'anonymizeIp', true);
-      if (!APP_GLOBAL.cookiebar || localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'analytical') {
-        console.log('GA with cookies');
-        gaaa('create', APP_GLOBAL.ga, 'auto');
-      } else {
-        console.log('GA without cookies');
-        gaaa('create', APP_GLOBAL.ga, {
-            'storage': 'none',
-        });
+        if (!APP_GLOBAL.cookiebar || localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'analytical') {
+          gaaa('create', APP_GLOBAL.ga, 'auto');
+          gaaa('set', 'anonymizeIp', true);
+        } else if (!!APP_GLOBAL.gaCookieless) {
+          gaaa('create', APP_GLOBAL.gaCookieless, {
+              'storage': 'none',
+          });
+          gaaa('set', 'anonymizeIp', true);
+        }
       }
-    }
   </script>
-
 </body>
 </html>

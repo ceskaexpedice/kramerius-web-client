@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-cookiebar',
@@ -7,13 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CookiebarComponent implements OnInit {
   
-
   functional = true;
   analytical = false;
   preferential = false;
   showDetail = false;
 
-  constructor() { }
+  constructor(private analytics: AnalyticsService) { }
 
   ngOnInit() {
   }
@@ -23,30 +23,43 @@ export class CookiebarComponent implements OnInit {
   }
 
   acceptSelected() {
+    let selection = 'none';
     if (this.preferential && this.analytical) {
-      localStorage.setItem('cpref', "all");
+      selection = 'all';
     } else if (this.preferential) {
-      localStorage.setItem('cpref', "preferential");
+      selection = 'preferential';
     } else if (this.analytical) {
-      localStorage.setItem('cpref', "analytical");
-    } else {
-      localStorage.setItem('cpref', "none");
-    }
+      selection = 'analytical';
+    } 
+    localStorage.setItem('cpref', selection);
+    this.analytics.sendEvent('cookiebar', 'accept', 'selection-all');
     this.reload();
   }
 
   acceptAll() {
+    this.analytics.sendEvent('cookiebar', 'accept', 'all');
     localStorage.setItem('cpref', "all");
     this.reload();
   }
 
   rejectAll() {
+    this.analytics.sendEvent('cookiebar', 'accept', 'none');
     localStorage.setItem('cpref', "none");
     this.reload();
   }
 
   reload() {
     window.location.reload();
+  }
+
+  showDetails() {
+    this.analytics.sendEvent('cookiebar', 'action', 'showDetails');
+    this.showDetail = true;
+  }
+
+  hideDetails() {
+    this.analytics.sendEvent('cookiebar', 'action', 'hideDetails');
+    this.showDetail = false;
   }
 
 }
