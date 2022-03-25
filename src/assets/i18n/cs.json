@@ -121,6 +121,7 @@
     "results": "Výsledky",
     "keywords": "Klíčové slovo",
     "doctypes": "Typ dokumentu",
+    "categories": "Druh dokumentu",
     "collections": "Sbírka",
     "languages": "Jazyk",
     "licences": "Licence",
@@ -156,7 +157,8 @@
   "browse": {
     "category": {
       "label": "Procházet",
-      "doctypes": "Typy dokumentů",
+      "doctypes": "Typy dokumentu",
+      "categories": "Druhy dokumentu",
       "authors": "Autoři",
       "publishers": "Nakladatelé",
       "places": "Místa vydání",
@@ -170,6 +172,7 @@
     },
     "search": {
       "doctypes": "Vyhledat typ dokumentu",
+      "categories": "Vyhledat druh dokumentu",
       "authors": "Vyhledat autora",
       "publishers": "Vyhledat nakladatele",
       "places": "Vyhledat místo vydání",
@@ -235,7 +238,8 @@
     "physical_description": "Fyzický popis",
     "cartographic_data": "Kartografické údaje",
     "scale": "Měřítko",
-    "doctype": "Typ dokumentu",        
+    "doctype": "Typ dokumentu",
+    "category": "Druh dokumentu",     
     "notes": "Poznámky",
     "genres": "Žánr",
     "article": "Článek",
@@ -585,6 +589,30 @@
       "label": "Analytické",
       "description": "Analytické cookies nám pomáhají, abychom porozuměli, jak návštěvníci používají webové stránky. Pomáhají nám zlepšovat způsob, jakým webové stránky fungují, například tím, že uživatelům umožňují snadno najít to, co hledají. Tyto soubory cookie neshromažďují informace, které by vás mohly identifikovat."
     }
+  },
+  "category": {
+    "category:photo": "Fotografie",
+    "category:veduta": "Veduta",
+    "category:painting": "Malba",
+    "category:poster": "Plakát",
+    "category:postcard": "Pohlednice",
+    "category:newspaper": "Noviny",
+    "category:yearbook": "Ročenka",
+    "category:magazine": "Časopis",
+    "category:addressbook": "Adresář",
+    "category:calendar": "Kalendář"
+  },
+  "category_plural": {
+    "category:photo": "Fotografie",
+    "category:veduta": "Veduty",
+    "category:painting": "Malby",
+    "category:poster": "Plakáty",
+    "category:postcard": "Pohlednice",
+    "category:newspaper": "Noviny",
+    "category:yearbook": "Ročenky",
+    "category:magazine": "Časopisy",
+    "category:addressbook": "Adresáře",
+    "category:calendar": "Kalendáře"
   },
   "sigla": {
     "BOA001" : "Moravská zemská knihovna v Brně",

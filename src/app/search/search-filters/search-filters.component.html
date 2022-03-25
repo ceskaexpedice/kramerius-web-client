@@ -74,6 +74,25 @@
 
 
 
+    <mat-expansion-panel *ngIf="searchService.categories.length && filters.indexOf('categories') > -1" class="app-filter-panel" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'search.categories' | translate }}   
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="app-filter-items">
+        <div *ngFor="let item of searchService.categories"
+              [class.app-selected]="searchService.query.categories.indexOf(item.value) >= 0"
+              (click)="searchService.toggleFilter(searchService.query.categories, item.value);analytics.sendEvent('search', 'category', item.value)"
+              class="app-filter-item">
+              <span>{{item.count}}</span>
+              {{'category.' + item.value | translate | appUpcase }}
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+
+
     <mat-expansion-panel class="app-filter-panel" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>

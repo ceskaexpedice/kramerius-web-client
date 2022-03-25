@@ -41,6 +41,8 @@ a {
     &.app-doctype-article {background-color: $app-type-article}
     &.app-doctype-page {background-color: $app-type-page}
     &.app-doctype-convolute {background-color: $app-type-convolute}
+    &.app-doctype-category {background-color: #5a5a5a}
+
   }
   &>div {
     height: 100%;
@@ -140,15 +142,25 @@ a {
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
       }
-
-      .app-card-doctype {
+      .app-card-doctypes {
         position: absolute;
         bottom: 0;
         right: 0;
-        color: #fff;
-        padding: 0 6px;
-        border-radius: $app-border-radius;
-      }     
+        left: 0;
+        display: flex;
+        flex-direction: row-reverse;
+        .app-card-doctype {
+          color: #fff;
+          padding: 0 6px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          border-radius: $app-border-radius;
+          &:not(:last-child) {
+            margin-left: 10px;
+          }
+        }     
+      }
       .app-card-hits {
         strong {
           font-weight: 500;

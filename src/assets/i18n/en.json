@@ -121,6 +121,7 @@
     "results": "Results",
     "keywords": "Keyword",
     "doctypes": "Document Type",   
+    "categories": "Document Kind",
     "collections": "Collection", 
     "languages": "Language",
     "licences": "Licence",
@@ -157,6 +158,7 @@
     "category": {
       "label": "Browse",
       "doctypes": "Document Types",
+      "categories": "Document Kinds",
       "authors": "Authors",
       "publishers": "Publishers",
       "places": "Place of Publications",
@@ -170,6 +172,7 @@
     },
     "search": {
       "doctypes": "Lookup Document type",
+      "categories": "Lookup Document kind",
       "authors": "Lookup Author",
       "publishers": "Lookup Publisher",
       "places": "Lookup Place of Publication",
@@ -236,6 +239,7 @@
     "cartographic_data": "Cartographic data",
     "scale": "Scale",
     "doctype": "Document type",    
+    "category": "Document kind",
     "notes": "Notes",
     "genres": "Genre", 
     "article": "Article",
@@ -585,6 +589,30 @@
       "label": "Analytical",
       "description": "Analytical cookies help us to understand how visitors use the website. They help us improve the way the website works, for example by making it easy for users to find what they are looking for. These cookies do not collect information that could identify you. "
     }
+  },
+  "category": {
+    "category:photo": "Photo",
+    "category:veduta": "Veduta",
+    "category:painting": "Painting",
+    "category:poster": "Poster",
+    "category:postcard": "Postcard",
+    "category:newspaper": "Newspaper",
+    "category:yearbook": "Yearbook",
+    "category:magazine": "Magazine",
+    "category:addressbook": "Address book",
+    "category:calendar": "Calendar"
+  },
+  "category_plural": {
+    "category:photo": "Photos",
+    "category:veduta": "Vedute",
+    "category:painting": "Paintings",
+    "category:poster": "Posters",
+    "category:postcard": "Postcards",
+    "category:newspaper": "Newspapers",
+    "category:yearbook": "Yearbooks",
+    "category:magazine": "Magazines",
+    "category:addressbook": "Address books",
+    "category:calendar": "Calendars"
   },
   "sigla": {
     "BOA001" : "Moravian Library in Brno",

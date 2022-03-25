@@ -189,6 +189,21 @@ export class BrowseService {
             this.numberOfResults = this.results.length;
             this.sortResult();
             this.loading = false;
+        } else if (this.getCategory() === 'categories') {
+            const filteredResults = [];
+            for (const item of this.backupResults) {
+                if (item['value'].indexOf('category:') != 0) {
+                    continue;
+                }
+                item['name'] = this.translate.instant('category_plural.' + item['value']);
+                if (!this.getText() || item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
+                    filteredResults.push(item);
+                }
+            }
+            this.results = filteredResults;
+            this.numberOfResults = this.results.length;
+            this.sortResult();
+            this.loading = false;
         } else if (this.getCategory() === 'locations') {
             const filteredResults = [];
             for (const item of this.backupResults) {

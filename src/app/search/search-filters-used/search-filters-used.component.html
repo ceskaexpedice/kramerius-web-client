@@ -35,6 +35,12 @@
     {{ 'model.' + doctype | translate | appUpcase }}
   </div>
 
+  <div *ngFor="let category of searchService.query.categories" (click)="searchService.removeFilter(searchService.query.categories, category)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>category</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ 'category.' + category | translate | appUpcase }}
+  </div>
+
   <div *ngFor="let author of searchService.query.authors" (click)="searchService.removeFilter(searchService.query.authors, author)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>person</mat-icon>
     <mat-icon class="app-close">close</mat-icon>

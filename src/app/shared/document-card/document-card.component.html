@@ -31,8 +31,13 @@
         <span>{{ 'common.n_occurrences' | appPlural : item.hits }}</span>
       </div>
       <img *ngIf="item.library" class="app-card-logo" src="{{ libraryLogo() }}" >
-      <div *ngIf="item.doctype" class="app-card-doctype app-doctype-{{item.doctype}}">
-        {{ 'model.' + item.doctype | translate }}
+      <div class="app-card-doctypes">
+        <div *ngIf="item.doctype" class="app-card-doctype app-doctype-{{item.doctype}}">
+          {{ 'model.' + item.doctype | translate }}
+        </div>
+        <div *ngIf="item.category" class="app-card-doctype app-doctype-category">
+          {{ 'category.' + item.category | translate }}
+        </div>
       </div>
     </div>
 

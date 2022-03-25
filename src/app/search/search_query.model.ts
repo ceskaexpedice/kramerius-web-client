@@ -17,6 +17,7 @@ export class SearchQuery {
     locations: string[] = [];
     geonames: string[] = [];
     doctypes: string[] = [];
+    categories: string[] = [];
     collections: string[] = [];
     publishers: string[] = [];
     places: string[] = [];
@@ -50,6 +51,7 @@ export class SearchQuery {
         query.setPage(params['page']);
         query.setFiled(query.keywords, 'keywords', params);
         query.setFiled(query.doctypes, 'doctypes', params);
+        query.setFiled(query.categories, 'categories', params);
         query.setFiled(query.authors, 'authors', params);
         query.setFiled(query.languages, 'languages', params);
         query.setFiled(query.licences, 'licences', params);
@@ -215,6 +217,9 @@ export class SearchQuery {
         if (this.doctypes.length > 0) {
             params['doctypes'] = this.doctypes.join(',,');
         }
+        if (this.categories.length > 0) {
+            params['categories'] = this.categories.join(',,');
+        }
         if (this.isCustomFieldSet()) {
             params['field'] = this.field;
             params['value'] = this.value;
@@ -268,6 +273,9 @@ export class SearchQuery {
         if (this.doctypes.length > 0) {
             params['doctypes'] = this.urlArray(this.doctypes);
         }
+        if (this.categories.length > 0) {
+            params['categories'] = this.urlArray(this.categories);
+        }
         if (this.collections.length > 0) {
             params['collections'] = this.urlArray(this.collections);
         }
@@ -316,6 +324,7 @@ export class SearchQuery {
         this.page = 1;
         this.keywords = [];
         this.doctypes = [];
+        this.categories = [];
         this.authors = [];
         this.collections = [];
         this.languages = [];
@@ -350,6 +359,9 @@ export class SearchQuery {
             return true;
         }
         if (this.doctypes && this.doctypes.length > 0) {
+            return true;
+        }
+        if (this.categories && this.categories.length > 0) {
             return true;
         }
         if (this.authors && this.authors.length > 0) {

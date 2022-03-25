@@ -5,6 +5,7 @@ export class DocumentItem {
     geonames: string[];
     date: string;
     doctype: string;
+    category: string;
     uuid: string;
     root_uuid: string;
     public: boolean;

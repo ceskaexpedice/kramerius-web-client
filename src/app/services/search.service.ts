@@ -23,6 +23,7 @@ export class SearchService {
 
     keywords: any[] = [];
     doctypes: any[] = [];
+    categories: any[] = [];
     accessibility: any[] = [];
     authors: any[] = [];
     languages: any[] = [];
@@ -66,6 +67,7 @@ export class SearchService {
         this.results = [];
         this.keywords = [];
         this.doctypes = [];
+        this.categories = [];
         this.collections =[];
         this.accessibility = [];
         this.numberOfResults = 0;
@@ -97,6 +99,9 @@ export class SearchService {
         }
         for (const item of q.doctypes) {
             filters.push(this.translate.instant('model.' + item));
+        }
+        for (const item of q.categories) {
+            filters.push(this.translate.instant('category.' + item));
         }
         filters = filters.concat(q.authors);
         if (q.isYearRangeSet()) {
@@ -372,6 +377,7 @@ export class SearchService {
                 this.doctypes = this.solr.facetDoctypeList(response, this.settings.joinedDoctypes, this.settings.doctypes);
                 break;
             }
+            case 'categories':
             case 'licences': {
                 this[facet] = this.solr.facetList(response, this.solr.getFilterField(facet), this.query[facet], false);
                 break;
@@ -442,6 +448,7 @@ export class SearchService {
         }
         this.checkFacet(this.query.accessibility === 'all', response, 'accessibility');
         this.checkFacet(this.query.doctypes.length === 0, response, 'doctypes');
+        this.checkFacet(this.query.categories.length === 0, response, 'categories');
         this.checkFacet(this.query.authors.length === 0, response, 'authors');
         this.checkFacet(this.query.keywords.length === 0, response, 'keywords');
         this.checkFacet(this.query.languages.length === 0, response, 'languages');
