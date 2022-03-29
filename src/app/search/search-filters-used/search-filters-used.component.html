@@ -74,7 +74,7 @@
   <div *ngFor="let location of searchService.query.locations" (click)="searchService.removeFilter(searchService.query.locations, location)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>home</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
-    {{ 'sigla.' + location.toUpperCase() | translate | appRemovePrefix:'sigla.' }}
+    {{ 'sigla.' + upcaseSigla(location) | translate | appRemovePrefix:'sigla.' }}
   </div>
 
   <div *ngFor="let language of searchService.query.languages" (click)="searchService.removeFilter(searchService.query.languages, language)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">

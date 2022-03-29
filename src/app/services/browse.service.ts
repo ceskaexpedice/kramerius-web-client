@@ -212,7 +212,7 @@ export class BrowseService {
                 }
                 item['name'] = this.translate.instant('sigla.' + item['value']);
                 if (item['name'].startsWith('sigla.')) {
-                    if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(item['value'])) {
+                    if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(item['value']) && this.settings.code != 'd') {
                             continue;
                     }
                     item['name'] = item['name'].substring(6);

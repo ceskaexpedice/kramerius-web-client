@@ -963,6 +963,9 @@ export class SolrService {
         } else if (field === 'licences') {
             return this.field('licences_facet');
         } else if (field === 'locations') {
+            if (this.settings.code == 'd') {
+                return 'physicalLocation';
+            }
             return this.field('locations_facet');
         } else if (field === 'geonames') {
             return this.field('geonames_facet');
@@ -994,6 +997,9 @@ export class SolrService {
         } else if (field === 'licences') {
             return this.field('licences_search');
         } else if (field === 'locations') {
+            if (this.settings.code == 'd') {
+                return 'physicalLocation';
+            }
             return this.field('locations_search');
         } else if (field === 'geonames') {
             return this.field('geonames_search');
@@ -1103,7 +1109,7 @@ export class SolrService {
                 if (/^[a-z]{3}[0-9]{3}$/.test(value)) {
                    value = value.toUpperCase();
                 }
-                if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(value)) {
+                if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(value) && this.settings.code != 'd') {
                     continue;
                 }
             } else if (this.getFilterField('licences') === field) {

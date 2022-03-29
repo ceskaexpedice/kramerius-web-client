@@ -16,6 +16,16 @@ export class SearchFiltersUsedComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
+
+  upcaseSigla(location: string): string {
+    if (/^[a-z]{3}[0-9]{3}$/.test(location)) {
+      return location.toUpperCase();
+    }
+    return location;
+  }
+
+
 
 }
