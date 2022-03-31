@@ -101,6 +101,11 @@
       .app-value {
         font-size: 15px;
         color: $app-grey-d-2;
+        &.app-note {
+          &:not(:last-child) {
+            margin-bottom: 10px;
+          }
+        }
       }
       .app-policy {
         line-height: 24px;

@@ -1,6 +1,15 @@
 <div class="app-search-toolbar">
 
   <div class="app-col-right">
+    <ng-container *ngIf="auth.isAdmin()">
+      <div *ngIf="search.adminSelection" (click)="search.openAdminActions()" class="app-view-button" [class.app-active]="true">
+        <mat-icon>edit</mat-icon>
+      </div>
+      <div (click)="search.toggleAdminSelection()" class="app-view-button" [class.app-active]="search.adminSelection" style="margin-right: 16px;">
+        <mat-icon>check</mat-icon>
+      </div>
+    </ng-container>
+
       <ng-container *ngIf="settings.mapSearch">
         <div [matTooltip]="'toolbar.tooltip_display_cards' | translate"  (click)="search.selectContentType('grid')" class="app-view-button" [class.app-active]="search.contentType == 'grid'">
           <mat-icon>grid_view</mat-icon>
@@ -10,12 +19,13 @@
         </div>
       </ng-container>
       <div *ngIf="search.contentType == 'grid'" class="app-ordering">
-          <label>{{ 'search.ordering.label' | translate }}: </label>
-          <span class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
-            <span>{{ 'search.ordering.' + search.query.ordering | translate }}</span>
-            <mat-icon>arrow_drop_down</mat-icon>
-          </span>
-        </div>
+        <label>{{ 'search.ordering.label' | translate }}: </label>
+        <span class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
+          <span>{{ 'search.ordering.' + search.query.ordering | translate }}</span>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </span>
+      </div>
+
   </div>
 
     <div class="app-col-left">

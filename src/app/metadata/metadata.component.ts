@@ -44,8 +44,10 @@ export class MetadataComponent implements OnInit {
       return "";
     }
     const html =  text.replace(/\\\[/g, '__RRR__')
+                      .replace(/\\\)/g, '__PPP__')
                       .replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
                       .replace(/__RRR__/g, '\[')
+                      .replace(/__PPP__/g, '\)')
                       .replace(/(?:\r\n|\r|\n)/g, '<br>');
     return html;
   }

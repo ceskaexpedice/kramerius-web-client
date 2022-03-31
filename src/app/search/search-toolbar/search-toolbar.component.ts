@@ -2,6 +2,7 @@ import { AppSettings } from './../../services/app-settings';
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from './../../services/search.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-search-toolbar',
@@ -12,6 +13,7 @@ import { AnalyticsService } from '../../services/analytics.service';
 export class SearchToolbarComponent implements OnInit {
 
   constructor(
+    public auth: AuthService,
     public search: SearchService,
     public analytics: AnalyticsService,
     public settings: AppSettings) {

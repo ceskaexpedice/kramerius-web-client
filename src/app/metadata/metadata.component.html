@@ -314,7 +314,7 @@
     
     <div *ngIf="metadata.notes.length > 0">
       <label>{{ 'metadata.notes' | translate }}</label>
-      <div *ngFor="let note of metadata.notes" class="app-value">
+      <div *ngFor="let note of metadata.notes" class="app-value app-note">
         <div [innerHTML]="toHtml(note) | safeHtml"></div>
       </div>
       <div class="divider"></div>
