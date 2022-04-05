@@ -46,7 +46,7 @@ export class Metadata {
 
     public article: Article;
     public internalPart: InternalPart;
-    public review: Metadata;
+    public reviews: Metadata[];
     public volumeMetadata: Metadata;
     public extraParentMetadata: Metadata;
 

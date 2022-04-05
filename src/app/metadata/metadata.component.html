@@ -321,10 +321,12 @@
   </div>
 
 
-  <div *ngIf="metadata.review && metadata.review" >
+  <div *ngIf="metadata.reviews && metadata.reviews.length > 0" >
     <label>{{ 'metadata.review_of' | translate }}</label>
-    <app-metadata [metadata]="metadata.review" class="app-nested" [showControls]="false"></app-metadata>
-    <div class="divider"></div>
+    <ng-container *ngFor="let review of metadata.reviews">
+      <app-metadata [metadata]="review" class="app-nested" [showControls]="false"></app-metadata>
+      <div class="divider"></div>
+    </ng-container>
   </div>
 
 

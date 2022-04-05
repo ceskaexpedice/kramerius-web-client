@@ -231,6 +231,7 @@ export class ModsParserService {
     }
 
     private processReview(mods, metadata: Metadata) {
+        metadata.reviews = [];
         let hasReview = false;
         if (!mods['genre']) {
             return;
@@ -248,9 +249,8 @@ export class ModsParserService {
         if (!ris || ris.length === 0) {
             return;
         }
-        let review: Metadata;
         for (const ri of ris) {
-            review = new Metadata();
+            const review = new Metadata();
             this.processTitles(ri['titleInfo'], review);
             this.processAuthors(ri['name'], review);
             this.processPublishers(ri['originInfo'], review);
@@ -261,12 +261,13 @@ export class ModsParserService {
             this.processSimpleArray(ri['note'], review.notes, null);
             this.processSimpleArray(ri['abstract'], review.abstracts, null);
             this.processSimpleArray(ri['genre'], review.genres, { key: 'authority', value: 'czenas' });
-            if (ri['$'] && ri['$']['displayLabel'] === 'Recenze na:') {
-                metadata.review = review;
-                return;
-            }
+            // if (ri['$'] && ri['$']['displayLabel'] === 'Recenze na:') {
+            //     metadata.review = review;
+            //     return;
+            // }
+            metadata.reviews.push(review);
         }
-        metadata.review = review;
+        // metadata.review = review;
     }
 
 
