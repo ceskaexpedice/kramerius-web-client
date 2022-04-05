@@ -567,6 +567,10 @@ export class SolrService {
             q = q.replace(/\;/g, ' ');
             q = q.replace(/\=/g, ' ');
             q = q.replace(/\-/g, ' ');
+            while (q.indexOf('..') > 0) {
+                q = q.replace(/\.\./g, ' ');
+            }
+            q = q.replace(/ \. /g, ' ');
             while (q.indexOf('  ') > 0) {
                 q = q.replace(/  /g, ' ');
             }
@@ -749,7 +753,6 @@ export class SolrService {
         }
         return result;
     }
-
 
 
     buildSearchQuery(query: SearchQuery, facet: string = null) {
