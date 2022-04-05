@@ -162,7 +162,11 @@ export class ModsParserService {
                         author.date = partName['_'];
                     }
                 } else {
-                    author.name = partName['_'];
+                    if (author.name) {
+                        author.name += ' ' + partName['_'];
+                    } else {
+                        author.name = partName['_'];
+                    }
                 }
             }
             let name = '';
