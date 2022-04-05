@@ -51,7 +51,7 @@
       flex-direction: row;
       .app-btn-search-bar {
         display: none;
-        margin-right: 12px;
+        margin-right: 9px;
       }
       
       // mq
@@ -66,13 +66,20 @@
         .app-btn-search-bar {
           display: block; 
           position: absolute;
-          right: 0;
+          right: 40px;
           mat-icon {
             display: block;
             height: 68px;
             line-height: 68px;
             color: #757575;
             user-select: none;
+          }
+        }
+        .app-mobile-menu-trigger {
+          &:not(.app-home) {
+            position: absolute;
+            right: 0px;
+            margin-right: 0px;
           }
         }
       }
@@ -83,6 +90,7 @@
           &.app-search-bar-show {
             display: initial;
             margin-right: 32px;
+            margin-right: 62px;
           }
         }
       }
@@ -137,6 +145,27 @@
         }
       }
     }
+
+    .app-mobile-menu-trigger {
+      @media only screen and (min-width : 990px) {
+        display: none;
+      }
+      &.app-home {
+        @media only screen and (min-width : 679px) {
+          display: none;
+        }
+      }
+      margin-right: 5px;
+      margin-left: -5px;
+      float: left;
+      cursor: pointer;
+      overflow: hidden;
+      padding: 22px 10px 20px;
+      height: 68px;
+      line-height: 0;
+      color: $app-grey-d-2;
+    }
+
   }
 }
 
@@ -164,4 +193,26 @@
       }
     }
   }
+
+  .app-mobile-menu {
+    .app-navbar-item {
+      cursor: pointer;
+      a {
+        line-height: 46px;
+        font-size: 14px;
+        color: #757575;
+        display: block;
+        padding: 0 15px;
+      }
+    }
+    .app-language {
+      padding: 5px 16px;      
+      cursor: pointer;
+      img {
+        height: 40px;
+      }
+    }
+  }
+
+
 }

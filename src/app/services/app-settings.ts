@@ -37,7 +37,7 @@ export class AppSettings {
   public maxOmnibusPages: number;
 
   public k7: boolean;
-
+  public auth: any;
 
   public share_url = APP_GLOBAL.share_url;
   public googleMapsApiKey = APP_GLOBAL.googleMapsApiKey;
@@ -46,7 +46,6 @@ export class AppSettings {
   public defaultPeriodicalVolumesLayout = APP_GLOBAL.defaultPeriodicalVolumesLayout;
   public defaultPeriodicalIsssuesLayout = APP_GLOBAL.defaultPeriodicalIssuesLayout;
   public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
-  public auth = APP_GLOBAL.auth;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
   public advancedSearch = false;
@@ -133,6 +132,7 @@ export class AppSettings {
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
     this.k7 = !!kramerius.k7;
+    this.auth = kramerius.auth;
     this.currentCode = this.code;
     this.listner.next(kramerius);
   }
@@ -212,4 +212,5 @@ interface KrameriusData {
   maxOmnibusParts: number;
   maxOmnibusPages: number;
   k7: boolean;
+  auth: any;
 }
