@@ -571,6 +571,7 @@ export class SolrService {
                 q = q.replace(/\.\./g, ' ');
             }
             q = q.replace(/ \. /g, ' ');
+            q = q.replace(/\, /g, ' ');
             while (q.indexOf('  ') > 0) {
                 q = q.replace(/  /g, ' ');
             }

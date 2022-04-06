@@ -2,11 +2,18 @@
 
   <div class="app-text">
     <div [innerHtml]="toHtml(data.ocr)"></div>
-    <div *ngIf="data.ocr2" style="margin-top:15px;" [innerHtml]="toHtml(data.ocr2)">
-    </div>
+    <div *ngIf="data.ocr2" style="margin-top:15px;" [innerHtml]="toHtml(data.ocr2)"></div>
+
+    <textarea #ocrInputTarget [value]="ocrTxt" type="text" ></textarea>
+    <mat-icon class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="ocrInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
   </div>
 
-  <div class="app-citation" *ngIf="citation"  [innerHtml]="citation"></div>
+
+  <div class="app-citation" *ngIf="citation">
+    <div [innerHtml]="citation"></div>
+    <input #citationInputTarget [value]="citationTxt" type="text" >
+    <mat-icon class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="citationInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
+  </div>
 
   <div class="app-dialog-actions">
     <button mat-button (click)="onCancel()">{{ 'common.close' | translate }}</button>
