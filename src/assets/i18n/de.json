@@ -47,7 +47,8 @@
       "collections": "Sammlungen",
       "about": "Über",
       "help": "Hilfe",
-      "faq": "FAQ"
+      "faq": "FAQ",
+      "impressum": "Impressum"
     },
     "sp": {
       "title": "Digitale Bibliothek",
@@ -83,6 +84,7 @@
       "browse": "Durchsuchen",
       "about": "Informationen",
       "faq": "FAQ",
+      "impressum": "Impressum",
       "back": "Zurück zur vorherigen Seite",
       "home": "Home",
       "checkbox_label": "nur öffentlich",

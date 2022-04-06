@@ -47,7 +47,8 @@
       "collections": "Zbierky",
       "about": "Informácie",
       "help": "Pomoc",
-      "faq": "FAQ"
+      "faq": "FAQ",
+      "impressum": "Impressum"
     },
     "sp": {
       "title": "Digitálna knižnica",
@@ -83,6 +84,7 @@
       "browse": "Prechádzať",
       "about": "Informácie",
       "faq": "FAQ",
+      "impressum": "Impressum",
       "back": "Späť na predchádzajúcu stránku",
       "home": "Domovská stránka",
       "checkbox_label": "iba verejné",

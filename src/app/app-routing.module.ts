@@ -1,4 +1,3 @@
-import { AboutComponent } from './about/about.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BookComponent } from './book/book.component';
@@ -14,15 +13,16 @@ import { RoutingPrefixGuardService } from './guards/routing-prefix.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import { LandingComponent } from './landing/landing.component';
-import { FaqComponent } from './faq/faq.component';
+import { StaticPageComponent } from './static-page/static-page.component';
 import { SignpostHelpComponent } from './signpost/help/help.component';
 
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
     { path: '', component: LandingComponent },
     { path: 'help', component: SignpostHelpComponent },
-    { path: 'about', component: AboutComponent, canActivate: [ RoutingGuardService ] },
-    { path: 'faq', component: FaqComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'about', component: StaticPageComponent, canActivate: [ RoutingGuardService ], data: { page: 'about' } },
+    { path: 'faq', component: StaticPageComponent, canActivate: [ RoutingGuardService ], data: { page: 'faq' } },
+    { path: 'impressum', component: StaticPageComponent, canActivate: [ RoutingGuardService ], data: { page: 'impressum' } },
     { path: 'login', component: LoginComponent, canActivate: [ RoutingGuardService ] },
     { path: 'browse', component: BrowseComponent, canActivate: [ RoutingGuardService ] },
     { path: 'search', component: SearchComponent, canActivate: [ RoutingGuardService ] },
@@ -33,8 +33,9 @@ const ROUTES: Routes = [
     { path: 'uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view/:uuid', component: BookComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view', component: BookComponent, canActivate: [ RoutingGuardService ] },
-    { path: ':k/about', component: AboutComponent, canActivate: [ RoutingPrefixGuardService ] },
-    { path: ':k/faq', component: FaqComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/about', component: StaticPageComponent, canActivate: [ RoutingPrefixGuardService ], data: { page: 'about' } },
+    { path: ':k/faq', component: StaticPageComponent, canActivate: [ RoutingPrefixGuardService ], data: { page: 'faq' } },
+    { path: ':k/impressum', component: StaticPageComponent, canActivate: [ RoutingPrefixGuardService ], data: { page: 'impressum' } },
     { path: ':k/login', component: LoginComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/browse', component: BrowseComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/search', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },

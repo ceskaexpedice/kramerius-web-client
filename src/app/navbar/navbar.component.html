@@ -34,7 +34,9 @@
       <div class="app-navbar-item" *ngIf="appSettings.faqPage">
         <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
       </div>
-
+      <div class="app-navbar-item" *ngIf="appSettings.impressumPage">
+        <a (click)="analytics.sendEvent('navbar', 'impressum');" [routerLink]="appSettings.getRouteFor('impressum')">{{ 'navbar.impressum' | translate }}</a>
+      </div>
       <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.k7">
         <div class="app-navbar-item" *ngIf="authService.isLoggedIn()">
           <a (click)="logout()">{{ 'navbar.logout' | translate }}</a>
@@ -86,6 +88,9 @@
     </div>
     <div class="app-navbar-item" *ngIf="appSettings.faqPage">
       <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
+    </div>
+    <div class="app-navbar-item" *ngIf="appSettings.impressumPage">
+      <a (click)="analytics.sendEvent('navbar', 'impressum');" [routerLink]="appSettings.getRouteFor('impressum')">Impressum</a>
     </div>
 
     <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.k7">

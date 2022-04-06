@@ -51,6 +51,7 @@ export class AppSettings {
   public advancedSearch = false;
   public aboutPage : [string, string] = APP_GLOBAL.aboutPage;
   public faqPage : [string, string] = APP_GLOBAL.faqPage;
+  public impressumPage : [string, string] = APP_GLOBAL.impressumPage;
   public footer : [string, string] = APP_GLOBAL.footer;
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public landingPage = !!APP_GLOBAL.landingPage;

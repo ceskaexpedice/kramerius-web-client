@@ -47,7 +47,8 @@
     "collections": "Collections",
     "about": "About",
     "help": "Help",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "impressum": "Impressum"
   },
   "sp": {
     "title": "Digital Library",
@@ -83,6 +84,7 @@
     "browse": "Browse",
     "about": "About",
     "faq": "FAQ",
+    "impressum": "Impressum",
     "back": "Back for previous page",
     "home": "Home page",
     "checkbox_label": "only public",

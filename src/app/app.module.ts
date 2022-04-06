@@ -92,7 +92,6 @@ import { UpcasePipe } from './pipes/upcase.pipe';
 
 import { CookieService } from 'ngx-cookie-service';
 import { ShareService } from './services/share.service';
-import { AboutComponent } from './about/about.component';
 import { AnalyticsService } from './services/analytics.service';
 import { HomeFooterComponent } from './home/home-footer/home-footer.component';
 import { KrameriusInfoService } from './services/kramerius-info.service';
@@ -108,7 +107,7 @@ import { IiifService } from './services/iiif.service';
 import { ZoomifyService } from './services/zoomify.service';
 import { LoggerService } from './services/logger.service';
 import { LandingComponent } from './landing/landing.component';
-import { FaqComponent } from './faq/faq.component';
+import { StaticPageComponent } from './static-page/static-page.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { AdminApiService } from './services/admin-api.service';
 import { NavigationSnippetComponent } from './book/navigation/navigation-snippet/navigation-snippet.component';
@@ -182,7 +181,6 @@ export function appInitializerFactory(translate: TranslateService) {
     NavbarComponent,
     ViewerComponent,
     BookComponent,
-    AboutComponent,
     HomeComponent,
     BrowseComponent,
     NavigationComponent,
@@ -237,8 +235,7 @@ export function appInitializerFactory(translate: TranslateService) {
     NotFoundComponent,
     RemovePrefixPipe,
     UpcasePipe,
-    AboutComponent,
-    FaqComponent,
+    StaticPageComponent,
     HomeFooterComponent,
     LoginComponent,
     MapBrowseComponent,

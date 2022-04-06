@@ -1,0 +1,16 @@
+<div class="app-static-page">
+
+  <div class="app-page-content" *ngIf="page">
+    <!-- <h1>{{ 'navbar.' + page | translate }}</h1> -->
+    <div [innerHTML]="data"></div>
+  </div>
+  
+  <mat-spinner *ngIf="loading"
+        class="medium-centered-spinner" 
+        [strokeWidth]="3" 
+        [diameter]="40">
+  </mat-spinner>
+
+  <span class="app-version" *ngIf="page == 'about'">v2.3.4</span>
+  
+</div>
