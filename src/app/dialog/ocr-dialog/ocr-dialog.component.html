@@ -1,9 +1,8 @@
 <div class="app-ocr-dialog">
 
   <div class="app-text">
-    {{ data.ocr }}
-    <div *ngIf="data.ocr2" style="margin-top:15px;">
-      {{ data.ocr2 }}
+    <div [innerHtml]="toHtml(data.ocr)"></div>
+    <div *ngIf="data.ocr2" style="margin-top:15px;" [innerHtml]="toHtml(data.ocr2)">
     </div>
   </div>
 

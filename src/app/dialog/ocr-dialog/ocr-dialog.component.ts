@@ -26,6 +26,7 @@ export class OcrDialogComponent implements OnInit {
     if (!this.data.showCitation) {
       return;
     }
+    this.changeDetectorRef.detectChanges();
     this.citationService.getCitation(this.data.uuid).subscribe( (citation: string) => {
       const link = this.shareService.getPersistentLink(this.data.uuid);
       const locText = this.translate.instant("share.available_from");
@@ -36,6 +37,13 @@ export class OcrDialogComponent implements OnInit {
 
   onCancel() {
     this.bottomSheetRef.dismiss();
+  }
+
+  toHtml(txt: string): string {
+    if (!txt) {
+      return '';
+    }
+    return txt.replace(/\n/g, '<br/>');
   }
 
 }

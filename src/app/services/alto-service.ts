@@ -93,17 +93,43 @@ export class AltoService {
       const w2 = box[2] / wc;
       const h1 = -box[3] / hc;
       const h2 = -box[1] / hc;
-      const el = xml.find('String').filter(function() {
+      let text = '';
+    
+
+      const tl = xml.find('TextLine').filter(function() {
           return parseInt($(this).attr('HPOS'), 10) >= w1
               && parseInt($(this).attr('HPOS'), 10) + parseInt($(this).attr('WIDTH'), 10) <= w2
               && parseInt($(this).attr('VPOS'), 10) >= h1
               && parseInt($(this).attr('VPOS'), 10) + parseInt($(this).attr('HEIGHT'), 10) <= h2;
       });
-      let text = '';
-      el.each(function () {
-          const content = $(this).attr('CONTENT') + ' ';
-          text += content;
+      tl.each(function () {
+        const el = $(this).find('String').filter(function() {
+          return parseInt($(this).attr('HPOS'), 10) >= w1
+              && parseInt($(this).attr('HPOS'), 10) + parseInt($(this).attr('WIDTH'), 10) <= w2
+              && parseInt($(this).attr('VPOS'), 10) >= h1
+              && parseInt($(this).attr('VPOS'), 10) + parseInt($(this).attr('HEIGHT'), 10) <= h2;
         });
+        el.each(function () {
+            const content = $(this).attr('CONTENT') + ' ';
+            text += content;
+        });
+        text += "\n";
+      });
+
+
+      // const el = xml.find('String').filter(function() {
+      //     return parseInt($(this).attr('HPOS'), 10) >= w1
+      //         && parseInt($(this).attr('HPOS'), 10) + parseInt($(this).attr('WIDTH'), 10) <= w2
+      //         && parseInt($(this).attr('VPOS'), 10) >= h1
+      //         && parseInt($(this).attr('VPOS'), 10) + parseInt($(this).attr('HEIGHT'), 10) <= h2;
+      // });
+      // el.each(function () {
+      //     const content = $(this).attr('CONTENT') + ' ';
+      //     text += content;
+      // });
+      
+      
+
       return text;
 
     }
