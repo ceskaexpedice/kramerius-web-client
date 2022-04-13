@@ -305,6 +305,17 @@ export class KrameriusApiService {
             .pipe(map(response => response['access_token']));
     }
 
+    getToken(code: string): Observable<string> {
+        const url = 'https://k7.inovatika.dev/auth/realms/kramerius/protocol/openid-connect/token';
+        const body = `grant_type=authorization_code&code=${code}&client_id=krameriusClient&client_secret=kyPtgyMN7rFfPiJzgaaE90cpBryAQ4nG&redirect_uri=http://localhost:4200/auth`; 
+        const options = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            })
+        };
+        return this.http.post(url, body, options).pipe(map(response => response['access_token']));
+    }
+
     logout() {
         const url = this.getApiUrl() + '/user/logout';
         return this.http.get(url).pipe(catchError(this.handleError));

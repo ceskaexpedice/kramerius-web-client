@@ -150,6 +150,7 @@ import { DatepickerComponent } from './datepicker/datepicker.component';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { CookiebarComponent } from './shared/cookiebar/cookiebar.component';
+import { AuthComponent } from './auth/auth.component';
 
 declare var APP_GLOBAL: any;
 
@@ -264,7 +265,8 @@ export function appInitializerFactory(translate: TranslateService) {
     AdminDialogComponent,
     PluralPipe,
     DatepickerComponent,
-    CookiebarComponent
+    CookiebarComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,

@@ -15,10 +15,12 @@ import { LoginComponent } from './login/login.component';
 import { LandingComponent } from './landing/landing.component';
 import { StaticPageComponent } from './static-page/static-page.component';
 import { SignpostHelpComponent } from './signpost/help/help.component';
+import { AuthComponent } from './auth/auth.component';
 
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
     { path: '', component: LandingComponent },
+    { path: 'auth', component: AuthComponent },
     { path: 'help', component: SignpostHelpComponent },
     { path: 'about', component: StaticPageComponent, canActivate: [ RoutingGuardService ], data: { page: 'about' } },
     { path: 'faq', component: StaticPageComponent, canActivate: [ RoutingGuardService ], data: { page: 'faq' } },

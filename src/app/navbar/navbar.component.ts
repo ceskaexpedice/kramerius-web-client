@@ -2,11 +2,12 @@ import { AnalyticsService } from './../services/analytics.service';
 import { AuthService } from './../services/auth.service';
 import { AppSettings } from './../services/app-settings';
 import { LibrarySearchService } from './../services/library-search.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AppState } from '../app.state';
 import { HistoryService } from '../services/history.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
   selector: 'app-navbar',
@@ -22,10 +23,12 @@ export class NavbarComponent implements OnInit {
     public router: Router,
     public translate: TranslateService,
     public authService: AuthService,
+    private route: ActivatedRoute,
     public appSettings: AppSettings,
     private history: HistoryService,
     public service: LibrarySearchService,
     public analytics: AnalyticsService,
+    private locals: LocalStorageService,
     public state: AppState) {
   }
 
@@ -64,9 +67,14 @@ export class NavbarComponent implements OnInit {
       this.authService.redirectUrl = window.location.pathname;  
       this.router.navigate(['/login']);
     } else if (this.appSettings.k7 && !this.authService.isLoggedIn()) {
-      this.analytics.sendEvent('navbar', 'login k7');
-      this.authService.redirectUrl = window.location.pathname;  
-      this.router.navigate(['/login']);
+      // this.analytics.sendEvent('navbar', 'login k7');
+      // this.authService.redirectUrl = window.location.pathname;  
+      // this.router.navigate(['/login']);
+      const path = window.location.pathname + window.location.search;
+      this.locals.setProperty('login.url', path);
+      // console.log('path', path);
+      const url = `https://k7.inovatika.dev/auth/realms/kramerius/protocol/openid-connect/auth?client_id=krameriusClient&redirect_uri=http://localhost:4200/auth&response_type=code`;
+      window.open(url, '_top');
     }
   }
 

@@ -4,8 +4,6 @@ import { User } from '../model/user.model';
 import { HttpRequestCache } from './http-request-cache.service';
 import { AppSettings } from './app-settings';
 import { LicenceService } from './licence.service';
-import { LocalStorageService } from './local-storage.service';
-
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +13,7 @@ export class AuthService {
     user: User = null;
     redirectUrl: string;
 
-    constructor(private settings: AppSettings, private licences: LicenceService, private api: KrameriusApiService, private locals: LocalStorageService, private cache: HttpRequestCache) {
+    constructor(private settings: AppSettings, private licences: LicenceService, private api: KrameriusApiService, private cache: HttpRequestCache) {
         if (settings.auth || settings.krameriusLogin || settings.k7) {
             this.userInfo(null, null);
         }
@@ -27,11 +25,7 @@ export class AuthService {
     }
 
     login(username: string, password: string, callback: (status: string) => void = null) {
-        if (this.settings.k7) {
-            this.k7Login(username, password, callback);
-        } else {
-            this.userInfo(username, password, callback);
-        }
+        this.userInfo(username, password, callback);
     }
 
     userInfo(username: string, password: string, callback: (status: string) => void = null) {
@@ -47,26 +41,45 @@ export class AuthService {
         });
     }
 
-    k7Login(username: string, password: string, callback: (status: string) => void = null) {
-        this.api.auth(username, password).subscribe(
+    // k7Login(username: string, password: string, callback: (status: string) => void = null) {
+    //     this.api.auth(username, password).subscribe(
+    //         (token: string) => {
+    //             console.log('login ok', token);
+    //             if (!token) {
+    //                 callback('Přihlášení se nezdařilo');
+    //                 return;
+    //             }
+    //             this.settings.setToken(token);
+    //             this.userInfo(null, null, callback);
+    //         },
+    //         (error) => {
+    //             if (error.status == 401) {
+    //                 callback('Neplatné přihlašovací údaje');
+    //             } else {
+    //                 callback('Přihlášení se nezdařilo');
+    //             }
+    //         }
+    //     );
+    // }
+
+
+    keycloakAuth(code: string, callback: (status: string) => void = null) {
+        this.api.getToken(code).subscribe(
             (token: string) => {
-                console.log('login ok', token);
+                console.log('auth ok', token);
                 if (!token) {
-                    callback('Přihlášení se nezdařilo');
+                    console.log('emapty token');
                     return;
                 }
                 this.settings.setToken(token);
                 this.userInfo(null, null, callback);
             },
             (error) => {
-                if (error.status == 401) {
-                    callback('Neplatné přihlašovací údaje');
-                } else {
-                    callback('Přihlášení se nezdařilo');
-                }
+                console.log('error', error);
             }
         );
     }
+
 
     logout(callback: () => void = null) {
         if (!this.isLoggedIn()) {
