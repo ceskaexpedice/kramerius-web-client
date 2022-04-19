@@ -86,7 +86,7 @@ export class AuthService {
             return;
         }
         if (this.settings.k7) {
-            this.settings.setToken('');
+            this.settings.removeToken();
             this.api.logout().subscribe(user => {
                 this.cache.clear();
                 this.userInfo(null, null, callback);

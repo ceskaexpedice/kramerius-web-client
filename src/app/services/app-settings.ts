@@ -181,6 +181,10 @@ export class AppSettings {
     return localStorage.setItem('auth.token.' + this.code, token);
   }
 
+  removeToken() {
+    return localStorage.removeItem('auth.token.' + this.code);
+  }
+
   private static action(action: string, defaultValue: string): string {
     if (!APP_GLOBAL.actions) {
       return defaultValue;

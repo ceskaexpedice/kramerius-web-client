@@ -23,12 +23,10 @@ export class NavbarComponent implements OnInit {
     public router: Router,
     public translate: TranslateService,
     public authService: AuthService,
-    private route: ActivatedRoute,
     public appSettings: AppSettings,
     private history: HistoryService,
     public service: LibrarySearchService,
     public analytics: AnalyticsService,
-    private locals: LocalStorageService,
     public state: AppState) {
   }
 
@@ -71,7 +69,7 @@ export class NavbarComponent implements OnInit {
       // this.authService.redirectUrl = window.location.pathname;  
       // this.router.navigate(['/login']);
       const path = window.location.pathname + window.location.search;
-      this.locals.setProperty('login.url', path);
+      localStorage.setItem('login.url', path);
       // console.log('path', path);
       const url = `https://k7.inovatika.dev/auth/realms/kramerius/protocol/openid-connect/auth?client_id=krameriusClient&redirect_uri=http://localhost:4200/auth&response_type=code`;
       window.open(url, '_top');
@@ -93,7 +91,8 @@ export class NavbarComponent implements OnInit {
     } else if (this.appSettings.k7 && this.authService.isLoggedIn()) {
       this.analytics.sendEvent('navbar', 'logout k7');
       this.authService.logout(() => {
-        this.router.navigate(['/']);
+        // this.router.navigate(['/']);
+        window.location.reload();
       });
     }
   }
