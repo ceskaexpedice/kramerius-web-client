@@ -17,7 +17,7 @@ export class AppSettings {
   public logo: string;
   public logoHome: string;
   public url: string;
-  public schemaVersion: string;
+  public version: number;
   public code: string;
   public richCollections: boolean;
   public joinedDoctypes: boolean;
@@ -36,8 +36,9 @@ export class AppSettings {
   public maxOmnibusParts: number;
   public maxOmnibusPages: number;
 
-  public k7: boolean;
+  public keycloak: any;
   public auth: any;
+  public deployPath = APP_GLOBAL.deployPath || '';
 
   public share_url = APP_GLOBAL.share_url;
   public googleMapsApiKey = APP_GLOBAL.googleMapsApiKey;
@@ -116,7 +117,7 @@ export class AppSettings {
     this.title = kramerius.title;
     this.subtitle = kramerius.subtitle;
     this.url = kramerius.url;
-    this.schemaVersion = kramerius.schemaVersion || '1.0';
+    this.version = kramerius.version || 5;
     this.logo = kramerius.logo || 'assets/img/logo.png'
     this.logoHome = kramerius.logoHome || this.logo;
     this.richCollections = kramerius.richCollections;
@@ -132,7 +133,7 @@ export class AppSettings {
     this.hiddenLocks = !!kramerius.hiddenLocks;
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
-    this.k7 = !!kramerius.k7;
+    this.keycloak = kramerius.keycloak;
     this.auth = kramerius.auth;
     this.currentCode = this.code;
     this.listner.next(kramerius);
@@ -170,7 +171,7 @@ export class AppSettings {
   }
 
   public k5Compat(): boolean {
-    return this.schemaVersion === '1.0';
+    return this.version == 5;
   }
 
   getToken() {
@@ -201,7 +202,7 @@ interface KrameriusData {
   logo: string;
   logoHome: string;
   url: string;
-  schemaVersion: string;
+  version: number;
   richCollections: boolean;
   joinedDoctypes: boolean;
   doctypes: string[];
@@ -216,6 +217,6 @@ interface KrameriusData {
   type: string;
   maxOmnibusParts: number;
   maxOmnibusPages: number;
-  k7: boolean;
+  keycloak: boolean;
   auth: any;
 }

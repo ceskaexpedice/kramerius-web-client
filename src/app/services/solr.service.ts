@@ -311,12 +311,8 @@ export class SolrService {
     constructor(private settings: AppSettings, private licences: LicenceService, private utils: Utils) {
     }
 
-    version(): string {
-        return this.settings.schemaVersion;
-    }
-
     field(name: string): string {
-        return SolrService.fields[name][this.version()];
+        return SolrService.fields[name][this.settings.version == 5 ? '1.0' : '2.0'];
     }
 
     private buildTopLevelFilter(topLevelCollectionsOnly: boolean): string {
@@ -1113,7 +1109,7 @@ export class SolrService {
                 if (/^[a-z]{3}[0-9]{3}$/.test(value)) {
                    value = value.toUpperCase();
                 }
-                if (this.settings.schemaVersion === '1.0' && !/^[A-Z]{3}[0-9]{3}$/.test(value) && this.settings.code != 'd') {
+                if (this.settings.k5Compat() && !/^[A-Z]{3}[0-9]{3}$/.test(value) && this.settings.code != 'd') {
                     continue;
                 }
             } else if (this.getFilterField('licences') === field) {

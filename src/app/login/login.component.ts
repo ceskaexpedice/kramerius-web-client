@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.auth.login(this.username, this.password, (status: string) => {
+    this.auth.k5login(this.username, this.password, (status: string) => {
         if (status == 'ok') {
           if (this.auth.redirectUrl) {
             this.router.navigateByUrl(this.auth.redirectUrl);

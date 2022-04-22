@@ -14,7 +14,7 @@ export class CitationService {
 
     getCitation(uuid: string): Observable<string> {
         const lang = this.translate.currentLang;
-        const url = `https://citace.kramerius.cloud/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html&lang=${lang}}&k7=${this.appSettings.k7}`;
+        const url = `https://citace.kramerius.cloud/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html&lang=${lang}}&k7=${this.appSettings.version >= 7}`;
         return this.doGetText(url);
     }
 
