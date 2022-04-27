@@ -49,13 +49,14 @@ export class AuthService {
         let path = window.location.pathname + window.location.search;
         path = path.substring(this.settings.deployPath.length)
         localStorage.setItem('login.url', path);
-        const redircetUri = `${this.baseUrl()}/keycloak`;
-        const url = `${this.settings.keycloak.baseUrl}/realms/kramerius/protocol/openid-connect/auth?client_id=${this.settings.keycloak.clientId}&redirect_uri=${redircetUri}&response_type=code`;
+        const redirectUri = `${this.baseUrl()}/keycloak`;
+        const url = `${this.settings.keycloak.baseUrl}/realms/kramerius/protocol/openid-connect/auth?client_id=${this.settings.keycloak.clientId}&redirect_uri=${redirectUri}&response_type=code`;
         window.open(url, '_top');
     }
 
     keycloakAuth(code: string, callback: (status: string) => void = null) {
-        this.api.getToken(code).subscribe(
+        const redirectUri = `${this.baseUrl()}/keycloak`;
+        this.api.getToken(code, redirectUri).subscribe(
             (token: string) => {
                 console.log('auth ok', token);
                 if (!token) {
@@ -67,8 +68,8 @@ export class AuthService {
             },
             (error) => {
                 console.log('error', error);
-                const redircetUri = this.baseUrl();
-                const url = `${this.settings.keycloak.baseUrl}/realms/kramerius/protocol/openid-connect/logout?redirect_uri=${redircetUri}`;
+                const redirectUri2 = this.baseUrl();
+                const url = `${this.settings.keycloak.baseUrl}/realms/kramerius/protocol/openid-connect/logout?redirect_uri=${redirectUri2}`;
                 window.open(url, '_top');
             }
         );
@@ -83,8 +84,8 @@ export class AuthService {
             this.api.logout().subscribe(user => {
                 this.cache.clear();
                 this.userInfo(null, null, () => {
-                    const redircetUri = location.href;
-                    const url = `${this.settings.keycloak.baseUrl}/realms/kramerius/protocol/openid-connect/logout?redirect_uri=${redircetUri}`;
+                    const redirectUri = location.href;
+                    const url = `${this.settings.keycloak.baseUrl}/realms/kramerius/protocol/openid-connect/logout?redirect_uri=${redirectUri}`;
                     window.open(url, '_top');
                 });
             });
