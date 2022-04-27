@@ -20,7 +20,7 @@ import { AuthComponent } from './auth/auth.component';
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
     { path: '', component: LandingComponent },
-    { path: 'auth', component: AuthComponent },
+    { path: 'keycloak', component: AuthComponent },
     { path: 'help', component: SignpostHelpComponent },
     { path: 'about', component: StaticPageComponent, canActivate: [ RoutingGuardService ], data: { page: 'about' } },
     { path: 'faq', component: StaticPageComponent, canActivate: [ RoutingGuardService ], data: { page: 'faq' } },

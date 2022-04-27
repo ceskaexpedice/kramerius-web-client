@@ -49,7 +49,7 @@ export class AuthService {
         let path = window.location.pathname + window.location.search;
         path = path.substring(this.settings.deployPath.length)
         localStorage.setItem('login.url', path);
-        const redircetUri = `${this.baseUrl()}/auth`;
+        const redircetUri = `${this.baseUrl()}/keycloak`;
         const url = `${this.settings.keycloak.baseUrl}/realms/kramerius/protocol/openid-connect/auth?client_id=${this.settings.keycloak.clientId}&redirect_uri=${redircetUri}&response_type=code`;
         window.open(url, '_top');
     }
@@ -67,6 +67,9 @@ export class AuthService {
             },
             (error) => {
                 console.log('error', error);
+                const redircetUri = this.baseUrl();
+                const url = `${this.settings.keycloak.baseUrl}/realms/kramerius/protocol/openid-connect/logout?redirect_uri=${redircetUri}`;
+                window.open(url, '_top');
             }
         );
     }
