@@ -11,9 +11,9 @@
         "many": "seiten"
       },
       "n_occurrences": {
-        "one": "Erscheinungsbild",
-        "few": "Erscheinungsbilder",
-        "many": "Erscheinungsbilder"
+        "one": "Treffer",
+        "few": "Treffer",
+        "many": "Treffer"
       },
       "set_page_number": "Seitenzahl eingeben",
       "show_whole_title": "Vollständigen Titel anzeigen",
