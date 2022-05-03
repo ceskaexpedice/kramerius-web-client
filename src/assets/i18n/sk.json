@@ -120,6 +120,7 @@
     },
     "search": {
       "k3": "Hľadať v starej digitalizácii",
+      "advanced": "Pokročilé hľadanie",
       "results": "Výsledky",
       "keywords": "Kľúčové slovo",
       "doctypes": "Typ dokumentu",
@@ -154,6 +155,28 @@
         "from": "Od",
         "to": "Do",
         "apply": "Použiť"
+      }
+    },
+    "advanced_search": {
+      "title": "Pokročilé vyhľadávanie",
+      "field": {
+        "tab": "Pole",
+        "field": "V čom hľadať?",
+        "value": "Otázka",
+        "value_placeholder": "Zadajte hľadaný dotaz",
+        "all": "Všetko",
+        "title": "Názov",
+        "author": "Autor",
+        "keyword": "Kľúčové slovo",
+        "issn": "ISSN",
+        "isbn": "ISBN",
+        "ddt": "DDT",
+        "mdt": "MDT",
+        "geoname": "Geografický názov",
+        "search": "Vyhľadať"
+      },
+      "query": {
+        "tab": "Otázka"
       }
     },
     "browse": {

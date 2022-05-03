@@ -49,7 +49,7 @@ export class AppSettings {
   public publicFilterDefault = APP_GLOBAL.publicFilterDefault;
   public bigHomeLogo = APP_GLOBAL.bigHomeLogo;
   public hideHomeTitle = APP_GLOBAL.hideHomeTitle;
-  public advancedSearch = false;
+  public advancedSearch = !!APP_GLOBAL.advancedSearch;
   public aboutPage : [string, string] = APP_GLOBAL.aboutPage;
   public faqPage : [string, string] = APP_GLOBAL.faqPage;
   public impressumPage : [string, string] = APP_GLOBAL.impressumPage;

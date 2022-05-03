@@ -1,0 +1,38 @@
+<div class="app-advanced-search-dialog app-dialog">
+
+  <div class="app-dialog-title">{{ 'advanced_search.title' | translate }}</div>
+
+  <div class="app-dialog-content">
+
+    <label>{{ 'advanced_search.field.field' | translate }}</label>
+
+    <div class="app-field-type-wrapper" [matMenuTriggerFor]="fieldMenu">
+      <div class="app-field-type">{{ 'advanced_search.field.' + fieldType | translate }}</div>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </div>
+
+    <label>{{ 'advanced_search.field.value' | translate }}</label>
+    <input 
+        (keyup.enter)="onSearch()" 
+        type="text" 
+        [placeholder]="'advanced_search.field.value_placeholder' | translate"
+        [(ngModel)]="fieldValue" />
+
+  </div>
+ 
+  <div class="app-dialog-actions">
+    <button style="float: left" mat-raised-button color="primary" (click)="onSearch()" [disabled]="!fieldValue">{{'advanced_search.field.search' | translate}}</button>
+    <button mat-button (click)="onCancel()">{{ 'common.cancel' | translate }}</button>
+  </div>
+
+</div>
+
+
+
+
+
+<mat-menu #fieldMenu="matMenu" xPosition="after" class="app-dropdown-menu">
+  <ng-template matMenuContent>
+    <div *ngFor="let field of fields" class="app-dropdown-item" (click)="fieldType = field">{{ 'advanced_search.field.' + field | translate }}</div>
+  </ng-template>
+</mat-menu>

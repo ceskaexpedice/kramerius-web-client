@@ -1,6 +1,8 @@
 <div class="app-search-toolbar">
 
   <div class="app-col-right">
+
+
     <ng-container *ngIf="auth.isAdmin()">
       <div *ngIf="search.adminSelection" (click)="search.openAdminActions()" class="app-view-button" [class.app-active]="true">
         <mat-icon>edit</mat-icon>
@@ -10,6 +12,11 @@
       </div>
     </ng-container>
 
+
+    <div *ngIf="settings.advancedSearch" [matTooltip]="'search.advanced' | translate" (click)="search.showAdvancedSearchDialog()" class="app-view-button app-advanced-icon" [class.app-active]="true">
+      <mat-icon>manage_search</mat-icon>
+    </div>
+
       <ng-container *ngIf="settings.mapSearch">
         <div [matTooltip]="'toolbar.tooltip_display_cards' | translate"  (click)="search.selectContentType('grid')" class="app-view-button" [class.app-active]="search.contentType == 'grid'">
           <mat-icon>grid_view</mat-icon>
@@ -18,8 +25,10 @@
           <mat-icon>map</mat-icon>
         </div>
       </ng-container>
+
+      
       <div *ngIf="search.contentType == 'grid'" class="app-ordering">
-        <label>{{ 'search.ordering.label' | translate }}: </label>
+        <label class="app-hide-on-med">{{ 'search.ordering.label' | translate }}: </label>
         <span class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
           <span>{{ 'search.ordering.' + search.query.ordering | translate }}</span>
           <mat-icon>arrow_drop_down</mat-icon>
@@ -36,7 +45,10 @@
       <span class="app-collection-title" *ngIf="search.collection" class="app-hide-on-med">
         {{ search.getCollectionTitle() }}
       </span>
-      <span *ngIf="settings.k3"><a [href]="search.buildK3Link()" class="app-hide-on-med" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
+      <div class="app-btns">
+        <span *ngIf="settings.k3"><a [href]="search.buildK3Link()" class="app-hide-on-med" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
+        <span class="app-advanced-btn" *ngIf="settings.advancedSearch" (click)="search.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
+      </div>
     </div>
 
 </div>

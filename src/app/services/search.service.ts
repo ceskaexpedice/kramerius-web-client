@@ -13,6 +13,7 @@ import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.compon
 import { LicenceService } from './licence.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { AdvancedSearchDialogComponent } from '../dialog/advanced-search-dialog/advanced-search-dialog.component';
 
 
 @Injectable()
@@ -410,6 +411,15 @@ export class SearchService {
 
         }
     }
+
+    public showAdvancedSearchDialog() {
+        const data = {
+            fieldType: this.query.isCustomFieldSet() ? this.query.getCustomField() : 'all',
+            fieldValue: this.query.isCustomFieldSet() ? this.query.getCustomValue() : '',
+        };
+        this.dialog.open(AdvancedSearchDialogComponent, { data: data, autoFocus: false });
+    }
+
 
     private dropEmptyCollections() {
         const cols = [];

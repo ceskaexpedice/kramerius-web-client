@@ -5,10 +5,16 @@
     <mat-icon [matTooltip]="'filters.tooltip_remove_filter_all' | translate" (click)="searchService.removeAllFilters()">close</mat-icon>
   </div>
 
-  <div *ngIf="searchService.query.hasQueryString()" (click)="searchService.removeQueryString()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div *ngIf="searchService.query.hasQueryString()" (click)="searchService.removeQueryString()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>search</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ searchService.query.query }}
+  </div>
+
+  <div *ngIf="searchService.query.isCustomFieldSet()" (click)="searchService.removeCustomField()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>search</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ searchService.query.getCustomValue() }}
   </div>
 
   <div *ngIf="searchService.query.accessibility != 'all'" (click)="searchService.removeAccessibilityFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">

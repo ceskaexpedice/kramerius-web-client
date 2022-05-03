@@ -8,6 +8,11 @@
   position: relative;
   z-index: 990;
   padding: 0 13px;
+  .app-hide-on-med {
+    @media #{$medium-and-down} {
+        display: none !important;
+    }    
+  }
   .app-col-left {
     a {
       float: left;
@@ -27,10 +32,22 @@
       font-size: 1.4rem;
       color: $app-grey-d-1;
     }
-    .app-hide-on-med {
-      @media #{$medium-and-down} {
-          display: none !important;
-      }    
+    .app-btns {
+      span {
+        color: $primary-color;
+        cursor: pointer;
+          &:nth-child(2) {
+            @media #{$large-and-up} {
+            border-left: 1px solid $app-grey-l-1;
+            padding-left: 10px;
+          }
+        }
+        &.app-advanced-btn {
+          @media only screen and (max-width: 730px) {
+            display: none;
+          }
+        }
+      }
     }
   }
 
@@ -54,6 +71,11 @@
       }
       &:last-child {
         margin-right: 8px;
+      }
+      &.app-advanced-icon {
+        @media only screen and (min-width: 731px) {
+          display: none;
+        }
       }
     }
     .app-ordering {

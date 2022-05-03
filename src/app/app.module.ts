@@ -151,6 +151,7 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { CookiebarComponent } from './shared/cookiebar/cookiebar.component';
 import { AuthComponent } from './auth/auth.component';
+import { AdvancedSearchDialogComponent } from './dialog/advanced-search-dialog/advanced-search-dialog.component';
 
 declare var APP_GLOBAL: any;
 
@@ -266,7 +267,8 @@ export function appInitializerFactory(translate: TranslateService) {
     PluralPipe,
     DatepickerComponent,
     CookiebarComponent,
-    AuthComponent
+    AuthComponent,
+    AdvancedSearchDialogComponent
   ],
   imports: [
     BrowserModule,

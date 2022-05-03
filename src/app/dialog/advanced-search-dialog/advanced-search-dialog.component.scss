@@ -1,0 +1,31 @@
+@import './src/variables.scss';
+
+.app-advanced-search-dialog {
+  max-width: 700px;
+  width: calc(100vw - 10px);
+  padding: 20px;  
+  .app-dialog-content {
+    margin-top: 20px;
+    .app-field-type-wrapper {
+      margin-bottom: 16px;
+      cursor: pointer;
+      display: flex;
+      margin-top: 4px;
+      .app-field-type {
+      }
+      mat-icon {
+        font-size: 20px;
+      }
+    }
+  }
+  .app-dialog-actions {
+    margin-top: 20px;
+    text-align: right;
+  }
+}
+
+::ng-deep {
+  .mat-dialog-container  {
+    height: auto;
+  }
+}

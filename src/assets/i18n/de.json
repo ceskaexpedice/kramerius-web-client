@@ -120,6 +120,7 @@
     },
     "search": {
       "k3": "Suche in alter Digitalisierung",
+      "advanced": "Advanced Search",
       "results": "Ergebnisse",
       "keywords": "Schlagwort",
       "doctypes": "Objektkategorie",
@@ -154,6 +155,28 @@
         "from": "Von",
         "to": "Bis",
         "apply": "Anwenden"
+      }
+    },
+    "advanced_search": {
+      "title": "Advances Search",
+      "field": {
+        "tab": "Field",
+        "field": "Where to search?",
+        "value": "Query",
+        "value_placeholder": "Fill in your query",
+        "all": "All",
+        "title": "Title",
+        "author": "Author",
+        "keyword": "Keyword",
+        "issn": "ISSN",
+        "isbn": "ISBN",
+        "ddt": "DDT",
+        "mdt": "MDT",
+        "geoname": "Geographic name",
+        "search": "Search"
+      },
+      "query": {
+        "tab": "Query"
       }
     },
     "browse": {
