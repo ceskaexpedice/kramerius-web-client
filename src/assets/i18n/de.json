@@ -61,14 +61,15 @@
       "message": "Tausende von digitalisierten Dokumenten aus tschechischen Bibliotheken an einem Ort",
       "message2": " ",
       "external_subtitle": " ",
-      "external_title": "Temporärer Zugang zu digitalisierten Dokumenten, einschließlich urheberrechtlich geschützter Werke, für Studenten und Lehrkräfte von höheren Berufs- und Hochschuleinrichtungen sowie für Forscher",
+      "external_title": "Bereitstellung sogenannter nicht auf dem Markt erhältlichen Werke (DNNT)",
       "category": {
         "major": "Hauptbibliotheken",
         "regional": "Regionalbibliotheken",
         "university": "Universitäten",
         "museum": "Museen",
         "archive": "Archive",
-        "other": "Andere Institutionen und Projekte"
+        "other": "Andere Institutionen und Projekte",
+        "experimental": ""
       },
       "footer": {
         "logo": "/assets/shared/sp/logo-mzk.png",
