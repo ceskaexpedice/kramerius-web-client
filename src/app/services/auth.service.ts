@@ -111,14 +111,14 @@ export class AuthService {
         if (!this.user) {
             return '';
         }
-        return this.user.code;
+        return this.user.uid || this.user.eppn || '';
     }
 
     getUserName(): string {
         if (!this.user) {
             return '';
         }
-        return this.user.firstname;
+        return this.user.name || this.user.uid || '';
     }
 
     isAdmin(): boolean {

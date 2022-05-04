@@ -295,7 +295,7 @@ export class KrameriusApiService {
             headers: new HttpHeaders(headerParams)
         };
         return this.http.get(url, httpOptions)
-            .pipe(map(response => User.fromJson(response, username, password)));
+            .pipe(map(response => User.fromJson(response)));
     }
 
     auth(username: string, password: string): Observable<string> {

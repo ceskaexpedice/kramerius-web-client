@@ -1,38 +1,38 @@
 
 export class User {
 
+  // password: string;
   id: number;
-  firstname: string;
-  surname: string;
-  username: string;
-  password: string;
-  code: string;
+  authenticated: boolean = false;
+  name: string;
+  uid: string;
   licences: string[];
   roles: string[];
+  eppn: string;
 
 
-  static fromJson(json, username, passwod): User {
+  static fromJson(json): User {
     if (json) {
-      const id = json['id'];
-      const user = new User(id);
-      user.firstname = json['firstname'];
-      user.surname = json['surname'];
-      user.code = json['session'] ? json['session']['session_eppn'] : '';
-      user.licences = json['licenses'] || json['labels'] || [];
+      const user = new User();
+      user.id = json['id'];
+      user.authenticated = !!json['authenticated'];
+      user.name = (json['name'] || '').trim();
+      user.uid = json['uid'];
       user.roles = json['roles'] || [];
-      user.username = username;
-      user.password = passwod;
+      user.licences = json['licenses'] || json['labels'] || [];
+      user.eppn = json['session'] ? json['session']['session_eppn'] : '';
+      // user.firstname = json['firstname'];
+      // user.surname = json['surname'];
+      // user.username = username;
+      // user.password = passwod;
       return user;
     }
     return null;
   }
 
-  constructor(id: number) {
-    this.id = id;
-  }
 
   isLoggedIn(): boolean {
-    return this.id > -1;
+    return (this.id && this.id > -1) || this.authenticated;
   }
 
 
