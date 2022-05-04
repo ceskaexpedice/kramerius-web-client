@@ -125,11 +125,6 @@ export class AuthService {
         if (!this.settings.keycloak || !this.isLoggedIn() || !this.user.roles) {
             return false;
         }
-        for (const role of this.user.roles) {
-            if (role['name'] == 'k4_admins' || role['name'] == 'kramerius_admin') {
-                return true;
-            }
-        }
-        return false;
+        return this.user.roles.indexOf('k4_admins') >= 0 || this.user.roles.indexOf('kramerius_admin') >= 0;
     }
 }

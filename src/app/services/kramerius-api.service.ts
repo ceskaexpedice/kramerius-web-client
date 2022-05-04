@@ -270,7 +270,7 @@ export class KrameriusApiService {
         if (this.settings.k5Compat()) {
             return this.getItemUrl(uuid) + '/foxml';
         } else {
-            return this.getbaseUrl() + `/search/api/admin/v1.0/items/${uuid}/foxml`;
+            return this.getbaseUrl() + `/search/api/admin/v7.0/items/${uuid}/foxml`;
         }
     }
 
