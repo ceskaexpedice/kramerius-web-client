@@ -3,6 +3,7 @@ import { Metadata } from '../../model/metadata.model';
 import { SolrService } from '../../services/solr.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AppSettings } from '../../services/app-settings';
 
 @Component({
   templateUrl: './admin-dialog.component.html',
@@ -19,6 +20,7 @@ export class AdminDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AdminDialogComponent>,
     private locals: LocalStorageService,
+    public settings: AppSettings,
     @Inject(MAT_DIALOG_DATA) private data: any) {
   }
 
@@ -77,6 +79,11 @@ export class AdminDialogComponent implements OnInit {
       case 'reprepage': return "Reprezentativní strana";
       default: return "-";
     }
+  }
+
+  openInAdmin() {
+    // console.log(this.settings.adminClientUrl + '/object/' + this.selection.uuid);
+    window.open(this.settings.adminClientUrl + '/object/' + this.selection.uuid , '_blank');
   }
 
   onCancel() {

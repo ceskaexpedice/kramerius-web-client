@@ -7,6 +7,11 @@
   display: flex;
   height: 100%;
   flex-flow: column;
+  .app-open-in-admin {
+    cursor: pointer;
+    color: $primary-color;
+    float: right;
+  }
   .app-dialog-title {
     cursor: pointer;
   }

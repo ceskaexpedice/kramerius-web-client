@@ -35,6 +35,7 @@ export class AppSettings {
   public matomo = APP_GLOBAL.matomo;
   public maxOmnibusParts: number;
   public maxOmnibusPages: number;
+  public adminClientUrl: string;
 
   public keycloak: any;
   public auth: any;
@@ -133,6 +134,7 @@ export class AppSettings {
     this.hiddenLocks = !!kramerius.hiddenLocks;
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
+    this.adminClientUrl = kramerius.adminClientUrl;
     this.keycloak = kramerius.keycloak;
     this.auth = kramerius.auth;
     this.currentCode = this.code;
@@ -219,4 +221,5 @@ interface KrameriusData {
   maxOmnibusPages: number;
   keycloak: boolean;
   auth: any;
+  adminClientUrl: string;
 }
