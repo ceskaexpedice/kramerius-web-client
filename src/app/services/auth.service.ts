@@ -49,13 +49,13 @@ export class AuthService {
         let path = window.location.pathname + window.location.search;
         path = path.substring(this.settings.deployPath.length)
         localStorage.setItem('login.url', path);
-        const redirectUri = `${this.baseUrl()}/keycloak`;
+        const redirectUri = `${this.baseUrl()}${this.settings.getRouteFor('keycloak')}`;
         const url = `${this.settings.keycloak.baseUrl}/realms/kramerius/protocol/openid-connect/auth?client_id=${this.settings.keycloak.clientId}&redirect_uri=${redirectUri}&response_type=code`;
         window.open(url, '_top');
     }
 
     keycloakAuth(code: string, callback: (status: string) => void = null) {
-        const redirectUri = `${this.baseUrl()}/keycloak`;
+        const redirectUri = `${this.baseUrl()}${this.settings.getRouteFor('keycloak')}`;
         this.api.getToken(code, redirectUri).subscribe(
             (token: string) => {
                 console.log('auth ok', token);

@@ -35,6 +35,7 @@ const ROUTES: Routes = [
     { path: 'uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view/:uuid', component: BookComponent, canActivate: [ RoutingGuardService ] },
     { path: 'view', component: BookComponent, canActivate: [ RoutingGuardService ] },
+    { path: ':k/keycloak', component: AuthComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/about', component: StaticPageComponent, canActivate: [ RoutingPrefixGuardService ], data: { page: 'about' } },
     { path: ':k/faq', component: StaticPageComponent, canActivate: [ RoutingPrefixGuardService ], data: { page: 'faq' } },
     { path: ':k/impressum', component: StaticPageComponent, canActivate: [ RoutingPrefixGuardService ], data: { page: 'impressum' } },
@@ -44,7 +45,6 @@ const ROUTES: Routes = [
     { path: ':k/collections', component: CollectionsComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collection/:collection_uuid', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
-
     { path: ':k/music/:uuid', component: MusicComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/uuid/:uuid', component: PersistentLinkComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/view/:uuid', component: BookComponent, canActivate: [ RoutingPrefixGuardService ] },
