@@ -32,7 +32,7 @@ export class CookiebarComponent implements OnInit {
       selection = 'analytical';
     } 
     localStorage.setItem('cpref', selection);
-    this.analytics.sendEvent('cookiebar', 'accept', 'selection-all');
+    this.analytics.sendEvent('cookiebar', 'accept', 'selection-' + selection);
     this.reload();
   }
 
