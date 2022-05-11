@@ -152,6 +152,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { CookiebarComponent } from './shared/cookiebar/cookiebar.component';
 import { AuthComponent } from './auth/auth.component';
 import { AdvancedSearchDialogComponent } from './dialog/advanced-search-dialog/advanced-search-dialog.component';
+import { MapViewerComponent } from './book/map-viewer/map-viewer.component';
+import { GeoreferenceService } from './services/georeference.service';
 
 declare var APP_GLOBAL: any;
 
@@ -268,7 +270,8 @@ export function appInitializerFactory(translate: TranslateService) {
     DatepickerComponent,
     CookiebarComponent,
     AuthComponent,
-    AdvancedSearchDialogComponent
+    AdvancedSearchDialogComponent,
+    MapViewerComponent
   ],
   imports: [
     BrowserModule,
@@ -334,6 +337,7 @@ export function appInitializerFactory(translate: TranslateService) {
     AdminApiService,
     PdfService,
     EpubService,
+    GeoreferenceService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,

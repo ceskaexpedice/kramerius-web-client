@@ -103,5 +103,13 @@ export class ViewerControlsComponent implements OnInit {
       return this.bookService.goToNext();
     }
   }
+
+  showGeoMap() {
+    this.bookService.showGeoreference = true;
+  }
+
+  hideGeoMap() {
+    this.bookService.showGeoreference = false;
+  }
   
 }

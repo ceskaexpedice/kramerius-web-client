@@ -88,8 +88,8 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.doublePageOn);
     }
 
-    enterFullscreen() {
-        const el = document.getElementById('app-viewer');
+    enterFullscreen(elname: string) {
+        const el = document.getElementById(elname);
         // go full-screen
         if (el.requestFullscreen) {
             el.requestFullscreen();

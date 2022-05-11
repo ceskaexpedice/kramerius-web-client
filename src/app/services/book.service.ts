@@ -28,6 +28,7 @@ import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.compon
 import { OcrDialogComponent } from '../dialog/ocr-dialog/ocr-dialog.component';
 import { saveAs } from 'file-saver';
 import { PdfService } from './pdf.service';
+import { GeoreferenceService } from './georeference.service';
 
 @Injectable()
 export class BookService {
@@ -74,6 +75,10 @@ export class BookService {
     public licences: string[];
 
     public iiifEnabled = false;
+    public hasGeoreference = false;
+    public showGeoreference = false;
+    public geoUuid: string;
+    public geoData: any;
 
     public extraParents = [];
 
@@ -91,7 +96,8 @@ export class BookService {
         private router: Router,
         private pdf: PdfService,
         private bottomSheet: MatBottomSheet,
-        private licenceService: LicenceService) {
+        private licenceService: LicenceService,
+        private geoService: GeoreferenceService) {
     }
 
     init(params: BookParams) {
@@ -1303,6 +1309,12 @@ export class BookService {
         if (rightPage) {
             data.uuid2 = rightPage.uuid;
         }
+        this.hasGeoreference = false;
+        this.geoService.getGeoreference(data.uuid1).subscribe((res: any) => {
+            this.hasGeoreference = true;
+            this.geoUuid = data.uuid1;
+            this.geoData = res;
+          });
         return data;
     }
 

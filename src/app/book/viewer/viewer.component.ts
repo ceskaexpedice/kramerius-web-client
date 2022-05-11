@@ -54,6 +54,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   public imageLoading = false;
 
+  public canViewMap = true;
+  public geoData: any;
+
   ngOnInit() {
     this.init();
     this.logger.info('ViewerComponent init')

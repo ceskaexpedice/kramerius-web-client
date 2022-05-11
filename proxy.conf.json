@@ -1,8 +1,17 @@
 {
-    "/search/*": {
-      "target": "https://dnnt.mzk.cz",
-      "secure": false,
-      "logLevel": "debug",
-      "changeOrigin": true
+  "/search/*": {
+    "target": "https://dnnt.mzk.cz",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/geo/*": {
+    "target": "https://staremapy.cz/data/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/geo": ""
     }
+  }
   }
