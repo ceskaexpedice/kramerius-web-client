@@ -24,10 +24,22 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   onCropImageClicked() {
-    if (this.bookService.cropEnabled()) {
+    if (this.bookService.cropEnabled() || this.bookService.showGeoreference) {
       this.controlsService.cropImage();
       this.analytics.sendEvent('viewer', 'controls', 'crop image');
     }
+  }
+
+  hideWarpedLayer() {
+    this.controlsService.hideWarpedLayer();
+  }
+
+  formatSliderLabel(value: number) {
+    return (value * 100) + '%';
+  }
+
+  onChangeOpacity(e) {
+    this.controlsService.setWarpedLayerOpacity();
   }
 
   showDoublePageOff(): boolean {

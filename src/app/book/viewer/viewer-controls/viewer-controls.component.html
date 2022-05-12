@@ -59,22 +59,35 @@
 
   <mat-icon (click)="onCropImageClicked()"
             [matTooltip]="'view_controls.tooltip_crop_image' | translate" 
-            *ngIf="showImageCrop()">
+            *ngIf="showImageCrop() || bookService.showGeoreference">
             crop
+  </mat-icon>
+  
+  <mat-icon (click)="hideWarpedLayer()"
+            [matTooltip]="'view_controls.tooltip_hidewarpedlayer' | translate" 
+            *ngIf="bookService.hasGeoreference && bookService.showGeoreference">
+            visibility
   </mat-icon>
 
   <mat-icon (click)="goToNext()" *ngIf="!bookService.showGeoreference" [matTooltip]="'view_controls.tooltip_page_right' | translate" [class.app-inactive]="!hasNext()">chevron_right</mat-icon>
 
   <mat-icon (click)="showGeoMap()"
-            [matTooltip]="'view_controls.tooltip_show_georeferenced' | translate" 
+            [matTooltip]="'view_controls.tooltip_showgeoreferenced' | translate" 
             *ngIf="bookService.hasGeoreference && !bookService.showGeoreference">
             map
   </mat-icon>
 
   <mat-icon (click)="hideGeoMap()"
-            [matTooltip]="'view_controls.tooltip_hide_georeferenced' | translate" 
+            [matTooltip]="'view_controls.tooltip_hidegeoreferenced' | translate" 
             *ngIf="bookService.hasGeoreference && bookService.showGeoreference">
-            map
+            image
   </mat-icon>
+
+  <mat-slider *ngIf="bookService.hasGeoreference && bookService.showGeoreference" 
+            min="0" max="1" step=".1" [(ngModel)]="controlsService.geoLayerOpacity"
+            thumbLabel [matTooltip]="'view_controls.tooltip_setlayeropacity' | translate"
+            [displayWith]="formatSliderLabel"
+            (change)="onChangeOpacity($event)">
+  </mat-slider>
 
 </div>

@@ -1,11 +1,4 @@
 
-
-<div style="position:absolute;z-index: 1000;">
-  <input name="opacity" type="number" [(ngModel)]="opacity" (change)="setOpacity()" step=".1" mim="0" max="1" />
-  <label for="showMap">show</label> <input id="showMap" type="checkbox" [(ngModel)]="isShowMap" (change)="showMap()" />
-  <label for="cliped">cliped</label> <input id="cliped" type="checkbox" [(ngModel)]="cliped" (change)="changeCliped()" />
-</div>
-
 <div id="geo_ol" class="zoom-controls-bottom-left">
   <app-viewer-controls></app-viewer-controls>
 </div>

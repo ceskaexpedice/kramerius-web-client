@@ -1310,6 +1310,7 @@ export class BookService {
             data.uuid2 = rightPage.uuid;
         }
         this.hasGeoreference = false;
+        this.showGeoreference = false
         this.geoService.getGeoreference(data.uuid1).subscribe((res: any) => {
             this.hasGeoreference = true;
             this.geoUuid = data.uuid1;

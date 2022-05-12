@@ -24,6 +24,8 @@ export class ViewerControlsService {
     public fullscreenAvailable = false;
     public leftPanelVisible = true;
     public rightPanelVisible = true;
+    
+    public geoLayerOpacity: number = .8;
 
     constructor() {
         this.fullscreenAvailable = document.fullscreenEnabled
@@ -78,6 +80,14 @@ export class ViewerControlsService {
 
     cropImage() {
         this.listners.next(ViewerActions.cropImage);
+    }
+
+    hideWarpedLayer() {
+        this.listners.next(ViewerActions.hideWarpedLayer);
+    }
+
+    setWarpedLayerOpacity() {
+        this.listners.next(ViewerActions.setWarpedLayerOpacity);
     }
 
     doublePageOff() {
@@ -173,5 +183,7 @@ export enum ViewerActions {
     cropImage = 7,
     updateSite = 8,
     doublePageOn = 9,
-    doublePageOff = 10
+    doublePageOff = 10,
+    hideWarpedLayer = 11,
+    setWarpedLayerOpacity = 12
 }

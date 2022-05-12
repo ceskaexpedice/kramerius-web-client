@@ -36,7 +36,7 @@ export class MapViewerComponent implements OnInit, OnChanges {
 
   private viewerActionsSubscription: Subscription;
 
-  opacity = .8;
+  // opacity = .8;
   isShowMap = true;
   cliped = true;
   ol: Map | undefined;
@@ -232,7 +232,6 @@ export class MapViewerComponent implements OnInit, OnChanges {
   }
 
   setMap() {
-    console.log(this.ol)
     //if (this.uuid) {
     //this.geoService.getGeoreference(this.uuid).subscribe((res: any) => {
     const image_url = this.data.image_url.replace('info.json', '');
@@ -303,7 +302,7 @@ export class MapViewerComponent implements OnInit, OnChanges {
           const options = {
             image,
             georeferencedMap: map,
-            opacity: this.opacity,
+            opacity: this.controlsService.geoLayerOpacity,
             cliped: this.cliped,
             source: new VectorSource()
           }
@@ -324,7 +323,7 @@ export class MapViewerComponent implements OnInit, OnChanges {
   }
 
   setOpacity() {
-    this.warpedMapLayer.setOpacity(this.opacity)
+    this.warpedMapLayer.setOpacity(this.controlsService.geoLayerOpacity)
   }
 
   showMap() {
@@ -346,6 +345,17 @@ export class MapViewerComponent implements OnInit, OnChanges {
         break;
       case ViewerActions.fitToScreen:
         this.fitToScreen();
+        break;
+      case ViewerActions.cropImage:
+        this.cliped = !this.cliped;
+        this.changeCliped();
+        break;
+      case ViewerActions.hideWarpedLayer:
+        this.isShowMap = !this.isShowMap;
+        this.showMap()
+        break;
+      case ViewerActions.setWarpedLayerOpacity:
+        this.setOpacity();
         break;
     }
   }
