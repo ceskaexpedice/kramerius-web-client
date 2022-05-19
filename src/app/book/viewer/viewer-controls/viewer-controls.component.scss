@@ -38,6 +38,7 @@
     &.app-inactive {
       opacity: 0.2;
       cursor: default !important;
+      pointer-events: none; 
     }
   }
 }

@@ -52,13 +52,15 @@
   </mat-icon>
 
   <mat-icon (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text')"
-            [matTooltip]="'view_controls.tooltip_select_text' | translate" 
+            [matTooltip]="'view_controls.tooltip_select_text' | translate"
+            [class.app-inactive]="!selectTextEnabled()" 
             *ngIf="showSelectText()">
             title
   </mat-icon>
 
   <mat-icon (click)="onCropImageClicked()"
             [matTooltip]="'view_controls.tooltip_crop_image' | translate" 
+            [class.app-inactive]="!imageCropEnabled()"
             *ngIf="showImageCrop()">
             crop
   </mat-icon>

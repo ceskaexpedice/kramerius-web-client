@@ -1,9 +1,12 @@
 <div class="app-book-controls">
-   <mat-icon *ngIf="showPrintPreparation()" (click)="print()" [matTooltip]="'book_controls.tooltip_print' | translate">print</mat-icon>
-   <mat-icon *ngIf="showPdfGeneration()" (click)="pdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate">picture_as_pdf</mat-icon>
-   <mat-icon *ngIf="showPageJpeg()" (click)="jpeg()" [matTooltip]="'book_controls.tooltip_jpg' | translate">image</mat-icon>
-   <mat-icon *ngIf="showPageOcr()" (click)="ocr()" [matTooltip]="'book_controls.tooltip_ocr' | translate">title</mat-icon>
-   <mat-icon *ngIf="showEpubUpload()" (click)="uploadEpub()" [matTooltip]="'Nahrát epub'" style="float: right;">file_upload</mat-icon>
-   <mat-icon *ngIf="showPdfDownload()" (click)="downloadPdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate" style="float: right;">file_download</mat-icon>
+   <ng-container *ngIf="bookService.isImage()">
+      <mat-icon *ngIf="bookService.isActionAvailable('print')" [class.app-disabled]="!bookService.isActionEnabled('print')" (click)="print()" [matTooltip]="'book_controls.tooltip_print' | translate">print</mat-icon>
+      <mat-icon *ngIf="bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="pdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate">picture_as_pdf</mat-icon>
+      <mat-icon *ngIf="bookService.isActionAvailable('jpeg')" [class.app-disabled]="!bookService.isActionEnabled('jpeg')" (click)="jpeg()" [matTooltip]="'book_controls.tooltip_jpg' | translate">image</mat-icon>
+      <mat-icon *ngIf="bookService.isActionAvailable('text')" [class.app-disabled]="!bookService.isActionEnabled('text')" (click)="ocr()" [matTooltip]="'book_controls.tooltip_ocr' | translate">title</mat-icon>
+   </ng-container>   
+   
+   <mat-icon *ngIf="bookService.isPdf() && bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="downloadPdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate" style="float: right;">file_download</mat-icon>
+   <mat-icon *ngIf="bookService.isEpub()" (click)="uploadEpub()" [matTooltip]="'Nahrát epub'" style="float: right;">file_upload</mat-icon>
 </div>
 <input style="display: none" id="app-file-input" type="file" accept="application/epub+zip" (change)="openFile($event)">

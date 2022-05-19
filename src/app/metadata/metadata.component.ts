@@ -56,18 +56,6 @@ export class MetadataComponent implements OnInit {
     this.showingTitle = !this.showingTitle;
   }
 
-  showMetadata() {
-    return this.show('metadata');
-  }
-
-  showSharing() {
-    return this.show('share');
-  }
-
-  showCitation() {
-    return this.show('citation');
-  }
-
   openAdminActions() {
     this.dialog.open(AdminDialogComponent, { data: { metadata: this.metadata }, autoFocus: false });
   }
@@ -92,22 +80,31 @@ export class MetadataComponent implements OnInit {
   }
 
   onShowCitation() {
+    if (!this.actionEnabled('citation')) {
+      return;
+    }
     this.analytics.sendEvent('metadata', 'citation');
     this.dialog.open(CitationDialogComponent, { data: { metadata: this.metadata }, autoFocus: false });
   }
 
   onShare() {
+    if (!this.actionEnabled('share')) {
+      return;
+    }
     this.analytics.sendEvent('metadata', 'share');
-      let opts = { metadata: this.metadata };
-      this.dialog.open(ShareDialogComponent, { data: opts, autoFocus: false });
+    let opts = { metadata: this.metadata };
+    this.dialog.open(ShareDialogComponent, { data: opts, autoFocus: false });
   }
 
   onShowMetadata() {
+    if (!this.actionEnabled('metadata')) {
+      return;
+    }
     this.analytics.sendEvent('metadata', 'admin-metadata');
     this.dialog.open(MetadataDialogComponent, { data: { metadata: this.metadata }, autoFocus: false });
   }
 
-  private show(action: string): boolean {
+  actionEnabled(action: string): boolean {
     if (this.metadata.licence) {
       const l = this.licences.action(this.metadata.licence, action);
       if (l == 1) {
@@ -118,6 +115,10 @@ export class MetadataComponent implements OnInit {
     }    
     const value = this.settings.actions[action];
     return value === 'always' || (value === 'public' && this.metadata.isPublic);
+  }
+
+  actionAvailable(action: string): boolean {
+    return this.settings.actions[action] != 'never';
   }
 
 }

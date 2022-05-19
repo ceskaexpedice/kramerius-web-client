@@ -27,6 +27,11 @@
         &:hover {
           color: #000;
         }
+        &.app-disabled {
+          cursor: default;
+          color: #e1e1e1;
+          pointer-events: none;
+        }
       }
     }
     .app-metadata-content {

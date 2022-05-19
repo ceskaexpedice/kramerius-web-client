@@ -701,7 +701,7 @@ export class BookService {
         return this.pages ? this.pages.length : 0;
     }
 
-    isActionAvailable(action: string): boolean {
+    isActionEnabled(action: string): boolean {
         if (this.licence) {
           const l = this.licenceService.action(this.licence, action);
           if (l == 1) {
@@ -712,6 +712,10 @@ export class BookService {
         }
         const value = this.settings.actions[action];
         return value === 'always' || (value === 'available' && this.pageAvailable) || (value === 'public' && !this.isPrivate);
+    }
+
+    isActionAvailable(action: string): boolean {
+        return this.settings.actions[action] != 'never';
     }
 
     showOcr() {

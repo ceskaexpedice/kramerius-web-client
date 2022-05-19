@@ -38,8 +38,16 @@ export class ViewerControlsComponent implements OnInit {
     return this.bookService.doublePageSupported() && !this.bookService.doublePageEnabled;
   }
 
+  selectTextEnabled(): boolean {
+    return this.bookService.viewer === 'image' && this.bookService.isActionEnabled('selection');
+  }
+
   showSelectText(): boolean {
     return this.bookService.viewer === 'image' && this.bookService.isActionAvailable('selection');
+  }
+
+  imageCropEnabled(): boolean {
+    return this.bookService.viewer === 'image' && this.bookService.iiifEnabled && this.bookService.isActionEnabled('crop');
   }
 
   showImageCrop(): boolean {
