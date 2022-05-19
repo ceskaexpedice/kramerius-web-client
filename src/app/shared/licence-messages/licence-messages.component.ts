@@ -68,21 +68,35 @@ export class LicenceMessagesComponent implements OnInit {
     this.krameriusInfo.data$.subscribe((info: KrameriusInfo) => {
       this.html = "";
       if (info.rightMsg) {
-        const uuid = this.getUuidFromUrl();
-        this.html += info.rightMsg.replace(/\${UUID}/g, uuid);
+        const lang = this.translate.currentLang;
+        const uuid = AppSettings.getUuidFromUrl();
+        const path = encodeURIComponent(this.settings.getRelativePath());
+        const target = encodeURIComponent(window.location.href)
+        this.html += info.rightMsg
+          .replace(/\${LANG}/g, lang)
+          .replace(/\${TARGET}/g, target)
+          .replace(/\${PATH}/g, path)
+          .replace(/\${UUID}/g, uuid);
       }
     });
   }
 
   private loadLicences(licences: string[], callback: () => void) {
-    const uuid = this.getUuidFromUrl();
     const licence = licences.shift();
     const url = this.licenceService.message(licence);
     this.http.get(url, { observe: 'response', responseType: 'text' }).pipe(map(response => response['body'])).subscribe((result) => {
       if (licence != "_private") {
         this.html += `<h5>${this.licenceService.label(licence)}</h5>`;
       }
-      this.html += result.replace(/\${UUID}/g, uuid);;
+      const lang = this.translate.currentLang;
+      const uuid = AppSettings.getUuidFromUrl();
+      const path = encodeURIComponent(this.settings.getRelativePath());
+      const target = encodeURIComponent(window.location.href)
+      this.html += result
+      .replace(/\${LANG}/g, lang)
+      .replace(/\${TARGET}/g, target)
+      .replace(/\${PATH}/g, path)
+      .replace(/\${UUID}/g, uuid);
       if (licences.length > 0) {
         this.loadLicences(licences, callback);
       } else {
@@ -91,28 +105,5 @@ export class LicenceMessagesComponent implements OnInit {
     })
   }
 
-  private getUuidFromUrl() {
-    const path = location.pathname;
-    const query = location.search;
-    let uuid = "";
-    if (path.indexOf('uuid:') > -1) {
-      uuid = path.substr(path.indexOf('uuid:'));
-    }
-    if (query.indexOf('article=uuid:') > -1) {
-      uuid = this.parseUuid(query, 'article');
-    }
-    if (query.indexOf('page=uuid:') > -1) {
-      uuid = this.parseUuid(query, 'page');
-    }
-    return uuid;
-  }
-
-  private parseUuid(query: string, param: string) {
-    for (const p of query.split('&')) {
-      if (p.indexOf(param + '=') > -1) {
-        return p.substring(p.indexOf(param + '=') + param.length + 1);
-      }
-    }
-  }
 
 }

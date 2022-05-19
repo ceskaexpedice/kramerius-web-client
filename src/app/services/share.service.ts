@@ -29,28 +29,7 @@ export class ShareService {
   }
 
   getPersistentLinkByUrl(): string {
-    const path = location.pathname;
-    const query = location.search;
-    let uuid: string;
-    if (path.indexOf('uuid:') > -1) {
-      uuid = path.substr(path.indexOf('uuid:'));
-    }
-    if (query.indexOf('article=uuid:') > -1) {
-      uuid = this.parseUuid(query, 'article');
-    }
-    if (query.indexOf('page=uuid:') > -1) {
-      uuid = this.parseUuid(query, 'page');
-    }
-    return this.getPersistentLink(uuid);
-  }
-
-
-  private parseUuid(query: string, param: string) {
-    for (const p of query.split('&')) {
-      if (p.indexOf(param + '=') > -1) {
-        return p.substring(p.indexOf(param + '=') + param.length + 1);
-      }
-    }
+    return this.getPersistentLink(AppSettings.getUuidFromUrl());
   }
 
 }

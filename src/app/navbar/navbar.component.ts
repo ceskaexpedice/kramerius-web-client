@@ -57,7 +57,15 @@ export class NavbarComponent implements OnInit {
   login() {
     if (this.appSettings.auth) {
       this.analytics.sendEvent('navbar', 'login-shib');
-      const url = `${this.appSettings.auth.loginUrl.replace(/\${LANG}/, this.translate.currentLang).replace(/\${TARGET}/, encodeURIComponent(window.location.href))}`;
+      const lang = this.translate.currentLang;
+      const uuid = AppSettings.getUuidFromUrl();
+      const path = encodeURIComponent(this.appSettings.getRelativePath());
+      const target = encodeURIComponent(window.location.href)
+      const url = this.appSettings.auth.loginUrl
+        .replace(/\${LANG}/g, lang)
+        .replace(/\${TARGET}/g, target)
+        .replace(/\${PATH}/g, path)
+        .replace(/\${UUID}/g, uuid);
       window.open(url, '_top');
     } else if (this.appSettings.krameriusLogin && !this.authService.isLoggedIn()) {
       this.analytics.sendEvent('navbar', 'login');

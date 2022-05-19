@@ -157,6 +157,42 @@ export class AppSettings {
     return null;
   }
 
+
+  public getRelativePath(): string {
+    let path = window.location.pathname + window.location.search;
+    if (path.startsWith('/')) {
+      path = path.substring(1);  
+    }
+    path = path.substring(this.deployPath.length);
+    if (path.startsWith('/')) {
+      path = path.substring(1);  
+    }
+    if (this.multiKramerius) {
+      path = path.substring(this.code.length);
+    }
+    if (!path.startsWith('/')) {
+      path = '/' + path;
+    }
+    return path;
+  }
+
+  static getUuidFromUrl(): string {
+    const path = location.pathname;
+    const query = location.search;
+    let uuid = "";
+    if (path.indexOf('uuid:') > -1) {
+      uuid = path.substr(path.indexOf('uuid:'));
+    }
+    if (query.indexOf('article=uuid:') > -1) {
+      uuid = AppSettings.parseUuid(query, 'article');
+    }
+    if (query.indexOf('page=uuid:') > -1) {
+      uuid = AppSettings.parseUuid(query, 'page');
+    }
+    return uuid;
+  }
+
+
   public getPathPrefix(): string {
     if (!this.multiKramerius) {
       return '';
@@ -193,6 +229,14 @@ export class AppSettings {
       return defaultValue;
     }
     return APP_GLOBAL.actions[action] || defaultValue;
+  }
+
+  private static parseUuid(query: string, param: string) {
+    for (const p of query.split('&')) {
+      if (p.indexOf(param + '=') > -1) {
+        return p.substring(p.indexOf(param + '=') + param.length + 1);
+      }
+    }
   }
 
 }
