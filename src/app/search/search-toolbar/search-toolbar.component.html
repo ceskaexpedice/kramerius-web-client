@@ -13,7 +13,7 @@
     </ng-container>
 
 
-    <div *ngIf="settings.advancedSearch" [matTooltip]="'search.advanced' | translate" (click)="search.showAdvancedSearchDialog()" class="app-view-button app-advanced-icon" [class.app-active]="true">
+    <div *ngIf="settings.advancedSearch" [class.app-in-collection]="!!search.collection" [matTooltip]="'search.advanced' | translate" (click)="search.showAdvancedSearchDialog()" class="app-view-button app-advanced-icon" [class.app-active]="true">
       <mat-icon>manage_search</mat-icon>
     </div>
 
@@ -47,7 +47,7 @@
       </span>
       <div class="app-btns">
         <span *ngIf="settings.k3"><a [href]="search.buildK3Link()" class="app-hide-on-med" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
-        <span class="app-advanced-btn" *ngIf="settings.advancedSearch" (click)="search.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
+        <span class="app-advanced-btn" *ngIf="settings.advancedSearch && !search.collection" (click)="search.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
       </div>
     </div>
 

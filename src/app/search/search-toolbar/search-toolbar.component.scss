@@ -73,8 +73,10 @@
         margin-right: 8px;
       }
       &.app-advanced-icon {
-        @media only screen and (min-width: 731px) {
-          display: none;
+        &:not(.app-in-collection) {
+          @media only screen and (min-width: 731px) {
+            display: none;
+          }
         }
       }
     }
