@@ -381,6 +381,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   updateZoomifyImage(uuid1: string, uuid2: string) {
     const url1 = this.api.getZoomifyBaseUrl(uuid1);
     const url2 = !!uuid2 ? this.api.getZoomifyBaseUrl(uuid2) : null;
+
     this.onImageLoading();
     const rq = [];
     let w1, w2, h1, h2;
@@ -399,10 +400,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
       this.setDimensions(w1, h1, w2, h2);
       if (url2 && results.length > 1) {
-        this.addZoomifyImage(w1, h1, url1, 1);
-        this.addZoomifyImage(w2, h2, url2, 2);
+        this.addZoomifyImage(w1, h1, url1, this.api.getThumbUrl(uuid1), 1);
+        this.addZoomifyImage(w2, h2, url2, this.api.getThumbUrl(uuid1), 2);
       } else {
-        this.addZoomifyImage(w1, h1, url1, 0);
+        this.addZoomifyImage(w1, h1, url1, this.api.getThumbUrl(uuid1), 0);
       }
       this.onImageSuccess();
     },
@@ -435,10 +436,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
       this.setDimensions(w1, h1, w2, h2);
       if (url2 && results.length > 1) {
-        this.addIIIFImage(results[0], w1, h1, url1, 1);
-        this.addIIIFImage(results[1], w2, h2, url2, 2);
+        this.addIIIFImage(results[0], w1, h1, url1, this.api.getThumbUrl(uuid1), 1);
+        this.addIIIFImage(results[1], w2, h2, url2, this.api.getThumbUrl(uuid1), 2);
       } else {
-        this.addIIIFImage(results[0], w1, h1, url1, 0);
+        this.addIIIFImage(results[0], w1, h1, url1, this.api.getThumbUrl(uuid1), 0);
       }
       this.onImageSuccess();
     },
@@ -528,7 +529,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-  addIIIFImage(data, width, height, url, type) {
+  addIIIFImage(data, width, height, url, thumb, type) {
     let extent;
     if (type === 0) {
       extent = [0, -height, width, 0];
@@ -546,9 +547,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     options.zDirection = -1;
     options.extent = extent;
     options.url = url;
-    const thumbUrl = this.iiif.image(url, options.sizes[0][0], options.sizes[0][1]);
+    // const thumbUrl = this.iiif.image(url, options.sizes[0][0], options.sizes[0][1]);
     const imageOptions = {
-      url: thumbUrl,
+      url: thumb,
       imageExtent: extent
     };
     if (this.settings.crossOrigin) {
@@ -556,11 +557,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
       imageOptions['crossOrigin'] = 'Anonymous';
     }
     const iiifTileSource = new ol.source.IIIF(options);
+    const imageSource = new ol.source.ImageStatic(imageOptions);
+    const token = this.settings.getToken();
+    if (token) {
+      iiifTileSource.setTileLoadFunction(this.buildCustomLoader(token));
+    }
     const zLayer = new ol.layer.Tile({
-      source: iiifTileSource,
+      source: iiifTileSource
     });
     const iLayer = new ol.layer.Image({
-      source: new ol.source.ImageStatic(imageOptions)
+      source: imageSource
     });
     this.view.addLayer(iLayer);
     this.view.addLayer(zLayer);
@@ -573,7 +579,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-  addZoomifyImage(width, height, url, type) {
+  addZoomifyImage(width, height, url, thumb, type) {
     let extent;
     if (type === 0) {
       extent = [0, -height, width, 0];
@@ -591,7 +597,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       extent: extent
     };
     const imageOptions = {
-        url: this.zoomify.thumb(url),
+        url: thumb,
         imageExtent: extent
     };
     if (this.settings.crossOrigin) {
@@ -604,7 +610,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const token = this.settings.getToken();
     if (token) {
       zoomifySource.setTileLoadFunction(this.buildCustomLoader(token));
-      imageSource.imageLoadFunction = (this.buildCustomLoader(token));
     }
     const zLayer = new ol.layer.Tile({
       source: zoomifySource
@@ -641,7 +646,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (token) {
       source.imageLoadFunction = (this.buildCustomLoader(token));
     }
-
     const iLayer = new ol.layer.Image({
       source: source
     });
