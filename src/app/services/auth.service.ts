@@ -42,6 +42,10 @@ export class AuthService {
             if (callback) {
                 callback('ok');
             }
+        }, (error) => {
+            this.licences.assignUserLicences([]);
+            this.user = null;
+            this.cache.clear();
         });
     }
 
