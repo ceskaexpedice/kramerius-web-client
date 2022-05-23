@@ -401,7 +401,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.setDimensions(w1, h1, w2, h2);
       if (url2 && results.length > 1) {
         this.addZoomifyImage(w1, h1, url1, this.api.getThumbUrl(uuid1), 1);
-        this.addZoomifyImage(w2, h2, url2, this.api.getThumbUrl(uuid1), 2);
+        this.addZoomifyImage(w2, h2, url2, this.api.getThumbUrl(uuid2), 2);
       } else {
         this.addZoomifyImage(w1, h1, url1, this.api.getThumbUrl(uuid1), 0);
       }
@@ -437,7 +437,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.setDimensions(w1, h1, w2, h2);
       if (url2 && results.length > 1) {
         this.addIIIFImage(results[0], w1, h1, url1, this.api.getThumbUrl(uuid1), 1);
-        this.addIIIFImage(results[1], w2, h2, url2, this.api.getThumbUrl(uuid1), 2);
+        this.addIIIFImage(results[1], w2, h2, url2, this.api.getThumbUrl(uuid2), 2);
       } else {
         this.addIIIFImage(results[0], w1, h1, url1, this.api.getThumbUrl(uuid1), 0);
       }
