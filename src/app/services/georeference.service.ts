@@ -14,7 +14,9 @@ export class GeoreferenceService {
 
     getGeoreference(uuid: string): Observable<any> {
         const l = uuid.length;
-        const url = 'geo/uuid/' + uuid.substring(l - 2) + '/' + uuid.substring(l - 4, l - 2) + '/' + uuid.substring(5) + '.json';
+        const urlPrefix = 'https://staremapy.cz/data/';
+        // const urlPrefix = 'geo/';
+        const url = urlPrefix + 'uuid/' + uuid.substring(l - 2) + '/' + uuid.substring(l - 4, l - 2) + '/' + uuid.substring(5) + '.json';
         return this.http.get(url);
     }
 
