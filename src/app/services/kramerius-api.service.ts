@@ -51,7 +51,7 @@ export class KrameriusApiService {
         return throwError(new AppError(error));
     }
 
-    private doGet(url: string): Observable<Object> {
+    doGet(url: string): Observable<Object> {
         return this.http.get(encodeURI(url)).pipe(catchError(this.handleError));
     }
 
@@ -242,17 +242,14 @@ export class KrameriusApiService {
         return this.getbaseUrl() + '/search/iiif/' + uuid;
     }
 
-    getIiifPresentation(uuid: string): Observable<any> {
-        const url = `https://iiif.digitalniknihovna.cz/${this.settings.code}/${uuid}`;
-        // const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
-        return this.doGet(url);
+    getIiifPresentationUrl(uuid: string): string {
+        return `https://iiif.digitalniknihovna.cz/${this.settings.code}/${uuid}`;
     }
 
-    getIiifManifestUrl(uuid: string): string {
-        const url = `https://iiif.digitalniknihovna.cz/${this.settings.code}/${uuid}`;
-        // const url = this.getbaseUrl() + '/search/iiif-presentation/' + uuid + '/manifest';
-        return url;
+    getIiifPresentation(uuid: string): Observable<any> {
+        return this.doGet(this.getIiifPresentationUrl(uuid));
     }
+
 
     getModsUrl(uuid: string): string {
         if (this.settings.k5Compat()) {

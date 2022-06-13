@@ -6,6 +6,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { SolrService } from '../../services/solr.service';
 import { parseString, Builder } from 'xml2js';
 import { TranslateService } from '@ngx-translate/core';
+import { IiifService } from '../../services/iiif.service';
 
 @Component({
   templateUrl: './metadata-dialog.component.html',
@@ -23,6 +24,7 @@ export class MetadataDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<MetadataDialogComponent>,
     private solr: SolrService,
     private api: KrameriusApiService,
+    private iiif: IiifService,
     private locals: LocalStorageService,
     private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) private data: any) { }
@@ -103,7 +105,7 @@ export class MetadataDialogComponent implements OnInit {
         case 'foxml': return this.api.getFoxml(uuid);
         case 'item': return this.api.getRawItem(uuid);
         case 'children': return this.api.getRawChildren(uuid);
-        case 'iiif': return this.api.getIiifPresentation(uuid);
+        case 'iiif': return this.selection.type === 'page' ? this.api.doGet(this.iiif.imageManifest(this.api.getIiifBaseUrl(uuid))) : this.api.getIiifPresentation(uuid);
       }
     }
   
@@ -116,7 +118,7 @@ export class MetadataDialogComponent implements OnInit {
         case 'foxml': return this.api.getFoxmlUrl(uuid);
         //case 'item': return this.api.getItemUrl(uuid);
         case 'dc' : return this.api.getDcUrl(uuid);
-        case 'iiif': return this.api.getIiifManifestUrl(uuid);
+        case 'iiif': this.selection.type === 'page' ? this.iiif.imageManifest(this.api.getIiifBaseUrl(uuid)) : this.api.getIiifPresentationUrl(uuid);
         default: return null;
       }
     }
