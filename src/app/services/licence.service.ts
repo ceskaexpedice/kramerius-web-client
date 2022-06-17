@@ -151,23 +151,43 @@ export class LicenceService {
   }
 
 
+  appliedLicence(licences: string[]): string {
+    if (!this.anyUserLicence() || !this.anyAvailableLicence(licences)) {
+      return null;
+    }
+    for (const licence of licences) {
+      const idx = this.userLicences.indexOf(licence);
+      if (idx >= 0) {
+        return this.userLicences[idx];
+      }
+    }
+    return null;
+  }
+
   buildLock(licences: string[]): any {
     if (!this.anyAvailableLicence(licences)) {
       return {
         icon: 'lock',
-        class: 'app-lock-private',
+        class: 'app-lock-no-licence',
+        color: '#616161',
         tooltip: this.label('_private')
       };
-    } else if (this.accessible(licences)) {
+    } 
+    const licence = this.appliedLicence(licences)
+    if (licence) {
+      const l = this.licences[licence];
       return {
-        icon: 'no_photography',
+        icon: l.iconOn || 'no_photography',
         class: 'app-lock-licence-open',
+        color: '#D32F2F',
         tooltip: this.labels(licences)
       };
     } else {
+      const l = this.licences[this.availableLicences(licences)[0]];
       return {
-        icon: 'lock',
+        icon: l.iconOff || 'lock',
         class: 'app-lock-licence-locked',
+        color: '#4CAF50',
         tooltip: this.labels(licences)
       };
     }

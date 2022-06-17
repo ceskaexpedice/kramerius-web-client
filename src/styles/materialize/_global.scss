@@ -127,3 +127,22 @@ a {
 .no-padding {
   padding: 0 !important;
 }
+
+.app-lock-no-licence {
+  mat-icon {
+    // color: #D32F2F !important;
+    color: #616161 !important;
+  }
+}
+
+.app-lock-licence-open {
+  mat-icon {
+    color: #4CAF50 !important;
+  }
+}
+
+.app-lock-licence-locked {
+  mat-icon {
+    color: #e06f26 !important;
+  }
+}
