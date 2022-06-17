@@ -63,6 +63,34 @@ export class LicenceService {
     return l.label[lang] || l.label['en'] || l.label['cs'] || licence;
   }
 
+  image(licence: string): string {
+    if (!this.available(licence)) {
+      return '';
+    }
+    if (!this.licences[licence].image) {
+      return '';
+    }
+    return this.licences[licence].image
+  }
+
+  web(licence: string): string {
+    if (!this.available(licence)) {
+      return '';
+    }
+    if (!this.licences[licence].web) {
+      return '';
+    }
+    const lang = this.translate.currentLang;
+    const uuid = AppSettings.getUuidFromUrl();
+    const path = encodeURIComponent(this.settings.getRelativePath());
+    const target = encodeURIComponent(window.location.href)
+    return this.licences[licence].web
+      .replace(/\${LANG}/g, lang)
+      .replace(/\${TARGET}/g, target)
+      .replace(/\${PATH}/g, path)
+      .replace(/\${UUID}/g, uuid);
+  }
+
   labels(licences: string[]): string {
     return this.availableLicences(licences).map((licence: string) => this.label(licence)).join(", ");
   }

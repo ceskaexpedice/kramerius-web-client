@@ -61,14 +61,24 @@
       <mat-icon class="app-lock" [class.app-lock-licence-open]="anyLicence()">{{ metadata.licence ? 'no_photography' : 'lock' }}</mat-icon>
       <span class="app-message">{{ 'metadata.policy_private' | translate }}</span>
       <mat-icon class="app-help" (click)="showPrivateDialog()">info</mat-icon>
-      <ng-container *ngIf="metadata.licence">
-        <div class="app-licence-label">
+      <div *ngIf="metadata.licence" class="app-active-license">
+        <label>
           {{ 'licence.metadata_licence' | translate }}
-        </div>
+        </label>
         <div class="app-licence-value" (click)="showLicenceDialog()">
           {{ licences.label(metadata.licence) }}
         </div>
-      </ng-container>
+        <div class="app-licence-image" *ngIf="licences.image(metadata.licence)">
+          <ng-container *ngIf="licences.web(metadata.licence); else no_link_license">
+            <a style="display:block" target="_blank" [href]="licences.web(metadata.licence)" (click)="analytics.sendEvent('metadata', 'link', 'license');">
+              <img [src]="licences.image(metadata.licence)">
+            </a>
+          </ng-container>
+          <ng-template #no_link_license>
+            <img [src]="licences.image(metadata.licence)">
+          </ng-template>
+        </div>
+      </div>
       <div class="divider"></div>
     </div>
 
