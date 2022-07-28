@@ -101,7 +101,45 @@
         "collection_with_filters": "In der Sammlung suchen"
       },
       "document": "Im Dokument suchen",
-      "delete_query": "Anfrage löschen"
+      "delete_query": "Anfrage löschen",
+      "help": "Hilfe"
+    },
+    "search-help-dialog": {
+      "e1": {
+        "symbol": "?",
+        "desc": "wildcard for any exactly one character, e.g.",
+        "example": "Harry P?tter"
+      },
+      "e2": {
+        "symbol": "*",
+        "desc": "wildcard for any number of any characters, e.g.",
+        "example": "H*y Potter"
+      },
+      "e3": {
+        "symbol": "AND",
+        "desc": "logical operator for the occurrence of both expressions, e.g.",
+        "example": "Harry AND chamber"
+      },
+      "e4": {
+        "symbol": "OR",
+        "desc": "logical operator for the occurrence of at least one of the expressions, e.g.",
+        "example": "Harry OR chamber"
+      },
+      "e5": {
+        "symbol": "NOT",
+        "desc": "exclusion of an expression, e.g.",
+        "example": "NOT Harry"
+      },
+      "e6": {
+        "symbol": "\"\"",
+        "desc": "exact match, e.g.",
+        "example": "\"Harry Potter and\""
+      },
+      "e7": {
+        "symbol": "~n",
+        "desc": "proximity search - terms are separated by a maximum of n positions, e.g.",
+        "example": "\"Harry Azkaban\"~5"
+      }
     },
     "filters": {
       "used_header": "Aktive Filter",

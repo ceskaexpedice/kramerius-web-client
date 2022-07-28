@@ -100,7 +100,45 @@
       "collection_with_filters": "Hledat ve sbírce s filtry"
     },
     "document": "Hledat v dokumentu",
-    "delete_query": "Vymazat dotaz"
+    "delete_query": "Vymazat dotaz",
+    "help": "Nápověda"
+  },
+  "search-help-dialog": {
+    "e1": {
+      "symbol": "?",
+      "desc": "zástupný znak libovolného právě jednoho znaku, např.",
+      "example": "Harry P?tter"
+    },
+    "e2": {
+      "symbol": "*",
+      "desc": "zástupný znak libovolného počtu libovolných znaků, např.",
+      "example": "H*y Potter"
+    },
+    "e3": {
+      "symbol": "AND",
+      "desc": "logický operátor pro výskyt obou výrazů, např.",
+      "example": "Harry AND komnata"
+    },
+    "e4": {
+      "symbol": "OR",
+      "desc": "logický operátor pro výskyt alespoň jednoho z výrazu, např.",
+      "example": "Harry OR komnata"
+    },
+    "e5": {
+      "symbol": "NOT",
+      "desc": "vyloučení výrazu, např.",
+      "example": "NOT Harry"
+    },
+    "e6": {
+      "symbol": "\"\"",
+      "desc": "přesná shoda, např.",
+      "example": "\"Harry Potter a\""
+    },
+    "e7": {
+      "symbol": "~n",
+      "desc": "proximitní hledání - výrazy jsou od sebe vzdáleny maximálně n pozic, např.",
+      "example": "\"Harry pohár\"~3"
+    }
   },
   "filters": {
     "used_header": "Aktivní filtry",

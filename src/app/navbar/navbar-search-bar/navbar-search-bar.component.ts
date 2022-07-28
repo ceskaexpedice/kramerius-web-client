@@ -7,6 +7,8 @@ import { AppState } from './../../app.state';
 import { AnalyticsService } from '../../services/analytics.service';
 import { CompleterCmp } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SearchHelpDialogComponent } from '../../dialog/search-help-dialog/search-help-dialog.component';
 
 @Component({
   selector: 'app-navbar-search-bar',
@@ -26,6 +28,7 @@ export class NavbarSearchBarComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private state: AppState,
+    private dialog: MatDialog,
     private translate: TranslateService,
     public analytics: AnalyticsService,
     private localStorageService: LocalStorageService,
@@ -67,6 +70,10 @@ export class NavbarSearchBarComponent implements OnInit {
     }
   }
 
+  showHelp() {
+    this.analytics.sendEvent('search-help', 'from-navbar');
+    this.dialog.open(SearchHelpDialogComponent, { autoFocus: false });
+  }
 
   getPlaceholder(): string {
     if (!this.state.atSearchScreen()) {

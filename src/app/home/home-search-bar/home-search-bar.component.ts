@@ -6,6 +6,8 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { CompleterCmp } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
+import { SearchHelpDialogComponent } from '../../dialog/search-help-dialog/search-help-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home-search-bar',
@@ -25,6 +27,7 @@ export class HomeSearchBarComponent implements OnInit {
   constructor(
     public router: Router,
     private translate: TranslateService,
+    private dialog: MatDialog,
     public appSettings: AppSettings,
     public analytics: AnalyticsService,
     private localStorageService: LocalStorageService,
@@ -44,6 +47,11 @@ export class HomeSearchBarComponent implements OnInit {
       this.analytics.sendEvent('search phrase', 'home-by-selection', this.searchStr);
       this.search();
     }
+  }
+
+  showHelp() {
+    this.analytics.sendEvent('search-help', 'from-home');
+    this.dialog.open(SearchHelpDialogComponent, { autoFocus: false });
   }
 
   getPlaceholder(): string {

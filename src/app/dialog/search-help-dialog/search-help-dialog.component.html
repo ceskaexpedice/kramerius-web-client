@@ -1,0 +1,15 @@
+<div class="app-search-help app-dialog">
+
+    <div class="app-dialog-content">
+      <p class="app-case" *ngFor="let i of [1,2,3,4,5,6,7]">
+        <strong>{{ 'search-help-dialog.e' + i + '.symbol' | translate }}</strong>
+        <span class="app-desc">{{ 'search-help-dialog.e' + i + '.desc' | translate }}</span>
+        <span class="app-example">{{ 'search-help-dialog.e' + i + '.example' | translate }}</span>
+      </p>
+    </div>
+      
+  <div class="app-dialog-actions">
+    <button mat-flat-button (click)="onCancel()">{{ 'common.close' | translate }}</button>
+  </div>
+
+</div>
