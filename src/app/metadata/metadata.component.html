@@ -58,9 +58,13 @@
     </ng-container>
 
     <div *ngIf="!metadata.isPublic" class="app-policy">
-      <mat-icon class="app-lock" [class.app-lock-licence-open]="anyLicence()">{{ metadata.licence ? 'no_photography' : 'lock' }}</mat-icon>
+
+      <mat-icon class="app-lock" [class.app-lock-licence-open]="anyLicence()">{{ 'lock' }}</mat-icon>
       <span class="app-message">{{ 'metadata.policy_private' | translate }}</span>
       <mat-icon class="app-help" (click)="showPrivateDialog()">info</mat-icon>
+
+
+
       <div *ngIf="metadata.licence" class="app-active-license">
         <label>
           {{ 'licence.metadata_licence' | translate }}

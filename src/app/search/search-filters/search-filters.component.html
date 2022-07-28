@@ -34,12 +34,9 @@
                 (click)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licence', item.value)"
                 class="app-filter-item">
                 <span>{{item.count}}</span>
-                <ng-container *ngIf="licences.accessible([item.value]); else notAccessible">
-                  <mat-icon class="app-lock" matTooltip="Dostupné">no_photography</mat-icon>
-                </ng-container>
-                <ng-template #notAccessible>
-                  <mat-icon class="app-lock" matTooltip="Nedostupné">lock</mat-icon>
-                </ng-template>
+                <div class="app-lock {{ licences.buildLock([item.value]).class }}" *ngIf="licences.buildLock([item.value])">
+                  <mat-icon>{{ licences.buildLock([item.value]).icon }}</mat-icon>
+                </div>
                 {{ licences.label(item.value) }}
                 <mat-icon class="app-licence-info" (click)="showLicenceDialog(item.value); $event.preventDefault();$event.stopPropagation()">info</mat-icon>
           </div>

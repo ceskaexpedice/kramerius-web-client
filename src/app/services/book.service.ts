@@ -1048,6 +1048,7 @@ export class BookService {
                 this.licence = rightPage.licence;
             }
             this.metadata.licence = this.licence;
+            // this.metadata.licence = 'dnnto';
             ////
             if (page.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);

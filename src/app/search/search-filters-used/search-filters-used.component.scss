@@ -20,10 +20,11 @@
   }
   .app-filter {
     cursor: pointer;
+    overflow: hidden;
     color: $app-grey-d-1;
     mat-icon {
       font-size: 18px;
-      height: 18px;
+      height: 20px;
       vertical-align: middle;
       &.app-licence {
         color: $app-licence-color;

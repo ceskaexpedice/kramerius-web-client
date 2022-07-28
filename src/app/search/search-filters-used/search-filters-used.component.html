@@ -24,7 +24,13 @@
   </div>
 
   <div *ngFor="let licence of searchService.query.licences" (click)="searchService.removeFilter(searchService.query.licences, licence)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
-    <mat-icon class="app-licence">{{ licences.accessible([licence]) ? 'no_photography' : 'lock' }}</mat-icon>
+    <!-- <mat-icon class="app-licence">{{ licences.accessible([licence]) ? 'no_photography' : 'lock' }}</mat-icon> -->
+
+    <span class="app-lock {{ licences.buildLock([licence]).class }}" *ngIf="licences.buildLock([licence])">
+      <mat-icon>{{ licences.buildLock([licence]).icon }}</mat-icon>
+    </span>
+
+
     <mat-icon class="app-close">close</mat-icon>
     {{ licences.label(licence) }}
   </div>
