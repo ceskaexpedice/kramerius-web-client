@@ -112,13 +112,12 @@ export class MetadataDialogComponent implements OnInit {
     private getUrl(uuid: string): string {
       switch (this.resource) {
         case 'mods': return this.api.getModsUrl(uuid);
+        case 'dc' : return this.api.getDcUrl(uuid);
         case 'solr': return this.api.getSearchResultsUrl(`q=${this.solr.field('id')}:"${uuid}"`);
         case 'alto': return this.api.getAltoUrl(uuid);
         case 'ocr': return this.api.getOcrUrl(uuid);
         case 'foxml': return this.api.getFoxmlUrl(uuid);
-        //case 'item': return this.api.getItemUrl(uuid);
-        case 'dc' : return this.api.getDcUrl(uuid);
-        case 'iiif': this.selection.type === 'page' ? this.iiif.imageManifest(this.api.getIiifBaseUrl(uuid)) : this.api.getIiifPresentationUrl(uuid);
+        case 'iiif': return this.selection.type === 'page' ? this.iiif.imageManifest(this.api.getIiifBaseUrl(uuid)) : this.api.getIiifPresentationUrl(uuid);
         default: return null;
       }
     }
