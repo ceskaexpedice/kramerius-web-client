@@ -356,14 +356,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
           if (!left) {
             this.setDimensions(this.imageWidth, this.imageHeight, image.width, image.height);
             const url1 = this.api.getFullJpegUrl(uuid1);
-            const thumb1 = this.api.getThumbUrl(uuid1);
+            const thumb1 = this.api.getThumbStreamUrl(uuid1);
             this.addStaticImage(this.imageWidth, this.imageHeight, thumb ? thumb1 : url1, 1);
             const url2 = url;
-            const thumb2 = this.api.getThumbUrl(uuid2);
+            const thumb2 = this.api.getThumbStreamUrl(uuid2);
             this.addStaticImage(image.width, image.height, thumb ? thumb2 : url2,  2);
           } else {
             this.setDimensions(image.width, image.height, null, null);
-            const thumb1 = this.api.getThumbUrl(uuid1);
+            const thumb1 = this.api.getThumbStreamUrl(uuid1);
             this.addStaticImage(image.width, image.height, thumb ? thumb1 : url, 0);
           }
           this.onImageSuccess();
@@ -400,10 +400,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
       this.setDimensions(w1, h1, w2, h2);
       if (url2 && results.length > 1) {
-        this.addZoomifyImage(w1, h1, url1, this.api.getThumbUrl(uuid1), 1);
-        this.addZoomifyImage(w2, h2, url2, this.api.getThumbUrl(uuid2), 2);
+        this.addZoomifyImage(w1, h1, url1, this.api.getThumbStreamUrl(uuid1), 1);
+        this.addZoomifyImage(w2, h2, url2, this.api.getThumbStreamUrl(uuid2), 2);
       } else {
-        this.addZoomifyImage(w1, h1, url1, this.api.getThumbUrl(uuid1), 0);
+        this.addZoomifyImage(w1, h1, url1, this.api.getThumbStreamUrl(uuid1), 0);
       }
       this.onImageSuccess();
     },
@@ -436,10 +436,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
       this.setDimensions(w1, h1, w2, h2);
       if (url2 && results.length > 1) {
-        this.addIIIFImage(results[0], w1, h1, url1, this.api.getThumbUrl(uuid1), 1);
-        this.addIIIFImage(results[1], w2, h2, url2, this.api.getThumbUrl(uuid2), 2);
+        this.addIIIFImage(results[0], w1, h1, url1, this.api.getThumbStreamUrl(uuid1), 1);
+        this.addIIIFImage(results[1], w2, h2, url2, this.api.getThumbStreamUrl(uuid2), 2);
       } else {
-        this.addIIIFImage(results[0], w1, h1, url1, this.api.getThumbUrl(uuid1), 0);
+        this.addIIIFImage(results[0], w1, h1, url1, this.api.getThumbStreamUrl(uuid1), 0);
       }
       this.onImageSuccess();
     },

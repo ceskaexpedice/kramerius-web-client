@@ -106,6 +106,15 @@ export class KrameriusApiService {
         }
     }
 
+
+    getThumbStreamUrl(uuid: string): string {
+        if (this.settings.k5Compat()) {
+            return this.getItemUrl(uuid) + '/streams/IMG_THUMB';
+        } else {
+            return this.getItemUrl(uuid) + '/image/thumb';
+        }
+    }
+
     getThumbUrl(uuid: string): string {
         if (this.settings.k5Compat()) {
             return this.getItemUrl(uuid) + '/thumb';
