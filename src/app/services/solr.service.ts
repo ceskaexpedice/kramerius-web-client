@@ -869,7 +869,18 @@ export class SolrService {
             if (this.licences.userLicences) {
                 const licences = this.licences.userLicences;
                 if (licences) {
-                    q += ` OR ${this.field('licences_search')}:` + licences.join(` OR ${this.field('licences_search')}:`)
+                    let a = []
+                    for (const l of this.licences.userLicences) {
+                        let f = `${this.field('licences_search')}:${l}`
+                        if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                            f += ` OR ${this.field('licences_contains')}:${l}`;
+                        }
+                        if (!this.settings.k5Compat()) {
+                            f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                        }
+                        a.push(f)
+                    }
+                    q += ` OR ${a.join(' OR ')}`;
                 }
             }
             fqFilters.push(`(${q})`);
@@ -883,7 +894,18 @@ export class SolrService {
                 if (this.licences.userLicences) {
                     const licences = this.licences.userLicences;
                     if (licences) {
-                        q += ` OR ${this.field('licences_search')}:` + licences.join(` OR ${this.field('licences_search')}:`)
+                        let a = []
+                        for (const l of this.licences.userLicences) {
+                            let f = `${this.field('licences_search')}:${l}`
+                            if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                                f += ` OR ${this.field('licences_contains')}:${l}`;
+                            }
+                            if (!this.settings.k5Compat()) {
+                                f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                            }
+                            a.push(f)
+                        }
+                        q += ` OR ${a.join(' OR ')}`;
                     }
                 }
                 fqFilters.push(`(${q})`);

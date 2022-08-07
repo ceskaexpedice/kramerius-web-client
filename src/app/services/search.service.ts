@@ -361,7 +361,10 @@ export class SearchService {
         switch (facet) {
             case 'accessibility': {
                 this.accessibility = this.solr.facetAccessibilityList(response);
-                if (this.settings.auth && this.licenceService.anyUserLicence()) {
+                console.log('...cc', this.settings.auth);
+                console.log('...this.licenceService.anyUserLicence()', this.licenceService.anyUserLicence());
+
+                if (this.licenceService.anyUserLicence()) {
                     this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
                         let count = 0;
                         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
