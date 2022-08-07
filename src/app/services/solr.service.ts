@@ -68,6 +68,14 @@ export class SolrService {
             '1.0': 'dnnt-labels',
             '2.0': 'licenses'
         },
+        'licences_contains': {
+            '1.0': 'contains-dnnt-labels',
+            '2.0': 'contains_licenses'
+        },
+        'licences_ancestors': {
+            '1.0': '',
+            '2.0': 'licenses_of_ancestors'
+        },
         'locations_search': {
             '1.0': 'mods.physicalLocation',
             '2.0': 'physical_locations.facet'
@@ -337,9 +345,7 @@ export class SolrService {
         if (!this.settings.k5Compat()) {
             q += `,${this.field('collection_description')}`;
         }
-        if (this.licences.on()) {
-            q += `,${this.field('licences_search')}`;
-        }
+        q += this.buildLicenceFl();
         const pf = this.settings.newestAll ? '*:*' : `${this.field('accessibility')}:public`;
         q += `&q=${pf}&fq=${this.buildTopLevelFilter(true)}&sort=${this.field('created_at')} desc&rows=24&start=0`;
         return q;
@@ -364,9 +370,7 @@ export class SolrService {
 
     buildBookChildrenQuery(parent: string, own: boolean): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')}`;
-        if (this.licences.on()) {
-            q += `,${this.field('licences_search')}`;
-        }
+        q += this.buildLicenceFl();
         if (this.settings.k5Compat()) {
             q += `,details,${this.field('rels_ext_index')},${this.field('model_path')}`;
             q += `&q=${this.field('parent_pid')}:"${parent}"`;
@@ -383,6 +387,25 @@ export class SolrService {
         return `q=${this.field('root_pid')}:"${root}" AND ${this.field('model')}:page&rows=0`;
     }
 
+
+    private buildLicenceFl(): string {
+        if (!this.licences.on()) {
+            return '';
+        }
+        let l = `,${this.field('licences_search')}`;
+        if (!this.settings.k5Compat() || this.settings.containsLicences) {
+            l += `,${this.field('licences_contains')}`;
+        }
+        if (!this.settings.k5Compat()) {
+            l += `,${this.field('licences_ancestors')}`;
+        }
+        return l;
+    }
+
+    private parseLicences(doc: any): string[] {
+        return (doc[this.field('licences_search')] || []).concat(doc[this.field('licences_contains')] || []).concat(doc[this.field('licences_ancestors')] || []);
+    }
+
     private buildPeriodicalQuery(parent: string, type: string, models: string[], query: PeriodicalQuery, applyYear: boolean): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')},${this.field('date')},${this.field('authors')},${this.field('rels_ext_index')}`;
         if (this.settings.k5Compat()) {
@@ -390,9 +413,7 @@ export class SolrService {
         } else {
             q += `,${this.field('part_name')},${this.field('part_number')},${this.field('issue_type')}`;
         }
-        if (this.licences.on()) {
-            q += `,${this.field('licences_search')}`;
-        }
+        q += this.buildLicenceFl();
         q += `&q=!${this.field('id')}:${parent} AND ${this.field('parent_pid')}:${parent}`;
         if (models && models.length > 0) {
             const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
@@ -578,9 +599,7 @@ export class SolrService {
 
     buildPeriodicalFulltextSearchQuery(periodicalUuid: string, volumeUuid: string, offset: number, limit: number, query: PeriodicalQuery, models: string[]): string {
         let fl = `${this.field('id')},${this.field('model')},${this.field('model_path')},${this.field('parent_pid')},${this.field('pid_path')},${this.field('authors')},${this.field('accessibility')},${this.field('title')}`;
-        if (this.licences.on()) {
-            fl += `,${this.field('licences_search')}`;
-        }
+        fl += this.buildLicenceFl();
         let fq = `!${this.field('id')}:"${periodicalUuid}"`;
         if (volumeUuid) {
             fq += `${this.field('pid_path')}:${this.utils.escapeUuid(periodicalUuid)}/${this.utils.escapeUuid(volumeUuid)}/*`;
@@ -627,7 +646,7 @@ export class SolrService {
         item.authors = doc[this.field('authors')];
         item.donators = doc[this.field('donators')];
         item.pdf = doc[this.field('img_full_mime')] == "application/pdf";
-        item.licences = doc[this.field('licences_search')] || []
+        item.licences = this.parseLicences(doc);
         item.root_uuid = doc[this.field('root_pid')];
         if (item.doctype === 'periodicalvolume') {
             item.volumeNumber = doc[this.field('part_number')];
@@ -792,9 +811,7 @@ export class SolrService {
         } else if (this.settings.filters.indexOf('categories') >= 0) {
             q += `,${this.field('category')}`;
         }
-        if (this.licences.on()) {
-            q += `,${this.field('licences_search')}`;
-        }
+        q += this.buildLicenceFl();
         if (query.isBoundingBoxSet()) {
             if (this.settings.k5Compat()) {
                 q += `,${this.field('coords_location')}`;
@@ -902,6 +919,16 @@ export class SolrService {
     private addFacetToQuery(facet: string, field: string, apply: boolean): string {
         if (this.settings.filters.indexOf(field) > -1) {
             if ((!facet && apply) || field === facet) {
+                if (field == 'licences') {
+                    let l = '&facet.field=' + this.field('licences_facet');
+                    if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                        l += '&facet.field=' + this.field('licences_contains');
+                    }
+                    if (!this.settings.k5Compat()) {
+                        l += '&facet.field=' + this.field('licences_ancestors');
+                    }
+                    return l;
+                }
                 const f = field === 'doctypes' ? this.field('model_path') : this.getFilterField(field);
                 return '&facet.field=' + f;
             }
@@ -934,16 +961,24 @@ export class SolrService {
                     }
                     return `(${filter})`;
                 }
+            } else if (field === 'licences') {
+                let a = []
+                for (const l of values) {
+                    let f = `${this.field('licences_search')}:${l}`
+                    if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                        f += ` OR ${this.field('licences_contains')}:${l}`;
+                    }
+                    if (!this.settings.k5Compat()) {
+                        f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                    }
+                    a.push(f)
+                }
+                return `(${a.join(' OR ')})`;
             } else {
-                return `(${this.getSearchField(field)}:"${values.join(`" OR ${this.getSearchField(field)}:"`)}")`;
+                 return `(${this.getSearchField(field)}:"${values.join(`" OR ${this.getSearchField(field)}:"`)}")`;
             }
         }
     }
-
-
-
-
-
 
     getFilterField(field): string {
         if (field === 'keywords') {
@@ -1060,7 +1095,7 @@ export class SolrService {
             item.public = doc[this.field('accessibility')] === 'public';
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
-            item.licences = doc[this.field('licences_search')] || [];
+            item.licences = this.parseLicences(doc);
             item.geonames = doc[this.field('geonames_facet')];
             if (this.settings.k5Compat()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
@@ -1112,7 +1147,7 @@ export class SolrService {
                 if (this.settings.k5Compat() && !/^[A-Z]{3}[0-9]{3}$/.test(value) && this.settings.code != 'd') {
                     continue;
                 }
-            } else if (this.getFilterField('licences') === field) {
+            } else if ([this.field('licences_facet'), this.field('licences_contains'), this.field('licences_ancestors')].indexOf(field) >= 0) {
                 if (!this.licences.available(value)) {
                     continue;
                 }
@@ -1148,20 +1183,20 @@ export class SolrService {
                     map[f] += facetFields[i + 1];
                 }
             } else {
-                if (!joinedDocytypes) {
+                if (this.settings.k5Compat() && joinedDocytypes) {
+                    const ff = f.split('/');
+                    if (ff[0] == 'convolute') {
+                        if (ff[ff.length - 1] != 'page') {
+                            map['convolute'] -= facetFields[i + 1];
+                        }
+                    }
+                } else {
                     const ff = f.split('/');
                     if (map[ff[0]] !== undefined && (ff[0] != 'convolute' || ff[ff.length - 1] == 'page')) {
                         map[ff[0]] += facetFields[i + 1];
                     }
                     if (map[ff[0]] !== undefined && ff[0] == 'convolute' && map[ff[1]] !== undefined) {
                         map[ff[1]] += facetFields[i + 1];
-                    }
-                } else {
-                    const ff = f.split('/');
-                    if (ff[0] == 'convolute') {
-                        if (ff[ff.length - 1] != 'page') {
-                            map['convolute'] -= facetFields[i + 1];
-                        }
                     }
                 }
             }
@@ -1224,7 +1259,7 @@ export class SolrService {
             const item = new PeriodicalFtItem();
             item.uuid = doc[this.field('id')];
             item.public = doc[this.field('accessibility')] === 'public';
-            item.licences = doc[this.field('licences_search')] || []
+            item.licences = this.parseLicences(doc);
             if (doc[this.field('model')] === 'article') {
                 item.type = 'article';
                 item.authors = doc[this.field('authors')];
@@ -1333,7 +1368,7 @@ export class SolrService {
             item.doctype = doc[this.field('model')];
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
-            item.licences = doc[this.field('licences_search')] || []
+            item.licences = this.parseLicences(doc);
             item.resolveUrl(this.settings.getPathPrefix());
             items.push(item);
         }
@@ -1358,7 +1393,7 @@ export class SolrService {
             item.doctype = doc[this.field('model')];
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
-            item.licences = doc[this.field('licences_search')] || []
+            item.licences = this.parseLicences(doc);
             item.resolveUrl(this.settings.getPathPrefix());
             items.push(item);
         }
@@ -1414,7 +1449,7 @@ export class SolrService {
             const page = {
                 model: doc[this.field('model')],
                 pid: doc[this.field('id')],
-                licences: doc[this.field('licences_search')] || [],
+                licences: this.parseLicences(doc),
                 title: doc[this.field('title')],
                 policy: doc[this.field('accessibility')]
             }
@@ -1467,7 +1502,7 @@ export class SolrService {
         item.uuid = doc[this.field('id')];
         item.public = doc[this.field('accessibility')] === 'public';
         item.doctype = doc[this.field('model')];
-        item.licences = doc[this.field('licences_search')] || [];
+        item.licences = this.parseLicences(doc);
         item.title = doc[this.field('title')];
         if (this.settings.k5Compat()) {
             this.periodicalItemOld(doc, item);
@@ -1573,7 +1608,7 @@ export class SolrService {
             }
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
-            item.licences = doc[this.field('licences_search')] || []
+            item.licences = this.parseLicences(doc);
             item.description = doc[this.field('collection_description')];
             item.geonames = doc[this.field('geonames_facet')];
             if (this.settings.k5Compat()) {

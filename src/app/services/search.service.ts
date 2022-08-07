@@ -380,7 +380,42 @@ export class SearchService {
             }
             case 'categories':
             case 'licences': {
-                this[facet] = this.solr.facetList(response, this.solr.getFilterField(facet), this.query[facet], false);
+                const c1 = this.solr.facetList(response, this.solr.field('licences_facet'), this.query[facet], false);
+                // licences_contains
+                if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                    const c2 = this.solr.facetList(response, this.solr.field('licences_contains'), this.query[facet], false);
+                    for (const ll of c2) {
+                        let found = false;
+                        for (const l of c1) {
+                            if (l.value == ll.value) {
+                                l.count += ll.count;
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            c1.push(ll);
+                        }
+                    }
+                }
+                // licences_ancestors
+                if (!this.settings.k5Compat()) {
+                    const c3 = this.solr.facetList(response, this.solr.field('licences_ancestors'), this.query[facet], false);
+                    for (const ll of c3) {
+                        let found = false;
+                        for (const l of c1) {
+                            if (l.value == ll.value) {
+                                l.count += ll.count;
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            c1.push(ll);
+                        }
+                    }
+                }
+                this[facet] = c1;
                 break;
             }
             case 'authors':

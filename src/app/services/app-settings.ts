@@ -30,6 +30,7 @@ export class AppSettings {
   public mapSearch: boolean;
   public hiddenLocks: boolean;
   public licences: any;
+  public containsLicences: boolean;
   public ga = APP_GLOBAL.ga;
   public gaCookieless = APP_GLOBAL.gaCookieless;
   public matomo = APP_GLOBAL.matomo;
@@ -131,6 +132,7 @@ export class AppSettings {
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = !!kramerius.mapSearch;
     this.licences = kramerius.licences;
+    this.containsLicences = !!kramerius.containsLicences;
     this.hiddenLocks = !!kramerius.hiddenLocks;
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
@@ -266,4 +268,5 @@ interface KrameriusData {
   keycloak: boolean;
   auth: any;
   adminClientUrl: string;
+  containsLicences: boolean;
 }
