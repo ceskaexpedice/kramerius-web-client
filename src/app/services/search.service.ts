@@ -294,7 +294,6 @@ export class SearchService {
             this.loading = false;
         });
         if (this.query.collection) {
-            console.log('this.query.collection', this.query.collection);
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
                 this.collection = metadata;
             });
@@ -369,9 +368,6 @@ export class SearchService {
         switch (facet) {
             case 'accessibility': {
                 this.accessibility = this.solr.facetAccessibilityList(response);
-                console.log('...cc', this.settings.auth);
-                console.log('...this.licenceService.anyUserLicence()', this.licenceService.anyUserLicence());
-
                 if (this.licenceService.anyUserLicence()) {
                     this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
                         let count = 0;
