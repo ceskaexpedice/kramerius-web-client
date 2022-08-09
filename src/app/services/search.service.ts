@@ -71,6 +71,14 @@ export class SearchService {
         this.categories = [];
         this.collections =[];
         this.accessibility = [];
+        this.authors = [];
+        this.languages = [];
+        this.licences = [];
+        this.locations = [];
+        this.geonames = [];
+        this.publishers = [];
+        this.places = [];
+        this.genres = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
         this.query = SearchQuery.fromParams(params, context, this.settings);
