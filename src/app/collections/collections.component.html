@@ -1,9 +1,5 @@
 <div class="app-collections-wrapper" *ngIf="collectionService.collections">
-
-  <div *ngFor="let collection of collectionService.collections">
-    <app-collection [collection]="collection"></app-collection>
-  </div>
-
+  <app-collection *ngFor="let collection of collectionService.collections" [collection]="collection"></app-collection>
 </div>
 
 <mat-spinner *ngIf="loading"

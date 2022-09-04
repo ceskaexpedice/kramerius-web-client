@@ -4,10 +4,12 @@
   overflow: auto;
   display: block;
   height: 100%;
+
   background-color: $app-grey-l-4;
   padding: 1rem 0.5rem 0.5rem;
-  @media (min-width: 1200px) {
-    display: grid;
-    grid-template-columns: repeat(2, 50%);
+  app-collection {
+    display: block;
+    max-width: 1000px;
+    margin: 0 auto;
   }
 }
