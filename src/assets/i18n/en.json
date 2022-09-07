@@ -208,8 +208,8 @@
       "keyword": "Keyword",
       "issn": "ISSN",
       "isbn": "ISBN",
-      "ddt": "DDT",
-      "mdt": "MDT",
+      "ddt": "DDC",
+      "mdt": "UDC",
       "geoname": "Geographic name",
       "search": "Search"
     },
