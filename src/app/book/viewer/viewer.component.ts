@@ -325,28 +325,36 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   updateJpegImage(uuid1: string, uuid2: string) {
     this.onImageLoading();
-    const rq = [];
-    rq.push(this.http.get(this.api.getFullJpegUrl(uuid1), { observe: 'response', responseType: 'blob' }));
-    if (uuid2) {
-      rq.push(this.http.get(this.api.getFullJpegUrl(uuid1), { observe: 'response', responseType: 'blob' }));
-    }
-    forkJoin(rq).subscribe(
-      (results) => {
-        this.loadJpegImage(uuid1, uuid2, true, false)
-      },
-      (error) => {
-        this.onImageFailure();
-        if (error && error.status === 403) {
-          this.bookService.onInaccessibleImage();
-        }
-      }
-    );
+    this.loadJpegImage(uuid1, uuid2, true, false)
   }
   
   loadJpegImage(uuid1: string, uuid2: string, left: boolean, thumb: boolean) {
     const uuid = left ? uuid1 : uuid2;
     const url = this.api.getFullJpegUrl(uuid);
     const image = new Image();
+    const token = this.settings.getToken();
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.responseType = "arraybuffer";
+    if (token) {
+      xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+    }
+    const context = this;
+    xhr.onload = function () {
+      if (xhr.status == 403) {
+        context.onImageFailure();
+        context.bookService.onInaccessibleImage();
+      } else if (xhr.status != 200) {
+        context.onImageFailure();
+      } else {
+        var arrayBufferView = new Uint8Array(this.response);
+        var blob = new Blob([arrayBufferView], { type: 'image/png' });
+        var urlCreator = window.URL || window['webkitURL'];
+        var imageUrl = urlCreator.createObjectURL(blob);
+        image.src = imageUrl;
+      }
+    };
+    xhr.send();
     image.onload = (() => {
         if (left && uuid2) {
           this.imageWidth = image.width;
@@ -374,7 +382,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
         image.onerror = null;
         this.logger.info('on error', error);
     });
-    image.src = url;
   }
 
 
@@ -637,15 +644,28 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else if (type === 2) {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
+    const token = this.settings.getToken();
     const source = new ol.source.ImageStatic({
       url: url,
       imageSize: [width, height],
-      imageExtent: extent
+      imageExtent: extent,
+      imageLoadFunction : function(image, src) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", src);
+        xhr.responseType = "arraybuffer";
+        if (token) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        }
+        xhr.onload = function () {
+            var arrayBufferView = new Uint8Array(this.response);
+            var blob = new Blob([arrayBufferView], { type: 'image/png' });
+            var urlCreator = window.URL || window['webkitURL'];
+            var imageUrl = urlCreator.createObjectURL(blob);
+            image.getImage().src = imageUrl;
+        };
+        xhr.send();
+      }
     });
-    const token = this.settings.getToken();
-    if (token) {
-      source.imageLoadFunction = (this.buildCustomLoader(token));
-    }
     const iLayer = new ol.layer.Image({
       source: source
     });
