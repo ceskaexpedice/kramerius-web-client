@@ -10,6 +10,7 @@ export class LocalStorageService {
     public static FEATURED_TAB = 'featured_tab';
     private static ACCESSIBILITY_FILTER = 'accessibility_filter';
     public static DOUBLE_PAGE = 'double_page';
+    public static ZOOM_LOCK = 'zoom_lock';
     public static PERIODICAL_VOLUMES_LAYOUT = 'periodical_volumes_layout';
     public static PERIODICAL_ISSUES_LAYOUT = 'periodical_issues_layout';
     public static PERIODICAL_VOLUMES_REVERSE_ORDER = 'periodical_volumes_reverse_order';

@@ -88,6 +88,10 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.doublePageOn);
     }
 
+    toggleLock() {
+        this.listners.next(ViewerActions.toggleLock);
+    }
+
     enterFullscreen() {
         const el = document.getElementById('app-viewer');
         // go full-screen
@@ -173,5 +177,6 @@ export enum ViewerActions {
     cropImage = 7,
     updateSite = 8,
     doublePageOn = 9,
-    doublePageOff = 10
+    doublePageOff = 10,
+    toggleLock = 11
 }

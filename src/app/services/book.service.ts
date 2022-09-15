@@ -44,6 +44,8 @@ export class BookService {
     private ftPages: Page[] = [];
     public doublePage = false;
     public doublePageEnabled = false;
+    public zoomLockEnabled = false;
+
 
     public pageState: BookPageState;
     public bookState: BookState;
@@ -1311,9 +1313,9 @@ export class BookService {
         return data;
     }
 
-
     clear() {
         this.pdf.clear();
+        this.zoomLockEnabled = false;
         this.bookState = BookState.None;
         this.pageState = BookPageState.None;
         this.doublePage = false;
@@ -1332,7 +1334,6 @@ export class BookService {
         this.licences = [];
         this.iiifEnabled = false;
     }
-
 
     private computeDoublePageBounds(pageCount: number, titlePage: number, lastSingle: number, firstBackSingle: number) {
         const count = pageCount;

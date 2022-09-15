@@ -25,6 +25,7 @@ declare var ol: any;
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   
+  private resolution = 1;
   private view;
   private imageLayer;
   private zoomifyLayer;
@@ -48,11 +49,33 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public lastMouseMove = 0;
 
   private selectionInteraction;
+  private mouseWheelZoomInteraction;
+  private doubleClickZoomInteraction;
+
   private selectionType: SelectionType;
 
   private data: ViewerData;
 
   public imageLoading = false;
+
+  constructor(public bookService: BookService,
+              public authService: AuthService,
+              public settings: AppSettings,
+              public licences: LicenceService,
+              private http: HttpClient,
+              private localStorage: LocalStorageService,
+              private iiif: IiifService,
+              private logger: LoggerService,
+              private zoomify: ZoomifyService,
+              private alto: AltoService,
+              private api: KrameriusApiService,
+              public krameriusInfo: KrameriusInfoService,
+              public controlsService: ViewerControlsService) {
+    this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
+        this.onActionPerformed(action);
+    });
+  }
+
 
   ngOnInit() {
     this.init();
@@ -71,24 +94,23 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
   }
 
-  constructor(public bookService: BookService,
-              public authService: AuthService,
-              public settings: AppSettings,
-              public licences: LicenceService,
-              private http: HttpClient,
-              private iiif: IiifService,
-              private locals: LocalStorageService,
-              private logger: LoggerService,
-              private zoomify: ZoomifyService,
-              private alto: AltoService,
-              private api: KrameriusApiService,
-              public krameriusInfo: KrameriusInfoService,
-              public controlsService: ViewerControlsService) {
-    this.viewerActionsSubscription = this.controlsService.viewerActions().subscribe((action: ViewerActions) => {
-        this.onActionPerformed(action);
-    });
-  }
 
+  mousewheelPan(e) {
+    if (!this.bookService.zoomLockEnabled) {
+      return
+    }
+    var event = e.originalEvent;
+    var delta = event.deltaY;
+    if(!delta) {
+      delta = event.detail;
+    }
+    event.preventDefault();
+    const view = this.view.getView();
+    const panFactor = 12 * view.getResolution() * (delta > 0 ? -1 : 1);
+    const center = view.getCenter();
+    const coordinates = [center[0], center[1] + panFactor];
+    view.setCenter(coordinates);
+  }
 
   init() {
     const mainStyle = new ol.style.Style({
@@ -105,7 +127,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
       source: new ol.source.Vector(),
       style: mainStyle
     });
-    const interactions = ol.interaction.defaults({ keyboardPan: false, pinchRotate: false });
+    const interactions = ol.interaction.defaults({ 
+      keyboardPan: false,
+      pinchRotate: false,
+      mouseWheelZoom: false,
+      doubleClickZoom: false,
+    });
     this.view = new ol.Map({
       target: 'app-viewer',
       controls: [],
@@ -113,12 +140,20 @@ export class ViewerComponent implements OnInit, OnDestroy {
       loadTilesWhileAnimating: true,
       layers: [this.vectorLayer]
     });
+    this.view.on('wheel', (e) => {
+      this.mousewheelPan(e);
+    });
     setTimeout(() => {
       this.updateSize();
+      if (!this.bookService.zoomLockEnabled) {
+        this.view.addInteraction(this.mouseWheelZoomInteraction);
+        this.view.addInteraction(this.doubleClickZoomInteraction);
+      }
     }, 100);
 
     this.selectionInteraction = new ol.interaction.DragBox({});
-
+    this.mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom({});
+    this.doubleClickZoomInteraction = new ol.interaction.DoubleClickZoom({});
     this.selectionInteraction.on('boxend', () => {
       this.view.removeInteraction(this.selectionInteraction);
       this.view.getViewport().style.cursor = '';
@@ -140,6 +175,25 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
   }
 
+  private toggleLock() {
+    this.bookService.zoomLockEnabled = !this.bookService.zoomLockEnabled;
+    if (this.bookService.zoomLockEnabled) {
+      this.lock();
+    } else {
+      this.unlock();
+    }
+  }
+
+  private unlock() {
+    this.view.addInteraction(this.mouseWheelZoomInteraction);
+    this.view.addInteraction(this.doubleClickZoomInteraction);
+  }
+
+  private lock() {
+    this.view.removeInteraction(this.mouseWheelZoomInteraction);
+    this.view.removeInteraction(this.doubleClickZoomInteraction);
+    this.resolution = this.view.getView().getResolution();
+  }
 
   onSelectionStart(type: SelectionType) {
     this.selectionType = type;
@@ -181,6 +235,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
         break;
       case ViewerActions.fitToScreen:
         this.fitToScreen();
+        break;
+      case ViewerActions.toggleLock:
+        this.toggleLock();
         break;
       case ViewerActions.selectText:
         this.onSelectionStart(SelectionType.textSelection);
@@ -472,7 +529,22 @@ export class ViewerComponent implements OnInit, OnDestroy {
   onImageSuccess() {
     this.bookService.onImageSuccess();
     this.imageLoading = false;
-    this.view.getView().fit(this.extent);
+    if (this.bookService.zoomLockEnabled && this.resolution) {
+      this.view.getView().fit(this.extent);
+      const resolution =  this.view.getView().getResolution();
+      this.view.getView().setResolution(1);
+      const size = this.view.getSize();
+      let c = size[0]/2;
+      let s = 0;
+      if (this.extent[0] != 0) {
+        s = -(this.extent[2] - this.extent[0])/2.0;
+        c = s + size[0] / 2;
+      }
+      this.view.getView().setCenter([c,-size[1]/2]);
+      this.view.getView().adjustResolution(this.resolution, [s, 0]);
+    } else {
+      this.view.getView().fit(this.extent);
+    }
     this.updateBoxes();
     this.addWaterMark();
   }
@@ -508,7 +580,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const view = new ol.View(viewOpts);
     this.view.setView(view);
   }
-
 
   updateImage(data: ViewerData) {
     if (!data) {

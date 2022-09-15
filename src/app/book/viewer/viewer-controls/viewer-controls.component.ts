@@ -30,6 +30,14 @@ export class ViewerControlsComponent implements OnInit {
     }
   }
 
+  showLock(): boolean {
+    return this.bookService.isImage() && !this.bookService.zoomLockEnabled;
+  }
+
+  showUnlock(): boolean {
+    return this.bookService.isImage() && this.bookService.zoomLockEnabled;
+  }
+
   showDoublePageOff(): boolean {
     return this.bookService.doublePageSupported() && this.bookService.doublePageEnabled;
   }

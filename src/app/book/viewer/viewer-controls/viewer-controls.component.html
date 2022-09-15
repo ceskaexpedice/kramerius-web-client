@@ -5,50 +5,62 @@
 
   <mat-icon (click)="controlsService.zoomIn();analytics.sendEvent('viewer', 'controls', 'zoom in');"
             [matTooltip]="'view_controls.tooltip_zoom_in' | translate" 
-            *ngIf="showZoom()">
+            *ngIf="showZoom() && !showUnlock()">
             add_circle_outline
   </mat-icon>
 
   <mat-icon (click)="controlsService.zoomOut();analytics.sendEvent('viewer', 'controls', 'zoom out');"
             [matTooltip]="'view_controls.tooltip_zoom_out' | translate" 
-            *ngIf="showZoom()">
+            *ngIf="showZoom() && !showUnlock()">
             remove_circle_outline
   </mat-icon>
 
   <mat-icon (click)="controlsService.fitToScreen();analytics.sendEvent('viewer', 'controls', 'fit to screen')"
             [matTooltip]="'view_controls.tooltip_fit_to_screen' | translate"
-            *ngIf="showFitToScreen()">
+            *ngIf="showFitToScreen() && !showUnlock()">
             fit_screen
   </mat-icon>
 
   <mat-icon (click)="controlsService.enterFullscreen();analytics.sendEvent('viewer', 'controls', 'enter fullscreen')"
             [matTooltip]="'view_controls.tooltip_enter_fullscreen' | translate" 
-            *ngIf="controlsService.fullscreenAvailable && !controlsService.fullscreenEnabled()">
+            *ngIf="controlsService.fullscreenAvailable && !controlsService.fullscreenEnabled() && !showUnlock()">
             fullscreen
   </mat-icon>
 
   <mat-icon (click)="controlsService.exitFullscreen();analytics.sendEvent('viewer', 'controls', 'exit fullscreen');"
             [matTooltip]="'view_controls.tooltip_exit_fullscreen' | translate" 
-            *ngIf="controlsService.fullscreenAvailable && controlsService.fullscreenEnabled()">
+            *ngIf="controlsService.fullscreenAvailable && controlsService.fullscreenEnabled() && !showUnlock()">
             fullscreen_exit
   </mat-icon>
 
   <mat-icon (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate')"
             [matTooltip]="'view_controls.tooltip_rotate_right' | translate" 
-            *ngIf="showRotation()">
+            *ngIf="showRotation() && !showUnlock()">
             rotate_right
   </mat-icon>
 
   <mat-icon (click)="bookService.toggleDoublePage();controlsService.doublePageOff();analytics.sendEvent('viewer', 'controls', 'double page off')"
             [matTooltip]="'view_controls.tooltip_doublepage_off' | translate" 
-            *ngIf="showDoublePageOff()">
+            *ngIf="showDoublePageOff() && !showUnlock()">
             auto_stories
   </mat-icon>
 
   <mat-icon (click)="bookService.toggleDoublePage();controlsService.doublePageOn();analytics.sendEvent('viewer', 'controls', 'double page on')"
             [matTooltip]="'view_controls.tooltip_doublepage_on' | translate" 
-            *ngIf="showDoublePageOn()">
+            *ngIf="showDoublePageOn() && !showUnlock()">
             auto_stories
+  </mat-icon>
+
+  <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'lock')"
+          [matTooltip]="'view_controls.tooltip_doublepage_off' | translate" 
+          *ngIf="showLock()">
+          lock_open
+  </mat-icon>
+
+  <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'unlock')"
+          [matTooltip]="'view_controls.tooltip_doublepage_on' | translate" 
+          *ngIf="showUnlock()">
+          lock
   </mat-icon>
 
   <mat-icon (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text')"
