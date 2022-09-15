@@ -380,7 +380,9 @@
     "tooltip_hide_right": "Schovat podrobnosti",
     "tooltip_show_right": "Zobrazit podrobnosti",
     "tooltip_select_text": "Vybrat text",
-    "tooltip_crop_image": "Výřez obrázků"
+    "tooltip_crop_image": "Výřez obrázků",
+    "tooltip_zoom_lock_on": "Uzamknout úroveň přiblížení",
+    "tooltip_zoom_lock_off": "Odemknout úroveň přiblížení"
   },
   "book_controls": {
     "tooltip_print": "Příprava k tisku",

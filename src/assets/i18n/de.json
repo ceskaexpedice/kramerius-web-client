@@ -381,7 +381,9 @@
       "tooltip_hide_right": "Details ausblenden",
       "tooltip_show_right": "Details anzeigen",
       "tooltip_select_text": "Text ausschneiden",
-      "tooltip_crop_image": "Bilder ausschneiden"
+      "tooltip_crop_image": "Bilder ausschneiden",
+      "tooltip_zoom_lock_on": "Lock zoom level",
+      "tooltip_zoom_lock_off": "Unlock zoom level"
     },
     "book_controls": {
       "tooltip_print": "Drucken",

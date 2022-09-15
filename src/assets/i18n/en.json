@@ -380,7 +380,9 @@
     "tooltip_hide_right": "Hide details",
     "tooltip_show_right": "Show details",
     "tooltip_select_text": "Select text",
-    "tooltip_crop_image": "Crop image"
+    "tooltip_crop_image": "Crop image",
+    "tooltip_zoom_lock_on": "Lock zoom level",
+    "tooltip_zoom_lock_off": "Unlock zoom level"
   },
   "book_controls": {
     "tooltip_print": "Prepare to print",
