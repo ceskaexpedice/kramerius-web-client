@@ -304,6 +304,12 @@ export class KrameriusApiService {
             .pipe(map(response => User.fromJson(response)));
     }
 
+    getRights(pid: String): Observable<string[]> {
+        const url = `${this.getApiUrl()}/user/actions?pid=${pid}`;
+        return this.http.get(url)
+            .pipe(map(response => response["actions"]));
+    }
+
     auth(username: string, password: string): Observable<string> {
         const url = this.getK7AuthUrl();
         const body = `username=${username}&password=${password}`;

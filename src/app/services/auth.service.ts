@@ -39,8 +39,26 @@ export class AuthService {
             // console.log('Licences', this.user.licences);
             this.licences.assignUserLicences(this.user.licences);
             this.cache.clear();
-            if (callback) {
-                callback('ok');
+
+            if (this.settings.keycloak) {
+                this.api.getRights('uuid:1').subscribe(
+                    (actions) => {
+                        this.user.actions = actions || [];
+                        console.log('user', this.user);
+                        if (callback) {
+                            callback('ok');
+                        }
+                    },
+                    (error) => {
+                        if (callback) {
+                            callback('ok');
+                        }
+                    }
+                );
+            } else {
+                if (callback) {
+                    callback('ok');
+                }
             }
         }, (error) => {
             this.licences.assignUserLicences([]);
@@ -68,7 +86,7 @@ export class AuthService {
                     return;
                 }
                 this.settings.setToken(token);
-                this.userInfo(null, null, callback);
+                this.userInfo(null, null, callback)
             },
             (error) => {
                 console.log('error', error);
@@ -126,9 +144,9 @@ export class AuthService {
     }
 
     isAdmin(): boolean {
-        if (!this.settings.keycloak || !this.isLoggedIn() || !this.user.roles) {
+        if (!this.settings.keycloak || !this.isLoggedIn()) {
             return false;
         }
-        return this.user.roles.indexOf('k4_admins') >= 0 || this.user.roles.indexOf('kramerius_admin') >= 0;
+        return this.user.actions.indexOf('a_read') >= 0;
     }
 }

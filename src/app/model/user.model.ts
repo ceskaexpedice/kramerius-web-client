@@ -9,7 +9,7 @@ export class User {
   licences: string[];
   roles: string[];
   eppn: string;
-
+  actions: string[] = [];
 
   static fromJson(json): User {
     if (json) {
