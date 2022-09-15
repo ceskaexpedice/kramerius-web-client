@@ -2,7 +2,8 @@ import { Pipe, PipeTransform} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
-  name: 'appPlural'
+  name: 'appPlural',
+  pure: false
 })
 export class PluralPipe implements PipeTransform {
 
