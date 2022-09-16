@@ -147,6 +147,6 @@ export class AuthService {
         if (!this.settings.keycloak || !this.isLoggedIn()) {
             return false;
         }
-        return this.user.actions.indexOf('a_read') >= 0;
+        return this.user.actions.indexOf('a_admin_read') >= 0;
     }
 }
