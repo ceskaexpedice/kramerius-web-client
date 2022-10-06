@@ -70,7 +70,6 @@
     </mat-expansion-panel>
 
 
-
     <mat-expansion-panel *ngIf="searchService.categories.length && filters.indexOf('categories') > -1" class="app-filter-panel" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -88,6 +87,28 @@
       </div>
     </mat-expansion-panel>
 
+    <mat-expansion-panel *ngIf="searchService.sources.length && filters.indexOf('sources') > -1" class="app-filter-panel" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'search.sources' | translate }}   
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+        <div class="app-filter-items">
+          <ng-container *ngFor="let item of searchService.sources; let i = index">
+          <div *ngIf="i < 6 || sourcesExpanded"
+                (click)="searchService.toggleFilter(searchService.query.sources, item.value);analytics.sendEvent('search', 'source', item.value)"
+                class="app-filter-item">
+                <span>{{item.count}}</span>
+                {{'source.' + item.value | translate | appRemovePrefix:'source.' }}
+          </div>
+        </ng-container>
+        <div *ngIf="searchService.sources.length > 6"
+            (click)="sourcesExpanded = !sourcesExpanded"
+             class="app-filter-item app-expand">
+            {{ 'filters.btn_show_' + (sourcesExpanded ? 'less' : 'more') | translate }}  
+        </div>
+      </div>
+    </mat-expansion-panel>
 
 
     <mat-expansion-panel class="app-filter-panel" [expanded]="true">

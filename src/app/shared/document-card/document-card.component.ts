@@ -45,6 +45,10 @@ export class DocumentCardComponent implements OnInit {
     return this.settings.getLogoByCode(this.item.library);
   }
 
+  sourceLogo(source: string): string {
+    return `https://registr.digitalniknihovna.cz/libraries/${source}/logo`;
+  }
+
   private init() {
     let url = '';
     if (this.item.library) {

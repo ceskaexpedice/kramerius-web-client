@@ -25,6 +25,7 @@ export class DocumentItem {
     west: number;
     east: number;
     licences: string[] = [];
+    sources: string[] = [];
     originUrl: string;
     index: number;
 

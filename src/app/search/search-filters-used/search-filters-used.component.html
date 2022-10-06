@@ -35,6 +35,12 @@
     {{ licences.label(licence) }}
   </div>
 
+  <div *ngFor="let source of searchService.query.sources" (click)="searchService.removeFilter(searchService.query.sources, source)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>home</mat-icon>
+    <mat-icon class="app-close">close</mat-icon>
+    {{ 'source.' + source | translate | appRemovePrefix:'source.' }}
+  </div>
+
   <div *ngFor="let keyword of searchService.query.keywords" (click)="searchService.removeFilter(searchService.query.keywords, keyword)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>star</mat-icon>
     <mat-icon class="app-close">close</mat-icon>

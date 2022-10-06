@@ -43,7 +43,6 @@ export class BrowseService {
         this.search();
     }
 
-
     private getDefaultCategory(): string {
         for (const cat of this.settings.filters) {
             if (cat !== 'accessibility') {
@@ -153,6 +152,25 @@ export class BrowseService {
                     } else {
                         filteredResults.push(item);
                     }
+                }
+            }
+            this.results = filteredResults;
+            this.numberOfResults = this.results.length;
+            this.sortResult();
+            this.loading = false;
+        } else if (this.getCategory() === 'sources') {
+            const filteredResults = [];
+            for (const item of this.backupResults) {
+                item['name'] = this.translate.instant('source.' + item['value']);
+                if (item['name'].startsWith('source.')) {
+                    item['name'] = item['name'].substring(7).toUpperCase();
+                }
+                if (this.getText()) {
+                    if (item['name'].toLowerCase().indexOf(this.getText().toLowerCase()) >= 0) {
+                        filteredResults.push(item);
+                    }
+                } else {
+                    filteredResults.push(item);
                 }
             }
             this.results = filteredResults;

@@ -30,6 +30,11 @@
         <strong>{{item.hits}}</strong> 
         <span>{{ 'common.n_occurrences' | appPlural : item.hits }}</span>
       </div>
+
+      <div class="app-card-sources" *ngIf="item.sources">
+        <img *ngFor="let source of item.sources" class="app-card-source" src="{{ sourceLogo(source) }}" >
+      </div>
+
       <img *ngIf="item.library" class="app-card-logo" src="{{ libraryLogo() }}" >
       <div class="app-card-doctypes">
         <div *ngIf="item.doctype" class="app-card-doctype app-doctype-{{item.doctype}}">

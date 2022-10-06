@@ -60,6 +60,10 @@ export class SolrService {
             '1.0': 'language',
             '2.0': 'languages.facet'
         },
+        'cdk_sources': {
+            '1.0': '',
+            '2.0': 'cdk.collection'
+        },
         'licences_search': {
             '1.0': 'dnnt-labels',
             '2.0': 'licenses'
@@ -320,6 +324,10 @@ export class SolrService {
     }
 
     field(name: string): string {
+        // TODO Remove!
+        if (this.settings.code == 'cdk' && this.settings.version >= 7 && (name == "titles" || name == "titles_search")) {
+            return "title.search";
+        }
         return SolrService.fields[name][this.settings.version == 5 ? '1.0' : '2.0'];
     }
 
@@ -539,7 +547,10 @@ export class SolrService {
         const items = [];
         const facetFields = solr['facet_counts']['facet_fields'][field];
         const translatedFileds = [
-            this.getFilterField('languages'), this.getFilterField('model'), this.getFilterField('ancestor_collections')
+            this.getFilterField('languages'), 
+            this.getFilterField('sources'),
+            this.getFilterField('model'), 
+            this.getFilterField('ancestor_collections')
         ];
         for (let i = 0; i < facetFields.length; i += 2) {
             const value = facetFields[i];
@@ -806,6 +817,9 @@ export class SolrService {
         } else {
             q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')}`;
         }
+        if (this.settings.filters.indexOf('sources') > -1) {
+            q+= `,${this.field('cdk_sources')}`
+        }
         if (!this.settings.k5Compat()) {
             q += `,${this.field('collection_description')}`;
         } else if (this.settings.filters.indexOf('categories') >= 0) {
@@ -823,6 +837,7 @@ export class SolrService {
         q += '&facet=true&facet.mincount=1'
            + this.addFacetToQuery(facet, 'keywords', query.keywords.length === 0)
            + this.addFacetToQuery(facet, 'languages', query.languages.length === 0)
+           + this.addFacetToQuery(facet, 'sources', query.sources.length === 0)
            + this.addFacetToQuery(facet, 'licences', query.licences.length === 0)
            + this.addFacetToQuery(facet, 'locations', query.locations.length === 0)
            + this.addFacetToQuery(facet, 'geonames', query.geonames.length === 0)
@@ -921,6 +936,7 @@ export class SolrService {
         fqFilters.push(this.buildFacetFilter(withQueryString, 'categories', query.categories, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'authors', query.authors, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'languages', query.languages, facet));
+        fqFilters.push(this.buildFacetFilter(withQueryString, 'sources', query.sources, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'licences', query.licences, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'locations', query.locations, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'geonames', query.geonames, facet));
@@ -1017,6 +1033,8 @@ export class SolrService {
             return 'document_type';
         } else if (field === 'languages') {
             return this.field('languages_facet');
+        } else if (field === 'sources') {
+            return this.field('cdk_sources');
         } else if (field === 'licences') {
             return this.field('licences_facet');
         } else if (field === 'locations') {
@@ -1051,6 +1069,8 @@ export class SolrService {
             return 'document_type';
         } else if (field === 'languages') {
             return this.field('languages_search');
+        } else if (field === 'sources') {
+            return this.field('cdk_sources');
         } else if (field === 'licences') {
             return this.field('licences_search');
         } else if (field === 'locations') {
@@ -1117,6 +1137,7 @@ export class SolrService {
             item.public = doc[this.field('accessibility')] === 'public';
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
+            item.sources = doc[this.field('cdk_sources')];
             item.licences = this.parseLicences(doc);
             item.geonames = doc[this.field('geonames_facet')];
             if (this.settings.k5Compat()) {
@@ -1630,6 +1651,7 @@ export class SolrService {
             }
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
+            item.sources = doc[this.field('cdk_sources')];
             item.licences = this.parseLicences(doc);
             item.description = doc[this.field('collection_description')];
             item.geonames = doc[this.field('geonames_facet')];

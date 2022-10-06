@@ -165,6 +165,7 @@
     "categories": "Druh dokumentu",
     "collections": "Sbírka",
     "languages": "Jazyk",
+    "sources": "Zdroj",
     "licences": "Licence",
     "locations": "Místo uložení",
     "geonames": "Geografický název",
@@ -228,6 +229,7 @@
       "collections": "Sbírky",
       "keywords": "Klíčová slova",
       "languages": "Jazyky",
+      "sources": "Zdroje",
       "licences": "Licence",
       "genres": "Žánry",
       "locations": "Místa uložení",
@@ -242,6 +244,7 @@
       "collections": "Vyhledat sbírku",
       "keywords": "Vyhledat klíčové slovo", 
       "languages": "Vyhledat jazyk",
+      "sources": "Vyhledat zdroj",
       "licences": "Vyhledat licenci",
       "genres": "Vyhledat žánr",
       "locations": "Vyhledat místo uložení",
@@ -292,6 +295,7 @@
     "publisher": "Nakladatelské údaje",
     "keywords": "Klíčová slova",
     "languages": "Jazyk",
+    "sources": "Zdroj",
     "geonames": "Geografické názvy",
     "location": "Místo uložení",
     "abstract": "Abstrakt",
@@ -678,6 +682,11 @@
     "category:magazine": "Časopisy",
     "category:addressbook": "Adresáře",
     "category:calendar": "Kalendáře"
+  },
+  "source": {
+    "mzk": "MZK",
+    "svkhk": "SVKHK",
+    "knav": "KNAV"
   },
   "sigla": {
     "BOA001" : "Moravská zemská knihovna v Brně",

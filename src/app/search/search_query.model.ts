@@ -13,6 +13,7 @@ export class SearchQuery {
     keywords: string[] = [];
     authors: string[] = [];
     languages: string[] = [];
+    sources: string[] = [];
     licences: string[] = [];
     locations: string[] = [];
     geonames: string[] = [];
@@ -54,6 +55,7 @@ export class SearchQuery {
         query.setFiled(query.categories, 'categories', params);
         query.setFiled(query.authors, 'authors', params);
         query.setFiled(query.languages, 'languages', params);
+        query.setFiled(query.sources, 'sources', params);
         query.setFiled(query.licences, 'licences', params);
         query.setFiled(query.locations, 'locations', params);
         query.setFiled(query.geonames, 'geonames', params);
@@ -252,6 +254,9 @@ export class SearchQuery {
         if (this.languages.length > 0) {
             params['languages'] = this.urlArray(this.languages);
         }
+        if (this.sources.length > 0) {
+            params['sources'] = this.urlArray(this.sources);
+        }
         if (this.licences.length > 0) {
             params['licences'] = this.urlArray(this.licences);
         }
@@ -328,6 +333,7 @@ export class SearchQuery {
         this.authors = [];
         this.collections = [];
         this.languages = [];
+        this.sources = [];
         this.licences = [];
         this.locations = [];
         this.geonames = [];
@@ -368,6 +374,9 @@ export class SearchQuery {
             return true;
         }
         if (this.languages && this.languages.length > 0) {
+            return true;
+        }
+        if (this.sources && this.sources.length > 0) {
             return true;
         }
         if (this.licences && this.licences.length > 0) {
