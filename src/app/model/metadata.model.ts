@@ -60,7 +60,7 @@ export class Metadata {
     public originUrl: string;
 
     public licence: string;
-
+    
     constructor() {
     }
 

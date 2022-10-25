@@ -24,6 +24,39 @@
     </div>
   </mat-expansion-panel>
 
+
+  <mat-accordion *ngIf="periodicalService.document && filters.indexOf('sources') > -1" [displayMode]="'flat'" [multi]="true" class="app-filters-wrapper">
+    <mat-expansion-panel class="app-filter-panel" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'search.sources' | translate }}   
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="app-filter-items">
+
+        <div  [class.app-selected]="!periodicalService.query.source"
+              (click)="periodicalService.setSource();analytics.sendEvent('periodical', 'source', 'all')"
+              class="app-filter-item">
+              {{'search.accessibility.all' | translate }}
+        </div>
+
+        <ng-container *ngFor="let source of periodicalService.document.sources; let i = index">
+          <div *ngIf="i < 5 || sourcesExpanded"
+                [class.app-selected]="source == periodicalService.query.source"
+                (click)="periodicalService.setSource(source);analytics.sendEvent('periodical', 'source', source)"
+                class="app-filter-item">
+                {{'source.' + source | translate | appRemovePrefix:'source.' }}
+          </div>
+        </ng-container>
+        <div *ngIf="periodicalService.document.sources.length > 5"
+            (click)="sourcesExpanded = !sourcesExpanded"
+             class="app-filter-item app-expand">
+            {{ 'filters.btn_show_' + (sourcesExpanded ? 'less' : 'more') | translate }}  
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+
   <mat-expansion-panel class="app-filter-panel" [expanded]="true" *ngIf="periodicalService.isPeriodical()">
     <mat-expansion-panel-header>
       <mat-panel-title>

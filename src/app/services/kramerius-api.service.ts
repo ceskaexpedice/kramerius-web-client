@@ -207,6 +207,15 @@ export class KrameriusApiService {
         }
     }
 
+    getFoxmlUrl(uuid: string): string {
+        return this.getItemUrl(uuid) + '/foxml';
+    }
+
+    getFoxml(uuid: string): Observable<string> {
+        return this.doGetText(this.getFoxmlUrl(uuid));
+    }
+
+
     getOcrUrl(uuid: string): string {
         if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_OCR);
@@ -271,19 +280,6 @@ export class KrameriusApiService {
     getDcUrl(uuid: string): string{
         return this.getItemUrl(uuid) + '/streams/DC';
     }
-
-    getFoxmlUrl(uuid: string): string {
-        if (this.settings.k5Compat()) {
-            return this.getItemUrl(uuid) + '/foxml';
-        } else {
-            return this.getbaseUrl() + `/search/api/admin/v7.0/items/${uuid}/foxml`;
-        }
-    }
-
-    getFoxml(uuid: string): Observable<string> {
-        return this.doGetText(this.getFoxmlUrl(uuid));
-    }
-
 
     getSearchResultsUrl(query: string): string {
         return this.getApiUrl() + '/search?' + query;
@@ -405,8 +401,8 @@ export class KrameriusApiService {
     }
 
 
-    getChildren(uuid: string, own: boolean = true): Observable<any> {
-        return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, own))
+    getChildren(uuid: string, source: string = null, own: boolean = true): Observable<any> {
+        return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, source, own))
             .pipe(map(response => this.solr.bookChildItems(response)));
     }
 
@@ -415,7 +411,7 @@ export class KrameriusApiService {
         if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid) + '/children');
         } else {
-            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, false));
+            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, null, false));
         }
     }
 

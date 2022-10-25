@@ -376,7 +376,7 @@ export class SolrService {
         return null;
     }
 
-    buildBookChildrenQuery(parent: string, own: boolean): string {
+    buildBookChildrenQuery(parent: string, source: string, own: boolean): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('title')}`;
         q += this.buildLicenceFl();
         if (this.settings.k5Compat()) {
@@ -385,6 +385,9 @@ export class SolrService {
         } else {
             q += `,${this.field('page_type')},${this.field('page_number')},${this.field('page_placement')},${this.field('track_length')}`;
             q += `&q=${this.field(own ? 'parent_pid' : 'step_parent_pid')}:"${parent}"`;
+            if (source) {
+                 q += ` AND ${this.field('cdk_sources')}:${source}`;
+            }
             q += `&sort=${this.field('rels_ext_index')} asc`;
         }
         q += '&rows=2000&start=0';
@@ -426,6 +429,9 @@ export class SolrService {
         if (models && models.length > 0) {
             const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
             q += ` AND (${modelRestriction})`;
+        }
+        if (query && query.source) {
+            q += ` AND ${this.field('cdk_sources')}: ${query.source}`;
         }
         if (query && (query.accessibility === 'private' || query.accessibility === 'public')) {
             q += ` AND ${this.field('accessibility')}: ${query.accessibility}`;
@@ -656,6 +662,7 @@ export class SolrService {
         item.date = doc[this.field('date')];
         item.authors = doc[this.field('authors')];
         item.donators = doc[this.field('donators')];
+        item.sources = doc[this.field('cdk_sources')];
         item.pdf = doc[this.field('img_full_mime')] == "application/pdf";
         item.licences = this.parseLicences(doc);
         item.root_uuid = doc[this.field('root_pid')];

@@ -79,6 +79,9 @@ export class BookService {
 
     public extraParents = [];
 
+    public source: string;
+    public sources: string[];
+
     constructor(private location: Location,
         private altoService: AltoService,
         private settings: AppSettings,
@@ -97,7 +100,7 @@ export class BookService {
     }
 
     init(params: BookParams) {
-        // console.log('init', params);
+        console.log('init', params);
         this.clear();
         this.extraParents = [];
         this.uuid = params.uuid;
@@ -115,6 +118,15 @@ export class BookService {
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
             this.licences = this.licenceService.availableLicences(item.licences);
             this.licence = item.licence;
+
+            this.sources = item.sources;
+            if (this.sources && this.sources.length > 0) {
+                if (params.source && item.sources.indexOf(params.source) >= 0) {
+                    this.source = params.source;            
+                } else {
+                    this.source = this.sources[0];
+                }
+            }
             if (item.doctype === 'article') {
                 if (params.articleUuid) {
                     return;
@@ -138,7 +150,7 @@ export class BookService {
                 const maxPages = this.settings.maxOmnibusPages;
                 const maxParts = this.settings.maxOmnibusParts;
                 if (!!maxPages && !!maxParts) {
-                    this.api.getChildren(item.uuid).subscribe(children => {
+                    this.api.getChildren(item.uuid, this.source).subscribe(children => {
                         this.api.getNumberOfRootsPages(item.uuid).subscribe(pageCount => {
                             if (children.length > maxParts || pageCount > maxPages) {
                                 if (!params.pageUuid) {
@@ -168,7 +180,7 @@ export class BookService {
                     }
                     return;
                 }
-                this.api.getChildren(item.getParentUuid()).subscribe(children => {
+                this.api.getChildren(item.getParentUuid(), this.source).subscribe(children => {
                     this.api.getNumberOfRootsPages(item.getParentUuid()).subscribe(pageCount => {
                         if (children.length > maxParts || pageCount > maxPages) {
                             this.getMetadata(item, params);
@@ -204,6 +216,23 @@ export class BookService {
         this.bookState = BookState.Success;
         this.viewer = 'pdf';
         this.pdf.setUrl(this.api.getPdfUrl(uuid));
+    }
+
+    changeSource(source: string) {
+        let urlQuery = 'source=' + source;
+        if (this.fulltextQuery) {
+            urlQuery += '&fulltext=' + this.fulltextQuery;
+        }
+        this.location.replaceState(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+        this.init({
+            uuid: this.uuid,
+            pageUuid: null,
+            articleUuid: null,
+            internalPartUuid: null,
+            parentUuid: null,
+            fulltext: this.fulltextQuery,
+            source: source
+        });
     }
 
     private getMetadata(item: DocumentItem, params: any) {
@@ -243,7 +272,7 @@ export class BookService {
             if (item.pdf) {
                 this.setupPdf(params.uuid);
             } else {
-                this.api.getChildren(params.uuid).subscribe(children => {
+                this.api.getChildren(params.uuid, this.source).subscribe(children => {
                     if (children && children.length > 0) {
                         this.onDataLoaded(children, item.doctype, params);
                     } else {
@@ -373,7 +402,7 @@ export class BookService {
 
 
     private loadOmnibusUnits(omnibusUuid: string, item: DocumentItem) {
-        this.api.getChildren(omnibusUuid).subscribe(children => {
+        this.api.getChildren(omnibusUuid, this.source).subscribe(children => {
             if (!children || children.length < 1) {
                 return;
             }
@@ -426,7 +455,7 @@ export class BookService {
             return;
         }
         const parent = parents.shift();
-        this.api.getChildren(parent['pid']).subscribe(children => {
+        this.api.getChildren(parent['pid'], this.source).subscribe(children => {
             for (const p of children) {
                 if (p['model'] === 'page') {
                     p['parent_uuid'] = parent['pid'];
@@ -722,9 +751,10 @@ export class BookService {
 
     showOcr() {
         const requests = [];
-        requests.push(this.api.getOcr(this.getPage().uuid));
+        const prefix = this.source ? `${this.source}/` : '';
+        requests.push(this.api.getOcr(prefix + this.getPage().uuid));
         if (this.getRightPage()) {
-            requests.push(this.api.getOcr(this.getRightPage().uuid));
+            requests.push(this.api.getOcr(prefix + this.getRightPage().uuid));
         }
         forkJoin(requests).subscribe(result => {
             const options = {
@@ -794,9 +824,10 @@ export class BookService {
                     window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getRightPage().uuid)), '_blank');
                 }
             } else {
-                window.open(this.api.getFullJpegUrl(this.getPage().uuid), '_blank');
+                const prefix = this.source ? `${this.source}/` : '';
+                window.open(this.api.getFullJpegUrl(prefix + this.getPage().uuid), '_blank');
                 if (this.getRightPage()) {
-                    window.open(this.api.getFullJpegUrl(this.getRightPage().uuid), '_blank');
+                    window.open(this.api.getFullJpegUrl(prefix + this.getRightPage().uuid), '_blank');
                 }
             }
         }
@@ -866,7 +897,11 @@ export class BookService {
             this.pages = this.ftPages;
         }
         if (this.pages.length < 1) {
-            this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, 'fulltext=' + this.fulltextQuery);
+            let urlQuery = 'fulltext=' + this.fulltextQuery;
+            if (this.source) {
+                urlQuery += '&source=' + this.source;
+            }
+            this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
             this.publishNewPages(BookPageState.NoResults);
         } else {
             let index = 0;
@@ -1034,6 +1069,9 @@ export class BookService {
         if (this.fulltextQuery) {
             urlQuery += '&fulltext=' + this.fulltextQuery;
         }
+        if (this.source) {
+            urlQuery += '&source=' + this.source;
+        }
         if (replaceState) {
             this.location.replaceState(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
         } else {
@@ -1137,7 +1175,7 @@ export class BookService {
             this.goToPageWithUuid(internalPart.firstPageUuid);
         } else {
             this.publishNewPages(BookPageState.Loading);
-            this.api.getChildren(internalPart.uuid).subscribe(children => {
+            this.api.getChildren(internalPart.uuid, this.source).subscribe(children => {
                 if (children && children.length > 0) {
                     internalPart.firstPageUuid = children[0]['pid'];
                 }
@@ -1176,6 +1214,9 @@ export class BookService {
             if (this.fulltextQuery) {
                 urlQuery += '&fulltext=' + this.fulltextQuery;
             }
+            if (this.source) {
+                urlQuery += '&source=' + this.source;
+            }
             this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
             this.setupPdf(article.uuid);
         } else if (article.type === 'pages') {
@@ -1184,7 +1225,7 @@ export class BookService {
                 this.goToPageWithUuid(article.firstPageUuid);
             } else {
                 this.publishNewPages(BookPageState.Loading);
-                this.api.getChildren(article.uuid, false).subscribe(children => {
+                this.api.getChildren(article.uuid, this.source, false).subscribe(children => {
                     if (children && children.length > 0) {
                         article.firstPageUuid = children[0]['pid'];
                     }
@@ -1410,6 +1451,7 @@ export interface BookParams {
     parentUuid: string;
     internalPartUuid: string;
     fulltext: string;
+    source: string;
 }
 
 

@@ -21,7 +21,6 @@ export class PeriodicalService {
   items: PeriodicalItem[];
   units: DocumentItem[];
 
-
   yearItems: PeriodicalItem[];
   minYear: number;
   maxYear: number;
@@ -443,6 +442,11 @@ export class PeriodicalService {
 
   public setAccessibility(accessibility: string) {
     this.query.setAccessibility(accessibility);
+    this.reload();
+  }
+
+  public setSource(source: string) {
+    this.query.setSource(source);
     this.reload();
   }
 

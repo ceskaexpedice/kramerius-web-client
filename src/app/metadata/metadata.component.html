@@ -34,7 +34,6 @@
       </div>
 
       <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
-      
 
       <div *ngIf="metadata.doctype == 'convolute'">
         <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'omnibus list');">
@@ -55,6 +54,25 @@
       
       <div class="divider"></div>
 
+    </ng-container>
+
+    <ng-container *ngIf="bookService.source">
+      <label>
+        {{ 'metadata.sources' | translate }}
+      </label>
+
+      <div class="app-source" [matMenuTriggerFor]="sourcesMenu">
+        <img src='{{ "https://registr.digitalniknihovna.cz/libraries/" + bookService.source + "/logo" }}'>
+        <span>{{ 'source.' + bookService.source | translate }}</span>
+      </div>
+      <mat-menu #sourcesMenu="matMenu" class="app-libraries-menu">
+        <ng-template matMenuContent ngFor>
+          <div class="app-dropdown-item" *ngFor="let source of bookService.sources" (click)="bookService.changeSource(source)">
+              <img src='{{ "https://registr.digitalniknihovna.cz/libraries/" + source + "/logo" }}' class="app-library-icon" />
+              <div class="app-library-name">{{ 'source.' + source | translate }} </div>
+          </div>
+        </ng-template>
+      </mat-menu>
     </ng-container>
 
     <div *ngIf="!metadata.isPublic" class="app-policy">

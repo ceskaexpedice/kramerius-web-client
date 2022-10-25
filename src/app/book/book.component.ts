@@ -60,13 +60,15 @@ export class BookComponent implements OnInit, OnDestroy {
           const chapter = q.get('chapter');
           const parent = q.get('parent');
           const fulltext = q.get('fulltext');
+          const source = q.get('source');
           this.bookService.init({
             uuid: uuid,
             pageUuid: page,
             articleUuid: article,
             internalPartUuid: chapter,
             parentUuid: parent,
-            fulltext: fulltext
+            fulltext: fulltext,
+            source: source
           });
         }
     });

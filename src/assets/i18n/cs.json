@@ -686,7 +686,11 @@
   "source": {
     "mzk": "MZK",
     "svkhk": "SVKHK",
-    "knav": "KNAV"
+    "knav": "KNAV",
+    "uzei": "UZEI",
+    "svkul": "SVKUL",
+    "kkp": "KKP"
+
   },
   "sigla": {
     "BOA001" : "Moravská zemská knihovna v Brně",

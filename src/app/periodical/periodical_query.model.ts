@@ -4,6 +4,7 @@ export class PeriodicalQuery {
 
     uuid: string;
     accessibility: string;
+    source: string;
     fulltext: string;
     page: number;
     from: number;
@@ -17,6 +18,7 @@ export class PeriodicalQuery {
         const query = new PeriodicalQuery();
         query.uuid = uuid;
         query.setAccessibility(params.get('accessibility'));
+        query.setSource(params.get('source'));
         query.setFulltext(params.get('fulltext'));
         query.setYearRange(params.get('from'), params.get('to'));
         query.setOrdering(params.get('sort'));
@@ -52,6 +54,11 @@ export class PeriodicalQuery {
         } else {
             this.accessibility = 'all';
         }
+    }
+
+    public setSource(source: string) {
+        this.page = 1;
+        this.source = source;
     }
 
     public setOrdering(ordering: string) {
@@ -92,6 +99,9 @@ export class PeriodicalQuery {
         }
         if (this.accessibility === 'public' || this.accessibility === 'private') {
             params['accessibility'] = this.accessibility;
+        }
+        if (this.source) {
+            params['source'] = this.source;
         }
         if (this.ordering === 'latest' || this.ordering === 'earliest') {
             params['sort'] = this.ordering;

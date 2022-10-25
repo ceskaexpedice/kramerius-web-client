@@ -16,7 +16,6 @@ import { TranslateService } from '@ngx-translate/core';
 export class NavbarComponent implements OnInit {
 
   mobileSearchBarExpanded = false;
-  richCollections = false;
 
   constructor(
     public router: Router,
