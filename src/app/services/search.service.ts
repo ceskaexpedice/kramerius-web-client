@@ -390,7 +390,6 @@ export class SearchService {
                 this.doctypes = this.solr.facetDoctypeList(response, this.settings.joinedDoctypes, this.settings.doctypes);
                 break;
             }
-            case 'categories':
             case 'licences': {
                 const c1 = this.solr.facetList(response, this.solr.field('licences_facet'), this.query[facet], false);
                 // licences_contains
@@ -430,6 +429,7 @@ export class SearchService {
                 this[facet] = c1;
                 break;
             }
+            case 'categories':
             case 'authors':
             case 'keywords':
             case 'languages':
