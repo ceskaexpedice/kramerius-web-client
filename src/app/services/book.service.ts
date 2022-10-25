@@ -818,7 +818,7 @@ export class BookService {
                 button: 'common.close'
             }, autoFocus: false });
         } else if (this.pageState === BookPageState.Success) {
-            if (this.iiifEnabled) {
+            if (this.iiifEnabled && this.getPage().imageType == PageImageType.TILES) {
                 window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getPage().uuid)), '_blank');
                 if (this.getRightPage()) {
                     window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getRightPage().uuid)), '_blank');

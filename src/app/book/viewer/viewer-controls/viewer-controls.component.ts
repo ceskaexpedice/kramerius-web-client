@@ -4,6 +4,7 @@ import { Component, OnInit} from '@angular/core';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { PdfService } from '../../../services/pdf.service';
 import { EpubService } from '../../../services/epub.service';
+import { PageImageType } from '../../../model/page.model';
 
 @Component({
   selector: 'app-viewer-controls',
@@ -59,7 +60,7 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   showImageCrop(): boolean {
-    return this.bookService.viewer === 'image' && this.bookService.iiifEnabled && this.bookService.isActionAvailable('crop');
+    return this.bookService.viewer === 'image' && this.bookService.iiifEnabled && this.bookService.isActionAvailable('crop') && this.bookService.getPage() && this.bookService.getPage().imageType == PageImageType.TILES;
   }
 
   showZoom(): boolean {
