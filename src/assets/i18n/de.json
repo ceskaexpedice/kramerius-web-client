@@ -6,9 +6,9 @@
       "warning": "Warnung",
       "of_pages": "Seiten",
       "n_pages": {
-        "one": "seite",
-        "few": "seiten",
-        "many": "seiten"
+        "one": "Seite",
+        "few": "Seiten",
+        "many": "Seiten"
       },
       "n_occurrences": {
         "one": "Treffer",
@@ -35,13 +35,13 @@
     },
     "page-not-found": {
       "title": "Seite nicht gefunden",
-      "go": "Gehen Sie zu",
+      "go": "Gehe zu",
       "home": "Startseite"
     },
     "title": {
       "main": "Digitale Bibliothek Kramerius",
       "search": "Suchen",
-      "browse": "Durchsuchen",
+      "browse": "Browsen",
       "collections": "Sammlungen",
       "about": "Über",
       "help": "Hilfe",
@@ -59,7 +59,7 @@
       "message": "Tausende von digitalisierten Dokumenten aus tschechischen Bibliotheken an einem Ort",
       "message2": " ",
       "external_subtitle": " ",
-      "external_title": "Bereitstellung sogenannter nicht auf dem Markt erhältlichen Werke (DNNT)",
+      "external_title": "Bereitstellung von auf dem Markt nicht verfügbaren Werken (DNNT)",
       "category": {
         "major": "Hauptbibliotheken",
         "regional": "Regionalbibliotheken",
@@ -80,7 +80,7 @@
     },
     "navbar": {
       "collections": "Sammlungen",
-      "browse": "Durchsuchen",
+      "browse": "Browsen",
       "about": "Informationen",
       "faq": "FAQ",
       "impressum": "Impressum",
@@ -96,7 +96,7 @@
         "public": "In öffentlichen digitalen Bibliotheksdokumenten suchen",
         "filters": "Mit Filtern suchen",
         "collection": "In der Sammlung suchen",
-        "collection_with_filters": "In der Sammlung suchen"
+        "collection_with_filters": "In der Sammlung mit Filtern suchen"
       },
       "document": "Im Dokument suchen",
       "delete_query": "Anfrage löschen",
@@ -157,7 +157,7 @@
     },
     "search": {
       "k3": "Suche in alter Digitalisierung",
-      "advanced": "Advanced Search",
+      "advanced": "Erweiterte Suche",
       "results": "Ergebnisse",
       "keywords": "Schlagwort",
       "doctypes": "Objektkategorie",
@@ -166,7 +166,7 @@
       "languages": "Sprache",
       "licences": "Lizenz",
       "locations": "Eigentümer (Original)",
-      "geonames": "Geographische Lage",
+      "geonames": "Geografischer Name",
       "publishers": "Publikationsangaben",
       "places": "Ort der Publikation",
       "genres": "Genre",
@@ -230,7 +230,7 @@
         "licences": "Lizenz",
         "genres": "Genre",
         "locations": "Eigentümer (Original)",
-        "geonames": "Geographische Lage"
+        "geonames": "Geografischer Name"
       },
       "search": {
         "doctypes": "Dokumenttyp suchen",
@@ -243,7 +243,7 @@
         "languages": "Sprache suchen",
         "licences": "Lizenz suchen",
         "genres": "Genre suchen",
-        "locations": "Einen Speicherort suchen",
+        "locations": "Einen Eigentümer (Originale) suchen",
         "geonames": "Einen geografischen Namen suchen"
       },
       "ordering": {
@@ -258,7 +258,7 @@
         "playing": "Abspielen"
       },
       "inaccessible_track": "Die Audioaufzeichnung ist nicht öffentlich zugänglich",
-      "unknown_error": "Failed to load the track",
+      "unknown_error": "Fehler beim Laden der Audioaufzeichnung",
       "download_track": "Die Audioaufzeichnung herunterladen"
     },
     "licence": {
@@ -292,7 +292,7 @@
       "publisher": "Publikationsangaben",
       "keywords": "Schlagwörter",
       "languages": "Sprache",
-      "geonames": "Geographische Lage",
+      "geonames": "Geografischer Name",
       "location": "Eigentümer (Original)",
       "abstract": "Abstract",
       "content": "Inhalt",
@@ -346,7 +346,7 @@
     "periodical": {
       "periodicalvolume": "Jahrgang {{part}}",
       "periodicalitem": "Nummer {{part}}",
-      "monographunit": "Part {{part}}",
+      "monographunit": "Teil {{part}}",
       "supplement": "Beilage {{part}}",
       "previous_volume": "Vorheriger Jahrgang",   
       "next_volume": "Nachfolgender Jahrgang",
@@ -408,20 +408,20 @@
       "title_prepare": "Vorbereitung zum Druck",
       "tip_shift": "Tipp: Sie können mehrere Seiten auf einmal auswählen, indem Sie die Umschalttaste gedrückt halten",
       "selection1": {
-        "one": "Sie haben ausgewählte",
-        "few": "Sie haben ausgewählte",
-        "many": "Sie haben ausgewählte"
+        "one": "Sie haben",
+        "few": "Sie haben",
+        "many": "Sie haben"
       },
       "selection2": {
-        "one": "Seite",
-        "few": "Seiten",
-        "many": "Seiten"
+        "one": "ausgewählte Seite",
+        "few": "ausgewählte Seiten",
+        "many": "ausgewählte Seiten"
       },
       "selection": "Sie haben keine Seite ausgewählt",
       "select_all": "Alles auswählen",
       "deselect_all": "Auswahl löschen",
       "warning_too_manny_pages": "Die maximale Anzahl von Seiten ist überschritten",
-      "warning_generate": "Die Erstellung eines PDF-Dokuments kann je nach Anzahl der ausgewählten Seiten mehrere Minuten dauern.",
+      "warning_generate": "Die Erstellung eines PDF-Dokuments kann, je nach Anzahl der ausgewählten Seiten, mehrere Minuten dauern.",
       "error_generate": "PDF-Dokument konnte nicht heruntergeladen werden",
       "action_generate": "Als PDF herunterladen",
       "action_prepare": "Zum Druck vorbereiten"
@@ -439,7 +439,7 @@
       "social": "Weiterleiten"
     },
     "authors-dialog": {
-      "title": "Informationen über den/die Geistige(r) Schöpfer",
+      "title": "Informationen über den/die Geistigen Schöpfer",
       "name": "Name",
       "date": "Datum",
       "role": "Funktion"
@@ -467,7 +467,7 @@
       "sheetmusic" : "Musiknoten",
       "graphic" : "Bild",
       "archive" : "Archivale",
-      "soundrecording" : "Tonaufnahmen",
+      "soundrecording" : "Tonaufnahme",
       "periodicalvolume" : "Jahrgang des Periodikums",
       "periodicalitem" : "Nummer des Periodikums",
       "clippingsvolume" : "Sammlung von Dokumentenausschnitten",
@@ -490,7 +490,7 @@
       "sheetmusic" : "Musiknoten",
       "graphic" : "Bild",
       "archive" : "Archivale",
-      "soundrecording" : "Tonaufnahmen",
+      "soundrecording" : "Tonaufnahme",
       "periodicalvolume" : "Jahrgang des Periodikums",
       "periodicalitem" : "Nummer des Periodikums",
       "clippingsvolume" : "Sammlung von Dokumentenausschnitten",
@@ -513,7 +513,7 @@
       "sheetmusic" : "Musiknoten",
       "graphic" : "Bild",
       "archive" : "Archivale",
-      "soundrecording" : "Tonaufnahmen",
+      "soundrecording" : "Tonaufnahme",
       "periodicalvolume" : "Jahrgang des Periodikums",
       "periodicalitem" : "Nummer des Periodikums",
       "clippingsvolume" : "Sammlung von Dokumentenausschnitten",
@@ -547,7 +547,7 @@
       "soundunit" : "Alben",
       "track" : "Einspielungen",
       "collection": "Sammlungen",
-      "convolute": "Konvolut",
+      "convolute": "Konvolute",
       "convolutepart": "Teile"
     },
     "issue_type": {
@@ -566,7 +566,7 @@
       "frontcover" : "Vorderdeckel",
       "frontendsheet" : "Vordervorsatz",
       "frontjacket" : "Vorderumschlag",
-      "index" : "index",
+      "index" : "Index",
       "jacket" : "Umschlag",
       "listofillustrations" : "Liste der Illustrationen",
       "listofmaps" : "Liste der Karten",
@@ -579,7 +579,7 @@
       "tableofcontents" : "Inhaltsverzeichnis",
       "table" : "Tabelle",
       "backendpaper" : "Hintervorsatz",
-      "dedication" : "Dedikation",
+      "dedication" : "Widmung",
       "edge" : "Schnitt",
       "errata" : "Errata",
       "frontendpaper" : "Vordervorsatz",
@@ -593,13 +593,13 @@
       "introduction": "Einführung",
       "review": "Bewertung",
       "mainarticle": "Hauptartikel",
-      "editorial": "Einführung",
+      "editorial": "Editorial",
       "obituary": "Nachruf",
       "bibliographicalportrait": "Portrait",
-      "colophon": "Editorial",
+      "colophon": "Kolophon",
       "interview": "Interview",
       "anotation": "Anmerkung",
-      "manuscriptnotes": "handschriftliche Anmerkung",
+      "manuscriptnotes": "Handschriftliche Anmerkung",
       "calibrationtable": "Kalibrierungstabelle",
       "bibliography": "Bibliographie",
       "booklet": "Broschüre",
