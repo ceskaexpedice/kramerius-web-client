@@ -338,19 +338,39 @@
       </ng-container>
     </div>
 
+
     <div *ngIf="metadata.contents.length > 0">
       <label>{{ 'metadata.content' | translate }}</label>
-      <div *ngFor="let content of metadata.contents" class="app-value" >{{ content }}</div>
-      <div class="divider"></div>
+      <div>
+        <ng-container *ngFor="let content of metadata.contents; let i = index">
+          <div *ngIf="i < 5 || contentsExpanded" class="app-value app-note">
+            {{ content }}
+          </div>
+        </ng-container>
+      </div>
+      <mat-icon style="margin-top: 5px;" *ngIf="metadata.contents.length > 5" [matTooltip]="'filters.btn_show_' + (contentsExpanded ? 'less' : 'more') | translate" (click)="contentsExpanded = !contentsExpanded" class="app-more">more_horiz</mat-icon>
+    </div>
+
+
+    <div *ngIf="metadata.notes.length > 0">
+      <label>{{ 'metadata.content' | translate }}</label>
+      <div>
+        <ng-container *ngFor="let note of metadata.notes; let i = index">
+          <div *ngIf="i < 5 || notesExpanded" class="app-value app-note">
+            <div [innerHTML]="toHtml(note) | safeHtml"></div>
+          </div>
+        </ng-container>
+      </div>
+      <mat-icon style="margin-top: 5px" *ngIf="metadata.notes.length > 5" [matTooltip]="'filters.btn_show_' + (notesExpanded ? 'less' : 'more') | translate" (click)="notesExpanded = !notesExpanded" class="app-more">more_horiz</mat-icon>
     </div>
     
-    <div *ngIf="metadata.notes.length > 0">
+    <!-- <div *ngIf="metadata.notes.length > 0">
       <label>{{ 'metadata.notes' | translate }}</label>
       <div *ngFor="let note of metadata.notes" class="app-value app-note">
         <div [innerHTML]="toHtml(note) | safeHtml"></div>
       </div>
       <div class="divider"></div>
-  </div>
+  </div> -->
 
 
   <div *ngIf="metadata.reviews && metadata.reviews.length > 0" >
