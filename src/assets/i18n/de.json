@@ -16,8 +16,6 @@
         "many": "Treffer"
       },
       "set_page_number": "Seitenzahl eingeben",
-      "show_whole_title": "Vollständigen Titel anzeigen",
-      "hide_whole_title": "Vollständigen Titel ausblenden",
       "copy_to_clipboard": "In den Zwischenspeicher kopieren",
       "copied_to_clipboard": "In den Zwischenspeicher kopiert",
       "num_of_docs": {
@@ -288,6 +286,7 @@
       "select_library": "Bibliothek wählen"
     },
     "metadata": {
+      "title_other": "Andere Namen",
       "author": "Geistige(r) Schöpfer",
       "author_other": "Andere Autoren",
       "publisher": "Publikationsangaben",

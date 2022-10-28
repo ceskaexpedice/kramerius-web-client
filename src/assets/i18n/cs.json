@@ -16,8 +16,6 @@
       "many": "výskytů"
     },
     "set_page_number": "Zadejte číslo stránky",
-    "show_whole_title": "Ukaž celý titulek",
-    "hide_whole_title": "Skryj celý titulek",
     "copy_to_clipboard": "Zkopírovat do schránky",
     "copied_to_clipboard": "Zkopirováno do schránky",
     "num_of_docs": {
@@ -290,6 +288,7 @@
     "select_library": "Vybrat knihovnu"
   },
   "metadata": {
+    "title_other": "Dalši názvy",
     "author": "Autor",
     "author_other": "Dalši tvůrci",
     "publisher": "Nakladatelské údaje",

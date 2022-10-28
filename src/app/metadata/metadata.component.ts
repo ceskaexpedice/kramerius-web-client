@@ -25,7 +25,7 @@ export class MetadataComponent implements OnInit {
     this.controlsEnabled = value;
   }
   @Input() metadata: Metadata;
-  showingTitle = false;
+  expandedTitle = false;
 
   expand = {}
 
@@ -52,8 +52,13 @@ export class MetadataComponent implements OnInit {
     return html;
   }
 
-  showTitle() {
-    this.showingTitle = !this.showingTitle;
+
+  expendableTitle(): boolean {
+    return this.metadata.getTitle().length > 75 || this.metadata.titles.length > 1;
+  }
+
+  toggleExpandedTitle() {
+    this.expandedTitle = !this.expandedTitle;
   }
 
   openAdminActions() {

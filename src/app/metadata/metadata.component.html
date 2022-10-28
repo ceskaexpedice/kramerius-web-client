@@ -10,16 +10,36 @@
   <div class="app-metadata-content">
 
     <ng-container *ngIf="metadata.getTitle()">
-      <h1 [class.app-cut]="metadata.getTitle().length > 75 && showingTitle == false">
-        {{ metadata.getTitle() }}
-      </h1>
-      <mat-icon *ngIf="metadata.getTitle().length > 75 && showingTitle == false" [matTooltip]="'common.show_whole_title' | translate" (click)="showTitle()" class="app-more">more_horiz</mat-icon>
-      <mat-icon *ngIf="metadata.getTitle().length > 75 && showingTitle == true" [matTooltip]="'common.hide_whole_title' | translate" (click)="showTitle()" class="app-more">more_horiz</mat-icon>
-      <div class="app-subtitle">{{metadata.titles[0].subTitle}}</div>
-      <div>
-        <span *ngIf="metadata.titles[0].partNumber" class="app-part-number">{{ metadata.titles[0].partNumber }}. </span>
-        <span class="app-part-name">{{ metadata.titles[0].partName }}</span>
-      </div>
+      
+      <ng-container *ngIf="!expandedTitle">
+        <h1 [class.app-cut]="metadata.getTitle().length > 75">
+          {{ metadata.getTitle() }}
+        </h1>
+        <div class="app-subtitle">{{metadata.titles[0].subTitle}}</div>
+        <div>
+          <span *ngIf="metadata.titles[0].partNumber" class="app-part-number">{{ metadata.titles[0].partNumber }}. </span>
+          <span class="app-part-name">{{ metadata.titles[0].partName }}</span>
+        </div>
+        <mat-icon style="margin-bottom: 0px;" *ngIf="expendableTitle()" [matTooltip]="'filters.btn_show_more' | translate" (click)="toggleExpandedTitle()" class="app-more">more_horiz</mat-icon>
+      </ng-container>
+
+      <ng-container *ngIf="expandedTitle">
+        <ng-container *ngFor="let title of metadata.titles; let i=index">
+          <div *ngIf="i == 1">
+            <label>{{ 'metadata.title_other' | translate }}</label>
+          </div>
+          <h1>
+            {{ title.maintTitle() }}
+          </h1>
+          <div class="app-subtitle">{{title.subTitle}}</div>
+          <div>
+            <span *ngIf="title.partNumber" class="app-part-number">{{ title.partNumber }}. </span>
+            <span class="app-part-name">{{ title.partName }}</span>
+          </div>
+        </ng-container>
+        <mat-icon style="margin-bottom: 0px;" [matTooltip]="'filters.btn_show_less' | translate" (click)="toggleExpandedTitle()" class="app-more">more_horiz</mat-icon>
+      </ng-container>
+
 
       <div *ngIf="metadata.hasIdentifier('issn')" class="app-identifier">
         ISSN <span class="app-value">{{ metadata.identifiers['issn'] }}</span>

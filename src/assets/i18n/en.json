@@ -16,8 +16,6 @@
       "many": "occurrences"
     },
     "set_page_number": "Set page number",
-    "show_whole_title": "Show whole title",
-    "hide_whole_title": "Hide whole title",
     "copy_to_clipboard": "Copy to clipboard",
     "copied_to_clipboard": "Copied to clipboard",
     "num_of_docs": {
@@ -287,6 +285,7 @@
     "select_library": "Select Library"
   },
   "metadata": {
+    "title_other": "Other titles",
     "author": "Author",
     "author_other": "Other makers",
     "publisher": "Publishing details",
