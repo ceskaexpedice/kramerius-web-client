@@ -240,12 +240,12 @@ export class KrameriusApiService {
         return this.doGetText(this.getAltoUrl(uuid));
     }
 
-    getDc(uuid: string) {
-        return this.doGetText(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC));
-    }
-
     getMods(uuid: string): Observable<string> {
         return this.doGetText(this.getModsUrl(uuid));
+    }
+
+    getDc(uuid: string) {
+        return this.doGetText(this.getDcUrl(uuid));
     }
 
     getZoomifyBaseUrl(uuid: string): string {
@@ -278,7 +278,11 @@ export class KrameriusApiService {
     }
 
     getDcUrl(uuid: string): string{
-        return this.getItemUrl(uuid) + '/streams/DC';
+        if (this.settings.k5Compat()) {
+            return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_DC);
+        } else {
+            return this.getItemUrl(uuid) + '/metadata/dc';
+        }
     }
 
     getSearchResultsUrl(query: string): string {
