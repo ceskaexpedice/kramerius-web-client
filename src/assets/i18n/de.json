@@ -323,7 +323,7 @@
       "unit_list": "Liste der Teile",
       "next_unit": "Nachfolgende Teil:",
       "previous_unit": "Vorherige Teil",  
-      "omnibus_list": "Weiter zur Liste der Teile des Bandes",
+      "convolute_part_list": "Weiter zur Liste der Teile des Bandes",
       "shelf_locator": "Signatur: {{shelf_locator}}",
       "authors_info": "Mehr zu den Autoren",
       "donator": "Mit Unterstützung von",

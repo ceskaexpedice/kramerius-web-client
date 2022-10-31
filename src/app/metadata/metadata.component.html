@@ -57,7 +57,7 @@
 
       <div *ngIf="metadata.doctype == 'convolute'">
         <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'omnibus list');">
-          {{ 'metadata.omnibus_list' | translate }}
+          {{ 'metadata.convolute_part_list' | translate }}
         </a>
       </div>
 

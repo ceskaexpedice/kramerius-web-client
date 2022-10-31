@@ -3,7 +3,7 @@
   <div class="app-label">Zvolit stranu jako reprezentativní stranu pro</div>
 
   <mat-radio-group [(ngModel)]="objectPid">
-    <mat-radio-button *ngFor="let c of context" [value]="c.uuids[0]">{{ 'model_4p.' + c.type | translate | lowercase }}</mat-radio-button>
+    <mat-radio-button *ngFor="let c of context" [value]="c.uuids[0]">{{ 'model_4p.' + c.type | translate }}</mat-radio-button>
     <div *ngIf="collections.length > 0" class="app-label" style="margin-top: 10px;">Sbírku</div>
     <mat-radio-button *ngFor="let c of collections" [value]="c.uuid">{{ c.name }}</mat-radio-button>
   </mat-radio-group>
