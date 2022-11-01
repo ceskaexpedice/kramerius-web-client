@@ -62,6 +62,8 @@ export class AppSettings {
 
   public languages: string[] = APP_GLOBAL.languages || ['cs', 'en', 'de', 'sk'];
 
+  public citationServiceUrl = APP_GLOBAL.citationServiceUrl || "https://citace.kramerius.cloud";
+
   public actions = {
     'pdf': AppSettings.action('pdf', 'always'), 
     'print': AppSettings.action('print', 'always'), 
