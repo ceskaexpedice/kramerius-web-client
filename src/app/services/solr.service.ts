@@ -325,7 +325,7 @@ export class SolrService {
 
     field(name: string): string {
         // TODO Remove!
-        if (this.settings.code == 'cdk' && this.settings.version >= 7 && (name == "titles" || name == "titles_search")) {
+        if (this.settings.code == 'cdk2' && this.settings.version >= 7 && (name == "titles" || name == "titles_search")) {
             return "title.search";
         }
         return SolrService.fields[name][this.settings.version == 5 ? '1.0' : '2.0'];
@@ -1118,11 +1118,15 @@ export class SolrService {
                 if (item.doctype == 'collection') {
                     let titles = doc[this.field('titles')];
                     titles = titles || [];
-                    if (titles.length > 0) {
-                        item.title = titles[0];
-                    }
-                    if (titles.length > 1  && titles[1] && titles[1] != 'null') {
-                        item.titleEn = titles[1];
+                    if (this.settings.code == 'cdk2' && this.settings.version >= 7) {
+                        item.title = titles;
+                    } else {
+                        if (titles.length > 0) {
+                            item.title = titles[0];
+                        }
+                        if (titles.length > 1  && titles[1] && titles[1] != 'null') {
+                            item.titleEn = titles[1];
+                        }
                     }
                     const descriptions = doc[this.field('collection_description')] || [];
                     if (descriptions.length > 0) {
