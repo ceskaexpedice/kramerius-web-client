@@ -205,12 +205,19 @@ export class BookService {
         });
     }
 
+
+    private id(uuid: string): string {
+        return (this.source ? `${this.source}/` : '') + uuid;
+    }
+
+
     setupEpub() {
         this.viewer = 'epub';
         this.activeNavigationTab = 'epubToc';
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         this.showNavigationPanel = true;
     }
+
 
     private setupPdf(uuid: string) {
         this.bookState = BookState.Success;
@@ -237,7 +244,7 @@ export class BookService {
 
     private getMetadata(item: DocumentItem, params: any) {
         this.isPrivate = !item.public;
-        this.api.getMetadata(item.root_uuid).subscribe((metadata: Metadata) => {
+        this.api.getMetadata(this.id(item.root_uuid)).subscribe((metadata: Metadata) => {
             this.metadata = metadata;
             this.metadata.assignDocument(item);
             this.analytics.sendEvent('viewer', 'open', this.metadata.getShortTitle());
@@ -298,7 +305,7 @@ export class BookService {
         this.api.getItem(uuid).subscribe((item: DocumentItem) => {
             this.metadata.assignVolume(item);
         });
-        this.api.getMetadata(uuid, 'volume').subscribe((metadata: Metadata) => {
+        this.api.getMetadata(this.id(uuid), 'volume').subscribe((metadata: Metadata) => {
             this.metadata.addToContext('periodicalvolume', uuid);
             this.metadata.volumeMetadata = metadata;
         });
@@ -330,7 +337,7 @@ export class BookService {
             if (index < issues.length - 1) {
                 this.metadata.nextIssue = issues[index + 1];
             }
-            this.api.getMetadata(issueUuid, 'issue').subscribe((metadata: Metadata) => {
+            this.api.getMetadata(this.id(issueUuid), 'issue').subscribe((metadata: Metadata) => {
                 this.metadata.addToContext(doctype, issueUuid);
                 this.metadata.currentIssue.metadata = metadata;
             });
@@ -393,7 +400,7 @@ export class BookService {
                     uuid: units[index + 1].uuid
                 };
             }
-            this.api.getMetadata(unitUud).subscribe((metadata: Metadata) => {
+            this.api.getMetadata(this.id(unitUud)).subscribe((metadata: Metadata) => {
                 this.metadata.addToContext('monographunit', unitUud);
                 this.metadata.currentUnit.metadata = metadata;
             });
@@ -430,7 +437,7 @@ export class BookService {
                     uuid: children[index + 1].pid
                 };
             }
-            this.api.getMetadata(item.uuid).subscribe((metadata: Metadata) => {
+            this.api.getMetadata(this.id(item.uuid)).subscribe((metadata: Metadata) => {
                 this.metadata.addToContext(item.doctype, item.uuid);
                 this.metadata.currentUnit.metadata = metadata;
             });
@@ -585,7 +592,7 @@ export class BookService {
                     page.number = p['title'];
                 }
                 page.setTitle(p['title']);
-                page.thumb = this.api.getThumbUrl(page.uuid);
+                page.thumb = this.api.getThumbUrl(this.id(page.uuid));
                 page.position = PagePosition.Single;
                 if (page.type === 'spine' && p['placement'] != 'left' && p['placement'] != 'right') {
                     spines.push(page);
@@ -751,10 +758,9 @@ export class BookService {
 
     showOcr() {
         const requests = [];
-        const prefix = this.source ? `${this.source}/` : '';
-        requests.push(this.api.getOcr(prefix + this.getPage().uuid));
+        requests.push(this.api.getOcr(this.id(this.getPage().uuid)));
         if (this.getRightPage()) {
-            requests.push(this.api.getOcr(prefix + this.getRightPage().uuid));
+            requests.push(this.api.getOcr(this.id(this.getRightPage().uuid)));
         }
         forkJoin(requests).subscribe(result => {
             const options = {
@@ -824,10 +830,9 @@ export class BookService {
                     window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getRightPage().uuid)), '_blank');
                 }
             } else {
-                const prefix = this.source ? `${this.source}/` : '';
-                window.open(this.api.getFullJpegUrl(prefix + this.getPage().uuid), '_blank');
+                window.open(this.api.getFullJpegUrl(this.id(this.getPage().uuid)), '_blank');
                 if (this.getRightPage()) {
-                    window.open(this.api.getFullJpegUrl(prefix + this.getRightPage().uuid), '_blank');
+                    window.open(this.api.getFullJpegUrl(this.id(this.getRightPage().uuid)), '_blank');
                 }
             }
         }
@@ -1038,7 +1043,7 @@ export class BookService {
 
         if (page.parentUuid) {
             const uuid = page.parentUuid;
-            this.api.getMetadata(uuid).subscribe((metadata: Metadata) => {
+            this.api.getMetadata(this.id(uuid)).subscribe((metadata: Metadata) => {
                 if (uuid === this.getPage().parentUuid) {
                     this.metadata.extraParentMetadata = metadata;
                     metadata.doctype = page.parentDoctype;
@@ -1156,7 +1161,7 @@ export class BookService {
         this.pageState = BookPageState.Loading;
         this.internalPart = internalPart;
         if (!internalPart.metadata) {
-            forkJoin([this.api.getItem(internalPart.uuid), this.api.getMetadata(internalPart.uuid)]).subscribe(([item, metadata]: [DocumentItem, Metadata]) => {
+            forkJoin([this.api.getItem(internalPart.uuid), this.api.getMetadata(this.id(internalPart.uuid))]).subscribe(([item, metadata]: [DocumentItem, Metadata]) => {
                 if (this.metadata) {
                     this.metadata.addToContext('internalpart', internalPart.uuid);
                 }
@@ -1191,7 +1196,7 @@ export class BookService {
         this.pageState = BookPageState.Loading;
         this.article = article;
         if (article.type === 'none') {
-            forkJoin([this.api.getItem(article.uuid), this.api.getMetadata(article.uuid)]).subscribe(([item, metadata]: [DocumentItem, Metadata]) => {
+            forkJoin([this.api.getItem(article.uuid), this.api.getMetadata(this.id(article.uuid))]).subscribe(([item, metadata]: [DocumentItem, Metadata]) => {
                 if (this.metadata) {
                     this.metadata.addToContext('article', article.uuid);
                 }
@@ -1238,9 +1243,9 @@ export class BookService {
 
     private fetchPageData(leftPage: Page, rightPage: Page) {
         const itemRequests = [];
-        itemRequests.push(this.api.getItemInfo(leftPage.uuid));
+        itemRequests.push(this.api.getItemInfo(this.id(leftPage.uuid)));
         if (rightPage) {
-            itemRequests.push(this.api.getItemInfo(rightPage.uuid));
+            itemRequests.push(this.api.getItemInfo(this.id(rightPage.uuid)));
         }
         forkJoin(itemRequests).subscribe(result => {
             leftPage.assignPageData(result[0]);
@@ -1347,9 +1352,9 @@ export class BookService {
             data.imageType = ViewerImageType.JPEG;
         }
         data.query = this.fulltextQuery;
-        data.uuid1 = leftPage.uuid;
+        data.uuid1 = this.id(leftPage.uuid);
         if (rightPage) {
-            data.uuid2 = rightPage.uuid;
+            data.uuid2 = this.id(rightPage.uuid);
         }
         return data;
     }

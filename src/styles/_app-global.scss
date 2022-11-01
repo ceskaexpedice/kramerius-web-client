@@ -122,3 +122,7 @@ input[type="search"]::-webkit-search-decoration {
 .mat-expansion-panel-body {
   padding: 0 16px 16px !important;
 }
+
+.mat-menu-panel {
+  min-height: 50px !important;
+}

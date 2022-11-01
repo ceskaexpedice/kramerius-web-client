@@ -76,7 +76,7 @@
 
     </ng-container>
 
-    <ng-container *ngIf="bookService.source">
+    <ng-container *ngIf="bookService.source && controlsEnabled">
       <label>
         {{ 'metadata.sources' | translate }}
       </label>
@@ -182,13 +182,13 @@
       <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.getPart() }}</strong></div>
       
       <div *ngIf="metadata.previousIssue">
-        <a [routerLink]="[settings.getRouteFor('view'), metadata.previousIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'previous issue');">
+        <a [routerLink]="[settings.getRouteFor('view'), metadata.previousIssue.uuid]" [queryParams]="{source: bookService.source }" (click)="analytics.sendEvent('metadata', 'link', 'previous issue');">
           {{ 'metadata.previous_issue' | translate }} {{ metadata.previousIssue.prettyName() }}
         </a>
       </div>
 
       <div *ngIf="metadata.nextIssue">
-        <a [routerLink]="[settings.getRouteFor('view'), metadata.nextIssue.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'next issue');">
+        <a [routerLink]="[settings.getRouteFor('view'), metadata.nextIssue.uuid]" [queryParams]="{source: bookService.source }" (click)="analytics.sendEvent('metadata', 'link', 'next issue');">
           {{ 'metadata.next_issue' | translate }} {{ metadata.nextIssue.prettyName() }}
         </a>
       </div>
