@@ -373,7 +373,7 @@
 
 
     <div *ngIf="metadata.notes.length > 0">
-      <label>{{ 'metadata.content' | translate }}</label>
+      <label>{{ 'metadata.notes' | translate }}</label>
       <div>
         <ng-container *ngFor="let note of metadata.notes; let i = index">
           <div *ngIf="i < 5 || notesExpanded" class="app-value app-note">
