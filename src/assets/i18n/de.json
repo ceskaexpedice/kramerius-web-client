@@ -336,7 +336,7 @@
       },
       "k3tok5": {
         "url": "https://www.nkp.cz/digitalni-knihovna/digitalni-knihovny/k3tok5",
-        "name": "K3 to K5"
+        "name": "K3 zu K5"
       },
       "eodopen": {
         "url": "https://eodopen.eu/",
@@ -782,7 +782,8 @@
       "ABE461" : "Židovská obec v Praze",
       "KME450" : "Muzeum umění Olomouc - Arcidiecézní muzeum Kroměříž",
       "NAG001" : "Městská knihovna Náchod",
-      "ABB060" : "Institute of Czech Literature of the AS CR"
+      "ABB060" : "Institute of Czech Literature of the AS CR",
+      "ABE301" : "Czech Radio"
     },
     "language" : {
       "aar" : "Danakil-Sprache",
