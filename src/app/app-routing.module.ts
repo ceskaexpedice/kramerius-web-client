@@ -16,6 +16,7 @@ import { LandingComponent } from './landing/landing.component';
 import { StaticPageComponent } from './static-page/static-page.component';
 import { SignpostHelpComponent } from './signpost/help/help.component';
 import { AuthComponent } from './auth/auth.component';
+import { MapSeriesComponent } from './map/series/map-series.component';
 
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
@@ -29,6 +30,7 @@ const ROUTES: Routes = [
     { path: 'browse', component: BrowseComponent, canActivate: [ RoutingGuardService ] },
     { path: 'search', component: SearchComponent, canActivate: [ RoutingGuardService ] },
     { path: 'collections', component: CollectionsComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'mapseries', component: MapSeriesComponent, canActivate: [ RoutingGuardService ] },
     { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingGuardService ] },
     { path: 'collection/:collection_uuid', component: SearchComponent, canActivate: [ RoutingGuardService ] },
     { path: 'music/:uuid', component: MusicComponent, canActivate: [ RoutingGuardService ] },
@@ -43,6 +45,7 @@ const ROUTES: Routes = [
     { path: ':k/browse', component: BrowseComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/search', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collections', component: CollectionsComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/mapseries', component: MapSeriesComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collection/:collection_uuid', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/music/:uuid', component: MusicComponent, canActivate: [ RoutingPrefixGuardService ] },
