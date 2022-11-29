@@ -102,6 +102,7 @@ import { HighlightModule } from 'ngx-highlightjs';
 import xml from 'highlight.js/lib/languages/xml';
 import json from 'highlight.js/lib/languages/json';
 import { MapBrowseComponent } from './map/browse/map-browse.component';
+import { MapSeriesComponent } from './map/series/map-series.component';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { IiifService } from './services/iiif.service';
 import { ZoomifyService } from './services/zoomify.service';
@@ -153,6 +154,8 @@ import { CookiebarComponent } from './shared/cookiebar/cookiebar.component';
 import { AuthComponent } from './auth/auth.component';
 import { AdvancedSearchDialogComponent } from './dialog/advanced-search-dialog/advanced-search-dialog.component';
 import { SearchHelpDialogComponent } from './dialog/search-help-dialog/search-help-dialog.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 declare var APP_GLOBAL: any;
 
@@ -242,6 +245,7 @@ export function appInitializerFactory(translate: TranslateService) {
     HomeFooterComponent,
     LoginComponent,
     MapBrowseComponent,
+    MapSeriesComponent,
     LandingComponent,
     SafeHtmlPipe,
     SignpostComponent,
@@ -284,6 +288,7 @@ export function appInitializerFactory(translate: TranslateService) {
     Ng2CompleterModule,
     MatomoModule,
     MaterialModule,
+    MatSlideToggleModule,
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset
     }),

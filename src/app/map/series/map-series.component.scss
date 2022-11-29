@@ -1,8 +1,186 @@
 @import './src/variables.scss';
 
 .app-map-series {
-    display: block;
-    height: 100%;  
+    // height: calc(100% - #{$app-toolbar-height});
+    height: calc(100%);
+    width: 100%;
+    overflow: auto;
     background-color: $app-grey-l-4;
-    padding: 1rem 0.5rem 0.5rem;
+    .app-map-series-header {
+        position: fixed;
+        width: 100%;
+        height: 55px;
+        line-height: 55px;
+        border-bottom: 1px solid #e0e0e0;
+        z-index: 990;
+        padding: 0 13px;
+        display: flex;
+        justify-content: space-between;
+        background-color: $app-grey-l-4;
+        .app-map-series-header-select {
+            font-size: 14px;
+            width: 400px;
+        }
+    }
+    .app-map-wrapper {
+        height: calc(100% - 55px);
+        width: 100%;
+        google-map {
+            position: fixed;
+            height: calc(100% - 125px);
+            width: calc(100% - 320px);
+            top: 125px;
+        }
+        .app-map-right-panel {
+            width: 320px;
+            margin-top: 55px;
+            border-left: 1px solid #e0e0e0;
+            float: right;
+            overflow: auto;
+            .app-map-shapefile {
+                background: #fff;
+                padding: 15px;
+            }
+            .app-map-polygons {
+                .app-map-button {
+                    margin: 10px;
+                }
+                .app-map-polygon {
+                    background: #fff;
+                    border-bottom: 1px solid #e0e0e0;
+                    padding: 3px;
+                    .app-map-polygon-header {
+                        display: flex;
+                        justify-content: space-between;
+                        margin: 10px;
+                        .app-map-polygon-number {
+                            font-size: large;
+                        }
+                        .app-map-polygon-count {
+                            font-size: smaller;
+                        }
+                    }
+                    .app-map-map {
+                        display: flex;
+                        margin-top: 5px;
+                        .app-map-pic {
+                            a {
+                                img {
+                                    margin-right: 6px;
+                                    background-repeat: no-repeat;
+                                    width: 110px;
+                                    height: 110px;
+                                    position: relative;
+                                    background-size: contain;
+                                    background-position-x: center;
+                                }
+                            } 
+                        }
+                        .app-map-info {
+                            .app-map-title {
+                                font-weight: 400;
+                                font-size: 18px;
+                                margin-bottom: 5px;
+                                color: #4e4e4e;
+                                overflow: hidden;
+                                line-height: 20px;
+                                max-height: 40px;
+                                -webkit-line-clamp: 2;
+                                display: -webkit-box;
+                                text-overflow: ellipsis;
+                            }
+                            .app-map-date {
+                                overflow: hidden;
+                                line-height: 20px;
+                                height: 20px;
+                                font-size: 14px;
+                                color: #666;
+                                -webkit-line-clamp: 1;
+                                display: -webkit-box;
+                                text-overflow: ellipsis;
+                            }
+                            .app-map-shelf-locator {
+                                overflow: hidden;
+                                line-height: 20px;
+                                height: 20px;
+                                font-size: 14px;
+                                color: #666;
+                                -webkit-line-clamp: 1;
+                                display: -webkit-box;
+                                text-overflow: ellipsis;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
 }
+
+// .app-map-series {
+//     display: block;
+//     height: 100%;  
+//     background-color: $app-grey-l-4;
+//     padding: 1rem 0.5rem 0.5rem;
+// }
+// .km-container {
+//     width: 100%;
+//     margin: 0;
+//     // display: flex;
+//     .km-header {
+//         height: 50px;
+//         position: fixed;
+//         .km-select {
+//             width: 400px;
+//         }
+//     }
+//     .km-map-container {
+//         height: calc(100% - 50px);
+//         // height: 200px;
+//         width: 80%;
+//         position: fixed;
+//         top: 50px;
+//     }
+//     .km-right-panel {
+//         width: 20%;
+//         background-color: whitesmoke;
+//         overflow: auto;
+//         float: right;
+//         .km-button {
+//             margin: 5px;
+//         }
+//         .km-polygon {
+//             display: flex;
+//             justify-content: space-between;
+//             .km-map-number {
+//                 font-size: 20px;
+//                 margin: 15px 0px 5px 10px;
+//             }
+//             .km-map-count {
+//                 font-size: normal;
+//                 margin: 15px 10px 5px 10px;
+//             }
+//         }
+//         .km-map {
+//             border: 0.5px solid grey;
+//             .km-title {
+//                 font-size: smaller;
+//                 margin-left: 15px;
+//             }
+//             .km-date {
+//                 font-size: smaller;
+//                 margin-left: 15px;
+//             }
+//             .km-pic {
+//                 img {
+//                     height: 180px;
+//                     margin: 10px;
+//                 }
+//             }
+//         }
+
+//     }
+// }
+
