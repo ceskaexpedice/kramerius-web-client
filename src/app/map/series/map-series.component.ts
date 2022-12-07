@@ -4,6 +4,7 @@ import { GoogleMap, MapPolygon, MapMarker, MapInfoWindow } from '@angular/google
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AppSettings } from '../../services/app-settings';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -24,18 +25,18 @@ export class MapSeriesComponent implements OnInit {
   points: any;
   polygons: any;
   maxbounds: any;
-  selected: any = 'Befestigungskarte Tschechoslowakei';
+  selected: any = '';
   bounds: any;
   polygonsInBounds: any;
-  selectedPolygons: any;
+  selectedPolygons: any[] = [];
   toggleShapefile: boolean = false;
   shapefile: any[] = [];
   zoomForMarkers: number = 6;
-
-  
+  mapSeries2 = [];
 
   constructor(public httpClient: HttpClient,
-              public settings: AppSettings,) {
+              public settings: AppSettings,
+              private route: ActivatedRoute) {
     this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + settings.googleMapsApiKey, 'callback')
       .pipe(
         map(() => this.buildOptions()),
@@ -44,7 +45,25 @@ export class MapSeriesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectMapSeries(this.selected)
+    this.route.paramMap.subscribe(params => {
+      const uuid = params.get('uuid');
+      // const url = 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=in_collections.direct:%22uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf%22'
+      const url_all_collections = 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=in_collections.direct:%22uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf%22%20AND%20model:collection&fl=title.search,pid'
+      this.httpClient.get(url_all_collections).subscribe((data:any) => {
+        console.log(data.response.docs)
+        for (const col of data.response.docs) {
+          const serie = {
+            'name': col['title.search'],
+            'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=in_collections.direct:"' + col.pid + '"&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000'
+          }
+          this.mapSeries2.push(serie)
+        }
+        console.log(this.mapSeries2)
+      })
+      console.log(uuid)
+      // TO DO this.musicService.init(uuid);
+    });
+    this.selectMapSeries(this.mapSeries2[0]['title.search'])
     this.reloadData()
   }
 
@@ -52,6 +71,14 @@ export class MapSeriesComponent implements OnInit {
   stylesArray: google.maps.MapTypeStyle[] = [
     {
       "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#f5f5f5"
+        }
+      ]
+    },
+    {
+      "elementType": "geometry.fill",
       "stylers": [
         {
           "color": "#f5f5f5"
@@ -107,19 +134,37 @@ export class MapSeriesComponent implements OnInit {
       "elementType": "geometry",
       "stylers": [
         {
-          "color": "#000000"
-        },
-        {
-          "weight": 0.5
+          "lightness": -15
         }
       ]
     },
     {
-      "featureType": "administrative.land_parcel",
-      "elementType": "labels.text.fill",
+      "featureType": "administrative.country",
+      "elementType": "geometry.fill",
       "stylers": [
         {
-          "color": "#bdbdbd"
+          "visibility": "on"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative.country",
+      "elementType": "geometry.stroke",
+      "stylers": [
+        {
+          "lightness": -50
+        },
+        {
+          "visibility": "on"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative.locality",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "visibility": "on"
         }
       ]
     },
@@ -129,6 +174,9 @@ export class MapSeriesComponent implements OnInit {
       "stylers": [
         {
           "color": "#000000"
+        },
+        {
+          "visibility": "on"
         }
       ]
     },
@@ -145,9 +193,6 @@ export class MapSeriesComponent implements OnInit {
       "featureType": "administrative.province",
       "elementType": "geometry.fill",
       "stylers": [
-        {
-          "color": "#000000"
-        },
         {
           "weight": 1
         }
@@ -166,9 +211,6 @@ export class MapSeriesComponent implements OnInit {
       "featureType": "landscape",
       "stylers": [
         {
-          "visibility": "off"
-        },
-        {
           "weight": 2
         }
       ]
@@ -179,6 +221,17 @@ export class MapSeriesComponent implements OnInit {
       "stylers": [
         {
           "visibility": "on"
+        }
+      ]
+    },
+    {
+      "featureType": "landscape.man_made",
+      "stylers": [
+        {
+          "color": "#e0e0e0"
+        },
+        {
+          "lightness": 5
         }
       ]
     },
@@ -204,7 +257,7 @@ export class MapSeriesComponent implements OnInit {
       "elementType": "labels.text.fill",
       "stylers": [
         {
-          "visibility": "simplified"
+          "visibility": "off"
         }
       ]
     },
@@ -213,7 +266,15 @@ export class MapSeriesComponent implements OnInit {
       "elementType": "labels.text.stroke",
       "stylers": [
         {
-          "visibility": "on"
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "landscape.natural.landcover",
+      "stylers": [
+        {
+          "visibility": "off"
         }
       ]
     },
@@ -333,6 +394,14 @@ export class MapSeriesComponent implements OnInit {
     },
     {
       "featureType": "transit.line",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "transit.line",
       "elementType": "geometry",
       "stylers": [
         {
@@ -353,7 +422,7 @@ export class MapSeriesComponent implements OnInit {
       "featureType": "water",
       "stylers": [
         {
-          "color": "#c7cadc"
+          "color": "#809ecb"
         },
         {
           "weight": 1
@@ -365,7 +434,10 @@ export class MapSeriesComponent implements OnInit {
       "elementType": "labels.text.fill",
       "stylers": [
         {
-          "color": "#9e9e9e"
+          "color": "#ffffff"
+        },
+        {
+          "visibility": "on"
         }
       ]
     }
@@ -438,13 +510,12 @@ export class MapSeriesComponent implements OnInit {
   }
 
   private reloadData() {
-    // this.data = this.dataService.data
     this.maxbounds = this.maxbounds
     this.points = this.points;
     this.polygons = this.polygons;
     this.selectedPolygons = this.polygons;
     // this.shapefile = this.dataService.shapefile;
-    console.log(this.polygons)
+    // console.log(this.polygons)
     // this.map.fitBounds(this.maxbounds)
     if (this.map) {
       this.map.fitBounds(this.maxbounds)
@@ -489,8 +560,9 @@ export class MapSeriesComponent implements OnInit {
   }
 
   selectMapSeries(name: any) {
-    let url: any = this.mapSeries.find(x => x.name === name)?.urlk7
-    let shapefile: any = this.mapSeries.find(x => x.name === name)?.shapefile
+    let url: any = this.mapSeries2.find(x => x.name === name)?.urlk7
+    console.log('URL', url)
+    let shapefile: any = this.mapSeries2.find(x => x.name === name)?.shapefile
     this.shapefile = [];
     if (name === 'Body v klastru') {
         this.httpClient.get(url).subscribe((data: any) => {

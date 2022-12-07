@@ -5,7 +5,7 @@
             <mat-label>Vyber mapovou sérii</mat-label>
             <mat-select [(value)]="selected" 
                         (selectionChange)="selectMapSeries($event.value)">
-              <mat-option *ngFor="let item of mapSeries" [value]="item.name">
+              <mat-option *ngFor="let item of mapSeries2" [value]="item.name">
                 {{item.name}}
               </mat-option>
             </mat-select>
@@ -52,7 +52,7 @@
             <div class="app-map-shapefile" *ngIf="shapefile.length > 0">
                 <mat-slide-toggle [(ngModel)]="toggleShapefile">Zobrazit shapefile</mat-slide-toggle>
             </div>
-            <div class="app-map-polygons" *ngIf="polygons.length > 0">
+            <div class="app-map-polygons" *ngIf="selectedPolygons.length > 0">
                 <button mat-raised-button color="primary" class="app-map-button" *ngIf="polygons.length > selectedPolygons.length" (click)="displayAllMaps()">Zobraz všechny mapy ze série</button>
                 <div *ngFor="let item of selectedPolygons" class="app-map-polygon">
                     <div class="app-map-polygon-header">
