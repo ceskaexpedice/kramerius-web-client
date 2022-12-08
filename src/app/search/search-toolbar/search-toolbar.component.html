@@ -7,6 +7,9 @@
       <div *ngIf="search.adminSelection" (click)="search.openAdminActions()" class="app-view-button" [class.app-active]="true">
         <mat-icon>edit</mat-icon>
       </div>
+      <div *ngIf="search.adminSelection" (click)="search.toggleAllSelected()" class="app-view-button" [class.app-active]="true">
+        <mat-icon>done_all</mat-icon>
+      </div>
       <div (click)="search.toggleAdminSelection()" class="app-view-button" [class.app-active]="search.adminSelection" style="margin-right: 16px;">
         <mat-icon>check</mat-icon>
       </div>

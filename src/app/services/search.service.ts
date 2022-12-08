@@ -521,6 +521,20 @@ export class SearchService {
     }
 
 
+
+  toggleAllSelected() {
+    let allSelected = true;
+    for (const item of this.results) {
+        if (!item.selected) {
+            allSelected = false;
+            break
+        }
+    }
+    for (const item of this.results) {
+        item.selected = !allSelected;
+    }
+  }
+
   openAdminActions() {
     const uuids = [];
     for (const item of this.results) {
