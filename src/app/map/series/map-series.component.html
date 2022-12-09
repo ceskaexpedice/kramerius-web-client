@@ -26,6 +26,7 @@
                 (polygonClick)="polygonClick(somepolygon, polygon)"
                 (polygonMouseover)="polygonMouseOver(somepolygon)"
                 (polygonMouseout)="polygonMouseOut(somepolygon)"
+                
                 >
                 </map-polygon>
                 <div *ngIf="toggleShapefile">
@@ -48,7 +49,7 @@
                         >
                     </map-marker>
                 </div>
-                <div *ngIf="neighbours.length > 0">
+                <div *ngIf="neighbours.length > 0 && zoom === polygonZoom ">
                     <p>marker</p>
                     <map-marker
                     #somemarker="mapMarker"

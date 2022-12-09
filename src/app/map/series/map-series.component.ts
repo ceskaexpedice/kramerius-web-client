@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AppSettings } from '../../services/app-settings';
 import { ActivatedRoute } from '@angular/router';
+import { ThisReceiver } from '@angular/compiler';
 
 
 @Component({
@@ -18,22 +19,26 @@ export class MapSeriesComponent implements OnInit {
 
   center = {lat: 49.5, lng: 15};
   zoom: number = 7;
+  polygonZoom: number;
   apiLoaded: Observable<boolean>;
   options: google.maps.MapOptions;
   boxOptions: google.maps.RectangleOptions;
   data: any;
   points: any;
   polygons: any;
+  actualPolygonBounds: any;
   maxbounds: any;
   selected: any = '';
   bounds: any;
   polygonsInBounds: any;
+  neighbourMarkersInBounds: any;
   selectedPolygons: any[] = [];
   toggleShapefile: boolean = false;
   shapefile: any[] = [];
   zoomForMarkers: number = 6;
   mapSeries2 = [];
   neighbours = [];
+  
 
   constructor(public httpClient: HttpClient,
               public settings: AppSettings,
@@ -514,6 +519,16 @@ export class MapSeriesComponent implements OnInit {
     this.bounds = new google.maps.LatLngBounds(this.map.getBounds())
     this.zoom = Number(this.map.getZoom())
     this.polygonsInBounds = this.displayPolygonsInBounds()
+    // console.log('bounds', this.bounds.toJSON())
+    if (this.actualPolygonBounds) {
+      // console.log('actualPolygonBounds', this.actualPolygonBounds.toJSON())
+      if (this.bounds.toJSON().north < this.actualPolygonBounds.toJSON().north
+        || this.bounds.toJSON().south > this.actualPolygonBounds.toJSON().south
+        || this.bounds.toJSON().east < this.actualPolygonBounds.toJSON().east
+        || this.bounds.toJSON().west > this.actualPolygonBounds.toJSON().west) {
+            this.neighbours = [];
+      }
+    }
   }
 
   private reloadData() {
@@ -542,15 +557,26 @@ export class MapSeriesComponent implements OnInit {
     }
     return polygonsInBounds;
   }
+  displayMarkersInBounds() {
+    let neighbourMarkersInBounds:any[] = []
+    if (this.neighbours) {
+      for (const neighbour of this.neighbours) {
+        if (neighbour.neighbourN.position.lat > this.bounds.toJSON().south
+        && neighbour.neighbourS.position.lat) {
+          neighbourMarkersInBounds.push(neighbour)
+        }
+      }
+    }
+  }
   polygonClick(polygon: MapPolygon, content: any) {
     //BOUNDS MUSI BYT (SW, NE)
     this.bounds = new google.maps.LatLngBounds(content.position[2], content.position[0])
-    console.log(content.position)
+    this.actualPolygonBounds = this.bounds;
     this.neighbours = this.findNeighbours(content.position)
-    console.log(this.neighbours)
     this.selectedPolygons = []
     this.selectedPolygons.push(content)
     this.map.fitBounds(this.bounds)
+    this.polygonZoom = this.map.getZoom()
   }
   findNeighbours(polygon_position: any) {
     let neighbourN = this.polygons.find(x => (x.position[2].lat === polygon_position[3].lat) 
@@ -622,6 +648,9 @@ export class MapSeriesComponent implements OnInit {
         // fillColor: "#000000",
         fillOpacity: 0.3
     }
+  }
+  polygonZoomOut() {
+    this.neighbours = []
   }
   displayAllMaps() {
     this.selectedPolygons = this.polygons
