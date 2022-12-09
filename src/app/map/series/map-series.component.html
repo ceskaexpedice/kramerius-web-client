@@ -11,8 +11,9 @@
             </mat-select>
           </mat-form-field>
     </div>
-    <div *ngIf="apiLoaded | async" class="app-map-wrapper">
-        <google-map #map
+    <div class="app-map-wrapper">
+        <google-map *ngIf="apiLoaded | async" 
+                    #map
                     [options]="options" 
                     width="100%" 
                     height="100%"
@@ -47,12 +48,24 @@
                         >
                     </map-marker>
                 </div>
+                <div *ngIf="neighbours.length > 0">
+                    <p>marker</p>
+                    <map-marker
+                    #somemarker="mapMarker"
+                    *ngFor="let n of neighbours" 
+                    [position]="n.markerPosition"
+                    [label]="{text: n.map_number, color: 'white', fontSize: '18px', fontWeight: 'lighter'}"
+                    [options]="marker_options3"
+                    (mapClick)="openInfo(somemarker, n)"
+                    >
+                    </map-marker>  
+                </div>
         </google-map>
         <div class="app-map-right-panel">
-            <div class="app-map-shapefile" *ngIf="shapefile.length > 0">
+            <div class="app-map-shapefile" *ngIf="shapefile">
                 <mat-slide-toggle [(ngModel)]="toggleShapefile">Zobrazit shapefile</mat-slide-toggle>
             </div>
-            <div class="app-map-polygons" *ngIf="selectedPolygons.length > 0">
+            <div class="app-map-polygons" *ngIf="selectedPolygons">
                 <button mat-raised-button color="primary" class="app-map-button" *ngIf="polygons.length > selectedPolygons.length" (click)="displayAllMaps()">Zobraz všechny mapy ze série</button>
                 <div *ngFor="let item of selectedPolygons" class="app-map-polygon">
                     <div class="app-map-polygon-header">

@@ -33,6 +33,7 @@ export class MapSeriesComponent implements OnInit {
   shapefile: any[] = [];
   zoomForMarkers: number = 6;
   mapSeries2 = [];
+  neighbours = [];
 
   constructor(public httpClient: HttpClient,
               public settings: AppSettings,
@@ -47,10 +48,12 @@ export class MapSeriesComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const uuid = params.get('uuid');
+      console.log(uuid)
       // const url = 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=in_collections.direct:%22uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf%22'
-      const url_all_collections = 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=in_collections.direct:%22uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf%22%20AND%20model:collection&fl=title.search,pid'
+      const uuid_all_collections = 'uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf'
+      const url_all_collections = 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=in_collections.direct:"' + uuid_all_collections +'"%20AND%20model:collection&fl=title.search,pid'
       this.httpClient.get(url_all_collections).subscribe((data:any) => {
-        console.log(data.response.docs)
+        // console.log(data.response.docs)
         for (const col of data.response.docs) {
           const serie = {
             'name': col['title.search'],
@@ -58,12 +61,10 @@ export class MapSeriesComponent implements OnInit {
           }
           this.mapSeries2.push(serie)
         }
-        console.log(this.mapSeries2)
+        this.selected = this.mapSeries2[0].name
+        this.selectMapSeries(this.selected)
       })
-      console.log(uuid)
-      // TO DO this.musicService.init(uuid);
     });
-    this.selectMapSeries(this.mapSeries2[0]['title.search'])
     this.reloadData()
   }
 
@@ -500,6 +501,12 @@ export class MapSeriesComponent implements OnInit {
     icon: this.svgMarker,
     title: 'title'
   };
+  marker_options3: google.maps.MarkerOptions = {
+    draggable: false,
+    visible: true,
+    icon: this.svgMarker,
+    title: 'title'
+  };
 
   // ************* FUNKCE *******************  
 
@@ -522,13 +529,15 @@ export class MapSeriesComponent implements OnInit {
     }
   }
   displayPolygonsInBounds() {
-    let polygonsInBounds:any[] = []; 
-    for (const pol of this.polygons) {
-      if (pol.center.lat > this.bounds.toJSON().south 
-       && pol.center.lat < this.bounds.toJSON().north
-       && pol.center.lng < this.bounds.toJSON().east
-       && pol.center.lng > this.bounds.toJSON().west) {
-        polygonsInBounds.push(pol)
+    let polygonsInBounds:any[] = [];
+    if (this.polygons) {
+      for (const pol of this.polygons) {
+        if (pol.center.lat > this.bounds.toJSON().south 
+         && pol.center.lat < this.bounds.toJSON().north
+         && pol.center.lng < this.bounds.toJSON().east
+         && pol.center.lng > this.bounds.toJSON().west) {
+          polygonsInBounds.push(pol)
+        }
       }
     }
     return polygonsInBounds;
@@ -536,9 +545,69 @@ export class MapSeriesComponent implements OnInit {
   polygonClick(polygon: MapPolygon, content: any) {
     //BOUNDS MUSI BYT (SW, NE)
     this.bounds = new google.maps.LatLngBounds(content.position[2], content.position[0])
+    console.log(content.position)
+    this.neighbours = this.findNeighbours(content.position)
+    console.log(this.neighbours)
     this.selectedPolygons = []
     this.selectedPolygons.push(content)
     this.map.fitBounds(this.bounds)
+  }
+  findNeighbours(polygon_position: any) {
+    let neighbourN = this.polygons.find(x => (x.position[2].lat === polygon_position[3].lat) 
+                                          && (x.position[2].lng === polygon_position[3].lng) 
+                                          && (x.position[1].lng === polygon_position[0].lng)
+                                          && (x.position[1].lng === polygon_position[0].lng) 
+                                          )
+    let neighbourE = this.polygons.find(x => (x.position[3].lat === polygon_position[0].lat) 
+                                          && (x.position[3].lng === polygon_position[0].lng) 
+                                          && (x.position[2].lng === polygon_position[1].lng)
+                                          && (x.position[2].lng === polygon_position[1].lng) 
+                                          )
+    let neighbourS = this.polygons.find(x => (x.position[3].lat === polygon_position[2].lat) 
+                                          && (x.position[3].lng === polygon_position[2].lng) 
+                                          && (x.position[0].lng === polygon_position[1].lng)
+                                          && (x.position[0].lng === polygon_position[1].lng) 
+                                          )
+    let neighbourW = this.polygons.find(x => (x.position[0].lat === polygon_position[3].lat) 
+                                          && (x.position[0].lng === polygon_position[3].lng) 
+                                          && (x.position[1].lng === polygon_position[2].lng)
+                                          && (x.position[1].lng === polygon_position[2].lng) 
+                                          )
+    // console.log('neighbourN', neighbourN, 'neighbourE', neighbourE, 'neighbourS', neighbourS, 'neighbourW', neighbourW)
+    let neighbours = []
+    if (neighbourN) {
+      let markerPosition = {'lat': (neighbourN.position[2].lat + 0.01), 'lng': ((neighbourN.position[2].lng + neighbourN.position[1].lng)/2)}
+      neighbours.push({
+          'compass': 'N',
+          'markerPosition': markerPosition,
+          'position': neighbourN.position,
+          'map_number': '▲' + ' ' + neighbourN.map_number})
+    }
+    if (neighbourS) {
+      let markerPosition = {'lat': (neighbourS.position[3].lat - 0.01), 'lng': ((neighbourS.position[3].lng + neighbourS.position[0].lng)/2)}
+      neighbours.push({
+          'compass': 'S',
+          'markerPosition': markerPosition,
+          'position': neighbourS.position,
+          'map_number': '▼' + ' ' + neighbourS.map_number})
+    }
+    if (neighbourE) {
+      let markerPosition = {'lat': ((neighbourE.position[3].lat + neighbourE.position[2].lat)/2), 'lng': (neighbourE.position[3].lng + 0.02)}
+      neighbours.push({
+          'compass': 'E',
+          'markerPosition': markerPosition,
+          'position': neighbourE.position,
+          'map_number': '►' + ' ' + neighbourE.map_number})
+    }
+    if (neighbourW) {
+      let markerPosition = {'lat': ((neighbourW.position[0].lat + neighbourW.position[1].lat)/2), 'lng': (neighbourW.position[0].lng - 0.02)}
+      neighbours.push({
+          'compass': 'W',
+          'markerPosition': markerPosition,
+          'position': neighbourW.position,
+          'map_number': '◄' + ' ' + neighbourW.map_number})
+    }
+    return neighbours;
   }
   polygonMouseOver(somepolygon: any) {
     somepolygon.options = {
