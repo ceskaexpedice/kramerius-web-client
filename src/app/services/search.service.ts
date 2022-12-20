@@ -484,7 +484,6 @@ export class SearchService {
         };
         let aAll = 0;
         for (const a of this.accessibility) {
-            console.log('AAAAA', a);
             if (a['value'] == 'public') {
                 accessMap['open']['open'] = a['count'];
             } else if (a['value'] == 'all') {
@@ -495,8 +494,8 @@ export class SearchService {
             const code = l['value'];
             const type = this.licenceService.access(code);
             const accessile = this.licenceService.accessible([code]);
-            console.log(`${code} - ${type} - ${accessile}`)
-            console.log('type', type);
+            // console.log(`${code} - ${type} - ${accessile}`)
+            // console.log('type', type);
             if (accessMap[type]) {
                 accessMap[type][accessile ? 'open' : 'locked'] += l['count'];
             } 
@@ -512,8 +511,8 @@ export class SearchService {
             }
         });
         this.access.push({ 'value': 'all', count: aAll });
-        console.log(' this.acces',  this.access);
-        console.log(' accessMap',  accessMap);
+        // console.log(' this.acces',  this.access);
+        // console.log(' accessMap',  accessMap);
 
         if (this.licenceService.anyUserLicence()) {
             this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
@@ -529,7 +528,7 @@ export class SearchService {
         }
 
 
-        console.log('--ACCESS', this.access);
+        // console.log('--ACCESS', this.access);
      
     }
 

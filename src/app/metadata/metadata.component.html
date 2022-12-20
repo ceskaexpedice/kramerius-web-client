@@ -9,7 +9,7 @@
 
   <div class="app-metadata-content">
 
-    <ng-container *ngIf="metadata.getTitle()">
+    <ng-container *ngIf="metadata.titles[0]">
       
       <ng-container *ngIf="!expandedTitle">
         <h1 [class.app-cut]="metadata.getTitle().length > 75">
@@ -29,7 +29,7 @@
             <label>{{ 'metadata.title_other' | translate }}</label>
           </div>
           <h1>
-            {{ title.maintTitle() }}
+            {{ title.mainTitle() }}
           </h1>
           <div class="app-subtitle">{{title.subTitle}}</div>
           <div>
@@ -261,7 +261,7 @@
       <div class="divider"></div>
     </div>
 
-    <div *ngIf="metadata.doctype">
+    <div *ngIf="metadata.doctype && metadata.doctype != 'soundunit'">
       <label>{{ 'metadata.doctype' | translate }}</label>
       <div *ngIf="metadata.doctype !== 'monographbundle'">
         <a *ngIf="settings.availableFilter('doctypes')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{doctypes: metadata.doctype }" (click)="analytics.sendEvent('metadata', 'link', 'doctype');">{{ 'model.' + metadata.doctype | translate }}</a>

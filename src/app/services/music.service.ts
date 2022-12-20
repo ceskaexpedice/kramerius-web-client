@@ -52,16 +52,16 @@ export class MusicService {
     public analytics: AnalyticsService,
     private dialog: MatDialog,
     private localStorageService: LocalStorageService,
-    private krameriusApiService: KrameriusApiService) {
+    private api: KrameriusApiService) {
   }
 
   init(uuid: string) {
     this.clear();
     this.uuid = uuid;
     this.state = MusicState.Loading;
-    this.krameriusApiService.getItem(uuid).subscribe((item: DocumentItem) => {
+    this.api.getItem(uuid).subscribe((item: DocumentItem) => {
       this.document = item;
-      this.krameriusApiService.getMetadata(this.document.root_uuid).subscribe((metadata: Metadata) => {
+      this.api.getMetadata(this.document.root_uuid).subscribe((metadata: Metadata) => {
         this.metadata = metadata
         this.metadata.addToContext('soundrecording', this.metadata.uuid);
         this.metadata.assignDocument(item);
@@ -81,15 +81,15 @@ export class MusicService {
 
   private addImageToGallery(uuid: string, title: string) {
     this.galleryImages.push({
-      small: this.krameriusApiService.getThumbUrl(uuid),
-      medium: this.krameriusApiService.getThumbUrl(uuid),
-      big: this.krameriusApiService.getScaledJpegUrl(uuid, 1500),
+      small: this.api.getThumbUrl(uuid),
+      medium: this.api.getThumbUrl(uuid),
+      big: this.api.getScaledJpegUrl(uuid, 1500),
       description: title
     });
   }
 
   private loadSoundUnits() {
-    this.krameriusApiService.getChildren(this.uuid).subscribe((units) => {
+    this.api.getChildren(this.uuid).subscribe((units) => {
       for (const unit of units) {
         if (unit['model'] === 'soundunit') {
           this.soundUnits.push(new SoundUnit(unit['pid'], unit['title']));
@@ -109,7 +109,7 @@ export class MusicService {
   private loadTrack() {
     if (this.soundUnitIndex < this.soundUnits.length) {
       const unit = this.soundUnits[this.soundUnitIndex];
-      this.krameriusApiService.getChildren(unit['uuid']).subscribe((tracks) => {
+      this.api.getChildren(unit['uuid']).subscribe((tracks) => {
         for (const track of tracks) {
           if (track['model'] === 'track') {
             this.tracks.push(new Track(track['pid'], track['title'], track['length'], unit, track['policy'] === 'public'));
@@ -179,8 +179,22 @@ export class MusicService {
     if (!track) {
       return;
     }
+    if (!track.unit.metadata) {
+      this.api.getMetadata(track.unit.uuid).subscribe((metadata: Metadata) => {
+        metadata.doctype = 'soundunit';
+        track.unit.metadata = metadata;
+        if (this.activeTrack.uuid == track.uuid) {
+            this.metadata.extraParentMetadata = metadata;
+        }
+      });
+    } else {
+      this.metadata.extraParentMetadata = track.unit.metadata;
+    }
+
+    this.metadata.addToContext('soundunit', track.unit.uuid);
+    this.metadata.addToContext('track', track.uuid);
     this.activeTrack = track;
-    const url = this.krameriusApiService.getMp3Url(this.activeTrack.uuid);
+    const url = this.api.getMp3Url(this.activeTrack.uuid);
     if (this.audio) {
       this.audio.setAttribute('src', url);
       this.audio.load();
@@ -240,7 +254,7 @@ export class MusicService {
       return;
     }
     this.downloadedTrack = track;
-    this.krameriusApiService.downloadMp3(track.uuid).subscribe(
+    this.api.downloadMp3(track.uuid).subscribe(
       blob => {
         saveAs(blob, track.name + '.mp3');
         this.downloadedTrack = null;
@@ -279,7 +293,7 @@ export class MusicService {
 
   getSoundUnitImageUrl(): string {
     if (this.activeTrack) {
-      return this.krameriusApiService.getThumbUrl(this.activeTrack.unit.uuid);
+      return this.api.getThumbUrl(this.activeTrack.unit.uuid);
     }
   }
 

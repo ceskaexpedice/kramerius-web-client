@@ -94,7 +94,7 @@ export class Metadata {
           });
         }
       }
-      if (this.extraParentMetadata) {
+      if (this.extraParentMetadata && this.extraParentMetadata.doctype != 'soundunit') {
         result.push({
           type: this.extraParentMetadata.doctype,
           uuid: this.extraParentMetadata.uuid
@@ -150,7 +150,7 @@ export class Metadata {
             return this.mainTitle;
         }
         if (this.titles.length > 0) {
-            this.mainTitle = this.titles[0].maintTitle();
+            this.mainTitle = this.titles[0].mainTitle();
             return this.mainTitle;
         }
         return '';
@@ -159,7 +159,7 @@ export class Metadata {
     public getCollectionTitle(lang: string) {
         for (let t of this.titles) {
             if (t.lang == lang) {
-                return t.maintTitle();
+                return t.mainTitle();
             }
         }
         return this.getTitle();
@@ -229,7 +229,7 @@ export class TitleInfo {
     public partName;
     public partNumber;
 
-    maintTitle(): string {
+    mainTitle(): string {
         if (this.nonSort) {
             return this.nonSort + ' ' + this.title;
         } else {

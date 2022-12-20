@@ -319,6 +319,12 @@ export class SolrService {
     'soundunit', 'track', 'periodicalvolume', 'periodicalitem',
     'article', 'internalpart', 'supplement', 'page'];
 
+    public static allDoctypesShareable = ['convolute', 'periodical', 'monographbundle', 'monograph', 'collection', 'clippingsvolume', 'map', 'sheetmusic', 'graphic',
+    'archive', 'soundrecording', 'manuscript', 'monographunit',
+    'periodicalvolume', 'periodicalitem',
+    'article', 'internalpart', 'supplement', 'page'];
+
+
 
     constructor(private settings: AppSettings, private licences: LicenceService, private utils: Utils) {
     }

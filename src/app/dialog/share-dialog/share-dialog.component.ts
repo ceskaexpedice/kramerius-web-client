@@ -25,7 +25,7 @@ export class ShareDialogComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.items = this.data['metadata'].getFullContext(SolrService.allDoctypes);
+    this.items = this.data['metadata'].getFullContext(SolrService.allDoctypesShareable);
     for (let item of this.items) {
       if (item.type == 'page') {
         item.link = this.shareService.getPersistentLinkByUrl();

@@ -475,7 +475,7 @@
     "supplement" : "Supplement",
     "article" : "Article",
     "internalpart" : "Chapter",
-    "soundunit" : "Sound Unit",
+    "soundunit" : "Part",
     "track" : "Track",
     "collection" : "Collection",
     "convolute": "Convolute"
@@ -498,7 +498,7 @@
     "supplement" : "supplement",
     "article" : "article",
     "internalpart" : "chapter",
-    "soundunit" : "sound unit",
+    "soundunit" : "part",
     "track" : "track",
     "collection" : "collection",
     "convolute": "convolute"
@@ -521,7 +521,7 @@
     "supplement" : "supplement",
     "article" : "article",
     "internalpart" : "chapter",
-    "soundunit" : "sound unit",
+    "soundunit" : "part",
     "track" : "track",
     "collection" : "collection",
     "convolute": "convolute"
@@ -543,7 +543,7 @@
     "supplement" : "Supplements",
     "article" : "Articles",
     "internalpart" : "Chapters",
-    "soundunit" : "Sound Units",
+    "soundunit" : "Parts",
     "track" : "Tracks",
     "collection" : "Collections",
     "convolute": "Convolutes",

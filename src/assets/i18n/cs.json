@@ -488,7 +488,7 @@
     "supplement" : "Příloha",
     "article" : "Článek",
     "internalpart" : "Kapitola",
-    "soundunit" : "Album",
+    "soundunit" : "Část",
     "track" : "Nahrávka",
     "collection": "Sbírka",
     "convolute": "Konvolut"
@@ -511,7 +511,7 @@
     "supplement" : "přílohy",
     "article" : "článku",
     "internalpart" : "kapitoly",
-    "soundunit" : "alba",
+    "soundunit" : "části",
     "track" : "nahrávky",
     "collection": "sbírky",
     "convolute": "konvolutu"
@@ -534,7 +534,7 @@
     "supplement" : "přílohu",
     "article" : "článek",
     "internalpart" : "kapitolu",
-    "soundunit" : "album",
+    "soundunit" : "část",
     "track" : "nahrávku",
     "collection": "sbírku",
     "convolute": "konvolut"
@@ -556,7 +556,7 @@
     "supplement" : "Přílohy",
     "article" : "Články",
     "internalpart" : "Kapitoly",
-    "soundunit" : "Alba",
+    "soundunit" : "Částí",
     "track" : "Nahrávky",
     "collection": "Sbírky",
     "convolute": "Konvoluty",

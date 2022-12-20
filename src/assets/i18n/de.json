@@ -476,7 +476,7 @@
       "supplement" : "Beilage",
       "article" : "Artikel",
       "internalpart" : "Innenteil",
-      "soundunit" : "Album",
+      "soundunit" : "Teil",
       "track" : "Einspielung",
       "collection": "Sammlung",
       "convolute": "Konvolut"
@@ -499,7 +499,7 @@
       "supplement" : "Beilage",
       "article" : "Artikel",
       "internalpart" : "Innenteil",
-      "soundunit" : "Album",
+      "soundunit" : "Teil",
       "track" : "Einspielung",
       "collection": "Sammlung",
       "convolute": "Konvolut"
@@ -522,7 +522,7 @@
       "supplement" : "Beilage",
       "article" : "Artikel",
       "internalpart" : "Innenteil",
-      "soundunit" : "Album",
+      "soundunit" : "Teil",
       "track" : "Einspielung",
       "collection": "Sammlung",
       "convolute": "Konvolut"
@@ -544,7 +544,7 @@
       "supplement" : "Beilagen",
       "article" : "Artikel",
       "internalpart" : "Innenteile",
-      "soundunit" : "Alben",
+      "soundunit" : "Teile",
       "track" : "Einspielungen",
       "collection": "Sammlungen",
       "convolute": "Konvolute",
