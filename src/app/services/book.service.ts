@@ -468,7 +468,9 @@ export class BookService {
                     p['parent_uuid'] = parent['pid'];
                     p['parent_doctype'] = parent['model'];
                     pages.push(p);
-                }
+                } else if (p['model'] === 'article') {
+                    pages.push(p);
+                } 
             }
             this.addParentPages(pages, parents, doctype, params);
         });
