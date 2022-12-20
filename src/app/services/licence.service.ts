@@ -18,11 +18,18 @@ export class LicenceService {
 
   assignLicences(licences: any) {
     // console.log('assignLicences', licences);
-      this.licences = licences;
+      this.licences = licences || {};
+      this.licences['_public'] = {
+        access: 'open',
+        label: {
+          cs: 'Dokument je veřejně dostupný',
+          en: 'The document is publicly accessible'
+        }
+      }
   }
 
   assignUserLicences(licences: string[]) {
-    this.userLicences = this.availableLicences(licences);
+    this.userLicences = this.availableLicences(['_public'].concat(licences || []));
   }
 
   // 0 --- undefined
@@ -71,6 +78,16 @@ export class LicenceService {
       return '';
     }
     return this.licences[licence].image
+  }
+
+  access(licence: string): string {
+    if (!this.available(licence)) {
+      return '';
+    }
+    if (!this.licences[licence].access) {
+      return '';
+    }
+    return this.licences[licence].access
   }
 
   web(licence: string): string {
@@ -151,16 +168,22 @@ export class LicenceService {
   }
 
 
+
   appliedLicence(licences: string[]): string {
     if (!this.anyUserLicence() || !this.anyAvailableLicence(licences)) {
       return null;
     }
-    for (const licence of licences) {
-      const idx = this.userLicences.indexOf(licence);
-      if (idx >= 0) {
-        return this.userLicences[idx];
+    for (const licence of this.userLicences) {
+      if (licences.indexOf(licence) >= 0) {
+        return licence;
       }
     }
+    // for (const licence of licences) {
+    //   const idx = this.userLicences.indexOf(licence);
+    //   if (idx >= 0) {
+    //     return this.userLicences[idx];
+    //   }
+    // }
     return null;
   }
 
@@ -169,7 +192,8 @@ export class LicenceService {
       return {
         icon: 'lock',
         class: 'app-lock-no-licence',
-        color: '#616161',
+        color: '#e03124',
+        access: 'inaccessible',
         tooltip: this.label('_private')
       };
     } 
@@ -177,21 +201,38 @@ export class LicenceService {
     if (licence) {
       const l = this.licences[licence];
       return {
-        icon: l.iconOn || 'no_photography',
+        icon: this.accessIcon(l.access, true),
         class: 'app-lock-licence-open',
-        color: '#D32F2F',
+        color: '#4CAF50',
+        access: l.access,
         tooltip: this.labels(licences)
       };
     } else {
       const l = this.licences[this.availableLicences(licences)[0]];
       return {
-        icon: l.iconOff || 'lock',
+        icon: this.accessIcon(l.access, false),
         class: 'app-lock-licence-locked',
-        color: '#4CAF50',
+        color: '#e06f26',
+        access: l.access,
         tooltip: this.labels(licences)
       };
     }
   }
+
+
+
+
+
+
+  accessIcon(type: string, accessible: boolean): string {
+    switch (type) {
+      case 'open': return accessible ? 'visibility' : 'visibility_off';
+      case 'login': return accessible ? 'key' : 'key_off';
+      case 'terminal': return accessible ? 'account_balance' : 'account_balance';
+      default: return '';
+    }
+  }
+
 
 
 }

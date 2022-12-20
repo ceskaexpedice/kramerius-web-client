@@ -1152,6 +1152,9 @@ export class SolrService {
             item.authors = doc[this.field('authors')];
             item.sources = doc[this.field('cdk_sources')];
             item.licences = this.parseLicences(doc);
+            if (item.public) {
+                item.licences.push('_public');
+            }
             item.geonames = doc[this.field('geonames_facet')];
             if (this.settings.k5Compat()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
@@ -1666,6 +1669,9 @@ export class SolrService {
             item.authors = doc[this.field('authors')];
             item.sources = doc[this.field('cdk_sources')];
             item.licences = this.parseLicences(doc);
+            if (item.public) {
+                item.licences.push('_public');
+            }
             item.description = doc[this.field('collection_description')];
             item.geonames = doc[this.field('geonames_facet')];
             if (this.settings.k5Compat()) {

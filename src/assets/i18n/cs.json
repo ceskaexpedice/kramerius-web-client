@@ -187,6 +187,15 @@
       "accessible": "Všechny dostupné dokumenty",
       "all": "Vše"
     },
+    "access": {
+      "label": "Dostupnost",
+      "open": "Veřejné",
+      "login": "Po přihlášení",
+      "terminal": "V knihovně",
+      "inaccessible": "Nedostupné",
+      "accessible": "Všechny dostupné dokumenty",
+      "all": "Vše"
+    },
     "year-range": {
       "label": "Rok vydání",
       "from": "Od",

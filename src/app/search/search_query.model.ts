@@ -6,6 +6,7 @@ export class SearchQuery {
     private static YEAR_TO = (new Date()).getFullYear();
 
     accessibility: string;
+    access: string;
     query: string;
     page: number;
     ordering: string;
@@ -71,6 +72,9 @@ export class SearchQuery {
         if (settings.filters.indexOf('accessibility') > -1) {
             query.setAccessibility(params['accessibility']);
         }
+        if (settings.filters.indexOf('access') > -1) {
+            query.setAccess(params['access']);
+        }
         query.setYearRange(parseInt(params['from'], 10), parseInt(params['to'], 10));
         if (params['north']) {
             query.setBoundingBox(parseFloat(params['north']), parseFloat(params['south']), parseFloat(params['west']), parseFloat(params['east']));
@@ -79,6 +83,14 @@ export class SearchQuery {
             query.collection = context.value;
         }
         return query;
+    }
+
+    public setAccess(access: string) {
+        if (['open', 'login', 'terminal', 'accessible'].indexOf(access) >= 0) {
+            this.access = access;
+        } else {
+            this.access = 'all';
+        }
     }
 
     public setAccessibility(accessibility: string) {
@@ -210,6 +222,9 @@ export class SearchQuery {
         if (['public', 'private', 'accessible'].indexOf(this.accessibility) >= 0) {
             params['accessibility'] = this.accessibility;
         }
+        if (['open', 'login', 'terminal', 'accessible'].indexOf(this.access) >= 0) {
+            params['access'] = this.access;
+        }
         if (this.query) {
             params['q'] = this.query;
         }
@@ -244,6 +259,9 @@ export class SearchQuery {
         }
         if (['public', 'private', 'accessible'].indexOf(this.accessibility) >= 0) {
             params['accessibility'] = this.accessibility;
+        }
+        if (['open', 'login', 'terminal', 'accessible'].indexOf(this.access) >= 0) {
+            params['access'] = this.access;
         }
         if (this.keywords.length > 0) {
             params['keywords'] = this.urlArray(this.keywords);
@@ -325,6 +343,7 @@ export class SearchQuery {
 
     public removeAllFilters() {
         this.accessibility = 'all';
+        this.access = 'all';
         this.query = null;
         this.page = 1;
         this.keywords = [];

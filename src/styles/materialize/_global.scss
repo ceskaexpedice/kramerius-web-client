@@ -132,6 +132,7 @@ a {
   mat-icon {
     // color: #D32F2F !important;
     color: #616161 !important;
+    // color: #e03124 !important;
   }
 }
 
@@ -145,4 +146,13 @@ a {
   mat-icon {
     color: #e06f26 !important;
   }
+}
+
+
+.app-lock-licence-open-text {
+  color: #4CAF50 !important;
+}
+
+.app-lock-licence-locked-text {
+  color: #e06f26 !important;
 }
