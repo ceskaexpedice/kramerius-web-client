@@ -390,7 +390,7 @@ export class SolrService {
             }
             q += `&sort=${this.field('rels_ext_index')} asc`;
         }
-        q += '&rows=2000&start=0';
+        q += '&rows=4000&start=0';
         return q;
     }
 
