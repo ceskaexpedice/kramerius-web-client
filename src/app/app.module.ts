@@ -164,7 +164,7 @@ export function hljsLanguages() {
 }
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.3.9');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.3.10');
 }
 
 export function appInitializerFactory(translate: TranslateService) {

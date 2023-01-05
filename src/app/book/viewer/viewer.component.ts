@@ -316,12 +316,21 @@ export class ViewerComponent implements OnInit, OnDestroy {
      });
   }
 
-  buildWatermarkLayer(config: any, text: string) {
-    const font = config.fontSize + 'px roboto,sans-serif';
-    this.watermark = new ol.layer.Vector({
-      name: 'watermark',
-      source: new ol.source.Vector(),
-      style: new ol.style.Style({
+  buildWatermarkLayer(config: any, userId: string) {
+    let style = null;
+    if (config.type == "image") {
+      style = new ol.style.Style({
+        image: new ol.style.Icon({
+          src: config.logo,
+          scale: config.scale,
+          opacity: config.opacity,
+          crossOrigin: 'anonymous'
+        })
+      });
+    } else {
+      const text = config.staticText || userId || config.defaultText || '';
+      const font = config.fontSize + 'px roboto,sans-serif';
+      style =  new ol.style.Style({
         text: new ol.style.Text({
           font: font,
           text: text,
@@ -330,8 +339,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
           }),
           textAlign: 'left',
         })
-      })
-    });
+      });
+    }
+    this.watermark = new ol.layer.Vector({
+      name: 'watermark',
+      source: new ol.source.Vector(),
+      style: style
+    })
     this.watermark.setZIndex(100);
     this.view.addLayer(this.watermark);
   }
@@ -347,17 +361,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (!config) {
       return;
     }
-    let watermarkText: string;
-    if (this.authService.isLoggedIn()) {
-      watermarkText = this.authService.getUserId() || this.authService.getUserName();
-    } else {
-      watermarkText = config['defaultText'];
-    }
-    if (!watermarkText) {
-      return;
-    }
     if (!this.watermark) {
-      this.buildWatermarkLayer(config, watermarkText);
+      const userId = this.authService.getUserId() || this.authService.getUserName();
+      this.buildWatermarkLayer(config, userId);
     }
     let cw = config.rowCount;
     const ch = config.colCount;

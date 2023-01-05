@@ -10,6 +10,7 @@ export class LicenceService {
   licences: any;
 
   constructor(private translate: TranslateService, private settings: AppSettings) {
+    this.userLicences = ['_public'];
     this.assignLicences(this.settings.licences);
     this.settings.kramerius$.subscribe(() =>  {
       this.assignLicences(this.settings.licences);
@@ -17,7 +18,6 @@ export class LicenceService {
   }
 
   assignLicences(licences: any) {
-    // console.log('assignLicences', licences);
       this.licences = licences || {};
       this.licences['_public'] = {
         access: 'open',
@@ -229,7 +229,7 @@ export class LicenceService {
       case 'open': return accessible ? 'visibility' : 'visibility_off';
       case 'login': return accessible ? 'key' : 'key_off';
       case 'terminal': return accessible ? 'account_balance' : 'account_balance';
-      default: return '';
+      default: return accessible ? 'key' : 'key_off';
     }
   }
 
