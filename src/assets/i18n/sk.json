@@ -186,6 +186,15 @@
         "accessible": "Všetky dostupné dokumenty",
         "all": "Všetko"
       },
+      "access": {
+        "label": "Dostupnosť",
+        "open": "Verejné",
+        "login": "Po prihlásení",
+        "terminal": "V knižnici",
+        "inaccessible": "Nedostupné",
+        "accessible": "Všetko dostupné",
+        "all": "Všetko"
+      },
       "year-range": {
         "label": "Rok vydania",
         "from": "Od",
@@ -291,6 +300,7 @@
       "publisher": "Vydavateľské údaje",
       "keywords": "Kľúčové slová",
       "languages": "Jazyk",
+      "sources": "Zdroj",
       "geonames": "Geografické názvy",
       "location": "Miesto uloženia",
       "abstract": "Abstrakt",
@@ -677,6 +687,14 @@
       "category:magazine": "Časopisy",
       "category:addressbook": "Adresáre",
       "category:calendar": "Kalendáre"
+    },
+    "source": {
+      "mzk": "Moravská zemská knihovna",
+      "svkhk": "Studijní a vědecká knihovna v Hradci Králové",
+      "knav": "Knihovna Akademie věd ČR",
+      "uzei": "Knihovna Antonína Švehly",
+      "svkul": "Severočeská vědecká knihovna v Ústí nad Labem",
+      "kkp": "Krajská knihovna v Pardubicích"
     },
     "sigla": {
       "BOA001" : "Moravská zemská knihovna v Brně",

@@ -186,6 +186,15 @@
       "accessible": "All accessible documents",
       "all": "All"
     },
+    "access": {
+      "label": "Availability",
+      "open": "Public",
+      "login": "After login",
+      "terminal": "In library",
+      "inaccessible": "Inaccessible",
+      "accessible": "All accessible",
+      "all": "All"
+    },
     "year-range": {
       "label": "Publishing Year",
       "from": "From",
@@ -290,7 +299,8 @@
     "author_other": "Other makers",
     "publisher": "Publishing details",
     "keywords": "Keywords",
-    "languages": "Language",        
+    "languages": "Language",
+    "sources": "Source",      
     "geonames": "Geographic names",
     "location": "Location",
     "abstract": "Abstract",
@@ -677,6 +687,14 @@
     "category:magazine": "Magazines",
     "category:addressbook": "Address books",
     "category:calendar": "Calendars"
+  },
+  "source": {
+    "mzk": "Moravská zemská knihovna",
+    "svkhk": "Studijní a vědecká knihovna v Hradci Králové",
+    "knav": "Knihovna Akademie věd ČR",
+    "uzei": "Knihovna Antonína Švehly",
+    "svkul": "Severočeská vědecká knihovna v Ústí nad Labem",
+    "kkp": "Krajská knihovna v Pardubicích"
   },
   "sigla": {
     "BOA001" : "Moravian Library in Brno",

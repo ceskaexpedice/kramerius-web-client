@@ -187,6 +187,15 @@
         "accessible": "Alle verfügbaren Dokumente",
         "all": "Alles"
       },
+      "access": {
+        "label": "Zugänglichkeit",
+        "open": "Öffentlich",
+        "login": "After login",
+        "terminal": "In library",
+        "inaccessible": "Nicht öffentlich",
+        "accessible": "Alle verfügbaren",
+        "all": "Alles"
+      },
       "year-range": {
         "label": "Erscheinungsjahr",
         "from": "Von",
@@ -292,6 +301,7 @@
       "publisher": "Publikationsangaben",
       "keywords": "Schlagwörter",
       "languages": "Sprache",
+      "sources": "Quelle",      
       "geonames": "Geografischer Name",
       "location": "Eigentümer (Original)",
       "abstract": "Abstract",
@@ -678,6 +688,14 @@
       "category:magazine": "Zeitschriften",
       "category:addressbook": "Adressbücher",
       "category:calendar": "Kalender"
+    },
+    "source": {
+      "mzk": "Moravská zemská knihovna",
+      "svkhk": "Studijní a vědecká knihovna v Hradci Králové",
+      "knav": "Knihovna Akademie věd ČR",
+      "uzei": "Knihovna Antonína Švehly",
+      "svkul": "Severočeská vědecká knihovna v Ústí nad Labem",
+      "kkp": "Krajská knihovna v Pardubicích"
     },
     "sigla": {
       "BOA001" : "Moravská zemská knihovna v Brně",
