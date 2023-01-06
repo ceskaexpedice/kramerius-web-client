@@ -1380,6 +1380,8 @@ export class BookService {
         this.viewer = 'none';
         this.licence = null;
         this.licences = [];
+        this.source = null;
+        this.sources = [];
         this.iiifEnabled = false;
     }
 

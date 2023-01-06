@@ -196,7 +196,8 @@ export class KrameriusApiService {
     }
 
     getMetadata(uuid: string, type: string = 'full'): Observable<Metadata> {
-        return this.getMods(uuid).pipe(map(mods => this.mods.parse(mods, uuid, type)));
+        const id: string = uuid.split("/").slice(-1)[0];
+        return this.getMods(uuid).pipe(map(mods => this.mods.parse(mods, id, type)));
     }
 
     getItem(uuid: string): Observable<DocumentItem> {
@@ -214,7 +215,6 @@ export class KrameriusApiService {
     getFoxml(uuid: string): Observable<string> {
         return this.doGetText(this.getFoxmlUrl(uuid));
     }
-
 
     getOcrUrl(uuid: string): string {
         if (this.settings.k5Compat()) {

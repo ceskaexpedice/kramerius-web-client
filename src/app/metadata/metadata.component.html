@@ -68,7 +68,7 @@
       </div>
       <div *ngIf="metadata.volume">
         <a [routerLink]="[settings.getRouteFor('periodical'), metadata.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'volume list');">
-          {{ 'metadata.volume_list' | translate }}
+          {{ 'metadata.volume_list' | translate }} 
         </a>
       </div>
       
