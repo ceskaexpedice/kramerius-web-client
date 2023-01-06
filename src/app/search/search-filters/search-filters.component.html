@@ -35,15 +35,17 @@
               style="overflow: hidden;"
               class="app-filter-item">
               <span>{{item.count}}</span>
-              <div class="app-lock {{ item.accessible ? 'app-lock-licence-open' : 'app-lock-licence-locked' }}">
+              <div *ngIf="item.value != 'all' && item.value != 'accessible'" class="app-lock {{ item.accessible ? 'app-lock-licence-open' : 'app-lock-licence-locked' }}">
                 <mat-icon>{{ licences.accessIcon(item.value, item.accessible) }}</mat-icon>
               </div>
-              <span style="float: none;"
-              [class.app-lock-licence-open-text]="item.accessible && item.value != 'all' && item.value != 'accessible'"
-              [class.app-lock-licence-locked-text]="!item.accessible && item.value != 'all' && item.value != 'accessible'">
-                {{ 'search.access.' + item.value | translate}}
+              <span style="float: none;" *ngIf="item.value != 'all' && item.value != 'accessible'"
+                [class.app-lock-licence-open-text]="item.accessible"
+                [class.app-lock-licence-locked-text]="!item.accessible">
+                  {{ 'search.access.' + item.value | translate}}
               </span>
-
+              <span style="float: none; padding-left: 22px;" *ngIf="item.value == 'all' || item.value == 'accessible'">
+                  {{ 'search.access.' + item.value | translate}}
+              </span>
         </div>
       </div>
     </mat-expansion-panel>

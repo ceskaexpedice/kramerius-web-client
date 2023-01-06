@@ -380,6 +380,9 @@ export class SearchQuery {
         if (!forPlaceholder && this.accessibility && this.accessibility !== 'all') {
             return true;
         }
+        if (!forPlaceholder && this.access && this.access !== 'all') {
+            return true;
+        }
         if (this.keywords && this.keywords.length > 0) {
             return true;
         }

@@ -3,9 +3,9 @@
     <div class="app-card-mark {{item.doctype}}"></div>
     <div class="app-card-media">
       <div class="app-card-thumb" [style.background-image]="thumb">
-        <div matTooltipPosition="above" [matTooltip]="lock.tooltip" class="app-lock {{ lock.class }}" *ngIf="lock && lock.access != 'open'">
+        <!-- <div matTooltipPosition="above" [matTooltip]="lock.tooltip" class="app-lock {{ lock.class }}" *ngIf="lock && lock.access != 'open'">
           <mat-icon>{{ lock.icon }}</mat-icon>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -37,10 +37,10 @@
 
 
 
-      <!-- <div class="app-card-access" [style.color]="lock.color" *ngIf="lock"> 
+      <div class="app-card-access" [style.color]="lock.color" *ngIf="lock"> 
         <mat-icon>{{ lock.icon }}</mat-icon>
          {{ 'search.access.' + lock.access | translate}}
-      </div> -->
+      </div>
 
 
       <img *ngIf="item.library" class="app-card-logo" src="{{ libraryLogo() }}" >

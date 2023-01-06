@@ -96,10 +96,11 @@ export class MetadataDialogComponent implements OnInit {
   
   
     private getRequest(uuid: string) {
+
       switch (this.resource) {
         case 'mods': return this.api.getMods(uuid);
         case 'dc': return this.api.getDc(uuid);
-        case 'solr': return this.api.getSearchResults(`q=${this.solr.field('id')}:"${uuid}"`);
+        case 'solr': return this.api.getSearchResults(`q=${this.solr.field('id')}:"${uuid.split("/").slice(-1)}"`);
         case 'alto': return this.api.getAlto(uuid);
         case 'ocr': return this.api.getOcr(uuid);
         case 'foxml': return this.api.getFoxml(uuid);
@@ -110,10 +111,11 @@ export class MetadataDialogComponent implements OnInit {
     }
   
     private getUrl(uuid: string): string {
+      console.log('uuid', uuid);
       switch (this.resource) {
         case 'mods': return this.api.getModsUrl(uuid);
         case 'dc' : return this.api.getDcUrl(uuid);
-        case 'solr': return this.api.getSearchResultsUrl(`q=${this.solr.field('id')}:"${uuid}"`);
+        case 'solr': return this.api.getSearchResultsUrl(`q=${this.solr.field('id')}:"${uuid.split("/").slice(-1)}"`);
         case 'alto': return this.api.getAltoUrl(uuid);
         case 'ocr': return this.api.getOcrUrl(uuid);
         case 'foxml': return this.api.getFoxmlUrl(uuid);

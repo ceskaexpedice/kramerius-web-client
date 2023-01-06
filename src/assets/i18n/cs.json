@@ -193,7 +193,7 @@
       "login": "Po přihlášení",
       "terminal": "V knihovně",
       "inaccessible": "Nedostupné",
-      "accessible": "Všechny dostupné dokumenty",
+      "accessible": "Vše dostupné",
       "all": "Vše"
     },
     "year-range": {
@@ -474,7 +474,7 @@
     "monograph" : "Kniha",
     "monographunit" : "Kniha",
     "monographbundle" : "Svazek knih",
-    "periodical" : "Noviny a časopisy",
+    "periodical" : "Noviny",
     "map" : "Mapa",
     "sheetmusic" : "Hudebniny",
     "graphic" : "Grafika",
@@ -542,7 +542,7 @@
   "model_plural" : {
     "monograph" : "Knihy",
     "monographunit" : "Knihy",
-    "periodical" : "Noviny a časopisy",
+    "periodical" : "Noviny",
     "map" : "Mapy",
     "sheetmusic" : "Hudebniny",
     "graphic" : "Grafiky",
@@ -692,13 +692,12 @@
     "category:calendar": "Kalendáře"
   },
   "source": {
-    "mzk": "MZK",
-    "svkhk": "SVKHK",
-    "knav": "KNAV",
-    "uzei": "UZEI",
-    "svkul": "SVKUL",
-    "kkp": "KKP"
-
+    "mzk": "Moravská zemská knihovna",
+    "svkhk": "Studijní a vědecká knihovna v Hradci Králové",
+    "knav": "Knihovna Akademie věd ČR",
+    "uzei": "Knihovna Antonína Švehly",
+    "svkul": "Severočeská vědecká knihovna v Ústí nad Labem",
+    "kkp": "Krajská knihovna v Pardubicích"
   },
   "sigla": {
     "BOA001" : "Moravská zemská knihovna v Brně",

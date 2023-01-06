@@ -23,6 +23,13 @@
     {{ 'search.accessibility.' + searchService.query.accessibility | translate }}
   </div>
 
+  <div *ngIf="searchService.query.access != 'all'" (click)="searchService.removeAccessFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+    <mat-icon>{{ licences.accessIcon(searchService.query.access, true) }}</mat-icon>
+
+    <mat-icon class="app-close">close</mat-icon>
+    {{ 'search.access.' + searchService.query.access | translate }}
+  </div>
+
   <div *ngFor="let licence of searchService.query.licences" (click)="searchService.removeFilter(searchService.query.licences, licence)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <!-- <mat-icon class="app-licence">{{ licences.accessible([licence]) ? 'no_photography' : 'lock' }}</mat-icon> -->
 

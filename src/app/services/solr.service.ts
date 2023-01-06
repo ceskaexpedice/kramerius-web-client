@@ -494,7 +494,7 @@ export class SolrService {
 
 
     buildDocumentFulltextQuery(uuids: string[], query: string) {
-        const fl = this.field('id');
+        const fl = `${this.field('id')},${this.field('root_pid')}`;
         const parent = `${this.field('parent_pid')}:"` + uuids.join(`" OR ${this.field('parent_pid')}:"`) + '"';
         const fq = `(${parent}) AND ${this.field('model')}:page`;
         const q = `_query_:"{!edismax qf=\'${this.field('text_ocr')}\' v=$q1}\"`;
@@ -505,12 +505,22 @@ export class SolrService {
     documentFulltextQuery(solr): string[] {
         const list = [];
         for (const doc of solr['response']['docs']) {
+            console.log('doc', doc);
             let snippet = "";
             const uuid = doc[this.field('id')];
+            const rootUuid = doc[this.field('root_pid')];
             if (solr['highlighting'][uuid]) {
                 const ocr = solr['highlighting'][uuid][this.field('text_ocr')];
                 if (ocr) {
                     snippet = ocr[0];
+                }
+            } else {
+                const composedId = `${rootUuid}!${uuid}`;
+                if (solr['highlighting'][composedId]) {
+                    const ocr = solr['highlighting'][composedId][this.field('text_ocr')];
+                    if (ocr) {
+                        snippet = ocr[0];
+                    }
                 }
             }
             list.push({
@@ -1160,6 +1170,8 @@ export class SolrService {
             item.licences = this.parseLicences(doc);
             if (item.public) {
                 item.licences.push('_public');
+            } else {
+                item.licences.push('_private');
             }
             item.geonames = doc[this.field('geonames_facet')];
             if (this.settings.k5Compat()) {
@@ -1325,6 +1337,11 @@ export class SolrService {
             item.uuid = doc[this.field('id')];
             item.public = doc[this.field('accessibility')] === 'public';
             item.licences = this.parseLicences(doc);
+            if (item.public) {
+                item.licences.push('_public');
+            } else {
+                item.licences.push('_private');
+            }
             if (doc[this.field('model')] === 'article') {
                 item.type = 'article';
                 item.authors = doc[this.field('authors')];
@@ -1364,6 +1381,14 @@ export class SolrService {
                 const ocr = solr['highlighting'][uuid][this.field('text_ocr')];
                 if (ocr) {
                     item.text = ocr[0];
+                }
+            } else {
+                const composedId = `${pidPath.split('/')[0]}!${uuid}`;
+                if (solr['highlighting'][composedId]) {
+                    const ocr = solr['highlighting'][composedId][this.field('text_ocr')];
+                    if (ocr) {
+                        item.text = ocr[0];
+                    }
                 }
             }
             items.push(item);
@@ -1518,6 +1543,11 @@ export class SolrService {
                 title: doc[this.field('title')],
                 policy: doc[this.field('accessibility')]
             }
+            if (page.policy == 'public') {
+                page.licences.push('_public');
+            } else {
+                page.licences.push('_private');
+            }
             if (k5) {
                 const details = doc['details'];
                 let idx = 0;
@@ -1565,9 +1595,14 @@ export class SolrService {
     periodicalItem(doc): PeriodicalItem {
         const item = new PeriodicalItem();
         item.uuid = doc[this.field('id')];
-        item.public = doc[this.field('accessibility')] === 'public';
+        item.public = doc[this.field('accessibility')] === 'public';        
         item.doctype = doc[this.field('model')];
         item.licences = this.parseLicences(doc);
+        if (item.public) {
+            item.licences.push('_public');
+        } else {
+            item.licences.push('_private');
+        }
         item.title = doc[this.field('title')];
         if (this.settings.k5Compat()) {
             this.periodicalItemOld(doc, item);
@@ -1677,6 +1712,8 @@ export class SolrService {
             item.licences = this.parseLicences(doc);
             if (item.public) {
                 item.licences.push('_public');
+            } else {
+                item.licences.push('_private');
             }
             item.description = doc[this.field('collection_description')];
             item.geonames = doc[this.field('geonames_facet')];
