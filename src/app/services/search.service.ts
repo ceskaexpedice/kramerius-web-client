@@ -43,7 +43,7 @@ export class SearchService {
 
     activeMobilePanel: String;
 
-    contentType = 'grid'; // 'grid' | 'map'
+    contentType = 'grid'; // 'grid' | 'map' | 'series'
 
     collection: Metadata;
     collectionStructure: any;
@@ -147,6 +147,8 @@ export class SearchService {
         this.contentType = contentType;
         if (this.contentType === 'map') {
             this.query.setBoundingBox(50.7278, 48.707, 12.7476, 18.9549);
+        } else if (this.contentType === 'series') {
+            this.query.clearBoundingBox();
         } else {
             this.query.clearBoundingBox();
         }
@@ -162,8 +164,14 @@ export class SearchService {
             nav.push(this.settings.currentCode);
         }
         if (this.query.collection) {
-            nav.push('collection');
-            nav.push(this.query.collection);
+            if (this.contentType === 'series') {
+                nav.push('mapseries');
+                // console.log('collection info:', this.query.collection)
+                nav.push(this.query.collection)
+            } else {
+                nav.push('collection');
+                nav.push(this.query.collection);
+            }
         } else {
             nav.push('search');
         }

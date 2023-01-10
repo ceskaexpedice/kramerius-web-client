@@ -3,10 +3,11 @@
         <div>Mapové série</div>
         <mat-form-field appearance="fill" class="app-map-series-header-select">
             <mat-label>Vyber mapovou sérii</mat-label>
-            <mat-select [(value)]="selected" 
+            <mat-select [(value)]="selectedValue" 
+                        name="serie" 
                         (selectionChange)="selectMapSeries($event.value)">
-              <mat-option *ngFor="let item of mapSeries2" [value]="item.name">
-                {{item.name}}
+              <mat-option *ngFor="let serie of mapSeries" [value]="serie.pid">
+                {{serie.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>

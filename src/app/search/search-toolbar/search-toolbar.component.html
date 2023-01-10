@@ -17,16 +17,6 @@
       <mat-icon>manage_search</mat-icon>
     </div>
 
-      <ng-container *ngIf="settings.mapSearch">
-        <div [matTooltip]="'toolbar.tooltip_display_cards' | translate"  (click)="search.selectContentType('grid')" class="app-view-button" [class.app-active]="search.contentType == 'grid'">
-          <mat-icon>grid_view</mat-icon>
-        </div>
-        <div [matTooltip]="'toolbar.tooltip_display_map' | translate"  (click)="search.selectContentType('map')" class="app-view-button" [class.app-active]="search.contentType == 'map'">
-          <mat-icon>map</mat-icon>
-        </div>
-      </ng-container>
-
-      
       <div *ngIf="search.contentType == 'grid'" class="app-ordering">
         <label class="app-hide-on-med">{{ 'search.ordering.label' | translate }}: </label>
         <span class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
@@ -34,6 +24,18 @@
           <mat-icon>arrow_drop_down</mat-icon>
         </span>
       </div>
+
+      <ng-container *ngIf="settings.mapSearch">
+        <div [matTooltip]="'toolbar.tooltip_display_cards' | translate"  (click)="search.selectContentType('grid')" class="app-view-button" [class.app-active]="search.contentType == 'grid'">
+          <mat-icon>grid_view</mat-icon>
+        </div>
+        <div [matTooltip]="'toolbar.tooltip_display_map' | translate"  (click)="search.selectContentType('map')" class="app-view-button" [class.app-active]="search.contentType == 'map'">
+          <mat-icon>map</mat-icon>
+        </div>
+        <div [matTooltip]="'toolbar.tooltip_display_map' | translate"  (click)="search.selectContentType('series')" class="app-view-button" [class.app-active]="search.contentType == 'series'">
+          <mat-icon>layers</mat-icon>
+        </div>
+      </ng-container>
 
   </div>
 
