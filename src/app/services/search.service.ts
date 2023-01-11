@@ -43,7 +43,7 @@ export class SearchService {
 
     activeMobilePanel: String;
 
-    contentType = 'grid'; // 'grid' | 'map' | 'series'
+    contentType = 'grid'; // 'grid' | 'map'
 
     collection: Metadata;
     collectionStructure: any;
@@ -146,9 +146,17 @@ export class SearchService {
     selectContentType(contentType: string) {
         this.contentType = contentType;
         if (this.contentType === 'map') {
-            this.query.setBoundingBox(50.7278, 48.707, 12.7476, 18.9549);
-        } else if (this.contentType === 'series') {
-            this.query.clearBoundingBox();
+            if (this.collectionStructure.collections.length > 0) {
+                if (this.collectionStructure.collections[0].uuid.toString() === 'uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf') {
+                    const nav = ['mapseries']
+                    nav.push(this.query.collection)
+                    this.router.navigate(nav)
+                }
+                return;
+
+            } else {
+                this.query.setBoundingBox(50.7278, 48.707, 12.7476, 18.9549);
+            }
         } else {
             this.query.clearBoundingBox();
         }
@@ -164,14 +172,8 @@ export class SearchService {
             nav.push(this.settings.currentCode);
         }
         if (this.query.collection) {
-            if (this.contentType === 'series') {
-                nav.push('mapseries');
-                // console.log('collection info:', this.query.collection)
-                nav.push(this.query.collection)
-            } else {
-                nav.push('collection');
-                nav.push(this.query.collection);
-            }
+            nav.push('collection');
+            nav.push(this.query.collection);
         } else {
             nav.push('search');
         }

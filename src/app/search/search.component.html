@@ -1,5 +1,5 @@
 <!-- Show just for medium and up devices -->
-<app-search-filters class="app-filters-desktop" *ngIf="searchService.contentType !== 'series'"></app-search-filters>
+<app-search-filters class="app-filters-desktop"></app-search-filters>
 <!-- Show just for small devices -->
 <app-search-filters class="app-filters-mobile" [class.app-mobile-hidden]="searchService.activeMobilePanel != 'filters'"></app-search-filters>
 
@@ -7,5 +7,4 @@
   <app-search-toolbar></app-search-toolbar>
   <app-search-results *ngIf="searchService.contentType == 'grid'"></app-search-results>
   <app-map-browse *ngIf="searchService.contentType == 'map'"></app-map-browse>
-  <app-map-series *ngIf="searchService.contentType == 'series'"></app-map-series>
 </div>
