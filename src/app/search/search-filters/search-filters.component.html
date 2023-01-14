@@ -29,7 +29,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="app-filter-items">
-        <div *ngFor="let item of searchService.access"
+        <div *ngFor="let item of searchService.accessArray()"
               [class.app-selected]="item.value === searchService.query.access"
               (click)="searchService.setAccess(item.value);analytics.sendEvent('search', 'access', item.value)"
               style="overflow: hidden;"

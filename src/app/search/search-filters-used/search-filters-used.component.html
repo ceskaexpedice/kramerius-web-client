@@ -1,5 +1,4 @@
 <div class="app-search-filters-used">
-
   <div class="app-header">
     {{'filters.used_header' | translate}}
     <mat-icon [matTooltip]="'filters.tooltip_remove_filter_all' | translate" (click)="searchService.removeAllFilters()">close</mat-icon>
@@ -17,13 +16,13 @@
     {{ searchService.query.getCustomValue() }}
   </div>
 
-  <div *ngIf="searchService.query.accessibility != 'all'" (click)="searchService.removeAccessibilityFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div *ngIf="searchService.query.accessibility && searchService.query.accessibility != 'all'" (click)="searchService.removeAccessibilityFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>{{ searchService.query.accessibility === 'private' ? 'lock' : 'lock_open' }}</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ 'search.accessibility.' + searchService.query.accessibility | translate }}
   </div>
 
-  <div *ngIf="searchService.query.access != 'all'" (click)="searchService.removeAccessFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div *ngIf="searchService.query.access && searchService.query.access != 'all'" (click)="searchService.removeAccessFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>{{ licences.accessIcon(searchService.query.access, true) }}</mat-icon>
 
     <mat-icon class="app-close">close</mat-icon>

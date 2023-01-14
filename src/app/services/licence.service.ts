@@ -167,8 +167,6 @@ export class LicenceService {
     return false;
   }
 
-
-
   appliedLicence(licences: string[]): string {
     if (!this.anyUserLicence() || !this.anyAvailableLicence(licences)) {
       return null;
@@ -221,6 +219,18 @@ export class LicenceService {
 
 
 
+  licencesByType(type: string): string[] {
+    if (!this.licences) {
+      return [];
+    }
+    let lArray = [];
+    for (const l in this.licences) {
+      if (!l.startsWith("_") && this.licences[l].access == type) {
+        lArray.push(l);
+      }
+    }
+    return lArray;
+  }
 
 
 

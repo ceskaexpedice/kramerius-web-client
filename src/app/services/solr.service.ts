@@ -904,32 +904,55 @@ export class SolrService {
                 fqFilters.push(`(${this.buildTopLevelFilter(!fromAutocomplete)})`);
             }
         }
-        if (facet == 'accessible') {
-            let q = `${this.field('accessibility')}:public`;
-            if (this.licences.userLicences) {
-                const licences = this.licences.userLicences;
-                if (licences) {
-                    let a = []
-                    for (const l of this.licences.userLicences) {
-                        let f = `${this.field('licences_search')}:${l}`
-                        if (!this.settings.k5Compat() || this.settings.containsLicences) {
-                            f += ` OR ${this.field('licences_contains')}:${l}`;
-                        }
-                        if (!this.settings.k5Compat()) {
-                            f += ` OR ${this.field('licences_ancestors')}:${l}`;
-                        }
-                        a.push(f)
-                    }
-                    q += ` OR ${a.join(' OR ')}`;
-                }
-            }
-            fqFilters.push(`(${q})`);
-        } else if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
-            if (query.accessibility === 'public') {
-                fqFilters.push(`${this.field('accessibility')}:public`);
-            } else if (query.accessibility === 'private') {
-                fqFilters.push(`${this.field('accessibility')}:private`);
-            } else if (query.accessibility === 'accessible') {
+        // if (facet == 'accessible') {
+        //     let q = `${this.field('accessibility')}:public`;
+        //     if (this.licences.userLicences) {
+        //         const licences = this.licences.userLicences;
+        //         if (licences) {
+        //             let a = []
+        //             for (const l of this.licences.userLicences) {
+        //                 let f = `${this.field('licences_search')}:${l}`
+        //                 if (!this.settings.k5Compat() || this.settings.containsLicences) {
+        //                     f += ` OR ${this.field('licences_contains')}:${l}`;
+        //                 }
+        //                 if (!this.settings.k5Compat()) {
+        //                     f += ` OR ${this.field('licences_ancestors')}:${l}`;
+        //                 }
+        //                 a.push(f)
+        //             }
+        //             q += ` OR ${a.join(' OR ')}`;
+        //         }
+        //     }
+        //     fqFilters.push(`(${q})`);
+        // } else if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
+        //     if (query.accessibility === 'public') {
+        //         fqFilters.push(`${this.field('accessibility')}:public`);
+        //     } else if (query.accessibility === 'private') {
+        //         fqFilters.push(`${this.field('accessibility')}:private`);
+        //     } else if (query.accessibility === 'accessible') {
+        //         let q = `${this.field('accessibility')}:public`;
+        //         if (this.licences.userLicences) {
+        //             const licences = this.licences.userLicences;
+        //             if (licences) {
+        //                 let a = []
+        //                 for (const l of this.licences.userLicences) {
+        //                     let f = `${this.field('licences_search')}:${l}`
+        //                     if (!this.settings.k5Compat() || this.settings.containsLicences) {
+        //                         f += ` OR ${this.field('licences_contains')}:${l}`;
+        //                     }
+        //                     if (!this.settings.k5Compat()) {
+        //                         f += ` OR ${this.field('licences_ancestors')}:${l}`;
+        //                     }
+        //                     a.push(f)
+        //                 }
+        //                 q += ` OR ${a.join(' OR ')}`;
+        //             }
+        //         }
+        //         fqFilters.push(`(${q})`);
+        //     }            
+        // }
+        if (facet !== 'access' && this.settings.filters.indexOf('access') > -1 && (!facet || !facet.startsWith('access:'))) {
+            if (query.access === 'accessible') {
                 let q = `${this.field('accessibility')}:public`;
                 if (this.licences.userLicences) {
                     const licences = this.licences.userLicences;
@@ -949,8 +972,157 @@ export class SolrService {
                     }
                 }
                 fqFilters.push(`(${q})`);
-            }            
+            } else if (query.access === 'open') {
+                let q = `${this.field('accessibility')}:public`;
+                const licences = this.licences.licencesByType('open');
+                if (licences.length > 0) {
+                    let a = []
+                    for (const l of licences) {
+                        let f = `${this.field('licences_search')}:${l}`
+                        if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                            f += ` OR ${this.field('licences_contains')}:${l}`;
+                        }
+                        if (!this.settings.k5Compat()) {
+                            f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                        }
+                        a.push(f)
+                    }
+                    q += ` OR ${a.join(' OR ')}`;
+                }
+                fqFilters.push(`(${q})`);
+            } else if (query.access === 'terminal') {
+                let q = `${this.field('accessibility')}:private`;
+                const licences = this.licences.licencesByType('terminal');
+                if (licences.length > 0) {
+                    let a = []
+                    for (const l of licences) {
+                        let f = `${this.field('licences_search')}:${l}`
+                        if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                            f += ` OR ${this.field('licences_contains')}:${l}`;
+                        }
+                        if (!this.settings.k5Compat()) {
+                            f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                        }
+                        a.push(f)
+                    }
+                    q += ` OR ${a.join(' OR ')}`;
+                }
+                fqFilters.push(`(${q})`);
+            } else if (query.access === 'login') {
+                const licences = this.licences.licencesByType('login');
+                if (licences.length > 0) {
+                    let a = []
+                    for (const l of licences) {
+                        let f = `${this.field('licences_search')}:${l}`
+                        if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                            f += ` OR ${this.field('licences_contains')}:${l}`;
+                        }
+                        if (!this.settings.k5Compat()) {
+                            f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                        }
+                        a.push(f)
+                    }
+                    const q = `${a.join(' OR ')}`;
+                    fqFilters.push(`(${q})`);
+                }
+            }   
         }
+
+
+
+
+
+        if (facet && facet.startsWith('access:')) {
+            if (facet == 'access:accessible') {
+                let q = `${this.field('accessibility')}:public`;
+                if (this.licences.userLicences) {
+                    const licences = this.licences.userLicences;
+                    if (licences) {
+                        let a = []
+                        for (const l of this.licences.userLicences) {
+                            let f = `${this.field('licences_search')}:${l}`
+                            if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                                f += ` OR ${this.field('licences_contains')}:${l}`;
+                            }
+                            if (!this.settings.k5Compat()) {
+                                f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                            }
+                            a.push(f)
+                        }
+                        q += ` OR ${a.join(' OR ')}`;
+                    }
+                }
+                fqFilters.push(`(${q})`);
+            } else if (facet == 'access:open') {
+                let q = `${this.field('accessibility')}:public`;
+                const licences = this.licences.licencesByType('open');
+                if (licences.length > 0) {
+                    let a = []
+                    for (const l of licences) {
+                        let f = `${this.field('licences_search')}:${l}`
+                        if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                            f += ` OR ${this.field('licences_contains')}:${l}`;
+                        }
+                        if (!this.settings.k5Compat()) {
+                            f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                        }
+                        a.push(f)
+                    }
+                    q += ` OR ${a.join(' OR ')}`;
+                }
+                fqFilters.push(`(${q})`);
+            } else if (facet == 'access:terminal') {
+                let q = `${this.field('accessibility')}:private`;
+                const licences = this.licences.licencesByType('terminal');
+                if (licences.length > 0) {
+                    let a = []
+                    for (const l of licences) {
+                        let f = `${this.field('licences_search')}:${l}`
+                        if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                            f += ` OR ${this.field('licences_contains')}:${l}`;
+                        }
+                        if (!this.settings.k5Compat()) {
+                            f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                        }
+                        a.push(f)
+                    }
+                    q += ` OR ${a.join(' OR ')}`;
+                }
+                fqFilters.push(`(${q})`);
+            } else if (facet == 'access:login') {
+                const licences = this.licences.licencesByType('login');
+                if (licences.length > 0) {
+                    let a = []
+                    for (const l of licences) {
+                        let f = `${this.field('licences_search')}:${l}`
+                        if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                            f += ` OR ${this.field('licences_contains')}:${l}`;
+                        }
+                        if (!this.settings.k5Compat()) {
+                            f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                        }
+                        a.push(f)
+                    }
+                    const q = `${a.join(' OR ')}`;
+                    fqFilters.push(`(${q})`);
+                }
+            }   
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         if (query.isYearRangeSet()) {
             const from = query.from === 0 ? 1 : query.from;
             fqFilters.push(`(${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${from} TO *])`);

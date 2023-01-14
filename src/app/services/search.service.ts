@@ -26,7 +26,7 @@ export class SearchService {
     doctypes: any[] = [];
     categories: any[] = [];
     accessibility: any[] = [];
-    access: any[] = [];
+    access: any = {};
     authors: any[] = [];
     languages: any[] = [];
     sources: any[] = [];
@@ -73,7 +73,7 @@ export class SearchService {
         this.categories = [];
         this.collections =[];
         this.accessibility = [];
-        this.access = [];
+        this.access = {};
         this.authors = [];
         this.languages = [];
         this.sources = [];
@@ -302,7 +302,6 @@ export class SearchService {
         return this.query.getStart() + 1;
     }
 
-
     public getResultIndexTo(): number {
         return this.query.getStart() + this.results.length;
     }
@@ -388,19 +387,34 @@ export class SearchService {
         switch (facet) {
             case 'accessibility': {
                 this.accessibility = this.solr.facetAccessibilityList(response);
-                if (this.licenceService.anyUserLicence()) {
-                    this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
-                        let count = 0;
-                        if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
-                            count = this.solr.numberOfSearchResults(response);
-                        } else {
-                            count = this.solr.numberOfResults(response);
-                        }
-                        this.accessibility.splice( this.accessibility.length - 1, 0,  { 'value' : 'accessible', 'count': count } );
-                    });
-                }
+                // if (this.licenceService.anyUserLicence()) {
+                //     this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
+                //         let count = 0;
+                //         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
+                //             count = this.solr.numberOfSearchResults(response);
+                //         } else {
+                //             count = this.solr.numberOfResults(response);
+                //         }
+                //         this.accessibility.splice( this.accessibility.length - 1, 0,  { 'value' : 'accessible', 'count': count } );
+                //     });
+                // }
                 break;
             }
+            case 'access:open': 
+            case 'access:login': 
+            case 'access:terminal': 
+            case 'access:all': 
+            case 'access:accessible': {
+                const type = facet.substring(7);
+                let count = 0;
+                if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
+                    count = this.solr.numberOfSearchResults(response);
+                } else {
+                    count = this.solr.numberOfResults(response);
+                }
+                this.access[type].count = count;
+                break;
+            } 
             case 'doctypes': {
                 this.doctypes = this.solr.facetDoctypeList(response, this.settings.joinedDoctypes, this.settings.doctypes);
                 break;
@@ -475,62 +489,63 @@ export class SearchService {
         }
     }
 
-    handleAcess() {
-        let accessMap = {
-            'open': { open: 0, locked: 0 },
-            'login': { open: 0, locked: 0 },
-            'terminal': { open: 0, locked: 0 }
+    // handleAcess() {
+    //     let accessMap = {
+    //         'open': { open: 0, locked: 0 },
+    //         'login': { open: 0, locked: 0 },
+    //         'terminal': { open: 0, locked: 0 }
+    //     };
+    //     let aAll = 0;
+    //     for (const a of this.accessibility) {
+    //         if (a['value'] == 'public') {
+    //             accessMap['open']['open'] = a['count'];
+    //         } else if (a['value'] == 'private') {
+    //             accessMap['terminal']['locked'] = a['count'];
+    //         } else if (a['value'] == 'all') {
+    //             aAll = a['count'];
+    //         }
+    //     }
+    //     for (const l of this.licences) {
+    //         const code = l['value'];
+    //         const type = this.licenceService.access(code);
+    //         const accessile = this.licenceService.accessible([code]);
+    //         // console.log(`${code} - ${type} - ${accessile}`)
+    //         // console.log('type', type);
+    //         if (accessMap[type]) {
+    //             accessMap[type][accessile ? 'open' : 'locked'] += l['count'];
+    //         } 
+    //     }
+    //     this.access = [];
+    //     ['open', 'login', 'terminal'].forEach(a => {
+    //         const item = accessMap[a];
+    //         if (item['open'] > 0) {
+    //             this.access.push({ 'value': a, count: item['open'], accessible: true });
+    //         }
+    //         if (item['locked'] > 0) {
+    //             this.access.push({ 'value': a, count: item['locked'], accessible: false });
+    //         }
+    //     });
+    //     this.access.push({ 'value': 'all', count: aAll });
+    //     // console.log(' this.acces',  this.access);
+    //     // console.log(' accessMap',  accessMap);
 
-        };
-        let aAll = 0;
-        for (const a of this.accessibility) {
-            if (a['value'] == 'public') {
-                accessMap['open']['open'] = a['count'];
-            } else if (a['value'] == 'all') {
-                aAll = a['count'];
-            }
-        }
-        for (const l of this.licences) {
-            const code = l['value'];
-            const type = this.licenceService.access(code);
-            const accessile = this.licenceService.accessible([code]);
-            // console.log(`${code} - ${type} - ${accessile}`)
-            // console.log('type', type);
-            if (accessMap[type]) {
-                accessMap[type][accessile ? 'open' : 'locked'] += l['count'];
-            } 
-        }
-        this.access = [];
-        ['open', 'login', 'terminal'].forEach(a => {
-            const item = accessMap[a];
-            if (item['open'] > 0) {
-                this.access.push({ 'value': a, count: item['open'], accessible: true });
-            }
-            if (item['locked'] > 0) {
-                this.access.push({ 'value': a, count: item['locked'], accessible: false });
-            }
-        });
-        this.access.push({ 'value': 'all', count: aAll });
-        // console.log(' this.acces',  this.access);
-        // console.log(' accessMap',  accessMap);
-
-        if (this.licenceService.anyUserLicence()) {
-            this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
-                let count = 0;
-                if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
-                    count = this.solr.numberOfSearchResults(response);
-                } else {
-                    count = this.solr.numberOfResults(response);
-                }
-                this.accessibility.splice( this.accessibility.length - 1, 0,  { 'value' : 'accessible', 'count': count } );
-                this.access.splice( this.access.length - 1, 0,  { 'value' : 'accessible', 'count': count, 'accessible': true } );
-            });
-        }
+    //     if (this.licenceService.anyUserLicence()) {
+    //         this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'accessible')).subscribe(response => {
+    //             let count = 0;
+    //             if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
+    //                 count = this.solr.numberOfSearchResults(response);
+    //             } else {
+    //                 count = this.solr.numberOfResults(response);
+    //             }
+    //             // this.accessibility.splice( this.accessibility.length - 1, 0,  { 'value' : 'accessible', 'count': count } );
+    //             this.access.splice( this.access.length - 1, 0,  { 'value' : 'accessible', 'count': count, 'accessible': true } );
+    //         });
+    //     }
 
 
-        // console.log('--ACCESS', this.access);
+    //     // console.log('--ACCESS', this.access);
      
-    }
+    // }
 
     public showAdvancedSearchDialog() {
         const data = {
@@ -596,10 +611,44 @@ export class SearchService {
         this.checkFacet(this.query.collections.length === 0, response, 'collections');
 
         if (this.settings.filters.indexOf('access') > -1) {
-            this.handleAcess();
+            this.access = {
+                'open': { value: 'open', count: 0, accessible: true },
+                'login': { value: 'login', count: 0, accessible: false },
+                'terminal': { value: 'terminal', count: 0, accessible: false },
+                'accessible': { value: 'accessible', count: 0, accessible: true },
+                'all': { value: 'all', count: 0, accessible: false }
+            }
+            this.makeFacetRequest('access:open');
+            this.makeFacetRequest('access:login');
+            this.makeFacetRequest('access:terminal');
+            this.makeFacetRequest('access:accessible');
+            this.makeFacetRequest('access:all');
         }
     }
 
+    accessArray(): any[] {
+        let aArray = [];
+        for (const a of ['open', 'login', 'terminal']) {
+            if (this.access[a]) {
+                aArray.push(this.access[a]);
+            }
+        }
+        let open = 0;
+        let accessible = 0;
+        if (this.access['open']) {
+            open = this.access['open'].count;
+        } 
+        if (this.access['accessible']) {
+            accessible = this.access['accessible'].count;
+            if (open != accessible) {
+                aArray.push(this.access['accessible']);
+            }
+        } 
+        if (this.access['all']) {
+            aArray.push(this.access['all']);
+        }
+        return aArray;
+    }
 
 
   toggleAllSelected() {
