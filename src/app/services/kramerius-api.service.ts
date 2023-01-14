@@ -318,7 +318,7 @@ export class KrameriusApiService {
     }
 
     getToken(code: string, redirectUri: string): Observable<string> {
-        const url = `${this.settings.keycloak.baseUrl}/realms/kramerius/protocol/openid-connect/token`;
+        const url = `${this.settings.keycloak.baseUrl}/realms/${this.settings.keycloak.realm || 'kramerius'}/protocol/openid-connect/token`;
         const body = `grant_type=authorization_code&code=${code}&client_id=${this.settings.keycloak.clientId}&client_secret=${this.settings.keycloak.secret}&redirect_uri=${redirectUri}`; 
         const options = {
             headers: new HttpHeaders({
