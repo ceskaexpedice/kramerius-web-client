@@ -29,7 +29,8 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="app-filter-items">
-        <div *ngFor="let item of searchService.accessArray()"
+        <ng-container *ngFor="let item of searchService.accessArray()">
+        <div *ngIf="searchService.showAccessFilter(item.value)"
               [class.app-selected]="item.value === searchService.query.access"
               (click)="searchService.setAccess(item.value);analytics.sendEvent('search', 'access', item.value)"
               style="overflow: hidden;"
@@ -47,6 +48,8 @@
                   {{ 'search.access.' + item.value | translate}}
               </span>
         </div>
+      </ng-container>
+
       </div>
     </mat-expansion-panel>
 

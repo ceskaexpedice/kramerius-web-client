@@ -619,11 +619,41 @@ export class SearchService {
                 'all': { value: 'all', count: 0, accessible: false }
             }
             this.makeFacetRequest('access:open');
-            this.makeFacetRequest('access:login');
-            this.makeFacetRequest('access:terminal');
-            this.makeFacetRequest('access:accessible');
+            if (this.anyLoginLicense()) {
+                this.makeFacetRequest('access:login');
+            }
+            // if (this.anyLoginLicense()) {
+                this.makeFacetRequest('access:terminal');
+            // }
+            if (this.anyLoginLicense() || this.anyTerminalLicense()) {
+                this.makeFacetRequest('access:accessible');
+            }
             this.makeFacetRequest('access:all');
         }
+    }
+
+
+    showAccessFilter(type: string): boolean {
+        if (type == 'login' && !this.anyLoginLicense()) {
+            return false;
+        }
+        if (type == 'accessible' && ((!this.anyLoginLicense() && !this.anyTerminalLicense())  || (this.access['open'].count == this.access['accessible'].count))) {
+            return false;
+        }
+        return true;
+    }
+
+    anyLoginLicense(): boolean {
+        return this.licenceService.licencesByType('login').length > 0;
+    }
+
+    anyTerminalLicense(): boolean {
+        for (const l of this.licenceService.licencesByType('terminal')) {
+            if (l != '_private') {
+                return true;
+            }
+        }
+        return false;
     }
 
     accessArray(): any[] {

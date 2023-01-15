@@ -951,6 +951,13 @@ export class SolrService {
         //         fqFilters.push(`(${q})`);
         //     }            
         // }
+        if (facet !== 'accessibility' && this.settings.filters.indexOf('accessibility') > -1) {
+            if (query.accessibility === 'public') {
+                fqFilters.push(`${this.field('accessibility')}:public`);
+            } else if (query.accessibility === 'private') {
+                fqFilters.push(`${this.field('accessibility')}:private`);
+            }
+        }
         if (facet !== 'access' && this.settings.filters.indexOf('access') > -1 && (!facet || !facet.startsWith('access:'))) {
             if (query.access === 'accessible') {
                 let q = `${this.field('accessibility')}:public`;
