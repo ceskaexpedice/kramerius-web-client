@@ -23,7 +23,7 @@ export class BrowseFiltersComponent implements OnInit {
     for (const f of this.appSettings.filters) {
       if (f === 'accessibility') {
         this.accessibilityEnabled = true;
-      } else {
+      } else if (f != 'access') {
         this.filters.push(f);
       }
     }

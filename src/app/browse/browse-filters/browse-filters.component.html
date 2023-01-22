@@ -4,7 +4,7 @@
 
 <mat-accordion [displayMode]="'flat'" [multi]="true" class="app-filters-wrapper">
 
-  <mat-expansion-panel class="app-filter-panel" [expanded]="true">
+  <mat-expansion-panel class="app-filter-panel" [expanded]="true" *ngIf="accessibilityEnabled">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ 'search.accessibility.label' | translate }}   

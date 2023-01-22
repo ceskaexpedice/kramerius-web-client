@@ -44,7 +44,6 @@ export class NavbarComponent implements OnInit {
     }
     this.translate.use(lang);
     this.document.documentElement.lang = lang; 
-
   }
 
   goBack() {
