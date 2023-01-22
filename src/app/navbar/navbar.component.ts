@@ -3,10 +3,11 @@ import { AuthService } from './../services/auth.service';
 import { AppSettings } from './../services/app-settings';
 import { LibrarySearchService } from './../services/library-search.service';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AppState } from '../app.state';
 import { HistoryService } from '../services/history.service';
 import { TranslateService } from '@ngx-translate/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
@@ -25,6 +26,7 @@ export class NavbarComponent implements OnInit {
     private history: HistoryService,
     public service: LibrarySearchService,
     public analytics: AnalyticsService,
+    @Inject(DOCUMENT) private document: Document,
     public state: AppState) {
   }
 
@@ -41,6 +43,8 @@ export class NavbarComponent implements OnInit {
       localStorage.setItem('lang', lang);
     }
     this.translate.use(lang);
+    this.document.documentElement.lang = lang; 
+
   }
 
   goBack() {

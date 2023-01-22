@@ -1,19 +1,19 @@
 import { AppSettings } from './services/app-settings';
 import { HistoryService } from './services/history.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AppState } from './app.state';
-import { Location } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
 
 import { MatomoInjector } from 'ngx-matomo';
 import { AnalyticsService } from './services/analytics.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-
 export class AppComponent implements OnInit {
 
 
@@ -23,9 +23,11 @@ export class AppComponent implements OnInit {
     private location: Location,
     private history: HistoryService,
     private router: Router,
+    private translate: TranslateService,
     private settings: AppSettings,
     private analytics: AnalyticsService,
     public state: AppState,
+    @Inject(DOCUMENT) private document: Document,
     private matomoInjector: MatomoInjector) {
   }
 
@@ -41,5 +43,6 @@ export class AppComponent implements OnInit {
         this.state.pageUrl = event.url;
       }
     });
+    this.document.documentElement.lang = this.translate.currentLang; 
   }
 }

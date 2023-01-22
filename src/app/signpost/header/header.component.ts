@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AppSettings } from '../../services/app-settings';
@@ -10,8 +11,10 @@ import { AppSettings } from '../../services/app-settings';
 })
 export class SignpostHeaderComponent implements OnInit {
 
-  constructor(public analytics: AnalyticsService, private settings: AppSettings, private translate: TranslateService,
-    ) {
+  constructor(public analytics: AnalyticsService, 
+              private settings: AppSettings, 
+              private translate: TranslateService,
+              @Inject(DOCUMENT) private document: Document) {
   }
 
   ngOnInit() {
@@ -27,6 +30,7 @@ export class SignpostHeaderComponent implements OnInit {
       localStorage.setItem('lang', lang);
     }
     this.translate.use(lang);
+    this.document.documentElement.lang = lang; 
   }
 
 }

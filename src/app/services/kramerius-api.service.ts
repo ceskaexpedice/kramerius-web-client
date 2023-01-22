@@ -290,7 +290,7 @@ export class KrameriusApiService {
     }
 
     getUserInfo(username: string, password: string): Observable<User> {
-        const url = this.getApiUrl() + '/user';
+        const url = this.getApiUrl() + '/user?sessionAttributes=true';
         const headerParams = {
             'Content-Type': 'application/json',
         };
