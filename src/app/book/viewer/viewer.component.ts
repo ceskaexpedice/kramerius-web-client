@@ -365,8 +365,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
       const userId = this.authService.getUserId() || this.authService.getUserName();
       this.buildWatermarkLayer(config, userId);
     }
-    let cw = config.rowCount;
-    const ch = config.colCount;
+    let cw = config.colCount;
+    const ch = config.rowCount;
     const sw = this.extent[0];
     const width = this.extent[2] - this.extent[0];
     if (this.extent[0] < 0) {
