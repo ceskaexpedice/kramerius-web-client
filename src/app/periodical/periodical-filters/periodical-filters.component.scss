@@ -7,7 +7,9 @@
     background: transparent;
     border-bottom: 1px solid $app-grey-l-2;
     mat-expansion-panel-header {
-      height: 48px !important;
+      // height: 48px !important;
+      height: 20px !important;
+      margin: 14px 0;
       font-weight: 500;
       &:hover {
         background: transparent !important;
