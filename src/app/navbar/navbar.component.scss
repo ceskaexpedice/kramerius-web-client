@@ -17,6 +17,10 @@
       margin-top: 22px;
     }
   }
+  .app-home-logo {
+    margin-left: -15px;
+    float: left;
+  }
   .sp-header-logo {
     padding-left: 10px;
     height: 100%;
@@ -99,7 +103,8 @@
         .app-navbar-item {
           float: left;
           a {
-            line-height: 68px;
+            line-height: 60px;
+            margin: 3px 0;
             transition: background-color .3s;
             font-size: 14px;
             color: #757575;
@@ -134,8 +139,9 @@
       margin-right: 5px;
       float: left;
       .app-dropdown-language {
-        height: 68px;
-        padding: 14px 16px;
+        height: 60px;
+        margin: 3px 0;
+        padding: 11px 16px;
         cursor: pointer;
         &:hover {
           background: #dadada;
@@ -177,6 +183,7 @@
       height: 60px;
       line-height: 60px;
       font-size: 15px;
+      margin: 0 3px;
       .app-language {
         width: 145px;
         line-height: 60px;
@@ -193,7 +200,7 @@
         }
       }
       &:hover {
-        // background: #e5e5e5;
+        background: #e5e5e5;
       }
     }
   }

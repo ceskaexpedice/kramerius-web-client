@@ -59,6 +59,8 @@ export class AppSettings {
   public krameriusLogin = !!APP_GLOBAL.krameriusLogin;
   public landingPage = !!APP_GLOBAL.landingPage;
   public cookiebar = !!APP_GLOBAL.cookiebar;
+  public navbarLogoOnHome = !!APP_GLOBAL.navbarLogoOnHome;
+
 
   public languages: string[] = APP_GLOBAL.languages || ['cs', 'en', 'de', 'sk'];
 

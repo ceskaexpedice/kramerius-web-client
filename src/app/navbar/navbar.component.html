@@ -11,6 +11,10 @@
       <img [src]="'sp.header.logo' | translate">
     </a>
   </div>
+
+  <div *ngIf="state.atHome() && !appSettings.landingPage && appSettings.navbarLogoOnHome" class="app-home-logo" [class.app-col-hidden]="mobileSearchBarExpanded">
+    <app-logo></app-logo>
+  </div>
   
   <div class="col app-col-right" [class.app-col-right-home]="state.atHome()" [class.app-search-bar-displayed]="mobileSearchBarExpanded">
     <app-navbar-search-bar *ngIf="!state.atHome()" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
