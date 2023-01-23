@@ -36,9 +36,20 @@ a {
 }
 
 button:focus {
-  outline: none;
-  background-color: inherit;
+  // outline: none;
+  // background-color: inherit;
 }
+
+*:focus-visible {
+  // background-color: yellow !important;
+  // outline-style: solid !important;
+  // outline-color: #0276bd !important;
+  // background-color: yellow !important;
+  // border: 3px solid #0276bd !important;
+  outline: 3px solid $primary-color !important;
+
+}
+
 
 .cdk-overlay-pane {
   max-width: 100vw !important;

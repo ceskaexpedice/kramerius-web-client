@@ -45,7 +45,7 @@ export class BrowseService {
 
     private getDefaultCategory(): string {
         for (const cat of this.settings.filters) {
-            if (cat !== 'accessibility') {
+            if (cat !== 'accessibility' && cat !== 'access') {
                 return cat;
             }
         }

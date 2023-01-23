@@ -173,6 +173,10 @@
   .app-languages-menu {
     .app-dropdown-item {
       cursor: pointer;
+      padding: 0;
+      height: 60px;
+      line-height: 60px;
+      font-size: 15px;
       .app-language {
         width: 145px;
         line-height: 60px;
@@ -189,7 +193,7 @@
         }
       }
       &:hover {
-        background: #e5e5e5;
+        // background: #e5e5e5;
       }
     }
   }

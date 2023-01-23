@@ -1,6 +1,6 @@
 import { AppSettings } from './services/app-settings';
 import { HistoryService } from './services/history.service';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AppState } from './app.state';
 import { DOCUMENT, Location } from '@angular/common';
@@ -29,6 +29,13 @@ export class AppComponent implements OnInit {
     public state: AppState,
     @Inject(DOCUMENT) private document: Document,
     private matomoInjector: MatomoInjector) {
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key == 'Enter') {
+      event.target.dispatchEvent(new Event("click"));
+    }
   }
 
   ngOnInit() {

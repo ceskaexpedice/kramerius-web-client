@@ -12,17 +12,17 @@
     </mat-expansion-panel-header>
     <div class="app-filter-items">
 
-      <div class="app-filter-item" [class.app-selected]="browseService.query.accessibility == 'public'"
+      <div class="app-filter-item" tabindex="0" [class.app-selected]="browseService.query.accessibility == 'public'"
       (click)="browseService.setAccessibility('public');analytics.sendEvent('browse', 'accessibility', 'public');">
         {{'search.accessibility.public' | translate }}
       </div>
 
-      <div class="app-filter-item" [class.app-selected]="browseService.query.accessibility == 'private'"
+      <div class="app-filter-item" tabindex="0" [class.app-selected]="browseService.query.accessibility == 'private'"
       (click)="browseService.setAccessibility('private');analytics.sendEvent('browse', 'accessibility', 'private');">
         {{'search.accessibility.private' | translate }}
       </div>
     
-      <div class="app-filter-item" [class.app-selected]="browseService.query.accessibility == 'all'"
+      <div class="app-filter-item" tabindex="0" [class.app-selected]="browseService.query.accessibility == 'all'"
       (click)="browseService.setAccessibility('all');analytics.sendEvent('browse', 'accessibility', 'all');">
         {{'search.accessibility.all' | translate }}
       </div>
@@ -37,7 +37,7 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="app-filter-items">
-      <div *ngFor="let filter of filters" class="app-filter-item" [class.app-selected]="browseService.query.category == filter"
+      <div *ngFor="let filter of filters" tabindex="0" class="app-filter-item" [class.app-selected]="browseService.query.category == filter"
       (click)="browseService.setCategory(filter);analytics.sendEvent('browse', 'category', filter);">
         {{'browse.category.' + filter | translate }}
       </div>
