@@ -221,7 +221,7 @@ export class SolrService {
             '2.0': 'date_range_start.year'
         },
         "date_year_to": {
-            '1.0': 'datum_begin',
+            '1.0': 'datum_end',
             '2.0': 'date_range_end.year'
         },
         "parent_pid": {
