@@ -46,9 +46,20 @@ button:focus {
   // outline-color: #0276bd !important;
   // background-color: yellow !important;
   // border: 3px solid #0276bd !important;
-  outline: 3px solid $primary-color !important;
+  // outline: 3px solid $primary-color !important;
+  outline: 3px solid #ffa800 !important;
 
 }
+
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  &:focus-visible {
+    outline: 3px solid #ffa800 !important;
+
+  }
+
+}
+
+
 
 
 .cdk-overlay-pane {

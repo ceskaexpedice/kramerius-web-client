@@ -1,13 +1,13 @@
 <div class="app-paginator">
   <ul *ngIf="numberOfPages() > 1">
     <li [class.disabled]="!hasPrevious()" class="app-arrow">
-      <mat-icon (click)="onPrevious()">chevron_left</mat-icon>
+      <mat-icon tabindex="0" (click)="onPrevious()">chevron_left</mat-icon>
     </li>
     <li *ngFor="let page of pages()" [class.app-active]="isActive(page)" class="waves-effect" >
-      <a (click)="onIndex(page)">{{page}}</a>
+      <a tabindex="0" (click)="onIndex(page)">{{page}}</a>
     </li>
     <li [class.disabled]="!hasNext()" class="app-arrow">
-      <mat-icon (click)="onNext()">chevron_right</mat-icon>
+      <mat-icon tabindex="0" (click)="onNext()">chevron_right</mat-icon>
     </li>
   </ul>
 </div>
