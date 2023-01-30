@@ -1,4 +1,4 @@
-<div id="page-id-{{page.uuid}}" (click)="onPageClicked()" class="app-snippet" [class.active]="page.selected">
+<div tabindex="0" id="page-id-{{page.uuid}}" (click)="onPageClicked()" class="app-snippet" [class.active]="page.selected">
   <div class="app-snippet-content">
     <div class="app-snippet-thumb-wrapper">
       <div class="app-snippet-thumb" [scrollTarget]="container" [lazyLoad]="page.thumb">

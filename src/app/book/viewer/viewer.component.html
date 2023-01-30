@@ -3,6 +3,7 @@
 
   <span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
         class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+        tabindex="0"
         (click)="controlsService.hideLeftPanel()" 
         [matTooltip]="'view_controls.tooltip_hide_left' | translate">
         <mat-icon>arrow_left</mat-icon>
@@ -10,6 +11,7 @@
 
   <span *ngIf="!controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
         class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
+        tabindex="0"
         (click)="controlsService.showLeftPanel()" 
         [matTooltip]="'view_controls.tooltip_show_left' | translate">
         <mat-icon>arrow_right</mat-icon>
@@ -17,6 +19,7 @@
 
   <span *ngIf="controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
         class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+        tabindex="0"
         (click)="controlsService.hideRightPanel()" 
         [matTooltip]="'view_controls.tooltip_hide_right' | translate">
         <mat-icon>arrow_right</mat-icon>
@@ -24,6 +27,7 @@
 
   <span *ngIf="!controlsService.rightPanelVisible && !controlsService.fullscreenEnabled()"
         class="app-handle app-right-handle valign-wrapper hide-on-small-only" 
+        tabindex="0"
         (click)="controlsService.showRightPanel()" 
         [matTooltip]="'view_controls.tooltip_show_right' | translate">
         <mat-icon>arrow_left</mat-icon>

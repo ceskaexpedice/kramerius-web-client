@@ -1,13 +1,13 @@
 <div class="app-book-toolbar">
-  <div class="app-tab" (click)="bookService.activeMobilePanel = 'navigation'" [class.app-active]="bookService.activeMobilePanel == 'navigation'">
+  <div tabindex="0" class="app-tab" (click)="bookService.activeMobilePanel = 'navigation'" [class.app-active]="bookService.activeMobilePanel == 'navigation'">
     <mat-icon>menu</mat-icon>
     <span class="app-desc">{{'book_toolbar.desc_navigation' | translate}}</span>
   </div>
-  <div class="app-tab" (click)="bookService.activeMobilePanel = 'viewer'" [class.app-active]="bookService.activeMobilePanel == 'viewer'">
+  <div tabindex="0" class="app-tab" (click)="bookService.activeMobilePanel = 'viewer'" [class.app-active]="bookService.activeMobilePanel == 'viewer'">
     <mat-icon>menu_book</mat-icon>
     <span class="app-desc">{{'book_toolbar.desc_reading' | translate}}</span>
   </div>  
-  <div class="app-tab" (click)="bookService.activeMobilePanel = 'metadata'" [class.app-active]="bookService.activeMobilePanel == 'metadata'">
+  <div tabindex="0" class="app-tab" (click)="bookService.activeMobilePanel = 'metadata'" [class.app-active]="bookService.activeMobilePanel == 'metadata'">
     <mat-icon>info</mat-icon>
     <span class="app-desc">{{'book_toolbar.desc_information' | translate}}</span>
   </div>

@@ -4,7 +4,7 @@
     [datasource]="service" [minSearchLength]="2" [inputClass]="'autocomplete'" [placeholder]="'searchbar.document' | translate" [inputName]="'autocomplete-input'">
     </ng2-completer>
 
-    <mat-icon class="app-close" *ngIf="fulltextQuery" (click)="cleanQuery()">close</mat-icon>
+    <mat-icon tabindex="0" class="app-close" *ngIf="fulltextQuery" (click)="cleanQuery()">close</mat-icon>
     <mat-icon class="app-magnify" (click)="onMagnifyIconClick()">search</mat-icon>
   </div>
   <mat-checkbox *ngIf="bookService.getFulltextQuery()" color="primary" (change)="checkboxChanged()" [(ngModel)]="bookService.fulltextAllPages">{{ 'book_controls.all_pages' | translate }}</mat-checkbox>
