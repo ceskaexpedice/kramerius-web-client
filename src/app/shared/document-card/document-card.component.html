@@ -31,11 +31,9 @@
         <span>{{ 'common.n_occurrences' | appPlural : item.hits }}</span>
       </div>
 
-      <div class="app-card-sources" *ngIf="item.sources">
+      <!-- <div class="app-card-sources" *ngIf="item.sources">
         <img *ngFor="let source of item.sources" class="app-card-source" src="{{ sourceLogo(source) }}" >
-      </div>
-
-
+      </div> -->
 
       <div class="app-card-access" [style.color]="lock.color" *ngIf="lock"> 
         <mat-icon>{{ lock.icon }}</mat-icon>
