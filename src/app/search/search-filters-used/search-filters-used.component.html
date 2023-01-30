@@ -1,119 +1,114 @@
 <div class="app-search-filters-used">
   <div class="app-header">
     {{'filters.used_header' | translate}}
-    <mat-icon [matTooltip]="'filters.tooltip_remove_filter_all' | translate" (click)="searchService.removeAllFilters()">close</mat-icon>
+    <mat-icon tabindex="0" [matTooltip]="'filters.tooltip_remove_filter_all' | translate" (click)="searchService.removeAllFilters()">close</mat-icon>
   </div>
 
-  <div *ngIf="searchService.query.hasQueryString()" (click)="searchService.removeQueryString()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngIf="searchService.query.hasQueryString()" (click)="searchService.removeQueryString()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>search</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ searchService.query.query }}
   </div>
 
-  <div *ngIf="searchService.query.isCustomFieldSet()" (click)="searchService.removeCustomField()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngIf="searchService.query.isCustomFieldSet()" (click)="searchService.removeCustomField()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>search</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ searchService.query.getCustomValue() }}
   </div>
 
-  <div *ngIf="searchService.query.accessibility && searchService.query.accessibility != 'all'" (click)="searchService.removeAccessibilityFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngIf="searchService.query.accessibility && searchService.query.accessibility != 'all'" (click)="searchService.removeAccessibilityFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>{{ searchService.query.accessibility === 'private' ? 'lock' : 'lock_open' }}</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ 'search.accessibility.' + searchService.query.accessibility | translate }}
   </div>
 
-  <div *ngIf="searchService.query.access && searchService.query.access != 'all'" (click)="searchService.removeAccessFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngIf="searchService.query.access && searchService.query.access != 'all'" (click)="searchService.removeAccessFilter()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>{{ licences.accessIcon(searchService.query.access, true) }}</mat-icon>
-
     <mat-icon class="app-close">close</mat-icon>
     {{ 'search.access.' + searchService.query.access | translate }}
   </div>
 
-  <div *ngFor="let licence of searchService.query.licences" (click)="searchService.removeFilter(searchService.query.licences, licence)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
-    <!-- <mat-icon class="app-licence">{{ licences.accessible([licence]) ? 'no_photography' : 'lock' }}</mat-icon> -->
-
+  <div tabindex="0" *ngFor="let licence of searchService.query.licences" (click)="searchService.removeFilter(searchService.query.licences, licence)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <span class="app-lock {{ licences.buildLock([licence]).class }}" *ngIf="licences.buildLock([licence])">
       <mat-icon>{{ licences.buildLock([licence]).icon }}</mat-icon>
     </span>
-
-
     <mat-icon class="app-close">close</mat-icon>
     {{ licences.label(licence) }}
   </div>
 
-  <div *ngFor="let source of searchService.query.sources" (click)="searchService.removeFilter(searchService.query.sources, source)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let source of searchService.query.sources" (click)="searchService.removeFilter(searchService.query.sources, source)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>home</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ 'source.' + source | translate | appRemovePrefix:'source.' }}
   </div>
 
-  <div *ngFor="let keyword of searchService.query.keywords" (click)="searchService.removeFilter(searchService.query.keywords, keyword)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let keyword of searchService.query.keywords" (click)="searchService.removeFilter(searchService.query.keywords, keyword)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>star</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ keyword | appUpcase }}
   </div>
 
-  <div *ngFor="let doctype of searchService.query.doctypes" (click)="searchService.removeFilter(searchService.query.doctypes, doctype)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let doctype of searchService.query.doctypes" (click)="searchService.removeFilter(searchService.query.doctypes, doctype)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>category</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ 'model.' + doctype | translate | appUpcase }}
   </div>
 
-  <div *ngFor="let category of searchService.query.categories" (click)="searchService.removeFilter(searchService.query.categories, category)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let category of searchService.query.categories" (click)="searchService.removeFilter(searchService.query.categories, category)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>category</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ 'category.' + category | translate | appUpcase }}
   </div>
 
-  <div *ngFor="let author of searchService.query.authors" (click)="searchService.removeFilter(searchService.query.authors, author)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let author of searchService.query.authors" (click)="searchService.removeFilter(searchService.query.authors, author)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>person</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ author | appUpcase }}
   </div>
 
-  <div *ngFor="let publisher of searchService.query.publishers" (click)="searchService.removeFilter(searchService.query.publishers, publisher)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let publisher of searchService.query.publishers" (click)="searchService.removeFilter(searchService.query.publishers, publisher)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>people</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ publisher | appUpcase }}
   </div>
 
-  <div *ngFor="let place of searchService.query.places" (click)="searchService.removeFilter(searchService.query.places, place)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let place of searchService.query.places" (click)="searchService.removeFilter(searchService.query.places, place)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>place</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ place | appUpcase }}
   </div>
 
-  <div *ngFor="let genre of searchService.query.genres" (click)="searchService.removeFilter(searchService.query.genres, genre)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let genre of searchService.query.genres" (click)="searchService.removeFilter(searchService.query.genres, genre)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>label</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ genre | appUpcase }}
   </div>
 
-  <div *ngFor="let geoname of searchService.query.geonames" (click)="searchService.removeFilter(searchService.query.geonames, geoname)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let geoname of searchService.query.geonames" (click)="searchService.removeFilter(searchService.query.geonames, geoname)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>map</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ geoname | appUpcase }}
   </div>
 
-  <div *ngFor="let location of searchService.query.locations" (click)="searchService.removeFilter(searchService.query.locations, location)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let location of searchService.query.locations" (click)="searchService.removeFilter(searchService.query.locations, location)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>home</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ 'sigla.' + upcaseSigla(location) | translate | appRemovePrefix:'sigla.' }}
   </div>
 
-  <div *ngFor="let language of searchService.query.languages" (click)="searchService.removeFilter(searchService.query.languages, language)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let language of searchService.query.languages" (click)="searchService.removeFilter(searchService.query.languages, language)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>translate</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ 'language.' + language | translate | appUpcase }}
   </div>
 
-  <div *ngFor="let collection of searchService.query.collections" (click)="searchService.removeFilter(searchService.query.collections, collection)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngFor="let collection of searchService.query.collections" (click)="searchService.removeFilter(searchService.query.collections, collection)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>palette</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ collections.getNameByPid(collection) | appUpcase }}
   </div>
 
-  <div *ngIf="searchService.query.isYearRangeSet()" (click)="searchService.setYearRange()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngIf="searchService.query.isYearRangeSet()" (click)="searchService.setYearRange()"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>date_range</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ searchService.query.from }} - {{ searchService.query.to }}

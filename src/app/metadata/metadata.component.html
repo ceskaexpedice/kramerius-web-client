@@ -1,10 +1,10 @@
 <div class="app-metadata-wrapper" *ngIf="metadata">
 
   <div class="app-metadata-controls" *ngIf="controlsEnabled">
-      <mat-icon *ngIf="actionAvailable('share')" [class.app-disabled]="!actionEnabled('share')" (click)="onShare()" [matTooltip]="'book_controls.tooltip_share' | translate">share</mat-icon>
-      <mat-icon *ngIf="actionAvailable('citation')" [class.app-disabled]="!actionEnabled('citation')" (click)="onShowCitation()" [matTooltip]="'book_controls.tooltip_citation' | translate">format_quote</mat-icon>
-      <mat-icon *ngIf="actionAvailable('metadata')" [class.app-disabled]="!actionEnabled('metadata')" (click)="onShowMetadata()" [matTooltip]="'book_controls.tooltip_metadata' | translate">code</mat-icon>
-      <mat-icon *ngIf="auth.isAdmin()" (click)="openAdminActions()" [matTooltip]="'book_controls.tooltip_edit' | translate">edit</mat-icon>
+      <mat-icon tabindex="0" *ngIf="actionAvailable('share')" [class.app-disabled]="!actionEnabled('share')" (click)="onShare()" [matTooltip]="'book_controls.tooltip_share' | translate">share</mat-icon>
+      <mat-icon tabindex="0" *ngIf="actionAvailable('citation')" [class.app-disabled]="!actionEnabled('citation')" (click)="onShowCitation()" [matTooltip]="'book_controls.tooltip_citation' | translate">format_quote</mat-icon>
+      <mat-icon tabindex="0" *ngIf="actionAvailable('metadata')" [class.app-disabled]="!actionEnabled('metadata')" (click)="onShowMetadata()" [matTooltip]="'book_controls.tooltip_metadata' | translate">code</mat-icon>
+      <mat-icon tabindex="0" *ngIf="auth.isAdmin()" (click)="openAdminActions()" [matTooltip]="'book_controls.tooltip_edit' | translate">edit</mat-icon>
     </div>
 
   <div class="app-metadata-content">
@@ -20,7 +20,7 @@
           <span *ngIf="metadata.titles[0].partNumber" class="app-part-number">{{ metadata.titles[0].partNumber }}. </span>
           <span class="app-part-name">{{ metadata.titles[0].partName }}</span>
         </div>
-        <mat-icon style="margin-bottom: 0px;" *ngIf="expendableTitle()" [matTooltip]="'filters.btn_show_more' | translate" (click)="toggleExpandedTitle()" class="app-more">more_horiz</mat-icon>
+        <mat-icon tabindex="0" style="margin-bottom: 0px;" *ngIf="expendableTitle()" [matTooltip]="'filters.btn_show_more' | translate" (click)="toggleExpandedTitle()" class="app-more">more_horiz</mat-icon>
       </ng-container>
 
       <ng-container *ngIf="expandedTitle">
@@ -37,7 +37,7 @@
             <span class="app-part-name">{{ title.partName }}</span>
           </div>
         </ng-container>
-        <mat-icon style="margin-bottom: 0px;" [matTooltip]="'filters.btn_show_less' | translate" (click)="toggleExpandedTitle()" class="app-more">more_horiz</mat-icon>
+        <mat-icon tabindex="0" style="margin-bottom: 0px;" [matTooltip]="'filters.btn_show_less' | translate" (click)="toggleExpandedTitle()" class="app-more">more_horiz</mat-icon>
       </ng-container>
 
 
@@ -107,7 +107,7 @@
         <label>
           {{ 'licence.metadata_licence' | translate }}
         </label>
-        <div class="app-licence-value" (click)="showLicenceDialog()">
+        <div tabindex="0" class="app-licence-value" (click)="showLicenceDialog()">
           {{ licences.label(metadata.licence) }}
         </div>
         <div class="app-licence-image" *ngIf="licences.image(metadata.licence)">
@@ -132,7 +132,7 @@
           <div *ngIf="!settings.availableFilter('authors')" class="app-value">{{ author.name }}</div>
         </div>
       </ng-container>
-      <mat-icon [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more">more_horiz</mat-icon>
+      <mat-icon tabindex="0" [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more">more_horiz</mat-icon>
       <div class="divider"></div>
     </div>
 
@@ -144,7 +144,7 @@
           <div *ngIf="!settings.availableFilter('authors')" class="app-value">{{ author.name }}</div>
         </div>
       </ng-container>
-      <mat-icon [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more">more_horiz</mat-icon>
+      <mat-icon tabindex="0" [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more">more_horiz</mat-icon>
       <div class="divider"></div>
     </div>
     
@@ -353,7 +353,7 @@
       <ng-container *ngFor="let abstract of metadata.abstracts; let i = index">
         <div class="app-value" *ngIf="abstract.length > 115 && !expand['abstract' + i]" >{{ abstract.substring(0, 110) + "..." }}</div>
         <div class="app-value" *ngIf="!(abstract.length > 115 && !expand['abstract' + i])" >{{ abstract }}</div>
-        <mat-icon *ngIf="abstract.length > 115" (click)="expand['abstract' + i] = !expand['abstract' + i]" class="app-more">more_horiz</mat-icon>
+        <mat-icon tabindex="0" *ngIf="abstract.length > 115" (click)="expand['abstract' + i] = !expand['abstract' + i]" class="app-more">more_horiz</mat-icon>
         <div class="divider"></div>
       </ng-container>
     </div>
@@ -368,7 +368,7 @@
           </div>
         </ng-container>
       </div>
-      <mat-icon style="margin-top: 5px;" *ngIf="metadata.contents.length > 5" [matTooltip]="'filters.btn_show_' + (contentsExpanded ? 'less' : 'more') | translate" (click)="contentsExpanded = !contentsExpanded" class="app-more">more_horiz</mat-icon>
+      <mat-icon tabindex="0" style="margin-top: 5px;" *ngIf="metadata.contents.length > 5" [matTooltip]="'filters.btn_show_' + (contentsExpanded ? 'less' : 'more') | translate" (click)="contentsExpanded = !contentsExpanded" class="app-more">more_horiz</mat-icon>
     </div>
 
 
@@ -381,7 +381,7 @@
           </div>
         </ng-container>
       </div>
-      <mat-icon style="margin-top: 5px" *ngIf="metadata.notes.length > 5" [matTooltip]="'filters.btn_show_' + (notesExpanded ? 'less' : 'more') | translate" (click)="notesExpanded = !notesExpanded" class="app-more">more_horiz</mat-icon>
+      <mat-icon tabindex="0" style="margin-top: 5px" *ngIf="metadata.notes.length > 5" [matTooltip]="'filters.btn_show_' + (notesExpanded ? 'less' : 'more') | translate" (click)="notesExpanded = !notesExpanded" class="app-more">more_horiz</mat-icon>
     </div>
     
     <!-- <div *ngIf="metadata.notes.length > 0">

@@ -189,8 +189,8 @@ export class LicenceService {
     if (!this.anyAvailableLicence(licences)) {
       return {
         icon: 'lock',
-        class: 'app-lock-no-licence',
-        color: '#e03124',
+        class: 'app-lock-licence-locked',
+        color: '#e06f26',
         access: 'inaccessible',
         tooltip: this.label('_private')
       };
@@ -211,13 +211,11 @@ export class LicenceService {
         icon: this.accessIcon(l.access, false),
         class: 'app-lock-licence-locked',
         color: '#e06f26',
-        access: l.access,
+        access: l.access || 'inaccessible',
         tooltip: this.labels(licences)
       };
     }
   }
-
-
 
   licencesByType(type: string): string[] {
     if (!this.licences) {
@@ -239,7 +237,8 @@ export class LicenceService {
       case 'open': return accessible ? 'visibility' : 'visibility_off';
       case 'login': return accessible ? 'key' : 'key_off';
       case 'terminal': return accessible ? 'account_balance' : 'account_balance';
-      default: return accessible ? 'key' : 'key_off';
+      case 'inaccessible': return accessible ? 'lock_open' : 'lock';
+      default: return accessible ? 'lock_open' : 'lock';
     }
   }
 

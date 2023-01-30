@@ -26,30 +26,30 @@
   <div class="col app-nav-item" [ngClass]="{'s6 m7 l5 xl3 app-mq-small-1 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <ul class="float-right">
 
-      <li [matMenuTriggerFor]="orderingMenu1" *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid'" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+      <li tabindex="0" [matMenuTriggerFor]="orderingMenu1" *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid'" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
         <mat-icon>sort</mat-icon>
         <mat-menu #orderingMenu1="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
           <ng-template matMenuContent>
-            <div class="app-dropdown-item" (click)="periodicalService.setReverseOrder(false)">
+            <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="periodicalService.setReverseOrder(false)">
               {{ 'periodical.ordering.earliest' | translate }}
             </div>
-            <div class="app-dropdown-item" (click)="periodicalService.setReverseOrder(true)">
+            <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="periodicalService.setReverseOrder(true)">
               {{ 'periodical.ordering.latest' | translate }}
             </div>
           </ng-template>
         </mat-menu>
       </li>
-      <li [matMenuTriggerFor]="orderingMenu2" *ngIf="periodicalService.orderingType === 'fulltext'" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+      <li tabindex="0" [matMenuTriggerFor]="orderingMenu2" *ngIf="periodicalService.orderingType === 'fulltext'" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
         <mat-icon>sort</mat-icon>
         <mat-menu #orderingMenu2="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
           <ng-template matMenuContent>
-            <div class="app-dropdown-item" (click)="periodicalService.setOrdering('relevance')">
+            <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="periodicalService.setOrdering('relevance')">
               {{ 'periodical.ordering.relevance' | translate }}
             </div>
-            <div class="app-dropdown-item" (click)="periodicalService.setOrdering('earliest')">
+            <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="periodicalService.setOrdering('earliest')">
               {{ 'periodical.ordering.earliest' | translate }}
             </div>
-            <div class="app-dropdown-item" (click)="periodicalService.setOrdering('latest')">
+            <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="periodicalService.setOrdering('latest')">
               {{ 'periodical.ordering.latest' | translate }}
             </div>
           </ng-template>
@@ -58,19 +58,19 @@
       <li class="app-nav-item-mobile app-nav-item-tablet" (click)="periodicalService.activeMobilePanel = 'filters'" [class.active]="periodicalService.activeMobilePanel == 'filters'">
         <mat-icon >filter_alt</mat-icon>
       </li>
-      <li *ngIf="!periodicalService.fulltext && periodicalService.gridLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_grid' | translate"  (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid' && periodicalService.activeMobilePanel != 'filters'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
+      <li tabindex="0" *ngIf="!periodicalService.fulltext && periodicalService.gridLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_grid' | translate"  (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid' && periodicalService.activeMobilePanel != 'filters'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <mat-icon>grid_view</mat-icon>
       </li>
-      <li *ngIf="!periodicalService.fulltext && periodicalService.yearsLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_years' | translate" (click)="selectLayout('years')" class="layout-button" [class.active]="periodicalService.activeLayout == 'years'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
+      <li tabindex="0" *ngIf="!periodicalService.fulltext && periodicalService.yearsLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_years' | translate" (click)="selectLayout('years')" class="layout-button" [class.active]="periodicalService.activeLayout == 'years'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <mat-icon>calendar_today</mat-icon>
       </li>
-      <li *ngIf="!periodicalService.fulltext && periodicalService.calendarLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_calendar' | translate" (click)="selectLayout('calendar')" class="layout-button" [class.active]="periodicalService.activeLayout == 'calendar'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
+      <li tabindex="0" *ngIf="!periodicalService.fulltext && periodicalService.calendarLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_calendar' | translate" (click)="selectLayout('calendar')" class="layout-button" [class.active]="periodicalService.activeLayout == 'calendar'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <mat-icon>calendar_month</mat-icon>
       </li>
-      <li *ngIf="periodicalService.fulltext" (click)="periodicalService.activeMobilePanel = 'content'" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'content'">
+      <li tabindex="0" *ngIf="periodicalService.fulltext" (click)="periodicalService.activeMobilePanel = 'content'" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'content'">
         <mat-icon>grid_view</mat-icon>
       </li>
-      <li class="app-nav-item-mobile" (click)="periodicalService.activeMobilePanel = 'metadata'" [class.active]="periodicalService.activeMobilePanel == 'metadata'">
+      <li tabindex="0" class="app-nav-item-mobile" (click)="periodicalService.activeMobilePanel = 'metadata'" [class.active]="periodicalService.activeMobilePanel == 'metadata'">
         <mat-icon>info</mat-icon>
       </li>
     </ul>

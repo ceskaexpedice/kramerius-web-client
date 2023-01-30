@@ -192,7 +192,7 @@
       "open": "Veřejné",
       "login": "Po přihlášení",
       "terminal": "V knihovně",
-      "inaccessible": "Nedostupné",
+      "inaccessible": "Neveřejné",
       "accessible": "Vše dostupné",
       "all": "Vše"
     },

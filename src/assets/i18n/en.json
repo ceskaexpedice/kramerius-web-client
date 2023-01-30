@@ -191,7 +191,7 @@
       "open": "Public",
       "login": "After login",
       "terminal": "In library",
-      "inaccessible": "Inaccessible",
+      "inaccessible": "Private",
       "accessible": "All accessible",
       "all": "All"
     },

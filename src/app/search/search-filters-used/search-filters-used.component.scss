@@ -11,10 +11,11 @@
     margin-bottom: 5px;
     .mat-icon {
       position: absolute;
-      top: 0px;
-      right: -10px;
+      top: -3px;
+      right: -5px;
       color: $app-red;
       font-size: 18px;
+      padding: 3px;
       cursor: pointer;
     }
   }
@@ -33,7 +34,7 @@
         display: none;
       }
     }
-    &:hover {
+    &:hover, &:focus-visible {
       color: $app-red;
       mat-icon {
         display: none;

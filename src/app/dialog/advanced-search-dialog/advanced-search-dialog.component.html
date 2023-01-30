@@ -6,7 +6,7 @@
 
     <label>{{ 'advanced_search.field.field' | translate }}</label>
 
-    <div class="app-field-type-wrapper" [matMenuTriggerFor]="fieldMenu">
+    <div class="app-field-type-wrapper" tabindex="0" [matMenuTriggerFor]="fieldMenu">
       <div class="app-field-type">{{ 'advanced_search.field.' + fieldType | translate }}</div>
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
@@ -33,6 +33,6 @@
 
 <mat-menu #fieldMenu="matMenu" xPosition="after" class="app-dropdown-menu">
   <ng-template matMenuContent>
-    <div *ngFor="let field of fields" class="app-dropdown-item" (click)="fieldType = field">{{ 'advanced_search.field.' + field | translate }}</div>
+    <div mat-menu-item tabindex="0" *ngFor="let field of fields" class="app-dropdown-item" (click)="fieldType = field">{{ 'advanced_search.field.' + field | translate }}</div>
   </ng-template>
 </mat-menu>
