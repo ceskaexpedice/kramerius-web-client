@@ -115,7 +115,7 @@
 
 
 
-<mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu" tabindex="0">
+<mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
   <!-- <ng-template matMenuContent ngFor> -->
     <div class="app-dropdown-item" mat-menu-item tabindex="0" *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)">
       <div class="app-language">

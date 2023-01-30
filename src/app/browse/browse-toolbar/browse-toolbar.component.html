@@ -9,7 +9,7 @@
   <div class="col s10 m12 l12 xl12 app-col-right">
     <div class="app-ordering">
       <label>{{ 'browse.ordering.label' | translate }}: </label>
-      <span class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
+      <span class="app-dropdown" tabindex="0" [matMenuTriggerFor]="orderingMenu">
         <span>{{ 'browse.ordering.' + browseService.query.ordering | translate }}</span>
         <mat-icon>arrow_drop_down</mat-icon>
       </span>
@@ -18,12 +18,10 @@
 </div>
 
 <mat-menu #orderingMenu="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
-  <ng-template matMenuContent>
-    <div class="app-dropdown-item" (click)="browseService.changeOrdering('occurrence')">
+    <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="browseService.changeOrdering('occurrence')">
       {{ 'browse.ordering.occurrence' | translate }}
     </div>
-    <div class="app-dropdown-item" (click)="browseService.changeOrdering('alphabetical')">
+    <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="browseService.changeOrdering('alphabetical')">
       {{ 'browse.ordering.alphabetical' | translate }}
     </div>
-  </ng-template>
 </mat-menu>

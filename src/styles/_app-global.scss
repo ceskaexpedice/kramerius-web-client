@@ -48,6 +48,9 @@ button:focus {
   // border: 3px solid #0276bd !important;
   // outline: 3px solid $primary-color !important;
   outline: 3px solid #ffa800 !important;
+  // box-shadow: 0 0 0 3px  #ffa800 !important;
+  outline-offset: -1px;
+
 
 }
 
@@ -90,6 +93,7 @@ button:focus {
     cursor: pointer;
     font-size: 14px;
     line-height: 18px;
+    height: 38px;
     color: $app-grey-d-1;
     &:hover {
       background: #e5e5e5;
