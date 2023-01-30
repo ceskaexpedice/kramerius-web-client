@@ -4,6 +4,7 @@
   <div class="app-tabs" *ngIf="selection">
     <div class="app-dialog-title">{{ 'share-dialog.title' | translate }}</div>
     <div *ngFor="let item of items" class="app-tab" [class.active]="selection.type === item.type"
+      tabindex="0"
       (click)="changeTab(item)">
       {{ 'model_4p.' + item.type | translate }}
     </div>
@@ -14,15 +15,15 @@
     <div class="app-label">{{ 'share-dialog.link' | translate }}</div>
     <div class="app-link">
       <input #inputTarget readonly [(ngModel)]="selection.link" type="text">
-      <mat-icon (cbOnSuccess)="onCopied($event)" [ngxClipboard]="inputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
+      <mat-icon tabindex="0" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="inputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
     </div>
 
 
     <div class="app-label">{{ 'share-dialog.social' | translate }}</div>
 
     <div class="app-social">
-      <img src="/assets/img/ic_share_facebook.png" (click)="share('facebook')">
-      <img src="/assets/img/ic_share_twitter.png" (click)="share('twitter')">
+      <img tabindex="0" src="/assets/img/ic_share_facebook.png" (click)="share('facebook')">
+      <img tabindex="0" src="/assets/img/ic_share_twitter.png" (click)="share('twitter')">
     </div>
 
   </div>

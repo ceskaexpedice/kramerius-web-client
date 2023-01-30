@@ -1,7 +1,7 @@
 <div class="app-pdf app-dialog">
 
   <div class="app-pages">
-    <div *ngFor="let page of pages" (click)="onPageSelected(page, $event)" class="app-page" [class.active]="selection[page.uuid]">
+    <div tabindex="0" *ngFor="let page of pages" (click)="onPageSelected(page, $event)" class="app-page" [class.active]="selection[page.uuid]">
       <div class="app-page-thumb" [style.background-image]="thumb(page)"></div>
       <div class="app-page-title">{{page.number}}</div>
       <mat-icon>check</mat-icon>
@@ -25,10 +25,10 @@
         {{ 'pdf-dialog.selection' | translate }}
       </ng-container>
       <ng-container *ngIf="selectedPages < pageCount">
-        | <span (click)="selectAll()" class="app-btn">{{ 'pdf-dialog.select_all' | translate }}</span>
+        | <span tabindex="0" (click)="selectAll()" class="app-btn">{{ 'pdf-dialog.select_all' | translate }}</span>
       </ng-container>
       <ng-container *ngIf="selectedPages > 0">
-        | <span (click)="deselectAll()"  class="app-btn">{{ 'pdf-dialog.deselect_all' | translate }}</span>
+        | <span tabindex="0" (click)="deselectAll()"  class="app-btn">{{ 'pdf-dialog.deselect_all' | translate }}</span>
       </ng-container>
       </div>
       <div class="app-tip" *ngIf="!errorId">{{ 'pdf-dialog.tip_shift' | translate }}</div>

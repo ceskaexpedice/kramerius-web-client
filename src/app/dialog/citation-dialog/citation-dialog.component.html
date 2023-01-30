@@ -3,6 +3,7 @@
   <div class="app-tabs" *ngIf="selection">
     <div class="app-dialog-title">{{ 'citation-dialog.title' | translate }} <span class="app-citation-spec">(ČSN ISO 690)</span></div>
     <div *ngFor="let item of items" class="app-tab" [class.active]="selection.type === item.type"
+      tabindex="0"
       (click)="changeTab(item)">
       {{ 'model_2p.' + item.type | translate }}
     </div>
@@ -12,7 +13,7 @@
     <ng-container *ngIf="selection.citation">
       <div [innerHtml]="selection.citation"></div>
       <input #inputTarget [value]="selection.citationTxt" type="text" >
-      <mat-icon class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="inputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
+      <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="inputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
     </ng-container>
 
     <mat-spinner *ngIf="!selection.citation"

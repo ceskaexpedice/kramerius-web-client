@@ -2,8 +2,8 @@
 
   <div class="app-tabs" *ngIf="selection">
     <a *ngIf="url" style="float: right;" target="_blank" [href]="url">URL</a>
-    <div [matMenuTriggerFor]="resourceMenu" class="app-dialog-title">{{ resource }}</div>
-    <div *ngFor="let item of items" class="app-tab" [class.active]="selection.type === item.type" (click)="changeTab(item)">
+    <div tabindex="0" [matMenuTriggerFor]="resourceMenu" class="app-dialog-title">{{ resource }}</div>
+    <div *ngFor="let item of items" class="app-tab" [class.active]="selection.type === item.type" tabindex="0" (click)="changeTab(item)">
       {{ 'model.' + item.type | translate | lowercase }}
     </div>
   </div>
@@ -26,17 +26,17 @@
 
 <mat-menu #resourceMenu="matMenu" xPosition="after" class="app-dropdown-menu">
   <ng-template matMenuContent>
-    <div class="app-dropdown-item" (click)="changeResource('mods')">mods</div>
-    <div class="app-dropdown-item" (click)="changeResource('dc')">dc</div>
-    <div class="app-dropdown-item" (click)="changeResource('solr')">solr</div>
-    <div class="app-dropdown-item" (click)="changeResource('foxml')">foxml</div>
+    <div tabindex="0" mat-menu-item class="app-dropdown-item" (click)="changeResource('mods')">mods</div>
+    <div tabindex="0" mat-menu-item class="app-dropdown-item" (click)="changeResource('dc')">dc</div>
+    <div tabindex="0" mat-menu-item class="app-dropdown-item" (click)="changeResource('solr')">solr</div>
+    <div tabindex="0" mat-menu-item class="app-dropdown-item" (click)="changeResource('foxml')">foxml</div>
     <mat-divider></mat-divider>
-    <div class="app-dropdown-item" (click)="changeResource('alto')">alto</div>
-    <div class="app-dropdown-item" (click)="changeResource('ocr')">ocr</div>
+    <div tabindex="0" mat-menu-item class="app-dropdown-item" (click)="changeResource('alto')">alto</div>
+    <div tabindex="0" mat-menu-item class="app-dropdown-item" (click)="changeResource('ocr')">ocr</div>
     <mat-divider></mat-divider>
-    <div class="app-dropdown-item" (click)="changeResource('item')">item</div>
-    <div class="app-dropdown-item" (click)="changeResource('children')">children</div>
+    <div tabindex="0" mat-menu-item class="app-dropdown-item" (click)="changeResource('item')">item</div>
+    <div tabindex="0" mat-menu-item class="app-dropdown-item" (click)="changeResource('children')">children</div>
     <mat-divider></mat-divider>
-    <div class="app-dropdown-item" (click)="changeResource('iiif')">iiif</div>
+    <div tabindex="0" mat-menu-item class="app-dropdown-item" (click)="changeResource('iiif')">iiif</div>
   </ng-template>
 </mat-menu>
