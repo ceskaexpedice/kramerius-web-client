@@ -110,7 +110,7 @@ export class SearchService {
         if (q.accessibility !== 'all') {
             filters.push(this.translate.instant('search.accessibility.' + q.accessibility));
         }
-        if (q.access !== 'all') {
+        if (this.settings.filters.indexOf('access') >= 0 && q.access !== 'all') {
             filters.push(this.translate.instant('search.access.' + q.access));
         }
         for (const item of q.doctypes) {
