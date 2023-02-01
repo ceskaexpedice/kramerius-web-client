@@ -34,6 +34,9 @@
     .input-field {
       padding-right: 3rem;
       margin-top: 0;
+      .app-hidden-label {
+        display: none;
+      }
       input[type=search] {
         display: block;
         // height: $app-search-bar-height;

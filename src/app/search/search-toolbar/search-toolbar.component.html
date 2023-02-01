@@ -30,7 +30,7 @@
       </ng-container>
 
       <div *ngIf="search.contentType == 'grid'" class="app-ordering">
-        <label class="app-hide-on-med">{{ 'search.ordering.label' | translate }}: </label>
+        <span class="app-hide-on-med app-label">{{ 'search.ordering.label' | translate }}: </span>
         <span tabindex="0" class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
           <span>{{ 'search.ordering.' + search.query.ordering | translate }}</span>
           <mat-icon>arrow_drop_down</mat-icon>

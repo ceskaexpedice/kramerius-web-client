@@ -1,6 +1,6 @@
 <a *ngIf="item" routerLink="{{item.url}}" [queryParams]="item.params" (click)="analytics.sendEvent(in, 'document', item.title);">
   <div class="app-card-content-wrapper">
-    <div class="app-card-mark {{item.doctype}}"></div>
+    <!-- <div class="app-card-mark {{item.doctype}}"></div> -->
     <div class="app-card-media">
       <div class="app-card-thumb" [style.background-image]="thumb">
         <!-- <div matTooltipPosition="above" [matTooltip]="lock.tooltip" class="app-lock {{ lock.class }}" *ngIf="lock && lock.access != 'open'">
@@ -35,7 +35,7 @@
         <img *ngFor="let source of item.sources" class="app-card-source" src="{{ sourceLogo(source) }}" >
       </div> -->
 
-      <div class="app-card-access" [style.color]="lock.color" *ngIf="lock"> 
+      <div class="app-card-access" [class]="lock.class" *ngIf="lock"> 
         <mat-icon>{{ lock.icon }}</mat-icon>
          {{ 'search.access.' + lock.access | translate}}
       </div>

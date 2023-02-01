@@ -190,7 +190,6 @@ export class LicenceService {
       return {
         icon: 'lock',
         class: 'app-lock-licence-locked',
-        color: '#e06f26',
         access: 'inaccessible',
         tooltip: this.label('_private')
       };
@@ -202,7 +201,6 @@ export class LicenceService {
       return {
         icon: this.accessIcon(l.access, true),
         class: 'app-lock-licence-open',
-        color: '#1e6b22',
         access: l.access,
         tooltip: this.labels(licences)
       };
@@ -211,7 +209,6 @@ export class LicenceService {
       return {
         icon: this.accessIcon(l.access, false),
         class: 'app-lock-licence-locked',
-        color: '#e06f26',
         access: l.access || 'inaccessible',
         tooltip: this.labels(licences)
       };

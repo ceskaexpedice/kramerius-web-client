@@ -60,10 +60,10 @@
       height: 30px;
       margin-top: 7px;
       cursor: pointer;
-      color: $app-grey-l-1;
+      color: $app-grey-d-1;
       &:not(.app-active) {
         &:hover {
-          color: $app-grey-d-1;
+          color: $app-grey-d-3;
         } 
       }
       &.app-active {
@@ -86,8 +86,9 @@
       line-height: 24px;
       margin-left: 10px;
       float: left;
-      .label {
-        color: $app-grey-l-1;
+      .app-label {
+        color: $app-grey-d-1;
+        font-size: 12px;
       }
       cursor: pointer;
       mat-icon {

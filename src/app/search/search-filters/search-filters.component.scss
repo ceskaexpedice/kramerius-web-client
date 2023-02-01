@@ -22,7 +22,7 @@
       .app-filter-item {
         line-height: 22px;
         cursor: pointer;
-        color: $app-grey-d-1;
+        color: $app-grey-text;
         &.app-selected {
           font-weight: 600;
           color: $app-grey-d-3;
@@ -52,7 +52,7 @@
 
         }
         .app-licence-info {
-          color: #999;
+          color: $app-grey-text;
           cursor: pointer;
           &:hover {
             color: #111;
@@ -63,8 +63,8 @@
     .year-range-wrapper {
       padding: 0;
       .year-range {
-        span {
-          color: #888;
+        label {
+          color: $app-grey-text;
         }
         input {
           width: 70px !important;

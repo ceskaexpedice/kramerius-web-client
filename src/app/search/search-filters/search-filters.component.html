@@ -42,8 +42,8 @@
                 <mat-icon>{{ licences.accessIcon(item.value, item.accessible) }}</mat-icon>
               </div>
               <span style="float: none;" *ngIf="item.value != 'all' && item.value != 'accessible'"
-                [class.app-lock-licence-open-text]="item.accessible"
-                [class.app-lock-licence-locked-text]="!item.accessible">
+                [class.app-lock-licence-open]="item.accessible"
+                [class.app-lock-licence-locked]="!item.accessible">
                   {{ 'search.access.' + item.value | translate}}
               </span>
               <span style="float: none; padding-left: 22px;" *ngIf="item.value == 'all' || item.value == 'accessible'">
@@ -161,10 +161,10 @@
       <div class="app-filter-items">
         <div class="year-range-wrapper">
           <div class="year-range">
-            <span>{{ 'search.year-range.from' | translate }}</span>
-            <input [(ngModel)]="yearFrom" (change)="onYearFromValueChanged()" type="number">
-            <span>{{ 'search.year-range.to' | translate }}</span>
-            <input [(ngModel)]="yearTo" (change)="onYearToValueChanged()" type="number">
+            <label for="yearFrom">{{ 'search.year-range.from' | translate }}</label>
+            <input id="yearFrom" [(ngModel)]="yearFrom" (change)="onYearFromValueChanged()" type="number">
+            <label for="yearTo">{{ 'search.year-range.to' | translate }}</label>
+            <input id="yearTo" [(ngModel)]="yearTo" (change)="onYearToValueChanged()" type="number">
           </div>
           <button (click)="applyYearRange()" mat-raised-button color="primary">{{ 'search.year-range.apply' | translate }}</button>
         </div>
