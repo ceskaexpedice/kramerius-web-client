@@ -17,7 +17,7 @@
     line-height: normal;
     height: auto;
     top: 10px;
-    color: $app-grey;
+    color: $app-grey-text;
     cursor: pointer;
     &.app-button-search {
       left: 0.8rem;
@@ -33,6 +33,9 @@
     .input-field {
       padding-right: 3rem;
       margin-top: 0;
+      .app-hidden-label {
+        display: none;
+      }
       input[type=search] {
         display: block;
         // height: $app-search-bar-height;

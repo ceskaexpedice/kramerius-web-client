@@ -2,8 +2,11 @@
   <div class="col s12 m12 l12 offset-xl1 xl11">
     <div class="app-search-bar-wrapper" [class.app-hover]="searchStr">
       <div class="input-field">
+        <label for="autocomplete-input" class="app-hidden-label">{{ getPlaceholder() }}</label>
         <ng2-completer #completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="searchStr" [matchClass]="'highlight'"
-        [datasource]="service" [minSearchLength]="1" [inputId]="autocomplete-input" [inputClass]="'autocomplete'" [placeholder]="getPlaceholder()" [inputName]="'autocomplete-input'">
+        [datasource]="service" [minSearchLength]="1" [inputId]="'autocomplete-input'" [inputClass]="'autocomplete'" [placeholder]="getPlaceholder()" [inputName]="'autocomplete-input'"
+        [title]="'xyz'"
+        >
         </ng2-completer>
       </div>
       <mat-icon (click)="onMagnifyIconClick()" class="app-button-search">search</mat-icon>

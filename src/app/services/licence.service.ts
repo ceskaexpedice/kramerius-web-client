@@ -198,10 +198,11 @@ export class LicenceService {
     const licence = this.appliedLicence(licences)
     if (licence) {
       const l = this.licences[licence];
+      // color: '#4CAF50',
       return {
         icon: this.accessIcon(l.access, true),
         class: 'app-lock-licence-open',
-        color: '#4CAF50',
+        color: '#1e6b22',
         access: l.access,
         tooltip: this.labels(licences)
       };

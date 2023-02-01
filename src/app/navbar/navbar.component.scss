@@ -107,7 +107,7 @@
             margin: 3px 0;
             transition: background-color .3s;
             font-size: 14px;
-            color: #757575;
+            color: $app-grey-text;
             display: block;
             padding: 0 15px;
             &:hover {
@@ -205,6 +205,9 @@
     }
   }
 
+  .app-home-logo .app-logo .brand-logo .app-brand-img img {
+    border-left: none !important;
+  }
   .app-mobile-menu {
     .app-navbar-item {
       cursor: pointer;

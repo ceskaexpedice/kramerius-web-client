@@ -8,7 +8,7 @@
 
   <div *ngIf="state.atHome() && appSettings.landingPage" class="sp-header-logo" [matTooltip]="'sp.logo_tooltip' | translate" matTooltipPosition="right">
     <a [routerLink]="['/']">
-      <img [src]="'sp.header.logo' | translate">
+      <img [alt]="'sp.logo_tooltip' | transalte" [src]="'sp.header.logo' | translate">
     </a>
   </div>
 
@@ -53,7 +53,7 @@
 
       <div class="app-language">
         <div tabindex="0" *ngIf="languages().length > 1" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu">
-          <img src="assets/img/flag_{{translate.currentLang}}.png">
+          <img [alt]="'lang.' + translate.currentLang | translate"  src="assets/img/flag_{{translate.currentLang}}.png" >
         </div>
 
       </div>

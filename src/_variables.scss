@@ -18,11 +18,14 @@ $app-grey-d-4:              #212121 !default; // 212121 -> text color black - fa
 
 $app-grey-c-1:              #050505 !default; // ebebeb -> tabs line, tabs of document type line
 
+$app-grey-text:             #707070 !default;
+
 $app-red:                   #d50000 !default; // d50000 -> remove color
 
 $app-licence-color: #d27e0f;
 // type of document
-$app-type-monograph:        #ec407a !default; // ec407a -> knihy
+$app-type-monograph:        #c73565 !default; // ec407a -> knihy
+// $app-type-monograph:        #ec407a !default; // ec407a -> knihy
 $app-type-map:              #c0ca33 !default; // c0ca33 -> mapy
 $app-type-periodical:       #66bb6a !default; // 66bb6a -> noviny a casopisy
 $app-type-graphic:          #ef5350 !default; // ef5350 -> grafiky
