@@ -21,9 +21,10 @@
       cursor: pointer;
       top: 11px;
       position: absolute;
-      color: $app-grey;
+      color: $app-grey-text;
       &.app-close {
-        right: -4px;
+        right: 0px;
+        font-size: 20px;
       }
       &.app-magnify {
         left: 0;

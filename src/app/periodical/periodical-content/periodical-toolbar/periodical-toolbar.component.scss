@@ -20,7 +20,7 @@
         font-size: 1.4rem;
       }
       mat-icon {
-        color: $app-grey;
+        color: $app-grey-d-1;
         margin-top: 15px;
         float: left;
         display: block;
@@ -71,7 +71,7 @@
       }
 
       a {
-        color: $app-grey;
+        color: $app-grey-d-1;
         display: block;
         width: 24px;
         float: left;
@@ -116,10 +116,10 @@
           user-select: none;
           padding: 0 8px;
           cursor: pointer;
-          color: $app-grey-l-1;
+          color: $app-grey-d-1;
           &:not(.active) {
             &:hover {
-              color: $app-grey-d-1;
+              color: $app-grey-d-3;
             } 
           }
           &.active {
