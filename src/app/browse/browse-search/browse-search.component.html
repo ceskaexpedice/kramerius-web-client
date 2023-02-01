@@ -1,6 +1,7 @@
 <div class="app-browse-search-bar-wrapper">
   <div class="app-browse-search-bar" [class.app-is-query]="query">
-    <input (keyup)="onKeyUp($event)" type="text" placeholder="{{ 'browse.search.' + browseService.getCategory() | translate }} ..." [(ngModel)]="query" />
+    <label for="browse-search" class="app-hidden-label">{{ 'browse.search.' + browseService.getCategory() | translate }} ...</label>
+    <input id="browse-search" (keyup)="onKeyUp($event)" type="text" placeholder="{{ 'browse.search.' + browseService.getCategory() | translate }} ..." [(ngModel)]="query" />
     <mat-icon tabindex="0" class="app-close" *ngIf="query" (click)="cleanQuery()" [matTooltip]="'searchbar.delete_query' | translate">close</mat-icon>
     <mat-icon class="app-magnify" (click)="onMagnifyIconClick()">search</mat-icon>
   </div>

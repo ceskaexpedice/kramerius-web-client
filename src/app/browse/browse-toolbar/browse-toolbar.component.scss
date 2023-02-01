@@ -25,6 +25,10 @@
         display: inline-block;
         color: $primary-color;
         line-height: 24px;
+        .app-label {
+          color: $app-grey-d-1;
+          font-size: 12px;
+        }
         cursor: pointer;
         mat-icon {
           vertical-align: middle;
