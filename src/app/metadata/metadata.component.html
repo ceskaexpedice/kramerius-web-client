@@ -26,7 +26,7 @@
       <ng-container *ngIf="expandedTitle">
         <ng-container *ngFor="let title of metadata.titles; let i=index">
           <div *ngIf="i == 1">
-            <label>{{ 'metadata.title_other' | translate }}</label>
+            <div class="app-label">{{ 'metadata.title_other' | translate }}</div>
           </div>
           <h1>
             {{ title.mainTitle() }}
@@ -77,9 +77,9 @@
     </ng-container>
 
     <ng-container *ngIf="bookService.source && controlsEnabled">
-      <label>
+      <div class="app-label">
         {{ 'metadata.sources' | translate }}
-      </label>
+      </div>
 
       <div class="app-source" [matMenuTriggerFor]="sourcesMenu">
         <img src='{{ "https://registr.digitalniknihovna.cz/libraries/" + bookService.source + "/logo" }}'>
@@ -104,9 +104,9 @@
 
 
       <div *ngIf="metadata.licence" class="app-active-license">
-        <label>
+        <div class="app-label">
           {{ 'licence.metadata_licence' | translate }}
-        </label>
+        </div>
         <div tabindex="0" class="app-licence-value" (click)="showLicenceDialog()">
           {{ licences.label(metadata.licence) }}
         </div>
@@ -125,7 +125,7 @@
     </div>
 
     <div *ngIf="metadata.getPrimaryAuthors().length > 0">
-      <label>{{ 'metadata.author' | translate }}</label>
+      <div class="app-label">{{ 'metadata.author' | translate }}</div>
       <ng-container *ngFor="let author of metadata.getPrimaryAuthors(); let index=index">
         <div *ngIf="index < 3">
           <a *ngIf="settings.availableFilter('authors')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
@@ -137,7 +137,7 @@
     </div>
 
     <div *ngIf="metadata.getOtherAuthors().length > 0">
-      <label>{{ 'metadata.author_other' | translate }}</label>
+      <div class="app-label">{{ 'metadata.author_other' | translate }}</div>
       <ng-container *ngFor="let author of metadata.getOtherAuthors(); let index=index">
         <div *ngIf="index < 3">
           <a *ngIf="settings.availableFilter('authors')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{authors: author.name }" (click)="analytics.sendEvent('metadata', 'link', 'author');">{{ author.name }}</a>
@@ -149,7 +149,7 @@
     </div>
     
     <div *ngIf="metadata.volume">
-      <label>{{ 'metadata.volume' | translate }}</label>
+      <div class="app-label">{{ 'metadata.volume' | translate }}</div>
       <div class="app-value">{{ 'metadata.volume_year' | translate }} <strong>{{ metadata.volume.year }}</strong></div>
       <div class="app-value">{{ 'metadata.volume' | translate }} <strong>{{ metadata.volume.number }}</strong></div>
       <div *ngIf="metadata.currentIssue">
@@ -177,7 +177,7 @@
     </div>
 
     <div *ngIf="metadata.currentIssue">
-      <label>{{ 'metadata.issue' | translate }}</label>
+      <div class="app-label">{{ 'metadata.issue' | translate }}</div>
       <div class="app-value">{{ 'metadata.issue_date' | translate }} <strong>{{ metadata.currentIssue.getDate() }}</strong></div>
       <div class="app-value" >{{ 'metadata.issue' | translate }} <strong>{{ metadata.currentIssue.getPart() }}</strong></div>
       
@@ -201,7 +201,7 @@
     </div>
 
     <div *ngIf="metadata.currentUnit">
-      <label>{{ 'metadata.unit' | translate }}</label>
+      <div class="app-label">{{ 'metadata.unit' | translate }}</div>
       <div *ngIf="metadata.currentUnit.metadata" >
         <app-metadata [metadata]="metadata.currentUnit.metadata" class="app-nested" [showControls]="false"></app-metadata>
       </div>
@@ -226,7 +226,7 @@
 
 
     <div *ngIf="metadata.article && metadata.article.metadata" >
-      <label>{{ 'metadata.article' | translate }}</label>
+      <div class="app-label">{{ 'metadata.article' | translate }}</div>
       <app-metadata [metadata]="metadata.article.metadata" class="app-nested" [showControls]="false"></app-metadata>
       <!-- <div class="divider"></div> -->
     </div>
@@ -234,7 +234,7 @@
 
 
     <div *ngIf="metadata.internalPart && metadata.internalPart.metadata" >
-      <label>{{ 'model.internalpart' | translate }}</label>
+      <div class="app-label">{{ 'model.internalpart' | translate }}</div>
       <app-metadata [metadata]="metadata.internalPart.metadata" class="app-nested" [showControls]="false"></app-metadata>
       <!-- <div class="divider"></div> -->
     </div>
@@ -242,13 +242,13 @@
 
 
     <div *ngIf="metadata.extraParentMetadata">
-      <label>{{ 'model.' + metadata.extraParentMetadata.doctype | translate }}</label>
+      <div class="app-label">{{ 'model.' + metadata.extraParentMetadata.doctype | translate }}</div>
       <app-metadata [metadata]="metadata.extraParentMetadata" class="app-nested" [showControls]="false"></app-metadata>
       <div class="divider"></div>
     </div>
 
     <div *ngIf="metadata.donators">
-      <label>{{ 'metadata.donator' | translate }}</label>
+      <div class="app-label">{{ 'metadata.donator' | translate }}</div>
       <a *ngFor="let donator of metadata.donators" style="display:block" target="_blank" href="{{ 'donator.' + donator + '.url' | translate }}" (click)="analytics.sendEvent('metadata', 'link', 'donator');">
         <img src="assets/img/donator_{{donator}}.png" >
       </a>
@@ -256,13 +256,13 @@
 
 
     <div *ngIf="metadata.publishers.length > 0">
-      <label>{{ 'metadata.publisher' | translate }}</label>
+      <div class="app-label">{{ 'metadata.publisher' | translate }}</div>
       <div *ngFor="let publisher of metadata.publishers; first as first" [class.space]="!first" class="app-value" >{{ publisher.fullDetail() }}</div>
       <div class="divider"></div>
     </div>
 
     <div *ngIf="metadata.doctype && metadata.doctype != 'soundunit'">
-      <label>{{ 'metadata.doctype' | translate }}</label>
+      <div class="app-label">{{ 'metadata.doctype' | translate }}</div>
       <div *ngIf="metadata.doctype !== 'monographbundle'">
         <a *ngIf="settings.availableFilter('doctypes')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{doctypes: metadata.doctype }" (click)="analytics.sendEvent('metadata', 'link', 'doctype');">{{ 'model.' + metadata.doctype | translate }}</a>
         <div *ngIf="!settings.availableFilter('doctypes')" class="app-value">{{ 'model.' + metadata.doctype | translate }}</div>
@@ -275,7 +275,7 @@
     </div>
 
     <div *ngIf="metadata.keywords.length > 0">
-      <label>{{ 'metadata.keywords' | translate }}</label>
+      <div class="app-label">{{ 'metadata.keywords' | translate }}</div>
       <div *ngFor="let keyword of metadata.keywords">
         <a *ngIf="settings.availableFilter('keywords')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{keywords: keyword }" (click)="analytics.sendEvent('metadata', 'link', 'keyword');">{{ keyword | appUpcase }}</a>
         <div *ngIf="!settings.availableFilter('keywords')" class="app-value">{{ keyword }}</div>
@@ -284,7 +284,7 @@
     </div>
 
     <div *ngIf="metadata.genres.length > 0">
-      <label>{{ 'metadata.genres' | translate }}</label>
+      <div class="app-label">{{ 'metadata.genres' | translate }}</div>
       <div *ngFor="let genre of metadata.genres">
         <a *ngIf="settings.availableFilter('genres')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{genres: genre }" (click)="analytics.sendEvent('metadata', 'link', 'genre');">{{ genre | appUpcase}}</a>
         <div *ngIf="!settings.availableFilter('genres')" class="app-value">{{ genre }}</div>
@@ -293,7 +293,7 @@
     </div>
 
     <div *ngIf="metadata.geonames.length > 0">
-      <label>{{ 'metadata.geonames' | translate }}</label>
+      <div class="app-label">{{ 'metadata.geonames' | translate }}</div>
       <div *ngFor="let geoname of metadata.geonames">
         <a *ngIf="settings.availableFilter('geonames')"  [routerLink]="settings.getRouteFor('search')" [queryParams]="{geonames: geoname }" (click)="analytics.sendEvent('metadata', 'link', 'geoname');">{{ geoname | appUpcase}}</a>
         <div *ngIf="!settings.availableFilter('geonames')"  class="app-value">{{ geoname }}</div>
@@ -302,7 +302,7 @@
     </div>
 
     <div *ngIf="metadata.languages.length > 0">
-      <label>{{ 'metadata.languages' | translate }}</label>
+      <div class="app-label">{{ 'metadata.languages' | translate }}</div>
       <div *ngFor="let language of metadata.languages">
         <a  *ngIf="settings.availableFilter('languages')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{languages: language }" (click)="analytics.sendEvent('metadata', 'link', 'language');">{{ 'language.' + language | translate | appUpcase }}</a>
         <div *ngIf="!settings.availableFilter('languages')" class="app-value">{{ 'language.' + language | translate | appUpcase }}</div>
@@ -311,7 +311,7 @@
     </div>
     
     <div *ngIf="metadata.locations.length > 0">
-      <label>{{ 'metadata.location' | translate }}</label>
+      <div class="app-label">{{ 'metadata.location' | translate }}</div>
       <div *ngFor="let location of metadata.locations">
         <ng-container *ngIf="location.physicalLocation">
           <a *ngIf="settings.availableFilter('locations')" [routerLink]="settings.getRouteFor('search')" [queryParams]="{locations: location.physicalLocation }" (click)="analytics.sendEvent('metadata', 'link', 'location');">{{ 'sigla.' + location.physicalLocation | translate | appRemovePrefix:'sigla.' }}</a>
@@ -323,7 +323,7 @@
     </div>
 
     <div *ngIf="metadata.physicalDescriptions.length > 0">
-      <label>{{ 'metadata.physical_description' | translate }}</label>
+      <div class="app-label">{{ 'metadata.physical_description' | translate }}</div>
       <div *ngFor="let desc of metadata.physicalDescriptions">
         <div class="app-value" *ngIf="desc.extent">{{ 'metadata.extent' | translate }}: {{ desc.extent }}</div>
         <div class="app-value" *ngIf="desc.note">{{ desc.note }}</div>
@@ -332,7 +332,7 @@
     </div>
 
     <div *ngIf="metadata.cartographicData.length > 0">
-      <label>{{ 'metadata.cartographic_data' | translate }}</label>
+      <div class="app-label">{{ 'metadata.cartographic_data' | translate }}</div>
       <div *ngFor="let cd of metadata.cartographicData">
         <div class="app-value" *ngIf="cd.scale">{{ cd.scale }}</div>
         <div class="app-value" *ngIf="cd.coordinates">{{ cd.coordinates }}</div>
@@ -342,14 +342,14 @@
 
 
     <div *ngIf="metadata.extent">
-      <label>{{ 'metadata.extent' | translate }}</label>
+      <div class="app-label">{{ 'metadata.extent' | translate }}</div>
       <div class="app-value" >{{ metadata.extent }}</div>
       <div class="divider"></div>
     </div>
 
 
     <div *ngIf="metadata.abstracts.length > 0">
-      <label>{{ 'metadata.abstract' | translate }}</label>
+      <div class="app-label">{{ 'metadata.abstract' | translate }}</div>
       <ng-container *ngFor="let abstract of metadata.abstracts; let i = index">
         <div class="app-value" *ngIf="abstract.length > 115 && !expand['abstract' + i]" >{{ abstract.substring(0, 110) + "..." }}</div>
         <div class="app-value" *ngIf="!(abstract.length > 115 && !expand['abstract' + i])" >{{ abstract }}</div>
@@ -360,7 +360,7 @@
 
 
     <div *ngIf="metadata.contents.length > 0">
-      <label>{{ 'metadata.content' | translate }}</label>
+      <div class="app-label">{{ 'metadata.content' | translate }}</div>
       <div>
         <ng-container *ngFor="let content of metadata.contents; let i = index">
           <div *ngIf="i < 5 || contentsExpanded" class="app-value app-note">
@@ -373,7 +373,7 @@
 
 
     <div *ngIf="metadata.notes.length > 0">
-      <label>{{ 'metadata.notes' | translate }}</label>
+      <div class="app-label">{{ 'metadata.notes' | translate }}</div>
       <div>
         <ng-container *ngFor="let note of metadata.notes; let i = index">
           <div *ngIf="i < 5 || notesExpanded" class="app-value app-note">
@@ -385,7 +385,7 @@
     </div>
     
     <!-- <div *ngIf="metadata.notes.length > 0">
-      <label>{{ 'metadata.notes' | translate }}</label>
+      <div class="app-label">{{ 'metadata.notes' | translate }}</div>
       <div *ngFor="let note of metadata.notes" class="app-value app-note">
         <div [innerHTML]="toHtml(note) | safeHtml"></div>
       </div>
@@ -394,7 +394,7 @@
 
 
   <div *ngIf="metadata.reviews && metadata.reviews.length > 0" >
-    <label>{{ 'metadata.review_of' | translate }}</label>
+    <div class="app-label">{{ 'metadata.review_of' | translate }}</div>
     <ng-container *ngFor="let review of metadata.reviews">
       <app-metadata [metadata]="review" class="app-nested" [showControls]="false"></app-metadata>
       <div class="divider"></div>
@@ -403,7 +403,7 @@
 
 
   <div *ngIf="metadata.activePage">
-    <label>{{ 'metadata.page' | translate }}</label>
+    <div class="app-label">{{ 'metadata.page' | translate }}</div>
     <div class="app-value" >
       {{ metadata.activePage.number }} {{ metadata.activePage.title }}
     <span *ngIf="metadata.activePageRight"> - {{ metadata.activePageRight.number }} {{ metadata.activePageRight.title }}</span>

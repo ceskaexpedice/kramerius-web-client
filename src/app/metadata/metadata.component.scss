@@ -21,7 +21,7 @@
         margin-right: 17px;  
         font-size: 21px;
         float: right;  
-        color: $app-grey;
+        color: $app-grey-d-1;
         line-height: inherit;
         height: inherit;
         &:hover {
@@ -65,7 +65,7 @@
       
       .app-more {
         cursor: pointer;
-        color: $app-grey;
+        color: $app-grey-text;
         display: block;
         margin-bottom: -4px;
         margin-left: -2px;
@@ -74,19 +74,19 @@
         }
       }
       
-      label {
+      .app-label {
         font-size: 0.9rem;
         margin-top: 15px;
         display: block;
         margin-bottom: 2px;
-        color: $app-grey-d-1;
+        color: $app-grey-text;
       }
       
       .app-subtitle {
         color: $app-grey-d-3;
       }
       .app-identifier {
-        color: $app-grey-d-1;
+        color: $app-grey-text;
         font-size: 14px;
         margin-top: 4px;
         a {
@@ -94,7 +94,7 @@
         }
       }
       .app-part-number {
-        color: $app-grey-d-1;
+        color: $app-grey-text;
       }
       .app-part-name {
         color: $app-grey-d-3;
