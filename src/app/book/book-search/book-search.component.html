@@ -1,7 +1,8 @@
 <div class="app-book-search-bar-wrapper">
   <div class="app-book-search-bar" [class.app-is-query]="fulltextQuery">
+    <label for="document-search" class="app-hidden-label">{{ 'searchbar.document' | translate }}</label>
     <ng2-completer #completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="fulltextQuery" [matchClass]="'highlight'"
-    [datasource]="service" [minSearchLength]="2" [inputClass]="'autocomplete'" [placeholder]="'searchbar.document' | translate" [inputName]="'autocomplete-input'">
+    [datasource]="service" [minSearchLength]="2" [inputId]="'document-search'" [inputClass]="'autocomplete'" [placeholder]="'searchbar.document' | translate" [inputName]="'autocomplete-input'">
     </ng2-completer>
 
     <mat-icon tabindex="0" class="app-close" *ngIf="fulltextQuery" (click)="cleanQuery()">close</mat-icon>

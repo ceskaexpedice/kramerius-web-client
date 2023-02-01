@@ -12,7 +12,7 @@ app-book-search {
   .app-tab {
     float: left;
     width: 33.33%;
-    color: #999; 
+    color: $app-grey-text; 
     text-align: center;
     line-height: calc(#{$app-toolbar-height} - 1px);
     height: calc(#{$app-toolbar-height} - 1px);
@@ -180,7 +180,7 @@ app-book-search {
       cursor: pointer;
       top: 11px;
       position: absolute;
-      color: $app-grey;
+      color: $app-grey-text;
       &.app-close {
         right: 0;
       }
