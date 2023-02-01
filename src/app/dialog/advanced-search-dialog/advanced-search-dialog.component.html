@@ -11,8 +11,8 @@
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
 
-    <label>{{ 'advanced_search.field.value' | translate }}</label>
-    <input 
+    <label for="advanced-search-input">{{ 'advanced_search.field.value' | translate }}</label>
+    <input id="advanced-search-input"
         (keyup.enter)="onSearch()" 
         type="text" 
         [placeholder]="'advanced_search.field.value_placeholder' | translate"

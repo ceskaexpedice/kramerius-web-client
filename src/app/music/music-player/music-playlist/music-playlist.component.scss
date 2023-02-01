@@ -13,7 +13,7 @@
           border-bottom: 1px solid $app-grey-l-3;
         }
         .app-download-button {
-          color: $app-grey-l-1;
+          color: $app-grey-text;
           float: right;
           line-height: inherit;
           font-size: 20px;
@@ -26,7 +26,7 @@
             float: left;      
             .app-track-number {
                 font-size: 15px;
-                color: $app-grey-d-1;
+                color: $app-grey-text;
                 margin-left: 10px;
             }
             .mat-icon {
@@ -34,7 +34,7 @@
                 float: left;
                 margin-top: 8px;
                 margin-left: 3px;
-                color: $app-grey-d-1;
+                color: $app-grey-text;
             }
         }
         .app-track-label {
@@ -46,12 +46,12 @@
                     height: 18px;
                     vertical-align: middle;
                     width: 16px;
-                    color: $app-grey-l-1;
+                    color: $app-grey-text;
                     margin-right: 3px;
                     margin-left: -4px;
                 }
                 font-size: 15px;
-                color: $app-grey-d-1;
+                color: $app-grey-text;
                 word-break: break-all;
             }
             .app-divider {

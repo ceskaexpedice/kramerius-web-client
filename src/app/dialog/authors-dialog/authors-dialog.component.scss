@@ -13,8 +13,9 @@
     margin: 0px auto;
     .app-row {
       overflow: hidden;
+      border-bottom: 1px solid #ddd;
       &.app-header {
-        color: #999;
+        color: $app-grey-d-1;
       }
       .app-cell {
         padding: 5px;
@@ -29,9 +30,9 @@
           width: 35%;
         }
       }
-      &.even {
-        background: #e7e7e7;
-      }
+      // &.even {
+      //   background: #e7e7e7;
+      // }
     }
   }
   .app-dialog-actions {

@@ -12,7 +12,7 @@
     <ng-container *ngIf="metadata.titles[0]">
       
       <ng-container *ngIf="!expandedTitle">
-        <h1 [class.app-cut]="metadata.getTitle().length > 75">
+        <h1 *ngIf="metadata.getTitle()" [class.app-cut]="metadata.getTitle().length > 75">
           {{ metadata.getTitle() }}
         </h1>
         <div class="app-subtitle">{{metadata.titles[0].subTitle}}</div>
@@ -28,7 +28,7 @@
           <div *ngIf="i == 1">
             <div class="app-label">{{ 'metadata.title_other' | translate }}</div>
           </div>
-          <h1>
+          <h1 *ngIf="metadata.getTitle()">
             {{ title.mainTitle() }}
           </h1>
           <div class="app-subtitle">{{title.subTitle}}</div>
@@ -82,13 +82,13 @@
       </div>
 
       <div class="app-source" [matMenuTriggerFor]="sourcesMenu">
-        <img src='{{ "https://registr.digitalniknihovna.cz/libraries/" + bookService.source + "/logo" }}'>
+        <img [alt]="'source.' + bookService.source | translate" src='{{ "https://registr.digitalniknihovna.cz/libraries/" + bookService.source + "/logo" }}'>
         <span>{{ 'source.' + bookService.source | translate }}</span>
       </div>
       <mat-menu #sourcesMenu="matMenu" class="app-libraries-menu">
         <ng-template matMenuContent ngFor>
           <div class="app-dropdown-item" *ngFor="let source of bookService.sources" (click)="bookService.changeSource(source)">
-              <img src='{{ "https://registr.digitalniknihovna.cz/libraries/" + source + "/logo" }}' class="app-library-icon" />
+              <img [alt]="'source.' + source | translate" src='{{ "https://registr.digitalniknihovna.cz/libraries/" + source + "/logo" }}' class="app-library-icon" />
               <div class="app-library-name">{{ 'source.' + source | translate }} </div>
           </div>
         </ng-template>
@@ -113,11 +113,11 @@
         <div class="app-licence-image" *ngIf="licences.image(metadata.licence)">
           <ng-container *ngIf="licences.web(metadata.licence); else no_link_license">
             <a style="display:block" target="_blank" [href]="licences.web(metadata.licence)" (click)="analytics.sendEvent('metadata', 'link', 'license');">
-              <img [src]="licences.image(metadata.licence)">
+              <img [alt]="licences.label(metadata.licence)" [src]="licences.image(metadata.licence)">
             </a>
           </ng-container>
           <ng-template #no_link_license>
-            <img [src]="licences.image(metadata.licence)">
+            <img [alt]="licences.label(metadata.licence)" [src]="licences.image(metadata.licence)">
           </ng-template>
         </div>
       </div>

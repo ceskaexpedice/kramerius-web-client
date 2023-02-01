@@ -3,15 +3,16 @@
   <div class="app-text">
     <div [innerHtml]="toHtml(data.ocr)"></div>
     <div *ngIf="data.ocr2" style="margin-top:15px;" [innerHtml]="toHtml(data.ocr2)"></div>
-
-    <textarea #ocrInputTarget [value]="ocrTxt" type="text" ></textarea>
+    <label for="ocr-text" class="app-hidden-label">Text</label>
+    <textarea id="ocr-text" #ocrInputTarget [value]="ocrTxt" type="text" ></textarea>
     <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="ocrInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
   </div>
 
 
   <div class="app-citation" *ngIf="citation">
     <div [innerHtml]="citation"></div>
-    <input #citationInputTarget [value]="citationTxt" type="text" >
+    <label for="ocr-citation" class="app-hidden-label">{{ 'citation-dialog.title' | translate }}</label>
+    <input id="ocr-citation" #citationInputTarget [value]="citationTxt" type="text" >
     <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="citationInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
   </div>
 

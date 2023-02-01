@@ -14,7 +14,8 @@
 
     <div class="app-label">{{ 'share-dialog.link' | translate }}</div>
     <div class="app-link">
-      <input #inputTarget readonly [(ngModel)]="selection.link" type="text">
+      <label for="share-input" class="app-hidden-label">URL</label>
+      <input id="share-input" #inputTarget readonly [(ngModel)]="selection.link" type="text">
       <mat-icon tabindex="0" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="inputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
     </div>
 
@@ -22,8 +23,8 @@
     <div class="app-label">{{ 'share-dialog.social' | translate }}</div>
 
     <div class="app-social">
-      <img tabindex="0" src="/assets/img/ic_share_facebook.png" (click)="share('facebook')">
-      <img tabindex="0" src="/assets/img/ic_share_twitter.png" (click)="share('twitter')">
+      <img alt="Facebook" tabindex="0" src="/assets/img/ic_share_facebook.png" (click)="share('facebook')">
+      <img alt="Twitter" tabindex="0" src="/assets/img/ic_share_twitter.png" (click)="share('twitter')">
     </div>
 
   </div>

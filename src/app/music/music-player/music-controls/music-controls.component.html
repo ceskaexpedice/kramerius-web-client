@@ -9,7 +9,7 @@
       <div class="app-player-left">
         <ng-container *ngIf="musicService.activeTrack">
           <div class="app-player-image">
-              <img [src]="soundUnitImage()">
+              <img [src]="soundUnitImage()" [alt]="'Image'">
           </div>
           <div class="app-player-track">{{ musicService.activeTrack.name }}</div>
           <div class="app-player-album">
