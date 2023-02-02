@@ -616,9 +616,10 @@ export class SolrService {
             q = q.replace(/\:/g, ' ');
             q = q.replace(/\;/g, ' ');
             q = q.replace(/\=/g, ' ');
-            if (this.settings.k5Compat()) {
-                q = q.replace(/\-/g, ' ');
-            }
+            // if (this.settings.k5Compat()) {
+                q = q.replace(/ \-/g, ' ');
+                q = q.replace(/\- /g, ' ');
+            // }
             while (q.indexOf('..') > 0) {
                 q = q.replace(/\.\./g, ' ');
             }
