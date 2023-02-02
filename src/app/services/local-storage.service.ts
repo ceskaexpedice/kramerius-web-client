@@ -38,20 +38,20 @@ export class LocalStorageService {
         if (match > -1) {
             visited.splice(match, 1);
         }
-        if (metadata) {
-            if (metadata.publishers.length > 0) {
-                item.date = metadata.publishers[0].date;
-            }
-            const authors = [];
-            for (const author of metadata.authors) {
-                authors.push(author.name);
-            }
-            item.authors = authors;
-            if (this.appSettings.multiKramerius) {
-                item.library = this.appSettings.code;
-            }
-        }
-
+        // if (metadata) {
+        //     if (metadata.publishers.length > 0) {
+        //         item.date = metadata.publishers[0].date;
+        //     }
+        //     const authors = [];
+        //     for (const author of metadata.authors) {
+        //         authors.push(author.name);
+        //     }
+        //     item.authors = authors;
+        //     if (this.appSettings.multiKramerius) {
+        //         item.library = this.appSettings.code;
+        //     }
+        //     item.licences = 
+        // }
         visited.unshift(item);
         if (visited.length > 24) {
             visited.pop();

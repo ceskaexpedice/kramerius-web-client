@@ -683,6 +683,11 @@ export class SolrService {
         item.sources = doc[this.field('cdk_sources')];
         item.pdf = doc[this.field('img_full_mime')] == "application/pdf";
         item.licences = this.parseLicences(doc);
+        if (item.public) {
+            item.licences.push('_public');
+        } else {
+            item.licences.push('_private');
+        }
         item.root_uuid = doc[this.field('root_pid')];
         if (item.doctype === 'periodicalvolume') {
             item.volumeNumber = doc[this.field('part_number')];
@@ -1638,6 +1643,11 @@ export class SolrService {
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
             item.licences = this.parseLicences(doc);
+            if (item.public) {
+                item.licences.push('_public');
+            } else {
+                item.licences.push('_private');
+            }
             item.resolveUrl(this.settings.getPathPrefix());
             items.push(item);
         }
@@ -1663,6 +1673,11 @@ export class SolrService {
             item.date = doc[this.field('date')];
             item.authors = doc[this.field('authors')];
             item.licences = this.parseLicences(doc);
+            if (item.public) {
+                item.licences.push('_public');
+            } else {
+                item.licences.push('_private');
+            }
             item.resolveUrl(this.settings.getPathPrefix());
             items.push(item);
         }
