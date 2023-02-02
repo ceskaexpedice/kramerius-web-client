@@ -104,38 +104,38 @@
     "search-help-dialog": {
       "e1": {
         "symbol": "?",
-        "desc": "zástupný znak libovolného právě jednoho znaku, např.",
+        "desc": "zástupný znak ľubovoľného práve jedného znaku, napr.",
         "example": "Harry P?tter"
       },
       "e2": {
         "symbol": "*",
-        "desc": "zástupný znak libovolného počtu libovolných znaků, např.",
+        "desc": "zástupný znak ľubovoľného počtu ľubovoľných znakov, napr.",
         "example": "H*y Potter"
       },
       "e3": {
         "symbol": "AND",
-        "desc": "logický operátor pro výskyt obou výrazů, např.",
+        "desc": "logický operátor pre výskyt oboch výrazov, napr.",
         "example": "Harry AND komnata"
       },
       "e4": {
         "symbol": "OR",
-        "desc": "logický operátor pro výskyt alespoň jednoho z výrazu, např.",
+        "desc": "logický operátor pre výskyt aspoň jedného z výrazu, napr.",
         "example": "Harry OR komnata"
       },
       "e5": {
         "symbol": "NOT",
-        "desc": "vyloučení výrazu, např.",
+        "desc": "vylúčenie výrazu, napr.",
         "example": "NOT Harry"
       },
       "e6": {
         "symbol": "\"\"",
-        "desc": "přesná shoda, např.",
+        "desc": "presná zhoda, napr.",
         "example": "\"Harry Potter a\""
       },
       "e7": {
         "symbol": "~n",
-        "desc": "proximitní hledání - výrazy jsou od sebe vzdáleny maximálně n pozic, např.",
-        "example": "\"Harry pohár\"~3"
+        "desc": "proximitné hľadanie - výrazy sú od seba vzdialené maximálne n pozícií, napr.",
+        "example": "\"Harry komnata\"~3"
       }
     },
     "filters": {
