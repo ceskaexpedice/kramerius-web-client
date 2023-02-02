@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { AppSettings } from './app-settings';
 
 @Injectable()
 export class PdfService {
@@ -7,6 +8,7 @@ export class PdfService {
 
 
     url: string;
+    pdfObject: any;
     pageIndex: number;
     totalPages: number;
     outline;
@@ -17,7 +19,7 @@ export class PdfService {
     lastZoom: number = 1;
     pdfLoading: boolean;
 
-    constructor() {}
+    constructor(private settings: AppSettings) {}
 
     private pdfComponent: PdfViewerComponent;
 
@@ -25,10 +27,21 @@ export class PdfService {
     setUrl(url: string) {
         this.pdfLoading = true;
         this.url = url;
+        const token = this.settings.getToken();
+        if (token) {
+            this.pdfObject = {
+                url: url,
+                httpHeaders: { Authorization: 'Bearer ' + token }
+            }
+        } else {
+            this.pdfObject = { url: url };
+        }
+    
     }
 
     clear() {
         this.url = null;
+        this.pdfObject = null;
     }
 
     init(data: any, pdfComponent: PdfViewerComponent) {

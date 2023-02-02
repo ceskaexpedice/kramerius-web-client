@@ -11,7 +11,7 @@
 </app-alert>
 
 <pdf-viewer 
-    *ngIf="pdf.url" [src]="pdf.url"
+    *ngIf="pdf.pdfObject" [src]="pdf.pdfObject"
     [render-text]="true"
     [rotation]="rotation"
     [stick-to-page]="true"
