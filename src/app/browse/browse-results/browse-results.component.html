@@ -5,7 +5,7 @@
         [routerLink]="appSettings.getRouteFor('search')" [queryParams]="getParams(item.value)"
         >
     <div class="float-right">{{item.count}}x</div>
-    <div>{{item.name | appUpcase }}</div>
+    <div [innerHtml]="item.name | appUpcase"></div>
   </a>
 
   <app-paginator [activeIndex]="browseService.query.page"
