@@ -35,19 +35,14 @@ a {
   text-decoration: none;
 }
 
-button:focus {
-  // outline: none;
-  // background-color: inherit;
-}
-
 *:focus-visible {
   // background-color: yellow !important;
   // outline-style: solid !important;
   // outline-color: #0276bd !important;
   // background-color: yellow !important;
   // border: 3px solid #0276bd !important;
-  // outline: 3px solid $primary-color !important;
-  outline: 3px solid #ffa800 !important;
+  outline: 3px solid $primary-color !important;
+  // outline: 3px solid #ffa800 !important;
   // box-shadow: 0 0 0 3px  #ffa800 !important;
   outline-offset: -1px;
 
@@ -57,9 +52,12 @@ button:focus {
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
   &:focus-visible {
     outline: 3px solid #ffa800 !important;
-
   }
+}
 
+
+.app-paginator ul li.app-active a:focus-visible {
+  outline: 3px solid #ffa800 !important;
 }
 
 
