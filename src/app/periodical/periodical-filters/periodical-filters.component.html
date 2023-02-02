@@ -35,6 +35,7 @@
       <div class="app-filter-items">
 
         <div  [class.app-selected]="!periodicalService.query.source"
+              tabindex="0"
               (click)="periodicalService.setSource();analytics.sendEvent('periodical', 'source', 'all')"
               class="app-filter-item">
               {{'search.accessibility.all' | translate }}
@@ -43,6 +44,7 @@
         <ng-container *ngFor="let source of periodicalService.document.sources; let i = index">
           <div *ngIf="i < 5 || sourcesExpanded"
                 [class.app-selected]="source == periodicalService.query.source"
+                tabindex="0"
                 (click)="periodicalService.setSource(source);analytics.sendEvent('periodical', 'source', source)"
                 class="app-filter-item">
                 {{'source.' + source | translate | appRemovePrefix:'source.' }}
@@ -50,6 +52,7 @@
         </ng-container>
         <div *ngIf="periodicalService.document.sources.length > 5"
             (click)="sourcesExpanded = !sourcesExpanded"
+            tabindex="0"
              class="app-filter-item app-expand">
             {{ 'filters.btn_show_' + (sourcesExpanded ? 'less' : 'more') | translate }}  
         </div>

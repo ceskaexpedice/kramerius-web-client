@@ -505,7 +505,7 @@ export class SolrService {
     documentFulltextQuery(solr): string[] {
         const list = [];
         for (const doc of solr['response']['docs']) {
-            console.log('doc', doc);
+            // console.log('doc', doc);
             let snippet = "";
             const uuid = doc[this.field('id')];
             const rootUuid = doc[this.field('root_pid')];

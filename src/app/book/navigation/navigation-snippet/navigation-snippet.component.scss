@@ -61,7 +61,7 @@
       display: table-cell;
       vertical-align: top;
       padding-left: 8px;
-      color: #757575;
+      color: $app-grey-d-3;
       position: relative;
       .app-snippet-title {
         overflow: hidden;
@@ -75,7 +75,7 @@
       .app-snippet-ocr {
         overflow: hidden;
         font-size: 12px;
-        color: $app-grey;
+        color: $app-grey-text;
         line-height: 16px;
         margin-top: 4px;
         // height: 64px;
