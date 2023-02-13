@@ -1005,10 +1005,10 @@ export class SolrService {
                 fqFilters.push(`(${q})`);
             } else if (query.access === 'terminal') {
                 let q = `${this.field('accessibility')}:private`;
-                const licences = this.licences.licencesByType('terminal');
-                if (licences.length > 0) {
+                const licencesT = this.licences.licencesByType('terminal');
+                if (licencesT.length > 0) {
                     let a = []
-                    for (const l of licences) {
+                    for (const l of licencesT) {
                         let f = `${this.field('licences_search')}:${l}`
                         if (!this.settings.k5Compat() || this.settings.containsLicences) {
                             f += ` OR ${this.field('licences_contains')}:${l}`;
@@ -1019,6 +1019,22 @@ export class SolrService {
                         a.push(f)
                     }
                     q += ` OR ${a.join(' OR ')}`;
+                }
+                const licencesL = this.licences.licencesByType('login');
+                if (licencesL.length > 0) {
+                    let a = []
+                    for (const l of licencesL) {
+                        let f = `${this.field('licences_search')}:${l}`
+                        if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                            f += ` OR ${this.field('licences_contains')}:${l}`;
+                        }
+                        if (!this.settings.k5Compat()) {
+                            f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                        }
+                        a.push(f)
+                    }
+                    q = `(${q})`
+                    q += ` AND NOT (${a.join(' OR ')})`;
                 }
                 fqFilters.push(`(${q})`);
             } else if (query.access === 'login') {
@@ -1086,10 +1102,10 @@ export class SolrService {
                 fqFilters.push(`(${q})`);
             } else if (facet == 'access:terminal') {
                 let q = `${this.field('accessibility')}:private`;
-                const licences = this.licences.licencesByType('terminal');
-                if (licences.length > 0) {
+                const licencesT = this.licences.licencesByType('terminal');
+                if (licencesT.length > 0) {
                     let a = []
-                    for (const l of licences) {
+                    for (const l of licencesT) {
                         let f = `${this.field('licences_search')}:${l}`
                         if (!this.settings.k5Compat() || this.settings.containsLicences) {
                             f += ` OR ${this.field('licences_contains')}:${l}`;
@@ -1100,6 +1116,22 @@ export class SolrService {
                         a.push(f)
                     }
                     q += ` OR ${a.join(' OR ')}`;
+                }
+                const licencesL = this.licences.licencesByType('login');
+                if (licencesL.length > 0) {
+                    let a = []
+                    for (const l of licencesL) {
+                        let f = `${this.field('licences_search')}:${l}`
+                        if (!this.settings.k5Compat() || this.settings.containsLicences) {
+                            f += ` OR ${this.field('licences_contains')}:${l}`;
+                        }
+                        if (!this.settings.k5Compat()) {
+                            f += ` OR ${this.field('licences_ancestors')}:${l}`;
+                        }
+                        a.push(f)
+                    }
+                    q = `(${q})`
+                    q += ` AND NOT (${a.join(' OR ')})`;
                 }
                 fqFilters.push(`(${q})`);
             } else if (facet == 'access:login') {
