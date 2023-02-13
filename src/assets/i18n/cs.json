@@ -46,7 +46,12 @@
     "about": "Informace",
     "help": "Nápověda",
     "faq": "FAQ",
+    "terms": "Podmínky použití",
     "impressum": "Impressum"
+  },
+  "terms": {
+    "agreement": "Souhlasím s podmínkami použití",
+    "login": "Přihlásit knihovním účtem/eduID"
   },
   "sp": {
     "title": "Digitální knihovna",

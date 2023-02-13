@@ -3,6 +3,11 @@
   <div class="app-page-content" *ngIf="page">
     <!-- <h1>{{ 'navbar.' + page | translate }}</h1> -->
     <div [innerHTML]="data"></div>
+
+    <div class="app-terms-controls" *ngIf="page == 'terms'">
+      <mat-checkbox color="primary" [(ngModel)]="termsAgreed">{{ 'terms.agreement' | translate }}</mat-checkbox>
+      <button mat-raised-button [disabled]="!termsAgreed" color="primary" (click)="login()">{{ 'terms.login' | translate }}</button>
+    </div>
   </div>
   
   <mat-spinner *ngIf="loading"

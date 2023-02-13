@@ -75,7 +75,14 @@ export class NavbarComponent implements OnInit {
       this.router.navigate(['/login']);
     } else if (this.appSettings.keycloak && !this.authService.isLoggedIn()) {
       this.analytics.sendEvent('navbar', 'login k7');
-      this.authService.login();
+      let path = window.location.pathname + window.location.search;
+      path = path.substring(this.appSettings.deployPath.length)
+      localStorage.setItem('login.url', path);
+      if (this.appSettings.termsPage) {
+        this.router.navigate(['/terms']);
+      } else {
+        this.authService.login();
+      }
     }
   }
 

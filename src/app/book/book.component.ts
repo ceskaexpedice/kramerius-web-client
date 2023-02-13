@@ -21,7 +21,6 @@ export class BookComponent implements OnInit, OnDestroy {
               private epubService: EpubService,
               public analytics: AnalyticsService,
               public viewerControls: ViewerControlsService) {
-
   }
 
   @HostListener('window:keyup', ['$event'])

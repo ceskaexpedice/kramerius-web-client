@@ -46,7 +46,12 @@
     "about": "About",
     "help": "Help",
     "faq": "FAQ",
+    "terms": "Terms of use",
     "impressum": "Impressum"
+  },
+  "terms": {
+    "agreement": "I agree to the terms of use",
+    "login": "Log in with library account/eduID"
   },
   "sp": {
     "title": "Digital Library",

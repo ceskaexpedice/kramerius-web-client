@@ -11,6 +11,17 @@
       margin-top: 30px;
       padding: 0 20px 10px;
       color: #444;
+      .app-terms-controls {
+        padding: 20px 0;
+        text-align: center;
+        mat-checkbox {
+          display: block;
+        }
+        button {
+          margin-top: 10px;
+        }
+      }
+
       h1,h2,h3,h4,h5 {
         line-height: 120%;
         color: #444;

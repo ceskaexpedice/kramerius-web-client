@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PageTitleService } from '../services/page-title.service';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-static-page',
@@ -18,10 +19,12 @@ export class StaticPageComponent implements OnInit {
   data = '';
   loading: boolean;
   page: string;
+  termsAgreed: boolean;
 
   constructor(private http: HttpClient,
               private pageTitle: PageTitleService, 
               private translate: TranslateService, 
+              private auth: AuthService,
               private appSettings: AppSettings, 
               private route: ActivatedRoute,
               private router: Router) {
@@ -69,6 +72,12 @@ export class StaticPageComponent implements OnInit {
       this.data = this.dataSet.get(this.translate.currentLang);
     } else {
       this.data = this.dataSet.get('en') || this.dataSet.get('cs')
+    }
+  }
+
+  login() {
+    if (this.termsAgreed) {
+      this.auth.login();
     }
   }
 
