@@ -55,7 +55,7 @@ export class HomeSearchBarComponent implements OnInit {
   }
 
   getPlaceholder(): string {
-      if (this.accessibilityFilter) {
+      if (this.accessibilityFilter && this.appSettings.filters.indexOf('accessibility') >= 0) {
         return String(this.translate.instant('searchbar.main.public'));
       } else {
         return String(this.translate.instant('searchbar.main.all'));

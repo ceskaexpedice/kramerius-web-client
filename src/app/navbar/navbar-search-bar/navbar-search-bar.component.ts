@@ -9,6 +9,7 @@ import { CompleterCmp } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchHelpDialogComponent } from '../../dialog/search-help-dialog/search-help-dialog.component';
+import { AppSettings } from '../../services/app-settings';
 
 @Component({
   selector: 'app-navbar-search-bar',
@@ -29,6 +30,7 @@ export class NavbarSearchBarComponent implements OnInit {
     private route: ActivatedRoute,
     private state: AppState,
     private dialog: MatDialog,
+    private settings: AppSettings,
     private translate: TranslateService,
     public analytics: AnalyticsService,
     private localStorageService: LocalStorageService,
@@ -77,7 +79,7 @@ export class NavbarSearchBarComponent implements OnInit {
 
   getPlaceholder(): string {
     if (!this.state.atSearchScreen()) {
-      if (this.localStorageService.publicFilterChecked()) {
+      if (this.localStorageService.publicFilterChecked() && this.settings.filters.indexOf('accessibility') >= 0) {
         return String(this.translate.instant('searchbar.main.public'));
       } else {
         return String(this.translate.instant('searchbar.main.all'));

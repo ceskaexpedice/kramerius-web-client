@@ -1050,9 +1050,11 @@ export class BookService {
             this.activePageIndex = index - 1;
             this.doublePage = true;
         }
+        if (this.activePageIndex < 0) {
+            this.activePageIndex = 0;
+        }
         const page = this.getPage();
         page.selected = true;
-
         if (page.parentUuid) {
             const uuid = page.parentUuid;
             this.api.getMetadata(this.id(uuid)).subscribe((metadata: Metadata) => {

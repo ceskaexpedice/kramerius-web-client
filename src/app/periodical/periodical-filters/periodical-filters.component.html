@@ -2,7 +2,7 @@
 <app-periodical-search></app-periodical-search>
 
 <mat-accordion [displayMode]="'flat'" [multi]="true" class="app-filters-wrapper">
-  <mat-expansion-panel class="app-filter-panel" [expanded]="true">
+  <mat-expansion-panel *ngIf="filters.indexOf('accessibility') > -1" class="app-filter-panel" [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ 'search.accessibility.label' | translate }}   
@@ -25,8 +25,7 @@
   </mat-expansion-panel>
 
 
-  <mat-accordion *ngIf="periodicalService.document && filters.indexOf('sources') > -1" [displayMode]="'flat'" [multi]="true" class="app-filters-wrapper">
-    <mat-expansion-panel class="app-filter-panel" [expanded]="true">
+    <mat-expansion-panel *ngIf="periodicalService.document && filters.indexOf('sources') > -1" class="app-filter-panel" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{ 'search.sources' | translate }}   

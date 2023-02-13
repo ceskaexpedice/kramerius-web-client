@@ -107,7 +107,7 @@ export class SearchService {
             return String(this.translate.instant('searchbar.main.public'));
         }
         let filters = [];
-        if (q.accessibility !== 'all') {
+        if (q.accessibility !== 'all' && this.settings.filters.indexOf('accessibility') >= 0) {
             filters.push(this.translate.instant('search.accessibility.' + q.accessibility));
         }
         if (this.settings.filters.indexOf('access') >= 0 && q.access !== 'all') {
