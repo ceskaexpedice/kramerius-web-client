@@ -18,14 +18,16 @@ export class PdfService {
     zoom: number = 1;
     lastZoom: number = 1;
     pdfLoading: boolean;
+    index = 1;
 
     constructor(private settings: AppSettings) {}
 
     private pdfComponent: PdfViewerComponent;
 
 
-    setUrl(url: string) {
+    setUrl(url: string, pageIndex = 1) {
         this.pdfLoading = true;
+        this.index = pageIndex;
         this.url = url;
         const token = this.settings.getToken();
         if (token) {
@@ -36,7 +38,6 @@ export class PdfService {
         } else {
             this.pdfObject = { url: url };
         }
-    
     }
 
     clear() {
@@ -47,14 +48,13 @@ export class PdfService {
     init(data: any, pdfComponent: PdfViewerComponent) {
         this.pdfComponent = pdfComponent;
         this.outline = [];
-        this.pageIndex = 1;
         this.totalPages = data.numPages;
         data.getOutline().then((outline: any[]) => {
             this.outline = outline;
             this.assignRange(this.outline, this.totalPages);
         });
-        setTimeout(()=>{                          
-           this.pageIndex = 1;
+        setTimeout(()=>{                  
+            this.goToPage(this.index);
         }, 50);
     }
 

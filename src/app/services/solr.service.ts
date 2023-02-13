@@ -1560,6 +1560,11 @@ export class SolrService {
                     const model = models[i];
                     item.context[model] = pids[i];
                 }
+                if (pids.length < models.length && item.context['article'] && item.context['article'].indexOf('@') > 0) {
+                    const a = item.context['article']
+                    item.context['page'] = item.context['article'];
+                    item.context['article'] = item.context['article'].substring(0, item.context['article'].indexOf('@'));
+                }
             }
             const uuid = item.uuid.replace(/\@/, '/@');
             if (solr['highlighting'][uuid]) {

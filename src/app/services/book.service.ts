@@ -82,6 +82,8 @@ export class BookService {
     public source: string;
     public sources: string[];
 
+    private initPdfPosition = 1;
+
     constructor(private location: Location,
         private altoService: AltoService,
         private settings: AppSettings,
@@ -107,13 +109,12 @@ export class BookService {
         this.fulltextQuery = params.fulltext;
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
-
+        this.initPdfPosition = Number(params.pdfIndex) || 1;
         if (params.uuid == 'epub') {
             this.bookState = BookState.Success;
             this.setupEpub();
             return;
         }
-
 
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
             this.licences = this.licenceService.availableLicences(item.licences);
@@ -134,7 +135,15 @@ export class BookService {
                 const issueUuid = item.getUuidFromContext('periodicalitem');
                 if (issueUuid) {
                     this.history.removeCurrent();
-                    this.router.navigate(['/view', issueUuid], { replaceUrl: true, queryParams: { article: params.uuid, fulltext: this.fulltextQuery } });
+                    let p = { 
+                        article: params.uuid, 
+                        fulltext: this.fulltextQuery 
+                    };
+                    if (params.pageUuid && params.pageUuid.indexOf('@') > 0) {
+                        const idx = params.pageUuid.substring(params.pageUuid.indexOf('@') + 1);
+                        p['index'] = idx;
+                    }
+                    this.router.navigate(['/view', issueUuid], { replaceUrl: true, queryParams: p });
                 }
                 return;
             } 
@@ -219,10 +228,10 @@ export class BookService {
     }
 
 
-    private setupPdf(uuid: string) {
+    private setupPdf(uuid: string, index = 1) {
         this.bookState = BookState.Success;
         this.viewer = 'pdf';
-        this.pdf.setUrl(this.api.getPdfUrl(uuid));
+        this.pdf.setUrl(this.api.getPdfUrl(uuid), index);
     }
 
     changeSource(source: string) {
@@ -237,6 +246,7 @@ export class BookService {
             articleUuid: null,
             internalPartUuid: null,
             parentUuid: null,
+            pdfIndex: null,
             fulltext: this.fulltextQuery,
             source: source
         });
@@ -1225,7 +1235,9 @@ export class BookService {
                 urlQuery += '&source=' + this.source;
             }
             this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
-            this.setupPdf(article.uuid);
+            const pdfIndex = this.initPdfPosition;
+            this.initPdfPosition = 1;
+            this.setupPdf(article.uuid, pdfIndex);
         } else if (article.type === 'pages') {
             if (article.firstPageUuid) {
                 this.pageState = BookPageState.Success;
@@ -1456,6 +1468,7 @@ export enum BookState {
 export interface BookParams {
     uuid: string;
     pageUuid: string;
+    pdfIndex: string;
     articleUuid: string;
     parentUuid: string;
     internalPartUuid: string;
