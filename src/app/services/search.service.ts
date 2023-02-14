@@ -146,7 +146,7 @@ export class SearchService {
     selectContentType(contentType: string) {
         this.contentType = contentType;
         if (this.contentType === 'map') {
-            if (this.collectionStructure.collections.length > 0) {
+            if (this.collectionStructure.collections.length > 1) {
                 if (this.collectionStructure.collections[0].uuid.toString() === 'uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf') {
                     const nav = ['mapseries']
                     nav.push(this.query.collection)

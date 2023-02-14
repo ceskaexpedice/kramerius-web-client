@@ -671,7 +671,12 @@ export class MapSeriesComponent implements OnInit {
         else {
           this.reloadData()
         } 
+      } else {
+        // console.log(this.polygons)
+        this.polygons = [];
+        console.log("neobsahuje zadne mapy", this.data)
       }
+
     })
     // let url: any = this.mapSeries.find(x => x.pid === pid)?.pid
     // console.log('URL', url)
@@ -717,6 +722,7 @@ export class MapSeriesComponent implements OnInit {
     let points: any[] = [];
     let polygons: any[] = [];
     let maxbounds = new google.maps.LatLngBounds();
+    // console.log(maxbounds)
     
     let maxN: number = Number(data[0]['coords.bbox.corner_ne'].split(',')[0]);
     let maxE: number = Number(data[0]['coords.bbox.corner_ne'].split(',')[1]);
