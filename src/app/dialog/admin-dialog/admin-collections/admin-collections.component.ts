@@ -85,19 +85,31 @@ export class AdminCollectionsComponent implements OnInit {
     });
   }
 
-  addToCollection(col: any, index = 0) {
+  // addToCollection(col: any, index = 0) {
+  //   this.state = 'progress';
+  //   this.adminApi.addItemToCollection(col.uuid, this._uuids[index]).subscribe(() => {
+  //     if (index + 1 >= this._uuids.length) {
+  //       this.collectionsRest.splice(this.collectionsRest.indexOf(col), 1);
+  //       if (this._uuids.length == 1) {
+  //         this.collectionsIn.unshift(col);
+  //       }
+  //       this.snackBar.open("Přidání objektu do sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
+  //       this.state = 'ok';
+  //     } else {
+  //       this.addToCollection(col, index + 1);
+  //     }
+  //   });
+  // }
+
+  addToCollection(col: any) {
     this.state = 'progress';
-    this.adminApi.addItemToCollection(col.uuid, this._uuids[index]).subscribe(() => {
-      if (index + 1 >= this._uuids.length) {
-        this.collectionsRest.splice(this.collectionsRest.indexOf(col), 1);
-        if (this._uuids.length == 1) {
-          this.collectionsIn.unshift(col);
-        }
-        this.snackBar.open("Přidání objektu do sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
-        this.state = 'ok';
-      } else {
-        this.addToCollection(col, index + 1);
+    this.adminApi.addItemsToCollection(col.uuid, this._uuids).subscribe(() => {
+      this.collectionsRest.splice(this.collectionsRest.indexOf(col), 1);
+      if (this._uuids.length == 1) {
+        this.collectionsIn.unshift(col);
       }
+      this.snackBar.open("Přidání objektu do sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
+      this.state = 'ok';
     });
   }
 

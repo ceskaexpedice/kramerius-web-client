@@ -45,8 +45,10 @@ export class AdminApiService {
     return this.http.put(this.getBaseUrl() + path, body, options);
   }
 
+  addItemsToCollection(collectionPid: string, itemPids: string[]): Observable<Object> {
+    return this.post(`/collections/${collectionPid}/items`, itemPids);
+  }
   
-
   addItemToCollection(collectionPid: string, itemPid: string): Observable<Object> {
     return this.post(`/collections/${collectionPid}/items`, itemPid);
   }
