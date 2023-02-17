@@ -5,10 +5,9 @@
     </a>
     <app-logo></app-logo>
   </div>
-
   <div *ngIf="state.atHome() && appSettings.landingPage" class="sp-header-logo" [matTooltip]="'sp.logo_tooltip' | translate" matTooltipPosition="right">
-    <a [routerLink]="['/']">
-      <img [alt]="'sp.logo_tooltip' | transalte" [src]="'sp.header.logo' | translate">
+    <a [routerLink]="['/']" (click)="analytics.sendEvent('navbar', 'landing');">
+      <img [alt]="'sp.logo_tooltip' | translate" [src]="'sp.header.logo' | translate">
     </a>
   </div>
 
