@@ -51,6 +51,11 @@ export class Utils {
         item.licences = json['dnnt-labels'] || [];
         item.licence = json['providedByLabel'];
         item.date = json['datumstr'];
+        if (item.public) {
+            item.licences.push('_public');
+        } else {
+            item.licences.push('_private');
+        }
         item.authors = json['author'];
         if (json['replicatedFrom'] && json['replicatedFrom'].length > 0) {
             item.originUrl = json['replicatedFrom'][0];
