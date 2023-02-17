@@ -38,6 +38,9 @@ export class LocalStorageService {
         if (match > -1) {
             visited.splice(match, 1);
         }
+        if (this.appSettings.multiKramerius) {
+            item.library = this.appSettings.code;
+        }
         // if (metadata) {
         //     if (metadata.publishers.length > 0) {
         //         item.date = metadata.publishers[0].date;
