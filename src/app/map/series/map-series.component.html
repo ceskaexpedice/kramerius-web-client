@@ -26,6 +26,11 @@
     </div>
     <div class="app-map-wrapper">
         <mat-icon (click)="displayAllMaps()" class="app-map-button">open_in_full</mat-icon>
+        <ng-container *ngIf="shapefile">
+            <mat-icon style="left: 64px" *ngIf="toggleShapefile" (click)="toggleShapefile = !toggleShapefile" class="app-map-button">grid_on</mat-icon>
+            <mat-icon style="left: 64px" *ngIf="!toggleShapefile" (click)="toggleShapefile = !toggleShapefile" class="app-map-button">grid_off</mat-icon>
+        </ng-container>
+
         <google-map *ngIf="apiLoaded | async" 
                     #map
                     [options]="options" 
@@ -77,14 +82,14 @@
                 </div>
         </google-map>
         <div class="app-map-right-panel">
-            <div class="app-map-shapefile" *ngIf="shapefile">
+            <!-- <div class="app-map-shapefile" *ngIf="shapefile">
                 <mat-slide-toggle [(ngModel)]="toggleShapefile">Zobrazit shapefile</mat-slide-toggle>
-            </div>
+            </div> -->
             <div class="app-map-polygons" *ngIf="selectedPolygons">
                 <div *ngFor="let item of selectedPolygons" class="app-map-polygon">
                     <div class="app-map-polygon-header">
                         <div class="app-map-polygon-number">{{item.map_number}}</div>
-                        <div class="app-map-polygon-count">počet map: {{item.maps.length}}</div>
+                        <!-- <div class="app-map-polygon-count">počet map: {{item.maps.length}}</div> -->
                     </div>
                     <div class="app-map-map" *ngFor="let m of item.maps">
                         <div class="app-map-pic">
