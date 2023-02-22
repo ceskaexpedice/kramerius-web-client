@@ -32,7 +32,7 @@ const ROUTES: Routes = [
     { path: 'search', component: SearchComponent, canActivate: [ RoutingGuardService ] },
     { path: 'collections', component: CollectionsComponent, canActivate: [ RoutingGuardService ] },
     { path: 'mapseries/:uuid', component: MapSeriesComponent, canActivate: [ RoutingGuardService ] },
-    // { path: 'mapseries', component: MapSeriesComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'mapseries', component: MapSeriesComponent, canActivate: [ RoutingGuardService ] },
     { path: 'periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingGuardService ] },
     { path: 'collection/:collection_uuid', component: SearchComponent, canActivate: [ RoutingGuardService ] },
     { path: 'music/:uuid', component: MusicComponent, canActivate: [ RoutingGuardService ] },
@@ -49,7 +49,7 @@ const ROUTES: Routes = [
     { path: ':k/search', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collections', component: CollectionsComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/mapseries/:uuid', component: MapSeriesComponent, canActivate: [ RoutingPrefixGuardService ] },
-    // { path: ':k/mapseries', component: MapSeriesComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/mapseries', component: MapSeriesComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/periodical/:uuid', component: PeriodicalComponent, data: { reuse: true }, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collection/:collection_uuid', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/music/:uuid', component: MusicComponent, canActivate: [ RoutingPrefixGuardService ] },
@@ -58,8 +58,7 @@ const ROUTES: Routes = [
     { path: ':k/view', component: BookComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k', component: HomeComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/', component: HomeComponent, canActivate: [ RoutingPrefixGuardService ] },
-    { path: '**', component: NotFoundComponent},
-
+    { path: '**', component: NotFoundComponent}
   ];
 
 
