@@ -75,15 +75,35 @@
     .app-map-wrapper {
         height: calc(100% - 55px);
         width: 100%;
+        margin-top: 55px;
+        position: relative;
         google-map {
             position: fixed;
             height: calc(100% - 125px);
             width: calc(100% - 320px);
             top: 125px;
         }
+        .app-map-button {
+            position: absolute;
+            font-size: 26px;
+            color: black;
+            background: white;
+            left: 14px;
+            top: 14px;
+            padding: 4px;
+            z-index: 999;
+            height: 34px;
+            width: 34px;
+            color: #666;
+            cursor: pointer;
+            box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+            &:hover {
+                color: #000;
+            }
+        }
         .app-map-right-panel {
             width: 320px;
-            margin-top: 55px;
+            // margin-top: 55px;
             border-left: 1px solid #e0e0e0;
             float: right;
             overflow: auto;

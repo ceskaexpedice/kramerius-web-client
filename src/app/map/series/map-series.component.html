@@ -25,6 +25,7 @@
         </div>
     </div>
     <div class="app-map-wrapper">
+        <mat-icon (click)="displayAllMaps()" class="app-map-button">open_in_full</mat-icon>
         <google-map *ngIf="apiLoaded | async" 
                     #map
                     [options]="options" 
@@ -80,7 +81,6 @@
                 <mat-slide-toggle [(ngModel)]="toggleShapefile">Zobrazit shapefile</mat-slide-toggle>
             </div>
             <div class="app-map-polygons" *ngIf="selectedPolygons">
-                <button mat-raised-button color="primary" class="app-map-button" *ngIf="polygons.length > selectedPolygons.length" (click)="displayAllMaps()">Zobraz všechny mapy ze série</button>
                 <div *ngFor="let item of selectedPolygons" class="app-map-polygon">
                     <div class="app-map-polygon-header">
                         <div class="app-map-polygon-number">{{item.map_number}}</div>
