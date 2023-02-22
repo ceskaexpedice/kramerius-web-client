@@ -132,7 +132,7 @@ export class SearchQuery {
         this.west = west;
         this.east = east;
     }
-
+    
     public isBoundingBoxSet(): boolean {
         return this.north != null;
     }

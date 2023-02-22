@@ -17,9 +17,6 @@
       "es2017",
       "dom"
     ],
-    "types": [
-      "jquery",
-      "materialize-css"
-    ]
+    "types": []
   }
 }

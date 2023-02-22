@@ -1,0 +1,94 @@
+<div class="app-map-series">
+    <div class="app-map-series-header">
+        <div>Mapová díla</div>
+        <mat-form-field appearance="fill" class="app-map-series-header-select">
+            <mat-label>Vyber mapovou sérii</mat-label>
+            <mat-select [(value)]="selectedValue" 
+                        name="serie" 
+                        (selectionChange)="selectMapSeries($event.value)">
+              <mat-option *ngFor="let serie of mapSeries" [value]="serie.pid">
+                {{serie.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <div class="app-map-wrapper">
+        <google-map *ngIf="apiLoaded | async" 
+                    #map
+                    [options]="options" 
+                    width="100%" 
+                    height="100%"
+                    (idle)="onIdle()">
+            <map-polygon
+                #somepolygon="mapPolygon"
+                *ngFor="let polygon of polygons" 
+                [paths]="polygon.position"
+                [options]="polygon_options"
+                (polygonClick)="polygonClick(somepolygon, polygon)"
+                (polygonMouseover)="polygonMouseOver(somepolygon)"
+                (polygonMouseout)="polygonMouseOut(somepolygon)"
+                
+                >
+                </map-polygon>
+                <div *ngIf="toggleShapefile">
+                    <map-polygon
+                    #somepolygon="mapPolygon"
+                    *ngFor="let polygon of shapefile" 
+                    [paths]="polygon.position"
+                    [options]="shapefile_options"
+                    >
+                    </map-polygon>
+                </div>
+                <div *ngIf="zoom > zoomForMarkers">
+                    <map-marker
+                        #somemarker="mapMarker"
+                        *ngFor="let pol of polygonsInBounds" 
+                        [position]="pol.center"
+                        [label]="{text: pol.map_number, color: 'white', fontSize: '18px', fontWeight: 'lighter'}"
+                        [options]="marker_options2"
+                        (mapClick)="openInfo(somemarker, pol)"
+                        >
+                    </map-marker>
+                </div>
+                <div *ngIf="neighbours.length > 0 && zoom === polygonZoom ">
+                    <p>marker</p>
+                    <map-marker
+                    #somemarker="mapMarker"
+                    *ngFor="let n of neighbours" 
+                    [position]="n.markerPosition"
+                    [label]="{text: n.map_number, color: 'white', fontSize: '18px', fontWeight: 'lighter'}"
+                    [options]="marker_options3"
+                    (mapClick)="openInfo(somemarker, n)"
+                    >
+                    </map-marker>  
+                </div>
+        </google-map>
+        <div class="app-map-right-panel">
+            <div class="app-map-shapefile" *ngIf="shapefile">
+                <mat-slide-toggle [(ngModel)]="toggleShapefile">Zobrazit shapefile</mat-slide-toggle>
+            </div>
+            <div class="app-map-polygons" *ngIf="selectedPolygons">
+                <button mat-raised-button color="primary" class="app-map-button" *ngIf="polygons.length > selectedPolygons.length" (click)="displayAllMaps()">Zobraz všechny mapy ze série</button>
+                <div *ngFor="let item of selectedPolygons" class="app-map-polygon">
+                    <div class="app-map-polygon-header">
+                        <div class="app-map-polygon-number">{{item.map_number}}</div>
+                        <div class="app-map-polygon-count">počet map: {{item.maps.length}}</div>
+                    </div>
+                    <div class="app-map-map" *ngFor="let m of item.maps">
+                        <div class="app-map-pic">
+                            <a href="https://www.digitalniknihovna.cz/mzk/uuid/{{m.pid}}" target="_blank" title="Odkaz do DK">
+                                <img src="https://kramerius.mzk.cz/search/api/v5.0/item/{{m.pid}}/thumb">
+                                <!-- <img src="https://k7-test.mzk.cz/search/api/client/v7.0/items/{{m.pid}}/image/thumb"> -->
+                            </a>
+                        </div>
+                        <div class="app-map-info">
+                            <div class="app-map-title">{{m.title}}</div>
+                            <div class="app-map-date">{{m.date}}</div>
+                            <div class="app-map-shelf-locator">{{m.shelf_locators}}</div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
