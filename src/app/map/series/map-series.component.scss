@@ -1,7 +1,6 @@
 @import './src/variables.scss';
 
 .app-map-series {
-    // height: calc(100% - #{$app-toolbar-height});
     height: calc(100%);
     width: 100%;
     overflow: auto;
@@ -14,9 +13,60 @@
         border-bottom: 1px solid #e0e0e0;
         z-index: 990;
         padding: 0 13px;
-        display: flex;
-        justify-content: space-between;
-        background-color: $app-grey-l-4;
+        // display: flex;
+        // justify-content: space-between;
+        background-color: #fff;
+        .app-buttons {
+            float: right;
+            .app-view-button {
+                float: left;
+                user-select: none;
+                padding: 0 8px;
+                height: 30px;
+                margin-top: 7px;
+                cursor: pointer;
+                color: $app-grey-d-1;
+                &:not(.app-active) {
+                  &:hover {
+                    color: $app-grey-d-3;
+                  } 
+                }
+                &.app-active {
+                  color: $primary-color;
+                }
+                &:last-child {
+                  margin-right: 8px;
+                }
+                &.app-advanced-icon {
+                  &:not(.app-in-collection) {
+                    @media only screen and (min-width: 731px) {
+                      display: none;
+                    }
+                  }
+                }
+              }
+        }
+        .app-navigation {
+            a {
+                color: $primary-color;
+                text-decoration: none;
+            }
+            .app-name {
+                color: $app-grey-d-1;
+                display: inline-block;
+                cursor: pointer;
+                mat-icon {
+                    margin-top: -3px;
+                    vertical-align: middle;
+                }
+                .app-label {
+                    max-width: calc(100vw - 300px);
+                    overflow: hidden;
+                }
+            }   
+        }
+
+
         .app-map-series-header-select {
             font-size: 14px;
             width: 400px;
@@ -184,3 +234,10 @@
 //     }
 // }
 
+
+
+::ng-deep .app-menu-series {
+    margin-top: 115px;
+    margin-left: -10px;
+    max-width: 700px;
+}

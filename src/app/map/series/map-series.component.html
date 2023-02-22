@@ -1,16 +1,28 @@
 <div class="app-map-series">
     <div class="app-map-series-header">
-        <div>Mapová díla</div>
-        <mat-form-field appearance="fill" class="app-map-series-header-select">
-            <mat-label>Vyber mapovou sérii</mat-label>
-            <mat-select [(value)]="selectedValue" 
-                        name="serie" 
-                        (selectionChange)="selectMapSeries($event.value)">
-              <mat-option *ngFor="let serie of mapSeries" [value]="serie.pid">
-                {{serie.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+
+        <div class="app-buttons">
+            <ng-container *ngIf="selectedSeries">
+                <div tabindex="0" [matTooltip]="'Zobrazit obsah'"  (click)="goToCollectionView()" class="app-view-button">
+                    <mat-icon>grid_view</mat-icon>
+                </div>
+            </ng-container>
+            <div tabindex="0" class="app-view-button app-active">
+                <mat-icon>map</mat-icon>
+            </div>
+        </div>
+
+
+        <div class="app-navigation">
+            <a [routerLink]="ms.getRootUrl()">Mapová díla</a>
+            <ng-container *ngIf="selectedSeries">
+                <span style="margin: 0 6px;">&gt;</span>
+                <div class="app-name" [matMenuTriggerFor]="seriesMenu">
+                    <span class="app-label">{{ selectedSeries.name }}</span>
+                    <mat-icon>arrow_drop_down</mat-icon>
+                </div>
+            </ng-container>
+        </div>
     </div>
     <div class="app-map-wrapper">
         <google-map *ngIf="apiLoaded | async" 
@@ -92,3 +104,14 @@
         </div>
     </div>
 </div>
+
+
+
+<mat-menu #seriesMenu="matMenu" yPosition="below" xPosition="before" class="app-menu-series">
+    <ng-template matMenuContent ngFor>
+      <div class="app-dropdown-item2" mat-menu-item *ngFor="let serie of mapSeries" (click)="changeMapSeries(serie.pid)">
+        <div class="app-language">{{ serie.name }}</div>
+      </div>
+    </ng-template>
+</mat-menu>
+  

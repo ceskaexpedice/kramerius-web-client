@@ -14,6 +14,7 @@ import { LicenceService } from './licence.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AdvancedSearchDialogComponent } from '../dialog/advanced-search-dialog/advanced-search-dialog.component';
+import { MapSeriesService } from './mapseries.service';
 
 
 @Injectable()
@@ -57,6 +58,7 @@ export class SearchService {
         private translate: TranslateService,
         private collectionService: CollectionService,
         private solr: SolrService,
+        private mapSeries: MapSeriesService,
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
         private api: KrameriusApiService,
@@ -152,7 +154,7 @@ export class SearchService {
         this.contentType = contentType;
         if (this.contentType === 'map') {
             if (this.collectionStructure.collections && this.collectionStructure.collections.length > 1) {
-                if (this.collectionStructure.collections[0].uuid.toString() === 'uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf') {
+                if (this.collectionStructure.collections[0].uuid.toString() === this.mapSeries.rootCollectionUUID) {
                     const nav = ['mapseries']
                     nav.push(this.query.collection)
                     this.router.navigate(nav)

@@ -155,6 +155,7 @@ import { AuthComponent } from './auth/auth.component';
 import { AdvancedSearchDialogComponent } from './dialog/advanced-search-dialog/advanced-search-dialog.component';
 import { SearchHelpDialogComponent } from './dialog/search-help-dialog/search-help-dialog.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MapSeriesService } from './services/mapseries.service';
 
 
 declare var APP_GLOBAL: any;
@@ -341,6 +342,7 @@ export function appInitializerFactory(translate: TranslateService) {
     AdminApiService,
     PdfService,
     EpubService,
+    MapSeriesService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,
