@@ -31,9 +31,9 @@
             <mat-icon style="left: 64px" *ngIf="!toggleShapefile" (click)="toggleShapefile = !toggleShapefile" class="app-map-button">grid_off</mat-icon>
         </ng-container>
 
-        <google-map *ngIf="apiLoaded | async" 
+        <google-map *ngIf="ms.mapReady" 
                     #map
-                    [options]="options" 
+                    [options]="ms.options" 
                     width="100%" 
                     height="100%"
                     (idle)="onIdle()">
@@ -41,7 +41,7 @@
                 #somepolygon="mapPolygon"
                 *ngFor="let polygon of polygons" 
                 [paths]="polygon.position"
-                [options]="polygon_options"
+                [options]="ms.polygon_options"
                 (polygonClick)="polygonClick(somepolygon, polygon)"
                 (polygonMouseover)="polygonMouseOver(somepolygon)"
                 (polygonMouseout)="polygonMouseOut(somepolygon)"
@@ -53,29 +53,29 @@
                     #somepolygon="mapPolygon"
                     *ngFor="let polygon of shapefile" 
                     [paths]="polygon.position"
-                    [options]="shapefile_options"
+                    [options]="ms.shapefile_options"
                     >
                     </map-polygon>
                 </div>
-                <div *ngIf="zoom > zoomForMarkers">
+                <div *ngIf="ms.zoom > zoomForMarkers">
                     <map-marker
                         #somemarker="mapMarker"
                         *ngFor="let pol of polygonsInBounds" 
                         [position]="pol.center"
                         [label]="{text: pol.map_number, color: 'white', fontSize: '18px', fontWeight: 'lighter'}"
-                        [options]="marker_options2"
+                        [options]="ms.marker_options2"
                         (mapClick)="openInfo(somemarker, pol)"
                         >
                     </map-marker>
                 </div>
-                <div *ngIf="neighbours.length > 0 && zoom === polygonZoom ">
+                <div *ngIf="neighbours.length > 0 && ms.zoom === polygonZoom ">
                     <p>marker</p>
                     <map-marker
                     #somemarker="mapMarker"
                     *ngFor="let n of neighbours" 
                     [position]="n.markerPosition"
                     [label]="{text: n.map_number, color: 'white', fontSize: '18px', fontWeight: 'lighter'}"
-                    [options]="marker_options3"
+                    [options]="ms.marker_options3"
                     (mapClick)="openInfo(somemarker, n)"
                     >
                     </map-marker>  
