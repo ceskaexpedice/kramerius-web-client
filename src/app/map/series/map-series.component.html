@@ -93,7 +93,7 @@
                     </div>
                     <div class="app-map-map" *ngFor="let m of item.maps">
                         <div class="app-map-pic">
-                            <a href="https://www.digitalniknihovna.cz/mzk/uuid/{{m.pid}}" target="_blank" title="Odkaz do DK">
+                            <a [href]="settings.getRouteFor('uuid/' + m.pid)" title="Odkaz do DK">
                                 <img src="https://kramerius.mzk.cz/search/api/v5.0/item/{{m.pid}}/thumb">
                                 <!-- <img src="https://k7-test.mzk.cz/search/api/client/v7.0/items/{{m.pid}}/image/thumb"> -->
                             </a>

@@ -86,6 +86,8 @@ export class MapSeriesComponent implements OnInit {
     this.router.navigateByUrl(`/mapseries/${pid}`);
   }
 
+  
+
   selectMapSeries(pid: string) {
     const query = 'q=in_collections.direct:"' + pid + '"&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000'
     let shapefile = this.shapefiles.find(x => x.pid === pid)?.shapefile
