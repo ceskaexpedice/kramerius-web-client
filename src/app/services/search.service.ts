@@ -633,10 +633,8 @@ export class SearchService {
             if (this.anyLoginLicense()) {
                 this.makeFacetRequest('access:login');
             }
-            // if (this.anyLoginLicense()) {
-                this.makeFacetRequest('access:terminal');
-            // }
-            if (this.anyLoginLicense() || this.anyTerminalLicense()) {
+            this.makeFacetRequest('access:terminal');
+            if (this.licenceService.anyAppliedLoginOrTerminlLicense()) {
                 this.makeFacetRequest('access:accessible');
             }
             this.makeFacetRequest('access:all');
@@ -648,7 +646,7 @@ export class SearchService {
         if (type == 'login' && !this.anyLoginLicense()) {
             return false;
         }
-        if (type == 'accessible' && ((!this.anyLoginLicense() && !this.anyTerminalLicense())  || (this.access['open'].count == this.access['accessible'].count))) {
+        if (type == 'accessible' && !((this.licenceService.anyAppliedLoginOrTerminlLicense() || (this.access['accessible'].count > 0 && this.access['open'].count == this.access['accessible'].count)))) {
             return false;
         }
         return true;
@@ -658,14 +656,14 @@ export class SearchService {
         return this.licenceService.licencesByType('login').length > 0;
     }
 
-    anyTerminalLicense(): boolean {
-        for (const l of this.licenceService.licencesByType('terminal')) {
-            if (l != '_private') {
-                return true;
-            }
-        }
-        return false;
-    }
+    // anyTerminalLicense(): boolean {
+    //     for (const l of this.licenceService.licencesByType('terminal')) {
+    //         if (l != '_private') {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     accessArray(): any[] {
         let aArray = [];

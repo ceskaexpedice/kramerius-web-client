@@ -229,6 +229,16 @@ export class LicenceService {
   }
 
 
+  anyAppliedLoginOrTerminlLicense(): boolean {
+    for (const license of this.userLicences) {
+      const access = this.access(license);
+      if (['login', 'terminal'].includes(access)) {
+        return true;
+      }
+    }  
+    return false;
+  }
+
 
   accessIcon(type: string, accessible: boolean): string {
     switch (type) {
