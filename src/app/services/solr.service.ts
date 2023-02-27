@@ -904,7 +904,7 @@ export class SolrService {
                 fqFilters.push(`(${this.field('parent_collections')}:"${query.collection}")`);
             }
         } else {
-            if (this.buildQ(query.query)|| query.isCustomFieldSet()) {
+            if (this.buildQ(query.query) || query.isCustomFieldSet() || query.isBoundingBoxSet()) {
                 fqFilters.push(`(${this.buildTopLevelFilter(false)} OR ${this.field('model')}:page OR ${this.field('model')}:article)`);
             } else {
                 fqFilters.push(`(${this.buildTopLevelFilter(!fromAutocomplete)})`);
@@ -1174,7 +1174,7 @@ export class SolrService {
         }
         const withQueryString = query.hasQueryString();
         fqFilters.push(this.buildFacetFilter(withQueryString, 'keywords', query.keywords, facet));
-        fqFilters.push(this.buildFacetFilter(withQueryString, 'doctypes', query.doctypes, facet));
+        fqFilters.push(this.buildFacetFilter(withQueryString || query.isBoundingBoxSet(), 'doctypes', query.doctypes, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'categories', query.categories, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'authors', query.authors, facet));
         fqFilters.push(this.buildFacetFilter(withQueryString, 'languages', query.languages, facet));
