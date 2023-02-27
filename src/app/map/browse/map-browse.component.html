@@ -16,9 +16,10 @@
 
 </div>
 
-<div *ngIf="apiLoaded | async" class="app-map-wrapper">
-    <google-map #map
-                [options]="options" 
+<div class="app-map-wrapper">
+    <google-map *ngIf="ms.mapReady"
+                #map
+                [options]="ms.browseOptions" 
                 width="100%" 
                 height="100%"
                 (idle)="onIdle()">
@@ -27,7 +28,7 @@
 
         <map-rectangle *ngIf="focusedItem && !focusedItem.isPoint()" 
                         [bounds]="getBounds()"
-                        [options]="boxOptions"
+                        [options]="ms.boxOptions"
                         >
         </map-rectangle>
 

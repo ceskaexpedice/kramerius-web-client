@@ -39,7 +39,6 @@ export class MapSeriesComponent implements OnInit {
               private api: KrameriusApiService,
               private route: ActivatedRoute,
               private router: Router) {
-
   }
 
   ngOnInit() {
@@ -115,6 +114,7 @@ export class MapSeriesComponent implements OnInit {
     this.bounds = new google.maps.LatLngBounds(this.map.getBounds())
     this.ms.zoom = Number(this.map.getZoom())
     this.polygonsInBounds = this.displayPolygonsInBounds()
+    this.selectedPolygons = this.polygonsInBounds
     // console.log('bounds', this.bounds.toJSON())
     if (this.actualPolygonBounds) {
       // console.log('actualPolygonBounds', this.actualPolygonBounds.toJSON())
@@ -476,7 +476,7 @@ export class MapSeriesComponent implements OnInit {
     },
     {
       'name': 'Prozatímní mapa ČSR 1:50 000',
-      'pid': 'uuid:6c5dbb46-0c12-4879-bf86-621c861062ac',
+      'pid': 'uuid:e9e960bc-8573-4da3-87f5-6f8273cfd86c',
       'shapefile': 'https://raw.githubusercontent.com/moravianlibrary/mapseries-data/master/geojson/evropa-souradnicovy-system-1942-s42.json'
     },
     {
@@ -585,76 +585,4 @@ export class MapSeriesComponent implements OnInit {
       'shapefile': 'https://raw.githubusercontent.com/moravianlibrary/mapseries-data/master/geojson/evropa-treti-vojenske-mapovani-generalni-mapy-1200-000.json'
     }
   ]
-
-  // ************* MAPSERIES LIST ******************* 
-  mapSeries_old = [
-    // {
-    //     'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=location:*&fl=location,title,PID&rows=500000&wt=json',
-    //     'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=coords.bbox.corner_ne:*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=50000',
-    //     'name': 'Body v klastru'
-    // },
-    {
-      'name': 'Befestigungskarte Tschechoslowakei',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:1396.305*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*1396.305*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000', 
-      'shapefile': 'https://raw.githubusercontent.com/moravianlibrary/mapseries-data/master/geojson/evropa-befestigungskarte-tschechoslowakei-125-000.json'
-    },
-    {
-      'name': 'Speciální mapa Československé republiky',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:0174.951*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*0174.951*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-
-    },
-    {
-      'name': 'Přehledná mapa střední Evropy',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:1388.791*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*1388.791*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000'
-        //nema shapefile
-    },
-    {
-      'name': 'Stierova mapa Uher na 12 listech',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:0003.193*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:Moll-0003.193*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-        
-    },
-    {
-      'name': 'Special-Karte der österreichisch-ungarischen Monarchie',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:0081.473*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*0081.473*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-        
-    },
-    {
-      'name': 'Mapa Dunaje na 31 listech',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:0003.128*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:Moll-0003.128*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-        
-    },
-    {   
-      'name': 'Italien',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*0190.956*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-      'shapefile': 'https://raw.githubusercontent.com/moravianlibrary/mapseries-data/master/geojson/evropa-deutsche-heereskarte-italien-1100-000.json'
-    },
-    {
-      'name': 'Osteuropa',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*0190.958*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000'
-        
-    },
-    {
-      'name': 'Deutsche Heereskarte. Protektorat.',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*0190.961*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-      'shapefile': 'https://raw.githubusercontent.com/moravianlibrary/mapseries-data/master/geojson/evropa-deutsche-heereskarte-150-000-protektorat.json'
-    }
-  ]
-
-
-
-
-
-
-
-
-
-
-
-
 }

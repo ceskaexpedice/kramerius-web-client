@@ -33,7 +33,7 @@
 
         <google-map *ngIf="ms.mapReady" 
                     #map
-                    [options]="ms.options" 
+                    [options]="ms.seriesOptions" 
                     width="100%" 
                     height="100%"
                     (idle)="onIdle()">
@@ -85,25 +85,22 @@
             <!-- <div class="app-map-shapefile" *ngIf="shapefile">
                 <mat-slide-toggle [(ngModel)]="toggleShapefile">Zobrazit shapefile</mat-slide-toggle>
             </div> -->
-            <div class="app-map-polygons" *ngIf="selectedPolygons">
-                <div *ngFor="let item of selectedPolygons" class="app-map-polygon">
+            <div class="app-map-list" *ngIf="selectedPolygons">
+                <div *ngFor="let item of selectedPolygons" class="app-list-item">
                     <div class="app-map-polygon-header">
                         <div class="app-map-polygon-number">{{item.map_number}}</div>
                         <!-- <div class="app-map-polygon-count">počet map: {{item.maps.length}}</div> -->
                     </div>
-                    <div class="app-map-map" *ngFor="let m of item.maps">
+                    <a class="app-map-map" *ngFor="let m of item.maps" [href]="settings.getRouteFor('uuid/' + m.pid)" title="Odkaz do DK">
                         <div class="app-map-pic">
-                            <a [href]="settings.getRouteFor('uuid/' + m.pid)" title="Odkaz do DK">
-                                <img src="https://kramerius.mzk.cz/search/api/v5.0/item/{{m.pid}}/thumb">
-                                <!-- <img src="https://k7-test.mzk.cz/search/api/client/v7.0/items/{{m.pid}}/image/thumb"> -->
-                            </a>
+                            <img src="https://kramerius.mzk.cz/search/api/v5.0/item/{{m.pid}}/thumb">
                         </div>
                         <div class="app-map-info">
                             <div class="app-map-title">{{m.title}}</div>
                             <div class="app-map-date">{{m.date}}</div>
                             <div class="app-map-shelf-locator">{{m.shelf_locators}}</div>
                         </div>
-                    </div> 
+                    </a> 
                 </div>
             </div>
         </div>

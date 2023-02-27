@@ -7,10 +7,14 @@ export class MapSeriesService {
 
   center = {lat: 49.5, lng: 15};
   zoom: number = 7;
+  zoomBrowse: number = 9;
   rootCollectionUUID = "uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf"; 
-  options: google.maps.MapOptions;
+  seriesOptions: google.maps.MapOptions;
+  browseOptions: google.maps.MapOptions;
   boxOptions: google.maps.RectangleOptions;
   mapReady = false;
+  lat = 49.206902;
+  lng = 16.595591;
 
   constructor(
     private httpClient: HttpClient,
@@ -29,32 +33,14 @@ export class MapSeriesService {
       this.mapReady = true;
       callback();
     });
-
   }
 
   getRootUrl(): string {
     return this.settings.getRouteFor(`collection/${this.rootCollectionUUID}`)
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   buildOptions() {
-    this.options = {
+    this.seriesOptions = {
       center: this.center,
       zoom: this.zoom,
       styles: this.stylesArray,
@@ -67,10 +53,18 @@ export class MapSeriesService {
       mapTypeControl: false,
       disableDoubleClickZoom: false,
       maxZoom: 15,
-      minZoom: 2,
-      // zoomControlOptions: {
-      //   position: google.maps.ControlPosition.TOP_RIGHT
-      // }
+      minZoom: 2
+    };
+    this.browseOptions = {
+      center: {lat: this.lat, lng: this.lng},
+      zoom: this.zoomBrowse,
+      styles: this.stylesArray,
+      mapTypeId: "terrain",
+      fullscreenControl: false,
+      streetViewControl: false,
+      zoomControlOptions: {
+        position: google.maps.ControlPosition.TOP_RIGHT
+      }
     };
     this.boxOptions = {
       fillColor: '#0277BD',
@@ -79,6 +73,7 @@ export class MapSeriesService {
       strokeOpacity: 1
     }
   }
+
   // ************* POLYGON OPTIONS *******************
   polygon_options: google.maps.PolygonOptions = {
     strokeColor: "#000000",
@@ -88,7 +83,6 @@ export class MapSeriesService {
     fillOpacity: 0.3,
     clickable: true,
     geodesic: false
-
   }
   shapefile_options: google.maps.PolygonOptions = {
     strokeColor: "#000000",
@@ -116,13 +110,6 @@ export class MapSeriesService {
     icon: this.svgMarker,
     title: 'title'
   };
-
-
-
-
-
-
-
 
   // ************* MAP OPTIONS *******************
   stylesArray: google.maps.MapTypeStyle[] = [
