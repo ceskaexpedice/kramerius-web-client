@@ -112,18 +112,17 @@
                 background: #fff;
                 padding: 15px;
             }
-            .app-map-polygons {
+            .app-map-list {
                 .app-map-button {
                     margin: 10px;
                 }
-                .app-map-polygon {
+                .app-list-item {
                     background: #fff;
                     border-bottom: 1px solid #e0e0e0;
-                    padding: 3px;
                     .app-map-polygon-header {
                         display: flex;
                         justify-content: space-between;
-                        margin: 10px;
+                        padding: 3px 15px;
                         .app-map-polygon-number {
                             font-size: large;
                         }
@@ -133,19 +132,21 @@
                     }
                     .app-map-map {
                         display: flex;
-                        margin-top: 5px;
+                        padding: 5px 3px 3px 3px;
+                        &:hover {
+                            background: #d9e6ef;
+                            cursor: pointer;
+                        }
                         .app-map-pic {
-                            a {
-                                img {
-                                    margin-right: 6px;
-                                    background-repeat: no-repeat;
-                                    width: 110px;
-                                    height: 110px;
-                                    position: relative;
-                                    background-size: contain;
-                                    background-position-x: center;
-                                }
-                            } 
+                            img {
+                                margin-right: 6px;
+                                background-repeat: no-repeat;
+                                width: 110px;
+                                height: 110px;
+                                position: relative;
+                                background-size: contain;
+                                background-position-x: center;
+                            }
                         }
                         .app-map-info {
                             .app-map-title {

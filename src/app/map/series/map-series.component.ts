@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapPolygon } from '@angular/google-maps';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
 import { AppSettings } from '../../services/app-settings';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,12 +15,7 @@ import { MapSeriesService } from '../../services/mapseries.service';
 export class MapSeriesComponent implements OnInit {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
 
-  center = {lat: 49.5, lng: 15};
-  zoom: number = 7;
   polygonZoom: number;
-  apiLoaded: Observable<boolean>;
-  options: google.maps.MapOptions;
-  boxOptions: google.maps.RectangleOptions;
   data: any;
   points: any;
   polygons: any;
@@ -40,29 +33,26 @@ export class MapSeriesComponent implements OnInit {
   loadingSeries: boolean;
   
 
-  constructor(public httpClient: HttpClient,
+  constructor(private httpClient: HttpClient,
               public settings: AppSettings,
               public ms: MapSeriesService,
               private api: KrameriusApiService,
               private route: ActivatedRoute,
-              private router: Router,) {
-    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + settings.googleMapsApiKey, 'callback')
-      .pipe(
-        map(() => this.buildOptions()),
-        catchError(() => of(false)),
-      );
+              private router: Router) {
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const uuid = params.get('uuid');
-      if (!this.mapSeries) {
-        this.fetchAllMapSeries(() => {
+      this.ms.init(() => {
+        if (!this.mapSeries) {
+          this.fetchAllMapSeries(() => {
+            this.selectMapSeries(uuid);
+          });
+        } else {
           this.selectMapSeries(uuid);
-        });
-      } else {
-        this.selectMapSeries(uuid);
-      }
+        }
+      });
     });
     this.reloadData()
   }
@@ -117,77 +107,14 @@ export class MapSeriesComponent implements OnInit {
     this.router.navigateByUrl(`/collection/${this.selectedSeries.pid}`);
   }
 
-  buildOptions(): boolean {
-    this.options = {
-      center: this.center,
-      zoom: this.zoom,
-      styles: this.stylesArray,
-      mapTypeId: "terrain",
-      fullscreenControl: false,
-      streetViewControl: false,
-      zoomControl: true,
-      scaleControl: true,
-      scrollwheel: true,
-      mapTypeControl: false,
-      disableDoubleClickZoom: false,
-      maxZoom: 15,
-      minZoom: 2,
-      // zoomControlOptions: {
-      //   position: google.maps.ControlPosition.TOP_RIGHT
-      // }
-    };
-    this.boxOptions = {
-      fillColor: '#0277BD',
-      fillOpacity: 0.5,
-      strokeColor: '#0277bd',
-      strokeOpacity: 1
-    }
-    return true
-  }
-  // ************* POLYGON OPTIONS *******************
-  polygon_options: google.maps.PolygonOptions = {
-    strokeColor: "#000000",
-    strokeOpacity: 0.6,
-    strokeWeight: 1,
-    fillColor: "#000000",
-    fillOpacity: 0.3,
-    clickable: true,
-    geodesic: false
-
-  }
-  shapefile_options: google.maps.PolygonOptions = {
-    strokeColor: "#000000",
-    strokeOpacity: 0.3,
-    strokeWeight: 1,
-    fillColor: "#000000",
-    fillOpacity: 0.0,
-    clickable: false,
-    geodesic: false
-  }
-  svgMarker = {
-    // path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
-    path: 'M0 0 0 0',
-    // anchor: new google.maps.Point(0, 0),
-  };
-  marker_options2: google.maps.MarkerOptions = {
-    draggable: false,
-    visible: true,
-    icon: this.svgMarker,
-    title: 'title'
-  };
-  marker_options3: google.maps.MarkerOptions = {
-    draggable: false,
-    visible: true,
-    icon: this.svgMarker,
-    title: 'title'
-  };
-
+  
   // ************* FUNKCE *******************  
 
   onIdle() {
     this.bounds = new google.maps.LatLngBounds(this.map.getBounds())
-    this.zoom = Number(this.map.getZoom())
+    this.ms.zoom = Number(this.map.getZoom())
     this.polygonsInBounds = this.displayPolygonsInBounds()
+    this.selectedPolygons = this.polygonsInBounds
     // console.log('bounds', this.bounds.toJSON())
     if (this.actualPolygonBounds) {
       // console.log('actualPolygonBounds', this.actualPolygonBounds.toJSON())
@@ -549,7 +476,7 @@ export class MapSeriesComponent implements OnInit {
     },
     {
       'name': 'Prozatímní mapa ČSR 1:50 000',
-      'pid': 'uuid:6c5dbb46-0c12-4879-bf86-621c861062ac',
+      'pid': 'uuid:e9e960bc-8573-4da3-87f5-6f8273cfd86c',
       'shapefile': 'https://raw.githubusercontent.com/moravianlibrary/mapseries-data/master/geojson/evropa-souradnicovy-system-1942-s42.json'
     },
     {
@@ -658,454 +585,4 @@ export class MapSeriesComponent implements OnInit {
       'shapefile': 'https://raw.githubusercontent.com/moravianlibrary/mapseries-data/master/geojson/evropa-treti-vojenske-mapovani-generalni-mapy-1200-000.json'
     }
   ]
-
-  // ************* MAPSERIES LIST ******************* 
-  mapSeries_old = [
-    // {
-    //     'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=location:*&fl=location,title,PID&rows=500000&wt=json',
-    //     'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=coords.bbox.corner_ne:*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=50000',
-    //     'name': 'Body v klastru'
-    // },
-    {
-      'name': 'Befestigungskarte Tschechoslowakei',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:1396.305*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*1396.305*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000', 
-      'shapefile': 'https://raw.githubusercontent.com/moravianlibrary/mapseries-data/master/geojson/evropa-befestigungskarte-tschechoslowakei-125-000.json'
-    },
-    {
-      'name': 'Speciální mapa Československé republiky',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:0174.951*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*0174.951*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-
-    },
-    {
-      'name': 'Přehledná mapa střední Evropy',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:1388.791*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*1388.791*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000'
-        //nema shapefile
-    },
-    {
-      'name': 'Stierova mapa Uher na 12 listech',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:0003.193*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:Moll-0003.193*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-        
-    },
-    {
-      'name': 'Special-Karte der österreichisch-ungarischen Monarchie',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:0081.473*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*0081.473*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-        
-    },
-    {
-      'name': 'Mapa Dunaje na 31 listech',
-      'urlk5': 'https://kramerius.mzk.cz/search/api/v5.0/search?q=mods.shelfLocator:0003.128*&fl=PID,title,location&rows=1000&wt=json',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:Moll-0003.128*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-        
-    },
-    {   
-      'name': 'Italien',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*0190.956*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-      'shapefile': 'https://raw.githubusercontent.com/moravianlibrary/mapseries-data/master/geojson/evropa-deutsche-heereskarte-italien-1100-000.json'
-    },
-    {
-      'name': 'Osteuropa',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*0190.958*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000'
-        
-    },
-    {
-      'name': 'Deutsche Heereskarte. Protektorat.',
-      'urlk7': 'https://k7-test.mzk.cz/search/api/client/v7.0/search?q=shelf_locators:*0190.961*&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000',
-      'shapefile': 'https://raw.githubusercontent.com/moravianlibrary/mapseries-data/master/geojson/evropa-deutsche-heereskarte-150-000-protektorat.json'
-    }
-  ]
-
-
-
-
-
-
-
-
-
-
-
-  // ************* MAP OPTIONS *******************
-  stylesArray: google.maps.MapTypeStyle[] = [
-    {
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "color": "#f5f5f5"
-        }
-      ]
-    },
-    {
-      "elementType": "geometry.fill",
-      "stylers": [
-        {
-          "color": "#f5f5f5"
-        }
-      ]
-    },
-    {
-      "elementType": "labels.icon",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "elementType": "labels.text",
-      "stylers": [
-        {
-          "weight": 2.5
-        }
-      ]
-    },
-    {
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "color": "#616161"
-        }
-      ]
-    },
-    {
-      "elementType": "labels.text.stroke",
-      "stylers": [
-        {
-          "color": "#f5f5f5"
-        }
-      ]
-    },
-    {
-      "featureType": "administrative",
-      "elementType": "labels",
-      "stylers": [
-        {
-          "visibility": "on"
-        },
-        {
-          "weight": 1
-        }
-      ]
-    },
-    {
-      "featureType": "administrative.country",
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "lightness": -15
-        }
-      ]
-    },
-    {
-      "featureType": "administrative.country",
-      "elementType": "geometry.fill",
-      "stylers": [
-        {
-          "visibility": "on"
-        }
-      ]
-    },
-    {
-      "featureType": "administrative.country",
-      "elementType": "geometry.stroke",
-      "stylers": [
-        {
-          "lightness": -50
-        },
-        {
-          "visibility": "on"
-        }
-      ]
-    },
-    {
-      "featureType": "administrative.locality",
-      "elementType": "geometry.fill",
-      "stylers": [
-        {
-          "visibility": "on"
-        }
-      ]
-    },
-    {
-      "featureType": "administrative.locality",
-      "elementType": "geometry.stroke",
-      "stylers": [
-        {
-          "color": "#000000"
-        },
-        {
-          "visibility": "on"
-        }
-      ]
-    },
-    {
-      "featureType": "administrative.locality",
-      "elementType": "labels",
-      "stylers": [
-        {
-          "visibility": "simplified"
-        }
-      ]
-    },
-    {
-      "featureType": "administrative.province",
-      "elementType": "geometry.fill",
-      "stylers": [
-        {
-          "weight": 1
-        }
-      ]
-    },
-    {
-      "featureType": "administrative.province",
-      "elementType": "geometry.stroke",
-      "stylers": [
-        {
-          "color": "#000000"
-        }
-      ]
-    },
-    {
-      "featureType": "landscape",
-      "stylers": [
-        {
-          "weight": 2
-        }
-      ]
-    },
-    {
-      "featureType": "landscape",
-      "elementType": "geometry.fill",
-      "stylers": [
-        {
-          "visibility": "on"
-        }
-      ]
-    },
-    {
-      "featureType": "landscape.man_made",
-      "stylers": [
-        {
-          "color": "#e0e0e0"
-        },
-        {
-          "lightness": 5
-        }
-      ]
-    },
-    {
-      "featureType": "landscape.natural",
-      "stylers": [
-        {
-          "visibility": "simplified"
-        }
-      ]
-    },
-    {
-      "featureType": "landscape.natural",
-      "elementType": "labels",
-      "stylers": [
-        {
-          "visibility": "on"
-        }
-      ]
-    },
-    {
-      "featureType": "landscape.natural",
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "landscape.natural",
-      "elementType": "labels.text.stroke",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "landscape.natural.landcover",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "landscape.natural.terrain",
-      "stylers": [
-        {
-          "color": "#d6d6d6"
-        }
-      ]
-    },
-    {
-      "featureType": "poi",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "poi",
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "color": "#eeeeee"
-        }
-      ]
-    },
-    {
-      "featureType": "poi",
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "color": "#757575"
-        }
-      ]
-    },
-    {
-      "featureType": "poi.park",
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "color": "#e5e5e5"
-        }
-      ]
-    },
-    {
-      "featureType": "poi.park",
-      "elementType": "geometry.fill",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "poi.park",
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "color": "#9e9e9e"
-        }
-      ]
-    },
-    {
-      "featureType": "road",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "road",
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "color": "#ffffff"
-        }
-      ]
-    },
-    {
-      "featureType": "road.arterial",
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "color": "#757575"
-        }
-      ]
-    },
-    {
-      "featureType": "road.highway",
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "color": "#dadada"
-        }
-      ]
-    },
-    {
-      "featureType": "road.highway",
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "color": "#616161"
-        }
-      ]
-    },
-    {
-      "featureType": "road.local",
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "color": "#9e9e9e"
-        }
-      ]
-    },
-    {
-      "featureType": "transit.line",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "transit.line",
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "color": "#e5e5e5"
-        }
-      ]
-    },
-    {
-      "featureType": "transit.station",
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "color": "#eeeeee"
-        }
-      ]
-    },
-    {
-      "featureType": "water",
-      "stylers": [
-        {
-          "color": "#809ecb"
-        },
-        {
-          "weight": 1
-        }
-      ]
-    },
-    {
-      "featureType": "water",
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "color": "#ffffff"
-        },
-        {
-          "visibility": "on"
-        }
-      ]
-    }
-  ];
-
-
-
-
 }
