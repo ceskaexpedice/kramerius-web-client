@@ -91,7 +91,9 @@ export class AppSettings {
       this.krameriusList.push(k);
     }
     this.multiKramerius = this.krameriusList.length > 1;
-    this.assignKrameriusByIndex(0);
+    if (!this.multiKramerius) {
+      this.assignKrameriusByIndex(0);
+    }
   }
 
   public assignKrameriusByCode(code: string): boolean {

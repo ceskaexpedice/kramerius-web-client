@@ -14,11 +14,11 @@ export class AuthService {
     redirectUrl: string;
 
     constructor(private settings: AppSettings, private licences: LicenceService, private api: KrameriusApiService, private cache: HttpRequestCache) {
-        if ((settings.auth || settings.krameriusLogin || settings.keycloak) && !settings.multiKramerius) {
+        if ((settings.auth || settings.krameriusLogin || settings.version >= 7) && !settings.multiKramerius) {
             this.userInfo(null, null);
         }
         this.settings.kramerius$.subscribe(() =>  {
-            if (settings.auth || settings.krameriusLogin || settings.keycloak) {
+            if (settings.auth || settings.krameriusLogin || settings.version >= 7) {
                 this.userInfo(null, null);
             }
         });

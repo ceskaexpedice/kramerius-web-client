@@ -123,11 +123,11 @@ export class HomeComponent implements OnInit {
     this.visited = this.localStorageService.getVisited();
     this.selectedTab = this.localStorageService.getProperty(LocalStorageService.FEATURED_TAB);
     if (this.selectedTab !== 'visited' && this.selectedTab !== 'newest' && this.selectedTab !== 'recommended') {
-      if (this.visited.length >= 3) {
-        this.selectedTab = 'visited';
-      } else {
+      // if (this.visited.length >= 3) {
+      //   this.selectedTab = 'visited';
+      // } else {
         this.selectedTab = 'newest';
-      }
+      // }
     }
   }
 
