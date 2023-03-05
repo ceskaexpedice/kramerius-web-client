@@ -10,6 +10,8 @@ export class User {
   roles: string[];
   eppn: string;
   actions: string[] = [];
+  tokenId: string;
+  expirationTime: number;
 
   static fromJson(json): User {
     if (json) {
@@ -20,7 +22,11 @@ export class User {
       user.uid = json['uid'];
       user.roles = json['roles'] || [];
       user.licences = json['licenses'] || json['labels'] || [];
-      user.eppn = json['session'] ? json['session']['session_eppn'] : '';
+      if (json['session']) {
+        user.eppn = json['session']['session_eppn'] || '';
+        user.tokenId = json['session']['token_id'];
+        user.expirationTime = json['session']['expiration_time'];
+      }
       // user.firstname = json['firstname'];
       // user.surname = json['surname'];
       // user.username = username;
