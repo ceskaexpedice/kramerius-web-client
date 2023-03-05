@@ -138,14 +138,16 @@ export class LicenceService {
     return !!this.userLicences && this.userLicences.length > 0;
   }
 
-  availableLicences(licences: string[]): string[] {
+  availableLicences(licences: string[], skipPrivate = false): string[] {
     if (!licences) {
       return [];
     }
     let result = [];
     for (const licence of licences) {
       if (this.available(licence) && result.indexOf(licence) < 0) {
-        result.push(licence);
+        if (!(skipPrivate && licence == '_private')) {
+          result.push(licence);
+        }
       }
     }
     return result;

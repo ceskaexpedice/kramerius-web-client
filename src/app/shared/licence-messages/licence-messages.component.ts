@@ -41,7 +41,7 @@ export class LicenceMessagesComponent implements OnInit {
       }
       return;
     }
-    const licences = this.licenceService.availableLicences(this.licences);
+    const licences = this.licenceService.availableLicences(this.licences, true);
     if (this.full) {
       this.html += `<h3>${this.translate.instant("licence.private_label")}</h3>`;
     }
