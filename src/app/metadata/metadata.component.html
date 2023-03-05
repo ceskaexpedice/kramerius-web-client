@@ -152,7 +152,7 @@
       <div class="app-label">{{ 'metadata.volume' | translate }}</div>
       <div class="app-value">{{ 'metadata.volume_year' | translate }} <strong>{{ metadata.volume.year }}</strong></div>
       <div class="app-value">{{ 'metadata.volume' | translate }} <strong>{{ metadata.volume.number }}</strong></div>
-      <div *ngIf="metadata.currentIssue">
+      <div *ngIf="metadata.currentIssue && (metadata.nextIssue || metadata.previousIssue)">
         <a [routerLink]="[settings.getRouteFor('periodical'), metadata.volume.uuid]" (click)="analytics.sendEvent('metadata', 'link', 'issue list');">
           {{ 'metadata.issue_list' | translate }}
         </a>
