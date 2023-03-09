@@ -75,7 +75,6 @@
       <div class="divider"></div>
 
     </ng-container>
-
     <ng-container *ngIf="bookService.source && controlsEnabled">
       <div class="app-label">
         {{ 'metadata.sources' | translate }}
@@ -87,9 +86,11 @@
       </div>
       <mat-menu #sourcesMenu="matMenu" class="app-libraries-menu">
         <ng-template matMenuContent ngFor>
-          <div class="app-dropdown-item" *ngFor="let source of bookService.sources" (click)="bookService.changeSource(source)">
+          <div class="app-dropdown-item" *ngFor="let source of bookService.sources">
+            <a [routerLink]="[settings.getRouteFor('view'), bookService.uuid]" [queryParams]="{source: source, fulltext: bookService.fulltextQuery }" (click)="analytics.sendEvent('metadata', 'change source', source);">
               <img [alt]="'source.' + source | translate" src='{{ "https://registr.digitalniknihovna.cz/libraries/" + source + "/logo" }}' class="app-library-icon" />
               <div class="app-library-name">{{ 'source.' + source | translate }} </div>
+            </a>
           </div>
         </ng-template>
       </mat-menu>

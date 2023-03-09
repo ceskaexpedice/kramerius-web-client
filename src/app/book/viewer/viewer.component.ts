@@ -762,7 +762,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.bookService.clear();
+    // this.bookService.clear();
     if (this.viewerActionsSubscription) {
       this.viewerActionsSubscription.unsubscribe();
     }
