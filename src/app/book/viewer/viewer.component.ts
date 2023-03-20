@@ -14,7 +14,6 @@ import { ZoomifyService } from '../../services/zoomify.service';
 import { AltoService } from '../../services/alto-service';
 import { LoggerService } from '../../services/logger.service';
 import { LicenceService } from '../../services/licence.service';
-import { LocalStorageService } from '../../services/local-storage.service';
 
 declare var ol: any;
 
@@ -63,7 +62,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
               public settings: AppSettings,
               public licences: LicenceService,
               private http: HttpClient,
-              private localStorage: LocalStorageService,
               private iiif: IiifService,
               private logger: LoggerService,
               private zoomify: ZoomifyService,
@@ -319,31 +317,50 @@ export class ViewerComponent implements OnInit, OnDestroy {
   buildWatermarkLayer(config: any, userId: string) {
     let style = null;
     if (config.type == "image") {
-      style = new ol.style.Style({
-        image: new ol.style.Icon({
-          src: config.logo,
-          scale: config.scale,
-          opacity: config.opacity,
-          crossOrigin: 'anonymous'
-        })
-      });
+      style = () => {
+        var zoom = this.view.getView().getResolution();
+        const size = -this.extent[1];
+        const m = 2000.0/size;
+        return [
+          new ol.style.Style({
+            image: new ol.style.Icon({
+              src: config.logo,
+              scale: config.scale / m / zoom,
+              opacity: config.opacity,
+              crossOrigin: 'anonymous'
+            })
+          })
+        ];
+      };
     } else {
-      const text = config.staticText || userId || config.defaultText || '';
-      const font = config.fontSize + 'px roboto,sans-serif';
-      style =  new ol.style.Style({
-        text: new ol.style.Text({
-          font: font,
-          text: text,
-          fill: new ol.style.Fill({
-            color:  config.color
-          }),
-          textAlign: 'left',
-        })
-      });
+      style = () => {
+        const text = config.staticText || userId || config.defaultText || '';
+        const size = -this.extent[1];
+        const m = 2000.0/size;
+        var zoom = this.view.getView().getResolution();
+        const font = `${config.fontSize}px roboto,sans-serif`;
+        const scale = 2.0 / m / zoom;
+        const color = config.color;
+        return [
+          new ol.style.Style({
+            text: new ol.style.Text({
+              font: font,
+              fill: new ol.style.Fill({ color: color }),
+              text: text,
+              scale: scale,
+              rotation: -Math.PI/4,
+              textAlign: 'center'
+            })
+          })
+        ];
+      };
+
     }
     this.watermark = new ol.layer.Vector({
       name: 'watermark',
       source: new ol.source.Vector(),
+      updateWhileInteracting: true,
+      updateWhileAnimating: true,
       style: style
     })
     this.watermark.setZIndex(100);
@@ -354,6 +371,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.watermark) {
       this.watermark.getSource().clear();
     }
+
+
+
     if (!this.bookService.licence || !this.licences.available(this.bookService.licence)) {
       return;
     }
@@ -365,6 +385,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
       const userId = this.authService.getUserId() || this.authService.getUserName();
       this.buildWatermarkLayer(config, userId);
     }
+
+
+
+    // const config = this.settings.licences.dnnto.watermark;
+    // if (!this.watermark) {
+    //   const userId = "jan.rychtar@trinera.cz";
+    //   this.buildWatermarkLayer(config, userId);
+    // }
     let cw = config.colCount;
     const ch = config.rowCount;
     const sw = this.extent[0];
@@ -377,7 +405,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     for (let i = 0; i < cw; i ++) {
      for (let j = 0; j < ch; j ++) {
        if (Math.floor((Math.random() * 100)) < p) {
-        const x = sw + (i/(cw*1.0))*width + width/cw/3;
+        const x = sw + (i/(cw*1.0))*width + width/cw/2;
         const y = (j/(ch*1.0)) * height + height/ch/2;// + height/30.0*i; + 70;
         var point = new ol.Feature(new ol.geom.Point([x, -y]));
         this.watermark.getSource().addFeature(point);
@@ -535,9 +563,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   onImageSuccess() {
     this.bookService.onImageSuccess();
     this.imageLoading = false;
+    this.view.getView().fit(this.extent);
     if (this.bookService.zoomLockEnabled && this.resolution) {
-      this.view.getView().fit(this.extent);
-      const resolution =  this.view.getView().getResolution();
       this.view.getView().setResolution(1);
       const size = this.view.getSize();
       let c = size[0]/2;
@@ -548,8 +575,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
       this.view.getView().setCenter([c,-size[1]/2]);
       this.view.getView().adjustResolution(this.resolution, [s, 0]);
-    } else {
-      this.view.getView().fit(this.extent);
     }
     this.updateBoxes();
     this.addWaterMark();
