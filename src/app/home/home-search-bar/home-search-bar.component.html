@@ -13,7 +13,7 @@
       <mat-icon *ngIf="searchStr" (click)="cleanQuery()" class="app-button-close" [matTooltip]="'searchbar.delete_query' | translate">close</mat-icon>
       <mat-icon tabindex="0" (click)="showHelp()" class="app-button-help" [matTooltip]="'searchbar.help' | translate">info_outline</mat-icon>
     </div>
-    <mat-checkbox [class.app-hide-filter]="!appSettings.availableFilter('accessibility')" color="primary" (change)="onAccessibilityFilterChanged()" [(ngModel)]="accessibilityFilter">{{ 'navbar.checkbox_label' | translate }}</mat-checkbox>
+    <mat-checkbox [class.app-hide-filter]="!accessibilityFilterEnabled()" color="primary" (change)="onAccessibilityFilterChanged()" [(ngModel)]="accessibilityFilter">{{ 'navbar.checkbox_label' | translate }}</mat-checkbox>
   </div>
 </div>
 <div class="row">

@@ -255,7 +255,7 @@ export class SearchService {
     }
 
     public setAccess(access: string) {
-        // this.localStorageService.setPublicFilter(accessibility === 'public');
+        this.localStorageService.setPublicFilter(access === 'open');
         this.query.setAccess(access);
         this.reload(false);
     }

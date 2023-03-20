@@ -55,7 +55,7 @@ export class HomeSearchBarComponent implements OnInit {
   }
 
   getPlaceholder(): string {
-      if (this.accessibilityFilter && this.appSettings.filters.indexOf('accessibility') >= 0) {
+      if (this.accessibilityFilterEnabled() && this.accessibilityFilter) {
         return String(this.translate.instant('searchbar.main.public'));
       } else {
         return String(this.translate.instant('searchbar.main.all'));
@@ -92,7 +92,14 @@ export class HomeSearchBarComponent implements OnInit {
     if (this.appSettings.availableFilter('accessibility')) {
       this.analytics.sendEvent('home', 'accessibility', this.accessibilityFilter + '');
       this.localStorageService.setPublicFilter(this.accessibilityFilter);
+    } else if (this.appSettings.availableFilter('access')) {
+      this.analytics.sendEvent('home', 'access', this.accessibilityFilter + '');
+      this.localStorageService.setPublicFilter(this.accessibilityFilter);
     }
+  }
+
+  accessibilityFilterEnabled() {
+    return this.appSettings.availableFilter('accessibility') || this.appSettings.availableFilter('access');
   }
 
 
@@ -102,9 +109,11 @@ export class HomeSearchBarComponent implements OnInit {
     if (q != null && q != "") {
       params['q'] = q;
     }
-    if (this.appSettings.availableFilter('accessibility')) {
-      if (this.accessibilityFilter) {
+    if (this.accessibilityFilterEnabled() && this.accessibilityFilter) {
+      if (this.appSettings.availableFilter('accessibility')) {
         params['accessibility'] = 'public';
+      } else if (this.appSettings.availableFilter('access')) {
+        params['access'] = 'open';
       }
     }
     this.router.navigate(['/search'], { queryParams: params });

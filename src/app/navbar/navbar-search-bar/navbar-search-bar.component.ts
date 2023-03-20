@@ -79,7 +79,7 @@ export class NavbarSearchBarComponent implements OnInit {
 
   getPlaceholder(): string {
     if (!this.state.atSearchScreen()) {
-      if (this.localStorageService.publicFilterChecked() && this.settings.filters.indexOf('accessibility') >= 0) {
+      if (this.localStorageService.publicFilterChecked() && (this.settings.availableFilter('accessibility') || this.settings.availableFilter('access'))) {
         return String(this.translate.instant('searchbar.main.public'));
       } else {
         return String(this.translate.instant('searchbar.main.all'));
@@ -98,7 +98,11 @@ export class NavbarSearchBarComponent implements OnInit {
     } else {
       const params = { q: q };
       if (this.localStorageService.publicFilterChecked()) {
-        params['accessibility'] = 'public';
+        if (this.settings.availableFilter('accessibility')) {
+          params['accessibility'] = 'public';
+        } else if (this.settings.availableFilter('access')) {
+          params['access'] = 'open';
+        }
       }
       this.router.navigate(['/search'], { queryParams: params });
     }

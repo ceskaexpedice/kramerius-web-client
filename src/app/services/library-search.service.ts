@@ -6,6 +6,7 @@ import { AppState } from '../app.state';
 import { SearchService } from './search.service';
 import { SolrService } from './solr.service';
 import { Subject } from 'rxjs';
+import { AppSettings } from './app-settings';
 
 @Injectable()
 export class LibrarySearchService extends Subject<CompleterItem[]> implements CompleterData {
@@ -15,13 +16,14 @@ export class LibrarySearchService extends Subject<CompleterItem[]> implements Co
         private state: AppState,
         private searchService: SearchService,
         private solr: SolrService,
+        private settings: AppSettings,
         private localStorageService: LocalStorageService) {
         super();
     }
 
     public search(term: string): void {
         let query = null;
-        let publicOnly = this.localStorageService.publicFilterChecked();
+        let publicOnly = this.localStorageService.publicFilterChecked() && this.settings.availableFilter('accessibility');
         if (this.state.atSearchScreen()) {
             query = this.searchService.query;
         }

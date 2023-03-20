@@ -429,7 +429,16 @@ export class SearchQuery {
     }
 
     public onlyPublicFilterChecked(): boolean {
-        return !this.anyFilter(true) && this.accessibility === 'public';
+        if (this.anyFilter(true)) {
+            return false;
+        }
+        if (this.settings.availableFilter('accessibility') && this.accessibility === 'public') {
+            return true;
+        }
+        if (this.settings.availableFilter('access') && this.access === 'open') {
+            return true;
+        }
+        return false;
     }
 
 }
