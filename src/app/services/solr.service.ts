@@ -343,12 +343,8 @@ export class SolrService {
         if (this.settings.doctypes.indexOf('monograph') >= 0) {
             filter = `${filter} OR ${field}:monographunit`
         }
-        if (!this.settings.k5Compat()) {
-            if (topLevelCollectionsOnly) {
-                filter = `${filter} OR (${field}:collection AND ${this.field('is_top_collection')}:true)`;                
-            } else {
-                filter = `${filter} OR ${field}:collection`;
-            }
+        if (topLevelCollectionsOnly && this.settings.doctypes.indexOf('collection') >= 0) { 
+            filter = filter.replace(`${field}:collection`, `(${field}:collection AND ${this.field('is_top_collection')}:true)`);
         }
         return filter;
     }
@@ -1464,12 +1460,12 @@ export class SolrService {
 
     facetDoctypeList(solr, joinedDocytypes: boolean, doctypes: string[]) {
         const map = {};
-        const types = this.settings.k5Compat() ? doctypes : doctypes.concat(['collection']);
-        for (const doctype of types) {
+        for (const doctype of doctypes) {
             map[doctype] = 0;
         }
         const list = [];
         const facetFields = solr['facet_counts']['facet_fields'][this.field('model_path')];
+        const withQuerry = !!solr['grouped'];
         for (let i = 0; i < facetFields.length; i += 2) {
             const f = facetFields[i];
             if (f.indexOf('/') < 0) {
@@ -1486,6 +1482,19 @@ export class SolrService {
                     }
                 } else {
                     const ff = f.split('/');
+                    if (!withQuerry) {
+                        if (map['article'] !== undefined && ff[ff.length - 1] == 'article') {
+                            map['article'] += facetFields[i + 1];
+                            continue;
+                        }
+                        if (map['internalpart'] !== undefined && ff[ff.length - 1] == 'internalpart') {
+                            map['internalpart'] += facetFields[i + 1];
+                            continue;
+                        }
+                    } else {
+                        map['article'] = -1;
+                        map['internalpart'] = -1;
+                    }
                     if (map[ff[0]] !== undefined && (ff[0] != 'convolute' || ff[ff.length - 1] == 'page')) {
                         map[ff[0]] += facetFields[i + 1];
                     }
@@ -1495,8 +1504,10 @@ export class SolrService {
                 }
             }
         }
-        for (const doctype of types) {
-            list.push({'value' : doctype, 'count': map[doctype]});
+        for (const doctype of doctypes) {
+            if (map[doctype] >= 0) {
+                list.push({'value' : doctype, 'count': map[doctype]});
+            }
         }
         return list;
     }

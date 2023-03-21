@@ -42,6 +42,7 @@ a {
     &.app-doctype-page {background-color: $app-type-page}
     &.app-doctype-convolute {background-color: $app-type-convolute}
     &.app-doctype-category {background-color: #5a5a5a}
+    &.app-doctype-internalpart {background-color: $app-type-internalpart}
 
   }
   &>div {

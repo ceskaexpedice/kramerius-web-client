@@ -590,9 +590,6 @@ export class SearchService {
         if (condition) {
             this.handleFacetResponse(response, facet);
         } else {
-            // if (facet == 'licences') {
-            //     this.handleFacetResponse(response, facet);
-            // }
             this.makeFacetRequest(facet);
         }
     }

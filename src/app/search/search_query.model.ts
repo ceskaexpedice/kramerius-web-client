@@ -50,6 +50,9 @@ export class SearchQuery {
         const query = new SearchQuery(settings);
         query.query = params['q'];
         query.dsq = params['dsq'];
+        if (!query.query) {
+            query.setCustomField(params);
+        }
         query.setPage(params['page']);
         query.setFiled(query.keywords, 'keywords', params);
         query.setFiled(query.doctypes, 'doctypes', params);
@@ -65,9 +68,6 @@ export class SearchQuery {
         query.setFiled(query.places, 'places', params);
         query.setFiled(query.genres, 'genres', params);
 
-        if (!query.query) {
-            query.setCustomField(params);
-        }
         query.setOrdering(params['sort']);
         if (settings.filters.indexOf('accessibility') > -1) {
             query.setAccessibility(params['accessibility']);
@@ -147,9 +147,12 @@ export class SearchQuery {
     private setFiled(fieldValues: string[], field: string, params) {
         const input = params[field];
         if (input && this.settings.filters.indexOf(field) > -1) {
-            input.split(',,').forEach(function(a) {
-                fieldValues.push(a);
-            });
+            for (const f of input.split(',,')) {
+                if (field == 'doctypes' && (f == 'article' || f == 'internalpart') && (!!this.query || this.value)) {
+                    continue;
+                }
+                fieldValues.push(f);
+            };
         }
     }
 
