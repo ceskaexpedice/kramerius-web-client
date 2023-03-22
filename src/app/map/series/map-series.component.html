@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="app-map-wrapper">
-        <mat-icon (click)="displayAllMaps()" class="app-map-button">open_in_full</mat-icon>
+        <mat-icon (click)="fitToScreen()" class="app-map-button">open_in_full</mat-icon>
         <ng-container *ngIf="shapefile">
             <mat-icon style="left: 64px" *ngIf="toggleShapefile" (click)="toggleShapefile = !toggleShapefile" class="app-map-button">grid_on</mat-icon>
             <mat-icon style="left: 64px" *ngIf="!toggleShapefile" (click)="toggleShapefile = !toggleShapefile" class="app-map-button">grid_off</mat-icon>
@@ -81,15 +81,39 @@
                     </map-marker>  
                 </div>
         </google-map>
-        <div class="app-map-right-panel">
+        <div class="app-selected" *ngIf="selectedPolygons && selectedPolygons.length > 0">
+            <div class="app-selected-list" *ngFor="let item of selectedPolygons">
+                <div class="app-selected-header">
+                    <div class="app-selected-list-number">{{item.map_number}}</div>
+                    <mat-icon class="app-selected-close" (click)="closeSelected()">close</mat-icon>
+                </div>
+                <div class="app-selected-maps" *ngFor="let m of item.maps" routerLink="{{settings.getRouteFor('uuid/' + m.pid)}}">
+                    <div class="app-selected-thumb" [style.background-image]="thumb(m.pid)">
+                        <!-- <div [matTooltip]="getLock(m).tooltip" class="app-lock {{ getLock(item).class }}" *ngIf="getLock(item)">
+                            <mat-icon>{{ getLock(item).icon }}</mat-icon>
+                        </div> -->
+                    </div>
+                    <div class="app-selected-title">
+                        {{m.title}}
+                    </div>
+                    <div class="app-selected-date">
+                        {{m.date}}
+                    </div>
+                    <div class="app-selected-shelf-locator">
+                        {{m.shelf_locators}}
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- <div class="app-map-right-panel"> -->
             <!-- <div class="app-map-shapefile" *ngIf="shapefile">
                 <mat-slide-toggle [(ngModel)]="toggleShapefile">Zobrazit shapefile</mat-slide-toggle>
             </div> -->
-            <div class="app-map-list" *ngIf="selectedPolygons">
+            <!-- <div class="app-map-list" *ngIf="selectedPolygons">
                 <div *ngFor="let item of selectedPolygons" class="app-list-item">
                     <div class="app-map-polygon-header">
                         <div class="app-map-polygon-number">{{item.map_number}}</div>
-                        <!-- <div class="app-map-polygon-count">počet map: {{item.maps.length}}</div> -->
                     </div>
                     <a class="app-map-map" *ngFor="let m of item.maps" [href]="settings.getRouteFor('uuid/' + m.pid)" title="Odkaz do DK">
                         <div class="app-map-pic">
@@ -102,8 +126,8 @@
                         </div>
                     </a> 
                 </div>
-            </div>
-        </div>
+            </div> -->
+        <!-- </div> -->
     </div>
 </div>
 
