@@ -25,7 +25,7 @@
           <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
         </ng-container>
         <ng-template #newCollections>
-          <a (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
+          <a *ngIf="appSettings.availableDoctype('collection')" (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
         </ng-template>
       </div>
       <div class="app-navbar-item">
@@ -79,10 +79,9 @@
         <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
       </ng-container>
       <ng-template #newCollections>
-        <a (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
+        <a *ngIf="appSettings.availableDoctype('collection')" (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
       </ng-template>
     </div>
-
     <div class="app-navbar-item">
       <a (click)="analytics.sendEvent('navbar', 'browse');" [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
     </div>

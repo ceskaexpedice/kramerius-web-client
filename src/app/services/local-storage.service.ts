@@ -24,7 +24,7 @@ export class LocalStorageService {
         if (!this.prefAllowed()) {
             return;
         }
-        if (this.appSettings.doctypes.indexOf(item.doctype) < 0) {
+        if (this.appSettings.availableDoctype(item.doctype)) {
             return;
         }
         const visited: DocumentItem[] = JSON.parse(localStorage.getItem(this.getVisitedKey()) || '[]');

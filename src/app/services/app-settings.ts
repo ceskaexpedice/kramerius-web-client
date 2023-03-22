@@ -215,7 +215,11 @@ export class AppSettings {
   }
 
   public availableFilter(filter: string): boolean {
-    return this.filters.indexOf(filter) > -1;
+    return this.filters && this.filters.indexOf(filter) > -1;
+  }
+
+  public availableDoctype(doctype: string): boolean {
+    return this.doctypes && this.doctypes.indexOf(doctype) > -1;
   }
 
   public k5Compat(): boolean {

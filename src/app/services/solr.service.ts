@@ -340,10 +340,10 @@ export class SolrService {
     private buildTopLevelFilter(topLevelCollectionsOnly: boolean): string {
         const field = this.field('model');
         let filter = `${field}:${this.settings.doctypes.join(` OR ${field}:`)}`;
-        if (this.settings.doctypes.indexOf('monograph') >= 0) {
+        if (this.settings.availableDoctype('monograph')) {
             filter = `${filter} OR ${field}:monographunit`
         }
-        if (topLevelCollectionsOnly && this.settings.doctypes.indexOf('collection') >= 0) { 
+        if (topLevelCollectionsOnly && this.settings.availableDoctype('collection')) { 
             filter = filter.replace(`${field}:collection`, `(${field}:collection AND ${this.field('is_top_collection')}:true)`);
         }
         return filter;
