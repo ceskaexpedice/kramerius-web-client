@@ -355,6 +355,9 @@
       "eodopen": {
         "url": "https://eodopen.eu/",
         "name": "EODOPEN"
+      },
+      "ilnorway": {
+        "url": "https://eeagrants.org"
       }
     },
     "periodical": {

@@ -348,7 +348,7 @@
   },
   "donator": {
     "norway": {
-      "url": "http://www.eeagrants.org",
+      "url": "https://eeagrants.org",
       "name": "Norské fondy"
     },
     "k3tok5": {
@@ -358,6 +358,9 @@
     "eodopen": {
       "url": "https://eodopen.eu/",
       "name": "EODOPEN"
+    },
+    "ilnorway": {
+      "url": "https://eeagrants.org"
     }
   },
   "periodical": {
