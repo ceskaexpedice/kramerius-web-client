@@ -129,7 +129,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       keyboardPan: false,
       pinchRotate: false,
       mouseWheelZoom: false,
-      doubleClickZoom: false,
+      doubleClickZoom: false
     });
     this.view = new ol.Map({
       target: 'app-viewer',
@@ -152,6 +152,18 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.selectionInteraction = new ol.interaction.DragBox({});
     this.mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom({});
     this.doubleClickZoomInteraction = new ol.interaction.DoubleClickZoom({});
+    this.view.on('moveend', (e) => {
+      if (this.bookService.doublePage || window.innerWidth > 600) {
+        return;
+      }
+      const xCenter = this.view.getView().getCenter()[0];
+      const width = this.extent[2]
+      if (xCenter == 0) {
+        this.bookService.goToPrevious();
+      } else if (width == xCenter) {
+        this.bookService.goToNext();
+      }
+    });
     this.selectionInteraction.on('boxend', () => {
       this.view.removeInteraction(this.selectionInteraction);
       this.view.getViewport().style.cursor = '';
