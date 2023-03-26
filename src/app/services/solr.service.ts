@@ -1339,6 +1339,9 @@ export class SolrService {
         for (const doc of json['response']['docs']) {
             const item = new DocumentItem();
             item.doctype = doc[this.field('model')];
+            if (this.settings.code == 'snk' && item.doctype == 'internalpart') {
+                item.doctype = 'article';
+            }
             if (this.settings.k5Compat()) {
                 item.title = doc[this.field('titles')];
                 if (this.settings.filters.indexOf('categories') >= 0) {
@@ -1791,6 +1794,9 @@ export class SolrService {
                 licences: this.parseLicences(doc),
                 title: doc[this.field('title')],
                 policy: doc[this.field('accessibility')]
+            }
+            if (this.settings.code == 'snk' && page.model == 'internalpart') {
+                page.model = 'article';
             }
             if (page.policy == 'public') {
                 page.licences.push('_public');

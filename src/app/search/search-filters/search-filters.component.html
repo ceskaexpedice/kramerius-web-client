@@ -102,7 +102,7 @@
               (click)="searchService.toggleFilter(searchService.query.doctypes, item.value);analytics.sendEvent('search', 'doctype', item.value)"
               class="app-filter-item">
               <span>{{item.count}}</span>
-              {{'model.' + item.value | translate | appUpcase }}
+              {{'model_plural.' + item.value | translate | appUpcase }}
         </div>
       </div>
     </mat-expansion-panel>
