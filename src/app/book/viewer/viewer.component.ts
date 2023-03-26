@@ -39,16 +39,22 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private imageHeight = 0;
 
   private lastRotateTime = 0;
+  private lastTouchTime;
+  private lastTouchX;
+  private initialResolution;
 
   private viewerActionsSubscription: Subscription;
   private pageSubscription: Subscription;
   private intervalSubscription: Subscription;
 
   public hideOnInactivity = false;
+  public firstHideOnInactivity = true;
+
   public lastMouseMove = 0;
 
   private selectionInteraction;
   private mouseWheelZoomInteraction;
+  private dragPanInteraction;
   private doubleClickZoomInteraction;
 
   private selectionType: SelectionType;
@@ -84,17 +90,20 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
     );
     this.updateImage(this.bookService.getViewerData());
-    this.intervalSubscription = interval(4000).subscribe( () => {
+    this.lastMouseMove = new Date().getTime();
+    this.intervalSubscription = interval(1000).subscribe( () => {
       const lastMouseDist = new Date().getTime() - this.lastMouseMove;
-      if (lastMouseDist >= 4000) {
+      const limit = this.firstHideOnInactivity ? 4000 : 500;
+      if (lastMouseDist >= limit) {
         this.hideOnInactivity = true;
+        this.firstHideOnInactivity = false;
       }
     });
   }
 
 
   mousewheelPan(e) {
-    if (!this.bookService.zoomLockEnabled) {
+    if (!this.bookService.zoomLockEnabled || this.view.getView().getResolution() >= this.initialResolution) {
       return
     }
     var event = e.originalEvent;
@@ -129,7 +138,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
       keyboardPan: false,
       pinchRotate: false,
       mouseWheelZoom: false,
-      doubleClickZoom: false
+      doubleClickZoom: false,
+      dragPan: false
     });
     this.view = new ol.Map({
       target: 'app-viewer',
@@ -152,18 +162,65 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.selectionInteraction = new ol.interaction.DragBox({});
     this.mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom({});
     this.doubleClickZoomInteraction = new ol.interaction.DoubleClickZoom({});
-    this.view.on('moveend', (e) => {
-      if (this.bookService.doublePage || window.innerWidth > 600) {
+    this.dragPanInteraction = new ol.interaction.DragPan({});
+    
+    this.view.addInteraction(this.dragPanInteraction);
+    const wl = 60000;
+    this.dragPanInteraction.setActive(window.innerWidth > wl);
+
+    this.view.on('pointerdown', (e) => {
+      if (window.innerWidth > wl || this.view.getView().getResolution() != this.initialResolution) {
         return;
       }
-      const xCenter = this.view.getView().getCenter()[0];
-      const width = this.extent[2]
-      if (xCenter == 0) {
-        this.bookService.goToPrevious();
-      } else if (width == xCenter) {
-        this.bookService.goToNext();
-      }
+      this.lastTouchTime = new Date().getTime();
+      this.lastTouchX = e.pixel[0];
     });
+
+    this.view.on('pointerup', (e) => {
+      if (!this.lastTouchTime || !this.lastTouchX || this.view.getView().getResolution() != this.initialResolution) {
+        return;
+      }
+      const deltaT = new Date().getTime() - this.lastTouchTime;
+      const deltaX = this.lastTouchX - e.pixel[0];
+      const deltaXabs = Math.abs(deltaX);
+      const width = this.view.getSize()[0];
+      const toLeft = deltaX < 0;
+      if (deltaT < 600 && (deltaXabs > width / 3.0 || deltaXabs > 160)) {
+        if (toLeft) {
+          this.bookService.goToPrevious();
+        } else {
+          this.bookService.goToNext();
+        }
+      } 
+    });
+
+    this.view.on('moveend', (e) => {
+      if (this.view.getView().getResolution() < this.initialResolution) {
+        this.dragPanInteraction.setActive(true);
+      } else {
+        this.dragPanInteraction.setActive(false);
+        if (this.initialResolution) {
+          this.fitToScreen();
+        }
+      }
+    })
+  
+
+    
+    // this.view.on('moveend', (e) => {
+    //   if (this.bookService.doublePage || window.innerWidth > 600) {
+    //     return;
+    //   }
+    //   const xCenter = this.view.getView().getCenter()[0];
+    //   const width = this.extent[2]
+    //   if (xCenter == 0) {
+    //     this.bookService.goToPrevious();
+    //   } else if (width == xCenter) {
+    //     this.bookService.goToNext();
+    //   }
+    // });
+
+
     this.selectionInteraction.on('boxend', () => {
       this.view.removeInteraction(this.selectionInteraction);
       this.view.getViewport().style.cursor = '';
@@ -587,6 +644,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
       this.view.getView().setCenter([c,-size[1]/2]);
       this.view.getView().adjustResolution(this.resolution, [s, 0]);
+      // this.initialResolution = null;
+      this.initialResolution = this.view.getView().getResolution();
+
+    } else {
+      this.initialResolution = this.view.getView().getResolution();
     }
     this.updateBoxes();
     this.addWaterMark();
