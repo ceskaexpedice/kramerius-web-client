@@ -71,8 +71,7 @@
         "university": "Universitäten",
         "museum": "Museen",
         "archive": "Archive",
-        "other": "Andere Institutionen und Projekte",
-        "experimental": ""
+        "other": "Andere Institutionen und Projekte"
       },
       "footer": {
         "logo": "/assets/shared/sp/logo-mzk.png",
@@ -91,7 +90,6 @@
       "impressum": "Impressum",
       "back": "Zurück zur vorherigen Seite",
       "home": "Home",
-      "checkbox_label": "nur öffentlich",
       "login": "Anmelden",
       "logout": "Abmelden"
     },
@@ -101,7 +99,8 @@
         "public": "In öffentlichen digitalen Bibliotheksdokumenten suchen",
         "filters": "Mit Filtern suchen",
         "collection": "In der Sammlung suchen",
-        "collection_with_filters": "In der Sammlung mit Filtern suchen"
+        "collection_with_filters": "In der Sammlung mit Filtern suchen",
+        "preselected_licences": "Search in online accessible documents"
       },
       "document": "Im Dokument suchen",
       "delete_query": "Anfrage löschen",
@@ -297,7 +296,9 @@
       "tab_visited": "Besuchte",
       "tab_recommended": "Empfehlungen",    
       "tab_latest": "Neueste",
-      "select_library": "Bibliothek wählen"
+      "select_library": "Bibliothek wählen",
+      "public_filter": "nur öffentlich",
+      "preselected_licences_filter": "Only available online"
     },
     "metadata": {
       "title_other": "Andere Namen",

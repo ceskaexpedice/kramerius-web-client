@@ -31,6 +31,8 @@ export class AppSettings {
   public hiddenLocks: boolean;
   public licences: any;
   public containsLicences: boolean;
+  public preselectedLicences: [string];
+
   public ga = APP_GLOBAL.ga;
   public gaCookieless = APP_GLOBAL.gaCookieless;
   public matomo = APP_GLOBAL.matomo;
@@ -140,6 +142,7 @@ export class AppSettings {
     this.mapSearch = !!kramerius.mapSearch;
     this.licences = kramerius.licences;
     this.containsLicences = !!kramerius.containsLicences;
+    this.preselectedLicences = kramerius.preselectedLicences;
     this.hiddenLocks = !!kramerius.hiddenLocks;
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
@@ -282,4 +285,5 @@ interface KrameriusData {
   auth: any;
   adminClientUrl: string;
   containsLicences: boolean;
+  preselectedLicences: [string];
 }

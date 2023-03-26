@@ -90,7 +90,6 @@
       "impressum": "Impressum",
       "back": "Späť na predchádzajúcu stránku",
       "home": "Domovská stránka",
-      "checkbox_label": "iba verejné",
       "login" : "Prihlásiť",
       "logout" : "Odhlásiť"
     },
@@ -100,7 +99,8 @@
         "public": "Hľadať vo verejných dokumentoch digitálnej knižnice",
         "filters": "Hľadať s filtrami",
         "collection": "Hľadať v zbierke",
-        "collection_with_filters": "Hľadať v zbierke s filtrami"
+        "collection_with_filters": "Hľadať v zbierke s filtrami",
+        "preselected_licences": "Hľadať v online prístupných dokumentoch"
       },
       "document": "Hľadať v dokumente",
       "delete_query": "Vymazať dopyt",
@@ -296,7 +296,9 @@
       "tab_visited": "Navštívené",
       "tab_recommended": "Odporúčané",    
       "tab_latest": "Najnovšie",
-      "select_library": "Vybrať knižnicu"
+      "select_library": "Vybrať knižnicu",
+      "public_filter": "Iba verejné",
+      "preselected_licences_filter": "Len prístupné online"
     },
     "metadata": {
       "title_other": "Ďalšie názvy",

@@ -19,6 +19,7 @@ export class HomeSearchBarComponent implements OnInit {
   @Input() autocomplete;
   @Input() input;
   accessibilityFilter: boolean;
+  preselectedLicencesFilter: boolean;
 
   searchStr: string;
 
@@ -36,6 +37,7 @@ export class HomeSearchBarComponent implements OnInit {
 
   ngOnInit() {
     this.accessibilityFilter = this.localStorageService.publicFilterChecked();
+    this.preselectedLicencesFilter = this.localStorageService.preselectedLicencesChecked();
     this.searchStr = '';
     this.completer.fillHighlighted = false;
   }
@@ -57,6 +59,8 @@ export class HomeSearchBarComponent implements OnInit {
   getPlaceholder(): string {
       if (this.accessibilityFilterEnabled() && this.accessibilityFilter) {
         return String(this.translate.instant('searchbar.main.public'));
+      } else if (this.preselectedLicencesFilterEnabled() && this.preselectedLicencesFilter) {
+        return String(this.translate.instant('searchbar.main.preselected_licences'));
       } else {
         return String(this.translate.instant('searchbar.main.all'));
       }
@@ -87,7 +91,6 @@ export class HomeSearchBarComponent implements OnInit {
     this.search();
   }
 
-
   onAccessibilityFilterChanged() {
     if (this.appSettings.availableFilter('accessibility')) {
       this.analytics.sendEvent('home', 'accessibility', this.accessibilityFilter + '');
@@ -98,10 +101,18 @@ export class HomeSearchBarComponent implements OnInit {
     }
   }
 
-  accessibilityFilterEnabled() {
-    return this.appSettings.availableFilter('accessibility') || this.appSettings.availableFilter('access');
+  onPreselectedLicencesFilterChanged() {
+    this.analytics.sendEvent('home', 'preselected-licences', this.preselectedLicencesFilter + '');
+    this.localStorageService.setPreselectedLicencesFilter(this.preselectedLicencesFilter);
   }
 
+  accessibilityFilterEnabled() {
+    return !this.appSettings.preselectedLicences && (this.appSettings.availableFilter('accessibility') || this.appSettings.availableFilter('access'));
+  }
+
+  preselectedLicencesFilterEnabled() {
+    return !!this.appSettings.preselectedLicences;
+  }
 
   private search() {
     const params = { };
@@ -115,6 +126,8 @@ export class HomeSearchBarComponent implements OnInit {
       } else if (this.appSettings.availableFilter('access')) {
         params['access'] = 'open';
       }
+    } else if (this.preselectedLicencesFilterEnabled() && this.preselectedLicencesFilter) {
+      params['licences'] = this.appSettings.preselectedLicences.join(',,');
     }
     this.router.navigate(['/search'], { queryParams: params });
   }

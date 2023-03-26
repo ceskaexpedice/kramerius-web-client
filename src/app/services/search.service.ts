@@ -115,6 +115,9 @@ export class SearchService {
         if (this.settings.filters.indexOf('access') >= 0 && q.access !== 'all') {
             filters.push(this.translate.instant('search.access.' + q.access));
         }
+        for (const item of q.licences) {
+            filters.push(this.licenceService.label(item));
+        }
         for (const item of q.doctypes) {
             filters.push(this.translate.instant('model.' + item));
         }

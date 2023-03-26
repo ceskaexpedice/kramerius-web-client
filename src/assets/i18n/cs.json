@@ -90,7 +90,6 @@
     "impressum": "Impressum",
     "back": "Zpět na předchozí stránku",
     "home": "Domovská stránka",
-    "checkbox_label": "pouze veřejné",
     "login": "Přihlásit",
     "logout": "Odhlásit"
   },
@@ -100,7 +99,8 @@
       "public": "Hledat ve veřejných dokumentech digitální knihovny",
       "filters": "Hledat s filtry",
       "collection": "Hledat ve sbírce",
-      "collection_with_filters": "Hledat ve sbírce s filtry"
+      "collection_with_filters": "Hledat ve sbírce s filtry",
+      "preselected_licences": "Hledat v online přístupných dokumentech"
     },
     "document": "Hledat v dokumentu",
     "delete_query": "Vymazat dotaz",
@@ -299,7 +299,9 @@
     "tab_visited": "Navštívené",
     "tab_recommended": "Doporučené",    
     "tab_latest": "Nejnovější",
-    "select_library": "Vybrat knihovnu"
+    "select_library": "Vybrat knihovnu",
+    "public_filter": "Pouze veřejné",
+    "preselected_licences_filter": "Pouze přístupné online"
   },
   "metadata": {
     "title_other": "Dalši názvy",

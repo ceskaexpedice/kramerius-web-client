@@ -79,8 +79,10 @@ export class NavbarSearchBarComponent implements OnInit {
 
   getPlaceholder(): string {
     if (!this.state.atSearchScreen()) {
-      if (this.localStorageService.publicFilterChecked() && (this.settings.availableFilter('accessibility') || this.settings.availableFilter('access'))) {
+      if (!this.settings.preselectedLicences && this.localStorageService.publicFilterChecked() && (this.settings.availableFilter('accessibility') || this.settings.availableFilter('access'))) {
         return String(this.translate.instant('searchbar.main.public'));
+      } else if (this.settings.preselectedLicences && this.localStorageService.preselectedLicencesChecked()) {
+        return String(this.translate.instant('searchbar.main.preselected_licences'));
       } else {
         return String(this.translate.instant('searchbar.main.all'));
       }
@@ -97,12 +99,14 @@ export class NavbarSearchBarComponent implements OnInit {
       this.searchService.changeQueryString(q);
     } else {
       const params = { q: q };
-      if (this.localStorageService.publicFilterChecked()) {
+      if (!this.settings.preselectedLicences && this.localStorageService.publicFilterChecked()) {
         if (this.settings.availableFilter('accessibility')) {
           params['accessibility'] = 'public';
         } else if (this.settings.availableFilter('access')) {
           params['access'] = 'open';
         }
+      } else if (this.settings.preselectedLicences && this.localStorageService.preselectedLicencesChecked()) {
+        params['licences'] = this.settings.preselectedLicences.join(',,');
       }
       this.router.navigate(['/search'], { queryParams: params });
     }
