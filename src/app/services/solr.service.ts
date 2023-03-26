@@ -1241,6 +1241,9 @@ export class SolrService {
                     if (values.indexOf('monograph') >= 0) {
                         filter = `${filter} OR ${field}:monographunit`
                     }
+                    if (this.settings.code == 'snk' && values.indexOf('article') >= 0) {
+                        filter = `${filter} OR ${field}:internalpart`
+                    }
                     return `(${filter})`;
                 }
             } else if (field === 'licences') {
