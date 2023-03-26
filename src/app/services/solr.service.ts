@@ -343,6 +343,9 @@ export class SolrService {
         if (this.settings.availableDoctype('monograph')) {
             filter = `${filter} OR ${field}:monographunit`
         }
+        if (this.settings.code == 'snk' && this.settings.availableDoctype('article')) {
+            filter = `${filter} OR ${field}:internalpart`
+        }
         if (topLevelCollectionsOnly && this.settings.availableDoctype('collection')) { 
             filter = filter.replace(`${field}:collection`, `(${field}:collection AND ${this.field('is_top_collection')}:true)`);
         }
@@ -594,8 +597,11 @@ export class SolrService {
             }
             items.push(item);
         }
-        if (field === this.getFilterField('model')) {
+        if (field === this.getFilterField('doctypes')) {
             this.mergeBrowseMonographsAndMonographUnits(items);
+            if (this.settings.code == 'snk') {
+                this.mergeBrowseArticlesAndInternalParts(items);
+            }
         }
         const numberOfResults = query.textSearch() ? items.length : this.numberOfFacets(solr);
         return [items, numberOfResults];
@@ -1487,8 +1493,8 @@ export class SolrService {
                             map['article'] += facetFields[i + 1];
                             continue;
                         }
-                        if (map['internalpart'] !== undefined && ff[ff.length - 1] == 'internalpart') {
-                            map['internalpart'] += facetFields[i + 1];
+                        if (this.settings.code == 'snk' && ff[ff.length - 1] == 'internalpart') {
+                            map['article'] += facetFields[i + 1];
                             continue;
                         }
                     } else {
@@ -1998,6 +2004,26 @@ export class SolrService {
             } else {
                 monograph.count += monographunit.count;
                 items.splice(items.indexOf(monographunit), 1);
+            }
+        }
+    }
+
+    private mergeBrowseArticlesAndInternalParts(items: BrowseItem[]) {
+        let article;
+        let internalpart;
+        for (const item of items) {
+            if (item.value === 'article') {
+                article = item;
+            } else if (item.value === 'internalpart') {
+                internalpart = item;
+            }
+        }
+        if (internalpart) {
+            if (!article) {
+                items.push( new BrowseItem('article', 'article', internalpart.count) );
+            } else {
+                article.count += internalpart.count;
+                items.splice(items.indexOf(internalpart), 1);
             }
         }
     }
