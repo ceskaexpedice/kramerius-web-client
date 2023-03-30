@@ -442,7 +442,12 @@ export class SolrService {
             q += ` AND ${this.field('accessibility')}: ${query.accessibility}`;
         }
         if (query && applyYear && query.isYearRangeSet()) {
-            q += `(${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *])`
+            q += `AND ((${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *])`;
+            if (this.settings.k5Compat()) {
+                q += ` OR rok:[${query.from} TO ${query.to}])`;
+            } else {
+                q += ')';
+            }
         }
         q += '&sort=';
         if (this.settings.k5Compat()) {
@@ -648,7 +653,12 @@ export class SolrService {
             fq += ` AND ${this.field('accessibility')}:${query.accessibility}`;
         }
         if (query.isYearRangeSet()) {
-            fq += ` AND (${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *])`;
+            fq += ` AND ((${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${query.from} TO *])`;
+            if (this.settings.k5Compat()) {
+                fq += ` OR rok:[${query.from} TO ${query.to}])`;
+            } else {
+                fq += ')';
+            }
         }
         if (models && models.length > 0) {
             const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
@@ -1172,7 +1182,13 @@ export class SolrService {
 
         if (query.isYearRangeSet()) {
             const from = query.from === 0 ? 1 : query.from;
-            fqFilters.push(`(${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${from} TO *])`);
+            let yearQ = `((${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${from} TO *])`
+            if (this.settings.k5Compat()) {
+                yearQ += ` OR rok:[${query.from} TO ${query.to}])`;
+            } else {
+                yearQ += ')';
+            }
+            fqFilters.push(yearQ);
         }
         const withQueryString = query.hasQueryString();
         fqFilters.push(this.buildFacetFilter(withQueryString, 'keywords', query.keywords, facet));
