@@ -563,11 +563,11 @@
       "supplement" : "Prílohy",
       "article" : "Články",
       "internalpart" : "Kapitoly",
-      "soundunit" : "Části",
+      "soundunit" : "Časťi",
       "track" : "Nahrávky",
-      "collection": "Sbírky",
+      "collection": "Zbierky",
       "convolute": "Konvoluty",
-      "convolutepart": "Části"
+      "convolutepart": "Časťi"
     },
     "issue_type": {
       "morning": "ranné vydanie",
