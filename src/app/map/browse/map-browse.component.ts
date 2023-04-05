@@ -17,6 +17,7 @@ import { MapSeriesService } from '../../services/mapseries.service';
 export class MapBrowseComponent implements OnInit {
   focusedItem: DocumentItem;
   locks: any;
+  waitForBounds = false;
 
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
 
@@ -30,7 +31,22 @@ export class MapBrowseComponent implements OnInit {
      }
 
   ngOnInit() {
-    this.ms.init(()=>{});
+    const q = this.searchService.query;
+    if (q.isBoundingBoxSet()) {
+      this.waitForBounds = true;
+      this.ms.init( () => {
+        setTimeout(() => {
+          let bounds = new google.maps.LatLngBounds(
+            {"lat": q.south, "lng": q.west }, 
+            {"lat": q.north, "lng": q.east }
+          );
+          this.waitForBounds = false;
+          this.map.fitBounds(bounds, 0);
+        }, 50);
+      });
+    } else {
+      this.ms.init(() => {});
+    }
     this.locks = {};
   }
 
@@ -56,7 +72,9 @@ export class MapBrowseComponent implements OnInit {
   }
 
   onIdle() {
-    this.reload();
+    if (!this.waitForBounds) {
+      this.reload();
+    }
   }
 
   reload() {

@@ -93,7 +93,20 @@ export class SearchService {
         } else {
             this.contentType = 'grid';
         }
+        if (this.settings.availableFilter('access')) {
+            this.initAccess();
+        }
         this.search();
+    }
+
+    private initAccess() {
+        this.access = {
+            'open': { value: 'open', count: 0, accessible: true },
+            'login': { value: 'login', count: 0, accessible: false },
+            'terminal': { value: 'terminal', count: 0, accessible: false },
+            'accessible': { value: 'accessible', count: 0, accessible: true },
+            'all': { value: 'all', count: 0, accessible: false }
+        }
     }
 
     public buildPlaceholderText(): string {
@@ -621,14 +634,8 @@ export class SearchService {
         this.checkFacet(this.query.genres.length === 0, response, 'genres');
         this.checkFacet(this.query.collections.length === 0, response, 'collections');
 
-        if (this.settings.filters.indexOf('access') > -1) {
-            this.access = {
-                'open': { value: 'open', count: 0, accessible: true },
-                'login': { value: 'login', count: 0, accessible: false },
-                'terminal': { value: 'terminal', count: 0, accessible: false },
-                'accessible': { value: 'accessible', count: 0, accessible: true },
-                'all': { value: 'all', count: 0, accessible: false }
-            }
+        if (this.settings.availableFilter('access')) {
+            this.initAccess();
             this.makeFacetRequest('access:open');
             if (this.anyLoginLicense()) {
                 this.makeFacetRequest('access:login');
