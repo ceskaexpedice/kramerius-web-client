@@ -1,39 +1,118 @@
 <div class="app-map-browse">
 
-<div class="app-list" (mouseleave)="focusedItem = null">
+    <div class="app-list">
 
-    <a class="app-list-item" *ngFor="let item of searchService.results" routerLink="{{item.url}}" (mouseenter)="focusedItem = item">
-        <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)">
-            <div [matTooltip]="getLock(item).tooltip" class="app-lock {{ getLock(item).class }}" *ngIf="getLock(item)">
-                <mat-icon>{{ getLock(item).icon }}</mat-icon>
+        <!-- NAVIGATION TABS -->
+        <div class="app-navigation-tabs">
+            <div class="app-tab app-active"
+            tabindex="0"
+            (click)="changeNavigationTab('maps')"
+            [class.app-active]="activeNavigationTab == 'maps'">Mapy</div>
+            <div class="app-tab app-active"
+            tabindex="0"
+            (click)="changeNavigationTab('graphics')"
+            [class.app-active]="activeNavigationTab == 'graphics'">Grafiky</div>
+        </div>
+        
+        <!-- IF MAPS -->
+        <div *ngIf="activeNavigationTab == 'maps'" (mouseleave)="focusedItem = null">
+            <a class="app-maps-list-item" *ngFor="let item of searchService.results" routerLink="{{item.url}}" (mouseenter)="focusedItem = item">
+                <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)">
+                    <div [matTooltip]="getLock(item).tooltip" class="app-lock {{ getLock(item).class }}" *ngIf="getLock(item)">
+                        <mat-icon>{{ getLock(item).icon }}</mat-icon>
+                    </div>
+                </div>
+                <div class="app-item-title">{{item.title}}</div>
+                <div *ngIf="item.date" class="app-item-date">{{item.date}}</div>
+                <div *ngIf="item.authors" class="app-item-authors">{{item.authors}}</div>
+                <div *ngIf="item.geonames" class="app-item-geonames">{{item.geonames}}</div>
+            </a>
+        </div>
+        
+        <!-- IF GRAPHICS -->
+        <div *ngIf="activeNavigationTab == 'graphics' && clusterArray.length > 0">
+            <div class="app-graphics-list-item"
+                *ngFor="let item of clusterArray; let i = index" 
+                [id]="'app-point-' + i"
+                [class.app-selected]="item == selectedCluster"
+                (mouseenter)="highlightCluster($event, item)"
+                (mouseleave)="highlightCluster($event, null)">
+                <!-- IF CLUSTER -->
+                <div class="app-cluster" *ngIf="item && item.markers_ && item.markers_.length > 1" (click)="onClusterClickFromDiv(item)">
+                    <!-- <div class="app-cluster-header">
+                        <div class="app-cluster-icon">
+                            <mat-icon>
+                                group_work
+                            </mat-icon>
+                        </div>
+                        <div>{{ item.markers_.length }} PLACES</div>
+                    </div> -->
+                    <div class="app-cluster-geonames">
+                        <!-- <div>Geonames:</div> -->
+                        <div class="app-cluster-geoname app-geoname" *ngFor="let geoname of analyzeGeonamesOfCluster(item)">
+                            {{ geoname.key }}
+                            {{ geoname.count }}
+                        </div>
+                        <!-- <div *ngIf="item.markers_.length > 3">+ {{item.markers_.length - 3}} others</div> -->
+                    </div>
+                </div>
+                <!-- IF MARKER -->
+                <div class="app-marker"
+                    *ngIf="item && item.markers_ && item.markers_.length < 2">
+                    <a class="app-marker-item" 
+                        *ngFor="let item of findMarkerByPosition(
+                        item.markers_[0].getPosition().toJSON().lat,
+                        item.markers_[0].getPosition().toJSON().lng)"
+                        routerLink="{{item.url}}">
+                        <div class="app-item-thumb" [style.background-image]="thumb(item.pid)"></div>
+                        <div class="app-item-title">{{item.title}}</div>
+                        <div *ngIf="item.date" class="app-item-date">{{item.date}}</div>
+                        <div *ngIf="item.authors" class="app-item-authors">{{item.authors}}</div>
+                        <div *ngIf="item.geonames" class="app-item-geonames">{{item.geonames}}</div>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="app-item-title">{{item.title}}</div>
-        <div *ngIf="item.date" class="app-item-date">{{item.date}}</div>
-        <div *ngIf="item.authors" class="app-item-authors">{{item.authors}}</div>
-        <div *ngIf="item.geonames" class="app-item-geonames">{{item.geonames}}</div>
-    </a>
+    </div>
 
-</div>
+    <div class="app-map-wrapper">
+        <google-map *ngIf="ms.mapReady"
+                    #googleMap
+                    [options]="ms.browseOptions" 
+                    width="100%" 
+                    height="100%"
+                    (idle)="onIdle()">
 
-<div class="app-map-wrapper">
-    <google-map *ngIf="ms.mapReady"
-                #map
-                [options]="ms.browseOptions" 
-                width="100%" 
-                height="100%"
-                (idle)="onIdle()">
+            <!-- <map-marker *ngIf="focusedItem && focusedItem.isPoint()" [position]="getPoint()"></map-marker> -->
 
-        <map-marker *ngIf="focusedItem && focusedItem.isPoint()" [position]="getPoint()"></map-marker>
+            <map-marker-clusterer
+                #markerCluster
+                [styles]="ms.clusterOptions"
+                [zoomOnClick]="true"
+                [minimumClusterSize]="2"
+                [calculator]="myCalculator"
+                (clusteringend)="onClusteringEnd(markerCluster)"
+                (clusterClick)="onClusterClick(markerCluster)"
+                >               
+                <map-marker
+                    #somemarker="mapMarker"
+                    *ngFor="let marker of points"
+                    [position]="marker.position"
+                    [label]="{text: labelToString(marker.items.length), color: 'white', fontSize: '12px'}"
+                    [options]="ms.markerOptions"
+                    (mapMouseover)="onMouseOverMarker($event, somemarker)"
+                    (mapMouseout)="onMouseOutMarker($event, somemarker)"
+                    >
+                </map-marker>
+            </map-marker-clusterer>
 
-        <map-rectangle *ngIf="focusedItem && !focusedItem.isPoint()" 
-                        [bounds]="getBounds()"
-                        [options]="ms.boxOptions"
-                        >
-        </map-rectangle>
+            <map-rectangle *ngIf="focusedItem && !focusedItem.isPoint()" 
+                            [bounds]="getBounds()"
+                            [options]="ms.boxOptions"
+                            >
+            </map-rectangle>
 
-    </google-map>
-</div>
-
+        </google-map>
+    </div>
 
 </div>

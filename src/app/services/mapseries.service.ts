@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { AppSettings } from './app-settings';
 import { HttpClient } from '@angular/common/http';
+
 
 @Injectable()
 export class MapSeriesService {
@@ -12,6 +13,10 @@ export class MapSeriesService {
   seriesOptions: google.maps.MapOptions;
   browseOptions: google.maps.MapOptions;
   boxOptions: google.maps.RectangleOptions;
+  svgMarker;
+  svgMarker2;
+  markerOptions: google.maps.MarkerOptions; 
+  
   mapReady = false;
   lat = 49.206902;
   lng = 16.595591;
@@ -19,9 +24,7 @@ export class MapSeriesService {
   constructor(
     private httpClient: HttpClient,
     private settings: AppSettings
-  ) { 
-    
-  }
+  ) { }
 
   init(callback: () => void) {
     if (this.mapReady) {
@@ -72,6 +75,38 @@ export class MapSeriesService {
       strokeColor: '#0277bd',
       strokeOpacity: 1
     }
+    this.svgMarker = {
+      // path: "M-1.547 12l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM0 0q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+      // path: 'M66.9,41.8c0-11.3-9.1-20.4-20.4-20.4c-11.3,0-20.4,9.1-20.4,20.4c0,11.3,20.4,32.4,20.4,32.4S66.9,53.1,66.9,41.8z    M37,41.4c0-5.2,4.3-9.5,9.5-9.5c5.2,0,9.5,4.2,9.5,9.5c0,5.2-4.2,9.5-9.5,9.5C41.3,50.9,37,46.6,37,41.4z',
+      path: 'M66.9,41.8c0-11.3-9.1-20.4-20.4-20.4c-11.3,0-20.4,9.1-20.4,20.4c0,11.3,20.4,32.4,20.4,32.4S66.9,53.1,66.9,41.8z',
+      fillColor: 'black',
+      fillOpacity: 0.6,
+      strokeWeight: 0,
+      rotation: 0,
+      scale: 0.7,
+      labelOrigin: new google.maps.Point(47, 42),
+      anchor: new google.maps.Point(47, 75),
+    };
+    this.svgMarker2 = {
+      // path: "M-1.547 12l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM0 0q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+      // path: 'M66.9,41.8c0-11.3-9.1-20.4-20.4-20.4c-11.3,0-20.4,9.1-20.4,20.4c0,11.3,20.4,32.4,20.4,32.4S66.9,53.1,66.9,41.8z    M37,41.4c0-5.2,4.3-9.5,9.5-9.5c5.2,0,9.5,4.2,9.5,9.5c0,5.2-4.2,9.5-9.5,9.5C41.3,50.9,37,46.6,37,41.4z',
+      path: 'M66.9,41.8c0-11.3-9.1-20.4-20.4-20.4c-11.3,0-20.4,9.1-20.4,20.4c0,11.3,20.4,32.4,20.4,32.4S66.9,53.1,66.9,41.8z',
+      fillColor: '#d844b4',
+      fillOpacity: 1,
+      strokeWeight: 0,
+      rotation: 0,
+      scale: 0.7,
+      labelOrigin: new google.maps.Point(47, 42),
+      anchor: new google.maps.Point(47, 75),
+    };
+  
+    this.markerOptions = {
+      draggable: false,
+      visible: true,
+      icon: this.svgMarker,
+      optimized: true,
+      // anchorPoint: new google.maps.Point(10,40)
+    };
   }
 
   // ************* POLYGON OPTIONS *******************
@@ -93,23 +128,17 @@ export class MapSeriesService {
     clickable: false,
     geodesic: false
   }
-  svgMarker = {
-    // path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
-    path: 'M0 0 0 0',
-    // anchor: new google.maps.Point(0, 0),
-  };
-  marker_options2: google.maps.MarkerOptions = {
-    draggable: false,
-    visible: true,
-    icon: this.svgMarker,
-    title: 'title'
-  };
-  marker_options3: google.maps.MarkerOptions = {
-    draggable: false,
-    visible: true,
-    icon: this.svgMarker,
-    title: 'title'
-  };
+
+  // ************* CLUSTER OPTIONS *******************
+  clusterOptions: ClusterIconStyle[] = [
+    {
+      height: 32,
+      width: 32,
+      anchorText: [10, 0],
+      textColor: 'white',
+      url: 'assets/markers/cluster/n1.png',
+    },
+  ];
 
   // ************* MAP OPTIONS *******************
   stylesArray: google.maps.MapTypeStyle[] = [
@@ -487,10 +516,5 @@ export class MapSeriesService {
     }
   ];
 
-
-
-
-
-
-
+  
 }

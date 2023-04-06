@@ -879,7 +879,7 @@ export class SolrService {
         if (facet) {
             q += '&rows=0';
         } else if (query.isBoundingBoxSet()) {
-            q += '&rows=' + '100' + '&start=' + '0';
+            q += '&rows=' + '1000' + '&start=' + '0';
         } else {
             const ordering = this.getOrderingValue(query);
             if (ordering) {
