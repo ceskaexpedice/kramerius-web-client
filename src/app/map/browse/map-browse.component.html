@@ -30,15 +30,15 @@
         </div>
         
         <!-- IF GRAPHICS -->
-        <div *ngIf="activeNavigationTab == 'graphics' && clusterArray.length > 0">
+        <div *ngIf="activeNavigationTab == 'graphics' && !loadingMarkers && clusterArray.length > 0">
             <div class="app-graphics-list-item"
                 *ngFor="let item of clusterArray; let i = index" 
                 [id]="'app-point-' + i"
-                [class.app-selected]="item == selectedCluster"
+                [class.app-selected]="item === selectedCluster"
                 (mouseenter)="highlightCluster($event, item)"
                 (mouseleave)="highlightCluster($event, null)">
                 <!-- IF CLUSTER -->
-                <div class="app-cluster" *ngIf="item && item.markers_ && item.markers_.length > 1" (click)="onClusterClickFromDiv(item)">
+                <div class="app-cluster" *ngIf="item && item.markers_ && item.markers_.length > 1" >
                     <!-- <div class="app-cluster-header">
                         <div class="app-cluster-icon">
                             <mat-icon>
@@ -47,7 +47,7 @@
                         </div>
                         <div>{{ item.markers_.length }} PLACES</div>
                     </div> -->
-                    <div class="app-cluster-geonames">
+                    <div class="app-cluster-geonames" (click)="onClusterClickFromDiv(item)">
                         <!-- <div>Geonames:</div> -->
                         <div class="app-cluster-geoname app-geoname" *ngFor="let geoname of analyzeGeonamesOfCluster(item)">
                             {{ geoname.key }}
@@ -58,7 +58,7 @@
                 </div>
                 <!-- IF MARKER -->
                 <div class="app-marker"
-                    *ngIf="item && item.markers_ && item.markers_.length < 2">
+                    *ngIf="item && item.markers_ && item.markers_.length < 2" [class.app-selected]="item === selectedCluster">
                     <a class="app-marker-item" 
                         *ngFor="let item of findMarkerByPosition(
                         item.markers_[0].getPosition().toJSON().lat,

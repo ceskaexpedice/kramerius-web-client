@@ -146,6 +146,7 @@
                 background-color: #d9e6ef;
             }
             .app-cluster {
+                overflow: hidden;
                 .app-cluster-header {
                     display: flex;
                     font-size: 18px;
@@ -180,7 +181,7 @@
                 display: flex;
                 flex-direction: column;
                 .app-marker-item {
-                    background: #fff;
+                    // background: #fff;
                     padding: 3px;
                     &:hover {
                         background: #d9e6ef;

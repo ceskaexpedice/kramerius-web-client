@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { SearchService } from '../../services/search.service';
@@ -15,20 +15,23 @@ import { Subscription } from 'rxjs';
   templateUrl: './map-browse.component.html',
   styleUrls: ['./map-browse.component.scss']
 })
-export class MapBrowseComponent implements OnInit, OnDestroy {
+export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecked {
   focusedItem: DocumentItem;
   locks: any;
   
   // CLUSTERS
   activeNavigationTab: any = 'maps';
   points: any = [];
-  clusterArray = [];
+  clusterArray: any;
   selectedCluster: any;
-  title = 'rir'
   waitForBounds = false;
+  loadingMarkers: boolean;
   searchResults: Subscription;
+  calculatorCount: number = 5;
 
   @ViewChild('googleMap') googleMap: GoogleMap;
+  @ViewChild('markerCluster') markerClusterer: MarkerClusterer;
+
 
   constructor(private api: KrameriusApiService, 
               public searchService: SearchService, 
@@ -36,6 +39,7 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
               private licences: LicenceService,
               public settings: AppSettings,
               private _sanitizer: DomSanitizer,
+              private changeDetector: ChangeDetectorRef,
               public ms: MapSeriesService) {
   }
 
@@ -58,24 +62,35 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
     }
 
     if (this.settings.mapMarkers) {
+      this.loadingMarkers = true;
       this.searchResults = this.searchService.watchAllResults().subscribe((results: DocumentItem[]) => {
         this.handleSearchResults(results);
+        this.loadingMarkers = false;
       });
       this.handleSearchResults(this.searchService.allResults);
     }
     this.locks = {};
-  }
+    
 
-  handleSearchResults(results: DocumentItem[]) {
-    console.log('-- results', results);
-    // TODO: handle search results
   }
-
+  ngAfterContentChecked(): void {
+    this.changeDetector.detectChanges();
+  }
   ngOnDestroy(): void {
     if (this.searchResults) {
       this.searchResults.unsubscribe();
     }
   } 
+
+  handleSearchResults(results: DocumentItem[]) {
+    // console.log('-- results', results);
+    if (this.activeNavigationTab === 'graphics') {
+      this.points = this.extractPoints(results)
+    }
+    else {
+      this.points = [];
+    }
+  }
 
   getPoint() {
     return new google.maps.LatLng(this.focusedItem.north, this.focusedItem.west);
@@ -111,12 +126,7 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
     const east = bounds.getNorthEast().lng();
     const west = bounds.getSouthWest().lng();
     this.searchService.setBoundingBox(north, south, west, east);
-    if (this.activeNavigationTab === 'graphics') {
-      this.points = this.extractPoints(this.searchService.results)
-    }
-    else {
-      this.points = [];
-    }
+    // console.log(north, east)
   }
 
   thumb(uuid: string) {
@@ -128,7 +138,7 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
     if (tab == 'maps') {
       this.points = [];
     }
-    this.reload()
+    this.handleSearchResults(this.searchService.allResults);
   }
 
   extractPoints(results:DocumentItem[]) {
@@ -144,7 +154,7 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
           }
           // JEN POSLEDNI GEONAME
           geonames = geonames.slice(-1)
-          console.log(geonames);
+          // console.log(geonames);
         }
 
         if (!points.some(e => (e.position.lat === item.north && e.position.lng === item.west))) {
@@ -159,7 +169,7 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
                 "title": item.title,
                 "date": item.date,
                 "authors": item.authors,
-                "geonames": item.geonames,
+                "geonames": geonames,
                 "url": item.url
               }]
             }
@@ -173,7 +183,7 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
               "title": item.title,
               "date": item.date,
               "authors": item.authors,
-              "geonames": item.geonames,
+              "geonames": geonames,
               "url": item.url
             }
           )
@@ -184,19 +194,21 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
   }
 
   onClusteringEnd(markerCluster: any) {
+    console.log('onClusteringEnd begin')
     let clusters = markerCluster.getClusters();
     let clusterArray = [];
     for (const cluster of clusters) {
       clusterArray.push(cluster); 
       cluster.markerClusterer_.addListener('mouseover', (a: any) => {
-        // console.log('mouseover')
-        // console.log(markerCluster.markerClusterer.getCalculator())
-        // console.log(markerCluster.markerClusterer.calculator_)
         this.highlightCluster(null, a);
       });
       cluster.markerClusterer_.addListener('mouseout', (a: any) => {
         this.highlightCluster(null, null);
       });
+      // console.log(cluster)
+      // console.log(this.points)
+      // console.log(cluster.markers_[0].getPosition().toJSON().lat)
+      // console.log(this.findMarkerByPosition(cluster.markers_[0].getPosition().toJSON().lat, cluster.markers_[0].getPosition().toJSON().lat))
     }
     if (clusterArray.length > 1) {
       clusterArray.sort((a, b) => {
@@ -205,14 +217,14 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
         else return 0;
       });
     }
-    // console.log("clusterArray", clusterArray)
     this.clusterArray = clusterArray;
   }
+
   onClusterClick(markerCluster:any) {
     this.selectedCluster = markerCluster;
   }
+
   highlightCluster(event: any, cluster: any) {
-    // console.log('selectedCluster1', this.selectedCluster)
     if (this.selectedCluster == cluster) {
       return;
     }
@@ -224,7 +236,6 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
       return;
     }
     this.selectedCluster = cluster;
-    // console.log('selectedCluster2', this.selectedCluster)
     let i = 0;
     for (let item of this.clusterArray) {
       if (item == cluster) {
@@ -247,7 +258,6 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
           if ((item.markers_[0].position.toJSON().lat == cluster._position.lat) && (item.markers_[0].position.toJSON().lng == cluster._position.lng)) {
             const element = document.getElementById("app-point-" + i);
             if (element) {
-              // console.log('element')
               element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
             }
           }
@@ -256,29 +266,38 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
       i++;
     }
   }
+
   onMouseOverMarker(event: any, marker: any) {
-    // console.log(marker)
-    this.highlightCluster(null, marker);
-    marker.marker.setIcon(this.ms.svgMarker2)
+    if (marker) {
+      this.highlightCluster(null, marker);
+      marker.marker.setIcon(this.ms.svgMarker2)
+    }
   }
+
   onMouseOutMarker(event: any, marker: any) {
     marker.marker.setIcon(this.ms.svgMarker)
   }
+
   onClusterClickFromDiv(markerCluster: any) {
-    // console.log('markerCluster', markerCluster.markerClusterer_.calculator_)
+    console.log('clusterClickedFromDiv')
     markerCluster.clusterIcon_.styles_[0].url = 'assets/markers/cluster/n1.png';
     markerCluster.markers_[0].setIcon(this.ms.svgMarker);
     markerCluster.updateIcon();
     this.googleMap.fitBounds(markerCluster.bounds_);
   }
 
-  findMarkerByPosition(lat: any, lng: any) {
+  findMarkerByPosition(lat: number, lng: number) {
+    // console.log(this.points)
     for (const point of this.points) {
-      if (point.position.lat === lat && point.position.lng === lng) {
+      if (point.position.lat == lat && point.position.lng == lng) {
         return point.items;
       }
+      // else {
+      //   console.log('whaaat?')
+      // }
     }
   }
+
   analyzeGeonamesOfCluster(item: any) {
     let geonames: any = {};
     for (const marker of item.markers_) {
@@ -314,34 +333,20 @@ export class MapBrowseComponent implements OnInit, OnDestroy {
     return String(markerlabel)
   }
 
-  myCalculator(markers: google.maps.Marker[], clusterIconStylesCount: number): ClusterIconInfo {
-    // console.log('clusterIconStylesCount: ' + clusterIconStylesCount);
+  myCalculator(markers: any, clusterIconStylesCount: number): ClusterIconInfo {
+    let index = 0;
+    let count: number = markers.length;
+    let clusterNumber = 0;
+    for (const marker of markers) {
+      let markerLabel = Number(marker.label.text)
+      clusterNumber = clusterNumber + markerLabel
+    }
+
     return {
-      index: 0,
-      text: `${markers.length}`,
-      title: "title"
+      index: index,
+      text: `${clusterNumber}`,
+      title: ""
     }
   }
-
-
-  // calculateClusterLabel(markerCluster: any) {
-  //   function(markers, numStyles) {
-  //     var index = 0;
-  //     var count = markers.length;
-  //     var dv = count;
-  //     while (dv !== 0) {
-  //       dv = parseInt(dv / 10, 10);
-  //       index++;
-  //     }
-    
-  //     index = Math.min(index, numStyles);
-  //     return {
-  //       text: 'text',
-  //       index: 0
-  //     };
-  //   }
-  // }
-
-  // calculator(markers, numStyles)
 
 }
