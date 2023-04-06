@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { SearchService } from '../../services/search.service';
@@ -8,13 +8,14 @@ import { AuthService } from '../../services/auth.service';
 import { LicenceService } from '../../services/licence.service';
 import { GoogleMap } from '@angular/google-maps';
 import { MapSeriesService } from '../../services/mapseries.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map-browse',
   templateUrl: './map-browse.component.html',
   styleUrls: ['./map-browse.component.scss']
 })
-export class MapBrowseComponent implements OnInit {
+export class MapBrowseComponent implements OnInit, OnDestroy {
   focusedItem: DocumentItem;
   locks: any;
   
@@ -24,6 +25,8 @@ export class MapBrowseComponent implements OnInit {
   clusterArray = [];
   selectedCluster: any;
   title = 'rir'
+  waitForBounds = false;
+  searchResults: Subscription;
 
   @ViewChild('googleMap') googleMap: GoogleMap;
 
@@ -37,11 +40,42 @@ export class MapBrowseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ms.init(() => {
-      this.reload
-    });
+    const q = this.searchService.query;
+    if (q.isBoundingBoxSet()) {
+      this.waitForBounds = true;
+      this.ms.init( () => {
+        setTimeout(() => {
+          let bounds = new google.maps.LatLngBounds(
+            {"lat": q.south, "lng": q.west }, 
+            {"lat": q.north, "lng": q.east }
+          );
+          this.waitForBounds = false;
+          this.googleMap.fitBounds(bounds, 0);
+        }, 50);
+      });
+    } else {
+      this.ms.init(() => {});
+    }
+
+    if (this.settings.mapMarkers) {
+      this.searchResults = this.searchService.watchAllResults().subscribe((results: DocumentItem[]) => {
+        this.handleSearchResults(results);
+      });
+      this.handleSearchResults(this.searchService.allResults);
+    }
     this.locks = {};
   }
+
+  handleSearchResults(results: DocumentItem[]) {
+    console.log('-- results', results);
+    // TODO: handle search results
+  }
+
+  ngOnDestroy(): void {
+    if (this.searchResults) {
+      this.searchResults.unsubscribe();
+    }
+  } 
 
   getPoint() {
     return new google.maps.LatLng(this.focusedItem.north, this.focusedItem.west);
@@ -65,8 +99,9 @@ export class MapBrowseComponent implements OnInit {
   }
 
   onIdle() {
-    this.reload();
-    // console.log('onIdle', this.searchService.results.slice(0,3))
+    if (!this.waitForBounds) {
+      this.reload();
+    }
   }
 
   reload() {

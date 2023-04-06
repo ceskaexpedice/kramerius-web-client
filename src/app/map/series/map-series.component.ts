@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapPolygon } from '@angular/google-maps';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AppSettings } from '../../services/app-settings';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,13 +32,15 @@ export class MapSeriesComponent implements OnInit {
   mapSeries: any[];
   neighbours = [];
   loadingSeries: boolean;
-  
+  selectedPolygon: MapPolygon;
+  locks: any;
 
   constructor(private httpClient: HttpClient,
               public settings: AppSettings,
               public ms: MapSeriesService,
               private api: KrameriusApiService,
               private route: ActivatedRoute,
+              private _sanitizer: DomSanitizer,
               private router: Router) {
   }
 
@@ -54,7 +57,6 @@ export class MapSeriesComponent implements OnInit {
         }
       });
     });
-    this.reloadData()
   }
 
   fetchAllMapSeries(callback: () => void) {
@@ -79,7 +81,8 @@ export class MapSeriesComponent implements OnInit {
   
 
   selectMapSeries(pid: string) {
-    const query = 'q=in_collections.direct:"' + pid + '"&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=1000'
+    this.selectedPolygons = [];
+    const query = 'q=in_collections.direct:"' + pid + '"&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=2000'
     let shapefile = this.shapefiles.find(x => x.pid === pid)?.shapefile
     this.selectedSeries = this.mapSeries.find(x => x.pid === pid)
     this.shapefile = [];
@@ -89,12 +92,11 @@ export class MapSeriesComponent implements OnInit {
         if (shapefile) {
           this.httpClient.get(shapefile).subscribe((file: any) => {
               this.shapefile = this.normalizeShapefile(file.features)
-              // console.log('shapefile', this.shapefile)
-              this.reloadData()
+              this.fitToScreen()
           })
         }
         else {
-          this.reloadData()
+          this.fitToScreen()
         } 
       } else {
         this.polygons = [];
@@ -114,10 +116,7 @@ export class MapSeriesComponent implements OnInit {
     this.bounds = new google.maps.LatLngBounds(this.map.getBounds())
     this.ms.zoom = Number(this.map.getZoom())
     this.polygonsInBounds = this.displayPolygonsInBounds()
-    this.selectedPolygons = this.polygonsInBounds
-    // console.log('bounds', this.bounds.toJSON())
     if (this.actualPolygonBounds) {
-      // console.log('actualPolygonBounds', this.actualPolygonBounds.toJSON())
       if (this.bounds.toJSON().north < this.actualPolygonBounds.toJSON().north
         || this.bounds.toJSON().south > this.actualPolygonBounds.toJSON().south
         || this.bounds.toJSON().east < this.actualPolygonBounds.toJSON().east
@@ -127,18 +126,16 @@ export class MapSeriesComponent implements OnInit {
     }
   }
 
-  private reloadData() {
-    this.maxbounds = this.maxbounds
-    this.points = this.points;
-    this.polygons = this.polygons;
-    this.selectedPolygons = this.polygons;
-    // this.shapefile = this.dataService.shapefile;
-    // console.log(this.polygons)
-    // this.map.fitBounds(this.maxbounds)
+ fitToScreen() {
     if (this.map) {
       this.map.fitBounds(this.maxbounds)
+    } else {
+      setTimeout(() => {
+        this.map.fitBounds(this.maxbounds);
+      }, 100);
     }
   }
+
   displayPolygonsInBounds() {
     let polygonsInBounds:any[] = [];
     if (this.polygons) {
@@ -153,11 +150,21 @@ export class MapSeriesComponent implements OnInit {
     }
     return polygonsInBounds;
   }
+
   polygonClick(polygon: MapPolygon, content: any) {
     //BOUNDS MUSI BYT (SW, NE)
     this.bounds = new google.maps.LatLngBounds(content.position[2], content.position[0])
     this.actualPolygonBounds = this.bounds;
     this.neighbours = this.findNeighbours(content.position)
+    if (this.selectedPolygon) {
+      this.selectedPolygon.options = {
+        fillColor: "#000000"
+      }
+    }
+    this.selectedPolygon = polygon;
+    polygon.options = {
+      fillColor: "#0277bd"
+    }
     this.selectedPolygons = []
     this.selectedPolygons.push(content)
     this.map.fitBounds(this.bounds)
@@ -184,7 +191,6 @@ export class MapSeriesComponent implements OnInit {
                                           && (x.position[1].lng === polygon_position[2].lng)
                                           && (x.position[1].lng === polygon_position[2].lng) 
                                           )
-    // console.log('neighbourN', neighbourN, 'neighbourE', neighbourE, 'neighbourS', neighbourS, 'neighbourW', neighbourW)
     let neighbours = []
     if (neighbourN) {
       let markerPosition = {'lat': (neighbourN.position[2].lat + 0.01), 'lng': ((neighbourN.position[2].lng + neighbourN.position[1].lng)/2)}
@@ -241,15 +247,21 @@ export class MapSeriesComponent implements OnInit {
   polygonZoomOut() {
     this.neighbours = []
   }
-  displayAllMaps() {
-    this.selectedPolygons = this.polygons
-    this.map.fitBounds(this.maxbounds)
+
+  thumb(uuid: string) {
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${this.api.getThumbUrl(uuid)})`);
+  }
+
+  closeSelected() {
+    this.selectedPolygons = [];
+    this.selectedPolygon.options = {
+      fillColor: "#000000"
+    }
   }
 
 
   normalizeShapefile(file: any) {
     let shapefile = [];
-    // console.log(this.shapefile[0].geometry.coordinates[0][0][0])
     for (const x of file) {
         if (x.geometry.coordinates) {
             let position = [
@@ -272,16 +284,13 @@ export class MapSeriesComponent implements OnInit {
     let points: any[] = [];
     let polygons: any[] = [];
     let maxbounds = new google.maps.LatLngBounds();
-    // console.log(maxbounds)
     
     let maxN: number = Number(data[0]['coords.bbox.corner_ne'].split(',')[0]);
     let maxE: number = Number(data[0]['coords.bbox.corner_ne'].split(',')[1]);
     let maxS: number = Number(data[0]['coords.bbox.corner_sw'].split(',')[0]);
     let maxW: number = Number(data[0]['coords.bbox.corner_sw'].split(',')[1]);
-    // console.log(maxN, maxE, maxS, maxW)
     let heightOfBox = maxN - maxS
     let widthOfBox = maxE - maxW
-    // console.log('widthOfBox', widthOfBox, 'heigthOfBox', heightOfBox)
     if (widthOfBox <= 0.25) {
       this.zoomForMarkers = 8;
     } else if (widthOfBox > 0.25 && widthOfBox < 0.5) {
@@ -291,7 +300,6 @@ export class MapSeriesComponent implements OnInit {
     } else if (widthOfBox >= 2) {
       this.zoomForMarkers = 5
     }
-    // console.log(this.zoomForMarkers)
 
 
     for (const record of data) {
@@ -319,7 +327,6 @@ export class MapSeriesComponent implements OnInit {
             if (record['coords.bbox.corner_ne'] === record['coords.bbox.corner_sw']) {
                 // TODO
                 if (!points.some(e => (e.coord_ne === record['coords.bbox.corner_ne'] && e.coord_sw === record['coords.bbox.corner_sw']))) {
-                    // console.log(points.some(e => (e.coord_ne === record['coords.bbox.corner_ne'] && e.coord_sw === record['coords.bbox.corner_sw'])))
                 }
                 points.push({
                     "coord_ne": record['coords.bbox.corner_ne'],
@@ -391,7 +398,8 @@ export class MapSeriesComponent implements OnInit {
                     polygon.maps.push({
                         "pid": record['pid'], 
                         "title": record['title.search'],
-                        "date": date
+                        "date": date,
+                        "shelf_locators": record['shelf_locators']
                     })
                 }   
             }
@@ -402,6 +410,7 @@ export class MapSeriesComponent implements OnInit {
     this.polygons = polygons.sort(function(a, b){return a.map_number - b.map_number})
     this.maxbounds = maxbounds
   }
+
   // ************* SHAPEFILE LIST (z tabulky) ******************* 
   shapefiles = [
     {

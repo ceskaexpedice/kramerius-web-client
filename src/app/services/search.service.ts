@@ -15,12 +15,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AdvancedSearchDialogComponent } from '../dialog/advanced-search-dialog/advanced-search-dialog.component';
 import { MapSeriesService } from './mapseries.service';
+import { Observable, Subject } from 'rxjs';
 
 
 @Injectable()
 export class SearchService {
 
     results: DocumentItem[] = [];
+    allResults: DocumentItem[] = [];
+    private allResultsSubject = new Subject<DocumentItem[]>();
+
     query: SearchQuery;
 
     keywords: any[] = [];
@@ -70,6 +74,7 @@ export class SearchService {
         this.collection = null;
         this.collectionStructure = {};
         this.results = [];
+        this.allResults = [];
         this.keywords = [];
         this.doctypes = [];
         this.categories = [];
@@ -93,7 +98,24 @@ export class SearchService {
         } else {
             this.contentType = 'grid';
         }
+        if (this.settings.availableFilter('access')) {
+            this.initAccess();
+        }
         this.search();
+    }
+
+    watchAllResults(): Observable<DocumentItem[]> {
+        return this.allResultsSubject.asObservable();
+    }
+
+    private initAccess() {
+        this.access = {
+            'open': { value: 'open', count: 0, accessible: true },
+            'login': { value: 'login', count: 0, accessible: false },
+            'terminal': { value: 'terminal', count: 0, accessible: false },
+            'accessible': { value: 'accessible', count: 0, accessible: true },
+            'all': { value: 'all', count: 0, accessible: false }
+        }
     }
 
     public buildPlaceholderText(): string {
@@ -114,6 +136,9 @@ export class SearchService {
         }
         if (this.settings.filters.indexOf('access') >= 0 && q.access !== 'all') {
             filters.push(this.translate.instant('search.access.' + q.access));
+        }
+        for (const item of q.licences) {
+            filters.push(this.licenceService.label(item));
         }
         for (const item of q.doctypes) {
             filters.push(this.translate.instant('model.' + item));
@@ -323,6 +348,16 @@ export class SearchService {
             this.handleResponse(response);
             this.loading = false;
         });
+        if (this.query.isBoundingBoxSet() && this.settings.mapMarkers) {
+            this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'markers')).subscribe(response => {
+                if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
+                    this.allResults = this.solr.searchResultItems(response, this.query);
+                } else {
+                    this.allResults = this.solr.documentItems(response);
+                }
+                this.allResultsSubject.next(this.allResults);
+            });
+        }
         if (this.query.collection) {
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
                 this.collection = metadata;
@@ -618,14 +653,8 @@ export class SearchService {
         this.checkFacet(this.query.genres.length === 0, response, 'genres');
         this.checkFacet(this.query.collections.length === 0, response, 'collections');
 
-        if (this.settings.filters.indexOf('access') > -1) {
-            this.access = {
-                'open': { value: 'open', count: 0, accessible: true },
-                'login': { value: 'login', count: 0, accessible: false },
-                'terminal': { value: 'terminal', count: 0, accessible: false },
-                'accessible': { value: 'accessible', count: 0, accessible: true },
-                'all': { value: 'all', count: 0, accessible: false }
-            }
+        if (this.settings.availableFilter('access')) {
+            this.initAccess();
             this.makeFacetRequest('access:open');
             if (this.anyLoginLicense()) {
                 this.makeFacetRequest('access:login');

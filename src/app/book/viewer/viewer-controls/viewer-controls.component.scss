@@ -1,5 +1,7 @@
 @import './src/variables.scss';
   
+
+
 .app-view-controls {
   position: absolute;
   left: 50%;
@@ -18,6 +20,11 @@
   user-select: none;
 
   mat-icon {
+    &.hide-on-small {
+      @media #{$small-and-down} {
+        display: none;
+      }
+    }
     cursor: pointer;
     margin-left: 7px; 
     margin-right: 7px;  

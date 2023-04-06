@@ -9,6 +9,7 @@ export class LocalStorageService {
 
     public static FEATURED_TAB = 'featured_tab';
     private static ACCESSIBILITY_FILTER = 'accessibility_filter';
+    private static PRESELECTED_LICENCES_FILTER = 'preselected_licences_filter';
     public static DOUBLE_PAGE = 'double_page';
     public static ZOOM_LOCK = 'zoom_lock';
     public static PERIODICAL_VOLUMES_LAYOUT = 'periodical_volumes_layout';
@@ -24,7 +25,7 @@ export class LocalStorageService {
         if (!this.prefAllowed()) {
             return;
         }
-        if (this.appSettings.doctypes.indexOf(item.doctype) < 0) {
+        if (this.appSettings.availableDoctype(item.doctype)) {
             return;
         }
         const visited: DocumentItem[] = JSON.parse(localStorage.getItem(this.getVisitedKey()) || '[]');
@@ -103,6 +104,26 @@ export class LocalStorageService {
         this.setProperty(LocalStorageService.ACCESSIBILITY_FILTER, value ? '1' : '0');
     }
 
+    preselectedLicencesChecked(): boolean {
+        if (!this.prefAllowed()) {
+            return true;
+        }
+        const value = localStorage.getItem(LocalStorageService.PRESELECTED_LICENCES_FILTER);
+        if (value === '1') {
+            return true;
+        } else if (value === '0') {
+            return false;
+        }
+        return true;
+    }
+
+    setPreselectedLicencesFilter(value: boolean) {
+        if (!this.prefAllowed()) {
+            return;
+        }
+        this.setProperty(LocalStorageService.PRESELECTED_LICENCES_FILTER, value ? '1' : '0');
+    }
+    
     private getVisitedKey(): string {
         return 'visited_documents'; // + this.appSettings.code;
     }

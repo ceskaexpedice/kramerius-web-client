@@ -90,7 +90,6 @@
     "impressum": "Impressum",
     "back": "Back for previous page",
     "home": "Home page",
-    "checkbox_label": "only public",
     "login": "Log in",
     "logout": "Log out"
   },
@@ -100,7 +99,8 @@
       "public": "Search in public documents in the digital library",
       "filters": "search with filters",
       "collection": "Search in the collection",
-      "collection_with_filters": "Search in the collection with filters"
+      "collection_with_filters": "Search in the collection with filters",
+      "preselected_licences": "Search in online accessible documents"
     },
     "document": "Search in document",
     "delete_query": "Delete query",
@@ -296,7 +296,9 @@
     "tab_visited": "Visited",
     "tab_recommended": "Recommended",        
     "tab_latest": "Latest",
-    "select_library": "Select Library"
+    "select_library": "Select Library",
+    "public_filter": "Only public",
+    "preselected_licences_filter": "Only available online"
   },
   "metadata": {
     "title_other": "Other titles",
@@ -355,6 +357,9 @@
     "eodopen": {
       "url": "https://eodopen.eu/",
       "name": "EODOPEN"
+    },
+    "ilnorway": {
+      "url": "https://eeagrants.org"
     }
   },
   "periodical": {

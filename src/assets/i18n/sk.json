@@ -90,7 +90,6 @@
       "impressum": "Impressum",
       "back": "Späť na predchádzajúcu stránku",
       "home": "Domovská stránka",
-      "checkbox_label": "iba verejné",
       "login" : "Prihlásiť",
       "logout" : "Odhlásiť"
     },
@@ -100,7 +99,8 @@
         "public": "Hľadať vo verejných dokumentoch digitálnej knižnice",
         "filters": "Hľadať s filtrami",
         "collection": "Hľadať v zbierke",
-        "collection_with_filters": "Hľadať v zbierke s filtrami"
+        "collection_with_filters": "Hľadať v zbierke s filtrami",
+        "preselected_licences": "Hľadať v online prístupných dokumentoch"
       },
       "document": "Hľadať v dokumente",
       "delete_query": "Vymazať dopyt",
@@ -180,7 +180,7 @@
         "label": "Zoradenie",
         "relevance": "Podľa Relevancie",
         "alphabetical": "Abecedne",
-        "newest": "Najnovšie",
+        "newest": "Najnovšie pridané",
         "latest": "Od najnovších",
         "earliest": "Od najstarších"
       },
@@ -278,7 +278,7 @@
       "private_label": "Tento dokument nie je verejne prístupný",
       "private_message": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
       "licences_before": "Tento dokument spadá pod nasledujúce licencie",
-      "licences_after": "Ak sa k dokumentu nemôžete dostať v rámci licencií, potom platí všeobecné pravidlá pre verejne nedostupné dokumenty",
+      "licences_after": "Ak sa k dokumentu nemôžete dostať v rámci licencií, potom platia všeobecné pravidlá pre verejne nedostupné dokumenty",
       "metadata_licence": "Sprístupnené pod licenciou"
     },
     "alert": {
@@ -296,7 +296,9 @@
       "tab_visited": "Navštívené",
       "tab_recommended": "Odporúčané",    
       "tab_latest": "Najnovšie",
-      "select_library": "Vybrať knižnicu"
+      "select_library": "Vybrať knižnicu",
+      "public_filter": "Iba verejné",
+      "preselected_licences_filter": "Len prístupné online"
     },
     "metadata": {
       "title_other": "Ďalšie názvy",
@@ -355,6 +357,9 @@
       "eodopen": {
         "url": "https://eodopen.eu/",
         "name": "EODOPEN"
+      },
+      "ilnorway": {
+        "url": "https://eeagrants.org"
       }
     },
     "periodical": {
@@ -473,27 +478,27 @@
       }
     },
     "model" : {
-      "monograph" : "Knihy",
-      "monographunit" : "Knihy",
-      "monographbundle" : "Zväzky kníh",
-      "periodical" : "Noviny a časopisy",
-      "map" : "Mapy",
-      "sheetmusic" : "Hudobniny",
-      "graphic" : "Grafiky",
+      "monograph" : "Kniha",
+      "monographunit" : "Kniha",
+      "monographbundle" : "Zväzok kníh",
+      "periodical" : "Noviny",
+      "map" : "Mapa",
+      "sheetmusic" : "Hudobnina",
+      "graphic" : "Grafika",
       "archive" : "Archiválie",
       "soundrecording" : "Zvukové nahrávky",
-      "periodicalvolume" : "Ročníky periodík",
-      "periodicalitem" : "Čísla periodík",
-      "clippingsvolume" : "Zbierky výstrižkov",
-      "manuscript" : "Rukopisy",
-      "page" : "Stránky",
-      "supplement" : "Prílohy",
-      "article" : "Články z časopisov",
-      "internalpart" : "Články zo zborníkov",
-      "soundunit" : "Části",
-      "track" : "Nahrávky",
-      "collection": "Zbierky",
-      "convolute": "Konvoluty"
+      "periodicalvolume" : "Ročník periodík",
+      "periodicalitem" : "Číslo periodík",
+      "clippingsvolume" : "Zbierka výstrižkov",
+      "manuscript" : "Rukopis",
+      "page" : "Stránka",
+      "supplement" : "Príloha",
+      "article" : "Článok",
+      "internalpart" : "Kapitola",
+      "soundunit" : "Část",
+      "track" : "Nahrávka",
+      "collection": "Zbierka",
+      "convolute": "Konvolut"
     },
     "model_2p" : {
       "monograph" : "knihy",
@@ -544,7 +549,7 @@
     "model_plural" : {
       "monograph" : "Knihy",
       "monographunit" : "Knihy",
-      "periodical" : "Noviny",
+      "periodical" : "Noviny a časopisy",
       "map" : "Mapy",
       "sheetmusic" : "Hudobniny",
       "graphic" : "Grafiky",
@@ -558,11 +563,11 @@
       "supplement" : "Prílohy",
       "article" : "Články",
       "internalpart" : "Kapitoly",
-      "soundunit" : "Části",
+      "soundunit" : "Časťi",
       "track" : "Nahrávky",
-      "collection": "Sbírky",
+      "collection": "Zbierky",
       "convolute": "Konvoluty",
-      "convolutepart": "Části"
+      "convolutepart": "Časťi"
     },
     "issue_type": {
       "morning": "ranné vydanie",

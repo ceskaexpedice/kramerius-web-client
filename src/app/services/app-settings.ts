@@ -28,9 +28,12 @@ export class AppSettings {
   public customRightMessage: boolean;
   public originLink: boolean;
   public mapSearch: boolean;
+  public mapMarkers: boolean;
   public hiddenLocks: boolean;
   public licences: any;
   public containsLicences: boolean;
+  public preselectedLicences: [string];
+
   public ga = APP_GLOBAL.ga;
   public gaCookieless = APP_GLOBAL.gaCookieless;
   public matomo = APP_GLOBAL.matomo;
@@ -138,8 +141,10 @@ export class AppSettings {
     this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = !!kramerius.mapSearch;
+    this.mapMarkers = !!kramerius.mapMarkers;
     this.licences = kramerius.licences;
     this.containsLicences = !!kramerius.containsLicences;
+    this.preselectedLicences = kramerius.preselectedLicences;
     this.hiddenLocks = !!kramerius.hiddenLocks;
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
@@ -215,7 +220,11 @@ export class AppSettings {
   }
 
   public availableFilter(filter: string): boolean {
-    return this.filters.indexOf(filter) > -1;
+    return this.filters && this.filters.indexOf(filter) > -1;
+  }
+
+  public availableDoctype(doctype: string): boolean {
+    return this.doctypes && this.doctypes.indexOf(doctype) > -1;
   }
 
   public k5Compat(): boolean {
@@ -269,6 +278,7 @@ interface KrameriusData {
   originLink: boolean;
   customRightMessage: boolean;
   mapSearch: boolean;
+  mapMarkers: boolean;
   hiddenLocks: boolean;
   type: string;
   maxOmnibusParts: number;
@@ -278,4 +288,5 @@ interface KrameriusData {
   auth: any;
   adminClientUrl: string;
   containsLicences: boolean;
+  preselectedLicences: [string];
 }

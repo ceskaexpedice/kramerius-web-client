@@ -5,6 +5,7 @@
 
   <mat-icon (click)="controlsService.zoomIn();analytics.sendEvent('viewer', 'controls', 'zoom in');"
             tabindex="0"
+            class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_zoom_in' | translate" 
             *ngIf="showZoom() && !showUnlock()">
             add_circle_outline
@@ -12,6 +13,7 @@
 
   <mat-icon (click)="controlsService.zoomOut();analytics.sendEvent('viewer', 'controls', 'zoom out');"
             tabindex="0"
+            class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_zoom_out' | translate" 
             *ngIf="showZoom() && !showUnlock()">
             remove_circle_outline
@@ -19,6 +21,7 @@
 
   <mat-icon (click)="controlsService.fitToScreen();analytics.sendEvent('viewer', 'controls', 'fit to screen')"
             tabindex="0"
+            class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_fit_to_screen' | translate"
             *ngIf="showFitToScreen() && !showUnlock()">
             fit_screen
@@ -40,6 +43,7 @@
 
   <mat-icon (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate')"
             tabindex="0"
+            class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_rotate_right' | translate" 
             *ngIf="showRotation() && !showUnlock()">
             rotate_right
@@ -47,6 +51,7 @@
 
   <mat-icon (click)="bookService.toggleDoublePage();controlsService.doublePageOff();analytics.sendEvent('viewer', 'controls', 'double page off')"
             tabindex="0"
+            class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_doublepage_off' | translate" 
             *ngIf="showDoublePageOff() && !showUnlock()">
             auto_stories
@@ -54,6 +59,7 @@
 
   <mat-icon (click)="bookService.toggleDoublePage();controlsService.doublePageOn();analytics.sendEvent('viewer', 'controls', 'double page on')"
             tabindex="0"
+            class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_doublepage_on' | translate" 
             *ngIf="showDoublePageOn() && !showUnlock()">
             auto_stories
@@ -61,6 +67,7 @@
 
   <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'lock')"
           tabindex="0"
+          class="hide-on-small"
           [matTooltip]="'view_controls.tooltip_zoom_lock_on' | translate" 
           *ngIf="showLock()">
           lock_open
@@ -68,6 +75,7 @@
 
   <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'unlock')"
           tabindex="0"
+          class="hide-on-small"
           [matTooltip]="'view_controls.tooltip_zoom_lock_off' | translate" 
           *ngIf="showUnlock()">
           lock
@@ -75,6 +83,7 @@
 
   <mat-icon (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text')"
             tabindex="0"
+            class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_select_text' | translate"
             [class.app-inactive]="!selectTextEnabled()" 
             *ngIf="showSelectText()">
@@ -83,6 +92,7 @@
 
   <mat-icon (click)="onCropImageClicked()"
             tabindex="0"
+            class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_crop_image' | translate" 
             [class.app-inactive]="!imageCropEnabled()"
             *ngIf="showImageCrop()">

@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { Router } from '@angular/router';
-import { LocalStorageService } from '../../services/local-storage.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -16,12 +15,11 @@ export class AdvancedSearchDialogComponent implements OnInit {
   fieldValue = '';
 
   fields = [
-    'all', 'title', 'author', 'keyword', 'geoname', 'issn', 'ddt', 'mdt'
+    'all', 'title', 'author', 'keyword', 'geoname', 'issn', 'isbn'
   ];
 
   constructor(
     private dialogRef: MatDialogRef<AdvancedSearchDialogComponent>,
-    private locals: LocalStorageService,
     private router: Router,
     private analytics: AnalyticsService,
     @Inject(MAT_DIALOG_DATA) private data: any) { 
