@@ -830,10 +830,14 @@ export class SolrService {
         let value = qString;
         let q = 'q=';
         if (query.dsq) {
-            q += query.dsq + ' AND '
+            q += query.dsq + ' AND ';
         }
         if (query.isBoundingBoxSet()) {
-            q += `{!field f=${this.field('coords_range')} score=overlapRatio}Intersects(ENVELOPE(${query.west},${query.east},${query.north},${query.south}))&fq=`;
+            if (facet == 'markers') {
+                q += `{!field f=${this.field('coords_range')} score=overlapRatio}Intersects(ENVELOPE(-180,180,90,-90))&fq=`;
+            } else {
+                q += `{!field f=${this.field('coords_range')} score=overlapRatio}Intersects(ENVELOPE(${query.west},${query.east},${query.north},${query.south}))&fq=`;
+            }
         }
         if (query.isCustomFieldSet()) {
             value = query.value;
@@ -877,22 +881,26 @@ export class SolrService {
             }
             q += `,${this.field('geonames_facet')}`;
         }
-        q += '&facet=true&facet.mincount=1'
-           + this.addFacetToQuery(facet, 'keywords', query.keywords.length === 0)
-           + this.addFacetToQuery(facet, 'languages', query.languages.length === 0)
-           + this.addFacetToQuery(facet, 'sources', query.sources.length === 0)
-           + this.addFacetToQuery(facet, 'licences', query.licences.length === 0)
-           + this.addFacetToQuery(facet, 'locations', query.locations.length === 0)
-           + this.addFacetToQuery(facet, 'geonames', query.geonames.length === 0)
-           + this.addFacetToQuery(facet, 'authors', query.authors.length === 0)
-           + this.addFacetToQuery(facet, 'collections', query.collections.length === 0)
-           + this.addFacetToQuery(facet, 'publishers', query.publishers.length === 0)
-           + this.addFacetToQuery(facet, 'places', query.places.length === 0)
-           + this.addFacetToQuery(facet, 'doctypes', query.doctypes.length === 0)
-           + this.addFacetToQuery(facet, 'categories', query.categories.length === 0)
-           + this.addFacetToQuery(facet, 'genres', query.genres.length === 0)
-           + this.addFacetToQuery(facet, 'accessibility',  query.accessibility === 'all');
-        if (facet) {
+        if (facet != 'markers') {
+            q += '&facet=true&facet.mincount=1'
+            + this.addFacetToQuery(facet, 'keywords', query.keywords.length === 0)
+            + this.addFacetToQuery(facet, 'languages', query.languages.length === 0)
+            + this.addFacetToQuery(facet, 'sources', query.sources.length === 0)
+            + this.addFacetToQuery(facet, 'licences', query.licences.length === 0)
+            + this.addFacetToQuery(facet, 'locations', query.locations.length === 0)
+            + this.addFacetToQuery(facet, 'geonames', query.geonames.length === 0)
+            + this.addFacetToQuery(facet, 'authors', query.authors.length === 0)
+            + this.addFacetToQuery(facet, 'collections', query.collections.length === 0)
+            + this.addFacetToQuery(facet, 'publishers', query.publishers.length === 0)
+            + this.addFacetToQuery(facet, 'places', query.places.length === 0)
+            + this.addFacetToQuery(facet, 'doctypes', query.doctypes.length === 0)
+            + this.addFacetToQuery(facet, 'categories', query.categories.length === 0)
+            + this.addFacetToQuery(facet, 'genres', query.genres.length === 0)
+            + this.addFacetToQuery(facet, 'accessibility',  query.accessibility === 'all');
+        }
+        if (facet == 'markers') {
+            q += '&rows=50000';
+        } else if (facet) {
             q += '&rows=0';
         } else if (query.isBoundingBoxSet()) {
             q += '&rows=' + '100' + '&start=' + '0';
@@ -921,6 +929,9 @@ export class SolrService {
             } else {
                 fqFilters.push(`(${this.buildTopLevelFilter(!fromAutocomplete)})`);
             }
+        }
+        if (facet == 'markers') {
+            fqFilters.push(`-${this.field('model')}:map`);
         }
         // if (facet == 'accessible') {
         //     let q = `${this.field('accessibility')}:public`;

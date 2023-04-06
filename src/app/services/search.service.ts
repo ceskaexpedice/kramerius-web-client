@@ -15,12 +15,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AdvancedSearchDialogComponent } from '../dialog/advanced-search-dialog/advanced-search-dialog.component';
 import { MapSeriesService } from './mapseries.service';
+import { Observable, Subject } from 'rxjs';
 
 
 @Injectable()
 export class SearchService {
 
     results: DocumentItem[] = [];
+    allResults: DocumentItem[] = [];
+    private allResultsSubject = new Subject<DocumentItem[]>();
+
     query: SearchQuery;
 
     keywords: any[] = [];
@@ -70,6 +74,7 @@ export class SearchService {
         this.collection = null;
         this.collectionStructure = {};
         this.results = [];
+        this.allResults = [];
         this.keywords = [];
         this.doctypes = [];
         this.categories = [];
@@ -97,6 +102,10 @@ export class SearchService {
             this.initAccess();
         }
         this.search();
+    }
+
+    watchAllResults(): Observable<DocumentItem[]> {
+        return this.allResultsSubject.asObservable();
     }
 
     private initAccess() {
@@ -339,6 +348,16 @@ export class SearchService {
             this.handleResponse(response);
             this.loading = false;
         });
+        if (this.query.isBoundingBoxSet() && this.settings.mapMarkers) {
+            this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'markers')).subscribe(response => {
+                if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
+                    this.allResults = this.solr.searchResultItems(response, this.query);
+                } else {
+                    this.allResults = this.solr.documentItems(response);
+                }
+                this.allResultsSubject.next(this.allResults);
+            });
+        }
         if (this.query.collection) {
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
                 this.collection = metadata;

@@ -28,6 +28,7 @@ export class AppSettings {
   public customRightMessage: boolean;
   public originLink: boolean;
   public mapSearch: boolean;
+  public mapMarkers: boolean;
   public hiddenLocks: boolean;
   public licences: any;
   public containsLicences: boolean;
@@ -140,6 +141,7 @@ export class AppSettings {
     this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
     this.mapSearch = !!kramerius.mapSearch;
+    this.mapMarkers = !!kramerius.mapMarkers;
     this.licences = kramerius.licences;
     this.containsLicences = !!kramerius.containsLicences;
     this.preselectedLicences = kramerius.preselectedLicences;
@@ -276,6 +278,7 @@ interface KrameriusData {
   originLink: boolean;
   customRightMessage: boolean;
   mapSearch: boolean;
+  mapMarkers: boolean;
   hiddenLocks: boolean;
   type: string;
   maxOmnibusParts: number;

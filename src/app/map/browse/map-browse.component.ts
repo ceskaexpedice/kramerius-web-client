@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { SearchService } from '../../services/search.service';
@@ -8,16 +8,18 @@ import { AuthService } from '../../services/auth.service';
 import { LicenceService } from '../../services/licence.service';
 import { GoogleMap } from '@angular/google-maps';
 import { MapSeriesService } from '../../services/mapseries.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map-browse',
   templateUrl: './map-browse.component.html',
   styleUrls: ['./map-browse.component.scss']
 })
-export class MapBrowseComponent implements OnInit {
+export class MapBrowseComponent implements OnInit, OnDestroy {
   focusedItem: DocumentItem;
   locks: any;
   waitForBounds = false;
+  searchResults: Subscription;
 
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
 
@@ -47,8 +49,26 @@ export class MapBrowseComponent implements OnInit {
     } else {
       this.ms.init(() => {});
     }
+
+    if (this.settings.mapMarkers) {
+      this.searchResults = this.searchService.watchAllResults().subscribe((results: DocumentItem[]) => {
+        this.handleSearchResults(results);
+      });
+      this.handleSearchResults(this.searchService.allResults);
+    }
     this.locks = {};
   }
+
+  handleSearchResults(results: DocumentItem[]) {
+    console.log('-- results', results);
+    // TODO: handle search results
+  }
+
+  ngOnDestroy(): void {
+    if (this.searchResults) {
+      this.searchResults.unsubscribe();
+    }
+  } 
 
   getPoint() {
     return new google.maps.LatLng(this.focusedItem.north, this.focusedItem.west);
