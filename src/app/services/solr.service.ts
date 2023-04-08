@@ -931,7 +931,7 @@ export class SolrService {
             }
         }
         if (facet == 'markers') {
-            fqFilters.push(`-${this.field('model')}:map`);
+            // fqFilters.push(`-${this.field('model')}:map`);
         }
         // if (facet == 'accessible') {
         //     let q = `${this.field('accessibility')}:public`;

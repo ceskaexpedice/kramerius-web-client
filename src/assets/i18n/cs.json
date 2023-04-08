@@ -177,6 +177,10 @@
     "genres": "Žánr",
     "authors": "Autor",
     "inaccessible_document": "Dokument není veřejně přístupný",
+    "map": {
+      "maps": "Oblasti",
+      "markers": "Místa"
+    },
     "ordering": {
       "label": "Řazení",
       "relevance": "Podle Relevance",

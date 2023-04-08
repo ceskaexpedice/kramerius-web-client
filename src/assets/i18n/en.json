@@ -176,6 +176,10 @@
     "genres": "Genre",
     "authors": "Author",
     "inaccessible_document": "The document is not publicly accessible",
+    "map": {
+      "maps": "Areas",
+      "markers": "Places"
+    },
     "ordering": {
       "label": "Ordering",
       "relevance": "Relevance",

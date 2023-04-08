@@ -3,73 +3,74 @@
     <div class="app-list">
 
         <!-- NAVIGATION TABS -->
-        <div class="app-navigation-tabs">
+        <div class="app-navigation-tabs" *ngIf="settings.mapSearchType == 'all'">
             <div class="app-tab app-active"
-            tabindex="0"
-            (click)="changeNavigationTab('maps')"
-            [class.app-active]="activeNavigationTab == 'maps'">Mapy</div>
+                tabindex="0"
+                (click)="changeNavigationTab('maps')"
+                [class.app-active]="activeNavigationTab == 'maps'">
+                {{ 'search.map.maps' | translate }}
+                <span>{{ searchService.getNumberOfResults() - markersCount }}</span>
+            </div>
             <div class="app-tab app-active"
-            tabindex="0"
-            (click)="changeNavigationTab('graphics')"
-            [class.app-active]="activeNavigationTab == 'graphics'">Grafiky</div>
+                tabindex="0"
+                (click)="changeNavigationTab('markers')"
+                [class.app-active]="activeNavigationTab == 'markers'">
+                {{ 'search.map.markers' | translate }}
+                <span>{{ markersCount }}</span>
+            </div>
         </div>
-        
-        <!-- IF MAPS -->
-        <div *ngIf="activeNavigationTab == 'maps'" (mouseleave)="focusedItem = null">
-            <a class="app-maps-list-item" *ngFor="let item of searchService.results" routerLink="{{item.url}}" (mouseenter)="focusedItem = item">
-                <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)">
-                    <div [matTooltip]="getLock(item).tooltip" class="app-lock {{ getLock(item).class }}" *ngIf="getLock(item)">
-                        <mat-icon>{{ getLock(item).icon }}</mat-icon>
-                    </div>
-                </div>
-                <div class="app-item-title">{{item.title}}</div>
-                <div *ngIf="item.date" class="app-item-date">{{item.date}}</div>
-                <div *ngIf="item.authors" class="app-item-authors">{{item.authors}}</div>
-                <div *ngIf="item.geonames" class="app-item-geonames">{{item.geonames}}</div>
-            </a>
-        </div>
-        
-        <!-- IF GRAPHICS -->
-        <div *ngIf="activeNavigationTab == 'graphics' && !loadingMarkers && clusterArray.length > 0">
-            <div class="app-graphics-list-item"
-                *ngFor="let item of clusterArray; let i = index" 
-                [id]="'app-point-' + i"
-                [class.app-selected]="item === selectedCluster"
-                (mouseenter)="highlightCluster($event, item)"
-                (mouseleave)="highlightCluster($event, null)">
-                <!-- IF CLUSTER -->
-                <div class="app-cluster" *ngIf="item && item.markers_ && item.markers_.length > 1" >
-                    <!-- <div class="app-cluster-header">
-                        <div class="app-cluster-icon">
-                            <mat-icon>
-                                group_work
-                            </mat-icon>
+
+        <div class="app-list-content" [class.app-with-tabs]="this.settings.mapSearchType == 'all'">
+            <!-- IF MAPS -->
+            <div *ngIf="activeNavigationTab == 'maps'" (mouseleave)="focusedItem = null">
+                <ng-container *ngFor="let item of searchService.results">
+                    <a class="app-maps-list-item" routerLink="{{item.url}}" (mouseenter)="focusedItem = item">
+                        <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)">
+                            <div [matTooltip]="getLock(item).tooltip" class="app-lock {{ getLock(item).class }}" *ngIf="getLock(item)">
+                                <mat-icon>{{ getLock(item).icon }}</mat-icon>
+                            </div>
                         </div>
-                        <div>{{ item.markers_.length }} PLACES</div>
-                    </div> -->
-                    <div class="app-cluster-geonames" (click)="onClusterClickFromDiv(item)">
-                        <!-- <div>Geonames:</div> -->
-                        <div class="app-cluster-geoname app-geoname" *ngFor="let geoname of analyzeGeonamesOfCluster(item)">
-                            {{ geoname.key }}
-                            {{ geoname.count }}
-                        </div>
-                        <!-- <div *ngIf="item.markers_.length > 3">+ {{item.markers_.length - 3}} others</div> -->
-                    </div>
-                </div>
-                <!-- IF MARKER -->
-                <div class="app-marker"
-                    *ngIf="item && item.markers_ && item.markers_.length < 2" [class.app-selected]="item === selectedCluster">
-                    <a class="app-marker-item" 
-                        *ngFor="let item of findMarkerByPosition(
-                        item.markers_[0].getPosition().toJSON().lat,
-                        item.markers_[0].getPosition().toJSON().lng)"
-                        routerLink="{{item.url}}">
-                        <div class="app-item-thumb" [style.background-image]="thumb(item.pid)"></div>
                         <div class="app-item-title">{{item.title}}</div>
                         <div *ngIf="item.date" class="app-item-date">{{item.date}}</div>
                         <div *ngIf="item.authors" class="app-item-authors">{{item.authors}}</div>
                         <div *ngIf="item.geonames" class="app-item-geonames">{{item.geonames}}</div>
                     </a>
+                </ng-container>
+
+            </div>
+            
+            <!-- IF GRAPHICS -->
+            <div *ngIf="activeNavigationTab == 'markers' && clusterArray && clusterArray.length > 0">
+                <div class="app-graphics-list-item"
+                    *ngFor="let item of clusterArray; let i = index" 
+                    [id]="'app-point-' + i"
+                    [class.app-selected]="item === selectedCluster"
+                    (mouseenter)="highlightCluster($event, item)"
+                    (mouseleave)="highlightCluster($event, null)">
+                    <!-- IF CLUSTER -->
+                    <div class="app-marker" *ngIf="item && item.markers_ && item.markers_.length >= minimumClusterSize" (click)="onClusterClickFromDiv(item)" >
+                        <div class="app-marker-item">
+                            <div class="app-item-thumb" [style.background-image]="thumb(item['info']['pid'])"></div>
+                            <div class="app-item-title">{{ item['info']['title'] }}</div>
+                            <div class="app-item-date">{{ item['info']['documents'] }} documents</div>
+                            <div class="app-item-authors">{{ item['info']['markers'] }} locations</div>
+                        </div>
+                    </div>
+                    <!-- IF MARKER -->
+                    <div class="app-marker"
+                        *ngIf="item && item.markers_ && item.markers_.length < minimumClusterSize" [class.app-selected]="item === selectedCluster">
+                        <a class="app-marker-item" 
+                            *ngFor="let item of findMarkerByPosition(
+                            item.markers_[0].getPosition().toJSON().lat,
+                            item.markers_[0].getPosition().toJSON().lng)"
+                            routerLink="{{item.url}}">
+                            <div class="app-item-thumb" [style.background-image]="thumb(item.pid)"></div>
+                            <div class="app-item-title">{{item.title}}</div>
+                            <div *ngIf="item.date" class="app-item-date">{{item.date}}</div>
+                            <div *ngIf="item.authors" class="app-item-authors">{{item.authors}}</div>
+                            <div *ngIf="item.geonames" class="app-item-geonames">{{item.geonames}}</div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,7 +90,7 @@
                 #markerCluster
                 [styles]="ms.clusterOptions"
                 [zoomOnClick]="true"
-                [minimumClusterSize]="2"
+                [minimumClusterSize]="minimumClusterSize"
                 [calculator]="myCalculator"
                 (clusteringend)="onClusteringEnd(markerCluster)"
                 (clusterClick)="onClusterClick(markerCluster)"

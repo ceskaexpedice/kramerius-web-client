@@ -186,7 +186,7 @@ export class SearchService {
                 }
                 return;
             } else {
-                this.query.setBoundingBox(50.7278, 48.707, 12.7476, 18.9549);
+                this.query.setBoundingBox(54.7278, 42.707, 8.7476, 26.9549);
             }
         } else {
             this.query.clearBoundingBox();
@@ -348,7 +348,7 @@ export class SearchService {
             this.handleResponse(response);
             this.loading = false;
         });
-        if (this.query.isBoundingBoxSet() && this.settings.mapMarkers) {
+        if (this.query.isBoundingBoxSet() && ['all', 'markers'].includes(this.settings.mapSearchType)) {
             this.api.getSearchResults(this.solr.buildSearchQuery(this.query, 'markers')).subscribe(response => {
                 if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
                     this.allResults = this.solr.searchResultItems(response, this.query);

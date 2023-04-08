@@ -176,6 +176,10 @@
       "genres": "Genre",
       "authors": "Geistige(r) Schöpfer",
       "inaccessible_document": "Das Dokument ist öffentlich nicht zugänglich",
+      "map": {
+        "maps": "Areas",
+        "markers": "Places"
+      },
       "ordering": {
         "label": "Ordnen",
         "relevance": "Nach Relevanz",

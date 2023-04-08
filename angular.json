@@ -31,6 +31,7 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/ol.js",
+              "src/assets/js/markerclustererplus.min.js",
               "node_modules/epubjs/build/epub.js",
               "node_modules/epubjs/build/libs/zip.min.js"
             ],

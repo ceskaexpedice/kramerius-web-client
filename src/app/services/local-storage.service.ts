@@ -17,6 +17,8 @@ export class LocalStorageService {
     public static PERIODICAL_VOLUMES_REVERSE_ORDER = 'periodical_volumes_reverse_order';
     public static PERIODICAL_ISSUES_REVERSE_ORDER = 'periodical_issues_reverse_order';
     public static PERIODICAL_FULLTEXT_SORT = 'periodical_fulltext_sort';
+    public static MAP_ACTIVE_TAB = 'map_active_tab';
+
 
     constructor(private appSettings: AppSettings) {
     }

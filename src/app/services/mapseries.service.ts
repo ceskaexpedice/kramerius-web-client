@@ -8,7 +8,7 @@ export class MapSeriesService {
 
   center = {lat: 49.5, lng: 15};
   zoom: number = 7;
-  zoomBrowse: number = 9;
+  zoomBrowse: number = 5;
   rootCollectionUUID = "uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf"; 
   seriesOptions: google.maps.MapOptions;
   browseOptions: google.maps.MapOptions;
@@ -62,7 +62,7 @@ export class MapSeriesService {
       center: {lat: this.lat, lng: this.lng},
       zoom: this.zoomBrowse,
       styles: this.stylesArray,
-      mapTypeId: "terrain",
+      mapTypeId: "hybrid",
       fullscreenControl: false,
       streetViewControl: false,
       zoomControlOptions: {
@@ -79,8 +79,8 @@ export class MapSeriesService {
       // path: "M-1.547 12l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM0 0q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
       // path: 'M66.9,41.8c0-11.3-9.1-20.4-20.4-20.4c-11.3,0-20.4,9.1-20.4,20.4c0,11.3,20.4,32.4,20.4,32.4S66.9,53.1,66.9,41.8z    M37,41.4c0-5.2,4.3-9.5,9.5-9.5c5.2,0,9.5,4.2,9.5,9.5c0,5.2-4.2,9.5-9.5,9.5C41.3,50.9,37,46.6,37,41.4z',
       path: 'M66.9,41.8c0-11.3-9.1-20.4-20.4-20.4c-11.3,0-20.4,9.1-20.4,20.4c0,11.3,20.4,32.4,20.4,32.4S66.9,53.1,66.9,41.8z',
-      fillColor: 'black',
-      fillOpacity: 0.6,
+      fillColor: '#45D7BD',
+      fillOpacity: 0.9,
       strokeWeight: 0,
       rotation: 0,
       scale: 0.7,
@@ -103,7 +103,7 @@ export class MapSeriesService {
     this.markerOptions = {
       draggable: false,
       visible: true,
-      icon: this.svgMarker,
+      icon: this.svgMarker,      
       optimized: true,
       // anchorPoint: new google.maps.Point(10,40)
     };
@@ -178,15 +178,7 @@ export class MapSeriesService {
       "elementType": "labels.text.fill",
       "stylers": [
         {
-          "color": "#616161"
-        }
-      ]
-    },
-    {
-      "elementType": "labels.text.stroke",
-      "stylers": [
-        {
-          "color": "#f5f5f5"
+          "color": "#dddddd"
         }
       ]
     },
