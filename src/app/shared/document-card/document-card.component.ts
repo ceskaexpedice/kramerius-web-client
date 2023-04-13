@@ -20,6 +20,7 @@ export class DocumentCardComponent implements OnInit {
   
   thumb;
   lock: any;
+  legacyLocks: boolean;
 
   constructor(private krameriusApiService: KrameriusApiService,
               private settings: AppSettings,
@@ -62,6 +63,7 @@ export class DocumentCardComponent implements OnInit {
     } else {
       this.lock = this.licences.buildLock(this.item.licences);
     }
+    this.legacyLocks = this.settings.legacyLocks;
     this.thumb = this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
   }
 

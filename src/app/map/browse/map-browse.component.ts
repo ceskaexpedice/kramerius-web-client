@@ -237,25 +237,26 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
         google.maps.event.clearListeners(cluster.markerClusterer_, 'mouseout');
       }
     }
+    let f = true;
     for (const cluster of clusters) {
       cluster['info'] = this.clusterInfo(cluster);
       clusterArray.push(cluster); 
-      google.maps.event.addListener(cluster.markerClusterer_, 'mouseover', (a: any) => {
-        this.highlightCluster(null, a);
-      });
-      google.maps.event.addListener(cluster.markerClusterer_, 'mouseout', (a: any) => {
-        this.highlightCluster(null, null);
-      });
+      if (f) {
+        google.maps.event.addListener(cluster.markerClusterer_, 'mouseover', (a: any) => {
+          this.highlightCluster(null, a);
+        });
+        google.maps.event.addListener(cluster.markerClusterer_, 'mouseout', (a: any) => {
+          this.highlightCluster(null, null);
+        });
+        f = false;
+      } 
       // cluster.markerClusterer_.addListener('mouseover', (a: any) => {
       //   this.highlightCluster(null, a);
       // });
       // cluster.markerClusterer_.addListener('mouseout', (a: any) => {
       //   this.highlightCluster(null, null);
       // });
-      // console.log(cluster)
-      // console.log(this.points)
-      // console.log(cluster.markers_[0].getPosition().toJSON().lat)
-      // console.log(this.findMarkerByPosition(cluster.markers_[0].getPosition().toJSON().lat, cluster.markers_[0].getPosition().toJSON().lat))
+
     }
     if (clusterArray.length > 1) {
       clusterArray.sort((a, b) => {
@@ -276,6 +277,7 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
     if (this.selectedCluster == cluster) {
       return;
     }
+    // console.log('highlightCluster', cluster);
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -293,11 +295,11 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
             element.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
           }
         }
-        item.clusterIcon_.styles_[0].url = 'assets/markers/cluster/n2.png';
+        item.clusterIcon_.styles_[0].url = MapSeriesService.cluster2Img;
         item.updateIcon();
         item.markers_[0].setIcon(this.ms.svgMarker2);
       } else {
-        item.clusterIcon_.styles_[0].url = 'assets/markers/cluster/n1.png';
+        item.clusterIcon_.styles_[0].url = MapSeriesService.clusterImg;
         item.updateIcon();
         item.markers_[0].setIcon(this.ms.svgMarker);
       }
@@ -361,13 +363,6 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
   }
 
   onClusterClickFromDiv(markerCluster: any) {
-    console.log('clusterClickedFromDiv')
-    // markerCluster.clusterIcon_.styles_[0].url = 'assets/markers/cluster/n1.png';
-    // markerCluster.markers_[0].setIcon(this.ms.svgMarker);
-    // markerCluster.updateIcon();
-    console.log('markerCluster bounds_', markerCluster.bounds_);
-    console.log('by bounds', markerCluster['info']['bounds']);
-
     this.googleMap.fitBounds(markerCluster['info']['bounds'], 0);
   }
 

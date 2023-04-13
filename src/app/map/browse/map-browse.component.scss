@@ -57,13 +57,12 @@
             .app-maps-list-item {
                 overflow: hidden;
                 background: #fff;
-                padding: 5px;
                 border-bottom: 1px solid #e0e0e0;
-                padding: 3px;
+                padding: 5px 3px;
                 display: block;
+                cursor: pointer;
                 &:hover {
                     background: #d9e6ef;
-                    cursor: pointer;
                 }
                 &.app-selected {
                     background-color: #d9e6ef;
@@ -145,111 +144,78 @@
             .app-graphics-list-item {
                 overflow: hidden;
                 background: #fff;
-                padding: 5px;
-                border-bottom: 1px solid #e0e0e0;
-                padding: 3px;
+                padding-left: 4px;
                 display: block;
-                &:hover {
-                    background: #d9e6ef;
-                    cursor: pointer;
-                }
                 &.app-selected {
-                    background-color: #d9e6ef;
+                    border-left: 4px solid #d844b4;
+                    background-color: #d844b31a;
+                    padding-left:0px;
                 }
-                .app-cluster {
-                    overflow: hidden;
-                    .app-cluster-header {
-                        display: flex;
-                        font-size: 18px;
-                        margin: 0 0 5px 0;
-                        .app-cluster-icon {
-                            margin: -2px 5px 0 0;
-                            mat-icon {
-                                height: 30px;
-                                width: 30px;
-                                font-size: 30px;
-                            }
-                        }
-                    }
-                    .app-cluster-geonames {
-                        margin: 0 0 10px 5px;
-                        .app-cluster-geoname {
-                            font-size: 18px;
-                            font-weight: 400;
-                        }
-                    }
-                    .app-cluster-records {
-                        margin: 0 0 10px 5px;
-                        .app-cluster-record {
-                            a {
-                                width: 110px;
-                                height: 110px;
-                            }
-                        }
-                    }
+                &:hover {
+                    background-color: #ffffff;
+
                 }
                 .app-marker {
-                    display: flex;
-                    flex-direction: column;
-                    .app-marker-item {
-                        // background: #fff;
-                        padding: 3px;
-                        &:hover {
-                            background: #d9e6ef;
-                            cursor: pointer;
-                        }
-                        .app-item-thumb {
-                            margin-right: 6px;
-                            background-repeat: no-repeat;
-                            width: 110px;
-                            height: 110px;
-                            float: left;
-                            position: relative;
-                            background-size: contain;
-                            background-position-x: center;
-                        }
-                        .app-item-title {
-                            font-weight: 400;
-                            font-size: 18px;
-                            margin-bottom: 5px;
-                            color: #4e4e4e;
-                            overflow: hidden;
-                            line-height: 20px;
-                            height: 40px;
-                            -webkit-line-clamp: 2;
-                            display: -webkit-box;
-                            text-overflow: ellipsis;
-                        }
-                        .app-item-date {
-                            overflow: hidden;
-                            line-height: 20px;
-                            height: 20px;
-                            font-size: 14px;
-                            color: #666;
-                            -webkit-line-clamp: 1;
-                            display: -webkit-box;
-                            text-overflow: ellipsis;
-                        }
-                        .app-item-authors {
-                            overflow: hidden;
-                            line-height: 20px;
-                            height: 20px;
-                            font-size: 14px;
-                            color: #666;
-                            -webkit-line-clamp: 1;
-                            display: -webkit-box;
-                            text-overflow: ellipsis;
-                        }
-                        .app-item-geonames {
-                            overflow: hidden;
-                            line-height: 20px;
-                            height: 20px;
-                            font-size: 14px;
-                            color: #666;
-                            -webkit-line-clamp: 1;
-                            display: -webkit-box;
-                            text-overflow: ellipsis;
-                        }
+                    overflow: hidden;
+                    border-bottom: 1px solid #e0e0e0;
+                    padding: 5px 3px;
+                    display: block;
+                    cursor: pointer;
+                    &:hover {
+                        // background: #d9e6ef;
+                        background: #d844b333;
+                    }
+                    .app-item-thumb {
+                        margin-right: 6px;
+                        background-repeat: no-repeat;
+                        width: 110px;
+                        height: 110px;
+                        float: left;
+                        position: relative;
+                        background-size: contain;
+                        background-position-x: center;
+                    }
+                    .app-item-title {
+                        font-weight: 400;
+                        font-size: 18px;
+                        margin-bottom: 5px;
+                        color: #4e4e4e;
+                        overflow: hidden;
+                        line-height: 20px;
+                        height: 40px;
+                        -webkit-line-clamp: 2;
+                        display: -webkit-box;
+                        text-overflow: ellipsis;
+                    }
+                    .app-item-date {
+                        overflow: hidden;
+                        line-height: 20px;
+                        height: 20px;
+                        font-size: 14px;
+                        color: #666;
+                        -webkit-line-clamp: 1;
+                        display: -webkit-box;
+                        text-overflow: ellipsis;
+                    }
+                    .app-item-authors {
+                        overflow: hidden;
+                        line-height: 20px;
+                        height: 20px;
+                        font-size: 14px;
+                        color: #666;
+                        -webkit-line-clamp: 1;
+                        display: -webkit-box;
+                        text-overflow: ellipsis;
+                    }
+                    .app-item-geonames {
+                        overflow: hidden;
+                        line-height: 20px;
+                        height: 20px;
+                        font-size: 14px;
+                        color: #666;
+                        -webkit-line-clamp: 1;
+                        display: -webkit-box;
+                        text-overflow: ellipsis;
                     }
                 }
             }

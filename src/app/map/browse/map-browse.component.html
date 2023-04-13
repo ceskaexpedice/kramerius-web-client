@@ -47,19 +47,17 @@
                     [class.app-selected]="item === selectedCluster"
                     (mouseenter)="highlightCluster($event, item)"
                     (mouseleave)="highlightCluster($event, null)">
-                    <!-- IF CLUSTER -->
-                    <div class="app-marker" *ngIf="item && item.markers_ && item.markers_.length >= minimumClusterSize" (click)="onClusterClickFromDiv(item)" >
-                        <div class="app-marker-item">
-                            <div class="app-item-thumb" [style.background-image]="thumb(item['info']['pid'])"></div>
-                            <div class="app-item-title">{{ item['info']['title'] }}</div>
-                            <div class="app-item-date">{{ item['info']['documents'] }} documents</div>
-                            <div class="app-item-authors">{{ item['info']['markers'] }} locations</div>
-                        </div>
+                    <!-- CLUSTER -->
+                    <div class="app-marker" *ngIf="item && item.markers_ && item.markers_.length >= minimumClusterSize" (click)="onClusterClickFromDiv(item)">
+                        <div class="app-item-thumb" [style.background-image]="thumb(item['info']['pid'])"></div>
+                        <div class="app-item-title">{{ item['info']['title'] }}</div>
+                        <div class="app-item-date">{{ item['info']['documents'] }} documents</div>
+                        <div class="app-item-authors">{{ item['info']['markers'] }} locations</div>
                     </div>
-                    <!-- IF MARKER -->
-                    <div class="app-marker"
-                        *ngIf="item && item.markers_ && item.markers_.length < minimumClusterSize" [class.app-selected]="item === selectedCluster">
-                        <a class="app-marker-item" 
+                    <!-- MARKER -->
+                    <ng-container
+                        *ngIf="item && item.markers_ && item.markers_.length < minimumClusterSize">
+                        <a class="app-marker" 
                             *ngFor="let item of findMarkerByPosition(
                             item.markers_[0].getPosition().toJSON().lat,
                             item.markers_[0].getPosition().toJSON().lng)"
@@ -70,7 +68,7 @@
                             <div *ngIf="item.authors" class="app-item-authors">{{item.authors}}</div>
                             <div *ngIf="item.geonames" class="app-item-geonames">{{item.geonames}}</div>
                         </a>
-                    </div>
+                    </ng-container>
                 </div>
             </div>
         </div>

@@ -31,6 +31,7 @@ export class AppSettings {
   public mapSearchType: string;
   public mapSearchTypeDefault: string;
   public hiddenLocks: boolean;
+  public legacyLocks: boolean;
   public licences: any;
   public containsLicences: boolean;
   public preselectedLicences: [string];
@@ -148,6 +149,7 @@ export class AppSettings {
     this.containsLicences = !!kramerius.containsLicences;
     this.preselectedLicences = kramerius.preselectedLicences;
     this.hiddenLocks = !!kramerius.hiddenLocks;
+    this.legacyLocks = !!kramerius.legacyLocks;
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
     this.adminClientUrl = kramerius.adminClientUrl;
@@ -283,6 +285,7 @@ interface KrameriusData {
   mapSearchType: string;
   mapSearchTypeDefault: string;
   hiddenLocks: boolean;
+  legacyLocks: boolean;
   type: string;
   maxOmnibusParts: number;
   maxOmnibusPages: number;
