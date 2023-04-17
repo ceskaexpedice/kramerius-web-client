@@ -25,10 +25,10 @@
         </div>
     </div>
     <div class="app-map-wrapper">
-        <mat-icon (click)="fitToScreen()" class="app-map-button">open_in_full</mat-icon>
+        <mat-icon style="top: 145px;" (click)="fitToScreen()" class="app-map-button">open_in_full</mat-icon>
         <ng-container *ngIf="shapefile">
-            <mat-icon style="left: 64px" *ngIf="toggleShapefile" (click)="toggleShapefile = !toggleShapefile" class="app-map-button">grid_on</mat-icon>
-            <mat-icon style="left: 64px" *ngIf="!toggleShapefile" (click)="toggleShapefile = !toggleShapefile" class="app-map-button">grid_off</mat-icon>
+            <mat-icon style="left: 64px; top: 145px;" *ngIf="toggleShapefile" (click)="toggleShapefile = !toggleShapefile" class="app-map-button">grid_on</mat-icon>
+            <mat-icon style="left: 64px; top: 145px;" *ngIf="!toggleShapefile" (click)="toggleShapefile = !toggleShapefile" class="app-map-button">grid_off</mat-icon>
         </ng-container>
 
         <google-map *ngIf="ms.mapReady" 
@@ -87,7 +87,7 @@
                     <div class="app-selected-list-number">{{item.map_number}}</div>
                     <mat-icon class="app-selected-close" (click)="closeSelected()">close</mat-icon>
                 </div>
-                <div class="app-selected-maps" *ngFor="let m of item.maps" routerLink="{{settings.getRouteFor('uuid/' + m.pid)}}">
+                <a class="app-selected-maps" *ngFor="let m of chronoSort(item.maps)" href="{{settings.getRouteFor('uuid/' + m.pid)}}" target="_blank">
                     <div class="app-selected-thumb" [style.background-image]="thumb(m.pid)">
                         <!-- <div [matTooltip]="getLock(m).tooltip" class="app-lock {{ getLock(item).class }}" *ngIf="getLock(item)">
                             <mat-icon>{{ getLock(item).icon }}</mat-icon>
@@ -102,8 +102,7 @@
                     <div class="app-selected-shelf-locator">
                         {{m.shelf_locators}}
                     </div>
-                </div>
-                
+                </a>
             </div>
         </div>
         <!-- <div class="app-map-right-panel"> -->

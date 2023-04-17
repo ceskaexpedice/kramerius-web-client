@@ -78,8 +78,6 @@ export class MapSeriesComponent implements OnInit {
     this.router.navigateByUrl(`/mapseries/${pid}`);
   }
 
-  
-
   selectMapSeries(pid: string) {
     this.selectedPolygons = [];
     const query = 'q=in_collections.direct:"' + pid + '"&fl=pid,shelf_locators,coords.bbox.center,coords.bbox.corner_ne,coords.bbox.corner_sw,title.search,date_range_start.year,date_range_end.year&rows=2000'
@@ -111,6 +109,11 @@ export class MapSeriesComponent implements OnInit {
 
   
   // ************* FUNKCE *******************  
+
+  chronoSort(maps: any) {
+    let sortedMaps = maps.sort((a:any, b:any) => Number(a.date.toString().substring(0,4)) - Number(b.date.toString().substring(0,4)))
+    return sortedMaps;
+  }
 
   onIdle() {
     this.bounds = new google.maps.LatLngBounds(this.map.getBounds())
@@ -280,27 +283,16 @@ export class MapSeriesComponent implements OnInit {
     return shapefile
   }
 
-  normalizeDataForMapK7(data: any) {
+normalizeDataForMapK7(data: any) {
     let points: any[] = [];
     let polygons: any[] = [];
     let maxbounds = new google.maps.LatLngBounds();
-    
-    let maxN: number = Number(data[0]['coords.bbox.corner_ne'].split(',')[0]);
-    let maxE: number = Number(data[0]['coords.bbox.corner_ne'].split(',')[1]);
-    let maxS: number = Number(data[0]['coords.bbox.corner_sw'].split(',')[0]);
-    let maxW: number = Number(data[0]['coords.bbox.corner_sw'].split(',')[1]);
-    let heightOfBox = maxN - maxS
-    let widthOfBox = maxE - maxW
-    if (widthOfBox <= 0.25) {
-      this.zoomForMarkers = 8;
-    } else if (widthOfBox > 0.25 && widthOfBox < 0.5) {
-      this.zoomForMarkers = 7;
-    } else if (widthOfBox >= 0.5 && widthOfBox < 2) {
-      this.zoomForMarkers = 6;
-    } else if (widthOfBox >= 2) {
-      this.zoomForMarkers = 5
-    }
-
+    let widthOfBox;
+    let heightOfBox;
+    let maxN: number;
+    let maxE: number;
+    let maxS: number;
+    let maxW: number;
 
     for (const record of data) {
         if (record['coords.bbox.corner_ne'] && record['coords.bbox.corner_sw']) {
@@ -309,6 +301,16 @@ export class MapSeriesComponent implements OnInit {
             let lng1 = Number(record['coords.bbox.corner_ne'].split(',')[1])
             let lat2 = Number(record['coords.bbox.corner_sw'].split(',')[0])
             let lng2 = Number(record['coords.bbox.corner_sw'].split(',')[1])
+
+            if (!(maxN && maxE && maxS && maxW)) {
+                maxN = lat1;
+                maxE = lng1;
+                maxS = lat2;
+                maxW = lng2;
+
+                heightOfBox = maxN - maxS
+                widthOfBox = maxE - maxW
+            }
             
             // HLEDAM BOUNDS PRO CELOU SERII
             if (lat1 > maxN) {
@@ -405,11 +407,21 @@ export class MapSeriesComponent implements OnInit {
             }
         }  
     }
+    if (widthOfBox <= 0.25) {
+        this.zoomForMarkers = 8;
+      } else if (widthOfBox > 0.25 && widthOfBox < 0.5) {
+        this.zoomForMarkers = 7;
+      } else if (widthOfBox >= 0.5 && widthOfBox < 2) {
+        this.zoomForMarkers = 6;
+      } else if (widthOfBox >= 2) {
+        this.zoomForMarkers = 5
+      }
+
     maxbounds = new google.maps.LatLngBounds({"lat": maxS, "lng": maxW }, {"lat": maxN, "lng": maxE})
     this.points = points
     this.polygons = polygons.sort(function(a, b){return a.map_number - b.map_number})
     this.maxbounds = maxbounds
-  }
+}
 
   // ************* SHAPEFILE LIST (z tabulky) ******************* 
   shapefiles = [

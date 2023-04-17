@@ -47,21 +47,24 @@
               }
         }
         .app-navigation {
+            display: flex;
+            flex-direction: row;
             a {
                 color: $primary-color;
                 text-decoration: none;
             }
             .app-name {
+                display: flex;
                 color: $app-grey-d-1;
-                display: inline-block;
                 cursor: pointer;
-                mat-icon {
-                    margin-top: -3px;
-                    vertical-align: middle;
-                }
                 .app-label {
                     max-width: calc(100vw - 300px);
+                    white-space: nowrap;
                     overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                mat-icon {
+                    margin-top: 15px;
                 }
             }   
         }
@@ -85,7 +88,7 @@
             top: 125px;
         }
         .app-map-button {
-            position: absolute;
+            position: fixed;
             font-size: 26px;
             color: black;
             background: white;
@@ -131,6 +134,7 @@
                 .app-selected-maps {
                     padding: 5px;
                     overflow: hidden;
+                    display: table;
                     &:hover {
                         background: #d9e6ef;
                         cursor: pointer;
