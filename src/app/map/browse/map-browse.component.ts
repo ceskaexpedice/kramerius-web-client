@@ -95,6 +95,7 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
 
 
   handleSearchResults(results: DocumentItem[]) {
+    console.log('handleSearchResults', results.length);
     const markerDocs = this.filterDocsByBounds(results);
     this.markersCount = markerDocs.length;
     if (this.activeNavigationTab === 'markers') {
@@ -103,7 +104,7 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
       this.minimumClusterSize = 2;
       console.log('zoom', zoom);
       if (zoom > 15) {
-        this.minimumClusterSize = 5;
+        this.minimumClusterSize = 3;
       } else if (zoom > 17) {
         this.minimumClusterSize = 1000;
       }
@@ -230,6 +231,10 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
   onClusteringEnd(markerCluster: any) {
     let clusters = markerCluster.getClusters();
     console.log('clusters', clusters.length);
+    console.log('clusters', clusters);
+
+    console.log('markclusterer', this.markerClusterer);
+
     let clusterArray = [];
     if (this.clusterArray) {
       for (const cluster of this.clusterArray) {
@@ -274,6 +279,8 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
 
   highlightCluster(event: any, cluster: any) {
     console.log('highlightCluster', !!cluster);
+    console.log('markclusterer', this.markerClusterer);
+
     if (this.selectedCluster == cluster) {
       return;
     }
@@ -308,53 +315,78 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
     this.changeDetector.detectChanges();
   }
 
-  onMouseOverMarker(event: any, marker: any) {
-    // console.log('onMouseOverMarker');
+
+
+  highlightMarker(event: any, cluster: any, marker: any) {
+    console.log('highlightMarker', marker);
+
+    if (this.selectedCluster == marker) {
+      return;
+    }
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    if (!this.clusterArray) { 
+      return;
+    }
+    this.selectedCluster = marker;
+    let i = 0;
+    for (let item of this.clusterArray) {
+      if (item == cluster) {
+        let j = 0;
+        for (let m of item.markers_) {
+          if (m == marker) {
+            if (!event) {
+              const element = document.getElementById("app-point-" + i + '-' + j);
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+              }
+            }
+            item.clusterIcon_.styles_[0].url = MapSeriesService.cluster2Img;
+            item.updateIcon();
+            item.markers_[0].setIcon(this.ms.svgMarker2);
+          } else {
+            item.clusterIcon_.styles_[0].url = MapSeriesService.clusterImg;
+            item.updateIcon();
+            item.markers_[0].setIcon(this.ms.svgMarker);
+          }
+          j++;
+        }
+      }
+      i++;
+    }
+    this.changeDetector.detectChanges();
+  }
+
+
+
+
+
+  onMouseOverMarker(marker: any) {
     if (!marker) {
       return null;
     }
     marker.marker.setIcon(this.ms.svgMarker2);
     let i = -1;
-    // console.log(`position`, `${marker._position.lat} -- ${marker._position.lng}`)
-    // console.log('marker', marker);
-    for (let item of this.clusterArray) {
-      // console.log('item', item);
+    for (let cluster of this.clusterArray) {
       i++;
-      // if (item.markers_.length > 1) {
-      //   continue;
-      // }
-      // const position = marker._position;
-      // console.log('MP', position);
-      // console.log('TO MP', item.markers_[0].position);
-      // console.log('check', item.markers_[0] == marker);
-      // console.log(`${item.center_.lat()} -- ${item.center_.lng()}`)
-      if (item.markers_[0] == marker.marker) {
-        this.selectedCluster = item;
-        const element = document.getElementById("app-point-" + i);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+      let j = -1;
+      for (let m of cluster.markers_) {
+        j++;
+        if (m == marker.marker) {
+          this.selectedCluster = m;
+          const element = document.getElementById("app-point-" + i + '-' + j);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+          }
+          return;
         }
-        break;
       }
-      // if (item.markers_[0].position.toJSON().lat == position.lat && item.markers_[0].position.toJSON().lng == position.lng) {
-      //   this.selectedCluster = item;
-      //   // console.log('marker', marker);
-      //   // console.log('item', item.center_.lat());
-
-      //   console.log('found');
-      //   console.log('item', item.markers_[0]);
-      //   console.log('marker', marker.marker);
-
-      //   const element = document.getElementById("app-point-" + i);
-      //   if (element) {
-      //     element.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
-      //   }
-      //   break;
-      // }
     }
   }
 
-  onMouseOutMarker(event: any, marker: any) {
+  onMouseOutMarker(marker: any) {
     this.selectedCluster = null;
     if (!marker) {
       return;

@@ -42,32 +42,43 @@
             <!-- IF GRAPHICS -->
             <div *ngIf="activeNavigationTab == 'markers' && clusterArray && clusterArray.length > 0">
                 <div class="app-graphics-list-item"
-                    *ngFor="let item of clusterArray; let i = index" 
-                    [id]="'app-point-' + i"
-                    [class.app-selected]="item === selectedCluster"
-                    (mouseenter)="highlightCluster($event, item)"
-                    (mouseleave)="highlightCluster($event, null)">
+                    *ngFor="let cluster of clusterArray; let i = index" 
+                    >
                     <!-- CLUSTER -->
-                    <div class="app-marker" *ngIf="item && item.markers_ && item.markers_.length >= minimumClusterSize" (click)="onClusterClickFromDiv(item)">
-                        <div class="app-item-thumb" [style.background-image]="thumb(item['info']['pid'])"></div>
-                        <div class="app-item-title">{{ item['info']['title'] }}</div>
-                        <div class="app-item-date">{{ item['info']['documents'] }} documents</div>
-                        <div class="app-item-authors">{{ item['info']['markers'] }} locations</div>
+                    <div class="app-marker" *ngIf="cluster && cluster.markers_ && cluster.markers_.length >= minimumClusterSize" (click)="onClusterClickFromDiv(cluster)"
+                        [id]="'app-point-' + i"
+                        [class.app-selected]="cluster === selectedCluster"
+                        (mouseenter)="highlightCluster($event, cluster)"
+                        (mouseleave)="highlightCluster($event, null)"
+                        >
+                        <div class="app-item-thumb" [style.background-image]="thumb(cluster['info']['pid'])"></div>
+                        <div class="app-item-title">{{ cluster['info']['title'] }}</div>
+                        <div class="app-item-date">{{ cluster['info']['documents'] }} documents</div>
+                        <div class="app-item-authors">{{ cluster['info']['markers'] }} locations</div>
                     </div>
                     <!-- MARKER -->
                     <ng-container
-                        *ngIf="item && item.markers_ && item.markers_.length < minimumClusterSize">
-                        <a class="app-marker" 
-                            *ngFor="let item of findMarkerByPosition(
-                            item.markers_[0].getPosition().toJSON().lat,
-                            item.markers_[0].getPosition().toJSON().lng)"
-                            routerLink="{{item.url}}">
-                            <div class="app-item-thumb" [style.background-image]="thumb(item.pid)"></div>
-                            <div class="app-item-title">{{item.title}}</div>
-                            <div *ngIf="item.date" class="app-item-date">{{item.date}}</div>
-                            <div *ngIf="item.authors" class="app-item-authors">{{item.authors}}</div>
-                            <div *ngIf="item.geonames" class="app-item-geonames">{{item.geonames}}</div>
-                        </a>
+                        *ngIf="cluster && cluster.markers_ && cluster.markers_.length < minimumClusterSize">
+                        <div class="app-markers" *ngFor="let item of cluster.markers_; let j = index"
+                        
+                        [id]="'app-point-' + i + '-' + j"
+                        [class.app-selected]="item === selectedCluster"
+                        (mouseenter)="highlightCluster($event, cluster, item)"
+                        (mouseleave)="highlightCluster($event, null, null)"
+                        >
+                            <a class="app-marker" 
+                                *ngFor="let doc of findMarkerByPosition(
+                                item.getPosition().toJSON().lat,
+                                item.getPosition().toJSON().lng)"
+                                
+                                routerLink="{{doc.url}}">
+                                <div class="app-item-thumb" [style.background-image]="thumb(doc.pid)"></div>
+                                <div class="app-item-title">{{doc.title}}</div>
+                                <div *ngIf="doc.date" class="app-item-date">{{doc.date}}</div>
+                                <div *ngIf="doc.authors" class="app-item-authors">{{doc.authors}}</div>
+                                <div *ngIf="doc.geonames" class="app-item-geonames">{{doc.geonames}}</div>
+                            </a>
+                        </div>
                     </ng-container>
                 </div>
             </div>
@@ -99,8 +110,8 @@
                     [position]="marker.position"
                     [label]="{text: labelToString(marker.items.length), color: 'white', fontSize: '12px'}"
                     [options]="ms.markerOptions"
-                    (mapMouseover)="onMouseOverMarker($event, somemarker)"
-                    (mapMouseout)="onMouseOutMarker($event, somemarker)"
+                    (mapMouseover)="onMouseOverMarker(somemarker)"
+                    (mapMouseout)="onMouseOutMarker(somemarker)"
                     >
                 </map-marker>
             </map-marker-clusterer>
