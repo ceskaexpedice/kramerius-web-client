@@ -196,14 +196,14 @@ export class MapSeriesService {
         }
       ]
     },
-    {
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "color": "#555555"
-        }
-      ]
-    },
+    // {
+    //   "elementType": "labels.text.fill",
+    //   "stylers": [
+    //     {
+    //       "color": "#555555"
+    //     }
+    //   ]
+    // },
     {
       "featureType": "administrative",
       "elementType": "labels",
