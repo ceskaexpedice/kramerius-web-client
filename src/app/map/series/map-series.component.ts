@@ -283,145 +283,176 @@ export class MapSeriesComponent implements OnInit {
     return shapefile
   }
 
-normalizeDataForMapK7(data: any) {
-    let points: any[] = [];
-    let polygons: any[] = [];
-    let maxbounds = new google.maps.LatLngBounds();
-    let widthOfBox;
-    let heightOfBox;
-    let maxN: number;
-    let maxE: number;
-    let maxS: number;
-    let maxW: number;
+    normalizeDataForMapK7(data: any) {
+        let points: any[] = [];
+        let polygons: any[] = [];
+        let maxbounds = new google.maps.LatLngBounds();
+        let widthOfBox;
+        let heightOfBox;
+        let maxN: number;
+        let maxE: number;
+        let maxS: number;
+        let maxW: number;
 
-    for (const record of data) {
-        if (record['coords.bbox.corner_ne'] && record['coords.bbox.corner_sw']) {
-            // PREVEDU SI SOURADNICE
-            let lat1 = Number(record['coords.bbox.corner_ne'].split(',')[0])
-            let lng1 = Number(record['coords.bbox.corner_ne'].split(',')[1])
-            let lat2 = Number(record['coords.bbox.corner_sw'].split(',')[0])
-            let lng2 = Number(record['coords.bbox.corner_sw'].split(',')[1])
+        for (const record of data) {
+            if (record['coords.bbox.corner_ne'] && record['coords.bbox.corner_sw']) {
+                // PREVEDU SI SOURADNICE
+                let lat1 = Number(record['coords.bbox.corner_ne'].split(',')[0])
+                let lng1 = Number(record['coords.bbox.corner_ne'].split(',')[1])
+                let lat2 = Number(record['coords.bbox.corner_sw'].split(',')[0])
+                let lng2 = Number(record['coords.bbox.corner_sw'].split(',')[1])
 
-            if (!(maxN && maxE && maxS && maxW)) {
-                maxN = lat1;
-                maxE = lng1;
-                maxS = lat2;
-                maxW = lng2;
+                if (!(maxN && maxE && maxS && maxW)) {
+                    maxN = lat1;
+                    maxE = lng1;
+                    maxS = lat2;
+                    maxW = lng2;
 
-                heightOfBox = maxN - maxS
-                widthOfBox = maxE - maxW
-            }
-            
-            // HLEDAM BOUNDS PRO CELOU SERII
-            if (lat1 > maxN) {
-                maxN = lat1
-            }
-            if (lat2 < maxS) {
-                maxS = lat2
-            }
-            if (lng1 > maxE) {
-                maxE = lng1
-            }
-            if (lng2 < maxW) {
-                maxW = lng2
-            }
-            // ZJISTUJU, JESTLI JE TO BOD
-            if (record['coords.bbox.corner_ne'] === record['coords.bbox.corner_sw']) {
-                // TODO
-                if (!points.some(e => (e.coord_ne === record['coords.bbox.corner_ne'] && e.coord_sw === record['coords.bbox.corner_sw']))) {
-                }
-                points.push({
-                    "coord_ne": record['coords.bbox.corner_ne'],
-                    "coord_sw": record['coords.bbox.corner_sw'],
-                    "position": 
-                        {
-                            "lat": lat1,
-                            "lng": lng1
-                        },
-                    "maps": [
-                        {
-                            "pid": record['pid'], 
-                            "title": record['title.search']
-                        }
-                    ]}) 
-            }
-            // JE TO POLYGON
-            else {
-                // DATUM
-                let date;
-                if (record['date_range_start.year'] === record['date_range_end.year']) {
-                    date = record['date_range_start.year'];
-                } else {
-                    date = record['date_range_start.year'] + ' ' + '-' + ' ' + record['date_range_end.year'];
-                }
-                // CISLO LISTU
-                let map_number = '?';
-                if (record['shelf_locators'][0]) {
-                    let map_number_plus = record['shelf_locators'][0].split(',')[1];
-                    if (map_number_plus) {
-                        map_number = map_number_plus.split('-')[0];
-                    }
-                }
-
-                // STRED POLYGONU - PRO MARKER
-                let center;
-                if (record['coords.bbox.center']) {
-                    center = {'lat': Number(record['coords.bbox.center'].split(',')[0]),
-                              'lng': Number(record['coords.bbox.center'].split(',')[1])}
+                    heightOfBox = maxN - maxS
+                    widthOfBox = maxE - maxW
                 }
                 
-                // VICE MAP NA JEDNOM POLYGONU
-                if (!polygons.some(e => (e.coord_ne === record['coords.bbox.corner_ne'] && e.coord_sw === record['coords.bbox.corner_sw']))) {
-                    let position = [
-                        {"lat": lat1, 
-                        "lng": lng1 },
-                        {"lat": lat2, 
-                        "lng": lng1 },
-                        {"lat": lat2, 
-                        "lng": lng2 },
-                        {"lat": lat1, 
-                        "lng": lng2 }]
-                    polygons.push({
+                // HLEDAM BOUNDS PRO CELOU SERII
+                if (lat1 > maxN) {
+                    maxN = lat1
+                }
+                if (lat2 < maxS) {
+                    maxS = lat2
+                }
+                if (lng1 > maxE) {
+                    maxE = lng1
+                }
+                if (lng2 < maxW) {
+                    maxW = lng2
+                }
+                // ZJISTUJU, JESTLI JE TO BOD
+                if (record['coords.bbox.corner_ne'] === record['coords.bbox.corner_sw']) {
+                    // TODO
+                    if (!points.some(e => (e.coord_ne === record['coords.bbox.corner_ne'] && e.coord_sw === record['coords.bbox.corner_sw']))) {
+                    }
+                    points.push({
                         "coord_ne": record['coords.bbox.corner_ne'],
                         "coord_sw": record['coords.bbox.corner_sw'],
-                        "position": position,
-                        "map_number": map_number,
-                        "center": center,
-                        "maps": [{
+                        "position": 
+                            {
+                                "lat": lat1,
+                                "lng": lng1
+                            },
+                        "maps": [
+                            {
+                                "pid": record['pid'], 
+                                "title": record['title.search']
+                            }
+                        ]}) 
+                }
+                // JE TO POLYGON
+                else {
+                    // DATUM
+                    let date;
+                    if (record['date_range_start.year'] === record['date_range_end.year']) {
+                        date = record['date_range_start.year'];
+                    } else {
+                        date = record['date_range_start.year'] + ' ' + '-' + ' ' + record['date_range_end.year'];
+                    }
+                    // CISLO LISTU
+                    let map_number = '?';
+                    let shelf_locator;
+                    if (record['shelf_locators'].length < 2) {
+                        shelf_locator = record['shelf_locators'][0]
+                    } else {
+                        shelf_locator = this.normalizeShelfLocator(record['shelf_locators'])
+                    }
+                    if (shelf_locator) {
+                        let map_number_plus = shelf_locator.split(',')[1];
+                        if (map_number_plus) {
+                            if (map_number_plus.includes('/')) {
+                                // map_number = map_number_plus.split('-')[0] + '-' + map_number_plus.split('-')[1]
+                                map_number = map_number_plus.substr(0, map_number_plus.lastIndexOf("-")) 
+                            }
+                            else if (map_number_plus.split('-').length -1 > 2) {
+                                map_number = map_number_plus.substr(0, map_number_plus.lastIndexOf("-")) 
+                            }
+                            else {
+                                map_number = map_number_plus.split('-')[0];
+                            }
+                        }
+                        
+                    }
+
+                    // STRED POLYGONU - PRO MARKER
+                    let center;
+                    if (record['coords.bbox.center']) {
+                        center = {'lat': Number(record['coords.bbox.center'].split(',')[0]),
+                                'lng': Number(record['coords.bbox.center'].split(',')[1])}
+                    }
+                    
+                    // VICE MAP NA JEDNOM POLYGONU
+                    if (!polygons.some(e => (e.coord_ne === record['coords.bbox.corner_ne'] && e.coord_sw === record['coords.bbox.corner_sw']))) {
+                        let position = [
+                            {"lat": lat1, 
+                            "lng": lng1 },
+                            {"lat": lat2, 
+                            "lng": lng1 },
+                            {"lat": lat2, 
+                            "lng": lng2 },
+                            {"lat": lat1, 
+                            "lng": lng2 }]
+                        polygons.push({
+                            "coord_ne": record['coords.bbox.corner_ne'],
+                            "coord_sw": record['coords.bbox.corner_sw'],
+                            "position": position,
+                            "map_number": map_number,
+                            "center": center,
+                            "maps": [{
+                                "pid": record['pid'], 
+                                "title": record['title.search'],
+                                "date": date,
+                                "shelf_locators": record['shelf_locators']
+                                }]
+                        })
+                    }
+                    else {
+                        let polygon = polygons.find(e => (e.coord_ne === record['coords.bbox.corner_ne'] && e.coord_sw === record['coords.bbox.corner_sw']))
+                        polygon.maps.push({
                             "pid": record['pid'], 
                             "title": record['title.search'],
                             "date": date,
                             "shelf_locators": record['shelf_locators']
-                            }]
-                    })
+                        })
+                    }   
                 }
-                else {
-                    let polygon = polygons.find(e => (e.coord_ne === record['coords.bbox.corner_ne'] && e.coord_sw === record['coords.bbox.corner_sw']))
-                    polygon.maps.push({
-                        "pid": record['pid'], 
-                        "title": record['title.search'],
-                        "date": date,
-                        "shelf_locators": record['shelf_locators']
-                    })
-                }   
-            }
-        }  
-    }
-    if (widthOfBox <= 0.25) {
-        this.zoomForMarkers = 8;
-      } else if (widthOfBox > 0.25 && widthOfBox < 0.5) {
-        this.zoomForMarkers = 7;
-      } else if (widthOfBox >= 0.5 && widthOfBox < 2) {
-        this.zoomForMarkers = 6;
-      } else if (widthOfBox >= 2) {
-        this.zoomForMarkers = 5
-      }
+            }  
+        }
+        if (widthOfBox < 0.25) {
+            this.zoomForMarkers = 10;
+        } else if (widthOfBox >= 0.25 && widthOfBox < 0.5) {
+            this.zoomForMarkers = 8;
+        } else if (widthOfBox >= 0.5 && widthOfBox < 2) {
+            this.zoomForMarkers = 6;
+        } else if (widthOfBox >= 2) {
+            this.zoomForMarkers = 5
+        }
 
-    maxbounds = new google.maps.LatLngBounds({"lat": maxS, "lng": maxW }, {"lat": maxN, "lng": maxE})
-    this.points = points
-    this.polygons = polygons.sort(function(a, b){return a.map_number - b.map_number})
-    this.maxbounds = maxbounds
-}
+        maxbounds = new google.maps.LatLngBounds({"lat": maxS, "lng": maxW }, {"lat": maxN, "lng": maxE})
+        this.points = points
+        this.polygons = polygons.sort(function(a, b){return a.map_number - b.map_number})
+        this.maxbounds = maxbounds
+    }
+
+    normalizeShelfLocator(shelf_locator: any) {
+        let normalized_shelf_locator = '';
+        for (const part of shelf_locator) {
+            if (!(normalized_shelf_locator.includes(part))) {
+                if (normalized_shelf_locator.length > 0) {
+                    normalized_shelf_locator = normalized_shelf_locator + ',' + part;
+                } else {
+                    normalized_shelf_locator = part;
+                }
+            }
+        }
+        return normalized_shelf_locator;
+    }
+
 
   // ************* SHAPEFILE LIST (z tabulky) ******************* 
   shapefiles = [
