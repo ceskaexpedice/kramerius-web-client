@@ -24,7 +24,12 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
   activeNavigationTab: string;
   points: any = [];
   clusterArray: any;
+  activeCluster: any;
+  activeMarker: any;
+
   selectedCluster: any;
+  selectedMarker: any;
+
   waitForBounds = false;
   searchResults: Subscription;
   calculatorCount: number = 5;
@@ -32,6 +37,8 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
   minimumClusterSize = 2;
   markersCount = 0;
   mapsCount = 0;
+
+  mouseOverCluster = null;
 
   @ViewChild('googleMap') googleMap: GoogleMap;
   @ViewChild('markerCluster') markerClusterer: MarkerClusterer;
@@ -49,6 +56,11 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
   }
 
   ngOnInit() {
+
+
+
+
+
     console.log('map browse ngOnInit')
     const q = this.searchService.query;
     const preferredtype = this.localStorageService.getProperty(LocalStorageService.MAP_ACTIVE_TAB);
@@ -229,12 +241,11 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
   }
 
   onClusteringEnd(markerCluster: any) {
+    this.activeCluster = null;
+    this.activeMarker = null;
+    this.selectedCluster = null;
+    this.selectedMarker = null;
     let clusters = markerCluster.getClusters();
-    console.log('clusters', clusters.length);
-    console.log('clusters', clusters);
-
-    console.log('markclusterer', this.markerClusterer);
-
     let clusterArray = [];
     if (this.clusterArray) {
       for (const cluster of this.clusterArray) {
@@ -246,12 +257,16 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
     for (const cluster of clusters) {
       cluster['info'] = this.clusterInfo(cluster);
       clusterArray.push(cluster); 
+      cluster.clusterIcon_.styles_[0].url = MapSeriesService.clusterImg;
       if (f) {
         google.maps.event.addListener(cluster.markerClusterer_, 'mouseover', (a: any) => {
-          this.highlightCluster(null, a);
+          console.log('mouse over');
+          this.onMouseOverCluster(a);
         });
         google.maps.event.addListener(cluster.markerClusterer_, 'mouseout', (a: any) => {
-          this.highlightCluster(null, null);
+          console.log('mouse out');
+
+          this.onMouseOutCluster(a);
         });
         f = false;
       } 
@@ -274,112 +289,98 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
   }
 
   onClusterClick(markerCluster:any) {
-    // this.selectedCluster = markerCluster;
   }
 
-  highlightCluster(event: any, cluster: any) {
-    console.log('highlightCluster', !!cluster);
-    console.log('markclusterer', this.markerClusterer);
-
-    if (this.selectedCluster == cluster) {
-      return;
+  onMapClick() {
+    // console.log('on Map click');
+    if (this.selectedMarker) {
+      this.selectedMarker.setIcon(this.ms.svgMarker);
+      this.selectedCluster = null;
+      this.selectedMarker = null;
     }
-    // console.log('highlightCluster', cluster);
+    if (this.activeCluster) {
+      this.activeCluster.clusterIcon_.styles_[0].url = MapSeriesService.clusterImg;
+      this.activeCluster.updateIcon();
+      this.activeCluster = null;
+      this.activeMarker = null;
+    }
+  }
+
+
+  highlightCluster(event: any, cluster: any) {
+    // console.log('highlightCluster from Panel', cluster);
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
-    if (!this.clusterArray) { 
-      return;
-    }
-    this.selectedCluster = cluster;
-    let i = 0;
     for (let item of this.clusterArray) {
       if (item == cluster) {
-        if (!event) {
-          const element = document.getElementById("app-point-" + i);
-          if (element) {
-            element.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
-          }
-        }
         item.clusterIcon_.styles_[0].url = MapSeriesService.cluster2Img;
         item.updateIcon();
-        item.markers_[0].setIcon(this.ms.svgMarker2);
       } else {
         item.clusterIcon_.styles_[0].url = MapSeriesService.clusterImg;
         item.updateIcon();
-        item.markers_[0].setIcon(this.ms.svgMarker);
       }
-      i++;
     }
     this.changeDetector.detectChanges();
   }
 
-
-
   highlightMarker(event: any, cluster: any, marker: any) {
-    console.log('highlightMarker', marker);
-
-    if (this.selectedCluster == marker) {
-      return;
-    }
+    // console.log('highlightMarker from Panel', marker);
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
-    if (!this.clusterArray) { 
+    if (this.selectedMarker) {
       return;
     }
-    this.selectedCluster = marker;
-    let i = 0;
     for (let item of this.clusterArray) {
-      if (item == cluster) {
-        let j = 0;
+      if (item == cluster || !cluster) {
         for (let m of item.markers_) {
           if (m == marker) {
-            if (!event) {
-              const element = document.getElementById("app-point-" + i + '-' + j);
-              if (element) {
-                element.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
-              }
-            }
-            item.clusterIcon_.styles_[0].url = MapSeriesService.cluster2Img;
-            item.updateIcon();
-            item.markers_[0].setIcon(this.ms.svgMarker2);
+            m.setIcon(this.ms.svgMarker2);
           } else {
-            item.clusterIcon_.styles_[0].url = MapSeriesService.clusterImg;
-            item.updateIcon();
-            item.markers_[0].setIcon(this.ms.svgMarker);
+            m.setIcon(this.ms.svgMarker);
           }
-          j++;
         }
       }
-      i++;
     }
     this.changeDetector.detectChanges();
   }
 
-
-
-
+  onClickMarker(marker: any) {
+    // console.log('marker click', marker);
+    if (this.selectedMarker) {
+      this.selectedMarker.setIcon(this.ms.svgMarker);
+      const same = marker.marker == this.selectedMarker;
+      this.selectedCluster = null;
+      this.selectedMarker = null;
+      if (same) {
+        return;
+      }
+    }
+    for (let cluster of this.clusterArray) {
+      for (let m of cluster.markers_) {
+        if (m == marker.marker) {
+          marker.marker.setIcon(this.ms.svgMarker2);
+          this.selectedCluster = cluster;
+          this.selectedMarker = m;
+          return;
+        }
+      }
+    }
+  }
 
   onMouseOverMarker(marker: any) {
-    if (!marker) {
+    if (!marker || !this.clusterArray) {
       return null;
     }
     marker.marker.setIcon(this.ms.svgMarker2);
-    let i = -1;
     for (let cluster of this.clusterArray) {
-      i++;
-      let j = -1;
       for (let m of cluster.markers_) {
-        j++;
         if (m == marker.marker) {
-          this.selectedCluster = m;
-          const element = document.getElementById("app-point-" + i + '-' + j);
-          if (element) {
-            element.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
-          }
+          this.activeCluster = cluster;
+          this.activeMarker = m;
           return;
         }
       }
@@ -387,11 +388,69 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
   }
 
   onMouseOutMarker(marker: any) {
-    this.selectedCluster = null;
+    this.activeCluster = null;
+    this.activeMarker = null;
     if (!marker) {
       return;
     }
-    marker.marker.setIcon(this.ms.svgMarker)
+    // console.log('onMouseOutMarker', marker);
+    // console.log('this.selectedMarker', this.selectedMarker);
+    if (marker.marker != this.selectedMarker) {
+      marker.marker.setIcon(this.ms.svgMarker)
+    }
+  }
+
+  onMouseOverCluster(cluster: any) {
+    if (cluster == this.activeCluster) {
+      return;
+    }
+    // console.log('on mouse over cluster', cluster);
+    cluster.clusterIcon_.styles_[0].url = MapSeriesService.cluster2Img;
+    cluster.updateIcon();
+    this.activeMarker = null;
+    this.activeCluster = cluster;
+    // for (let item of this.clusterArray) {
+    //   if (item == cluster) {
+    //     item.clusterIcon_.styles_[0].url = MapSeriesService.cluster2Img;
+    //     item.updateIcon();
+    //   } else {
+    //     item.clusterIcon_.styles_[0].url = MapSeriesService.clusterImg;
+    //     item.updateIcon();
+    //   }
+    // }
+    this.changeDetector.detectChanges();
+  }
+
+  theCluster() {
+    return this.activeCluster || this.selectedCluster || null;
+  }
+
+  theMarker() {
+    return this.activeMarker || this.selectedMarker || null;
+  }
+
+  onMouseOutCluster(cluster: any) {
+    // if (cluster == this.mouseOverCluster) {
+    //   this.mouseOverCluster = null;
+    // }
+    if (!this.activeCluster) {
+      return;
+    }
+    // console.log('on mouse out cluster', cluster);
+    cluster.clusterIcon_.styles_[0].url = MapSeriesService.clusterImg;
+    cluster.updateIcon();
+    this.activeMarker = null;
+    this.activeCluster = null;
+    // for (let item of this.clusterArray) {
+    //   if (item == cluster) {
+    //     item.clusterIcon_.styles_[0].url = MapSeriesService.cluster2Img;
+    //     item.updateIcon();
+    //   } else {
+    //     item.clusterIcon_.styles_[0].url = MapSeriesService.clusterImg;
+    //     item.updateIcon();
+    //   }
+    // }
+    this.changeDetector.detectChanges();
   }
 
   onClusterClickFromDiv(markerCluster: any) {

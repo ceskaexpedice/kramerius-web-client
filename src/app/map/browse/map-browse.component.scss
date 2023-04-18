@@ -144,19 +144,8 @@
             .app-graphics-list-item {
                 overflow: hidden;
                 background: #fff;
-                // padding-left: 4px;
                 display: block;
-
-                // &:hover {
-                //     background-color: #ffffff;
-                // }
-
                 .app-marker {
-                    &.app-selected {
-                        border-left: 4px solid #d844b4;
-                        background-color: #d844b31a;
-                        padding-left:3px;
-                    }
                     overflow: hidden;
                     border-bottom: 1px solid #e0e0e0;
                     padding: 5px 3px;
@@ -165,7 +154,7 @@
                     cursor: pointer;
                     &:hover {
                         // background: #d9e6ef;
-                        background: #d844b333;
+                        background: #d9e6ef;
                     }
                     .app-item-thumb {
                         margin-right: 6px;
@@ -222,11 +211,6 @@
                 }
                 .app-markers {
                     padding-left: 4px;
-                    &.app-selected {
-                        border-left: 4px solid #d844b4;
-                        background-color: #d844b31a;
-                        padding-left:0px;
-                    }
                     .app-marker {
                         padding-left: 3px;
                     }
