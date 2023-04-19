@@ -29,6 +29,7 @@ export class PdfViewer2Component implements  OnInit {
               public pdf: PdfService,
               public krameriusInfo: KrameriusInfoService,
               public controlsService: ViewerControlsService) {
+    (window as any).pdfWorkerSrc = '/assets/pdfjs/pdf.worker.min.js';
   }
 
   ngOnInit() {
