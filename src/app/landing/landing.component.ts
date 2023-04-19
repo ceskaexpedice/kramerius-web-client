@@ -18,7 +18,7 @@ export class LandingComponent implements OnInit {
       if (this.settings.landingPage) {
         this.page = 'signpost';
       } else {
-        const url = '/' + this.settings.code;
+        const url = '/' + this.settings.krameriusList[0].code;
         this.router.navigateByUrl(url);
       }
     }  else {
