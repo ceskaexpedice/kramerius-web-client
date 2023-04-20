@@ -4,7 +4,12 @@
     <a *ngIf="url" style="float: right;" target="_blank" [href]="url">URL</a>
     <div tabindex="0" [matMenuTriggerFor]="resourceMenu" class="app-dialog-title">{{ resource }}</div>
     <div *ngFor="let item of items" class="app-tab" [class.active]="selection.type === item.type" tabindex="0" (click)="changeTab(item)">
-      {{ 'model.' + item.type | translate | lowercase }}
+      <div *ngIf="translate.currentLang == 'de'">
+        {{ 'model.' + item.type | translate }}
+      </div>
+      <div *ngIf="translate.currentLang !== 'de'">
+        {{ 'model.' + item.type | translate | lowercase }}
+      </div>
     </div>
   </div>
 
