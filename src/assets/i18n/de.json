@@ -320,6 +320,7 @@
       "extent": "Umfang",
       "physical_description": "Physische Beschreibung",
       "cartographic_data": "Kartographische Daten",
+      "display_in_map": "Auf Karte anzeigen",
       "scale": "Maßstab",
       "doctype": "Objektkategorie",    
       "category": "Unterkategorie",

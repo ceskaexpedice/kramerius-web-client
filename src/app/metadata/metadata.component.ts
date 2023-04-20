@@ -126,4 +126,63 @@ export class MetadataComponent implements OnInit {
     return this.settings.actions[action] != 'never';
   }
 
+  // PARSE COORDINATES
+  calcCoordinate(d: number, m: number, s: number): number {
+    return d + m/60 + s/3600;
+  }
+
+  coordinate(x: string, d: string, m: string, s: string): number {
+    let c = this.calcCoordinate(parseInt(d), parseInt(m), parseInt(s));
+    if (x == 'W' || x == 'z' || x == 'S' || x == 'j') {
+      c = -1*c;
+    }
+    return c;
+  }
+
+  parseType1(coordinates: string): { e: number, w: number, n: number, s: number } | undefined {
+    const re = "^\\((\\d{1,3})°(\\d{1,2})\´(\\d{1,2})\"\\s([v,z]{1})\.d\.--(\\d{1,3})°(\\d{1,2})\´(\\d{1,2})\"\\s([v,z]{1})\.d\.\/(\\d{1,3})°(\\d{1,2})\´(\\d{1,2})\"\\s([s,j]{1})\.š\.--(\\d{1,3})°(\\d{1,2})\´(\\d{1,2})\"\\s([s,j]{1})\.š\.\\)$";
+    const c = coordinates.match(re);
+    if (c == null) {
+      return undefined;
+    }
+    return {
+      w: this.coordinate(c[4], c[1], c[2], c[3]),
+      e: this.coordinate(c[8], c[5], c[6], c[7]),
+      n: this.coordinate(c[12], c[9], c[10], c[11]),
+      s: this.coordinate(c[16], c[13], c[14], c[15])
+    };
+  }
+
+  parseType2(coordinates: string): { e: number, w: number, n: number, s: number } | undefined {
+    const re = "^\\(([E,W]{1})\\s(\\d{1,3})°(\\d{1,2})'(\\d{1,2})\"--([E,W]{1})\\s(\\d{1,3})°(\\d{1,2})'(\\d{1,2})\"\/([S,N]{1})\\s(\\d{1,3})°(\\d{1,2})'(\\d{1,2})\"--([S,N]{1})\\s(\\d{1,3})°(\\d{1,2})'(\\d{1,2})\"\\)$";
+    const c = coordinates.match(re);
+    if (c == null) {
+      return undefined;
+    }
+    return {
+      w: this.coordinate(c[1], c[2], c[3], c[4]),
+      e: this.coordinate(c[5], c[6], c[7], c[8]),
+      n: this.coordinate(c[9], c[10], c[11], c[12]),
+      s: this.coordinate(c[13], c[14], c[15], c[16])
+    };
+  }
+
+  parseBoundingBox (coordinates: string): { e: number, w: number, n: number, s: number } | undefined {
+    let bb = this.parseType1(coordinates);
+    if (!bb) {
+      bb = this.parseType2(coordinates);
+    }
+    console.log(bb)
+    return bb;
+  }
+
+  displayCoordinates(coordinates: any) {
+    const parsedCoordinates = this.parseBoundingBox(coordinates)
+    if (parsedCoordinates.e === parsedCoordinates.w && parsedCoordinates.n == parsedCoordinates.s) {
+      return parsedCoordinates.n + ', ' + parsedCoordinates.e
+    } else {
+      return parsedCoordinates.n + ', ' + parsedCoordinates.s + ', ' + parsedCoordinates.w + ', ' + parsedCoordinates.e
+    }
+  }
+
 }
