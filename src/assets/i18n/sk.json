@@ -320,6 +320,7 @@
       "extent": "Rozsah",
       "physical_description": "Fyzický popis",
       "cartographic_data": "Kartografické údaje",
+      "display_in_map": "Zobraz v mape",
       "scale": "Mierka",
       "doctype": "Typ dokumentu",
       "category": "Druh dokumentu",                

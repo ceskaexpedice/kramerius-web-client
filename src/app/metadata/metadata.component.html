@@ -336,7 +336,17 @@
       <div class="app-label">{{ 'metadata.cartographic_data' | translate }}</div>
       <div *ngFor="let cd of metadata.cartographicData">
         <div class="app-value" *ngIf="cd.scale">{{ cd.scale }}</div>
-        <div class="app-value" *ngIf="cd.coordinates">{{ cd.coordinates }}</div>
+        <div class="app-value" *ngIf="cd.coordinates">
+          <div *ngIf="displayCoordinates(cd.coordinates).length < 2">
+            {{ displayCoordinates(cd.coordinates) }}
+          </div>
+          <div *ngIf="displayCoordinates(cd.coordinates).length > 1">
+            <div>{{ displayCoordinates(cd.coordinates)[0] }}</div>
+            <div>{{ displayCoordinates(cd.coordinates)[1] }}</div>
+          </div>
+        </div>
+        <!-- <div class="app-value" *ngIf="cd.coordinates">{{ cd.coordinates }}</div> -->
+        <a *ngIf="cd.coordinates" [routerLink]="settings.getRouteFor('search')" [queryParams]="{north: parseBoundingBox(cd.coordinates).n, south: parseBoundingBox(cd.coordinates).s, west: parseBoundingBox(cd.coordinates).w, east: parseBoundingBox(cd.coordinates).e}" (click)="analytics.sendEvent('metadata', 'link', 'location');">{{ 'metadata.display_in_map' | translate }}</a>
       </div>
       <div class="divider"></div>
     </div>

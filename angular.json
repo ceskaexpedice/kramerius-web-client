@@ -21,7 +21,12 @@
             "polyfills": "src/polyfills-ie.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              {
+                "glob": "pdf.worker.min.js",
+                "input": "node_modules/pdfjs-dist/build/",
+                "output": "/assets/pdfjs/"
+            }
             ],
             "styles": [
               "src/styles.scss",

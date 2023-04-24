@@ -320,6 +320,7 @@
     "extent": "Extent",
     "physical_description": "Physical Description",
     "cartographic_data": "Cartographic data",
+    "display_in_map": "View on map",
     "scale": "Scale",
     "doctype": "Document type",    
     "category": "Document kind",

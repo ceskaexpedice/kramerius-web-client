@@ -53,11 +53,12 @@
 <app-book-search [class.app-hidden]="bookService.activeNavigationTab !== 'pages'"></app-book-search>
 
 <div class="app-navigation-header" *ngIf="bookService.getPageCount() > 1" [class.app-hidden]="bookService.activeNavigationTab !== 'pages'">
+  <span>{{ 'metadata.page' | translate }}</span> 
   <label for="page-number" class="app-hidden-label">{{ 'common.set_page_number' | translate }}</label>
   <input id="page-number" class="app-current-page" (keyup)="onKeyUp($event)" type="text" pattern="[0-9]*" value="23" [(ngModel)]="pageIndex" [matTooltip]="'common.set_page_number' | translate" />
   <span>{{ 'common.of' | translate }}</span>
   <span>{{bookService.getPageCount()}}</span>
-  <span>{{ 'common.of_pages' | translate }}</span>
+  <!-- <span>{{ 'common.of_pages' | translate }}</span> -->
 </div>
 
 <div class="app-navigation-pages" id="app-navigation-container" [class.app-is-query]="bookService.getFulltextQuery()" [class.app-hidden]="bookService.activeNavigationTab !== 'pages'">
