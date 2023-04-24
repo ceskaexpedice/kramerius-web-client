@@ -179,9 +179,9 @@ export class MetadataComponent implements OnInit {
   displayCoordinates(coordinates: any) {
     const parsedCoordinates = this.parseBoundingBox(coordinates)
     if (parsedCoordinates.e === parsedCoordinates.w && parsedCoordinates.n == parsedCoordinates.s) {
-      return parsedCoordinates.n + ', ' + parsedCoordinates.e
+      return [parsedCoordinates.n.toFixed(5) + ', ' + parsedCoordinates.e.toFixed(5)]
     } else {
-      return parsedCoordinates.n + ', ' + parsedCoordinates.s + ', ' + parsedCoordinates.w + ', ' + parsedCoordinates.e
+      return [parsedCoordinates.n.toFixed(5) + ', ' + parsedCoordinates.e.toFixed(5), parsedCoordinates.s.toFixed(5) + ', ' + parsedCoordinates.w.toFixed(5)]
     }
   }
 
