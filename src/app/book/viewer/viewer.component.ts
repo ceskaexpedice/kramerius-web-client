@@ -195,12 +195,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
 
     this.view.on('moveend', (e) => {
-      if (this.view.getView().getResolution() < this.initialResolution) {
+      if (this.bookService.zoomLockEnabled || this.view.getView().getResolution() < this.initialResolution) {
         this.dragPanInteraction.setActive(true);
       } else {
         this.dragPanInteraction.setActive(false);
         if (this.initialResolution) {
-          this.fitToScreen();
+          // this.fitToScreen();
+          this.view.updateSize();
+          this.view.getView().fit(this.extent);
         }
       }
     })
@@ -632,8 +634,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   onImageSuccess() {
     this.bookService.onImageSuccess();
     this.imageLoading = false;
-    this.view.getView().fit(this.extent);
     if (this.bookService.zoomLockEnabled && this.resolution) {
+      this.view.getView().fit(this.extent);
+      this.initialResolution = this.view.getView().getResolution();
       this.view.getView().setResolution(1);
       const size = this.view.getSize();
       let c = size[0]/2;
@@ -645,11 +648,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.view.getView().setCenter([c,-size[1]/2]);
       this.view.getView().adjustResolution(this.resolution, [s, 0]);
       // this.initialResolution = null;
-      this.initialResolution = this.view.getView().getResolution();
-
     } else {
+      this.view.getView().fit(this.extent);
       this.initialResolution = this.view.getView().getResolution();
     }
+
     this.updateBoxes();
     this.addWaterMark();
   }
