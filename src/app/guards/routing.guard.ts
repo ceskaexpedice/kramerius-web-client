@@ -15,7 +15,8 @@ export class RoutingGuardService implements CanActivate {
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot): boolean {
           if (this.appSettings.multiKramerius) {
-            const url = '/' + this.appSettings.krameriusList[0].code + state.url;
+            const code = this.appSettings.code || this.appSettings.krameriusList[0].code;
+            const url = '/' + code + state.url;
             this.router.navigateByUrl(url);
             return false;
           } else {
