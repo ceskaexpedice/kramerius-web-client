@@ -7,7 +7,6 @@ app-book-search {
   }
 }
 .app-navigation-tabs {
-  // overflow: hidden;
   border-bottom: 1px solid $app-grey-l-2;
   .app-tab {
     float: left;
@@ -65,8 +64,8 @@ app-book-search {
 
   .app-current-page {
    font-weight: 500;
-    margin: 0;
-    width: 30px;
+    width: 32px;
+    margin: 0 4px;
     text-align: center;
     height: 2rem;
     color: $primary-color;
@@ -144,13 +143,6 @@ app-book-search {
   padding-right: 6px;
   &.app-hidden {
     display: none;
-  }
-  // mq
-  @media #{$small-and-down} {
-    height: calc(#{$app-mobile-panel-height} - 44px - 43px - 20px - 48px);
-    &.app-is-query {
-      height: calc(#{$app-mobile-panel-height} - 44px - 43px - 20px - 53px - 48px);
-    }
   }
 }
 
