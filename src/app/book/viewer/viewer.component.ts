@@ -647,7 +647,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
       this.view.getView().setCenter([c,-size[1]/2]);
       this.view.getView().adjustResolution(this.resolution, [s, 0]);
-      // this.initialResolution = null;
     } else {
       this.view.getView().fit(this.extent);
       this.initialResolution = this.view.getView().getResolution();
