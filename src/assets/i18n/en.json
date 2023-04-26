@@ -689,7 +689,8 @@
     "category:yearbook": "Yearbook",
     "category:magazine": "Magazine",
     "category:addressbook": "Address book",
-    "category:calendar": "Calendar"
+    "category:calendar": "Calendar",
+    "category:archival": "Archives"
   },
   "category_plural": {
     "category:photo": "Photos",
@@ -701,7 +702,8 @@
     "category:yearbook": "Yearbooks",
     "category:magazine": "Magazines",
     "category:addressbook": "Address books",
-    "category:calendar": "Calendars"
+    "category:calendar": "Calendars",
+    "category:archival": "Archives"
   },
   "source": {
     "mzk": "Moravská zemská knihovna",
