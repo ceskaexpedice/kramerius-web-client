@@ -52,13 +52,10 @@
     }
   }
 }
+
 mat-checkbox {
   margin-top: 5px;
   display: block;
-  &.app-hide-filter {
-    display: none;
-    visibility: hidden;
-  }
 }
 
 @media #{$large-and-up} {
@@ -66,10 +63,6 @@ mat-checkbox {
     display: inline-block;
     padding-left: 20px;
     margin-top: 0;
-    &.app-hide-filter {
-      display: inline-block;
-      visibility: hidden;
-    }
   }
 }
 @media #{$large-and-up} {

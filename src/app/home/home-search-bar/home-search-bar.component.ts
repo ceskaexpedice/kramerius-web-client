@@ -114,6 +114,10 @@ export class HomeSearchBarComponent implements OnInit {
     return !!this.appSettings.preselectedLicences;
   }
 
+  anyFilter(): boolean {
+    return this.preselectedLicencesFilterEnabled() || this.accessibilityFilterEnabled();
+  }
+
   private search() {
     const params = { };
     let q = this.searchStr;
