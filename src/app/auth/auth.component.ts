@@ -21,7 +21,7 @@ export class AuthComponent implements OnInit {
       console.log('sessionState', sessionState);
       console.log('code', code);
       console.log('target', target);
-      this.auth.keycloakAuth(code, () => {
+      this.auth.getToken(code, () => {
         this.router.navigateByUrl(target);
       });
     });

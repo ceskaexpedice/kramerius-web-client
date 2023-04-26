@@ -68,12 +68,12 @@ export class AuthService {
     }
 
     login() {
-        const redirectUri = `${this.baseUrl()}${this.settings.getRouteFor('keycloak')}`;
-        const url = `${this.settings.keycloak.baseUrl}/realms/${this.settings.keycloak.realm || 'kramerius'}/protocol/openid-connect/auth?client_id=${this.settings.keycloak.clientId}&redirect_uri=${redirectUri}&response_type=code`;
+        const redirectUrl = `${this.baseUrl()}${this.settings.getRouteFor('keycloak')}`;
+        const url = this.api.getK7LoginUrl(redirectUrl);
         window.open(url, '_top');
     }
 
-    keycloakAuth(code: string, callback: (status: string) => void = null) {
+    getToken(code: string, callback: (status: string) => void = null) {
         const redirectUri = `${this.baseUrl()}${this.settings.getRouteFor('keycloak')}`;
         this.api.getToken(code, redirectUri).subscribe(
             (token: string) => {
@@ -87,7 +87,10 @@ export class AuthService {
             },
             (error) => {
                 console.log('error', error);
-                this.keycloakLogout(this.user.tokenId, this.baseUrl());
+                // this.keycloakLogout(this.user.tokenId, this.baseUrl());
+                const redirectUrl = this.baseUrl();
+                const url = this.api.getK7LogoutUrl(redirectUrl);
+                window.open(url, '_top');
             }
         );
     }
@@ -97,14 +100,19 @@ export class AuthService {
             return;
         }
         if (this.settings.keycloak) {
-            const tokenId = this.user.tokenId;
+            // const tokenId = this.user.tokenId;
+            this.cache.clear();
             this.settings.removeToken();
-            this.api.logout().subscribe(user => {
-                this.cache.clear();
-                this.userInfo(null, null, () => {    
-                    this.keycloakLogout(tokenId, location.href);
-                });
-            });
+            const redirectUrl = location.href;
+            const url = this.api.getK7LogoutUrl(redirectUrl);
+            window.open(url, '_top');
+
+            // this.api.logout().subscribe(user => {
+            //     this.cache.clear();
+            //     this.userInfo(null, null, () => {    
+            //         this.keycloakLogout(tokenId, location.href);
+            //     });
+            // });
         } else {
             this.api.logout().subscribe(user => {
                 this.cache.clear();
@@ -113,18 +121,18 @@ export class AuthService {
         }
     }
 
-    keycloakLogout(tokenId: string, redirectUrl: string) {
-        let url = `${this.settings.keycloak.baseUrl}/realms/${this.settings.keycloak.realm || 'kramerius'}/protocol/openid-connect/logout`
-        if (this.settings.keycloak.automatic_redirect) {
-            url += `?post_logout_redirect_uri=${encodeURIComponent(redirectUrl)}`
-            if (tokenId) {
-                url += `&id_token_hint=${tokenId}`;
-            }
-        } else {
-            url += `?redirect_uri=${encodeURIComponent(redirectUrl)}`;
-        }
-        window.open(url, '_top');
-    }
+    // keycloakLogout(tokenId: string, redirectUrl: string) {
+    //     let url = `${this.settings.keycloak.baseUrl}/realms/${this.settings.keycloak.realm || 'kramerius'}/protocol/openid-connect/logout`
+    //     if (this.settings.keycloak.automatic_redirect) {
+    //         url += `?post_logout_redirect_uri=${encodeURIComponent(redirectUrl)}`
+    //         if (tokenId) {
+    //             url += `&id_token_hint=${tokenId}`;
+    //         }
+    //     } else {
+    //         url += `?redirect_uri=${encodeURIComponent(redirectUrl)}`;
+    //     }
+    //     window.open(url, '_top');
+    // }
 
 
 

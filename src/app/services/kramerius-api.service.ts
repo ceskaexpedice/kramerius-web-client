@@ -313,19 +313,20 @@ export class KrameriusApiService {
     auth(username: string, password: string): Observable<string> {
         const url = this.getK7AuthUrl();
         const body = `username=${username}&password=${password}`;
-        return this.http.post(url, body)
-            .pipe(map(response => response['access_token']));
+        return this.http.post(url, body).pipe(map(response => response['access_token']));
     }
 
     getToken(code: string, redirectUri: string): Observable<string> {
-        const url = `${this.settings.keycloak.baseUrl}/realms/${this.settings.keycloak.realm || 'kramerius'}/protocol/openid-connect/token`;
-        const body = `grant_type=authorization_code&code=${code}&client_id=${this.settings.keycloak.clientId}&client_secret=${this.settings.keycloak.secret}&redirect_uri=${redirectUri}`; 
-        const options = {
-            headers: new HttpHeaders({
-              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            })
-        };
-        return this.http.post(url, body, options).pipe(map(response => response['access_token']));
+        const url =  `${this.getApiUrl()}/user/auth/token?code=${code}&redirect_uri=${redirectUri}`;
+        return this.http.get(url).pipe(map(response => response['access_token']));
+    }
+
+    getK7LoginUrl(redirectUrl: string): string {
+        return `${this.getApiUrl()}/user/auth/login?redirect_uri=${redirectUrl}`;
+    }
+
+    getK7LogoutUrl(redirectUrl: string): string {
+        return `${this.getApiUrl()}/user/auth/logout?redirect_uri=${redirectUrl}`;
     }
 
     logout() {
