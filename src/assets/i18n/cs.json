@@ -692,7 +692,8 @@
     "category:yearbook": "Ročenka",
     "category:magazine": "Časopis",
     "category:addressbook": "Adresář",
-    "category:calendar": "Kalendář"
+    "category:calendar": "Kalendář",
+    "category:archival": "Archiválie"
   },
   "category_plural": {
     "category:photo": "Fotografie",
@@ -704,7 +705,8 @@
     "category:yearbook": "Ročenky",
     "category:magazine": "Časopisy",
     "category:addressbook": "Adresáře",
-    "category:calendar": "Kalendáře"
+    "category:calendar": "Kalendáře",
+    "category:archival": "Archiválie"
   },
   "source": {
     "mzk": "Moravská zemská knihovna",
