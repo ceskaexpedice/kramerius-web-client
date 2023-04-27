@@ -843,7 +843,7 @@ export class SolrService {
             value = query.value;
             let fields = '';
             if (query.field == 'all') {
-                fields = ['title', 'author', 'keyword', 'geoname', 'signature', 'issn', 'fulltext'].map(f => this.getSolrCustomField(f, true)).join(' ');
+                fields = ['title', 'author', 'keyword', 'geoname', 'signature', 'issn', 'isbn', 'fulltext'].map(f => this.getSolrCustomField(f, true)).join(' ');
             } else {
                 fields = this.getSolrCustomField(query.field);
             }

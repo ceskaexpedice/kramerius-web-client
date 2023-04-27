@@ -15,7 +15,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
   fieldValue = '';
 
   fields = [
-    'all', 'title', 'author', 'keyword', 'geoname', 'issn', 'isbn'
+    'all', 'title', 'author', 'keyword', 'geoname', 'signature', 'issn', 'isbn'
   ];
 
   constructor(
