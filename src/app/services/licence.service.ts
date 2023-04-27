@@ -10,7 +10,9 @@ export class LicenceService {
   licences: any;
 
   constructor(private translate: TranslateService, private settings: AppSettings) {
-    this.userLicences = ['_public'];
+    if (!this.settings.ignorePolicyFlag) {
+      this.userLicences = ['_public'];
+    }
     this.assignLicences(this.settings.licences);
     this.settings.kramerius$.subscribe(() =>  {
       this.assignLicences(this.settings.licences);
@@ -19,17 +21,23 @@ export class LicenceService {
 
   assignLicences(licences: any) {
       this.licences = licences || {};
-      this.licences['_public'] = {
-        access: 'open',
-        label: {
-          cs: 'Dokument je veřejně dostupný',
-          en: 'The document is publicly accessible'
+      if (!this.settings.ignorePolicyFlag) {
+        this.licences['_public'] = {
+          access: 'open',
+          label: {
+            cs: 'Dokument je veřejně dostupný',
+            en: 'The document is publicly accessible'
+          }
         }
       }
   }
 
   assignUserLicences(licences: string[]) {
-    this.userLicences = this.availableLicences(['_public'].concat(licences || []));
+    if (this.settings.ignorePolicyFlag) {
+      this.userLicences = this.availableLicences(licences || []);
+    } else {
+      this.userLicences = this.availableLicences(['_public'].concat(licences || []));
+    }
   }
 
   // 0 --- undefined
@@ -189,12 +197,16 @@ export class LicenceService {
 
   buildLock(licences: string[]): any {
     if (!this.anyAvailableLicence(licences)) {
-      return {
-        icon: 'lock',
-        class: 'app-lock-licence-locked',
-        access: 'inaccessible',
-        tooltip: this.label('_private')
-      };
+      if (this.settings.ignorePolicyFlag) {
+        return null;
+      } else {
+        return {
+          icon: 'lock',
+          class: 'app-lock-licence-locked',
+          access: 'inaccessible',
+          tooltip: this.label('_private')
+        };
+      }
     } 
     const licence = this.appliedLicence(licences)
     if (licence) {

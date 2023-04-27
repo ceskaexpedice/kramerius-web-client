@@ -26,6 +26,7 @@ export class AppSettings {
   public iiifEnabled: boolean;
   public k3: string;
   public customRightMessage: boolean;
+  public ignorePolicyFlag: boolean;
   public originLink: boolean;
   public mapSearch: boolean;
   public mapSearchType: string;
@@ -142,6 +143,7 @@ export class AppSettings {
     this.k3 = kramerius.k3;
     this.originLink = kramerius.originLink;
     this.customRightMessage = kramerius.customRightMessage;
+    this.ignorePolicyFlag = !!kramerius.ignorePolicyFlag;
     this.mapSearch = !!kramerius.mapSearch;
     this.mapSearchType = kramerius.mapSearchType || 'maps';
     this.mapSearchTypeDefault = kramerius.mapSearchTypeDefault || (this.mapSearchType == 'markers' ? 'markers' : 'maps');
@@ -281,6 +283,7 @@ interface KrameriusData {
   licences: any;
   originLink: boolean;
   customRightMessage: boolean;
+  ignorePolicyFlag: boolean;
   mapSearch: boolean;
   mapSearchType: string;
   mapSearchTypeDefault: string;

@@ -682,15 +682,6 @@ export class SearchService {
         return this.licenceService.licencesByType('login').length > 0;
     }
 
-    // anyTerminalLicense(): boolean {
-    //     for (const l of this.licenceService.licencesByType('terminal')) {
-    //         if (l != '_private') {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
     accessArray(): any[] {
         let aArray = [];
         for (const a of ['open', 'login', 'terminal']) {
