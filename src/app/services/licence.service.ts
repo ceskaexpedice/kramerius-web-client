@@ -15,6 +15,11 @@ export class LicenceService {
     }
     this.assignLicences(this.settings.licences);
     this.settings.kramerius$.subscribe(() =>  {
+      if (!this.settings.ignorePolicyFlag) {
+        this.userLicences = ['_public'];
+      } else {
+        this.userLicences = [];
+      }
       this.assignLicences(this.settings.licences);
     });
   }
