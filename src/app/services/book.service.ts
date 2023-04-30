@@ -557,6 +557,9 @@ export class BookService {
         } else {
             this.activeNavigationTab = 'pages';
             if (this.fulltextQuery) {
+                if (this.viewer == 'none') {
+                    this.viewer = 'image';
+                }
                 this.fulltextChanged(this.fulltextQuery, params.pageUuid);
             } else {
                 this.goToPageOnIndex(pageIndex, true);
