@@ -187,6 +187,15 @@
       "accessible": "Vsa dostopna dela",
       "all": "Vse"
     },
+    "access": {
+      "label": "Dostopnost",
+      "open": "Javno dostopno",
+      "login": "After login",
+      "terminal": "In library",
+      "inaccessible": "Zasebno",
+      "accessible": "Vsa dostopna dela",
+      "all": "Vse"
+    },
     "year-range": {
       "label": "Leto izida",
       "from": "Od",
