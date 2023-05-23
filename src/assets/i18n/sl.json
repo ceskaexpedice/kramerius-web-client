@@ -2,7 +2,7 @@
   "common": {
     "of": "od",
     "cancel": "prekliči",
-    "close": "zapri",    
+    "close": "Zapri",    
     "warning": "opozorilo",
     "of_pages": "strani",
     "n_pages": {
@@ -21,7 +21,7 @@
     "num_of_docs": {
       "one": "dokument",
       "few": "dokumenti",
-      "many": "dokumenti"
+      "many": "dokumentov"
     }
   },
   "lang": {
@@ -173,7 +173,7 @@
     "authors": "Avtor",
     "inaccessible_document": "Delo ni javno dostopno",
     "ordering": {
-      "label": "Naročanje",
+      "label": "Razvrščanje",
       "relevance": "Pomembnost",
       "alphabetical": "Abecedno",
       "newest": "Nedavno dodano",
@@ -190,7 +190,7 @@
     "year-range": {
       "label": "Leto izida",
       "from": "Od",
-      "to": "Za",
+      "to": "Do",
       "apply": "Poišči"
     }
   },
@@ -219,13 +219,13 @@
   "browse": {
     "category": {
       "label": "Brskaj",
-      "doctypes": "Tip dokumentov",
+      "doctypes": "Tip dokumenta",
       "categories": "Kategorija dokumentov",
-      "authors": "Avtorji",
+      "authors": "Avtor",
       "publishers": "Založniki",
       "places": "Mesto založbe",
       "collections": "Zbirke",
-      "keywords": "Ključne besede",
+      "keywords": "Ključna beseda",
       "languages": "Jeziki",
       "licences": "Licence",
       "genres": "Žanr",
@@ -247,7 +247,7 @@
       "geonames": "Poišči zemljepisno mesto"
     },
     "ordering": {
-      "label": "Naročanje",      
+      "label": "Razvrščanje",      
       "occurrence": "Pojavnost",
       "alphabetical": "Abecedno"
     },
@@ -368,7 +368,7 @@
     "tooltip_zoom_in": "Povečaj",
     "tooltip_zoom_out": "Zmanjšaj",
     "tooltip_rotate_right": "Zasukaj na desno",
-    "tooltip_fit_to_screen": "Prilagodi ekratnu",
+    "tooltip_fit_to_screen": "Prilagodi ekranu",
     "tooltip_enter_fullscreen": "Celozaslonski način",
     "tooltip_exit_fullscreen": "Izhod iz celozaslonskega načina",
     "tooltip_doublepage_on": "Dvostranski pogled",
@@ -376,9 +376,9 @@
     "tooltip_page_left": "Pojdi na prejšnjo stran",
     "tooltip_page_right": "Pojdi na naslednjo stran",
     "tooltip_hide_left": "Skrij sličice",
-    "tooltip_show_left": "Pokaži sličice",
-    "tooltip_hide_right": "Skrij detajle",
-    "tooltip_show_right": "Pokaži detajle",
+    "tooltip_show_left": "Pokaži meni",
+    "tooltip_hide_right": "Skrij podrobnosti",
+    "tooltip_show_right": "Pokaži podrobnosti",
     "tooltip_select_text": "Izberi besedilo",
     "tooltip_crop_image": "Obreži sliko",
     "tooltip_zoom_lock_on": "Zakleni povečavo",
@@ -386,7 +386,7 @@
   },
   "book_controls": {
     "tooltip_print": "Priprava na tisk",
-    "tooltip_pdf": "Naloži PDF",
+    "tooltip_pdf": "Prenesi PDF",
     "tooltip_jpg": "JPEG strani",
     "tooltip_ocr": "Transkripcija besedila strani",
     "tooltip_quote": "Pokaži citat",
