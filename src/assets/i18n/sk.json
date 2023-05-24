@@ -411,7 +411,8 @@
       "tooltip_zoom_lock_off": "Odomknúť úroveň priblížení",
       "tooltip_showgeoreferenced": "Zobraziť na mape",
       "tooltip_hidegeoreferenced": "Zobraziť ako stránku",
-      "tooltip_opacity": "Priehľadnosť"
+      "tooltip_opacity": "Priehľadnosť",
+      "tooltip_cutline": "Zobraziť/skryť okraje"
     },
     "book_controls": {
       "tooltip_print": "Príprava na tlač",

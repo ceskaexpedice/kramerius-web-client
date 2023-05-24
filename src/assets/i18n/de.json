@@ -411,7 +411,8 @@
       "tooltip_zoom_lock_off": "Unlock zoom level",
       "tooltip_showgeoreferenced": "Show on map",
       "tooltip_hidegeoreferenced": "Show as page",
-      "tooltip_opacity": "Opacity"
+      "tooltip_opacity": "Opacity",
+      "tooltip_cutline": "Show/hide edges"
     },
     "book_controls": {
       "tooltip_print": "Drucken",
