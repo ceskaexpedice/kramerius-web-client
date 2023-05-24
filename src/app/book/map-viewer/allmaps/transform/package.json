@@ -1,0 +1,76 @@
+{
+  "_args": [
+    [
+      "@allmaps/transform@1.0.0-alpha.3",
+      "C:\\Users\\alberto\\Projects\\TransformaceMap\\georeferencovani-k7\\geoK7"
+    ]
+  ],
+  "_from": "@allmaps/transform@1.0.0-alpha.3",
+  "_id": "@allmaps/transform@1.0.0-alpha.3",
+  "_inBundle": false,
+  "_integrity": "sha512-60Gv2i1pkllpb4wLR8i1vVkUxX6Wk8eyIzaMTnWokHhoiHEjC9YUUrgsJ1CF4Px7Vi2wLa1CLYyosZHjkm6F5A==",
+  "_location": "/@allmaps/transform",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@allmaps/transform@1.0.0-alpha.3",
+    "name": "@allmaps/transform",
+    "escapedName": "@allmaps%2ftransform",
+    "scope": "@allmaps",
+    "rawSpec": "1.0.0-alpha.3",
+    "saveSpec": null,
+    "fetchSpec": "1.0.0-alpha.3"
+  },
+  "_requiredBy": [
+    "/",
+    "/@allmaps/layers"
+  ],
+  "_resolved": "https://registry.npmjs.org/@allmaps/transform/-/transform-1.0.0-alpha.3.tgz",
+  "_spec": "1.0.0-alpha.3",
+  "_where": "C:\\Users\\alberto\\Projects\\TransformaceMap\\georeferencovani-k7\\geoK7",
+  "author": {
+    "name": "Bert Spaan",
+    "email": "hello@bertspaan.nl",
+    "url": "https://bertspaan.nl"
+  },
+  "bugs": {
+    "url": "https://github.com/allmaps/transform/issues"
+  },
+  "dependencies": {},
+  "description": "Coordinate transformation functions, based on gdaltransform",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@rollup/plugin-babel": "^5.2.2",
+    "@rollup/plugin-node-resolve": "^11.1.0",
+    "rollup": "^2.38.0",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://allmaps.org",
+  "jsdelivr": "dist/transform.min.js",
+  "keywords": [
+    "georeference",
+    "map"
+  ],
+  "license": "GPL-3.0-or-later",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "name": "@allmaps/transform",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allmaps/transform.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  },
+  "unpkg": "dist/transform.min.js",
+  "version": "1.0.0-alpha.3"
+}

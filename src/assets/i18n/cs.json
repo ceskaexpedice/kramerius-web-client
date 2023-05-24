@@ -410,7 +410,11 @@
     "tooltip_select_text": "Vybrat text",
     "tooltip_crop_image": "Výřez obrázků",
     "tooltip_zoom_lock_on": "Uzamknout úroveň přiblížení",
-    "tooltip_zoom_lock_off": "Odemknout úroveň přiblížení"
+    "tooltip_zoom_lock_off": "Odemknout úroveň přiblížení",
+    "tooltip_showgeoreferenced": "Zobrazit na mapě",
+    "tooltip_hidegeoreferenced": "Zobrazit jako stránku",
+    "tooltip_opacity": "Průhlednost",
+    "tooltip_cutline": "Zobrazit/skrýt okraje"
   },
   "book_controls": {
     "tooltip_print": "Příprava k tisku",

@@ -8,7 +8,8 @@
   </app-navigation>
   
   <app-epub-viewer *ngIf="bookService.viewer === 'epub'"></app-epub-viewer>
-  <app-viewer *ngIf="bookService.viewer === 'image'"></app-viewer>
+  <app-viewer *ngIf="bookService.viewer === 'image' && !bookService.showGeoreference"></app-viewer>
+  <app-map-viewer *ngIf="bookService.showGeoreference" [uuid]="bookService.geoUuid" [data]="bookService.geoData"></app-map-viewer>
   <app-pdf-viewer2 *ngIf="bookService.viewer === 'pdf'"></app-pdf-viewer2>
 
   <app-metadata *ngIf="!bookService.isDocLoading()"

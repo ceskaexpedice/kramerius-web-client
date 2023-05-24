@@ -1,8 +1,0 @@
-{
-    "/search/*": {
-      "target": "https://dnnt.mzk.cz",
-      "secure": false,
-      "logLevel": "debug",
-      "changeOrigin": true
-    }
-  }

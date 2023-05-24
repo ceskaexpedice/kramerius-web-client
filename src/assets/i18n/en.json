@@ -407,7 +407,10 @@
     "tooltip_select_text": "Select text",
     "tooltip_crop_image": "Crop image",
     "tooltip_zoom_lock_on": "Lock zoom level",
-    "tooltip_zoom_lock_off": "Unlock zoom level"
+    "tooltip_zoom_lock_off": "Unlock zoom level",
+    "tooltip_showgeoreferenced": "Show on map",
+    "tooltip_hidegeoreferenced": "Show as page",
+    "tooltip_opacity": "Opacity"
   },
   "book_controls": {
     "tooltip_print": "Prepare to print",

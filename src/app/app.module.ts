@@ -157,6 +157,8 @@ import { SearchHelpDialogComponent } from './dialog/search-help-dialog/search-he
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MapSeriesService } from './services/mapseries.service';
 
+import { MapViewerComponent } from './book/map-viewer/map-viewer.component';
+import { GeoreferenceService } from './services/georeference.service';
 
 declare var APP_GLOBAL: any;
 
@@ -275,7 +277,8 @@ export function appInitializerFactory(translate: TranslateService) {
     CookiebarComponent,
     AuthComponent,
     AdvancedSearchDialogComponent,
-    SearchHelpDialogComponent
+    SearchHelpDialogComponent,
+    MapViewerComponent
   ],
   imports: [
     BrowserModule,
@@ -343,6 +346,7 @@ export function appInitializerFactory(translate: TranslateService) {
     PdfService,
     EpubService,
     MapSeriesService,
+    GeoreferenceService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,
