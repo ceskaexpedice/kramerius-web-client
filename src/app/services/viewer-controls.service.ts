@@ -24,6 +24,8 @@ export class ViewerControlsService {
     public fullscreenAvailable = false;
     public leftPanelVisible = true;
     public rightPanelVisible = true;
+    
+    public geoLayerOpacity: number = .8;
 
     constructor() {
         this.fullscreenAvailable = document.fullscreenEnabled
@@ -80,6 +82,14 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.cropImage);
     }
 
+    hideWarpedLayer() {
+        this.listners.next(ViewerActions.hideWarpedLayer);
+    }
+
+    setWarpedLayerOpacity() {
+        this.listners.next(ViewerActions.setWarpedLayerOpacity);
+    }
+
     doublePageOff() {
         this.listners.next(ViewerActions.doublePageOff);
     }
@@ -92,8 +102,8 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.toggleLock);
     }
 
-    enterFullscreen() {
-        const el = document.getElementById('app-viewer');
+    enterFullscreen(elname: string) {
+        const el = document.getElementById(elname);
         // go full-screen
         if (el.requestFullscreen) {
             el.requestFullscreen();
@@ -178,5 +188,7 @@ export enum ViewerActions {
     updateSite = 8,
     doublePageOn = 9,
     doublePageOff = 10,
-    toggleLock = 11
+    toggleLock = 11,
+    hideWarpedLayer = 12,
+    setWarpedLayerOpacity = 13
 }

@@ -408,7 +408,10 @@
       "tooltip_select_text": "Text ausschneiden",
       "tooltip_crop_image": "Bilder ausschneiden",
       "tooltip_zoom_lock_on": "Lock zoom level",
-      "tooltip_zoom_lock_off": "Unlock zoom level"
+      "tooltip_zoom_lock_off": "Unlock zoom level",
+      "tooltip_showgeoreferenced": "Show on map",
+      "tooltip_hidegeoreferenced": "Show as page",
+      "tooltip_opacity": "Opacity"
     },
     "book_controls": {
       "tooltip_print": "Drucken",
@@ -713,7 +716,8 @@
       "knav": "Knihovna Akademie věd ČR",
       "uzei": "Knihovna Antonína Švehly",
       "svkul": "Ústí Regional Library",
-      "kkp": "Krajská knihovna v Pardubicích"
+      "kkp": "Krajská knihovna v Pardubicích",
+      "nfa": "Knihovna Národního filmového archivu"
     },
     "sigla": {
       "BOA001" : "Moravská zemská knihovna v Brně",

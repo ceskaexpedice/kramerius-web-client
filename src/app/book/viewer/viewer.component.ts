@@ -386,7 +386,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   buildWatermarkLayer(config: any, userId: string) {
-    let style = null;
+    let style: any = null;
     if (config.type == "image") {
       style = () => {
         var zoom = this.view.getView().getResolution();

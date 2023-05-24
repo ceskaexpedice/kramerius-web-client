@@ -25,26 +25,38 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   onCropImageClicked() {
-    if (this.bookService.cropEnabled()) {
+    if (this.bookService.cropEnabled() || this.bookService.showGeoreference) {
       this.controlsService.cropImage();
       this.analytics.sendEvent('viewer', 'controls', 'crop image');
     }
   }
 
+  showPrevNextPage(): boolean {
+    return true;
+  }
+
   showLock(): boolean {
-    return this.bookService.isImage() && !this.bookService.zoomLockEnabled;
+    return !this.bookService.showGeoreference && this.bookService.isImage() && !this.bookService.zoomLockEnabled;
   }
 
   showUnlock(): boolean {
-    return this.bookService.isImage() && this.bookService.zoomLockEnabled;
+    return !this.bookService.showGeoreference && this.bookService.isImage() && this.bookService.zoomLockEnabled;
+  }
+  
+  hideWarpedLayer() {
+    this.controlsService.hideWarpedLayer();
+  }
+
+  onChangeOpacity(e) {
+    this.controlsService.setWarpedLayerOpacity();
   }
 
   showDoublePageOff(): boolean {
-    return this.bookService.doublePageSupported() && this.bookService.doublePageEnabled;
+    return !this.bookService.showGeoreference && this.bookService.doublePageSupported() && this.bookService.doublePageEnabled;
   }
 
   showDoublePageOn(): boolean {
-    return this.bookService.doublePageSupported() && !this.bookService.doublePageEnabled;
+    return !this.bookService.showGeoreference && this.bookService.doublePageSupported() && !this.bookService.doublePageEnabled;
   }
 
   selectTextEnabled(): boolean {
@@ -52,7 +64,7 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   showSelectText(): boolean {
-    return this.bookService.viewer === 'image' && this.bookService.isActionAvailable('selection');
+    return !this.bookService.showGeoreference && this.bookService.viewer === 'image' && this.bookService.isActionAvailable('selection');
   }
 
   imageCropEnabled(): boolean {
@@ -72,7 +84,7 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   showRotation(): boolean {
-    return !this.bookService.isEpub();
+    return !this.bookService.showGeoreference && !this.bookService.isEpub();
   }
 
   hasNext(): boolean {
@@ -119,6 +131,14 @@ export class ViewerControlsComponent implements OnInit {
     } else {
       return this.bookService.goToNext();
     }
+  }
+
+  showGeoMap() {
+    this.bookService.showGeoreference = true;
+  }
+
+  hideGeoMap() {
+    this.bookService.showGeoreference = false;
   }
   
 }
