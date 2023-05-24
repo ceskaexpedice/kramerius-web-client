@@ -28,7 +28,8 @@
       "cs": "Čeština",
       "en": "English",
       "de": "Deutsch",
-      "sk": "Slovenčina"
+      "sk": "Slovenčina",
+      "sl": "Slovenščina"
     },
     "share": {
       "available_from": "Erhältlich auch bei"
@@ -1228,6 +1229,7 @@
       "slk" : "Slowakisch",
       "slo" : "Slowakisch",
       "slv" : "Slowenisch",
+      "sl"  : "Slowenisch",
       "sma" : "Südsaamisch",
       "sme" : "Nordsaamisch",
       "smi" : "Saamisch",

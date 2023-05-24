@@ -28,7 +28,8 @@
     "cs": "Čeština",
     "en": "English",
     "de": "Deutsch",
-    "sk": "Slovenčina"
+    "sk": "Slovenčina",
+    "sl": "Slovenščina"
   },
   "share": {
     "available_from": "Dostupné také z"
@@ -994,6 +995,7 @@
     "slo" : "slovenština",
     "slk" : "slovenština",
     "slv" : "slovinština",
+    "sl"  : "slovinština",
     "smo" : "samojština",
     "sna" : "šonština",
     "som" : "somálština",
