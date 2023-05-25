@@ -48,7 +48,7 @@
       margin: 0 auto;
       white-space: nowrap;
       .app-tab {
-        width: 33.33333333%; 
+        width: 100%; 
         display: inline-block;
         text-align: center;
         line-height: 48px;
@@ -65,6 +65,16 @@
         }
         &:hover:not(.app-active) {
           color: $primary-color-light;
+        }
+      }
+      &.app-tabs-3 {
+        .app-tab {
+          width: 33.33333333%; 
+        }
+      }
+      &.app-tabs-2 {
+        .app-tab {
+          width: 50%; 
         }
       }
     }

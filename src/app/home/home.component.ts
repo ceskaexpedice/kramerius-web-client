@@ -16,7 +16,7 @@ import { AnalyticsService } from '../services/analytics.service';
 export class HomeComponent implements OnInit {
 
   newest: DocumentItem[];
-  recommended: DocumentItem[];
+  recommended: DocumentItem[] = [];
   visited: DocumentItem[];
   selectedTab = 'none';
   step = 6;
@@ -52,9 +52,24 @@ export class HomeComponent implements OnInit {
   }
 
   private reloadData() {
+    this.selectedTab = this.localStorageService.getProperty(LocalStorageService.FEATURED_TAB);
+    if (['visited', 'newest', 'recommended'].indexOf(this.selectedTab) < 0) {
+      this.selectedTab = 'newest';
+    }
     this.getVisited();
     this.getNewest();
     this.getRecommended();
+  }
+
+  numberOfTabs(): number {
+    let count = 1;
+    if (this.visited.length > 0) {
+      count++;
+    }
+    if (this.recommended.length > 0) {  
+      count++;
+    }
+    return count;
   }
 
   getActiveItems(): DocumentItem[] {
@@ -112,22 +127,28 @@ export class HomeComponent implements OnInit {
   getRecommended() {
     if (this.settings.k5Compat()) {
       this.api.getRecommended().subscribe(response => {
-        this.recommended = response; // .slice(0, 6);
+        this.recommended = response;
+        if (this.selectedTab === 'recommended' && this.recommended.length === 0) {
+          this.selectedTab = 'newest';
+        }
+      }, error => {
+        this.recommended = [];
+        if (this.selectedTab === 'recommended') {
+          this.selectedTab = 'newest';
+        }
       });
     } else {
       this.recommended = [];
+      if (this.selectedTab === 'recommended') {
+        this.selectedTab = 'newest';
+      } 
     }
   }
 
   getVisited() {
     this.visited = this.localStorageService.getVisited();
-    this.selectedTab = this.localStorageService.getProperty(LocalStorageService.FEATURED_TAB);
-    if (this.selectedTab !== 'visited' && this.selectedTab !== 'newest' && this.selectedTab !== 'recommended') {
-      // if (this.visited.length >= 3) {
-      //   this.selectedTab = 'visited';
-      // } else {
-        this.selectedTab = 'newest';
-      // }
+    if (this.selectedTab === 'visited' && this.visited.length === 0) {
+      this.selectedTab = 'newest';
     }
   }
 
