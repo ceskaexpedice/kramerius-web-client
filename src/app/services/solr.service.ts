@@ -1435,7 +1435,7 @@ export class SolrService {
             item.authors = doc[this.field('authors')];
             item.sources = doc[this.field('cdk_sources')];
             this.assignLicences(item, doc);
-            item.geonames = doc[this.field('geonames_facet')];
+            item.geonames = doc[this.field('geonames_facet')] || []; 
             if (this.settings.k5Compat()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
             } else {
@@ -1976,7 +1976,7 @@ export class SolrService {
             item.sources = doc[this.field('cdk_sources')];
             this.assignLicences(item, doc);
             item.description = doc[this.field('collection_description')];
-            item.geonames = doc[this.field('geonames_facet')];
+            item.geonames = doc[this.field('geonames_facet')] || [];
             if (this.settings.k5Compat()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
             } else {
