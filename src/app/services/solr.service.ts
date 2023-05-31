@@ -864,7 +864,7 @@ export class SolrService {
             }
             q += `_query_:"{!edismax qf=\'${fields}\' v=$q1}\"`;
         } else if (qString) {
-            q += `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('authors_search')}^2 ${this.field('keywords_search')} ${this.field('text_ocr')}^0.1 ${this.field('shelf_locator')}\' bq=\'(${this.field('level')}:0)^200\'`;
+            q += `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('authors_search')}^2 ${this.field('keywords_search')} ${this.field('text_ocr')}^0.1 ${this.field('isbn')} ${this.field('shelf_locator')}\' bq=\'(${this.field('level')}:0)^200\'`;
             if (!this.settings.ignorePolicyFlag) {
                 q += ` bq=\'(${this.field('accessibility')}:public)^2\'`;
             }
