@@ -54,14 +54,13 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "@allmaps/iiif-parser": "^1.0.0-alpha.14",
+    "@allmaps/layers": "^1.0.0-alpha.12",
+    "@allmaps/transform": "^1.0.0-alpha.5",
     "@angular-devkit/build-angular": "^12.2.16",
     "@angular/cli": "^12.2.18",
     "@angular/compiler-cli": "12.2.15",
     "@angular/language-service": "12.2.15",
-    "@allmaps/iiif-parser": "^1.0.0-alpha.14",
-    "@allmaps/layers": "^1.0.0-alpha.12",
-    "@allmaps/transform": "^1.0.0-alpha.5",
-    "@types/google.analytics": "0.0.36",
     "@types/google.maps": "^3.43.3",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "^2.0.10",

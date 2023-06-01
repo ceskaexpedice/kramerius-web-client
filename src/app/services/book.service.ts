@@ -1128,6 +1128,8 @@ export class BookService {
                 this.subjectPages.next([page, rightPage]);
             }
         }
+        console.log('----analytics', 'page');
+        this.analytics.sendEvent('page', this.metadata.getShortTitleWithUnit(), pages);
     }
 
 
