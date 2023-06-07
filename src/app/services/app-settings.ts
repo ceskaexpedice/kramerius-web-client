@@ -72,7 +72,7 @@ export class AppSettings {
   public navbarLogoOnHome = !!APP_GLOBAL.navbarLogoOnHome;
 
 
-  public languages: string[] = APP_GLOBAL.languages || ['cs', 'en', 'de', 'sk', 'sl'];
+  public languages: string[] = APP_GLOBAL.languages || ['cs', 'en', 'de', 'sk'];
 
   public citationServiceUrl = APP_GLOBAL.citationServiceUrl || "https://citace.kramerius.cloud";
 
