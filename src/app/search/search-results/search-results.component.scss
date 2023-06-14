@@ -1,77 +1,84 @@
 @import './src/variables.scss';
-
-.app-search-results {
-  display: block;
-  height: calc(100% - #{$app-toolbar-height});
-  overflow: auto;
-  padding: 0.5rem;
-  background-color: $app-grey-l-4;
-  position: relative;
-  app-document-card {
-    float: left;
-    width:16.66666%;
-    @media (max-width: 2300px) {
-      width:20%;
+.app-search-results-wrapper {
+    display: flex;
+    height: calc(100% - #{$app-toolbar-height});
+    width: 100%;
+    // overflow: auto;
+    .app-metadata {
+        width: 300px;
     }
-    @media (max-width: 1900px) {
-      width:25%;
-    }
-    @media (max-width: 1500px) {
-      width:33.33333%;
-    }
-    @media (max-width: 1260px) {
-      width:50%;
-    }
-    @media (max-width: 900px) {
-      width:100%;
-    }
-  }
-  app-paginator {
-    display: block;
-    clear: both;
-    padding-top: 1px;
-  }
-
-  .app-collection-navigation {
-    // height: 40px;
-    overflow: hidden;
-    margin-left: 8px;
-    .app-collection-navigation-item {
-      float: left;
-      color: #555;
-      span {
-        margin: 0 6px;
+    .app-search-results {
+        width: calc(100% - 300px);
+        display: block;
+        padding: 0.5rem;
+        background-color: $app-grey-l-4;
+        position: relative;
+        overflow: auto;
+        app-document-card {
+          float: left;
+          width:16.66666%;
+          @media (max-width: 2300px) {
+            width:20%;
+          }
+          @media (max-width: 1900px) {
+            width:25%;
+          }
+          @media (max-width: 1500px) {
+            width:33.33333%;
+          }
+          @media (max-width: 1260px) {
+            width:50%;
+          }
+          @media (max-width: 900px) {
+            width:100%;
+          }
+        }
+        app-paginator {
+          display: block;
+          clear: both;
+          padding-top: 1px;
+        }
+      
+        .app-collection-navigation {
+        //   height: 40px;
+          overflow: hidden;
+          margin-left: 8px;
+          .app-collection-navigation-item {
+            float: left;
+            color: #555;
+            span {
+              margin: 0 6px;
+            }
+          }
+        }
+      
+        .app-collection-description {
+          padding: 10px;
+          font-size: 15px;
+          color: #666;
+          line-height: 21px;
+          h2 {
+            color: #444;
+            font-size: 22px;
+            padding: 0;
+            margin: 8px 0 5px;
+          }
+          h3 {
+            color: #444;
+            font-size: 20px;
+            padding: 0;
+            margin: 8px 0 5px;
+          }
+          h4 {
+            color: #555;
+            font-size: 16px;
+            padding: 0;
+            margin: 5px 0 3px;
+          }
+          strong {
+            font-weight: 600;
+            color: #333;
+          }
+        }  
       }
-    }
-  }
-
-  .app-collection-description {
-    padding: 10px;
-    font-size: 15px;
-    color: #666;
-    line-height: 21px;
-    h2 {
-      color: #444;
-      font-size: 22px;
-      padding: 0;
-      margin: 8px 0 5px;
-    }
-    h3 {
-      color: #444;
-      font-size: 20px;
-      padding: 0;
-      margin: 8px 0 5px;
-    }
-    h4 {
-      color: #555;
-      font-size: 16px;
-      padding: 0;
-      margin: 5px 0 3px;
-    }
-    strong {
-      font-weight: 600;
-      color: #333;
-    }
-  }
-
 }

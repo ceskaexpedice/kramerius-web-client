@@ -1,41 +1,42 @@
-<div class="app-search-results">
-    <ng-container *ngIf="searchService.collection">
-        <div class="app-collection-navigation">
-            <ng-container *ngIf="searchService.collectionStructure && searchService.collectionStructure.ready">
-            <div class="app-collection-navigation-item" *ngFor="let item of searchService.collectionStructure.collections; let last = last;">
-                <ng-container *ngIf="!last; else ll;">
-                    <a routerLink="{{ item.url }}">{{ searchService.getCollectionNavTitle(item) }}</a>
-                    <span>&gt;</span>
-                </ng-container>
-                <ng-template #ll>
-                    {{ searchService.getCollectionNavTitle(item) }}
-                </ng-template>
-
+<div class="app-search-results-wrapper">
+    <div class="app-search-results">
+        <ng-container *ngIf="searchService.collection">
+            <div class="app-collection-navigation">
+                <ng-container *ngIf="searchService.collectionStructure && searchService.collectionStructure.ready">
+                <div class="app-collection-navigation-item" *ngFor="let item of searchService.collectionStructure.collections; let last = last;">
+                    <ng-container *ngIf="!last; else ll;">
+                        <a routerLink="{{ item.url }}">{{ searchService.getCollectionNavTitle(item) }}</a>
+                        <span>&gt;</span>
+                    </ng-container>
+                    <ng-template #ll>
+                        {{ searchService.getCollectionNavTitle(item) }}
+                    </ng-template>
+                </div>
+            </ng-container>
+            </div>
+    
+            <div class="app-collection-description"
+            [innerHTML]="searchService.getCollectionContent()| safeHtml">
             </div>
         </ng-container>
-        </div>
-
-        <div class="app-collection-description"
-        [innerHTML]="searchService.getCollectionContent()| safeHtml">
-        </div>
-    </ng-container>
-
-    <app-alert *ngIf="!searchService.loading && searchService.getNumberOfResults() === 0"
-            type="warning"
-            label="alert.warning"
-            message="alert.no_results_found">
-    </app-alert>
-
-
-    <app-document-card *ngFor="let item of searchService.results" [selectable]="searchService.adminSelection" [in]="'search'" [item]="item"></app-document-card>
-    <app-paginator [activeIndex]="searchService.query.page"
-            [overallCount]="searchService.getNumberOfResults()"
-            [step]="searchService.query.getRows()"
-            (next)="searchService.nextPage()"
-            (previous)="searchService.previousPage()"
-            (change)="searchService.onPage($event)">
-    </app-paginator> 
-    <mat-spinner *ngIf="searchService.loading" class="medium-centered-spinner" [strokeWidth]="3" [diameter]="40"></mat-spinner>
-
-
+    
+        <app-alert *ngIf="!searchService.loading && searchService.getNumberOfResults() === 0"
+                type="warning"
+                label="alert.warning"
+                message="alert.no_results_found">
+        </app-alert>
+    
+    
+        <app-document-card *ngFor="let item of searchService.results" [selectable]="searchService.adminSelection" [in]="'search'" [item]="item"></app-document-card>
+        <app-paginator [activeIndex]="searchService.query.page"
+                [overallCount]="searchService.getNumberOfResults()"
+                [step]="searchService.query.getRows()"
+                (next)="searchService.nextPage()"
+                (previous)="searchService.previousPage()"
+                (change)="searchService.onPage($event)">
+        </app-paginator> 
+        <mat-spinner *ngIf="searchService.loading" class="medium-centered-spinner" [strokeWidth]="3" [diameter]="40"></mat-spinner>
+    </div>
+    <app-metadata class="app-metadata" *ngIf="searchService.collection" [metadata]="searchService.collection"></app-metadata>
 </div>
+
