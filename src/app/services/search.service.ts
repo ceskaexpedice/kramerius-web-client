@@ -360,6 +360,7 @@ export class SearchService {
         }
         if (this.query.collection) {
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
+                metadata.context['collection'] = this.query.collection;
                 this.collection = metadata;
             });
             let uuid = this.query.collection;
