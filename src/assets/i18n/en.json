@@ -350,7 +350,8 @@
     "shelf_locator": "Shelf/Call number: {{shelf_locator}}",
     "authors_info": "More about authors",
     "donator": "Supported by",
-    "policy_private": "Not publicly accessible document"
+    "policy_private": "Not publicly accessible document",
+    "in_collection": "In collection"
   },
   "donator": {
     "norway": {

@@ -353,7 +353,8 @@
     "shelf_locator": "Signatura: {{shelf_locator}}",
     "authors_info": "Více o autorech",
     "donator": "S podporou",
-    "policy_private": "Dokument není veřejně přístupný"
+    "policy_private": "Dokument není veřejně přístupný",
+    "in_collection": "Ve sbírce"
   },
   "donator": {
     "norway": {

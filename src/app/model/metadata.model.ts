@@ -60,6 +60,8 @@ export class Metadata {
     public originUrl: string;
 
     public licence: string;
+
+    public inCollections: InCollections[] = [];
     
     constructor() {
     }
@@ -332,4 +334,9 @@ export class Publisher {
     empty() {
         return !(this.name || this. date || this.place);
     }
+}
+
+export class InCollections {
+    public uuid: string;
+    public name: string;
 }

@@ -304,6 +304,18 @@ export class BookService {
                     }
                 });
             }
+            if (item.in_collection) {
+                for (const collection of item.in_collection) {
+                    let uuid = collection;
+                    let name = '';
+                    console.log('in collection', collection);
+                    this.api.getItem(collection).subscribe(col => {
+                        console.log(col.title)
+                        name = col.title
+                        this.metadata.inCollections.push({'uuid': uuid, 'name': name})
+                    })
+                }
+            }
         });
     }
 

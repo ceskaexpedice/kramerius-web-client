@@ -31,6 +31,7 @@ export class DocumentItem {
 
     selected: boolean = false;
     licence: string;
+    in_collection: string;
 
     resolveUrl(prefix: string) {
         if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume' || this.doctype === 'convolute') {
