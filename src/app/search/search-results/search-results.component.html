@@ -1,5 +1,5 @@
 <div class="app-search-results-wrapper">
-    <div class="app-search-results">
+    <div class="app-search-results" [ngClass]="{'app-search-collection': searchService.collection}">
         <ng-container *ngIf="searchService.collection">
             <div class="app-collection-navigation">
                 <ng-container *ngIf="searchService.collectionStructure && searchService.collectionStructure.ready">
@@ -37,6 +37,10 @@
         </app-paginator> 
         <mat-spinner *ngIf="searchService.loading" class="medium-centered-spinner" [strokeWidth]="3" [diameter]="40"></mat-spinner>
     </div>
-    <app-metadata class="app-metadata" *ngIf="searchService.collection" [metadata]="searchService.collection"></app-metadata>
+    <app-metadata
+        class="app-collection-metadata" 
+        *ngIf="searchService.collection" 
+        [metadata]="searchService.collection">
+    </app-metadata>
 </div>
 

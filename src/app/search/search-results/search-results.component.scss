@@ -4,16 +4,16 @@
     height: calc(100% - #{$app-toolbar-height});
     width: 100%;
     // overflow: auto;
-    .app-metadata {
-        width: 300px;
-    }
     .app-search-results {
-        width: calc(100% - 300px);
+        width: 100%;
         display: block;
         padding: 0.5rem;
         background-color: $app-grey-l-4;
         position: relative;
         overflow: auto;
+        &.app-search-collection {
+            width: calc(100% - 300px);
+        }
         app-document-card {
           float: left;
           width:16.66666%;
