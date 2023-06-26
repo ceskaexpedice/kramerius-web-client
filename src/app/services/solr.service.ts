@@ -1341,7 +1341,7 @@ export class SolrService {
         } else if (field === 'genres') {
             return this.field('genres_facet');
         } else if (field === 'collections') {
-            return 'collection.desc';
+            return 'collection';
         } else if (field === 'accessibility') {
             return this.field('accessibility');
         }
