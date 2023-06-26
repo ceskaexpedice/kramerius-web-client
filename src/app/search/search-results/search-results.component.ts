@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent implements OnInit {
+    displayRows: boolean = true;
 
   constructor(public searchService: SearchService) {
   }

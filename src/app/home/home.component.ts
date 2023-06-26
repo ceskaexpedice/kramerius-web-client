@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   selectedTab = 'none';
   step = 6;
   page = 1;
+  displayRows: boolean = false;
   lastCode: string;
   showFooter: boolean;
 

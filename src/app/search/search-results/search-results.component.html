@@ -31,9 +31,11 @@
         <app-paginator [activeIndex]="searchService.query.page"
                 [overallCount]="searchService.getNumberOfResults()"
                 [step]="searchService.query.getRows()"
+                [displayRows]="displayRows"
                 (next)="searchService.nextPage()"
                 (previous)="searchService.previousPage()"
-                (change)="searchService.onPage($event)">
+                (change)="searchService.onPage($event)"
+                (rows)="searchService.setRows($event)">
         </app-paginator> 
         <mat-spinner *ngIf="searchService.loading" class="medium-centered-spinner" [strokeWidth]="3" [diameter]="40"></mat-spinner>
     </div>

@@ -39,6 +39,7 @@
         [activeIndex]="page"
         [overallCount]="getNumberOfActiveItems()"
         [step]="step"
+        [displayRows]="displayRows"
         (next)="page = page + 1"
         (previous)="page = page - 1"
         (change)="page = $event">

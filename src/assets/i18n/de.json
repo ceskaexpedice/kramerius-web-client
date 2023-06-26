@@ -210,6 +210,9 @@
         "from": "Von",
         "to": "Bis",
         "apply": "Anwenden"
+      },
+      "paginator": {
+        "label": "Objekte pro Seite"
       }
     },
     "advanced_search": {

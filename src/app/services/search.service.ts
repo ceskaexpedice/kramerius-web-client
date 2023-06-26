@@ -300,6 +300,11 @@ export class SearchService {
         this.reload(true);
     }
 
+    public setRows(rows: number) {
+        this.query.setRows(rows);
+        this.reload(true);
+    }
+
     public nextPage() {
         this.analytics.sendEvent('search', 'paginator', 'next');
         this.query.setPage(this.query.page + 1);

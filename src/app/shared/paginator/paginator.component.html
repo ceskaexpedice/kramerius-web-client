@@ -10,4 +10,19 @@
       <mat-icon tabindex="0" (click)="onNext()">chevron_right</mat-icon>
     </li>
   </ul>
+  <!-- POLOZEK NA STRANKU -->
+  <div *ngIf="displayRows" class="app-rows">
+    <span class="app-label">{{ 'search.paginator.label' | translate }}: </span>
+    <span tabindex="0" class="app-dropdown" [matMenuTriggerFor]="rowsMenu">
+      <span>{{actualRows}}</span>
+        <!-- <span>{{ 'search.ordering.' + search.query.ordering | translate }}</span> -->
+      <mat-icon>arrow_drop_down</mat-icon>
+    </span>
+  </div>
 </div>
+
+<mat-menu #rowsMenu="matMenu" >
+  <div *ngFor="let option of rowsOptions">
+    <div mat-menu-item (click)="onSelectRowsOption(option)">{{option}}</div>
+  </div>
+</mat-menu>

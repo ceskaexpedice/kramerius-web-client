@@ -9,6 +9,7 @@
   <app-paginator [activeIndex]="periodicalService.fulltext.page"
           [overallCount]="periodicalService.fulltext.results"
           [step]="periodicalService.fulltext.limit"
+          [displayRows]="displayRows"
           (next)="periodicalService.nextFtPage()"
           (previous)="periodicalService.previousFtPage()"
           (change)="periodicalService.onFtPage($event)">

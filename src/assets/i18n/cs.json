@@ -211,6 +211,9 @@
       "from": "Od",
       "to": "Do",
       "apply": "Použít"
+    },
+    "paginator": {
+      "label": "Položek na stránku"
     }
   },
   "advanced_search": {

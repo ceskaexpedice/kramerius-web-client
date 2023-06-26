@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./periodical-fulltext-layout.component.scss']
 })
 export class PeriodicalFulltextLayoutComponent implements OnInit {
+    displayRows: boolean = false;
 
   constructor(public periodicalService: PeriodicalService) { }
 
