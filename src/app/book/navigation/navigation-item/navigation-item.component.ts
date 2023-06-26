@@ -19,11 +19,7 @@ export class NavigationItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.page.public || this.settings.hiddenLocks) {
-      this.lock = null;
-    } else {
-      this.lock = this.licences.buildLock(this.page.licences);
-    }
+    this.lock = this.licences.buildLock(this.page.licences, this.page.public);
   }
 
   onPageClicked() {

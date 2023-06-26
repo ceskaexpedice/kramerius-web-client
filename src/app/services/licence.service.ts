@@ -200,7 +200,10 @@ export class LicenceService {
     return null;
   }
 
-  buildLock(licences: string[]): any {
+  buildLock(licences: string[], isPublic: boolean): any {
+    if (this.settings.hiddenLocks || (isPublic && !this.settings.ignorePolicyFlag)) {
+      return null;
+    }
     if (!this.anyAvailableLicence(licences)) {
       if (this.settings.ignorePolicyFlag) {
         return null;

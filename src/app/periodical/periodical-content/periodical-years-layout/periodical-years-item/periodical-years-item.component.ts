@@ -23,11 +23,7 @@ export class PeriodicalYearsItemComponent  {
     if(!this._item.licences) {
       return;
     }
-    if (this._item.public || this.settings.hiddenLocks) {
-      this.lock = null;
-    } else {
-      this.lock = this.licences.buildLock(this._item.licences);
-    }
+    this.lock = this.licences.buildLock(this._item.licences, this._item.public);
   }
 
   constructor(public periodicalService: PeriodicalService,

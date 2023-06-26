@@ -29,8 +29,8 @@
   </div>
 
   <div tabindex="0" *ngFor="let licence of searchService.query.licences" (click)="searchService.removeFilter(searchService.query.licences, licence)"  [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
-    <span class="app-lock {{ licences.buildLock([licence]).class }}" *ngIf="licences.buildLock([licence])">
-      <mat-icon>{{ licences.buildLock([licence]).icon }}</mat-icon>
+    <span class="app-lock {{ licences.buildLock([licence], false).class }}" *ngIf="licences.buildLock([licence], false)">
+      <mat-icon>{{ licences.buildLock([licence], false).icon }}</mat-icon>
     </span>
     <mat-icon class="app-close">close</mat-icon>
     {{ licences.label(licence) }}

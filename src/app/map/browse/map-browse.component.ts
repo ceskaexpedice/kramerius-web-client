@@ -137,11 +137,7 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
 
   getLock(item: DocumentItem): any {
     if (!this.locks[item.uuid]) {
-      if (item.public || this.settings.hiddenLocks) {
-        this.locks[item.uuid] = 'none';
-      } else {
-        this.locks[item.uuid] = this.licences.buildLock(item.licences);
-      }
+      this.locks[item.uuid] = this.licences.buildLock(item.licences, item.public) || 'none';
     }
     return this.locks[item.uuid] == 'none' ? null : this.locks[item.uuid];
   }

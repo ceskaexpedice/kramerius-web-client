@@ -25,11 +25,7 @@ export class PeriodicalGridItemComponent implements OnInit {
               public settings: AppSettings) { }
 
   ngOnInit() {
-    if (this.item.public || this.settings.hiddenLocks) {
-      this.lock = null;
-    } else {
-      this.lock = this.licences.buildLock(this.item.licences);
-    }
+    this.lock = this.licences.buildLock(this.item.licences, this.item.public);
   }
 
 }
