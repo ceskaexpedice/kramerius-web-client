@@ -1,9 +1,15 @@
 @import './src/variables.scss';
 
-.app-paginator {
+.app-container {
+  display: flex;
+  // justify-content: space-between;
+  .app-empty-div {
+    width: 25%;
+  }
+  .app-paginator {
+    width: 50%;
     text-align: center;
     ul {
-      margin-top: 20px;
       padding-left: 0;
       list-style-type: none;
       li {
@@ -42,17 +48,36 @@
         }
       }
     }
-    .app-rows {
-      color: $primary-color;
-      line-height: 24px;
-      margin-bottom: 20px;
-      .app-label {
-        color: $app-grey-d-1;
-        font-size: 12px;
-      }
-      cursor: pointer;
-      mat-icon {
-        vertical-align: middle;
-      }
+  }
+  .app-rows {
+    width: 25%;
+    text-align: right;
+    padding: 15px;
+    color: $primary-color;
+    line-height: 24px;
+    .app-label {
+      color: $app-grey-d-1;
+      font-size: 12px;
+    }
+    cursor: pointer;
+    mat-icon {
+      vertical-align: middle;
     }
   }
+}
+@media screen and (max-width: 1040px) {
+  .app-container {
+    flex-direction: column;
+    .app-empty-div {
+      display: none;
+    }
+    .app-paginator {
+      width: 100%;
+    }
+    .app-rows {
+      width: 100%;
+      text-align: center;
+      padding: 5px 0 20px 0;
+    }
+  }
+}
