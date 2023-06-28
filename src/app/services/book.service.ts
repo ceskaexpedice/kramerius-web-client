@@ -125,7 +125,6 @@ export class BookService {
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
             this.licences = this.licenceService.availableLicences(item.licences);
             this.licence = item.licence;
-
             this.sources = item.sources;
             if (this.sources && this.sources.length > 0) {
                 if (params.source && item.sources.indexOf(params.source) >= 0) {
@@ -233,11 +232,13 @@ export class BookService {
         this.showNavigationPanel = true;
     }
 
-
     private setupPdf(uuid: string, index = 1) {
         this.bookState = BookState.Success;
         this.viewer = 'pdf';
         this.pdf.setUrl(this.api.getPdfUrl(uuid), index);
+        this.api.getItemInfo(this.id(uuid)).subscribe((info: any) => {
+            this.licence = info.licence;
+        });
     }
 
     changeSource(source: string) {

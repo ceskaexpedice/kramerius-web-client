@@ -6,6 +6,8 @@ import { KrameriusInfoService } from '../../services/kramerius-info.service';
 import { interval, Subscription } from 'rxjs';
 import { PdfService } from '../../services/pdf.service';
 import { PDFDocumentProxy, PdfViewerComponent } from 'ng2-pdf-viewer';
+import { LicenceService } from '../../services/licence.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-pdf-viewer2',
@@ -27,6 +29,8 @@ export class PdfViewer2Component implements  OnInit {
   constructor(public bookService: BookService, 
               public settings: AppSettings,
               public pdf: PdfService,
+              public authService: AuthService,
+              public licences: LicenceService,
               public krameriusInfo: KrameriusInfoService,
               public controlsService: ViewerControlsService) {
     (window as any).pdfWorkerSrc = '/assets/js/pdf.worker.min.js';
@@ -103,6 +107,14 @@ export class PdfViewer2Component implements  OnInit {
         this.zoomScale = 'page-fit';
         break;
     }
+  }
+
+  today() {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return day + '.' + month + '.' + year;
   }
 
 }
