@@ -368,6 +368,21 @@ export class KrameriusApiService {
         }
     }
 
+    getMp3Object(uuid: string): Observable<HTMLAudioElement> {
+        const url = this.getMp3Url(uuid);
+        const token = this.settings.getToken();
+        const headers = new HttpHeaders();
+        if (token) {
+            headers.set('Authorization', `Bearer ${token}`);
+        }
+        return this.http.get(url, { headers, responseType: 'blob' }).pipe(
+            map(blob => {
+                const blobUrl = URL.createObjectURL(blob);
+                return new Audio(blobUrl);
+            }
+        ));
+    }
+
     downloadMp3(uuid: string): Observable<Blob> {
         return this.doGetBlob(this.getMp3Url(uuid));
     }

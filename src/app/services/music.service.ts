@@ -194,45 +194,87 @@ export class MusicService {
     this.metadata.addToContext('soundunit', track.unit.uuid);
     this.metadata.addToContext('track', track.uuid);
     this.activeTrack = track;
-    const url = this.api.getMp3Url(this.activeTrack.uuid);
+    // const url = this.api.getMp3Url(this.activeTrack.uuid);
+    // if (this.audio) {
+    //   this.audio.setAttribute('src', url);
+    //   this.audio.load();
+    // } else {
+    //   this.audio = new Audio(url);
+    //   this.audio.load();
+    // }
     if (this.audio) {
-      this.audio.setAttribute('src', url);
-      this.audio.load();
-    } else {
-      this.audio = new Audio(url);
-      this.audio.load();
+      this.audio.pause();
+      this.audio = null;
     }
-    this.audio.ontimeupdate = () => {
-      this.trackPosition = Math.round(this.audio.currentTime);
-      this.trackPositionText = this.formatTime(this.trackPosition);
-      if (this.trackDuration) {
-        this.progress = this.trackPosition / this.trackDuration;
+    this.api.getMp3Object(this.activeTrack.uuid).subscribe((audio) => {
+      if (this.activeTrack.uuid != track.uuid) {
+        return;
       }
-    };
-    this.audio.onloadedmetadata = () => {
-      this.trackDuration = Math.round(this.audio.duration);
-      this.trackDurationText = this.formatTime(this.trackDuration);
-      this.trackPosition = Math.round(this.audio.currentTime);
-      this.trackPositionText = this.formatTime(this.trackPosition);
-    };
-    this.audio.onended = () => {
-      this.nextTrack(true);
-    };
-    this.audio.oncanplay = () => {
-      this.canPlay = true;
-      if (autoplay) {
-        this.playTrack();
-      }
-    };
-    this.audio.onerror = (er: any) => {
-      this.canPlay = false;
-      console.log('onError', er);
+      this.audio = audio;
+      this.audio.load();
+
+      this.audio.ontimeupdate = () => {
+        this.trackPosition = Math.round(this.audio.currentTime);
+        this.trackPositionText = this.formatTime(this.trackPosition);
+        if (this.trackDuration) {
+          this.progress = this.trackPosition / this.trackDuration;
+        }
+      };
+      this.audio.onloadedmetadata = () => {
+        this.trackDuration = Math.round(this.audio.duration);
+        this.trackDurationText = this.formatTime(this.trackDuration);
+        this.trackPosition = Math.round(this.audio.currentTime);
+        this.trackPositionText = this.formatTime(this.trackPosition);
+      };
+      this.audio.onended = () => {
+        this.nextTrack(true);
+      };
+      this.audio.oncanplay = () => {
+        this.canPlay = true;
+        if (autoplay) {
+          this.playTrack();
+        }
+      };
+
+    }, (error) => {
+      console.log('onError', error);
       if (!track.isPublic) {
         this.error = 'inaccessible_track';
       } else {
         this.error = 'unknown_error';
       }
-    };
+    });
+    // this.audio.ontimeupdate = () => {
+    //   this.trackPosition = Math.round(this.audio.currentTime);
+    //   this.trackPositionText = this.formatTime(this.trackPosition);
+    //   if (this.trackDuration) {
+    //     this.progress = this.trackPosition / this.trackDuration;
+    //   }
+    // };
+    // this.audio.onloadedmetadata = () => {
+    //   this.trackDuration = Math.round(this.audio.duration);
+    //   this.trackDurationText = this.formatTime(this.trackDuration);
+    //   this.trackPosition = Math.round(this.audio.currentTime);
+    //   this.trackPositionText = this.formatTime(this.trackPosition);
+    // };
+    // this.audio.onended = () => {
+    //   this.nextTrack(true);
+    // };
+    // this.audio.oncanplay = () => {
+    //   this.canPlay = true;
+    //   if (autoplay) {
+    //     this.playTrack();
+    //   }
+    // };
+    // this.audio.onerror = (er: any) => {
+    //   this.canPlay = false;
+    //   console.log('onError', er);
+    //   if (!track.isPublic) {
+    //     this.error = 'inaccessible_track';
+    //   } else {
+    //     this.error = 'unknown_error';
+    //   }
+    // };
 
   }
 
