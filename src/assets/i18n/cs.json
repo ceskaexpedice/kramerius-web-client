@@ -160,7 +160,8 @@
     "tooltip_display_calendar": "Zobraz kalendář",
     "tooltip_display_map": "Zobrazit výsledky na mapě",
     "tooltip_display_cards": "Zobrazit karty s výsledky",
-    "tooltip_display_table": "Zobrazit tabulku s výsledky"
+    "tooltip_display_table": "Zobrazit tabulku s výsledky",
+    "tooltip_download_csv": "Stáhnout výsledky v CSV"
   },
   "search": {
     "k3": "Hledat ve staré digitalizaci",

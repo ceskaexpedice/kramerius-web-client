@@ -160,7 +160,8 @@
     "tooltip_display_calendar": "Display calendar",
     "tooltip_display_map": "Show results on a map",
     "tooltip_display_cards": "Show results",
-    "tooltip_display_table": "Show table"
+    "tooltip_display_table": "Show table",
+    "tooltip_download_csv": "Download in CSV"
   },
   "search": {
     "k3": "Search in the old digitization",

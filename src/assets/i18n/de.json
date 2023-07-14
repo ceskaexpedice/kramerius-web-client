@@ -160,7 +160,8 @@
       "tooltip_display_calendar": "Kalender anzeigen",
       "tooltip_display_map": "Ergebnisse auf der Karte anzeigen",
       "tooltip_display_cards": "Ergebnisse anzeigen",
-      "tooltip_display_table": "Tabelle anzeigen"
+      "tooltip_display_table": "Tabelle anzeigen",
+      "tooltip_download_csv": "Als CSV herunterladen"
     },
     "search": {
       "k3": "Suche in alter Digitalisierung",

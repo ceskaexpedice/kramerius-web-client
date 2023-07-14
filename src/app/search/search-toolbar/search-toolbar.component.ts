@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { SearchService } from './../../services/search.service';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AuthService } from '../../services/auth.service';
+import { CsvService } from '../../services/csv.service';
 
 @Component({
   selector: 'app-search-toolbar',
@@ -16,7 +17,8 @@ export class SearchToolbarComponent implements OnInit {
     public auth: AuthService,
     public search: SearchService,
     public analytics: AnalyticsService,
-    public settings: AppSettings) {
+    public settings: AppSettings,
+    public csv: CsvService) {
   }
 
   ngOnInit() {
@@ -28,6 +30,10 @@ export class SearchToolbarComponent implements OnInit {
     } else {
       this.search.activeMobilePanel = 'results';
     }
+  }
+  downloadCsv() {
+    console.log(this.search.results)
+    this.csv.downloadTableAsCSV(this.search.results)
   }
 
 }

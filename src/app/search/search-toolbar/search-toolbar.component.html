@@ -21,6 +21,7 @@
     </div>
 
       <ng-container *ngIf="settings.mapSearch">
+
         <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_cards' | translate"  (click)="search.selectContentType('grid', 'grid')" class="app-view-button" [class.app-active]="search.contentTypeDisplay == 'grid'">
           <mat-icon>grid_view</mat-icon>
         </div>
@@ -30,6 +31,9 @@
         </div>
         <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_map' | translate"  (click)="search.selectContentType('map', '')" class="app-view-button" [class.app-active]="search.contentType == 'map'">
           <mat-icon>map</mat-icon>
+        </div>
+        <div tabindex="0" [matTooltip]="'toolbar.tooltip_download_csv' | translate"  (click)="downloadCsv()" class="app-view-button">
+          <mat-icon>file_download</mat-icon>
         </div>
       </ng-container>
 

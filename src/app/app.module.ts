@@ -159,6 +159,7 @@ import { MapSeriesService } from './services/mapseries.service';
 
 import { MapViewerComponent } from './book/map-viewer/map-viewer.component';
 import { GeoreferenceService } from './services/georeference.service';
+import { CsvService } from './services/csv.service';
 
 declare var APP_GLOBAL: any;
 
@@ -347,6 +348,7 @@ export function appInitializerFactory(translate: TranslateService) {
     EpubService,
     MapSeriesService,
     GeoreferenceService,
+    CsvService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,
