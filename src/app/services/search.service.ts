@@ -50,6 +50,7 @@ export class SearchService {
     activeMobilePanel: String;
 
     contentType = 'grid'; // 'grid' | 'map'
+    contentTypeDisplay = 'grid'; // 'grid' | 'table'
 
     collection: Metadata;
     collectionStructure: any;
@@ -175,8 +176,9 @@ export class SearchService {
         return this.translate.instant('searchbar.main.' + key) + ' ' + filters.join(', ');
     }
 
-    selectContentType(contentType: string) {
+    selectContentType(contentType: string, contentTypeDisplay: string) {
         this.contentType = contentType;
+        this.contentTypeDisplay = contentTypeDisplay;
         if (this.contentType === 'map') {
             if (this.collectionStructure.collections && this.collectionStructure.collections.length > 1) {
                 if (this.collectionStructure.collections[0].uuid.toString() === this.mapSeries.rootCollectionUUID) {

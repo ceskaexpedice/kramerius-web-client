@@ -17,6 +17,7 @@
       },
       "set_page_number": "Seitenzahl eingeben",
       "copy_to_clipboard": "In den Zwischenspeicher kopieren",
+      "copy_uuid_to_clipboard": "UUID in den Zwischenspeicher kopieren",
       "copied_to_clipboard": "In den Zwischenspeicher kopiert",
       "num_of_docs": {
         "one": "Titel",
@@ -158,7 +159,8 @@
       "tooltip_display_years": "Jahre anzeigen",
       "tooltip_display_calendar": "Kalender anzeigen",
       "tooltip_display_map": "Ergebnisse auf der Karte anzeigen",
-      "tooltip_display_cards": "Ergebnisse anzeigen"
+      "tooltip_display_cards": "Ergebnisse anzeigen",
+      "tooltip_display_table": "Tabelle anzeigen"
     },
     "search": {
       "k3": "Suche in alter Digitalisierung",

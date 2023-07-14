@@ -17,6 +17,7 @@
       },      
       "set_page_number": "Zadajte číslo stránky",
       "copy_to_clipboard": "Skopírovať do schránky",
+      "copy_uuid_to_clipboard": "Skopírovať UUID do schránky",
       "copied_to_clipboard": "Skopírované do schránky",
       "num_of_docs": {
         "one": "titul",
@@ -158,7 +159,8 @@
       "tooltip_display_years": "Zobraz roky",
       "tooltip_display_calendar": "Zobraz kalendár",
       "tooltip_display_map": "Zobraziť výsledky na mape",
-      "tooltip_display_cards": "Zobraziť karty s výsledkami"
+      "tooltip_display_cards": "Zobraziť karty s výsledkami",
+      "tooltip_display_table": "Zobraziť tabuľku s výsledkami"
     },
     "search": {
       "k3": "Hľadať v starej digitalizácii",

@@ -17,6 +17,7 @@
     },
     "set_page_number": "Set page number",
     "copy_to_clipboard": "Copy to clipboard",
+    "copy_uuid_to_clipboard": "Copy UUID to clipboard",
     "copied_to_clipboard": "Copied to clipboard",
     "num_of_docs": {
       "one": "document",
@@ -158,7 +159,8 @@
     "tooltip_display_years": "Display years",
     "tooltip_display_calendar": "Display calendar",
     "tooltip_display_map": "Show results on a map",
-    "tooltip_display_cards": "Show results"
+    "tooltip_display_cards": "Show results",
+    "tooltip_display_table": "Show table"
   },
   "search": {
     "k3": "Search in the old digitization",

@@ -1,5 +1,5 @@
 <div class="app-search-results-wrapper">
-    <div class="app-search-results" [ngClass]="{'app-search-collection': searchService.collection}">
+    <div class="app-search-results" [ngClass]="{'app-search-collection': searchService.collection, 'app-display-table': searchService.contentTypeDisplay === 'table'}">
         <ng-container *ngIf="searchService.collection">
             <div class="app-collection-navigation">
                 <ng-container *ngIf="searchService.collectionStructure && searchService.collectionStructure.ready">
@@ -25,9 +25,41 @@
                 label="alert.warning"
                 message="alert.no_results_found">
         </app-alert>
-    
-    
-        <app-document-card *ngFor="let item of searchService.results" [selectable]="searchService.adminSelection" [in]="'search'" [item]="item"></app-document-card>
+
+        <!-- IF GRID -->
+        <div *ngIf="searchService.contentTypeDisplay === 'grid'">
+            <app-document-card *ngFor="let item of searchService.results" [selectable]="searchService.adminSelection" [in]="'search'" [item]="item" [display]="'grid'"></app-document-card>
+        </div>
+
+        <!-- IF TABLE -->
+        <div *ngIf="searchService.contentTypeDisplay === 'table'" class="app-table-container">
+            <table class="app-table" >
+                <!-- <app-document-card *ngFor="let item of searchService.results" [selectable]="searchService.adminSelection" [in]="'search'" [item]="item" [display]="'table'"></app-document-card> -->
+                <tr class="app-table-row" *ngFor="let item of searchService.results; let odd=odd; let even=even;" 
+                    [ngClass]="{ odd: odd, even: even }">
+                    <td class="app-table-col app-table-col-thumb">
+                        <div class="app-card-thumb" [style.background-image]="getThumb(item)"></div>
+                    </td>
+                    <td class="app-table-col app-table-col-title" routerLink="{{item.url}}">
+                        <div class="app-col-title" *ngIf="item.title" [title]="item.title" >{{ item.title }}</div>
+                    </td>
+                    <td class="app-table-col app-table-col-authors">
+                        <div class="app-col-authors" *ngIf="item.authors && item.authors[0]" [title]="item.authors[0]">{{ item.authors[0] }}</div>
+                    </td>
+                    <td class="app-table-col app-table-col-date">
+                        <div class="app-col-date" *ngIf="item.date">{{ item.date }}</div>
+                    </td>
+                    <td class="app-table-col app-table-col-doctype">
+                        <div *ngIf="item.doctype">{{ item.doctype }}</div>
+                    </td>
+                    <td class="app-table-col app-table-col-uuid">
+                        <input style="position: absolute; left: -9999px; top: -9999px;" id="citation-input" #inputTarget [value]="item.uuid" type="text">
+                        <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="inputTarget" [matTooltip]="'common.copy_uuid_to_clipboard' | translate">content_copy</mat-icon>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
         <app-paginator [activeIndex]="searchService.query.page"
                 [overallCount]="searchService.getNumberOfResults()"
                 [step]="searchService.query.getRows()"

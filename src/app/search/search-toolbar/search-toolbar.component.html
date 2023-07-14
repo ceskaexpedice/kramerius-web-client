@@ -21,10 +21,14 @@
     </div>
 
       <ng-container *ngIf="settings.mapSearch">
-        <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_cards' | translate"  (click)="search.selectContentType('grid')" class="app-view-button" [class.app-active]="search.contentType == 'grid'">
+        <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_cards' | translate"  (click)="search.selectContentType('grid', 'grid')" class="app-view-button" [class.app-active]="search.contentTypeDisplay == 'grid'">
           <mat-icon>grid_view</mat-icon>
         </div>
-        <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_map' | translate"  (click)="search.selectContentType('map')" class="app-view-button" [class.app-active]="search.contentType == 'map'">
+        <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_table' | translate"  (click)="search.selectContentType('grid', 'table')" class="app-view-button" [class.app-active]="search.contentTypeDisplay == 'table'">
+          <mat-icon class="material-icons-sharp">view_list_sharp</mat-icon>
+          <!-- <mat-icon class="material-icons-outlined">table_rows_narrow</mat-icon> -->
+        </div>
+        <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_map' | translate"  (click)="search.selectContentType('map', '')" class="app-view-button" [class.app-active]="search.contentType == 'map'">
           <mat-icon>map</mat-icon>
         </div>
       </ng-container>
