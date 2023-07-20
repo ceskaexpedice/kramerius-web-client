@@ -1392,12 +1392,13 @@ export class BookService {
             data.uuid2 = this.id(rightPage.uuid);
         }
         if (this.settings.georef) {
+            const smUuid = leftPage.uuid;
             const previouslyShowGeoreference = this.showGeoreference;
             this.hasGeoreference = false;
             this.showGeoreference = false;
             // if (leftPage.type == 'map' || this.metadata.cartographicData.length > 0 && this.metadata.cartographicData[0].coordinates) {
-                this.geoService.getGeoreference(data.uuid1).subscribe((res: any) => {
-                    if (data.uuid1 == this.getPage().uuid) {
+                this.geoService.getGeoreference(smUuid).subscribe((res: any) => {
+                    if (smUuid == this.getPage().uuid) {
                         if (previouslyShowGeoreference) {
                             this.showGeoreference = true;
                         }
