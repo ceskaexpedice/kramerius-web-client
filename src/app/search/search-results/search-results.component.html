@@ -3,16 +3,18 @@
         <ng-container *ngIf="searchService.collection">
             <div class="app-collection-navigation">
                 <ng-container *ngIf="searchService.collectionStructure && searchService.collectionStructure.ready">
-                <div class="app-collection-navigation-item" *ngFor="let item of searchService.collectionStructure.collections; let last = last;">
-                    <ng-container *ngIf="!last; else ll;">
-                        <a routerLink="{{ item.url }}">{{ searchService.getCollectionNavTitle(item) }}</a>
-                        <span>&gt;</span>
-                    </ng-container>
-                    <ng-template #ll>
-                        {{ searchService.getCollectionNavTitle(item) }}
-                    </ng-template>
-                </div>
-            </ng-container>
+                    <div *ngFor="let collection of searchService.collectionStructure.collections">
+                        <div class="app-collection-navigation-item" *ngFor="let item of collection; let last = last;">
+                            <ng-container *ngIf="!last; else ll;">
+                                <a routerLink="{{ item.url }}">{{ searchService.getCollectionNavTitle(item) }}</a>
+                                <span>&gt;</span>
+                            </ng-container>
+                            <ng-template #ll>
+                                {{ searchService.getCollectionNavTitle(item) }}
+                            </ng-template>
+                        </div>
+                    </div>     
+                </ng-container>
             </div>
     
             <div class="app-collection-description"

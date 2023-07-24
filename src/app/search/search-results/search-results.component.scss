@@ -46,6 +46,8 @@
         //   height: 40px;
           overflow: hidden;
           margin-left: 8px;
+          display: flex;
+          flex-direction: column;
           .app-collection-navigation-item {
             float: left;
             color: #555;

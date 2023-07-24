@@ -406,26 +406,32 @@ export class SearchService {
         }
     }
     private buildCollectionStructure(uuid: string) {
-        let col_uuid = uuid;
         let collections = [];
-        
         this.buildCollectionStructureTree(uuid).then(() => {
-            console.log('this.collectionStructureTree', this.collectionStructureTree);
-            let startingCol = this.collectionStructureTree.find(x => x.uuid == col_uuid);   // urcim si pocatecni kolekci stromu
-            console.log('step1');
-            for (const inCol of startingCol.inCollections) {    // projdu vsechny nadrazene kolekce v poli inCollections
-                let in_col = this.collectionStructureTree.find(x => x.uuid == inCol);                    
-                collections.push([startingCol, in_col]);       // vytvorim pole dvojic, kde prvni je nadrazena kolekce a druha je podrazena kolekce)])
-                if (in_col.inCollections.length > 0) {
-                                }
-
-            }
-                console.log('collections', collections);
+            collections = this.collectionStructureTree;
+            console.log('collections', collections);
+            let startingCol = this.collectionStructureTree.find(x => x.uuid == uuid);   // urcim si pocatecni kolekci stromu
+            this.findPaths(startingCol)                                            // najdu rekurzivne vsechny cesty v kolekcich
+            console.log('this.collectionStructure', this.collectionStructure);
             this.collectionStructure.ready = true;
-            
         });
         
     }
+
+    findPaths(col: any, path = []) {
+        if (!col) {
+          return;
+        }
+        const newPath = [col, ...path];                                         // vytvorim novou cestu
+        if (col.inCollections && col.inCollections.length > 0) {                // prochazim rekurzivne kolekce z collectionStructureTree
+          col.inCollections.forEach((childUuid) => {
+            this.findPaths(this.collectionStructureTree.find(x => x.uuid == childUuid), newPath);
+          });
+        } else {
+          console.log('Nalezena cesta:', newPath);
+            this.collectionStructure.collections.push(newPath);
+        }
+      }
 
     private buildCollectionStructureTree(uuid: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
