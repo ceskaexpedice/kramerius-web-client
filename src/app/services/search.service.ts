@@ -54,6 +54,7 @@ export class SearchService {
 
     collection: Metadata;
     collectionStructure: any;
+    collectionStructureTree: any;
 
     adminSelection: boolean;
 
@@ -74,6 +75,7 @@ export class SearchService {
     public init(context, params) {
         this.collection = null;
         this.collectionStructure = {};
+        this.collectionStructureTree = [];
         this.results = [];
         this.allResults = [];
         this.keywords = [];
@@ -403,34 +405,72 @@ export class SearchService {
             return item.title;
         }
     }
-
     private buildCollectionStructure(uuid: string) {
-        this.api.getSearchResults(`q=pid:"${uuid}"&fl=in_collections.direct,titles.search`).subscribe((result) => {
-            if (!result['response']['docs'] || result['response']['docs'].length < 1) {
-                return;
+        let col_uuid = uuid;
+        let collections = [];
+        
+        this.buildCollectionStructureTree(uuid).then(() => {
+            console.log('this.collectionStructureTree', this.collectionStructureTree);
+            let startingCol = this.collectionStructureTree.find(x => x.uuid == col_uuid);   // urcim si pocatecni kolekci stromu
+            console.log('step1');
+            for (const inCol of startingCol.inCollections) {    // projdu vsechny nadrazene kolekce v poli inCollections
+                let in_col = this.collectionStructureTree.find(x => x.uuid == inCol);                    
+                collections.push([startingCol, in_col]);       // vytvorim pole dvojic, kde prvni je nadrazena kolekce a druha je podrazena kolekce)])
+                if (in_col.inCollections.length > 0) {
+                                }
+
             }
-            const doc = result['response']['docs'][0];
-            const names = doc['titles.search'] || [];
-            let title = '';
-            let titleEn = '';
-            if (names.length > 0) {
-                title = names[0];
-            }
-            if (names.length > 1) {
-                titleEn = names[1];
-            }
-            this.collectionStructure.collections.unshift({ uuid: uuid, title: title, titleEn: titleEn, url: this.settings.getPathPrefix() + '/collection/' + uuid });
-            const cols = doc['in_collections.direct'] || [];
-            if (cols.length > 0) {
-                this.buildCollectionStructure(cols[0]);
-            } else {
-                if (this.collectionStructure.collections.length > 1) {
-                    this.collectionStructure.ready = true;
-                }
-            }
+                console.log('collections', collections);
+            this.collectionStructure.ready = true;
+            
         });
+        
+    }
 
+    private buildCollectionStructureTree(uuid: string): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            this.api.getSearchResults(`q=pid:"${uuid}"&fl=in_collections.direct,titles.search`).subscribe((result) => {
+                if (!result['response']['docs'] || result['response']['docs'].length < 1) {
+                    return;
+                }
+                const doc = result['response']['docs'][0];
+                const names = doc['titles.search'] || [];
+                const cols = doc['in_collections.direct'] || [];
+                let title = '';
+                let titleEn = '';
+                if (names.length > 0) {
+                    title = names[0];
+                }
+                if (names.length > 1) {
+                    titleEn = names[1];
+                }
+                // this.collectionStructure.collections.unshift({ uuid: uuid, title: title, titleEn: titleEn, url: this.settings.getPathPrefix() + '/collection/' + uuid, inCollections: cols });
+                this.collectionStructureTree.unshift({ uuid: uuid, title: title, titleEn: titleEn, url: this.settings.getPathPrefix() + '/collection/' + uuid, inCollections: cols });
 
+                if (cols.length > 0) {
+                    const promises = [];
+                    for (const col of cols) {
+                        // this.buildCollectionStructure(col);
+                        promises.push(this.buildCollectionStructureTree(col));
+                    }
+                    Promise.all(promises).then(() => {
+                        // Pokud potřebujete, můžete provést další akce po dokončení všech podřízených kolekcí
+                        resolve();
+                    }).catch((error) => {
+                        // V případě, že dojde k chybě, můžete ji zachytit zde
+                        reject(error);
+                    });
+                } 
+                else {
+                    if (this.collectionStructure.collections.length > 1) {
+                        // this.collectionStructure.ready = true;
+                        // console.log('this.collectionStructure', this.collectionStructure);
+                        // console.log('this.collectionStructureTree', this.collectionStructureTree);
+                    }
+                    resolve();
+                }
+            });
+        });
     }
 
     public highlightDoctype(doctype: string) {
