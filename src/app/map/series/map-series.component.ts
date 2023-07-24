@@ -114,6 +114,10 @@ export class MapSeriesComponent implements OnInit {
     let sortedMaps = maps.sort((a:any, b:any) => Number(a.date.toString().substring(0,4)) - Number(b.date.toString().substring(0,4)))
     return sortedMaps;
   }
+  alphabetSort(maps: any) {
+    let sortedMaps = maps.sort((a:any, b:any) => a.name.localeCompare(b.name))
+    return sortedMaps;
+  }
 
   onIdle() {
     this.bounds = new google.maps.LatLngBounds(this.map.getBounds())
