@@ -58,11 +58,7 @@ export class DocumentCardComponent implements OnInit {
     } else {
        url = this.krameriusApiService.getThumbUrl(this.item.uuid);
     }
-    if (this.settings.hiddenLocks) {
-      this.lock = null;
-    } else {
-      this.lock = this.licences.buildLock(this.item.licences);
-    }
+    this.lock = this.licences.buildLock(this.item.licences, this.item.public);
     this.legacyLocks = this.settings.legacyLocks;
     this.thumb = this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
   }

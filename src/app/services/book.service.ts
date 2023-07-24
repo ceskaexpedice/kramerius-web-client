@@ -125,7 +125,6 @@ export class BookService {
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
             this.licences = this.licenceService.availableLicences(item.licences);
             this.licence = item.licence;
-
             this.sources = item.sources;
             if (this.sources && this.sources.length > 0) {
                 if (params.source && item.sources.indexOf(params.source) >= 0) {
@@ -233,11 +232,13 @@ export class BookService {
         this.showNavigationPanel = true;
     }
 
-
     private setupPdf(uuid: string, index = 1) {
         this.bookState = BookState.Success;
         this.viewer = 'pdf';
         this.pdf.setUrl(this.api.getPdfUrl(uuid), index);
+        this.api.getItemInfo(this.id(uuid)).subscribe((info: any) => {
+            this.licence = info.licence;
+        });
     }
 
     changeSource(source: string) {
@@ -1403,12 +1404,13 @@ export class BookService {
             data.uuid2 = this.id(rightPage.uuid);
         }
         if (this.settings.georef) {
+            const smUuid = leftPage.uuid;
             const previouslyShowGeoreference = this.showGeoreference;
             this.hasGeoreference = false;
             this.showGeoreference = false;
             // if (leftPage.type == 'map' || this.metadata.cartographicData.length > 0 && this.metadata.cartographicData[0].coordinates) {
-                this.geoService.getGeoreference(data.uuid1).subscribe((res: any) => {
-                    if (data.uuid1 == this.getPage().uuid) {
+                this.geoService.getGeoreference(smUuid).subscribe((res: any) => {
+                    if (smUuid == this.getPage().uuid) {
                         if (previouslyShowGeoreference) {
                             this.showGeoreference = true;
                         }

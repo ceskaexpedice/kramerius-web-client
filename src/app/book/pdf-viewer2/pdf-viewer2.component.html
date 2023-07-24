@@ -13,6 +13,7 @@
 <pdf-viewer 
     *ngIf="pdf.pdfObject" [src]="pdf.pdfObject"
     [render-text]="true"
+    [render-text-mode]="2"
     [rotation]="rotation"
     [stick-to-page]="true"
     [show-all]="true"
@@ -61,5 +62,13 @@ class="app-handle app-right-handle valign-wrapper hide-on-small-only"
     [strokeWidth]="3"
     [diameter]="40">
 </mat-spinner>
+
+<div *ngIf="bookService.licence && licences.bar(bookService.licence)" class="app-licence-bar">
+    <span class="app-info">{{ licences.label(bookService.licence) }}</span>
+    <span class="app-user">
+          <ng-container *ngIf="authService.isLoggedIn()"> {{ authService.getUserId() || authService.getUserName() }} | </ng-container>
+          {{ today() }}
+    </span>
+</div>
 
 </div>

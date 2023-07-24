@@ -480,7 +480,7 @@ export class SolrService {
                 q += `${this.field('date_from_sort')} asc, ${this.field('part_number_sort')} asc, ${this.field('model')} asc`;
             }
         }
-        q += '&rows=1500&start=0';
+        q += '&rows=10000&start=0';
         return q;
     }
 
@@ -1856,6 +1856,9 @@ export class SolrService {
             } else {
                 page['type'] = doc[this.field('page_type')] || 'unknown';
                 page['number'] = doc[this.field('page_number')];
+                if (page['number'] == undefined) {
+                    page['number'] = '-';
+                }
                 page['placement'] = doc[this.field('page_placement')];
                 page['length'] = doc[this.field('track_length')];
             }

@@ -70,8 +70,8 @@
                 (click)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licence', item.value)"
                 class="app-filter-item">
                 <span>{{item.count}}</span>
-                <div class="app-lock {{ licences.buildLock([item.value]).class }}" *ngIf="licences.buildLock([item.value])">
-                  <mat-icon>{{ licences.buildLock([item.value]).icon }}</mat-icon>
+                <div class="app-lock {{ licences.buildLock([item.value], false).class }}" *ngIf="licences.buildLock([item.value], false)">
+                  <mat-icon>{{ licences.buildLock([item.value], false).icon }}</mat-icon>
                 </div>
                 {{ licences.label(item.value) }}
                 <mat-icon class="app-licence-info" tabindex="0" (click)="showLicenceDialog(item.value); $event.preventDefault();$event.stopPropagation()">info</mat-icon>

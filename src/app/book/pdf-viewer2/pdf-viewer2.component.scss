@@ -12,6 +12,34 @@
     height: 100%;
     width: 100%;
   }
+  .app-licence-bar {
+    position: absolute;
+    top: 0;
+    height: 32px;
+    background: #435cadd6;
+    width: 100%;
+    z-index: 12;
+    .app-info {
+      line-height: 32px;
+      padding-left: 32px;
+      font-size: 15px;
+      color: #fff;
+      a {
+        padding-left: 8px;
+        color: #eee;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+    .app-user {
+      float:right;
+      line-height: 32px;
+      padding-right: 32px;
+      font-size: 15px;
+      color: #fff;
+    }
+  }
   app-licence-messages {
     display: block;
     max-width: 800px;
