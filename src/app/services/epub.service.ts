@@ -47,7 +47,7 @@ export class EpubService {
     }
 
     onDocumentReady() {
-        console.log('EPUB Service: onDocumentReady');
+        // console.log('EPUB Service: onDocumentReady');
         this.setFontSize();
         if (this.doublePage) {
             this.setDoublePage();
@@ -242,7 +242,7 @@ export class EpubService {
     }
 
     onPaginationComputed(pages: any) {
-        console.log('EPUB Service: onPaginationComputed');
+        // console.log('EPUB Service: onPaginationComputed');
         // console.log('onPaginationComputed', pages);
         // this.pages = pages;
         // console.log('onPaginationComputed - loca', this.epubViewer.currentLocation);

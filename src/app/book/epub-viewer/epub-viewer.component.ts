@@ -108,61 +108,59 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
   }
 
   onMetadataLoaded(metadata: any) {
-    const m = new Metadata();
+    // const m = new Metadata();
+    // const titleInfo = new TitleInfo();
+    // titleInfo.nonSort = "";
+    // titleInfo.title = metadata.bookTitle;
+    // titleInfo.subTitle = "";
+    // titleInfo.partNumber = "";
+    // titleInfo.partName  = "";
+    // m.titles = [titleInfo];
 
-
-    const titleInfo = new TitleInfo();
-    titleInfo.nonSort = "";
-    titleInfo.title = metadata.bookTitle;
-    titleInfo.subTitle = "";
-    titleInfo.partNumber = "";
-    titleInfo.partName  = "";
-    m.titles = [titleInfo];
-
-    if (metadata.creator) {
-      const author = new Author();
-      author.type = "";
-      author.name = metadata.creator;
-      author.usage = "";
-      author.date = "";
-      author.primary = true;
-      m.authors = [author];
-    }
+    // if (metadata.creator) {
+    //   const author = new Author();
+    //   author.type = "";
+    //   author.name = metadata.creator;
+    //   author.usage = "";
+    //   author.date = "";
+    //   author.primary = true;
+    //   m.authors = [author];
+    // }
     
-    if (metadata.language) {
-      let lang = "";
-      if (metadata.language) {
-        if (metadata.language == 'ar-SA') {
-          lang = "ara";
-        } else if (metadata.language == 'cs' || metadata.language == 'cs-CZ' || metadata.language == 'cz') {
-          lang = "cze";
-        }
-      }
-      m.languages = [lang];
-    }
+    // if (metadata.language) {
+    //   let lang = "";
+    //   if (metadata.language) {
+    //     if (metadata.language == 'ar-SA') {
+    //       lang = "ara";
+    //     } else if (metadata.language == 'cs' || metadata.language == 'cs-CZ' || metadata.language == 'cz') {
+    //       lang = "cze";
+    //     }
+    //   }
+    //   m.languages = [lang];
+    // }
 
-    const publisher = new Publisher();
-    publisher.name = metadata.publisher;
-    if (metadata.pubdate.split("-").length == 3) {
-      publisher.date = metadata.pubdate.split("-")[2].substring(0,2) + ". " + metadata.pubdate.split("-")[1] + ". " + metadata.pubdate.split("-")[0];
-    } else {
-      publisher.date = metadata.pubdate;
-    }
-    publisher.place = "";
-    m.publishers = [publisher];
+    // const publisher = new Publisher();
+    // publisher.name = metadata.publisher;
+    // if (metadata.pubdate.split("-").length == 3) {
+    //   publisher.date = metadata.pubdate.split("-")[2].substring(0,2) + ". " + metadata.pubdate.split("-")[1] + ". " + metadata.pubdate.split("-")[0];
+    // } else {
+    //   publisher.date = metadata.pubdate;
+    // }
+    // publisher.place = "";
+    // m.publishers = [publisher];
 
-    if (metadata.description) {
-      m.notes = [metadata.description]
-    }
+    // if (metadata.description) {
+    //   m.notes = [metadata.description]
+    // }
 
-    if (metadata.identifier) {
-      if (metadata.identifier.indexOf('ISBN') == 0) {
-        m.identifiers = { 'isbn':  metadata.identifier.substring(4, metadata.identifier.length)}
-      }
-    }
+    // if (metadata.identifier) {
+    //   if (metadata.identifier.indexOf('ISBN') == 0) {
+    //     m.identifiers = { 'isbn':  metadata.identifier.substring(4, metadata.identifier.length)}
+    //   }
+    // }
 
 
-    this.bookService.metadata = m;
+    // this.bookService.metadata = m;
   }
 
 
