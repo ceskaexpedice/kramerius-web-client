@@ -118,11 +118,11 @@ export class BookService {
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
         this.initPdfPosition = Number(params.pdfIndex) || 1;
-        // if (params.uuid == 'epub') {
-        //     this.bookState = BookState.Success;
-        //     // this.setupEpub('s');
-        //     return;
-        // }
+        if (params.uuid == 'epub') {
+            this.bookState = BookState.Success;
+            this.setupEpub('');
+            return;
+        }
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
             this.licences = this.licenceService.availableLicences(item.licences);
             this.licence = item.licence;
@@ -228,7 +228,7 @@ export class BookService {
 
     setupEpub(uuid: string) {
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
-        this.epubUrl = this.api.getEpubUrl(uuid);
+        this.epubUrl = uuid ? this.api.getEpubUrl(uuid) : null;
         this.viewer = 'epub';
         this.activeNavigationTab = 'epubToc';
         this.showNavigationPanel = true;

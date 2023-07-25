@@ -27,7 +27,9 @@ export class EpubService {
         this.reset();
         this.epubViewer = epubViewer;
         this.doublePage = doublePage;
-        this.openUrl(url);
+        if (url) {
+            this.openUrl(url);
+        }
     }
 
     private reset() {
@@ -221,6 +223,7 @@ export class EpubService {
     // }
 
     openFile(file) {
+        this.reset();
         this.epubViewer.openFile(file);
     }
 

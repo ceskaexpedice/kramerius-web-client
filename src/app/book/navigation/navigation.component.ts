@@ -6,8 +6,6 @@ import { AnalyticsService } from '../../services/analytics.service';
 import { EpubService } from '../../services/epub.service';
 import { PdfService } from '../../services/pdf.service';
 
-declare var $: any;
-
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',

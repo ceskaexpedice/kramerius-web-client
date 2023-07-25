@@ -34,7 +34,6 @@
               "node_modules/highlight.js/styles/atom-one-light.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/ol.js",
               "src/assets/js/markerclustererplus.min.js",
               "node_modules/epubjs/build/epub.js",

@@ -7,6 +7,6 @@
    </ng-container>   
    
    <mat-icon tabindex="0" *ngIf="bookService.isPdf() && bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="downloadPdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate" style="float: right;">file_download</mat-icon>
-   <!-- <mat-icon tabindex="0" *ngIf="bookService.isEpub()" (click)="uploadEpub()" [matTooltip]="'Nahrát epub'" style="float: right;">file_upload</mat-icon> -->
+   <mat-icon tabindex="0" *ngIf="bookService.isEpub() && bookService.getUuid() == 'epub'" (click)="uploadEpub()" [matTooltip]="'Nahrát epub'" style="float: right;">file_upload</mat-icon>
 </div>
 <input *ngIf="bookService.isEpub()" style="display: none" id="app-file-input" type="file" accept="application/epub+zip" (change)="openFile($event)">
