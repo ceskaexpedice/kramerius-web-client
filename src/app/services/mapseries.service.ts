@@ -30,14 +30,9 @@ export class MapSeriesService {
     private httpClient: HttpClient,
     private settings: AppSettings,
     public translate: TranslateService
-  ) { 
-      // translate.onLangChange.subscribe(() => {
-      //   console.log('lang changed');
-      // });
-   }
+  ) { }
 
   init(callback: () => void) {
-    console.log('init', callback);
     if (this.mapReady) {
       callback();
       return;

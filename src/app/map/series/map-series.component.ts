@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapPolygon } from '@angular/google-maps';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppSettings } from '../../services/app-settings';
@@ -7,6 +7,7 @@ import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapSeriesService } from '../../services/mapseries.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map-series',
@@ -14,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./map-series.component.scss']
 })
 
-export class MapSeriesComponent implements OnInit {
+export class MapSeriesComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
 
   polygonZoom: number;
@@ -35,6 +36,7 @@ export class MapSeriesComponent implements OnInit {
   loadingSeries: boolean;
   selectedPolygon: MapPolygon;
   locks: any;
+  languageChangeSubscription: Subscription;
 
   constructor(private httpClient: HttpClient,
               public settings: AppSettings,
@@ -44,13 +46,12 @@ export class MapSeriesComponent implements OnInit {
               private _sanitizer: DomSanitizer,
               private router: Router,
               public translate: TranslateService) {
-    translate.onLangChange.subscribe(() => {
-      console.log('lang changed');
-      window.location.reload();
-    });
   }
 
   ngOnInit() {
+    this.languageChangeSubscription = this.translate.onLangChange.subscribe(() => {
+      window.location.reload();
+    });
     this.route.paramMap.subscribe(params => {
       const uuid = params.get('uuid');
       this.ms.init(() => {
@@ -63,6 +64,11 @@ export class MapSeriesComponent implements OnInit {
         }
       });
     });
+  }
+  ngOnDestroy(): void {
+    if (this.languageChangeSubscription) {
+      this.languageChangeSubscription.unsubscribe();
+    }
   }
 
   fetchAllMapSeries(callback: () => void) {
