@@ -10,6 +10,7 @@ import { GoogleMap } from '@angular/google-maps';
 import { MapSeriesService } from '../../services/mapseries.service';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-map-browse',
@@ -40,6 +41,8 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
 
   mouseOverCluster = null;
 
+  languageChangeSubscription: Subscription;
+
   @ViewChild('googleMap') googleMap: GoogleMap;
   @ViewChild('markerCluster') markerClusterer: MarkerClusterer;
 
@@ -52,16 +55,14 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
               private _sanitizer: DomSanitizer,
               private localStorageService: LocalStorageService,
               private changeDetector: ChangeDetectorRef,
-              public ms: MapSeriesService) {
+              public ms: MapSeriesService,
+              public translate: TranslateService) {
   }
 
   ngOnInit() {
-
-
-
-
-
-    console.log('map browse ngOnInit')
+    this.languageChangeSubscription = this.translate.onLangChange.subscribe(() => {
+      window.location.reload();
+    });
     const q = this.searchService.query;
     const preferredtype = this.localStorageService.getProperty(LocalStorageService.MAP_ACTIVE_TAB);
     if (this.settings.mapSearchType == 'all' && ['markers', 'maps'].includes(preferredtype)) {
@@ -101,6 +102,9 @@ export class MapBrowseComponent implements OnInit, OnDestroy, AfterContentChecke
   ngOnDestroy(): void {
     if (this.searchResults) {
       this.searchResults.unsubscribe();
+    }
+    if (this.languageChangeSubscription) {
+      this.languageChangeSubscription.unsubscribe();
     }
   } 
 
