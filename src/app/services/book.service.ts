@@ -89,6 +89,8 @@ export class BookService {
 
     private initPdfPosition = 1;
 
+    epubUrl: string;
+
     constructor(private location: Location,
         private altoService: AltoService,
         private settings: AppSettings,
@@ -116,12 +118,11 @@ export class BookService {
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
         this.initPdfPosition = Number(params.pdfIndex) || 1;
-        if (params.uuid == 'epub') {
-            this.bookState = BookState.Success;
-            this.setupEpub();
-            return;
-        }
-
+        // if (params.uuid == 'epub') {
+        //     this.bookState = BookState.Success;
+        //     // this.setupEpub('s');
+        //     return;
+        // }
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
             this.licences = this.licenceService.availableLicences(item.licences);
             this.licence = item.licence;
@@ -225,11 +226,13 @@ export class BookService {
     }
 
 
-    setupEpub() {
+    setupEpub(uuid: string) {
+        this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
+        this.epubUrl = this.api.getEpubUrl(uuid);
         this.viewer = 'epub';
         this.activeNavigationTab = 'epubToc';
-        this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         this.showNavigationPanel = true;
+        this.bookState = BookState.Success;
     }
 
     private setupPdf(uuid: string, index = 1) {
@@ -293,7 +296,9 @@ export class BookService {
             this.localStorageService.addToVisited(item, this.metadata);
             this.metadata.licences = this.licences;
             this.metadata.licence = this.licence;
-            if (item.pdf) {
+            if (item.epub) {
+                this.setupEpub(params.uuid)
+            } else if (item.pdf) {
                 this.setupPdf(params.uuid);
             } else {
                 this.api.getChildren(params.uuid, this.source).subscribe(children => {

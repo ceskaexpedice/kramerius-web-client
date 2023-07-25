@@ -15,6 +15,7 @@ export class DocumentItem {
     volumeNumber: string;
     volumeYear: string;
     pdf = false;
+    epub = false;
     hits: number;
     context: Context[] = [];
     library: string;

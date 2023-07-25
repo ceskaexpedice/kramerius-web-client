@@ -28,7 +28,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.epubTocExpanded = false;
+    this.epubTocExpanded = true;
     this.container = document.getElementById('app-navigation-container');
     this.goToPage(this.bookService.getPage());
     this.pageSubscription = this.bookService.watchPage().subscribe(

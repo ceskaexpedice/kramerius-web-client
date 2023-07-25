@@ -28,7 +28,8 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.epub.init(this.epubViewer, this.bookService.doublePageEnabled);
+    // console.log('EpubViewerComponent ngOnInit');
+    this.epub.init(this.epubViewer, this.bookService.doublePageEnabled, this.bookService.epubUrl);
     this.intervalSubscription = interval(4000).subscribe( () => {
       const lastMouseDist = new Date().getTime() - this.lastMouseMove;
       if (lastMouseDist >= 4000) {
@@ -72,6 +73,7 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
   }
 
   onDocumentReady(event) {
+    // console.log('onDocumentReady', event);
     this.epubViewer.epub.on('renderer:click', (event) => {
       this.onMouseMove();
     });
@@ -88,7 +90,7 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
       }
     });
     this.epubViewer.epub.setGap(50);
-    this.epub.init(this.epubViewer, this.bookService.doublePageEnabled);
+    this.epub.onDocumentReady();
   }
 
   ngOnDestroy() { 

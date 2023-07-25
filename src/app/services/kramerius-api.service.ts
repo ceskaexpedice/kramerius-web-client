@@ -360,6 +360,10 @@ export class KrameriusApiService {
         }
     }
 
+    getEpubUrl(uuid: string): string {
+        return this.getItemUrl(uuid) + '/epub/';
+    }
+
     getMp3Url(uuid: string): string {
         if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);

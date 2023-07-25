@@ -79,14 +79,14 @@
 <ng-container *ngIf="bookService.isEpub()">
 
   <div class="app-epub-search-bar-wrapper" style="min-height: 45px;">
-    <div class="app-epub-search-bar" [class.app-is-query]="query" *ngIf="epubService.totalPages()">
+    <div class="app-epub-search-bar" [class.app-is-query]="query" *ngIf="epubService.ready">
       <input (keyup.enter)="epubService.onSearch()" type="text" placeholder="Hledat" [(ngModel)]="epubService.searchQuery" />
       <mat-icon tabindex="0" class="app-close" *ngIf="epubService.searchQuery" (click)="epubService.cleanQuery()" [matTooltip]="'searchbar.delete_query' | translate">close</mat-icon>
       <mat-icon class="app-magnify" (click)="epubService.onSearch()">search</mat-icon>
     </div>
   </div>
 
-  <div class="app-navigation-header" style="min-height: 44px;">
+  <!-- <div class="app-navigation-header" style="min-height: 44px;">
     <ng-container *ngIf="epubService.totalPages() && !epubService.searching">
       <label for="page-number-epub" class="app-hidden-label">{{ 'common.set_page_number' | translate }}</label>
       <input id="page-number-epub" class="app-current-page" [value]="epubService.location ? epubService.location.page : 0" (change)="epubService.goToPage($event.target.value)" type="text" pattern="[0-9]*" [matTooltip]="'common.set_page_number' | translate" />
@@ -95,7 +95,7 @@
       <span style="margin-left: 7px;">{{ 'common.of_pages' | translate }}</span>
       <mat-icon tabindex="0" style="float:right; line-height: inherit; cursor: pointer; color: #888;" (click)="epubTocExpanded = !epubTocExpanded">{{ epubTocExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
     </ng-container>
-  </div>
+  </div> -->
 
   <div class="app-navigation-toc" *ngIf="!epubService.searching">
     <ng-container *ngFor="let item of epubService.toc">

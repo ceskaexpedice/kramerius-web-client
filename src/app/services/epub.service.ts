@@ -6,7 +6,7 @@ declare var EPUBJS: any;
 @Injectable()
 export class EpubService {
 
-    pages: any[] = [];
+    // pages: any[] = [];
     location;
     toc: any[] = [];
     epubViewer: AngularEpubViewerComponent;
@@ -15,27 +15,28 @@ export class EpubService {
     searchInProgress = false;
     searchResults;
     fontSize = 16;
+    doublePage = false;
+    ready = false;
 
     constructor() {
 
     }
 
-    init(epubViewer: AngularEpubViewerComponent, doublePage: boolean) {
-        this.pages = [];
+    init(epubViewer: AngularEpubViewerComponent, doublePage: boolean, url: string) {
+        // console.log('EPUB Service: init');
+        this.reset();
+        this.epubViewer = epubViewer;
+        this.doublePage = doublePage;
+        this.openUrl(url);
+    }
+
+    private reset() {
+        this.ready = false;
+        // this.pages = [];
         this.location = null;
         this.searchInProgress = false;
         this.toc = [];
         this.searchResults = [];
-        this.epubViewer = epubViewer;
-        if (!this.epubViewer.epub) {
-            return false;
-        }
-        this.setFontSize();
-        if (doublePage) {
-            this.setDoublePage();
-        } else {
-            this.setSinglePage();
-        }
     }
 
     private setFontSize() {
@@ -44,6 +45,18 @@ export class EpubService {
         }
         this.epubViewer.epub.setStyle('font-size', this.fontSize + 'px');
     }
+
+    onDocumentReady() {
+        console.log('EPUB Service: onDocumentReady');
+        this.setFontSize();
+        if (this.doublePage) {
+            this.setDoublePage();
+        } else {
+            this.setSinglePage();
+        }
+        this.ready = true;
+    }
+        
 
     setSinglePage() {
         if (!this.epubViewer.epub) {
@@ -88,7 +101,7 @@ export class EpubService {
     getCfiFromHref(href)  {
         const id = href.split('#')[1];
         const book = this.epubViewer.epub;
-        console.log('spine', book.spine);
+        // console.log('spine', book.spine);
         const item = book.spine.get(href)
         item.load(book.load.bind(book))
         const el = id ? item.document.getElementById(id) : item.document.body
@@ -123,10 +136,10 @@ export class EpubService {
                 }).catch(reject);
             });
             }).then(function(chapter: any) {
-                console.log('chapter', chapter);
-            return Promise.resolve(chapter.find(q));
+                // console.log('chapter', chapter);
+                return Promise.resolve(chapter.find(q));
             }).then(function(result) {
-            resolve(result);
+                resolve(result);
             });
         }));
         }
@@ -163,7 +176,7 @@ export class EpubService {
 
     onTOCLoaded(toc) {
         this.toc = toc;
-        console.log('toc', toc);
+        // console.log('toc', toc);
     }
 
     goToNext() {
@@ -174,28 +187,15 @@ export class EpubService {
         this.epubViewer.previousPage();
     }   
 
-
-//     cfi: "epubcfi(/6/18[Kapit_02.xhtml])"
-// href: "Text/Kapit_02.xhtml"
-
-// cfi: "epubcfi(/6/18[Kapit_02.xhtml#_idParaDest-11])"
-// href: "Text/Kapit_02.xhtml#_idParaDest-11"
-
-//     //http://localhost:4200/mzk/view/OEBPS/Text/Kapit_02.xhtml#_idParaDest-11
     goToChapter(chapter: any) {
-
-    
-
-        console.log('goToChapter', chapter);
+        // console.log('goToChapter', chapter);
         const book = this.epubViewer.epub;
         const context = this;
         var epubcfi = new EPUBJS.EpubCFI();
         epubcfi.generateCfiFromHref(chapter.href, book).then(function(cfi){
-            console.log('--cfi', cfi);
+            // console.log('--cfi', cfi);
             context.epubViewer.goTo(cfi);
-
         });
-
         // // console.log(chapter.href = " -> " + this.getCfiFromHref(chapter.href));
         // const spine = book.spine;//.get(chapter.href);
         // console.log('spine', spine);
@@ -208,26 +208,29 @@ export class EpubService {
         this.epubViewer.goTo(snippet.cfi);
     }
 
-    totalPages(): number {
-        return this.pages.length;
-    }
+    // totalPages(): number {
+    //     return this.pages.length || 1;
+    // }
 
-    goToPage(index: number) {
-        if (index < 1 || index > this.pages.length) {
-            return;
-        }
-        // console.log('go to index', index);
-        this.epubViewer.goTo(this.pages[index - 1].cfi);
-        // this.epubViewer.goto
-    }
+    // goToPage(index: number) {
+    //     if (index < 1 || index > this.pages.length) {
+    //         return;
+    //     }
+    //     // console.log('go to index', index);
+    //     this.epubViewer.goTo(this.pages[index - 1].cfi);
+    // }
 
     openFile(file) {
         this.epubViewer.openFile(file);
     }
+
+    openUrl(url: string) {
+        this.reset();
+        this.epubViewer.openLink(url);
+    }
     
     onLocationFound(location: any) {
         this.location = location;
-        console.log('=====', location);
         // console.log('onLocationFound', location);
     }
 
@@ -239,8 +242,9 @@ export class EpubService {
     }
 
     onPaginationComputed(pages: any) {
+        console.log('EPUB Service: onPaginationComputed');
         // console.log('onPaginationComputed', pages);
-        this.pages = pages;
+        // this.pages = pages;
         // console.log('onPaginationComputed - loca', this.epubViewer.currentLocation);
     }
 
