@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppSettings } from './app-settings';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable()
@@ -11,6 +12,7 @@ export class MapSeriesService {
 
   center = {lat: 49.5, lng: 15};
   zoom: number = 7;
+  language: string = this.translate.currentLang;;
   zoomBrowse: number = 5;
   rootCollectionUUID = "uuid:ee2388c6-7343-4a7f-9287-15bc8b564cbf"; 
   seriesOptions: google.maps.MapOptions;
@@ -26,15 +28,21 @@ export class MapSeriesService {
 
   constructor(
     private httpClient: HttpClient,
-    private settings: AppSettings
-  ) { }
+    private settings: AppSettings,
+    public translate: TranslateService
+  ) { 
+      // translate.onLangChange.subscribe(() => {
+      //   console.log('lang changed');
+      // });
+   }
 
   init(callback: () => void) {
+    console.log('init', callback);
     if (this.mapReady) {
       callback();
       return;
     }
-    this.httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + this.settings.googleMapsApiKey, 'callback').subscribe((response) => {
+    this.httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + this.settings.googleMapsApiKey + '&language=' + this.language, 'callback').subscribe((response) => {
       this.buildOptions();
       this.mapReady = true;
       callback();
@@ -59,7 +67,7 @@ export class MapSeriesService {
       mapTypeControl: false,
       disableDoubleClickZoom: false,
       maxZoom: 15,
-      minZoom: 2
+      minZoom: 2,
     };
     this.browseOptions = {
       center: {lat: this.lat, lng: this.lng},

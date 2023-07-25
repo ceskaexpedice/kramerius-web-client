@@ -6,6 +6,7 @@ import { AppSettings } from '../../services/app-settings';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapSeriesService } from '../../services/mapseries.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-map-series',
@@ -41,7 +42,12 @@ export class MapSeriesComponent implements OnInit {
               private api: KrameriusApiService,
               private route: ActivatedRoute,
               private _sanitizer: DomSanitizer,
-              private router: Router) {
+              private router: Router,
+              public translate: TranslateService) {
+    translate.onLangChange.subscribe(() => {
+      console.log('lang changed');
+      window.location.reload();
+    });
   }
 
   ngOnInit() {
