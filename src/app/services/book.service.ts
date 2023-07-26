@@ -108,7 +108,7 @@ export class BookService {
     }
 
     init(params: BookParams) {
-        console.log('init', params);
+        // console.log('init', params);
         this.clear();
         this.extraParents = [];
         this.uuid = params.uuid;
@@ -309,9 +309,7 @@ export class BookService {
                 for (const collection of item.in_collection) {
                     let uuid = collection;
                     let name = '';
-                    console.log('in collection', collection);
                     this.api.getItem(collection).subscribe(col => {
-                        console.log(col.title)
                         name = col.title
                         this.metadata.inCollections.push({'uuid': uuid, 'name': name})
                     })
@@ -665,7 +663,7 @@ export class BookService {
             index += 1;
         }
         const usePlacement = this.allPages.length > 0 && withPlacement == this.allPages.length;
-        console.log('use mods page placement', usePlacement);
+        // console.log('use mods page placement', usePlacement);
         if (!usePlacement) {
             const bounds = this.computeDoublePageBounds(this.pages.length, titlePage, lastSingle, firstBackSingle);
             if (bounds !== null) {

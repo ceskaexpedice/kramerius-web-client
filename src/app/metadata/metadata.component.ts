@@ -37,6 +37,7 @@ export class MetadataComponent implements OnInit {
               public settings: AppSettings) { }
 
   ngOnInit() {
+    console.log('metadata', this.metadata);
   }
 
   toHtml(text: string): string {

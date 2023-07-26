@@ -369,9 +369,23 @@ export class SearchService {
         }
         if (this.query.collection) {
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
+                // console.log('query.collection', this.query.collection);
                 metadata.context['collection'] = this.query.collection;
                 this.collection = metadata;
+                this.api.getItem(this.query.collection).subscribe((item: DocumentItem) => {
+                    if (item.in_collection) {
+                        for (const collection of item.in_collection) {
+                            let uuid = collection;
+                            let name = '';
+                            this.api.getItem(collection).subscribe(col => {
+                                name = col.title
+                                this.collection.inCollections.push({'uuid': uuid, 'name': name})
+                            })
+                        }
+                    }
+                });
             });
+            
             let uuid = this.query.collection;
             this.collectionStructure = {
                 collections: [],
@@ -409,10 +423,8 @@ export class SearchService {
         let collections = [];
         this.buildCollectionStructureTree(uuid).then(() => {
             collections = this.collectionStructureTree;
-            console.log('collections', collections);
             let startingCol = this.collectionStructureTree.find(x => x.uuid == uuid);   // urcim si pocatecni kolekci stromu
             this.findPaths(startingCol)                                            // najdu rekurzivne vsechny cesty v kolekcich
-            console.log('this.collectionStructure', this.collectionStructure);
             this.collectionStructure.ready = true;
         });
         
@@ -428,7 +440,6 @@ export class SearchService {
             this.findPaths(this.collectionStructureTree.find(x => x.uuid == childUuid), newPath);
           });
         } else {
-          console.log('Nalezena cesta:', newPath);
             this.collectionStructure.collections.push(newPath);
         }
       }
