@@ -1,0 +1,30 @@
+
+<div class="app-folders-wrapper" *ngIf="!loading">
+    <div class="app-folders-container">
+        <div class="app-folders-header">
+            <div class="app-folders-header-title">Seznamy ({{this.folders[0].length + this.folders[1].length}})</div>
+            <div class="app-folders-header-actions" (click)="openFoldersDialog()">+ Nový seznam</div>
+        </div>
+        <div class="app-folder-items">
+            <div class="app-folder-header">Moje seznamy</div>
+            <a class="app-folder-item" 
+            *ngFor="let folder of folders[0]"
+            [routerLink]="['/folders', folder.uuid]">
+                <div>
+                    {{folder.name}}
+                </div>
+            </a>
+        </div>
+        <div class="app-folder-items">
+            <div class="app-folder-header">Sdílené seznamy</div>
+            <a class="app-folder-item" 
+            *ngFor="let folder of folders[1]"
+            [routerLink]="['/folders', folder.uuid]">
+                <div>
+                    {{folder.name}}
+                </div>
+            </a>
+        </div>
+    </div> 
+    <app-folder *ngIf="folder" [folder]="folder"></app-folder>
+</div>

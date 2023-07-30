@@ -49,6 +49,8 @@ import { HomeComponent } from './home/home.component';
 import { BrowseComponent } from './browse/browse.component';
 import { NavigationComponent } from './book/navigation/navigation.component';
 import { MetadataComponent } from './metadata/metadata.component';
+import { FoldersComponent } from './folders/folders.component';
+import { FolderComponent } from './folders/folder/folder.component';
 
 import { Ng2CompleterModule } from 'ng2-completer';
 import { AppState } from './app.state';
@@ -160,6 +162,9 @@ import { MapSeriesService } from './services/mapseries.service';
 import { MapViewerComponent } from './book/map-viewer/map-viewer.component';
 import { GeoreferenceService } from './services/georeference.service';
 import { CsvService } from './services/csv.service';
+import { FolderService } from './services/folder.service';
+import { FolderDialogComponent } from './dialog/folder-dialog/folder-dialog.component';
+import { FolderConfirmDialogComponent } from './dialog/folder-confirm-dialog/folder-confirm-dialog.component';
 
 declare var APP_GLOBAL: any;
 
@@ -279,7 +284,11 @@ export function appInitializerFactory(translate: TranslateService) {
     AuthComponent,
     AdvancedSearchDialogComponent,
     SearchHelpDialogComponent,
-    MapViewerComponent
+    MapViewerComponent,
+    FoldersComponent,
+    FolderComponent,
+    FolderDialogComponent,
+    FolderConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -349,6 +358,7 @@ export function appInitializerFactory(translate: TranslateService) {
     MapSeriesService,
     GeoreferenceService,
     CsvService,
+    FolderService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,

@@ -1,0 +1,18 @@
+<div class="app-folder-container" *ngIf="folder">
+    <div class="app-folder-toolbar">
+        <div class="app-folder-toolbar-title">{{folder.name}}</div>
+        <div class="app-folder-toolbar-actions"> 
+            <div (click)="openEditFolderDialog(folder.pid)"><mat-icon>edit</mat-icon></div>
+            <div (click)="openDeleteFolderDialog(folder.pid)"><mat-icon>delete</mat-icon></div>
+        </div>
+    </div>
+    <div class="app-folder-content" *ngIf="folder && folder.items">
+        <div class="app-folder-item" 
+            *ngFor="let item of folder.items; let odd=odd; let even=even;" 
+            [routerLink]="item.url"
+            [ngClass]="{ odd: odd, even: even}">
+            {{item.title}}, {{item.date}}, {{item.uuid}}
+        </div>
+    </div>
+</div>
+

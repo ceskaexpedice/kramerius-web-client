@@ -1,0 +1,13 @@
+<div class="app-dialog-wrapper">
+    <div mat-dialog-content>
+        <div class="app-dialog-title">{{ data.title | translate }}</div>
+        <mat-form-field>
+          <mat-label>{{data.message}}</mat-label>
+          <input matInput [(ngModel)]="data.name" #nameInput (keyup.enter)="onEnterKeyPressed()">
+        </mat-form-field>
+      </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Zavřít</button>
+        <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>{{data.button}}</button>
+    </div>
+</div>

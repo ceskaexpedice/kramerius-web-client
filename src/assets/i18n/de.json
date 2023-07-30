@@ -93,7 +93,8 @@
       "back": "Zurück zur vorherigen Seite",
       "home": "Home",
       "login": "Anmelden",
-      "logout": "Abmelden"
+      "logout": "Abmelden",
+      "folders": "Listen"
     },
     "searchbar": {
       "main": {

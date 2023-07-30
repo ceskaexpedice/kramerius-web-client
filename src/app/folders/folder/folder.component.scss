@@ -1,0 +1,43 @@
+@import './src/variables.scss';
+
+.app-folder-container {
+    .app-folder-toolbar {
+        height: 55px;
+        line-height: 55px;
+        border-bottom: 1px solid #e0e0e0;
+        position: relative;
+        z-index: 990;
+        padding: 0 13px;
+        background: #fff;
+        display: flex;
+        justify-content: space-between;
+        .app-folder-toolbar-title {
+            font-size: 15px;
+        }
+        .app-folder-toolbar-actions {
+            display: flex;
+            flex-direction: row;
+        }
+        mat-icon {
+            margin: 14px;
+            cursor: pointer;
+        }
+    }
+    .app-folder-content {
+        background: #fff;
+        .app-folder-item {
+            padding: 0.5rem 1rem;
+            font-size: 15px;
+            color: $app-grey-text;
+            display: block;
+            &.even {
+            background: $app-grey-l-4;
+            }
+            &:hover {
+            color: $primary-color;
+            background-color: $app-grey-l-2;
+            cursor: pointer;
+            }
+    }
+    }
+}

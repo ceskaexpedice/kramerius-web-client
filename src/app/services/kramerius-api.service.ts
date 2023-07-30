@@ -5,7 +5,7 @@ import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { throwError } from 'rxjs';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { AppSettings } from './app-settings';
@@ -21,6 +21,7 @@ import { BrowseQuery } from '../browse/browse_query.model';
 import { Metadata } from '../model/metadata.model';
 import { ModsParserService } from './mods-parser.service';
 import { catchError, map } from 'rxjs/operators';
+import { Folder } from '../model/folder.model';
 
 @Injectable()
 export class KrameriusApiService {
@@ -345,6 +346,23 @@ export class KrameriusApiService {
         return this.doGet(url)
             .pipe(map(response => response));
     }
+
+    getFolders() {
+        const url = this.getApiUrl() + '/folders';
+        // return this.doGet(url)
+        //     .pipe(map(response => Folder.fromJson(response)));
+        // console.log('getFolders', Folder.generateDummyFolders(7));
+        return of(Folder.folders);
+    }
+
+    getFolder(id: string): Observable<Folder> {
+        const url = this.getApiUrl() + '/folders/' + id;
+        let folderDetail = Folder.folders.find(f => f.pid === id);
+        if (folderDetail) {
+            return of(Folder.folders.find(f => f.pid === id));
+        }
+    }
+
 
     getKrameriusInfo(language: string): Observable<KrameriusInfo> {
         const url = this.getApiUrl() + '/info?language=' + language;
