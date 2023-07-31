@@ -37,27 +37,29 @@ export class AppComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private matomoInjector: MatomoInjector) {
 
-    const script = document.createElement('script');
-    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + settings.ga4;
-    script.async = true;
-    document.head.appendChild(script);
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function() { window.dataLayer.push(arguments); };
-    window.gtag('js', new Date());
-    window.gtag('config', settings.ga4, {
-      send_page_view: false
-    });
-    if (!analytics.ga4Allowed()) {
-      window.gtag('consent', 'default', {
-        'ad_storage': 'denied',
-        'analytics_storage': 'denied'
-      });
-    } else {
-      window.gtag('consent', 'default', {
-        'ad_storage': 'granted',
-        'analytics_storage': 'granted'
-      });
-    }
+      if (analytics.ga4Enabled()) {
+        const script = document.createElement('script');
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + settings.ga4;
+        script.async = true;
+        document.head.appendChild(script);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function() { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', settings.ga4, {
+          send_page_view: false
+        });
+        if (!analytics.ga4Allowed()) {
+          window.gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied'
+          });
+        } else {
+          window.gtag('consent', 'default', {
+            'ad_storage': 'granted',
+            'analytics_storage': 'granted'
+          });
+        }
+      }
   } 
 
   @HostListener('document:keydown', ['$event'])
@@ -70,7 +72,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.showCookiebar = !localStorage.getItem('cpref') && this.settings.cookiebar;
     if (this.settings.matomo && (!this.settings.cookiebar || localStorage.getItem('cpref') == 'all' || localStorage.getItem('cpref') == 'analytical')) {
-      this.matomoInjector.init(this.settings.matomo, 5);
+      this.matomoInjector.init(this.settings.matomo, this.settings.matomoSiteId || 5);
     }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

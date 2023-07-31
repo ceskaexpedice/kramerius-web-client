@@ -42,6 +42,8 @@ export class AppSettings {
   public ga4 = APP_GLOBAL.ga4;
   public ga4clientId = APP_GLOBAL.ga4clientId;
   public matomo = APP_GLOBAL.matomo;
+  public matomoSiteId = APP_GLOBAL.matomoSiteId;
+
   public maxOmnibusParts: number;
   public maxOmnibusPages: number;
   public adminClientUrl: string;
