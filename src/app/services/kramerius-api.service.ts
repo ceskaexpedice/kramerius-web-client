@@ -204,7 +204,14 @@ export class KrameriusApiService {
         if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid)).pipe(map(response => this.utils.parseItem(response)));
         } else {
-            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => this.solr.documentItem(response)));
+            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => {
+                    const item = this.solr.documentItem(response);
+                    if (item == null) {
+                        throw new NotFoundError();
+                    } else {
+                        return item;
+                    }
+                }));
         }
     }
 

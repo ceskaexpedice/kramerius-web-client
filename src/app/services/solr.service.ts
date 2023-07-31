@@ -699,7 +699,7 @@ export class SolrService {
     }
 
     documentItem(solr): DocumentItem {
-        if (!solr['response']['docs'] || solr['response']['docs'].lenght < 1) {
+        if (!solr['response']['docs'] || solr['response']['docs'].length < 1) {
             return null;
         }
         const doc = solr['response']['docs'][0];
