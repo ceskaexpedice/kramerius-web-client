@@ -74,6 +74,20 @@
             auto_stories
   </mat-icon>
 
+  <mat-icon (click)="controlsService.toggleTts();analytics.sendEvent('viewer', 'controls', 'tts')"
+    tabindex="0"
+    class="hide-on-small"
+    [matTooltip]="'Přečti text'" >
+    record_voice_over
+  </mat-icon>
+
+  <mat-icon (click)="controlsService.summarize();analytics.sendEvent('viewer', 'controls', 'sumarize')"
+  tabindex="0"
+  class="hide-on-small"
+  [matTooltip]="'Sumarizuj'" >
+  list
+</mat-icon>
+
   <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'lock')"
           tabindex="0"
           class="hide-on-small"

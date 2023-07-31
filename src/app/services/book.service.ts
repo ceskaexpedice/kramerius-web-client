@@ -29,6 +29,7 @@ import { OcrDialogComponent } from '../dialog/ocr-dialog/ocr-dialog.component';
 import { saveAs } from 'file-saver';
 import { PdfService } from './pdf.service';
 import { GeoreferenceService } from './georeference.service';
+import { TtsService } from './tts.service';
 
 @Injectable()
 export class BookService {
@@ -90,6 +91,7 @@ export class BookService {
     private initPdfPosition = 1;
 
     epubUrl: string;
+    continueTts = false;
 
     constructor(private location: Location,
         private altoService: AltoService,
@@ -106,6 +108,7 @@ export class BookService {
         private pdf: PdfService,
         private bottomSheet: MatBottomSheet,
         private licenceService: LicenceService,
+        private tts: TtsService,
         private geoService: GeoreferenceService) {
     }
 
@@ -803,6 +806,37 @@ export class BookService {
     }
 
 
+
+    summarizeSelection(extent, width: number, height: number, right: boolean) {
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.api.getAlto(uuid).subscribe(
+            result => {
+                const text = this.altoService.getTextInBox(result, extent, width, height);
+                // this.tts.askGPT(text, "Shrň v odrážkách následující text", (answer) => {
+
+                
+                this.tts.askGPT(text, "Udělej fact checking článku z dobových novin padesátých let", (answer) => {
+                    const options = {
+                        title: 'Shrnutí',
+                        ocr: answer,
+                        uuid: this.getPage().uuid,
+                        showCitation: false
+                    };
+                    this.bottomSheet.open(OcrDialogComponent, { data: options });
+                });
+            },
+            error => {
+                if (error instanceof NotFoundError) {
+                    this.dialog.open(BasicDialogComponent, { data: {
+                        title: 'common.warning',
+                        message: 'dialogs.missing_alto.message',
+                        button: 'common.close'
+                    }, autoFocus: false });
+                }
+            }
+        );
+    }
+
     showTextSelection(extent, width: number, height: number, right: boolean) {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.api.getAlto(uuid).subscribe(
@@ -841,6 +875,19 @@ export class BookService {
                 window.open(url, '_blank');
             }
         }
+    }
+
+    toggleReading() {
+        if (this.tts.inProgress()) {
+            this.continueTts = false;
+            this.tts.stop();
+            return;
+        }
+        this.tts.readPage(this.getPage().uuid, () => {
+            console.log('page reading finished');
+            this.continueTts = true;
+            this.goToNext();
+        });
     }
 
     showJpeg() {
@@ -1136,6 +1183,16 @@ export class BookService {
         }
         console.log('----analytics', 'page');
         this.analytics.sendEvent('page', this.metadata.getShortTitleWithUnit(), pages);
+
+        if (this.continueTts) {
+            setTimeout(() => {
+                this.tts.readPage(this.getPage().uuid, () => {
+                    console.log('page reading finished');
+                    this.continueTts = true;
+                    this.goToNext();
+                });
+            }, 400);
+        }
     }
 
 

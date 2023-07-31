@@ -102,6 +102,14 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.toggleLock);
     }
 
+    toggleTts() {
+        this.listners.next(ViewerActions.toggleTts);
+    }
+
+    summarize() {
+        this.listners.next(ViewerActions.summarize);
+    }
+
     enterFullscreen(elname: string) {
         const el = document.getElementById(elname);
         // go full-screen
@@ -190,5 +198,7 @@ export enum ViewerActions {
     doublePageOff = 10,
     toggleLock = 11,
     hideWarpedLayer = 12,
-    setWarpedLayerOpacity = 13
+    setWarpedLayerOpacity = 13,
+    toggleTts = 14,
+    summarize = 15,
 }

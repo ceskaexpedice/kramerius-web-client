@@ -14,6 +14,7 @@ import { ZoomifyService } from '../../services/zoomify.service';
 import { AltoService } from '../../services/alto-service';
 import { LoggerService } from '../../services/logger.service';
 import { LicenceService } from '../../services/licence.service';
+import { TtsService } from '../../services/tts.service';
 
 declare var ol: any;
 
@@ -45,6 +46,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   private viewerActionsSubscription: Subscription;
   private pageSubscription: Subscription;
+  private ttsSubscription: Subscription;
+
   private intervalSubscription: Subscription;
 
   public hideOnInactivity = false;
@@ -65,6 +68,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   constructor(public bookService: BookService,
               public authService: AuthService,
+              private tts: TtsService,
               public settings: AppSettings,
               public licences: LicenceService,
               private http: HttpClient,
@@ -87,6 +91,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.pageSubscription = this.bookService.watchViewerData().subscribe(
       (data: ViewerData) => {
         this.updateImage(data);
+      }
+    );
+    this.ttsSubscription = this.tts.watchBlock().subscribe(
+      (block: any) => {
+        this.updateTtsBlock(block);
       }
     );
     this.updateImage(this.bookService.getViewerData());
@@ -122,11 +131,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
   init() {
     const mainStyle = new ol.style.Style({
       fill: new ol.style.Fill({
-        color: 'rgba(244, 81, 30, 0.20)'
+        color: 'rgba(2, 119, 189, 0.20)'
       }),
       stroke: new ol.style.Stroke({
-        color: '#F4511E',
-        width: 2
+        color: '#0277bd',
+        width: 0
       })
     });
     this.vectorLayer = new ol.layer.Vector({
@@ -244,6 +253,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
   }
 
+  private toggleTts() {
+    this.bookService.toggleReading();
+  }
+
   private toggleLock() {
     this.bookService.zoomLockEnabled = !this.bookService.zoomLockEnabled;
     if (this.bookService.zoomLockEnabled) {
@@ -272,7 +285,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   onSelectionEnd(extent, width: number, height: number, right: boolean) {
     this.view.removeInteraction(this.selectionInteraction);
-    if (this.selectionType === SelectionType.textSelection) {
+    if (this.selectionType === SelectionType.summarize) {
+      this.bookService.summarizeSelection(extent, width, height, right);
+    } else if (this.selectionType === SelectionType.textSelection) {
       this.bookService.showTextSelection(extent, width, height, right);
     } else if (this.selectionType === SelectionType.imageSelection) {
       this.bookService.showImageCrop(extent, right);
@@ -307,6 +322,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
         break;
       case ViewerActions.toggleLock:
         this.toggleLock();
+        break;
+      case ViewerActions.toggleTts:
+        this.toggleTts();
+        break;
+      case ViewerActions.summarize:
+        this.onSelectionStart(SelectionType.summarize);
         break;
       case ViewerActions.selectText:
         this.onSelectionStart(SelectionType.textSelection);
@@ -366,6 +387,31 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.updateSize();
     this.view.getView().setRotation(0);
     this.view.getView().fit(this.extent);
+  }
+
+  private updateTtsBlock(block: any) {
+    this.view.removeLayer(this.vectorLayer);
+    this.vectorLayer.getSource().clear();
+    if (!block) {
+      return;
+    }
+    const box: any[] = [];
+    const wc = block.width > 0 ? this.imageWidth / block.width : 1;
+    const hc = block.height > 0 ? this.imageHeight / block.height : 1;
+    console.log('wc', wc);
+    console.log('hc', hc);
+    console.log('block.width', block.aw);
+    console.log('this.imageWidth', this.imageWidth);
+
+    box.push([block.hMin * wc, -block.vMin * hc]);
+    box.push([block.hMax * wc, -block.vMin * hc]);
+    box.push([block.hMax * wc, -block.vMax * hc]);
+    box.push([block.hMin * wc, -block.vMax * hc]);
+    box.push([block.hMin * wc, -block.vMin * hc]);
+    const polygon = new ol.geom.Polygon([box]);
+    const feature = new ol.Feature(polygon);
+    this.vectorLayer.getSource().addFeature(feature);
+    this.view.addLayer(this.vectorLayer);
   }
 
   updateBoxes() {
@@ -870,6 +916,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.pageSubscription) {
       this.pageSubscription.unsubscribe();
     }
+    if (this.ttsSubscription) {
+      this.ttsSubscription.unsubscribe();
+    }
     if (this.intervalSubscription) {
       this.intervalSubscription.unsubscribe();
     }
@@ -913,5 +962,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 export enum SelectionType {
   imageSelection = 1,
-  textSelection = 2
+  textSelection = 2,
+  summarize = 3
 }
