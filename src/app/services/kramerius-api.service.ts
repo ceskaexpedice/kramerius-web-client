@@ -406,6 +406,22 @@ export class KrameriusApiService {
         }
     }
 
+
+    getEpubFileFromUrl(uuid: string): Observable<File> {
+        let blob: Observable<Blob>;
+        if (this.settings.k5Compat()) {
+            blob = this.doGetBlob(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_PREVIEW));
+        } else {
+            blob = this.doGetBlob(this.getItemUrl(uuid) + '/image')
+        }
+        return blob.pipe(map((blobData) => {
+            const file = new File([blobData], 'image.epub', {
+                type: "application/epub+zip",
+            });
+            return file;
+        }));
+    }
+
     getScaledJpegUrl(uuid: string, height: number): string {
         let url = this.getbaseUrl() + '/search/img?pid=' + uuid + '&stream=IMG_FULL';
         if (height) {

@@ -89,8 +89,6 @@ export class BookService {
 
     private initPdfPosition = 1;
 
-    epubUrl: string;
-
     constructor(private location: Location,
         private altoService: AltoService,
         private settings: AppSettings,
@@ -120,7 +118,7 @@ export class BookService {
         this.initPdfPosition = Number(params.pdfIndex) || 1;
         if (params.uuid == 'epub') {
             this.bookState = BookState.Success;
-            this.setupEpub('');
+            this.setupEpub();
             return;
         }
         this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
@@ -226,9 +224,8 @@ export class BookService {
     }
 
 
-    setupEpub(uuid: string) {
+    setupEpub() {
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
-        this.epubUrl = uuid ? this.api.getEpubUrl(uuid) : null;
         this.viewer = 'epub';
         this.activeNavigationTab = 'epubToc';
         this.showNavigationPanel = true;
@@ -297,7 +294,7 @@ export class BookService {
             this.metadata.licences = this.licences;
             this.metadata.licence = this.licence;
             if (item.epub) {
-                this.setupEpub(params.uuid)
+                this.setupEpub()
             } else if (item.pdf) {
                 this.setupPdf(params.uuid);
             } else {

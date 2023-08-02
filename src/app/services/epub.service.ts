@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularEpubViewerComponent } from 'angular-epub-viewer';
+import { KrameriusApiService } from './kramerius-api.service';
 
 declare var EPUBJS: any;
 
 @Injectable()
 export class EpubService {
 
-    // pages: any[] = [];
+    pages: any[] = [];
     location;
     toc: any[] = [];
     epubViewer: AngularEpubViewerComponent;
@@ -18,17 +19,15 @@ export class EpubService {
     doublePage = false;
     ready = false;
 
-    constructor() {
-
+    constructor(private api: KrameriusApiService) {
     }
 
-    init(epubViewer: AngularEpubViewerComponent, doublePage: boolean, url: string) {
-        // console.log('EPUB Service: init');
+    init(epubViewer: AngularEpubViewerComponent, doublePage: boolean, uuid: string) {
         this.reset();
         this.epubViewer = epubViewer;
         this.doublePage = doublePage;
-        if (url) {
-            this.openUrl(url);
+        if (uuid) {
+            this.open(uuid);
         }
     }
 
@@ -210,17 +209,17 @@ export class EpubService {
         this.epubViewer.goTo(snippet.cfi);
     }
 
-    // totalPages(): number {
-    //     return this.pages.length || 1;
-    // }
+    totalPages(): number {
+        return this.pages.length || 1;
+    }
 
-    // goToPage(index: number) {
-    //     if (index < 1 || index > this.pages.length) {
-    //         return;
-    //     }
-    //     // console.log('go to index', index);
-    //     this.epubViewer.goTo(this.pages[index - 1].cfi);
-    // }
+    goToPage(index: number) {
+        if (index < 1 || index > this.pages.length) {
+            return;
+        }
+        // console.log('go to index', index);
+        this.epubViewer.goTo(this.pages[index - 1].cfi);
+    }
 
     openFile(file) {
         this.reset();
@@ -230,6 +229,13 @@ export class EpubService {
     openUrl(url: string) {
         this.reset();
         this.epubViewer.openLink(url);
+    }
+
+    open(uuid: string) {
+        this.reset();
+        this.api.getEpubFileFromUrl(uuid).subscribe(file => {   
+            this.epubViewer.openFile(file);
+        });
     }
     
     onLocationFound(location: any) {
@@ -247,7 +253,7 @@ export class EpubService {
     onPaginationComputed(pages: any) {
         // console.log('EPUB Service: onPaginationComputed');
         // console.log('onPaginationComputed', pages);
-        // this.pages = pages;
+        this.pages = pages;
         // console.log('onPaginationComputed - loca', this.epubViewer.currentLocation);
     }
 
