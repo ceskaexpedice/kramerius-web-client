@@ -2,8 +2,11 @@
     <div class="app-folder-toolbar">
         <div class="app-folder-toolbar-title">{{folder.name}}</div>
         <div class="app-folder-toolbar-actions"> 
-            <div (click)="openEditFolderDialog(folder.pid)"><mat-icon>edit</mat-icon></div>
-            <div (click)="openDeleteFolderDialog(folder.pid)"><mat-icon>delete</mat-icon></div>
+            <div *ngIf="user === 'owner'" (click)="openEditFolderDialog(folder.pid)"><mat-icon>edit</mat-icon></div>
+            <div *ngIf="user === 'owner'" (click)="openDeleteFolderDialog(folder.pid)"><mat-icon>delete</mat-icon></div>
+            <div *ngIf="user === 'owner'" (click)="openDeleteFolderDialog(folder.pid)"><mat-icon>share</mat-icon></div>
+            <div *ngIf="user === 'follower'" (click)="openUnfollowFolderDialog(folder.pid)"><mat-icon>delete</mat-icon></div>
+            <div *ngIf="(user !== 'follower' && user !== 'owner')" (click)="openFollowFolderDialog(folder)"><mat-icon>add</mat-icon></div>
         </div>
     </div>
     <div class="app-folder-content" *ngIf="folder && folder.items">

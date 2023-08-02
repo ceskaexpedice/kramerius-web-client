@@ -12,8 +12,8 @@ import { FolderDialogComponent } from '../../dialog/folder-dialog/folder-dialog.
   styleUrls: ['./folder.component.scss']
 })
 export class FolderComponent implements OnInit {
-  name: string;
   @Input() folder: Folder;
+  @Input() user: string;
 
   constructor(private folderService: FolderService,
               private router: Router,
@@ -28,31 +28,32 @@ export class FolderComponent implements OnInit {
         title: 'Smazat seznam',
         message: 'Opravdu chcete smazat seznam ' + this.folder.name +'?',
         confirm: 'confirm'}, 
-      autoFocus: false });
-      
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed', result);
-        if (result) {
-          this.folderService.deleteFolder(uuid)
-        }
-        else {
-          console.log('neni zadano jmeno');
-        }
-      });
+      autoFocus: false 
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result) {
+        this.folderService.deleteFolder(uuid)
+        this.router.navigate(['/folders']);
+      }
+      // else {
+      //   console.log('neni zadano jmeno');
+      // }
+    });
   }
   openEditFolderDialog(uuid: string) {
-    this.name = this.folder.name;
+    const name = this.folder.name;
     const dialogRef = this.dialog.open(FolderDialogComponent, { 
       data: {
         title: 'Upravit název seznamu',
         message: '',
-        name: this.name,
+        name: name,
         button: 'Uložit'}, 
       autoFocus: false });
       
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed', result);
-        this.name = result;
+        this.folder.name = result;
         if (result) {
           this.folderService.editFolder(uuid, result)
         }
@@ -60,6 +61,43 @@ export class FolderComponent implements OnInit {
           console.log('neni zadano jmeno');
         }
       });
+  }
+  openUnfollowFolderDialog(uuid: string) {
+    const dialogRef = this.dialog.open(FolderConfirmDialogComponent, { 
+      data: {
+        title: 'Přestat sledovat seznam',
+        message: 'Opravdu chcete přestat sledovat seznam ' + this.folder.name +'?',
+        confirm: 'confirm'}, 
+      autoFocus: false 
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result) {
+        this.folderService.unfollowFolder(uuid)
+      }
+      else {
+        console.log('neni zadano jmeno');
+      }
+    });
+  }
+  openFollowFolderDialog(folder: Folder) {
+    console.log('folder', folder);
+    const dialogRef = this.dialog.open(FolderConfirmDialogComponent, { 
+      data: {
+        title: 'Sledovat seznam',
+        message: 'Opravdu chcete sledovat seznam ' + this.folder.name +'?',
+        confirm: 'confirm'}, 
+      autoFocus: false 
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result) {
+        this.folderService.followFolder(folder)
+      }
+      else {
+        console.log('neni zadano jmeno');
+      }
+    });
   }
 
 }

@@ -12,8 +12,7 @@ export class FolderService {
     private username = 'pavla'
     private password = 'blabla'
 
-    private folders: any[]
-    private foldersUpdated = new Subject<any[]>();
+    folders: any[]
 
     constructor(private http: HttpClient,
                 private krameriusApiService: KrameriusApiService,
@@ -22,16 +21,23 @@ export class FolderService {
     
     // API
     
-    getFolders() {
+    getFolders(callback: (folders: Folder[]) => void) {
+        if (this.folders && this.folders.length > 0) {
+            callback(this.folders);
+            return;
+        }
+        console.log('=== loading new data from server');
         const headers = new HttpHeaders({
           Authorization: 'Basic ' + btoa(this.username + ':' + this.password)
         });
         this.http.get<any>(this.apiUrl, { headers }).subscribe(results => { 
             this.folders = this.sortFoldersByOwner(results);
-            this.foldersUpdated.next([...this.folders]);
+            if (callback) {
+                callback(this.folders);
+            }
+            // this.foldersUpdated.next([...this.folders]);
         });
     }
-
     getFolder(uuid: string): Observable<any> {
         const headers = new HttpHeaders({
           Authorization: 'Basic ' + btoa(this.username + ':' + this.password)
@@ -64,20 +70,31 @@ export class FolderService {
         let body = {"name": name};
         return this.http.put<any>(this.apiUrl + '/' + uuid, body, { headers })
     }
+    followFolderApi(uuid: string): Observable<any> {
+        const headers = new HttpHeaders({
+            Authorization: 'Basic ' + btoa(this.username + ':' + this.password)
+        });
+        return this.http.post<any>(this.apiUrl + '/' + uuid + '/follow', {}, { headers })
+    }
+    unfollowFolderApi(uuid: string): Observable<any> {
+        const headers = new HttpHeaders({
+            Authorization: 'Basic ' + btoa(this.username + ':' + this.password)
+        });
+        return this.http.post<any>(this.apiUrl + '/' + uuid + '/unfollow', {}, { headers })
+    }
 
     // FUNKCE
+
     addFolder(name: string) {
         this.createNewFolder(name).subscribe(results => {
             console.log(results);
             this.folders[0].push(results);
-            this.foldersUpdated.next([...this.folders]);
             this.router.navigate(['folders/' + results['uuid']]);
         });
     }
     deleteFolder(uuid: string) {
         this.deleteFolderApi(uuid).subscribe(results => {
             this.folders[0] = this.folders[0].filter(folder => folder['uuid'] != uuid);
-            this.foldersUpdated.next([...this.folders]); 
             this.router.navigate(['/folders']);
         });
     }
@@ -89,14 +106,36 @@ export class FolderService {
                     folder['name'] = name;
                 }
             });
-            this.foldersUpdated.next([...this.folders]);
         });
     }
-    getFolderUpdateListener() {
-        return this.foldersUpdated.asObservable();
+    followFolder(folder: Folder) {
+        this.followFolderApi(folder.pid).subscribe(results => {
+            console.log('followFolder', results);
+            this.folders[1].push(folder);
+            // this.router.navigate(['folders/' + results['uuid']]);
+        });
+    }
+    unfollowFolder(uuid: string) {
+        this.unfollowFolderApi(uuid).subscribe(results => {
+            console.log('results', results);
+            this.folders[1] = this.folders[1].filter(folder => folder['uuid'] != uuid);
+        });
     }
 
-    mapFolderItemsToDocuments(folder: Folder): Observable<any> {
+    checkUser(folder: Folder): Observable<any> {
+        let role;
+        folder['users'][0].find(user => {
+            if (user['userRole'] == 'owner' && user["userId"] == this.username) {
+                role = 'owner';
+            }
+            else if (user['userRole'] == 'follower' && user["userId"] == this.username) {
+                role = 'follower';
+            }
+        });
+        return of(role);
+    }
+
+    mapFolderItemsToDocumentItems(folder: Folder): Observable<any> {
         let items = [];
         folder.items.map(item => {
           this.krameriusApiService.getItem(item).subscribe(i => {
@@ -107,24 +146,21 @@ export class FolderService {
     }
 
     sortFoldersByOwner(folders: Folder[]): any[] {
-        // return folders.filter(folder => {
-            let myFolders = [];
-            let sharedFolders = [];
-            for (const folder of folders) {
-                folder['users'][0].find(user => {
-                    // console.log('user', user);
-                    if (user['userRole'] == 'owner' && user["userId"] == this.username) {
-                        // console.log('owner');
-                        myFolders.push(folder);
-                    }
-                    else if (user['userRole'] == 'follower' && user["userId"] == this.username) {
-                        sharedFolders.push(folder);
-                    }
-                });
-            }
-            return [this.sortFoldersAlphabetically(myFolders), this.sortFoldersAlphabetically(sharedFolders)];
-
-        // });
+        let myFolders: Folder[] = [];
+        let sharedFolders: Folder[] = [];
+        for (const folder of folders) {
+            folder['users'][0].find(user => {
+                if (user['userRole'] == 'owner' && user["userId"] == this.username) {
+                    folder.user = 'owner';
+                    myFolders.push(folder);
+                }
+                else if (user['userRole'] == 'follower' && user["userId"] == this.username) {
+                    folder.user = 'follower';
+                    sharedFolders.push(folder);
+                }
+            });
+        }
+        return [this.sortFoldersAlphabetically(myFolders), this.sortFoldersAlphabetically(sharedFolders)];
     }
 
     sortFoldersAlphabetically(folders: Folder[]): Folder[] {
