@@ -3,8 +3,10 @@ import { Folder } from './../../model/folder.model';
 import { FolderService } from './../../services/folder.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { SearchService } from './../../services/search.service';
 import { FolderConfirmDialogComponent } from '../../dialog/folder-confirm-dialog/folder-confirm-dialog.component';
 import { FolderDialogComponent } from '../../dialog/folder-dialog/folder-dialog.component';
+import { FolderShareDialogComponent } from '../../dialog/folder-share-dialog/folder-share-dialog.component';
 
 @Component({
   selector: 'app-folder',
@@ -17,11 +19,14 @@ export class FolderComponent implements OnInit {
 
   constructor(private folderService: FolderService,
               private router: Router,
-              private dialog: MatDialog) {  }
+              private dialog: MatDialog,
+              public searchService: SearchService) { 
+
+               }
 
   ngOnInit(): void {
-    // console.log('folder', this.folder);
   }
+
   openDeleteFolderDialog(uuid: string) {
     const dialogRef = this.dialog.open(FolderConfirmDialogComponent, { 
       data: {
@@ -57,10 +62,20 @@ export class FolderComponent implements OnInit {
         if (result) {
           this.folderService.editFolder(uuid, result)
         }
-        else {
-          console.log('neni zadano jmeno');
+        if (!result) {
+          this.folder.name = name;
         }
+        // else {
+        //   console.log('neni zadano jmeno');
+        // }
       });
+  }
+  openShareFolderDialog(uuid: string) {
+    let folder = {folder: this.folder};
+    this.dialog.open(FolderShareDialogComponent, {
+      data: folder,
+      autoFocus: false
+    });
   }
   openUnfollowFolderDialog(uuid: string) {
     const dialogRef = this.dialog.open(FolderConfirmDialogComponent, { 

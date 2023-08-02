@@ -4,18 +4,19 @@
         <div class="app-folder-toolbar-actions"> 
             <div *ngIf="user === 'owner'" (click)="openEditFolderDialog(folder.pid)"><mat-icon>edit</mat-icon></div>
             <div *ngIf="user === 'owner'" (click)="openDeleteFolderDialog(folder.pid)"><mat-icon>delete</mat-icon></div>
-            <div *ngIf="user === 'owner'" (click)="openDeleteFolderDialog(folder.pid)"><mat-icon>share</mat-icon></div>
+            <div *ngIf="user === 'owner'" (click)="openShareFolderDialog(folder.pid)"><mat-icon>share</mat-icon></div>
             <div *ngIf="user === 'follower'" (click)="openUnfollowFolderDialog(folder.pid)"><mat-icon>delete</mat-icon></div>
             <div *ngIf="(user !== 'follower' && user !== 'owner')" (click)="openFollowFolderDialog(folder)"><mat-icon>add</mat-icon></div>
         </div>
     </div>
-    <div class="app-folder-content" *ngIf="folder && folder.items">
+    <!-- <div class="app-folder-content" *ngIf="folder && folder.items">
         <div class="app-folder-item" 
             *ngFor="let item of folder.items; let odd=odd; let even=even;" 
             [routerLink]="item.url"
             [ngClass]="{ odd: odd, even: even}">
             {{item.title}}, {{item.date}}, {{item.uuid}}
         </div>
-    </div>
+    </div> -->
+    <app-document-card *ngFor="let item of folder.items" [selectable]="searchService.adminSelection" [in]="'search'" [item]="item" [display]="'grid'"></app-document-card>
 </div>
 

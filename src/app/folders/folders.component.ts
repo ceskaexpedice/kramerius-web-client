@@ -22,15 +22,15 @@ export class FoldersComponent implements OnInit, OnDestroy {
               private dialog: MatDialog) {  }
 
   ngOnInit(): void {
-    console.log('======ngOnInit');
+    // console.log('======ngOnInit');
     this.loading = true;
     this.folderService.getFolders((folders: Folder[]) => {
-      console.log('======folders loaded');
+      // console.log('======folders loaded');
 
       this.route.paramMap.subscribe(params => {
         let uuid = params.get('uuid');
-        console.log('======uuid v ngOnInit paramMap', uuid);
-        console.log('======folders', this.folderService.folders);
+        // console.log('======uuid v ngOnInit paramMap', uuid);
+        // console.log('======folders', this.folderService.folders);
         if (uuid) {
           this.folderService.getFolder(uuid).subscribe(folder => {
               console.log('folder', folder);

@@ -165,6 +165,8 @@ import { CsvService } from './services/csv.service';
 import { FolderService } from './services/folder.service';
 import { FolderDialogComponent } from './dialog/folder-dialog/folder-dialog.component';
 import { FolderConfirmDialogComponent } from './dialog/folder-confirm-dialog/folder-confirm-dialog.component';
+import { FolderShareDialogComponent } from './dialog/folder-share-dialog/folder-share-dialog.component';
+
 
 declare var APP_GLOBAL: any;
 
@@ -289,6 +291,7 @@ export function appInitializerFactory(translate: TranslateService) {
     FolderComponent,
     FolderDialogComponent,
     FolderConfirmDialogComponent,
+    FolderShareDialogComponent
   ],
   imports: [
     BrowserModule,

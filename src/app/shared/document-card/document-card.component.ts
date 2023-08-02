@@ -32,6 +32,7 @@ export class DocumentCardComponent implements OnInit {
 
   ngOnInit() {
     this.init();
+    console.log('this.item', this.item);
   }
 
   getTitle() {
