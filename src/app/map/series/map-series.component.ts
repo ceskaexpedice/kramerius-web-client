@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapPolygon } from '@angular/google-maps';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppSettings } from '../../services/app-settings';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapSeriesService } from '../../services/mapseries.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map-series',
@@ -13,7 +15,7 @@ import { MapSeriesService } from '../../services/mapseries.service';
   styleUrls: ['./map-series.component.scss']
 })
 
-export class MapSeriesComponent implements OnInit {
+export class MapSeriesComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
 
   polygonZoom: number;
@@ -34,6 +36,7 @@ export class MapSeriesComponent implements OnInit {
   loadingSeries: boolean;
   selectedPolygon: MapPolygon;
   locks: any;
+  languageChangeSubscription: Subscription;
 
   constructor(private httpClient: HttpClient,
               public settings: AppSettings,
@@ -41,10 +44,14 @@ export class MapSeriesComponent implements OnInit {
               private api: KrameriusApiService,
               private route: ActivatedRoute,
               private _sanitizer: DomSanitizer,
-              private router: Router) {
+              private router: Router,
+              public translate: TranslateService) {
   }
 
   ngOnInit() {
+    this.languageChangeSubscription = this.translate.onLangChange.subscribe(() => {
+      window.location.reload();
+    });
     this.route.paramMap.subscribe(params => {
       const uuid = params.get('uuid');
       this.ms.init(() => {
@@ -57,6 +64,11 @@ export class MapSeriesComponent implements OnInit {
         }
       });
     });
+  }
+  ngOnDestroy(): void {
+    if (this.languageChangeSubscription) {
+      this.languageChangeSubscription.unsubscribe();
+    }
   }
 
   fetchAllMapSeries(callback: () => void) {
@@ -112,6 +124,10 @@ export class MapSeriesComponent implements OnInit {
 
   chronoSort(maps: any) {
     let sortedMaps = maps.sort((a:any, b:any) => Number(a.date.toString().substring(0,4)) - Number(b.date.toString().substring(0,4)))
+    return sortedMaps;
+  }
+  alphabetSort(maps: any) {
+    let sortedMaps = maps.sort((a:any, b:any) => a.name.localeCompare(b.name))
     return sortedMaps;
   }
 

@@ -134,7 +134,7 @@
 
 <mat-menu #seriesMenu="matMenu" yPosition="below" xPosition="before" class="app-menu-series">
     <ng-template matMenuContent ngFor>
-      <div class="app-dropdown-item2" mat-menu-item *ngFor="let serie of mapSeries" (click)="changeMapSeries(serie.pid)">
+      <div class="app-dropdown-item2" mat-menu-item *ngFor="let serie of alphabetSort(mapSeries)" (click)="changeMapSeries(serie.pid)">
         <div class="app-language">{{ serie.name }}</div>
       </div>
     </ng-template>
