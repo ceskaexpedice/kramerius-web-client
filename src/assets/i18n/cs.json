@@ -51,7 +51,8 @@
     "impressum": "Impressum"
   },
   "terms": {
-    "agreement": "Souhlasím s podmínkami použití",
+    "agreement1": "Souhlasím s",
+    "agreement2": "podmínkami použití",
     "login": "Přihlásit knihovním účtem/eduID"
   },
   "sp": {

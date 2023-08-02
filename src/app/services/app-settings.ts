@@ -51,6 +51,8 @@ export class AppSettings {
   public keycloak: boolean;
   public georef: boolean;
   public termsPage : [string, string];
+  public termsPage2 : [string, string];
+  public termsUrl: [string, string];
   public auth: any;
   public deployPath = APP_GLOBAL.deployPath || '';
 
@@ -163,6 +165,8 @@ export class AppSettings {
     this.keycloak = !!kramerius.keycloak;
     this.georef = !!kramerius.georef;
     this.termsPage = kramerius.termsPage;
+    this.termsPage2 = kramerius.termsPage2;
+    this.termsUrl = kramerius.termsUrl;
     this.auth = kramerius.auth;
     this.currentCode = this.code;
     this.listner.next(kramerius);
@@ -300,7 +304,9 @@ interface KrameriusData {
   maxOmnibusPages: number;
   keycloak: boolean;
   georef: boolean;
-  termsPage : [string, string];
+  termsPage: [string, string];
+  termsPage2: [string, string];
+  termsUrl: [string, string];
   auth: any;
   adminClientUrl: string;
   containsLicences: boolean;

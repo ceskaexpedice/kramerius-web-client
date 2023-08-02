@@ -51,7 +51,8 @@
       "impressum": "Impressum"
     },
     "terms": {
-      "agreement": "I agree to the terms of use",
+      "agreement1": "I agree to the",
+      "agreement2": "terms of use",
       "login": "Log in with library account/eduID"
     },
     "sp": {
