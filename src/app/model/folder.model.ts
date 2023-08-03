@@ -1,6 +1,6 @@
 export class Folder {
 
-    pid: string;
+    uuid: string;
     name: string;
     items: any[];
     user: string;
@@ -8,7 +8,7 @@ export class Folder {
     static fromJson(json): Folder {
         if (json) {
             const folder = new Folder();
-            folder.pid = json['uuid'];
+            folder.uuid = json['uuid'];
             folder.name = json['name'];
             let items = [];
             for (let item of json['items'][0]) {

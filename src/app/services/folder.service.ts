@@ -117,7 +117,7 @@ export class FolderService {
         });
     }
     followFolder(folder: Folder) {
-        this.followFolderApi(folder.pid).subscribe(results => {
+        this.followFolderApi(folder.uuid).subscribe(results => {
             console.log('followFolder', results);
             this.folders[1].push(folder);
             // this.router.navigate(['folders/' + results['uuid']]);
@@ -140,18 +140,8 @@ export class FolderService {
             });
         });
     }
-    like(uuid: string) {
-        if (this.folders) {
-            console.log('this.folders', this.folders);
-            this.addItemsToFolder(this.folders[0][0].uuid, uuid)
-        } else {
-            this.getFolders((folders: Folder[]) => {
-                this.folders = folders;
-                console.log('this.folders', this.folders);
-                this.addItemsToFolder(this.folders[0][0].uuid, uuid)
-            });
-        }
-        // console.log('this.folders[0][0].pid', this.folders);
+    like(folder: Folder, uuid: string) {
+        this.addItemsToFolder(folder.uuid, uuid)
         console.log('like');
     }
 

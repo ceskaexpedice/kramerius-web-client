@@ -13,6 +13,7 @@ import { CitationDialogComponent } from '../dialog/citation-dialog/citation-dial
 import { MetadataDialogComponent } from '../dialog/metadata-dialog/metadata-dialog.component';
 import { LicenceDialogComponent } from '../dialog/licence-dialog/licence-dialog.component';
 import { FolderService } from '../services/folder.service';
+import { Folder } from '../model/folder.model';
 
 @Component({
   selector: 'app-metadata',
@@ -29,6 +30,7 @@ export class MetadataComponent implements OnInit {
   expandedTitle = false;
 
   expand = {}
+  folders: any;
 
   constructor(public analytics: AnalyticsService,
               private dialog: MatDialog,
@@ -40,6 +42,9 @@ export class MetadataComponent implements OnInit {
 
   ngOnInit() {
     console.log('metadata', this.metadata);
+    this.folderService.getFolders((folders: Folder[]) => {
+      this.folders = folders;
+    });
   }
 
   toHtml(text: string): string {
@@ -103,8 +108,10 @@ export class MetadataComponent implements OnInit {
     let opts = { metadata: this.metadata };
     this.dialog.open(ShareDialogComponent, { data: opts, autoFocus: false });
   }
-  onLike() {
-    this.folderService.like(this.metadata.uuid);
+  
+  onLike(folder: Folder) {
+    this.folderService.like(folder, this.metadata.uuid);
+    console.log('onLike', folder, this.metadata.uuid);
   }
 
   onShowMetadata() {

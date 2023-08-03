@@ -26,7 +26,7 @@ export class FolderShareDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.folder = this.data['folder'];
-    this.link = this.shareService.getPersistentLinkForFolder(this.folder.pid);
+    this.link = this.shareService.getPersistentLinkForFolder(this.folder.uuid);
     console.log('link', this.link);
   }
 
