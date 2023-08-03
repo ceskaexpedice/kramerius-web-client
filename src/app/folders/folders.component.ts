@@ -33,18 +33,15 @@ export class FoldersComponent implements OnInit, OnDestroy {
         // console.log('======folders', this.folderService.folders);
         if (uuid) {
           this.folderService.getFolder(uuid).subscribe(folder => {
-              console.log('folder', folder);
               this.folder = Folder.fromJson(folder);
               this.folderService.checkUser(folder).subscribe(user => {
                 this.folder.user = user;
-                console.log('this.folder', this.folder);
               });
               if (folder.items) {
                 this.folderService.mapFolderItemsToDocumentItems(this.folder).subscribe(items => {
                   this.folder.items = items; 
                 });
               }
-              console.log('this.folder', this.folder);
               this.loading = false;
             });
         } else {

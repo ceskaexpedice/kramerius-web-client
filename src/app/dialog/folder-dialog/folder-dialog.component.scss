@@ -2,7 +2,8 @@
 
 .app-dialog-wrapper {
   padding: 20px;
-  min-width: 350px;
+  width: auto;
+  min-width: 450px;
   overflow: hidden;
   .app-dialog-title {
     color: $app-grey-d-3;

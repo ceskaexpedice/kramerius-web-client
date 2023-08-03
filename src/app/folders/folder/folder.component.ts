@@ -7,6 +7,9 @@ import { SearchService } from './../../services/search.service';
 import { FolderConfirmDialogComponent } from '../../dialog/folder-confirm-dialog/folder-confirm-dialog.component';
 import { FolderDialogComponent } from '../../dialog/folder-dialog/folder-dialog.component';
 import { FolderShareDialogComponent } from '../../dialog/folder-share-dialog/folder-share-dialog.component';
+import { FolderAdminDialogComponent } from '../../dialog/folder-admin-dialog/folder-admin-dialog.component';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-folder',
@@ -17,10 +20,13 @@ export class FolderComponent implements OnInit {
   @Input() folder: Folder;
   @Input() user: string;
 
+  folderSelection: boolean;
+
   constructor(private folderService: FolderService,
               private router: Router,
               private dialog: MatDialog,
-              public searchService: SearchService) { 
+              public searchService: SearchService,
+              public authService: AuthService) { 
 
                }
 
@@ -77,6 +83,25 @@ export class FolderComponent implements OnInit {
       autoFocus: false
     });
   }
+  openAddItemToFolderDialog(uuid: string) {
+    const dialogRef = this.dialog.open(FolderDialogComponent, {
+      data: {
+        title: 'Přidat dokumenty do seznamu',
+        message: 'Vlož seznam uuid oddělených čárkou',
+        name: '',
+        button: 'Přidat'},
+      autoFocus: false
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result) {
+        this.folderService.addItemsToFolder(uuid, result)
+      }
+      else {
+        console.log('neni zadano jmeno');
+      }
+    });
+  }
   openUnfollowFolderDialog(uuid: string) {
     const dialogRef = this.dialog.open(FolderConfirmDialogComponent, { 
       data: {
@@ -113,6 +138,37 @@ export class FolderComponent implements OnInit {
         console.log('neni zadano jmeno');
       }
     });
+  }
+  toggleFolderSelection() {
+    if (this.folder) {
+      for (const item of this.folder.items) {
+        console.log('item', item);
+        // item.selected = false;
+      }
+    }
+    this.folderSelection = !this.folderSelection;
+  }
+  toggleAllSelected() {
+    let allSelected = true;
+    for (const item of this.folder.items) {
+        if (!item.selected) {
+            allSelected = false;
+            break
+        }
+    }
+    for (const item of this.folder.items) {
+        item.selected = !allSelected;
+    }
+  }
+  openAdminActions() {
+    const uuids = [];
+    for (const item of this.folder.items) {
+      if (item.selected) {
+        uuids.push(item.uuid);
+      }
+    }
+    console.log('uuids', uuids);
+    this.dialog.open(FolderAdminDialogComponent, { data: { uuids: uuids }, autoFocus: false });
   }
 
 }

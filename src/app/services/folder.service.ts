@@ -82,6 +82,14 @@ export class FolderService {
         });
         return this.http.post<any>(this.apiUrl + '/' + uuid + '/unfollow', {}, { headers })
     }
+    addItemToFolderApi(uuid: string, items: any): Observable<any> {
+        let body = {"items": items};
+        console.log('body', body);
+        const headers = new HttpHeaders({
+            Authorization: 'Basic ' + btoa(this.username + ':' + this.password)
+        });
+        return this.http.put<any>(this.apiUrl + '/' + uuid + '/items', body, { headers })
+    }
 
     // FUNKCE
 
@@ -119,6 +127,17 @@ export class FolderService {
         this.unfollowFolderApi(uuid).subscribe(results => {
             console.log('results', results);
             this.folders[1] = this.folders[1].filter(folder => folder['uuid'] != uuid);
+        });
+    }
+    addItemsToFolder(uuid: string, result: any) {
+        const items = result.split(',').map(item => String(item.trim()));
+        this.addItemToFolderApi(uuid, items).subscribe(results => {
+            console.log('results', results);
+            this.folders[0].find(folder => {
+                if (folder['uuid'] == uuid) {
+                    folder['items'] = items;
+                }
+            });
         });
     }
 

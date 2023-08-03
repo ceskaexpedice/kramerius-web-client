@@ -2,7 +2,7 @@ export class Folder {
 
     pid: string;
     name: string;
-    items: string[];
+    items: any[];
     user: string;
 
     static fromJson(json): Folder {
