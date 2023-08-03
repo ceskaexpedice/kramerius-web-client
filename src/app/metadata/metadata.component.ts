@@ -12,6 +12,7 @@ import { AuthorsDialogComponent } from '../dialog/authors-dialog/authors-dialog.
 import { CitationDialogComponent } from '../dialog/citation-dialog/citation-dialog.component';
 import { MetadataDialogComponent } from '../dialog/metadata-dialog/metadata-dialog.component';
 import { LicenceDialogComponent } from '../dialog/licence-dialog/licence-dialog.component';
+import { FolderService } from '../services/folder.service';
 
 @Component({
   selector: 'app-metadata',
@@ -34,7 +35,8 @@ export class MetadataComponent implements OnInit {
               public bookService: BookService,
               public licences: LicenceService,
               public auth: AuthService,
-              public settings: AppSettings) { }
+              public settings: AppSettings,
+              public folderService: FolderService) { }
 
   ngOnInit() {
     console.log('metadata', this.metadata);
@@ -100,6 +102,9 @@ export class MetadataComponent implements OnInit {
     this.analytics.sendEvent('metadata', 'share');
     let opts = { metadata: this.metadata };
     this.dialog.open(ShareDialogComponent, { data: opts, autoFocus: false });
+  }
+  onLike() {
+    this.folderService.like(this.metadata.uuid);
   }
 
   onShowMetadata() {

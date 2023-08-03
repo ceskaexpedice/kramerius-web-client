@@ -140,6 +140,20 @@ export class FolderService {
             });
         });
     }
+    like(uuid: string) {
+        if (this.folders) {
+            console.log('this.folders', this.folders);
+            this.addItemsToFolder(this.folders[0][0].uuid, uuid)
+        } else {
+            this.getFolders((folders: Folder[]) => {
+                this.folders = folders;
+                console.log('this.folders', this.folders);
+                this.addItemsToFolder(this.folders[0][0].uuid, uuid)
+            });
+        }
+        // console.log('this.folders[0][0].pid', this.folders);
+        console.log('like');
+    }
 
     checkUser(folder: Folder): Observable<any> {
         let role;
