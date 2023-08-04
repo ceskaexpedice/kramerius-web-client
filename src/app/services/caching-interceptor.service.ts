@@ -12,7 +12,6 @@ export class CachingInterceptor implements HttpInterceptor {
     private adminApi: AdminApiService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    console.log('CachingInterceptor', req.url);
     if (req.url.startsWith(this.adminApi.getBaseUrl())) {
       return next.handle(req);
     }

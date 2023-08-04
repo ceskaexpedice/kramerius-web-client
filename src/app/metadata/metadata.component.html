@@ -104,7 +104,7 @@
 
 
 
-      <div *ngIf="metadata.licence" class="app-active-license">
+      <div *ngIf="metadata.licence" class="app-active-licence">
         <div class="app-label">
           {{ 'licence.metadata_licence' | translate }}
         </div>
@@ -112,12 +112,12 @@
           {{ licences.label(metadata.licence) }}
         </div>
         <div class="app-licence-image" *ngIf="licences.image(metadata.licence)">
-          <ng-container *ngIf="licences.web(metadata.licence); else no_link_license">
-            <a style="display:block" target="_blank" [href]="licences.web(metadata.licence)" (click)="analytics.sendEvent('metadata', 'link', 'license');">
+          <ng-container *ngIf="licences.web(metadata.licence); else no_link_licence">
+            <a style="display:block" target="_blank" [href]="licences.web(metadata.licence)" (click)="analytics.sendEvent('metadata', 'link', 'licence');">
               <img [alt]="licences.label(metadata.licence)" [src]="licences.image(metadata.licence)">
             </a>
           </ng-container>
-          <ng-template #no_link_license>
+          <ng-template #no_link_licence>
             <img [alt]="licences.label(metadata.licence)" [src]="licences.image(metadata.licence)">
           </ng-template>
         </div>

@@ -1,0 +1,26 @@
+<div class="app-licence-window">
+    <div class="app-title">
+        {{ 'licence.window.title' | translate }}
+    </div>
+
+    <div class="app-names">
+        {{ 'licence.window.message1' | translate }}
+        <ng-container *ngFor="let licence of avaliableLicences; let i = index">
+            <span *ngIf="i > 0">, </span>
+            <a class="app-name" (click)="openLicenceDialog(licence)">{{ licenceService.label(licence) }}
+                <span class="app-index">({{i + 1}})</span>
+            </a>
+        </ng-container>
+    </div>
+
+    <div class="app-options">
+        {{ 'licence.window.message2' | translate }}
+        <div class="app-option" *ngFor="let licence of avaliableLicences; let i = index">
+            <span class="app-index">({{i + 1}})</span>
+            <app-licence-messages [content]="instructions[licence]"></app-licence-messages>
+        </div>
+    </div>
+
+
+
+</div>

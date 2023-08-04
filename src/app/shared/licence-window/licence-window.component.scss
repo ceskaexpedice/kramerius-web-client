@@ -1,0 +1,29 @@
+.app-licence-window  {
+  max-width: 800px;
+  .app-title {
+    color: #af451c;
+    line-height: 120%;
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 30px;
+  }
+  .app-index {
+    font-size: 13px;
+  }
+  .app-names {
+    font-size: 16px;
+  }
+  .app-options {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    .app-option {
+      font-size: 16px;
+      line-height: 28px;
+      padding-left: 10px;
+      .app-index {
+        float: left;
+        margin-right: 5px;
+      }
+    }
+  }
+}

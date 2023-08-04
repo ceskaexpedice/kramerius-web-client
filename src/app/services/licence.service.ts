@@ -71,6 +71,18 @@ export class LicenceService {
     return l.message[lang] || l.message['en'] || l.message['cs'] || licence;
   }
 
+  instruction(licence: string): string {
+    if (!this.available(licence)) {
+      return '';
+    }
+    if (!this.licences[licence].instruction) {
+      return licence;
+    }
+    const lang = this.translate.currentLang;
+    const l = this.licences[licence];
+    return l.instruction[lang] || l.instruction['en'] || l.instruction['cs'] || licence;
+  }
+
   label(licence: string): string {
     if (!this.available(licence)) {
       return '';
@@ -251,9 +263,9 @@ export class LicenceService {
   }
 
 
-  anyAppliedLoginOrTerminlLicense(): boolean {
-    for (const license of this.userLicences) {
-      const access = this.access(license);
+  anyAppliedLoginOrTerminlLicence(): boolean {
+    for (const licence of this.userLicences) {
+      const access = this.access(licence);
       if (['login', 'terminal'].includes(access)) {
         return true;
       }

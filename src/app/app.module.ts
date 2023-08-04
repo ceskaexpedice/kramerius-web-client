@@ -159,6 +159,7 @@ import { MapSeriesService } from './services/mapseries.service';
 
 import { MapViewerComponent } from './book/map-viewer/map-viewer.component';
 import { GeoreferenceService } from './services/georeference.service';
+import { LicenceWindowComponent } from './shared/licence-window/licence-window.component';
 
 declare var APP_GLOBAL: any;
 
@@ -278,7 +279,8 @@ export function appInitializerFactory(translate: TranslateService) {
     AuthComponent,
     AdvancedSearchDialogComponent,
     SearchHelpDialogComponent,
-    MapViewerComponent
+    MapViewerComponent,
+    LicenceWindowComponent
   ],
   imports: [
     BrowserModule,
