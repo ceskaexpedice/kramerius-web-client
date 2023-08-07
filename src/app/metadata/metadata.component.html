@@ -42,15 +42,15 @@
 
 
       <div *ngIf="metadata.hasIdentifier('issn')" class="app-identifier">
-        ISSN <span class="app-value">{{ metadata.identifiers['issn'] }}</span>
+        ISSN <span class="app-value">{{ metadata.identifiers['issn'].join(", ") }}</span>
       </div>
 
       <div *ngIf="metadata.hasIdentifier('isbn')" class="app-identifier">
-        ISBN <span class="app-value">{{ metadata.identifiers['isbn'] }}</span>
+        ISBN <span class="app-value">{{ metadata.identifiers['isbn'].join(", ") }}</span>
       </div>
 
       <div *ngIf="metadata.hasIdentifier('doi')" class="app-identifier">
-        DOI: <a href="{{ metadata.identifiers['doi'] }}" target="_blank">{{ metadata.identifiers['doi'] }}</a>
+        DOI: <a href="{{ metadata.identifiers['doi'][0] }}" target="_blank">{{ metadata.identifiers['doi'][0] }}</a>
       </div>
 
       <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
