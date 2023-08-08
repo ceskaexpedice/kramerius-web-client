@@ -291,6 +291,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.bookService.showTextSelection(extent, width, height, right);
     } else if (this.selectionType === SelectionType.imageSelection) {
       this.bookService.showImageCrop(extent, right);
+    } else if (this.selectionType === SelectionType.translate) {
+      this.bookService.translate(extent, width, height, right);
     }
   }
 
@@ -334,6 +336,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
         break;
       case ViewerActions.cropImage:
         this.onSelectionStart(SelectionType.imageSelection);
+        break;
+      case ViewerActions.translate:
+        this.onSelectionStart(SelectionType.translate);
         break;
     }
   }
@@ -963,5 +968,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
 export enum SelectionType {
   imageSelection = 1,
   textSelection = 2,
-  summarize = 3
+  summarize = 3,
+  translate = 4
 }

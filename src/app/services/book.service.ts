@@ -807,15 +807,41 @@ export class BookService {
 
 
 
+
+    translate(extent, width: number, height: number, right: boolean) {
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.api.getAlto(uuid).subscribe(
+            result => {
+                const text = this.altoService.getTextInBox(result, extent, width, height);
+                this.tts.translate(text, (answer) => {
+                    const options = {
+                        title: '',
+                        ocr: answer,
+                        uuid: uuid,
+                        showCitation: false
+                    };
+                    this.bottomSheet.open(OcrDialogComponent, { data: options });
+                });
+            },
+            error => {
+                if (error instanceof NotFoundError) {
+                    this.dialog.open(BasicDialogComponent, { data: {
+                        title: 'common.warning',
+                        message: 'dialogs.missing_alto.message',
+                        button: 'common.close'
+                    }, autoFocus: false });
+                }
+            }
+        );
+    }
+
     summarizeSelection(extent, width: number, height: number, right: boolean) {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.api.getAlto(uuid).subscribe(
             result => {
                 const text = this.altoService.getTextInBox(result, extent, width, height);
-                // this.tts.askGPT(text, "Shrň v odrážkách následující text", (answer) => {
-
-                
-                this.tts.askGPT(text, "Udělej fact checking článku z dobových novin padesátých let", (answer) => {
+                this.tts.askGPT(text, "Shrň v odrážkách následující text", (answer) => {
+                // this.tts.askGPT(text, "Udělej fact checking článku z dobových novin padesátých let", (answer) => {
                     const options = {
                         title: 'Shrnutí',
                         ocr: answer,

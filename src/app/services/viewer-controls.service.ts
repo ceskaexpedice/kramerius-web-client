@@ -110,6 +110,11 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.summarize);
     }
 
+    translate() {
+        this.listners.next(ViewerActions.translate);
+    }
+
+
     enterFullscreen(elname: string) {
         const el = document.getElementById(elname);
         // go full-screen
@@ -201,4 +206,5 @@ export enum ViewerActions {
     setWarpedLayerOpacity = 13,
     toggleTts = 14,
     summarize = 15,
+    translate = 16
 }

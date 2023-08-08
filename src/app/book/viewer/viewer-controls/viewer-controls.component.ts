@@ -5,6 +5,7 @@ import { AnalyticsService } from '../../../services/analytics.service';
 import { PdfService } from '../../../services/pdf.service';
 import { EpubService } from '../../../services/epub.service';
 import { PageImageType } from '../../../model/page.model';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-viewer-controls',
@@ -15,6 +16,7 @@ export class ViewerControlsComponent implements OnInit {
 
   constructor(
     public controlsService: ViewerControlsService, 
+    public authService: AuthService,
     public analytics: AnalyticsService,
     public pdfService: PdfService,
     public epubService: EpubService,

@@ -6,21 +6,18 @@ import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs-compat';
+import { AppSettings } from './app-settings';
 
 @Injectable()
 export class TtsService {
 
   private block = new Subject<any>();
 
-  private googleApiKey = 'AIzaSyBrzncMsAFk76nBIuSdZfUUBaZy1wY54pc';
-  private openaiApiKey = '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';
   private temperature = 0;
   private maxTokens = 1000;
   private model = 'gpt-3.5-turbo'; 
-    // private model = 'gpt-3.5-turbo-16k'; 
-
+  // private model = 'gpt-3.5-turbo-16k'; 
   // private model = 'text-davinci-003';
-
   private state: string = 'none';
   private blocks: any[] = [];
 
@@ -30,9 +27,9 @@ export class TtsService {
 
   onFinished: () => void;
 
-  private translate = false;
 
   constructor(private api: KrameriusApiService,
+    private settings: AppSettings,
     private http: HttpClient,
     private altoService: AltoService) {
   } 
@@ -101,12 +98,9 @@ export class TtsService {
     }
     const block = this.blocks[this.activeBlockIndex];
     this.block.next(block);
-    // setTimeout(() => {
-    //   this.sayNext();
-    // }, 2000);
-    // return;
     console.log('bt', block.text);
-    if (this.translate) {
+    const tr = false;
+    if (tr) {
       this.askGPT(block.text, "Přelož do češtiny", (answer) => {
         this.sayIt(answer);
       });
@@ -116,7 +110,13 @@ export class TtsService {
   }
 
   private sayIt(text: string) {
-    const url = `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${this.googleApiKey}`;
+    const token = this.settings.getToken();
+    const url = `https://api.trinera.cloud/api/google/tts`;
+    let headers = new HttpHeaders()
+      .set('X-Tai-Source', location.href)
+      .set('X-Tai-Project', `Kramerius`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', `application/json`);
     const body = {
       "audioConfig": {
         "audioEncoding": "LINEAR16",
@@ -134,8 +134,7 @@ export class TtsService {
         "name": "cs-CZ-Wavenet-A"
       }
     };
-    console.log('body', body);
-    this.http.post(url, body).subscribe((repsonse: any) => {
+    this.http.post(url, body, { headers: headers }).subscribe((repsonse: any) => {
       this.playAudioContent(repsonse['audioContent']);
     })
   }
@@ -172,10 +171,14 @@ export class TtsService {
 
  askGPT(input: string, instructions: string, callback: (answer: string) => void) {
     let promt = !!instructions ? `${instructions}:\n\n${input}` : input;
-    const url = `https://api.openai.com/v1/chat/completions`;
-    const headers = new HttpHeaders()
-      .set('Content-Type', `application/json`)
-      .set('Authorization', `Bearer ${this.openaiApiKey}`);
+    const token = this.settings.getToken();
+    const url = `https://api.trinera.cloud/api/openai/chat/completions`;
+    let headers = new HttpHeaders()
+      .set('X-Tai-Source', location.href)
+      .set('X-Tai-Project', `Kramerius`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', `application/json`);
+
     const body = {
       'model': this.model,
       'messages': [
@@ -202,6 +205,27 @@ export class TtsService {
       callback(answer);
     });
   }
+
+
+  translate(input: string, callback: (answer: string) => void) {
+    const token = this.settings.getToken();
+    const url = `https://api.trinera.cloud/api/deepl/translate`;
+    let headers = new HttpHeaders()
+      .set('X-Tai-Source', location.href)
+      .set('X-Tai-Project', `Kramerius`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', `application/json`);
+    const body = {
+      'text': [input ],
+      'target_lang': 'CS'
+    };
+    this.http.post(url, body, { headers: headers }).subscribe((response: any) => {
+      console.log('respnse', response);
+      const answer = response['translations'][0]['text'];
+      callback(answer);
+    });
+  }
+
 
 
 }
