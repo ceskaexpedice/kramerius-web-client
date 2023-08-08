@@ -37,7 +37,7 @@ export class AuthService {
             this.user = user;
             // console.log('USER', this.user);
             // console.log('Licences', this.user.licences);
-            this.licences.assignUserLicences(this.user.licences);
+            this.licences.assignUserLicences(this.user.licences, this.user.authenticated);
             this.cache.clear();
 
             if (this.settings.keycloak) {
@@ -61,7 +61,7 @@ export class AuthService {
                 }
             }
         }, (error) => {
-            this.licences.assignUserLicences([]);
+            this.licences.assignUserLicences([], false);
             this.user = null;
             this.cache.clear();
         });

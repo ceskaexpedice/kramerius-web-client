@@ -18,9 +18,6 @@ export class AuthComponent implements OnInit {
       const code = params.get('code');
       const target = localStorage.getItem('login.url') || '/';
       localStorage.removeItem('login.url');
-      console.log('sessionState', sessionState);
-      console.log('code', code);
-      console.log('target', target);
       this.auth.getToken(code, () => {
         this.router.navigateByUrl(target);
       });
