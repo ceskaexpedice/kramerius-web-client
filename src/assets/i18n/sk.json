@@ -282,11 +282,13 @@
       "download_track": "Stiahnuť nahrávku"
     },
     "licence": {
-      "private_label": "Tento dokument nie je verejne prístupný",
-      "private_message": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
-      "licences_before": "Tento dokument spadá pod nasledujúce licencie",
-      "licences_after": "Ak sa k dokumentu nemôžete dostať v rámci licencií, potom platia všeobecné pravidlá pre verejne nedostupné dokumenty",
-      "metadata_licence": "Sprístupnené pod licenciou"
+      "metadata_licence": "Sprístupnené pod licenciou",
+      "window": {
+        "title": "K tomuto dokumentu nemáte prístup",
+        "message1": "Dokument je dostupný pod licenciami: ",
+        "message2": "Pre jeho zobrazenie: ",
+        "default_text": "Tento dokument nie je možné voľne prezerať v súlade so zákonom č. 121/2000 Zb. (autorský zákon). Autorský zákon pripúšťa sprístupnenie diel 70 rokov po smrti všetkých autorov (vrátane prekladateľa, ilustrátora a pod.) a 50 rokov od vydanie diela."
+      }
     },
     "alert": {
       "warning": "Upozornenie",

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
-import { KrameriusInfo } from '../../model/krameriusInfo.model';
 import { AppSettings } from '../../services/app-settings';
 import { KrameriusInfoService } from '../../services/kramerius-info.service';
 import { LicenceService } from '../../services/licence.service';
@@ -24,13 +23,14 @@ export class LicenceWindowComponent implements OnInit {
 
   instructions: any;
 
+  text: string;
+
   constructor(private dialog: MatDialog,
-    private analytics: AnalyticsService,
-    private krameriusInfo: KrameriusInfoService, private settings: AppSettings, public licenceService: LicenceService, private translate: TranslateService, private http: HttpClient) { }
+    private analytics: AnalyticsService, private settings: AppSettings, public licenceService: LicenceService, private translate: TranslateService, private http: HttpClient) { }
 
   ngOnInit() {
     this.instructions = {};
-    this.avaliableLicences = this.licenceService.availableLicences(this.licences, true);
+    this.avaliableLicences = this.licenceService.availableLicences(this.licences, this.settings.ignorePolicyFlag);
     this.translate.onLangChange.subscribe(() => {
       this.reload();
     });
@@ -43,6 +43,16 @@ export class LicenceWindowComponent implements OnInit {
       this.http.get(this.licenceService.instruction(licence), { observe: 'response', responseType: 'text' }).pipe(map(response => response['body'])).subscribe((result) => {
         this.instructions[licence] = result;
       });
+    }
+    const cm = this.settings.copyrightedText;
+    const lang = this.translate.currentLang;
+    if (cm) {
+      const url = cm[lang] || cm['en'] || cm['cs'];
+      this.http.get(url, { observe: 'response', responseType: 'text' }).pipe(map(response => response['body'])).subscribe((result) => {
+        this.text = result;
+      });
+    } else {
+      this.text = '<p>' + this.translate.instant("licence.window.default_text") + '</p>';
     }
   }
 

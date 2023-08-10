@@ -282,11 +282,13 @@
     "download_track": "Download track"
   },
   "licence": {
-    "private_label": "The document is not publicly accessible",
-    "private_message": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
-    "licences_before": "This document is covered by the following licenses",
-    "licences_after": "If you cannot access the document under licenses, then the general rules for non-public documents apply",
-    "metadata_licence": "Available under license"
+    "metadata_licence": "Available under license",
+    "window": {
+      "title": "You do not have access to this document",
+      "message1": "The document is available under the licenses: ",
+      "message2": "To display it: ",
+      "default_text": "This document cannot be viewed freely in accordance with Act No. 121/2000 Coll. (Copyright Act). The Copyright Act allows works to be made available 70 years after the death of all authors (including the translator, illustrator, etc.) and 50 years from publication of the work."
+    }
   },
   "alert": {
     "warning": "Attention",

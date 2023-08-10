@@ -282,11 +282,13 @@
       "download_track": "Die Audioaufzeichnung herunterladen"
     },
     "licence": {
-      "private_label": "Das Dokument ist nicht öffentlich zugänglich",
-      "private_message": "Dieses Dokument ist immer noch durch das Urheberrechtsgesetz (Nr. 121/2000 Slg.) geschützt und kann daher erst 70 Jahre nach dem Tod aller Autoren (einschließlich des Übersetzers, Illustrators usw.) und 50 Jahre nach der Herausgabe des Werks öffentlich zugänglich gemacht werden. Der Zugriff auf das Dokument ist über Computer im Gebäude der Bibliothek möglich, die das Dokument besitzt. Informationen zu den Eigentumsverhältnissen des angeforderten Dokuments finden Sie in den Angaben rechts unter „Speicherort“.",
-      "licences_before": "Dieses Dokument untersteht den folgenden Lizenzen",
-      "licences_after": "Wenn Sie im Rahmen der Lizenzen keinen Zugang zu dem Dokument haben, gelten die allgemeinen Regeln für nicht öffentliche Dokumente",
-      "metadata_licence": "Zugänglich unter Lizenz"
+      "metadata_licence": "Zugänglich unter Lizenz",
+      "window": {
+        "title": "Das Dokument ist nicht öffentlich zugänglich",
+        "message1": "The document is available under the licenses: ",
+        "message2": "To display it: ",
+        "default_text": "Dieses Dokument ist immer noch durch das Urheberrechtsgesetz (Nr. 121/2000 Slg.) geschützt und kann daher erst 70 Jahre nach dem Tod aller Autoren (einschließlich des Übersetzers, Illustrators usw.) und 50 Jahre nach der Herausgabe des Werks öffentlich zugänglich gemacht werden. Der Zugriff auf das Dokument ist über Computer im Gebäude der Bibliothek möglich, die das Dokument besitzt."
+      }
     },
     "alert": {
       "warning": "Hinweis",
