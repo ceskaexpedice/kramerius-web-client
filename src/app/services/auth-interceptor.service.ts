@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpInterceptor, HttpHandler } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AppSettings } from './app-settings';
-import { LocalStorageService } from './local-storage.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private locals: LocalStorageService, private settings: AppSettings) {}
+  constructor(private settings: AppSettings) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!request.url.startsWith(this.settings.url)) {

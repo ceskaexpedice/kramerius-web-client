@@ -12,7 +12,7 @@ export class CachingInterceptor implements HttpInterceptor {
     private adminApi: AdminApiService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    if (req.url.startsWith(this.adminApi.getBaseUrl())) {
+    if (req.url.startsWith(this.adminApi.getBaseUrl()) || req.method !== 'GET') {
       return next.handle(req);
     }
     const cachedResponse = this.cache.get(req);
