@@ -200,19 +200,19 @@ export class KrameriusApiService {
         return this.getMods(uuid).pipe(map(mods => this.mods.parse(mods, id, type)));
     }
 
-    getItem(uuid: string): Observable<DocumentItem> {
-        // if (this.settings.k5Compat()) {
-            // return this.doGet(this.getItemUrl(uuid)).pipe(map(response => this.utils.parseItem(response)));
-        // } else {
-        return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => {
+    getItem(uuid: string, forceIndex = false): Observable<DocumentItem> {
+        if (this.settings.k5Compat() && !forceIndex) {
+            return this.doGet(this.getItemUrl(uuid)).pipe(map(response => this.utils.parseItem(response)));
+        } else {
+            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => {
                 const item = this.solr.documentItem(response);
                 if (item == null) {
                     throw new NotFoundError();
                 } else {
                     return item;
                 }
-            }));
-        // }
+             }));
+        }
     }
 
     getFoxmlUrl(uuid: string): string {

@@ -121,7 +121,12 @@ export class BookService {
             this.setupEpub();
             return;
         }
-        this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
+        this.api.getItem(params.uuid, true).subscribe((item: DocumentItem) => {
+            if (this.settings.k5Compat()) {
+                this.api.getItem(params.uuid).subscribe((item2: DocumentItem) => {
+                    item.donators = item2.donators;
+                });
+            }
             this.licences = this.licenceService.availableLicences(item.licences);
             this.licence = item.licence;
             this.sources = item.sources;
