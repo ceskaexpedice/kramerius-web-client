@@ -3,7 +3,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 import { AppSettings } from '../../services/app-settings';
-import { KrameriusInfoService } from '../../services/kramerius-info.service';
 import { LicenceService } from '../../services/licence.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AnalyticsService } from '../../services/analytics.service';
@@ -40,7 +39,11 @@ export class LicenceWindowComponent implements OnInit {
   private reload() {
     for(let licence of this.avaliableLicences) {
       this.instructions[licence] = "";
-      this.http.get(this.licenceService.instruction(licence), { observe: 'response', responseType: 'text' }).pipe(map(response => response['body'])).subscribe((result) => {
+      const instructionUrl = this.licenceService.instruction(licence);
+      if (!instructionUrl) {
+        continue;
+      }
+      this.http.get(instructionUrl, { observe: 'response', responseType: 'text' }).pipe(map(response => response['body'])).subscribe((result) => {
         this.instructions[licence] = result;
       });
     }

@@ -86,11 +86,11 @@ export class LicenceService {
       return '';
     }
     if (!this.licences[licence].instruction) {
-      return licence;
+      return '';
     }
     const lang = this.translate.currentLang;
     const l = this.licences[licence];
-    return l.instruction[lang] || l.instruction['en'] || l.instruction['cs'] || licence;
+    return l.instruction[lang] || l.instruction['en'] || l.instruction['cs'];
   }
 
   label(licence: string): string {

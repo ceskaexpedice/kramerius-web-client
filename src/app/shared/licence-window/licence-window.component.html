@@ -16,7 +16,7 @@
         <div class="app-label">{{ 'licence.window.message2' | translate }}</div>
         <div class="app-option" *ngFor="let licence of avaliableLicences; let i = index">
             <span class="app-index">({{i + 1}})</span>
-            <app-licence-messages [content]="instructions[licence]"></app-licence-messages>
+            <app-licence-messages *ngIf="instructions[licence]" [content]="instructions[licence]"></app-licence-messages>
         </div>
     </div>
 
