@@ -201,18 +201,18 @@ export class KrameriusApiService {
     }
 
     getItem(uuid: string): Observable<DocumentItem> {
-        if (this.settings.k5Compat()) {
-            return this.doGet(this.getItemUrl(uuid)).pipe(map(response => this.utils.parseItem(response)));
-        } else {
-            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => {
-                    const item = this.solr.documentItem(response);
-                    if (item == null) {
-                        throw new NotFoundError();
-                    } else {
-                        return item;
-                    }
-                }));
-        }
+        // if (this.settings.k5Compat()) {
+            // return this.doGet(this.getItemUrl(uuid)).pipe(map(response => this.utils.parseItem(response)));
+        // } else {
+        return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => {
+                const item = this.solr.documentItem(response);
+                if (item == null) {
+                    throw new NotFoundError();
+                } else {
+                    return item;
+                }
+            }));
+        // }
     }
 
     getFoxmlUrl(uuid: string): string {
@@ -410,7 +410,7 @@ export class KrameriusApiService {
     getEpubFileFromUrl(uuid: string): Observable<File> {
         let blob: Observable<Blob>;
         if (this.settings.k5Compat()) {
-            blob = this.doGetBlob(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_PREVIEW));
+            blob = this.doGetBlob(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG));
         } else {
             blob = this.doGetBlob(this.getItemUrl(uuid) + '/image')
         }
