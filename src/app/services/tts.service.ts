@@ -170,7 +170,7 @@ export class TtsService {
 
 
  askGPT(input: string, instructions: string, callback: (answer: string) => void) {
-    let promt = !!instructions ? `${instructions}:\n\n${input}` : input;
+    // let promt = !!instructions ? `${instructions}:\n\n${input}` : input;
     const token = this.settings.getToken();
     const url = `https://api.trinera.cloud/api/openai/chat/completions`;
     let headers = new HttpHeaders()
@@ -188,7 +188,7 @@ export class TtsService {
         },
         {
           "role": "user",
-          "content": promt
+          "content": input
         }
       ],
       'temperature': this.temperature,

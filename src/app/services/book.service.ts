@@ -840,7 +840,7 @@ export class BookService {
         this.api.getAlto(uuid).subscribe(
             result => {
                 const text = this.altoService.getTextInBox(result, extent, width, height);
-                this.tts.askGPT(text, "Shrň v odrážkách následující text", (answer) => {
+                this.tts.askGPT(text, "Sumarizuj v odrážkách zadaný text a pro výstup používej pouze český jazyk", (answer) => {
                 // this.tts.askGPT(text, "Udělej fact checking článku z dobových novin padesátých let", (answer) => {
                     const options = {
                         title: 'Shrnutí',
