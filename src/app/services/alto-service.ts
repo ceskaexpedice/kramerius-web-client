@@ -112,17 +112,23 @@ export class AltoService {
                   const stringHeight = parseInt(stringEl.getAttribute('HEIGHT') || '0', 10);
   
                   if (stringHpos >= w1 && stringHpos + stringWidth <= w2 && stringVpos >= h1 && stringVpos + stringHeight <= h2) {
-                      const content = stringEl.getAttribute('CONTENT') || '';
+                      let content = stringEl.getAttribute('CONTENT') || '';
+                      const subsContent = stringEl.getAttribute('SUBS_CONTENT') || '';
+                      const subsType = stringEl.getAttribute('SUBS_TYPE') || '';
+                      if (subsType === 'HypPart1') {
+                        content = subsContent
+                      } else if (subsType === 'HypPart2') {
+                        continue;
+                      }
                       text += content + ' ';
                   }
               }
-              text += '\n';
+              // text += '\n';
           }
       }
   
       return text;
   }
-
 
 
 

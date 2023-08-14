@@ -74,6 +74,22 @@
             auto_stories
   </mat-icon>
 
+  <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'lock')"
+  tabindex="0"
+  class="hide-on-small"
+  [matTooltip]="'view_controls.tooltip_zoom_lock_on' | translate" 
+  *ngIf="showLock()">
+  lock_open
+</mat-icon>
+
+<mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'unlock')"
+  tabindex="0"
+  class="hide-on-small"
+  [matTooltip]="'view_controls.tooltip_zoom_lock_off' | translate" 
+  *ngIf="showUnlock()">
+  lock
+</mat-icon>
+
   <mat-icon *ngIf="authService.isLoggedIn()" (click)="controlsService.toggleTts();analytics.sendEvent('viewer', 'controls', 'tts')"
     tabindex="0"
     class="hide-on-small"
@@ -93,22 +109,6 @@
   class="hide-on-small"
   [matTooltip]="'Přelož'" >
   translate
-  </mat-icon>
-
-  <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'lock')"
-          tabindex="0"
-          class="hide-on-small"
-          [matTooltip]="'view_controls.tooltip_zoom_lock_on' | translate" 
-          *ngIf="showLock()">
-          lock_open
-  </mat-icon>
-
-  <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'unlock')"
-          tabindex="0"
-          class="hide-on-small"
-          [matTooltip]="'view_controls.tooltip_zoom_lock_off' | translate" 
-          *ngIf="showUnlock()">
-          lock
   </mat-icon>
 
   <mat-icon (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text')"
