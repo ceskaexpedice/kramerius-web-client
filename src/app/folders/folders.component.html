@@ -8,20 +8,21 @@
         <div class="app-folder-items">
             <div class="app-folder-header">Moje seznamy</div>
             <a class="app-folder-item" 
-            *ngFor="let folder of folderService.folders[0]"
-            [routerLink]="['/folders', folder.uuid]">
+            *ngFor="let item of folderService.folders[0]"
+            [routerLink]="['/folders', item.uuid]"
+            [class.app-selected]="folder.uuid === item.uuid">
                 <div>
-                    {{folder.name}}
+                    {{item.name}}
                 </div>
             </a>
         </div>
         <div class="app-folder-items">
             <div class="app-folder-header">Sdílené seznamy</div>
             <a class="app-folder-item" 
-            *ngFor="let folder of folderService.folders[1]"
-            [routerLink]="['/folders', folder.uuid]">
+            *ngFor="let item of folderService.folders[1]"
+            [routerLink]="['/folders', item.uuid]">
                 <div>
-                    {{folder.name}}
+                    {{item.name}}
                 </div>
             </a>
         </div>

@@ -48,6 +48,10 @@
                 &:hover {
                     color: $primary-color;
                 }
+                &.app-selected {
+                    font-weight: 600;
+                    color: $app-grey-d-3;
+                }
             }
         }
     }

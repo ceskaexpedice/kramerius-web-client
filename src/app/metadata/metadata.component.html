@@ -373,7 +373,7 @@
     </div>
 
 
-    <div *ngIf="metadata.abstracts.length > 0">
+    <div *ngIf="metadata.abstracts.length > 0 && !metadata.context.collection">
       <div class="app-label">{{ 'metadata.abstract' | translate }}</div>
       <ng-container *ngFor="let abstract of metadata.abstracts; let i = index">
         <div class="app-value" *ngIf="abstract.length > 115 && !expand['abstract' + i]" >{{ abstract.substring(0, 110) + "..." }}</div>
@@ -397,7 +397,7 @@
     </div>
 
 
-    <div *ngIf="metadata.notes.length > 0">
+    <div *ngIf="metadata.notes.length > 0 && !metadata.context.collection">
       <div class="app-label">{{ 'metadata.notes' | translate }}</div>
       <div>
         <ng-container *ngFor="let note of metadata.notes; let i = index">
