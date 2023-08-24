@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
 @Injectable()
 export class FolderService {
     private apiUrl: string = 'https://tomcat.kramerius.trinera.cloud/kramerius-folders/api/folders';
-    private username = 'pavla'
+    private username = 'pavla2'
     private password = 'blabla'
 
     folders: any[]
@@ -118,14 +118,14 @@ export class FolderService {
     }
     followFolder(folder: Folder) {
         this.followFolderApi(folder.uuid).subscribe(results => {
-            console.log('followFolder', results);
+            console.log('followFolder', folder);
             this.folders[1].push(folder);
             // this.router.navigate(['folders/' + results['uuid']]);
         });
     }
     unfollowFolder(uuid: string) {
         this.unfollowFolderApi(uuid).subscribe(results => {
-            console.log('results', results);
+            // console.log('results', results);
             this.folders[1] = this.folders[1].filter(folder => folder['uuid'] != uuid);
         });
     }

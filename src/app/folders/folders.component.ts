@@ -30,7 +30,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
       this.route.paramMap.subscribe(params => {
         let uuid = params.get('uuid');
         // console.log('======uuid v ngOnInit paramMap', uuid);
-        // console.log('======folders', this.folderService.folders);
+        console.log('======folders', this.folderService.folders);
         if (uuid) {
           this.folderService.getFolder(uuid).subscribe(folder => {
               this.folder = Folder.fromJson(folder);
@@ -93,9 +93,15 @@ export class FoldersComponent implements OnInit, OnDestroy {
     // this.router.navigate(['/folders']);
   }
 
+  findUser(folder: Folder) {
+    // console.log('findUser', folder);
+    if (folder && folder.users) {
+      return folder.users[0].find(user => user.userRole == "owner").userId;
+    }
+  }
+
   ngOnDestroy() {
     console.log('======ngOnDestroy');
-
   }
 
 }

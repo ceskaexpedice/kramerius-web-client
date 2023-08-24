@@ -22,7 +22,8 @@
             *ngFor="let item of folderService.folders[1]"
             [routerLink]="['/folders', item.uuid]">
                 <div>
-                    {{item.name}}
+                    {{item.name}} 
+                    <span *ngIf="findUser(item)">({{ findUser(item) }})</span>
                 </div>
             </a>
         </div>

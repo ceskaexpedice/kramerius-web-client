@@ -102,7 +102,7 @@ export class FolderComponent implements OnInit {
       }
     });
   }
-  openUnfollowFolderDialog(uuid: string) {
+  openUnfollowFolderDialog(folder: Folder) {
     const dialogRef = this.dialog.open(FolderConfirmDialogComponent, { 
       data: {
         title: 'Přestat sledovat seznam',
@@ -113,10 +113,11 @@ export class FolderComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result) {
-        this.folderService.unfollowFolder(uuid)
+        this.folderService.unfollowFolder(folder.uuid);
+        folder.user = undefined;
       }
       else {
-        console.log('neni zadano jmeno');
+        console.log('no result');
       }
     });
   }
@@ -132,10 +133,11 @@ export class FolderComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result) {
-        this.folderService.followFolder(folder)
+        folder.user = 'follower';
+        this.folderService.followFolder(folder);
       }
       else {
-        console.log('neni zadano jmeno');
+        console.log('no result');
       }
     });
   }

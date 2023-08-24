@@ -4,6 +4,7 @@ export class Folder {
     name: string;
     items: any[];
     user: string;
+    users: any[];
 
     static fromJson(json): Folder {
         if (json) {
