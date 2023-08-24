@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FolderService } from '../services/folder.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FolderDialogComponent } from '../dialog/folder-dialog/folder-dialog.component';
+import { HistoryService } from '../services/history.service';
 
 @Component({
   selector: 'app-folders',
@@ -19,14 +20,14 @@ export class FoldersComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: Router,
               public folderService: FolderService,
-              private dialog: MatDialog) {  }
+              private dialog: MatDialog,
+              private history: HistoryService) {  }
 
   ngOnInit(): void {
     // console.log('======ngOnInit');
     this.loading = true;
     this.folderService.getFolders((folders: Folder[]) => {
       // console.log('======folders loaded');
-
       this.route.paramMap.subscribe(params => {
         let uuid = params.get('uuid');
         // console.log('======uuid v ngOnInit paramMap', uuid);
@@ -47,6 +48,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
         } else {
           if (this.folderService.folders[0] && this.folderService.folders[0][0]) {
             this.folderService.getFolder(this.folderService.folders[0][0]['uuid']).subscribe(folder => {
+              this.history.removeCurrent();
               this.router.navigate(['/folders', this.folderService.folders[0][0]['uuid']]);
               this.loading = false;
             });
