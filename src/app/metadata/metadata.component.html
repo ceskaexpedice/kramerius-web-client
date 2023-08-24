@@ -153,15 +153,6 @@
       <mat-icon tabindex="0" [matTooltip]="'metadata.authors_info' | translate" (click)="onShowAuthors()" class="app-more">more_horiz</mat-icon>
       <div class="divider"></div>
     </div>
-
-    <div *ngIf="metadata.inCollections.length > 0">
-        <div class="app-label">{{ 'metadata.in_collection' | translate }}</div>
-        <div *ngFor="let collection of metadata.inCollections">
-            <a [routerLink]="[settings.getRouteFor('collection'), collection.uuid]">
-                {{ collection.name }}
-            </a>
-        </div>
-    </div>
     
     <div *ngIf="metadata.volume">
       <div class="app-label">{{ 'metadata.volume' | translate }}</div>
@@ -287,6 +278,15 @@
         {{ 'model.' + metadata.doctype | translate }}
       </div>
       <div class="divider"></div>
+    </div>
+
+    <div *ngIf="metadata.inCollections.length > 0">
+      <div class="app-label">{{ 'metadata.in_collection' | translate }}</div>
+      <div *ngFor="let collection of metadata.inCollections">
+          <a [routerLink]="[settings.getRouteFor('collection'), collection.uuid]">
+              {{ collection.name }}
+          </a>
+      </div>
     </div>
 
     <div *ngIf="metadata.keywords.length > 0">

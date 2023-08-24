@@ -705,7 +705,8 @@ export class SolrService {
         const doc = solr['response']['docs'][0];
         const item = new DocumentItem();
         item.uuid = doc[this.field('id')];
-        item.in_collection = doc[this.field('parent_collections')]
+        item.in_collection = doc[this.field('parent_collections')];
+        item.in_collections = doc[this.field('ancestor_collections')];
         item.title = doc[this.field('title')];
         item.doctype = doc[this.field('model')];
         item.date = doc[this.field('date')];

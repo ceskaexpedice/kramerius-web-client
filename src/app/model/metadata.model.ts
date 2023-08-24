@@ -62,6 +62,7 @@ export class Metadata {
     public licence: string;
 
     public inCollections: InCollections[] = [];
+    public inCollectionsDirect: InCollections[] = [];
     
     constructor() {
     }
