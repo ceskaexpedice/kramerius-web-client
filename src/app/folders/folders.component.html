@@ -20,7 +20,8 @@
             <div class="app-folder-header">Sdílené seznamy</div>
             <a class="app-folder-item" 
             *ngFor="let item of folderService.folders[1]"
-            [routerLink]="['/folders', item.uuid]">
+            [routerLink]="['/folders', item.uuid]"
+            [class.app-selected]="folder.uuid === item.uuid">
                 <div>
                     {{item.name}} 
                     <span *ngIf="findUser(item)">({{ findUser(item) }})</span>
