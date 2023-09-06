@@ -58,14 +58,14 @@ export class MetadataDialogComponent implements OnInit {
   
     reload() {
       this.url = this.getUrl(this.selection.uuid);
-      if (this.selection.type === 'page' && this.resource === 'alto' && !this.data.metadata.isPublic) {
-        this.selection[this.resource] = String(this.translate.instant('metadata-dialog.missing', 
-        { 
-          model: this.selection.type.toUpperCase(),
-          resource: this.resource.toUpperCase()
-        }));
-        return;
-      } 
+      // if (this.selection.type === 'page' && this.resource === 'alto' && !this.data.metadata.isPublic) {
+      //   this.selection[this.resource] = String(this.translate.instant('metadata-dialog.missing', 
+      //   { 
+      //     model: this.selection.type.toUpperCase(),
+      //     resource: this.resource.toUpperCase()
+      //   }));
+      //   return;
+      // } 
       if (!this.selection[this.resource]) {
         this.getRequest(this.selection.uuid).subscribe((result: string) => {
           if (this.resource === 'dc' || this.resource === 'mods' || this.resource === 'alto' || this.resource === 'foxml') {
