@@ -170,7 +170,17 @@ export class FolderComponent implements OnInit {
       }
     }
     console.log('uuids', uuids);
-    this.dialog.open(FolderAdminDialogComponent, { data: { uuids: uuids }, autoFocus: false });
+    const data = {
+      uuids: uuids,
+      title: 'Administrace dokumentů',
+      message: 'Co s těmito dokumenty?',
+    }
+    this.dialog.open(FolderAdminDialogComponent, { data: data, autoFocus: false });
+  }
+
+  sortItems(items: any[]): any[] {
+    // console.log('items in sort', items);
+    return items.sort((a, b) => a['title'].localeCompare(b['title']));
   }
 
 }

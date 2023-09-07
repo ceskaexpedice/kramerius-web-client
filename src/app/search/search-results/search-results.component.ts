@@ -6,6 +6,7 @@ import { AppSettings } from './../../services/app-settings';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { FolderService } from '../../services/folder.service';
 
 @Component({
   selector: 'app-search-results',
@@ -20,12 +21,13 @@ export class SearchResultsComponent implements OnInit {
               private settings: AppSettings,
               private _sanitizer: DomSanitizer,
               private snackBar: MatSnackBar,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private folderService: FolderService) {
     
   }
 
   ngOnInit() {
-
+    this.folderService.getFolders(null);
   }
   getThumb(item: DocumentItem) {
     let url = '';

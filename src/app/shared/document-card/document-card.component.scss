@@ -13,6 +13,9 @@ a {
   &:hover {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border: 1px solid #d3d3d3;
+    .app-card-like {
+      display: flex;
+    }
   }
   .app-card-mark {
     width: 3px; // 5
@@ -224,6 +227,39 @@ a {
         background: #0277bd;
         border-color: #0277bd;
       }
+    }
+  }
+  .app-card-like {
+    display: none;
+    // width: 100%;
+    // display: flex;
+    // flex-direction: row-reverse;
+    justify-content: flex-end;
+    position: relative;
+    padding: 2px 2px 0 0;
+    bottom: 134px;
+    height: auto;
+    // background-color: #fff;
+    mat-icon {
+      padding: 0px 0px 0 4px;
+      margin: 0 2px 0 -2px;
+      font-size: 16px;
+      color: #5a5a5a;
+      background-color: white;
+      &:hover {
+        color: #0277bd;
+      }
+    }
+  }
+}
+.app-dropdown-input {
+  color: #0277bd;
+  // width: 150px;
+  padding: 0 10px;
+  input {
+    height: 30px;
+    &:focus {
+      outline: none !important; 
     }
   }
 }

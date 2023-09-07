@@ -39,7 +39,6 @@ export class AuthService {
             // console.log('Licences', this.user.licences);
             this.licences.assignUserLicences(this.user.licences);
             this.cache.clear();
-
             if (this.settings.keycloak) {
                 this.api.getRights('uuid:1').subscribe(
                     (actions) => {

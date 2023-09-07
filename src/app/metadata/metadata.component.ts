@@ -30,7 +30,6 @@ export class MetadataComponent implements OnInit {
   expandedTitle = false;
 
   expand = {}
-  folders: any;
 
   constructor(public analytics: AnalyticsService,
               private dialog: MatDialog,
@@ -42,9 +41,7 @@ export class MetadataComponent implements OnInit {
 
   ngOnInit() {
     console.log('metadata', this.metadata);
-    this.folderService.getFolders((folders: Folder[]) => {
-      this.folders = folders;
-    });
+    this.folderService.getFolders(null);
   }
 
   toHtml(text: string): string {

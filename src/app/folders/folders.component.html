@@ -12,7 +12,7 @@
             [routerLink]="['/folders', item.uuid]"
             [class.app-selected]="folder.uuid === item.uuid">
                 <div>
-                    {{item.name}}
+                    {{item.name}} ({{item.itemsCount}})
                 </div>
             </a>
         </div>

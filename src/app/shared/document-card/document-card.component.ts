@@ -2,11 +2,14 @@ import { AppSettings } from './../../services/app-settings';
 import { DocumentItem } from './../../model/document_item.model';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AuthService } from '../../services/auth.service';
 import { LicenceService } from '../../services/licence.service';
 import { TranslateService } from '@ngx-translate/core';
+import { FolderService } from '../../services/folder.service';
+import { Folder } from '../../model/folder.model';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-document-card',
@@ -17,6 +20,8 @@ export class DocumentCardComponent implements OnInit {
   @Input() item: DocumentItem;
   @Input() in: String;
   @Input() selectable: boolean = false;
+  @Input() folder: Folder;
+  @ViewChild(MatMenuTrigger,{static:false}) menu: MatMenuTrigger; 
   
   thumb;
   lock: any;
@@ -28,11 +33,27 @@ export class DocumentCardComponent implements OnInit {
               public auth: AuthService,
               private licences: LicenceService,
               public analytics: AnalyticsService,
-              private _sanitizer: DomSanitizer) { }
+              private _sanitizer: DomSanitizer,
+              public folderService: FolderService) { }
 
   ngOnInit() {
     this.init();
-    console.log('this.item', this.item);
+    // console.log('this.item', this.item);
+  }
+
+  onLike(folder: Folder) {
+    this.folderService.like(folder, this.item.uuid);
+    console.log('onLike', folder, this.item.uuid);
+  }
+  onDislike(folder: Folder) {
+    this.folderService.dislike(folder, this.item.uuid);
+    this.folder.items.filter(item => item.uuid != this.item.uuid);
+    console.log('onDislike', this.folder.items);
+  }
+  onNewFolder(name: string) {
+    this.menu.closeMenu();
+    console.log('onNewFolder', name);
+    this.folderService.addFolderAndItem(name, this.item.uuid);
   }
 
   getTitle() {

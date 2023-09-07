@@ -5,6 +5,8 @@ import { FolderService } from '../services/folder.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FolderDialogComponent } from '../dialog/folder-dialog/folder-dialog.component';
 import { HistoryService } from '../services/history.service';
+import { User } from '../model/user.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-folders',
@@ -16,12 +18,15 @@ export class FoldersComponent implements OnInit, OnDestroy {
   folder: Folder;
   loading: boolean = true;
   name: string;
+  userSubscription: Subscription;
   
   constructor(private route: ActivatedRoute,
               private router: Router,
               public folderService: FolderService,
               private dialog: MatDialog,
-              private history: HistoryService) {  }
+              private history: HistoryService) {
+                this.folderService.getFolders;
+               }
 
   ngOnInit(): void {
     // console.log('======ngOnInit');

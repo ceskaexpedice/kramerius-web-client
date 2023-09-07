@@ -443,7 +443,7 @@
 
 <mat-menu #favoritesMenu="matMenu" xPosition="before" class="app-dropdown-menu">
   <ng-template matMenuContent>
-    <div mat-menu-item tabindex="0" class="app-dropdown-item" *ngFor="let folder of folders[0]" (click)="onLike(folder)">
+    <div mat-menu-item tabindex="0" class="app-dropdown-item" *ngFor="let folder of folderService.getMyFolders()" (click)="onLike(folder)">
       {{ folder.name }}
     </div>
   </ng-template>

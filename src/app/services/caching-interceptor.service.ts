@@ -12,7 +12,7 @@ export class CachingInterceptor implements HttpInterceptor {
     private adminApi: AdminApiService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    if (req.url.startsWith(this.adminApi.getBaseUrl()) || req.url.startsWith("https://tomcat.kramerius.trinera.cloud/kramerius-folders")) {
+    if (req.url.startsWith(this.adminApi.getBaseUrl()) || req.url.startsWith("https://k7.inovatika.dev/search/api/client/v7.0/folders")) {
     // if (req.url.startsWith(this.adminApi.getBaseUrl()))  {
       return next.handle(req);
     }
