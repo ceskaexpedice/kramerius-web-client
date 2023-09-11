@@ -95,12 +95,7 @@
         </ng-template>
       </mat-menu>
     </ng-container>
-    <div *ngIf="!metadata.isPublic || settings.ignorePolicyFlag" class="app-policy">
-
-      <!-- <mat-icon class="app-lock" [class.app-lock-licence-open]="anyLicence()">{{ 'lock' }}</mat-icon> -->
-      <!-- <span class="app-message">{{ 'metadata.policy_private' | translate }}</span> -->
-      <!-- <mat-icon class="app-help" (click)="showPrivateDialog()">info</mat-icon> -->
-      
+    <div *ngIf="!metadata.isPublic || settings.ignorePolicyFlag" class="app-policy">      
       <div *ngIf="metadata.licence" class="app-active-licence">
         <div class="app-label">
           {{ 'licence.metadata_licence' | translate }}

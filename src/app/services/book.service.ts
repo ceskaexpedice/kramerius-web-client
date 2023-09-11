@@ -1120,11 +1120,13 @@ export class BookService {
         } else {
             //// doc license from the page ????
             this.licence = page.licence;
+            this.licences = page.licences;
             if (rightPage && !this.licence) {
                 this.licence = rightPage.licence;
+                this.licences = rightPage.licences;
             }
             this.metadata.licence = this.licence;
-            // this.metadata.licence = 'dnnto';
+            this.metadata.licences = this.licences;
             ////
             if (page.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
@@ -1232,6 +1234,7 @@ export class BookService {
                 if (this.metadata) {
                     this.metadata.addToContext('article', article.uuid);
                 }
+                article.licences = item.licences;
                 article.type = item.pdf ? 'pdf' : 'pages';
                 this.onArticleLoaded(article);
                 article.metadata = metadata;
@@ -1257,6 +1260,8 @@ export class BookService {
             this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
             const pdfIndex = this.initPdfPosition;
             this.initPdfPosition = 1;
+            this.licences = article.licences;
+            this.metadata.licences = this.licences;
             this.setupPdf(article.uuid, pdfIndex);
         } else if (article.type === 'pages') {
             if (article.firstPageUuid) {
@@ -1293,10 +1298,13 @@ export class BookService {
             }           
             //// doc license from the page ????
             this.licence = leftPage.licence;
+            this.licences = leftPage.licences;
             if (rightPage && !this.licence) {
                 this.licence = rightPage.licence;
+                this.licences = rightPage.licences;
             }
             this.metadata.licence = this.licence;
+            this.metadata.licences = this.licences;
             ////
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
