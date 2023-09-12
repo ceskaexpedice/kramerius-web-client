@@ -10,8 +10,8 @@
             <div tabindex="0" *ngIf="user === 'owner'" (click)="openDeleteFolderDialog(folder.uuid)" [matTooltip]="'Smazat seznam'"><mat-icon>delete</mat-icon></div>
             <div tabindex="0" *ngIf="user === 'owner'" (click)="openShareFolderDialog(folder.uuid)"  [matTooltip]="'Sdílet seznam'"><mat-icon>share</mat-icon></div>
             <div tabindex="0" *ngIf="user === 'follower'" (click)="openUnfollowFolderDialog(folder)" [matTooltip]="'Odebrat ze sdílených seznamů'"><mat-icon>delete</mat-icon></div>
-            <div tabindex="0" *ngIf="(user && user !== 'follower' && user !== 'owner')" (click)="openFollowFolderDialog(folder)" [matTooltip]="'Přidat do sdílených seznamů'"><mat-icon>add</mat-icon></div>
-            <div tabindex="0" *ngIf="!user" (click)="openBasicDialog()" [matTooltip]="'Přidat do sdílených seznamů'"><mat-icon>add</mat-icon></div>
+            <div tabindex="0" *ngIf="(authService.user && user !== 'follower' && user !== 'owner')" (click)="openFollowFolderDialog(folder)" [matTooltip]="'Přidat do sdílených seznamů'"><mat-icon>add</mat-icon></div>
+            <div tabindex="0" *ngIf="!authService.user" (click)="openBasicDialog()" [matTooltip]="'Přidat do sdílených seznamů'"><mat-icon>add</mat-icon></div>
 
         </div>
     </div>

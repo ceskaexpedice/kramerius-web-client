@@ -10,7 +10,7 @@
     </div>
 
     <div class="app-card-content">
-      <div *ngIf="item.title" class="app-card-title">
+      <div *ngIf="item.title" class="app-card-title" [matTooltip]="item.title">
         {{ getTitle() }}
       </div>
       <div *ngIf="item.authors && item.authors.length > 0" class="app-card-authors">
@@ -59,9 +59,9 @@
   </div>
 
   <div class="app-card-like" *ngIf="auth.isAdmin()">
-    <mat-icon *ngIf="in == 'search'" [matMenuTriggerFor]="favoritesMenu" (click)="$event.preventDefault();$event.stopPropagation()">favorite</mat-icon>
+    <mat-icon *ngIf="in == 'search'" [matMenuTriggerFor]="favoritesMenu" (click)="$event.preventDefault();$event.stopPropagation()" [matTooltip]="'Přidat do oblíbených'">favorite</mat-icon>
     <mat-icon *ngIf="in == 'folder-owner'" (click)="onDislike(folder); $event.preventDefault();$event.stopPropagation()">clear</mat-icon>
-    <mat-icon (click)="item.selected = !item.selected; $event.preventDefault();$event.stopPropagation()">info</mat-icon>
+    <mat-icon (click)="getMetadata(item.uuid); $event.preventDefault();$event.stopPropagation()" [matTooltip]="">info</mat-icon>
   </div>
 
 </a>

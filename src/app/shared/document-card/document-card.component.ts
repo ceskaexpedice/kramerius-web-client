@@ -72,6 +72,13 @@ export class DocumentCardComponent implements OnInit {
     return `https://registr.digitalniknihovna.cz/libraries/${source}/logo`;
   }
 
+  getMetadata(uuid: string) {
+    console.log('getMetadata', uuid);
+    // this.krameriusApiService.getMetadata(this.item.uuid).subscribe(metadata => {
+      // console.log('metadata', metadata);
+    // });
+  }
+
   private init() {
     let url = '';
     if (this.item.library) {

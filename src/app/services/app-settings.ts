@@ -31,6 +31,7 @@ export class AppSettings {
   public mapSearch: boolean;
   public mapSearchType: string;
   public mapSearchTypeDefault: string;
+  public folders: boolean;
   public hiddenLocks: boolean;
   public legacyLocks: boolean;
   public licences: any;
@@ -150,6 +151,7 @@ export class AppSettings {
     this.mapSearch = !!kramerius.mapSearch;
     this.mapSearchType = kramerius.mapSearchType || 'maps';
     this.mapSearchTypeDefault = kramerius.mapSearchTypeDefault || (this.mapSearchType == 'markers' ? 'markers' : 'maps');
+    this.folders = !!kramerius.folders;
     this.licences = kramerius.licences;
     this.containsLicences = !!kramerius.containsLicences;
     this.preselectedLicences = kramerius.preselectedLicences;
@@ -291,6 +293,7 @@ interface KrameriusData {
   mapSearch: boolean;
   mapSearchType: string;
   mapSearchTypeDefault: string;
+  folders: boolean;
   hiddenLocks: boolean;
   legacyLocks: boolean;
   type: string;

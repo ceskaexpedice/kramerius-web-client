@@ -9,21 +9,13 @@ import { AuthService } from "./auth.service";
 
 @Injectable()
 export class FolderService {
-    // private apiUrl: string = 'https://tomcat.kramerius.trinera.cloud/kramerius-folders/api/folders';
-    private apiUrl: string = 'https://k7.inovatika.dev/search/api/client/v7.0/folders';
-
     folders: any[]
 
     constructor(private http: HttpClient,
-        private auth: AuthService,
+                private auth: AuthService,
                 private krameriusApiService: KrameriusApiService,
                 private router: Router) { }
-    
-    
-    // API
 
-
-    
     getFolders(callback: (folders: Folder[]) => void) {
         if (this.folders && this.folders.length > 0) {
             if (callback) {
@@ -31,79 +23,37 @@ export class FolderService {
             }
             return;
         }
-        console.log('=== loading new data from server');
-        this.http.get<any>(this.apiUrl).subscribe(results => { 
+        this.krameriusApiService.getFolders().subscribe(results => { 
             if (results) {
-                console.log('results', results);
                 this.folders = this.sortFoldersByOwner(results);
                 if (callback) {
                     callback(this.folders);
                 }
             }
-            // this.foldersUpdated.next([...this.folders]);
         });
     }
-
-
-    get(path: string): Observable<any> {
-        // const headers = new HttpHeaders({
-        //   Authorization: 'Basic ' + btoa(this.username + ':' + this.password)
-        // });
-        return this.http.get<any>(this.apiUrl + '/' + path);
-    }
-
     getFolder(uuid: string): Observable<any> {
-        return this.get('/' + uuid);
+        return this.krameriusApiService.getFolder(uuid);
     }
-
-
     getFolderItems(uuid: string): Observable<any> {
-        return this.http.get<any>(this.apiUrl + '/' + uuid + '/items');
+        return this.krameriusApiService.getFolderItems(uuid);
     }
-    createNewFolder(name: string): Observable<any> {
-        let body = {"name": name};
-        return this.http.post<any>(this.apiUrl + '/', body)
-    }
-    deleteFolderApi(uuid: string): Observable<any> {
-        return this.http.delete<any>(this.apiUrl + '/' + uuid)
-    }
-    editFolderApi(uuid: string, name: string): Observable<any> {
-        let body = {"name": name};
-        return this.http.put<any>(this.apiUrl + '/' + uuid, body)
-    }
-    followFolderApi(uuid: string): Observable<any> {
-        return this.http.post<any>(this.apiUrl + '/' + uuid + '/follow', {})
-    }
-    unfollowFolderApi(uuid: string): Observable<any> {
-        return this.http.post<any>(this.apiUrl + '/' + uuid + '/unfollow', {})
-    }
-    addItemToFolderApi(uuid: string, items: any): Observable<any> {
-        let body = {"items": items};
-        return this.http.put<any>(this.apiUrl + '/' + uuid + '/items', body)
-    }
-    removeItemFromFolderApi(uuid: string, items: any): Observable<any> {
-        let body = {"items": items};
-        return this.http.delete<any>(this.apiUrl + '/' + uuid + '/items', {body: body})
-    }
-
-    // FUNKCE
-
     addFolder(name: string) {
-        this.createNewFolder(name).subscribe(results => {
+        this.krameriusApiService.createNewFolder(name).subscribe(results => {
             console.log(results);
             this.folders[0].push(results);
             this.router.navigate(['folders/' + results['uuid']]);
         });
     }
     deleteFolder(uuid: string) {
-        this.deleteFolderApi(uuid).subscribe(results => {
+        this.krameriusApiService.deleteFolder(uuid).subscribe(results => {
             this.folders[0] = this.folders[0].filter(folder => folder['uuid'] != uuid);
             this.router.navigate(['/folders']);
         });
     }
     editFolder(uuid: string, name: string) {
         console.log('name', name);
-        this.editFolderApi(uuid, name).subscribe(results => {
+        this.krameriusApiService.editFolder(uuid, name).subscribe(results => {
             this.folders[0].find(folder => {
                 if (folder['uuid'] == uuid) {
                     folder['name'] = name;
@@ -112,21 +62,21 @@ export class FolderService {
         });
     }
     followFolder(folder: Folder) {
-        this.followFolderApi(folder.uuid).subscribe(results => {
+        this.krameriusApiService.followFolder(folder.uuid).subscribe(results => {
             console.log('followFolder', folder);
             this.folders[1].push(folder);
             // this.router.navigate(['folders/' + results['uuid']]);
         });
     }
     unfollowFolder(uuid: string) {
-        this.unfollowFolderApi(uuid).subscribe(results => {
+        this.krameriusApiService.unfollowFolder(uuid).subscribe(results => {
             // console.log('results', results);
             this.folders[1] = this.folders[1].filter(folder => folder['uuid'] != uuid);
         });
     }
     addItemsToFolder(uuid: string, result: any) {
         const items = result.split(',').map(item => String(item.trim()));
-        this.addItemToFolderApi(uuid, items).subscribe(results => {
+        this.krameriusApiService.addItemToFolder(uuid, items).subscribe(results => {
             console.log('results', results);
             this.folders[0].find(folder => {
                 if (folder['uuid'] == uuid) {
@@ -138,7 +88,7 @@ export class FolderService {
     removeItemsFromFolder(uuid: string, result: any) {
         const items = result.split(',').map(item => String(item.trim()));
         console.log('items', items);
-        this.removeItemFromFolderApi(uuid, items).subscribe(results => {
+        this.krameriusApiService.removeItemFromFolder(uuid, items).subscribe(results => {
             console.log('results', results);
             this.folders[0].find(folder => {
                 if (folder['uuid'] == uuid) {
@@ -156,7 +106,7 @@ export class FolderService {
         });
     }
     addFolderAndItem(name: string, uuid: string) {
-        this.createNewFolder(name).subscribe(results => {
+        this.krameriusApiService.createNewFolder(name).subscribe(results => {
             console.log(results);
             this.folders[0].push(results);
             this.addItemsToFolder(results['uuid'], uuid);
@@ -199,7 +149,7 @@ export class FolderService {
         return of(items);
     }
 
-    sortFoldersByOwner(folders: Folder[]): any[] {
+    sortFoldersByOwner(folders: any): any[] {
         let myFolders: Folder[] = [];
         let sharedFolders: Folder[] = [];
         for (const folder of folders) {

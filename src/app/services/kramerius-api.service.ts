@@ -475,5 +475,55 @@ export class KrameriusApiService {
         }
     }
 
+    // FOLDERS
+
+    private getFoldersUrl(path: string): string {
+        return this.getApiUrl() + '/' + path;
+    }
+
+    getFolders() {
+        const url = this.getFoldersUrl('folders');
+        return this.doGet(url);
+    }
+    getFolder(uuid: string) {
+        const url = this.getFoldersUrl('folders/' + uuid);
+        return this.doGet(url);
+    }
+    getFolderItems(uuid: string) {
+        const url = this.getFoldersUrl('folders/' + uuid + '/items');
+        return this.doGet(url);
+    }
+    createNewFolder(name: string): Observable<any> {
+        const url = this.getFoldersUrl('folders/');
+        let body = {"name": name};
+        return this.http.post<any>(url, body)
+    }
+    deleteFolder(uuid: string): Observable<any> {
+        const url = this.getFoldersUrl('folders/' + uuid);
+        return this.http.delete<any>(url)
+    }
+    editFolder(uuid: string, name: string): Observable<any> {
+        const url = this.getFoldersUrl('folders/' + uuid);
+        let body = {"name": name};
+        return this.http.put<any>(url, body)
+    }
+    followFolder(uuid: string): Observable<any> {
+        const url = this.getFoldersUrl('folders/' + uuid + '/follow');
+        return this.http.post<any>(url, {})
+    }
+    unfollowFolder(uuid: string): Observable<any> {
+        const url = this.getFoldersUrl('folders/' + uuid + '/unfollow');
+        return this.http.post<any>(url, {})
+    }
+    addItemToFolder(uuid: string, items: any): Observable<any> {
+        const url = this.getFoldersUrl('folders/' + uuid + '/items');
+        let body = {"items": items};
+        return this.http.put<any>(url, body)
+    }
+    removeItemFromFolder(uuid: string, items: any): Observable<any> {
+        const url = this.getFoldersUrl('folders/' + uuid + '/items');
+        let body = {"items": items};
+        return this.http.delete<any>(url, {body: body})
+    }
 
 }
