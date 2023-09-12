@@ -1,5 +1,5 @@
 
-<div class="app-folders-wrapper" *ngIf="!loading">
+<div class="app-folders-wrapper" *ngIf="!loading && authService.isLoggedIn()">
     <div class="app-folders-container">
         <div class="app-folders-header">
             <div class="app-folders-header-title">Seznamy ({{folderService.folders[0].length + folderService.folders[1].length}})</div>
@@ -29,5 +29,15 @@
             </a>
         </div>
     </div> 
+    <app-folder *ngIf="folder" [folder]="folder" [user]="folder.user"></app-folder>
+</div>
+<div class="app-folders-wrapper" *ngIf="!loading && !authService.isLoggedIn()">
+    <div class="app-folders-container">
+        <div class="app-folders-header"> Seznamy</div>
+        <div class="app-folder-items">
+            <!-- <div class="app-folder-header">Sdílené seznamy</div> -->
+            <div class="app-folders-warning">Pro správu seznamů je třeba se přihlásit.</div>
+        </div>
+    </div>
     <app-folder *ngIf="folder" [folder]="folder" [user]="folder.user"></app-folder>
 </div>

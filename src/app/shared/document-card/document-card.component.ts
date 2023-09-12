@@ -84,6 +84,4 @@ export class DocumentCardComponent implements OnInit {
     this.legacyLocks = this.settings.legacyLocks;
     this.thumb = this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
   }
-
-
 }

@@ -33,10 +33,12 @@ export class FolderService {
         }
         console.log('=== loading new data from server');
         this.http.get<any>(this.apiUrl).subscribe(results => { 
-            console.log('results', results);
-            this.folders = this.sortFoldersByOwner(results);
-            if (callback) {
-                callback(this.folders);
+            if (results) {
+                console.log('results', results);
+                this.folders = this.sortFoldersByOwner(results);
+                if (callback) {
+                    callback(this.folders);
+                }
             }
             // this.foldersUpdated.next([...this.folders]);
         });

@@ -60,7 +60,7 @@
 
   <div class="app-card-like" *ngIf="auth.isAdmin()">
     <mat-icon *ngIf="in == 'search'" [matMenuTriggerFor]="favoritesMenu" (click)="$event.preventDefault();$event.stopPropagation()">favorite</mat-icon>
-    <mat-icon *ngIf="in == 'folder'" (click)="onDislike(folder); $event.preventDefault();$event.stopPropagation()">clear</mat-icon>
+    <mat-icon *ngIf="in == 'folder-owner'" (click)="onDislike(folder); $event.preventDefault();$event.stopPropagation()">clear</mat-icon>
     <mat-icon (click)="item.selected = !item.selected; $event.preventDefault();$event.stopPropagation()">info</mat-icon>
   </div>
 

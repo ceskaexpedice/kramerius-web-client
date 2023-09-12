@@ -8,6 +8,7 @@ import { FolderConfirmDialogComponent } from '../../dialog/folder-confirm-dialog
 import { FolderDialogComponent } from '../../dialog/folder-dialog/folder-dialog.component';
 import { FolderShareDialogComponent } from '../../dialog/folder-share-dialog/folder-share-dialog.component';
 import { FolderAdminDialogComponent } from '../../dialog/folder-admin-dialog/folder-admin-dialog.component';
+import { BasicDialogComponent } from '../../dialog/basic-dialog/basic-dialog.component';
 import { AuthService } from '../../services/auth.service';
 
 
@@ -31,6 +32,7 @@ export class FolderComponent implements OnInit {
                }
 
   ngOnInit(): void {
+    console.log('folder', this.folder);
   }
 
   openDeleteFolderDialog(uuid: string) {
@@ -176,6 +178,15 @@ export class FolderComponent implements OnInit {
       message: 'Co s těmito dokumenty?',
     }
     this.dialog.open(FolderAdminDialogComponent, { data: data, autoFocus: false });
+  }
+  openBasicDialog() {
+    const dialogRef = this.dialog.open(BasicDialogComponent, { 
+      data: {
+        title: 'Sdílení seznamu',
+        message: 'Pro přidání seznamu '  + this.folder.name + ' se musíte přihlásit.',
+        button: 'OK'}, 
+      autoFocus: false 
+    });
   }
 
   sortItems(items: any[]): any[] {

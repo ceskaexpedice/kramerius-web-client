@@ -5,8 +5,9 @@ import { FolderService } from '../services/folder.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FolderDialogComponent } from '../dialog/folder-dialog/folder-dialog.component';
 import { HistoryService } from '../services/history.service';
-import { User } from '../model/user.model';
 import { Subscription } from 'rxjs';
+import { KrameriusApiService } from '../services/kramerius-api.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-folders',
@@ -19,58 +20,143 @@ export class FoldersComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   name: string;
   userSubscription: Subscription;
-  
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               public folderService: FolderService,
               private dialog: MatDialog,
-              private history: HistoryService) {
-                this.folderService.getFolders;
+              private history: HistoryService,
+              private api: KrameriusApiService,
+              public authService: AuthService) {
                }
 
   ngOnInit(): void {
-    // console.log('======ngOnInit');
+    console.log('======ngOnInit Folders');
     this.loading = true;
-    this.folderService.getFolders((folders: Folder[]) => {
-      // console.log('======folders loaded');
-      this.route.paramMap.subscribe(params => {
-        let uuid = params.get('uuid');
-        // console.log('======uuid v ngOnInit paramMap', uuid);
-        console.log('======folders', this.folderService.folders);
-        if (uuid) {
-          this.folderService.getFolder(uuid).subscribe(folder => {
-              this.folder = Folder.fromJson(folder);
-              this.folderService.checkUser(folder).subscribe(user => {
-                this.folder.user = user;
+    if (this.authService.user) {
+      console.log('+++++++ user v ngOnInit 1', this.authService.user);
+      if (this.authService.user.authenticated) {
+        this.folderService.getFolders((folders: Folder[]) => {
+          this.route.paramMap.subscribe(params => {
+            let uuid = params.get('uuid');
+            if (uuid) {
+              this.folderService.getFolder(uuid).subscribe(folder => {
+                this.folder = Folder.fromJson(folder);
+                this.folderService.checkUser(folder).subscribe(user => {
+                  this.folder.user = user;
+                });
+                if (folder.items) {
+                  this.folderService.mapFolderItemsToDocumentItems(this.folder).subscribe(items => {
+                    this.folder.items = items; 
+                  });
+                }
+                this.loading = false;
               });
-              if (folder.items) {
-                this.folderService.mapFolderItemsToDocumentItems(this.folder).subscribe(items => {
-                  this.folder.items = items; 
+            } else {
+              if (this.folderService.folders[0] && this.folderService.folders[0][0]) {
+                this.folderService.getFolder(this.folderService.folders[0][0]['uuid']).subscribe(folder => {
+                  this.history.removeCurrent();
+                  this.router.navigate(['/folders', this.folderService.folders[0][0]['uuid']]);
+                  this.loading = false;
                 });
               }
-              this.loading = false;
+              else if (this.folderService.folders[1] && this.folderService.folders[1][0]) {
+                this.folderService.getFolder(this.folderService.folders[1][0]['uuid']).subscribe(folder => {
+                  this.router.navigate(['/folders', this.folderService.folders[1][0]['uuid']]);
+                  this.loading = false;
+                });
+              }
+              else {
+                console.log('neni zadny folder');
+                this.loading = false;
+              }
+            }
+          });
+        });
+      } else {
+        console.log('user not authenticated 1');
+        this.route.paramMap.subscribe(params => {
+          let uuid = params.get('uuid');
+          console.log('======uuid v ngOnInit paramMap', uuid);
+          if (uuid) {
+            this.folderService.getFolder(uuid).subscribe(folder => {
+                this.folder = Folder.fromJson(folder);
+                this.folderService.checkUser(folder).subscribe(user => {
+                  this.folder.user = user;
+                });
+                if (folder.items) {
+                  this.folderService.mapFolderItemsToDocumentItems(this.folder).subscribe(items => {
+                    this.folder.items = items; 
+                  });
+                }
+                this.loading = false;
+              });
+          } 
+        });
+      }
+    }
+    
+    this.userSubscription = this.authService.watchUser().subscribe((user) => {
+      console.log('+++++++ user v ngOnInit 2', user);
+        if (user.authenticated) {
+          this.folderService.getFolders((folders: Folder[]) => {
+            this.route.paramMap.subscribe(params => {
+              let uuid = params.get('uuid');
+              if (uuid) {
+                this.folderService.getFolder(uuid).subscribe(folder => {
+                    this.folder = Folder.fromJson(folder);
+                    this.folderService.checkUser(folder).subscribe(user => {
+                      this.folder.user = user;
+                    });
+                    if (folder.items) {
+                      this.folderService.mapFolderItemsToDocumentItems(this.folder).subscribe(items => {
+                        this.folder.items = items; 
+                      });
+                    }
+                    this.loading = false;
+                  });
+              } else {
+                if (this.folderService.folders[0] && this.folderService.folders[0][0]) {
+                  this.folderService.getFolder(this.folderService.folders[0][0]['uuid']).subscribe(folder => {
+                    this.history.removeCurrent();
+                    this.router.navigate(['/folders', this.folderService.folders[0][0]['uuid']]);
+                    this.loading = false;
+                  });
+                }
+                else if (this.folderService.folders[1] && this.folderService.folders[1][0]) {
+                  this.folderService.getFolder(this.folderService.folders[1][0]['uuid']).subscribe(folder => {
+                    this.router.navigate(['/folders', this.folderService.folders[1][0]['uuid']]);
+                    this.loading = false;
+                  });
+                }
+                else {
+                  console.log('neni zadny folder');
+                  this.loading = false;
+                }
+              }
             });
+          });
         } else {
-          if (this.folderService.folders[0] && this.folderService.folders[0][0]) {
-            this.folderService.getFolder(this.folderService.folders[0][0]['uuid']).subscribe(folder => {
-              this.history.removeCurrent();
-              this.router.navigate(['/folders', this.folderService.folders[0][0]['uuid']]);
-              this.loading = false;
-            });
-          }
-          else if (this.folderService.folders[1] && this.folderService.folders[1][0]) {
-            this.folderService.getFolder(this.folderService.folders[1][0]['uuid']).subscribe(folder => {
-              this.router.navigate(['/folders', this.folderService.folders[1][0]['uuid']]);
-              this.loading = false;
-            });
-          }
-          else {
-            console.log('neni zadny folder');
-            this.loading = false;
-          }
-        }
+          console.log('user not authenticated 2');
+          this.route.paramMap.subscribe(params => {
+            let uuid = params.get('uuid');
+            if (uuid) {
+              this.folderService.getFolder(uuid).subscribe(folder => {
+                this.folder = Folder.fromJson(folder);
+                this.folderService.checkUser(folder).subscribe(user => {
+                  this.folder.user = user;
+                });
+                if (folder.items) {
+                  this.folderService.mapFolderItemsToDocumentItems(this.folder).subscribe(items => {
+                    this.folder.items = items; 
+                  });
+                }
+                this.loading = false;
+              });
+            } 
+          });
+        } 
       });
-    });
   }
   
   openFoldersDialog() {
@@ -109,6 +195,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('======ngOnDestroy');
+    this.userSubscription.unsubscribe();
   }
 
 }

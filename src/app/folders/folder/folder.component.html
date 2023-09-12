@@ -2,15 +2,17 @@
     <div class="app-folder-toolbar">
         <div class="app-folder-toolbar-title">{{folder.name}}</div>
         <div class="app-folder-toolbar-actions">
-            <div tabindex="0" *ngIf="folderSelection" (click)="openAdminActions()" class="app-view-button" [class.app-active]="true"><mat-icon>edit_note</mat-icon></div>
-            <div tabindex="0" *ngIf="folderSelection" (click)="toggleAllSelected()" class="app-view-button" [class.app-active]="true"><mat-icon>done_all</mat-icon></div>
-            <div tabindex="0" *ngIf="user === 'owner'" (click)="this.toggleFolderSelection()" class="app-view-button" [class.app-active]="folderSelection" style="margin-right: 16px;"><mat-icon>check</mat-icon></div>
+            <div tabindex="0" *ngIf="folderSelection" (click)="openAdminActions()" class="app-view-button" [class.app-active]="true" [matTooltip]="'Editovat vybrané'"><mat-icon>edit_note</mat-icon></div>
+            <div tabindex="0" *ngIf="folderSelection" (click)="toggleAllSelected()" class="app-view-button" [class.app-active]="true" [matTooltip]="'Vybrat vše'"><mat-icon>done_all</mat-icon></div>
+            <div tabindex="0" *ngIf="user === 'owner'" (click)="this.toggleFolderSelection()" class="app-view-button" [class.app-active]="folderSelection" style="margin-right: 16px;" [matTooltip]="'Hromadná úprava položek seznamu'"><mat-icon>check</mat-icon></div>
             <div tabindex="0" *ngIf="user === 'owner'" (click)="openAddItemToFolderDialog(folder.uuid)" [matTooltip]="'Přidat na seznam'"><mat-icon>add</mat-icon></div>
-            <div tabindex="0" *ngIf="user === 'owner'" (click)="openEditFolderDialog(folder.uuid)" [matTooltip]="'Editovat název'"><mat-icon>drive_file_rename_outline</mat-icon></div>
+            <div tabindex="0" *ngIf="user === 'owner'" (click)="openEditFolderDialog(folder.uuid)" [matTooltip]="'Editovat název seznamu'"><mat-icon>drive_file_rename_outline</mat-icon></div>
             <div tabindex="0" *ngIf="user === 'owner'" (click)="openDeleteFolderDialog(folder.uuid)" [matTooltip]="'Smazat seznam'"><mat-icon>delete</mat-icon></div>
             <div tabindex="0" *ngIf="user === 'owner'" (click)="openShareFolderDialog(folder.uuid)"  [matTooltip]="'Sdílet seznam'"><mat-icon>share</mat-icon></div>
             <div tabindex="0" *ngIf="user === 'follower'" (click)="openUnfollowFolderDialog(folder)" [matTooltip]="'Odebrat ze sdílených seznamů'"><mat-icon>delete</mat-icon></div>
-            <div tabindex="0" *ngIf="(user !== 'follower' && user !== 'owner')" (click)="openFollowFolderDialog(folder)" [matTooltip]="'Přidat do sdílených seznamů'"><mat-icon>add</mat-icon></div>
+            <div tabindex="0" *ngIf="(user && user !== 'follower' && user !== 'owner')" (click)="openFollowFolderDialog(folder)" [matTooltip]="'Přidat do sdílených seznamů'"><mat-icon>add</mat-icon></div>
+            <div tabindex="0" *ngIf="!user" (click)="openBasicDialog()" [matTooltip]="'Přidat do sdílených seznamů'"><mat-icon>add</mat-icon></div>
+
         </div>
     </div>
     <!-- <div class="app-folder-content" *ngIf="folder && folder.items">
@@ -21,6 +23,14 @@
             {{item.title}}, {{item.date}}, {{item.uuid}}
         </div>
     </div> -->
-    <app-document-card *ngFor="let item of this.sortItems(folder.items)" [selectable]="folderSelection" [in]="'folder'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
+    <div *ngIf="user === 'owner'">
+        <app-document-card *ngFor="let item of this.sortItems(folder.items)" [selectable]="folderSelection" [in]="'folder-owner'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
+    </div>
+    <div *ngIf="user === 'follower'">
+        <app-document-card *ngFor="let item of this.sortItems(folder.items)" [selectable]="folderSelection" [in]="'folder-follower'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
+    </div>
+    <div *ngIf="!user">
+        <app-document-card *ngFor="let item of this.sortItems(folder.items)" [selectable]="folderSelection" [in]="'folder-follower'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
+    </div>
 </div>
 

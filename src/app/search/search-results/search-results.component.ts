@@ -27,7 +27,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.folderService.getFolders(null);
+    // this.folderService.getFolders(null);
   }
   getThumb(item: DocumentItem) {
     let url = '';

@@ -4,6 +4,8 @@ import { User } from '../model/user.model';
 import { HttpRequestCache } from './http-request-cache.service';
 import { AppSettings } from './app-settings';
 import { LicenceService } from './licence.service';
+import { Subject, Observable } from 'rxjs';
+import { FolderService } from './folder.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +14,12 @@ export class AuthService {
 
     user: User = null;
     redirectUrl: string;
+    userSub = new Subject<User>();
 
-    constructor(private settings: AppSettings, private licences: LicenceService, private api: KrameriusApiService, private cache: HttpRequestCache) {
+    constructor(private settings: AppSettings, 
+                private licences: LicenceService, 
+                private api: KrameriusApiService, 
+                private cache: HttpRequestCache) {
         if ((settings.auth || settings.krameriusLogin || settings.version >= 7) && !settings.multiKramerius) {
             this.userInfo(null, null);
         }
@@ -35,7 +41,8 @@ export class AuthService {
     userInfo(username: string, password: string, callback: (status: string) => void = null) {
         this.api.getUserInfo(username, password).subscribe(user => {
             this.user = user;
-            // console.log('USER', this.user);
+            console.log('USER', this.user);
+            this.userSub.next(this.user);
             // console.log('Licences', this.user.licences);
             this.licences.assignUserLicences(this.user.licences);
             this.cache.clear();
@@ -43,7 +50,7 @@ export class AuthService {
                 this.api.getRights('uuid:1').subscribe(
                     (actions) => {
                         this.user.actions = actions || [];
-                        console.log('user', this.user);
+                        // console.log('user', this.user);
                         if (callback) {
                             callback('ok');
                         }
@@ -161,5 +168,10 @@ export class AuthService {
             return false;
         }
         return this.user.actions.indexOf('a_admin_read') >= 0;
+    }
+
+    watchUser(): Observable<User> {
+        console.log('watchUser', this.userSub);
+        return this.userSub.asObservable();
     }
 }
