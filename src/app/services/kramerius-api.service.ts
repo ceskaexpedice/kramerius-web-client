@@ -480,7 +480,6 @@ export class KrameriusApiService {
     private getFoldersUrl(path: string): string {
         return this.getApiUrl() + '/' + path;
     }
-
     getFolders() {
         const url = this.getFoldersUrl('folders');
         return this.doGet(url);

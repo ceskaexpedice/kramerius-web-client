@@ -8,6 +8,7 @@ import { HistoryService } from '../services/history.service';
 import { Subscription } from 'rxjs';
 import { KrameriusApiService } from '../services/kramerius-api.service';
 import { AuthService } from '../services/auth.service';
+import { AppSettings } from '../services/app-settings';
 
 @Component({
   selector: 'app-folders',
@@ -27,11 +28,17 @@ export class FoldersComponent implements OnInit, OnDestroy {
               private dialog: MatDialog,
               private history: HistoryService,
               private api: KrameriusApiService,
-              public authService: AuthService) {
+              public authService: AuthService,
+              public settings: AppSettings) {
                }
 
   ngOnInit(): void {
     console.log('======ngOnInit Folders');
+    if (!this.settings.folders) {
+      this.router.navigateByUrl(this.settings.getRouteFor(''));
+      // return;
+      // this.settings.getRouteFor(''); // redirect to home
+    }
     this.loading = true;
     if (this.authService.user) {
       console.log('+++++++ user v ngOnInit 1', this.authService.user);
@@ -91,7 +98,9 @@ export class FoldersComponent implements OnInit, OnDestroy {
                 }
                 this.loading = false;
               });
-          } 
+          } else {
+            this.router.navigateByUrl(this.settings.getRouteFor(''));
+          }
         });
       }
     }
@@ -153,7 +162,9 @@ export class FoldersComponent implements OnInit, OnDestroy {
                 }
                 this.loading = false;
               });
-            } 
+            } else {
+              this.router.navigateByUrl(this.settings.getRouteFor(''));
+            }
           });
         } 
       });

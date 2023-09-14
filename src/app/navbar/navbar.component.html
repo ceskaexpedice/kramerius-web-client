@@ -40,7 +40,7 @@
       <div class="app-navbar-item" *ngIf="appSettings.impressumPage">
         <a (click)="analytics.sendEvent('navbar', 'impressum');" [routerLink]="appSettings.getRouteFor('impressum')">{{ 'navbar.impressum' | translate }}</a>
       </div>
-      <div class="app-navbar-item" *ngIf="authService.isLoggedIn()">
+      <div class="app-navbar-item" *ngIf="authService.isLoggedIn() && appSettings.folders">
         <a (click)="analytics.sendEvent('navbar', 'folders');" [routerLink]="appSettings.getRouteFor('folders')">{{ 'navbar.folders' | translate }}</a>
       </div>
       <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.keycloak">
@@ -97,7 +97,7 @@
     <div class="app-navbar-item" *ngIf="appSettings.impressumPage">
       <a (click)="analytics.sendEvent('navbar', 'impressum');" [routerLink]="appSettings.getRouteFor('impressum')">Impressum</a>
     </div>
-    <div class="app-navbar-item" *ngIf="authService.isLoggedIn()">
+    <div class="app-navbar-item" *ngIf="authService.isLoggedIn() && appSettings.folders">
       <a (click)="analytics.sendEvent('navbar', 'folders');"  [routerLink]="appSettings.getRouteFor('folders')">{{ 'navbar.folders' | translate }}</a>
     </div>
     <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.keycloak">
