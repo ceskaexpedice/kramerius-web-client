@@ -887,13 +887,13 @@ export class SolrService {
             q += '&group.truncate=true';
             q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model_path')},${this.field('authors')},${this.field('root_title')},${this.field('root_pid')},${this.field('title')},${this.field('date')},score`;
         } else {
-            q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')}`;
+            q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')},title.search_*`;
         }
         if (this.settings.filters.indexOf('sources') > -1) {
             q+= `,${this.field('cdk_sources')}`
         }
         if (!this.settings.k5Compat()) {
-            q += `,${this.field('collection_description')}`;
+            q += `,${this.field('collection_description')}, collection.desc_*`;
         } else if (this.settings.filters.indexOf('categories') >= 0) {
             q += `,${this.field('category')}`;
         }
@@ -1389,6 +1389,7 @@ export class SolrService {
     documentItems(json): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const doc of json['response']['docs']) {
+            console.log('doc', doc);
             const item = new DocumentItem();
             item.doctype = doc[this.field('model')];
             if (this.settings.code == 'snk' && item.doctype == 'internalpart') {
@@ -1427,6 +1428,31 @@ export class SolrService {
                     if (descriptions.length > 1) {
                         item.descriptionEn = descriptions[1];
                     }
+
+                // ZMENA TITLES A DESCRIPTION VE SBIRKACH
+                    let titles2 = [];
+                    let languages = [{'3l':'cze', '2l': 'cs'}, 
+                                     {'3l':'eng', '2l': 'en'}, 
+                                     {'3l':'ger', '2l': 'de'},
+                                     {'3l':'slo', '2l': 'sk'},
+                                     {'3l':'slv', '2l': 'sl'}]; // PRIDAT DALSI JAZYKY PRO SBIRKY...
+                    for (const lang of languages) {
+                        // console.log('lang', lang['3l'], lang['2l'], 'title.search_' + lang['3l'], doc['title.search_' + lang['3l'][0]]);
+                        if (doc['title.search_' + lang['3l']]) {
+                            titles2.push({'lang': lang['2l'], 'title': doc['title.search_' + lang['3l']][0]});
+                        }
+                    }
+                    item.titles = titles2;
+
+                    let descriptions2 = [];
+                    for (const lang of languages) {
+                        if (doc['collection.desc_' + lang['3l']]) {
+                            descriptions2.push({'lang': lang['2l'], 'description': doc['collection.desc_' + lang['3l']][0]});
+                        }
+                    }
+                    item.descriptions = descriptions2;
+            
+
                 } else if (item.doctype == 'page') {
                     item.title = doc[this.field('root_title')];
                 } else {
@@ -1448,6 +1474,7 @@ export class SolrService {
                 this.parseLocation(doc[this.field('coords_corner_ne')], doc[this.field('coords_corner_sw')], item);
             }
             item.resolveUrl(this.settings.getPathPrefix());
+            console.log('item', item);
             items.push(item);
         }
         return items;

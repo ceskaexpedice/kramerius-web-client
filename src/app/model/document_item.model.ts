@@ -1,6 +1,7 @@
 export class DocumentItem {
     title: string;
     titleEn: string;
+    titles: any[];
     authors: string[];
     geonames: string[];
     date: string;
@@ -12,6 +13,7 @@ export class DocumentItem {
     url: string;
     description: string;
     descriptionEn: string;
+    descriptions: any[];
     volumeNumber: string;
     volumeYear: string;
     pdf = false;
@@ -76,19 +78,34 @@ export class DocumentItem {
     }
 
     public getTitle(lang: string): string {
-        if (lang == 'en' && this.titleEn) {
-            return this.titleEn;
-        }
-        return this.title;
+        if (this.titles && this.titles.length > 0) {
+            if (this.titles.find(t => t.lang === lang)) {
+                return this.titles.find(t => t.lang === lang).title;
+            } else {
+                return this.titles.find(t => t.lang === 'cs').title;
+            }
+        } else {
+            if (lang == 'en' && this.titleEn) {
+                return this.titleEn;
+            }
+            return this.title;
+        }   
     }
 
     public getDescription(lang: string): string {
-        if (lang == 'en' && this.descriptionEn) {
-            return this.descriptionEn;
+        if (this.descriptions && this.descriptions.length > 0) {
+            if (this.descriptions.find(t => t.lang === lang)) {
+                return this.descriptions.find(t => t.lang === lang).description;
+            } else {
+                return this.descriptions.find(t => t.lang === 'cs').description;
+            }
+        } else {
+            if (lang == 'en' && this.descriptionEn) {
+                return this.descriptionEn;
+            }
+            return this.description;
         }
-        return this.description;
     }
-
 }
 
 export class Context {
