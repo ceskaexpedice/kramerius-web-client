@@ -61,7 +61,7 @@
   <div class="app-card-like" *ngIf="auth.isLoggedIn()">
     <mat-icon *ngIf="in == 'search' && settings.folders" [matMenuTriggerFor]="favoritesMenu" (click)="$event.preventDefault();$event.stopPropagation()" [matTooltip]="'Přidat do oblíbených'">favorite</mat-icon>
     <mat-icon *ngIf="in == 'folder-owner' && settings.folders" (click)="onDislike(folder); $event.preventDefault();$event.stopPropagation()">clear</mat-icon>
-    <mat-icon (click)="getMetadata(item.uuid); $event.preventDefault();$event.stopPropagation()" [matTooltip]="">info</mat-icon>
+    <mat-icon (click)="getMetadata(item.uuid); $event.preventDefault();$event.stopPropagation()" [matTooltip]="'Klikni pro více info'">info</mat-icon>
   </div>
 
 </a>

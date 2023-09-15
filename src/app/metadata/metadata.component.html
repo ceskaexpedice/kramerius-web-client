@@ -7,7 +7,7 @@
     <mat-icon tabindex="0" *ngIf="actionAvailable('citation')" [class.app-disabled]="!actionEnabled('citation')" (click)="onShowCitation()" [matTooltip]="'book_controls.tooltip_citation' | translate">format_quote</mat-icon>
     <mat-icon tabindex="0" *ngIf="actionAvailable('metadata')" [class.app-disabled]="!actionEnabled('metadata')" (click)="onShowMetadata()" [matTooltip]="'book_controls.tooltip_metadata' | translate">code</mat-icon>
     <mat-icon tabindex="0" *ngIf="auth.isAdmin()" (click)="openAdminActions()" [matTooltip]="'book_controls.tooltip_edit' | translate">edit</mat-icon>
-    <span class="app-dropdown" [matMenuTriggerFor]="favoritesMenu">
+    <span class="app-dropdown" *ngIf="auth.user.authenticated" [matMenuTriggerFor]="favoritesMenu">
       <mat-icon tabindex="0" [matTooltip]="'Přidat do seznamu'">favorite</mat-icon>
     </span>
   </div>
@@ -446,5 +446,8 @@
     <div mat-menu-item tabindex="0" class="app-dropdown-item" *ngFor="let folder of folderService.getMyFolders()" (click)="onLike(folder)">
       {{ folder.name }}
     </div>
+    <div class="app-dropdown-input">
+      <input #matInput placeholder="+ Nový seznam" (click)="$event.stopPropagation()" (keyup.enter)="onNewFolder(matInput.value)" (keydown)="$event.stopPropagation()">
+  </div>
   </ng-template>
 </mat-menu>

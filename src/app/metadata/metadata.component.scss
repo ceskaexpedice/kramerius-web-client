@@ -163,3 +163,14 @@
       }
     }
   }
+  .app-dropdown-input {
+    color: #0277bd;
+    // width: 150px;
+    padding: 0 10px;
+    input {
+      height: 30px;
+      &:focus {
+        outline: none !important; 
+      }
+    }
+  }

@@ -1,6 +1,6 @@
 <div class="app-folder-container" *ngIf="folder">
     <div class="app-folder-toolbar">
-        <div class="app-folder-toolbar-title">{{folder.name}}</div>
+        <div class="app-folder-toolbar-title">{{folder.name}} ({{folder.items.length}})</div>
         <div class="app-folder-toolbar-actions">
             <div tabindex="0" *ngIf="folderSelection" (click)="openAdminActions()" class="app-view-button" [class.app-active]="true" [matTooltip]="'Editovat vybrané'"><mat-icon>edit_note</mat-icon></div>
             <div tabindex="0" *ngIf="folderSelection" (click)="toggleAllSelected()" class="app-view-button" [class.app-active]="true" [matTooltip]="'Vybrat vše'"><mat-icon>done_all</mat-icon></div>

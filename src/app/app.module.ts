@@ -167,6 +167,7 @@ import { FolderDialogComponent } from './dialog/folder-dialog/folder-dialog.comp
 import { FolderConfirmDialogComponent } from './dialog/folder-confirm-dialog/folder-confirm-dialog.component';
 import { FolderShareDialogComponent } from './dialog/folder-share-dialog/folder-share-dialog.component';
 import { FolderAdminDialogComponent } from './dialog/folder-admin-dialog/folder-admin-dialog.component';
+import { DisplayMetadataDialogComponent} from './dialog/display-metadata-dialog/display-metadata-dialog.component';
 
 
 declare var APP_GLOBAL: any;
@@ -293,7 +294,8 @@ export function appInitializerFactory(translate: TranslateService) {
     FolderDialogComponent,
     FolderConfirmDialogComponent,
     FolderShareDialogComponent,
-    FolderAdminDialogComponent
+    FolderAdminDialogComponent,
+    DisplayMetadataDialogComponent
   ],
   imports: [
     BrowserModule,

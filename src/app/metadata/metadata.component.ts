@@ -1,6 +1,6 @@
 import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../services/analytics.service';
 import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { AuthService } from '../services/auth.service';
@@ -14,6 +14,8 @@ import { MetadataDialogComponent } from '../dialog/metadata-dialog/metadata-dial
 import { LicenceDialogComponent } from '../dialog/licence-dialog/licence-dialog.component';
 import { FolderService } from '../services/folder.service';
 import { Folder } from '../model/folder.model';
+import { MatMenuTrigger } from '@angular/material/menu';
+
 
 @Component({
   selector: 'app-metadata',
@@ -28,6 +30,7 @@ export class MetadataComponent implements OnInit {
   }
   @Input() metadata: Metadata;
   expandedTitle = false;
+  @ViewChild(MatMenuTrigger,{static:false}) menu: MatMenuTrigger; 
 
   expand = {}
 
@@ -41,7 +44,9 @@ export class MetadataComponent implements OnInit {
 
   ngOnInit() {
     console.log('metadata', this.metadata);
-    this.folderService.getFolders(null);
+    if (this.auth.user.authenticated) {
+      this.folderService.getFolders(null);
+    }
   }
 
   toHtml(text: string): string {
@@ -109,6 +114,12 @@ export class MetadataComponent implements OnInit {
   onLike(folder: Folder) {
     this.folderService.like(folder, this.metadata.uuid);
     console.log('onLike', folder, this.metadata.uuid);
+  }
+
+  onNewFolder(name: string) {
+    this.menu.closeMenu();
+    console.log('onNewFolder', name);
+    this.folderService.addFolderAndItem(name, this.metadata.uuid);
   }
 
   onShowMetadata() {

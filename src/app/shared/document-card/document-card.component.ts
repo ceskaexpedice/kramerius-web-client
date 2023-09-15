@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { FolderService } from '../../services/folder.service';
 import { Folder } from '../../model/folder.model';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { DisplayMetadataDialogComponent } from '../../dialog/display-metadata-dialog/display-metadata-dialog.component';
 
 @Component({
   selector: 'app-document-card',
@@ -26,6 +28,7 @@ export class DocumentCardComponent implements OnInit {
   thumb;
   lock: any;
   legacyLocks: boolean;
+  metadataSubscription: any;
 
   constructor(private krameriusApiService: KrameriusApiService,
               private settings: AppSettings,
@@ -34,7 +37,8 @@ export class DocumentCardComponent implements OnInit {
               private licences: LicenceService,
               public analytics: AnalyticsService,
               private _sanitizer: DomSanitizer,
-              public folderService: FolderService) { }
+              public folderService: FolderService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.init();
@@ -47,8 +51,8 @@ export class DocumentCardComponent implements OnInit {
   }
   onDislike(folder: Folder) {
     this.folderService.dislike(folder, this.item.uuid);
-    this.folder.items.filter(item => item.uuid != this.item.uuid);
-    console.log('onDislike', this.folder.items);
+    this. folder.items = this.folder.items.filter(item => item.uuid !== this.item.uuid);
+    // console.log('onDislike', this.folder.items);
   }
   onNewFolder(name: string) {
     this.menu.closeMenu();
@@ -74,9 +78,18 @@ export class DocumentCardComponent implements OnInit {
 
   getMetadata(uuid: string) {
     console.log('getMetadata', uuid);
-    // this.krameriusApiService.getMetadata(this.item.uuid).subscribe(metadata => {
-      // console.log('metadata', metadata);
-    // });
+    this.metadataSubscription = this.krameriusApiService.getMetadata(uuid).subscribe(metadata => {
+      console.log('metadata', metadata);
+      const dialogRef = this.dialog.open(DisplayMetadataDialogComponent, {
+        data: {
+          title: 'Metadata',
+          message: '',
+          metadata: metadata,
+          button: 'Zavřít',
+          confirm: 'confirm'},
+        autoFocus: false
+      });
+    });
   }
 
   private init() {
