@@ -1389,7 +1389,6 @@ export class SolrService {
     documentItems(json): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const doc of json['response']['docs']) {
-            console.log('doc', doc);
             const item = new DocumentItem();
             item.doctype = doc[this.field('model')];
             if (this.settings.code == 'snk' && item.doctype == 'internalpart') {
@@ -1430,7 +1429,7 @@ export class SolrService {
                     }
 
                 // ZMENA TITLES A DESCRIPTION VE SBIRKACH
-                    let titles2 = [];
+                    let titles2 = {};
                     let languages = [{'3l':'cze', '2l': 'cs'}, 
                                      {'3l':'eng', '2l': 'en'}, 
                                      {'3l':'ger', '2l': 'de'},
@@ -1439,15 +1438,17 @@ export class SolrService {
                     for (const lang of languages) {
                         // console.log('lang', lang['3l'], lang['2l'], 'title.search_' + lang['3l'], doc['title.search_' + lang['3l'][0]]);
                         if (doc['title.search_' + lang['3l']]) {
-                            titles2.push({'lang': lang['2l'], 'title': doc['title.search_' + lang['3l']][0]});
+                            // titles2.push({'lang': lang['2l'], 'title': doc['title.search_' + lang['3l']][0]});
+                            titles2[lang['2l']] = doc['title.search_' + lang['3l']][0];
                         }
                     }
                     item.titles = titles2;
 
-                    let descriptions2 = [];
+                    let descriptions2 = {};
                     for (const lang of languages) {
                         if (doc['collection.desc_' + lang['3l']]) {
-                            descriptions2.push({'lang': lang['2l'], 'description': doc['collection.desc_' + lang['3l']][0]});
+                            // descriptions2.push({'lang': lang['2l'], 'description': doc['collection.desc_' + lang['3l']][0]});
+                            descriptions2[lang['2l']] = doc['collection.desc_' + lang['3l']][0];
                         }
                     }
                     item.descriptions = descriptions2;
@@ -1474,7 +1475,6 @@ export class SolrService {
                 this.parseLocation(doc[this.field('coords_corner_ne')], doc[this.field('coords_corner_sw')], item);
             }
             item.resolveUrl(this.settings.getPathPrefix());
-            console.log('item', item);
             items.push(item);
         }
         return items;
