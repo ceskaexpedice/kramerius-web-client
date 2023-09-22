@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs-compat';
 import { AppSettings } from './app-settings';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class TtsService {
@@ -25,18 +26,23 @@ export class TtsService {
 
   audio: any;
 
+  language: string = null;
+  userLanguage: string = null;
+
   onFinished: () => void;
 
 
   constructor(private api: KrameriusApiService,
     private settings: AppSettings,
     private http: HttpClient,
+    private translateService: TranslateService,
     private altoService: AltoService) {
   } 
 
 
 
   readPage(uuid: string, onFinished: () => void) {
+    this.userLanguage = this.translateService.currentLang;
     this.state = 'loading';
     this.onFinished = onFinished;
     this.api.getAlto(uuid).subscribe(
@@ -58,6 +64,8 @@ export class TtsService {
     );
   }
 
+
+
   stop() {
     if (this.audio) {
       this.audio.pause();
@@ -74,6 +82,7 @@ export class TtsService {
   }
 
   private finish(fromUser: boolean = false) {
+    this.language = null;
     this.state = 'none';
     this.blocks = null;
     this.activeBlockIndex = -1;
@@ -102,14 +111,54 @@ export class TtsService {
     const tr = false;
     if (tr) {
       this.askGPT(block.text, "Přelož do češtiny", (answer) => {
-        this.sayIt(answer);
+        this.readText(answer);
       });
     } else {
-      this.sayIt(block.text);
+      this.readText(block.text);
+    }
+  }
+
+  private readText(text: string) {    
+    if (this.language) {
+      if (this.language !== this.userLanguage) {
+          this.translate(text, (answer) => {
+            this.sayIt(answer);
+          }, this.userLanguage);
+      } else {
+        this.sayIt(text);
+      }
+    } else {
+      this.detectLanguage(text, (language) => {
+        this.language = language;
+        this.readText(text);
+      });
     }
   }
 
   private sayIt(text: string) {
+    let voice;
+    if (this.userLanguage === 'cs') {
+      voice = {
+        "languageCode": "cs-CZ",
+        "name": "cs-CZ-Wavenet-A"
+      }
+    } else if (this.userLanguage === 'sk') {
+      voice = {
+        "languageCode": "sk-SK",
+        "name": "sk-SK-Wavenet-A"
+      }
+    } else if (this.userLanguage === 'de') {
+      voice = {
+        "languageCode": "de-DE",
+        "name": "de-DE-Wavenet-F"
+      }
+    } else {  
+      voice = {
+        "languageCode": "en-US",
+        "name": "en-US-Neural2-J"
+      }
+    }
+
     const token = this.settings.getToken();
     const url = `https://api.trinera.cloud/api/google/tts`;
     let headers = new HttpHeaders()
@@ -129,10 +178,7 @@ export class TtsService {
       "input": {
         "text": text
       },
-      "voice": {
-        "languageCode": "cs-CZ",
-        "name": "cs-CZ-Wavenet-A"
-      }
+      "voice": voice
     };
     this.http.post(url, body, { headers: headers }).subscribe((repsonse: any) => {
       this.playAudioContent(repsonse['audioContent']);
@@ -154,8 +200,6 @@ export class TtsService {
     this.audio.play();
   }
 
-
-
   private base64ToUint8Array(base64: string): Uint8Array {
     const binaryString = atob(base64);
     const length = binaryString.length;
@@ -165,9 +209,6 @@ export class TtsService {
     }
     return bytes;
   }
-
-
-
 
  askGPT(input: string, instructions: string, callback: (answer: string) => void) {
     // let promt = !!instructions ? `${instructions}:\n\n${input}` : input;
@@ -207,7 +248,8 @@ export class TtsService {
   }
 
 
-  translate(input: string, callback: (answer: string) => void) {
+  translate(input: string, callback: (answer: string) => void, target: string = null) {
+    target = target || this.translateService.currentLang;
     const token = this.settings.getToken();
     const url = `https://api.trinera.cloud/api/deepl/translate`;
     let headers = new HttpHeaders()
@@ -217,7 +259,7 @@ export class TtsService {
       .set('Content-Type', `application/json`);
     const body = {
       'text': [input ],
-      'target_lang': 'CS'
+      'target_lang': target
     };
     this.http.post(url, body, { headers: headers }).subscribe((response: any) => {
       console.log('respnse', response);
@@ -226,6 +268,22 @@ export class TtsService {
     });
   }
 
-
+  detectLanguage(input: string, callback: (answer: string) => void) {
+    const token = this.settings.getToken();
+    const url = `https://api.trinera.cloud/api/google/translate/detect`;
+    let headers = new HttpHeaders()
+      .set('X-Tai-Source', location.href)
+      .set('X-Tai-Project', `Kramerius`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', `application/json`);
+    const body = {
+      'q': input,
+    };
+    this.http.post(url, body, { headers: headers }).subscribe((response: any) => {
+      console.log('respnse', response);
+      const answer = response['data']['detections'][0][0]['language'];
+      callback(answer);
+    });
+  }
 
 }

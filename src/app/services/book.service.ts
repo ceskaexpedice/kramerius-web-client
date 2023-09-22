@@ -30,6 +30,7 @@ import { saveAs } from 'file-saver';
 import { PdfService } from './pdf.service';
 import { GeoreferenceService } from './georeference.service';
 import { TtsService } from './tts.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class BookService {
@@ -109,6 +110,7 @@ export class BookService {
         private bottomSheet: MatBottomSheet,
         private licenceService: LicenceService,
         private tts: TtsService,
+        private translateSrvice: TranslateService,
         private geoService: GeoreferenceService) {
     }
 
@@ -839,17 +841,35 @@ export class BookService {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.api.getAlto(uuid).subscribe(
             result => {
+                const lang = this.translateSrvice.currentLang
+                let instruction = "Summarize the entered text in bullet points";
+                let title = "Summary";
+                if (lang == "cs") {
+                    instruction = "Sumarizuj v odrážkách zadaný text";
+                    title = "Shrnutí";
+                } else if (lang == "de") {
+                    instruction = "Fassen Sie den eingegebenen Text in Aufzählungspunkten zusammen";
+                    title = "Zusammenfassung";
+                } else if (lang == "sk") {
+                    instruction = "Sumarizuj v odrážkach zadaný text";
+                    title = "Zhrnutie";
+                }
                 const text = this.altoService.getTextInBox(result, extent, width, height);
-                this.tts.askGPT(text, "Sumarizuj v odrážkách zadaný text a pro výstup používej pouze český jazyk", (answer) => {
-                // this.tts.askGPT(text, "Udělej fact checking článku z dobových novin padesátých let", (answer) => {
-                    const options = {
-                        title: 'Shrnutí',
-                        ocr: answer,
-                        uuid: this.getPage().uuid,
-                        showCitation: false
-                    };
-                    this.bottomSheet.open(OcrDialogComponent, { data: options });
-                });
+                this.tts.translate(text, (translation) => {
+
+                    this.tts.askGPT(translation, instruction, (answer) => {
+                        // this.tts.askGPT(text, "Udělej fact checking článku z dobových novin padesátých let", (answer) => {
+    
+                            const options = {
+                                title: title,
+                                ocr: answer,
+                                uuid: this.getPage().uuid,
+                                showCitation: false
+                            };
+                            this.bottomSheet.open(OcrDialogComponent, { data: options });
+                        });
+
+                }, lang); 
             },
             error => {
                 if (error instanceof NotFoundError) {
