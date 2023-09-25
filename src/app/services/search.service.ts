@@ -15,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AdvancedSearchDialogComponent } from '../dialog/advanced-search-dialog/advanced-search-dialog.component';
 import { MapSeriesService } from './mapseries.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, forkJoin } from 'rxjs';
 
 
 @Injectable()
@@ -369,7 +369,7 @@ export class SearchService {
         }
         if (this.query.collection) {
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
-                // console.log('query.collection', this.query.collection);
+                console.log('query.collection', this.query.collection);
                 metadata.context['collection'] = this.query.collection;
                 this.collection = metadata;
                 this.api.getItem(this.query.collection).subscribe((item: DocumentItem) => {
@@ -413,6 +413,7 @@ export class SearchService {
     }
 
     getCollectionNavTitle(item) {
+        // console.log('item', item);
         if (this.translate.currentLang == 'en' && item.titleEn) {
             return item.titleEn;
         } else {
@@ -421,72 +422,57 @@ export class SearchService {
     }
     private buildCollectionStructure(uuid: string) {
         let collections = [];
-        this.buildCollectionStructureTree(uuid).then(() => {
+        this.buildCollectionStructureTree(uuid).subscribe(() => {
             collections = this.collectionStructureTree;
+            console.log('collections', collections);
             let startingCol = this.collectionStructureTree.find(x => x.uuid == uuid);   // urcim si pocatecni kolekci stromu
+            console.log('startingCol', startingCol);
             this.findPaths(startingCol)                                            // najdu rekurzivne vsechny cesty v kolekcich
             this.collectionStructure.ready = true;
-        });
-        
+        });  
     }
 
     findPaths(col: any, path = []) {
+        console.log('col', col);
         if (!col) {
           return;
         }
-        const newPath = [col, ...path];                                         // vytvorim novou cestu
-        if (col.inCollections && col.inCollections.length > 0) {                // prochazim rekurzivne kolekce z collectionStructureTree
-          col.inCollections.forEach((childUuid) => {
-            this.findPaths(this.collectionStructureTree.find(x => x.uuid == childUuid), newPath);
-          });
+        const newPath = [col, ...path];
+        if (col.in_collections && col.in_collections.length > 0) {
+          for (const childUuid of col.in_collections) {
+            const childCol = this.collectionStructureTree.find(x => x.uuid == childUuid);
+            this.findPaths(childCol, newPath);
+          }
         } else {
-            this.collectionStructure.collections.push(newPath);
+          this.collectionStructure.collections.push(newPath);
         }
       }
 
-    private buildCollectionStructureTree(uuid: string): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            this.api.getSearchResults(`q=pid:"${uuid}"&fl=in_collections.direct,titles.search`).subscribe((result) => {
-                if (!result['response']['docs'] || result['response']['docs'].length < 1) {
-                    return;
-                }
-                const doc = result['response']['docs'][0];
-                const names = doc['titles.search'] || [];
-                const cols = doc['in_collections.direct'] || [];
-                let title = '';
-                let titleEn = '';
-                if (names.length > 0) {
-                    title = names[0];
-                }
-                if (names.length > 1) {
-                    titleEn = names[1];
-                }
-                // this.collectionStructure.collections.unshift({ uuid: uuid, title: title, titleEn: titleEn, url: this.settings.getPathPrefix() + '/collection/' + uuid, inCollections: cols });
-                this.collectionStructureTree.unshift({ uuid: uuid, title: title, titleEn: titleEn, url: this.settings.getPathPrefix() + '/collection/' + uuid, inCollections: cols });
-
-                if (cols.length > 0) {
-                    const promises = [];
-                    for (const col of cols) {
-                        // this.buildCollectionStructure(col);
-                        promises.push(this.buildCollectionStructureTree(col));
-                    }
-                    Promise.all(promises).then(() => {
-                        // Pokud potřebujete, můžete provést další akce po dokončení všech podřízených kolekcí
-                        resolve();
-                    }).catch((error) => {
-                        // V případě, že dojde k chybě, můžete ji zachytit zde
-                        reject(error);
-                    });
-                } 
-                else {
-                    if (this.collectionStructure.collections.length > 1) {
-                        // this.collectionStructure.ready = true;
-                        // console.log('this.collectionStructure', this.collectionStructure);
-                        // console.log('this.collectionStructureTree', this.collectionStructureTree);
-                    }
-                    resolve();
-                }
-            });
+    private buildCollectionStructureTree(uuid: string): Observable<void> {
+        return new Observable<void>((subscriber) => {          
+          this.api.getSearchResults(`q=pid:"${uuid}"&fl=pid,in_collections.direct,in_collections,title.search,titles.search,title.search_*,model`).subscribe((result) => {
+            if (!result['response']['docs'] || result['response']['docs'].length < 1) {
+              subscriber.complete();
+              return;
+            }
+            const item: DocumentItem = this.solr.documentItem(result);
+            console.log('item ze solru', item);
+            this.collectionStructureTree.unshift(item);
+            if (item.in_collection.length > 0) {
+              const observables = item.in_collection.map((col) => this.buildCollectionStructureTree(col));
+              forkJoin(observables).subscribe(() => {
+                subscriber.next();
+                subscriber.complete();
+              }, (error) => {
+                subscriber.error(error);
+              });
+            } else {
+              if (this.collectionStructure.collections.length > 1) {
+              }
+              subscriber.next();
+              subscriber.complete();
+            }
+          });
         });
     }
 

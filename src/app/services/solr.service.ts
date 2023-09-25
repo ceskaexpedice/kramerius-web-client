@@ -705,8 +705,8 @@ export class SolrService {
         const doc = solr['response']['docs'][0];
         const item = new DocumentItem();
         item.uuid = doc[this.field('id')];
-        item.in_collection = doc[this.field('parent_collections')];
-        item.in_collections = doc[this.field('ancestor_collections')];
+        item.in_collection = doc[this.field('parent_collections')] || [];
+        item.in_collections = doc[this.field('ancestor_collections')] || [];
         item.title = doc[this.field('title')];
         item.doctype = doc[this.field('model')];
         item.date = doc[this.field('date')];
@@ -719,6 +719,27 @@ export class SolrService {
         if (item.doctype === 'periodicalvolume') {
             item.volumeNumber = doc[this.field('part_number')];
             item.volumeYear = item.date;
+        }
+        if (item.doctype == 'collection') {
+            let languages = {'cze':'cs',
+                             'eng':'en',
+                             'ger':'de',
+                             'slo':'sk',
+                             'slv':'sl'}; // PRIDAT DALSI JAZYKY PRO SBIRKY...
+            let localTitles = {};
+            for (const key in languages) {
+                if (doc['title.search_' + key]) {
+                    localTitles[languages[key]] = doc['title.search_' + key][0];
+                }
+            }
+            item.localTitles = localTitles;
+            let localDescriptions = {};
+            for (const key in languages) {
+                if (doc['collection.desc_' + key]) {
+                    localDescriptions[languages[key]] = doc['collection.desc_' + key][0];
+                }
+            }  
+            item.localDescriptions = localDescriptions;                     
         }
         const pidPath = this.getPidPath(doc);
         const modelPath = this.getModelPath(doc);
@@ -1407,57 +1428,33 @@ export class SolrService {
                     }
                 }
             } else {
-                if (item.doctype == 'collection') {
-                    let titles = doc[this.field('titles')];
-                    titles = titles || [];
-                    if (this.settings.code == 'cdk2' && this.settings.version >= 7) {
-                        item.title = titles;
-                    } else {
-                        if (titles.length > 0) {
-                            item.title = titles[0];
-                        }
-                        if (titles.length > 1  && titles[1] && titles[1] != 'null') {
-                            item.titleEn = titles[1];
-                        }
-                    }
-                    const descriptions = doc[this.field('collection_description')] || [];
-                    if (descriptions.length > 0) {
-                        item.description = descriptions[0];
-                    }
-                    if (descriptions.length > 1) {
-                        item.descriptionEn = descriptions[1];
-                    }
-
-                // ZMENA TITLES A DESCRIPTION VE SBIRKACH
-                    let titles2 = {};
-                    let languages = [{'3l':'cze', '2l': 'cs'}, 
-                                     {'3l':'eng', '2l': 'en'}, 
-                                     {'3l':'ger', '2l': 'de'},
-                                     {'3l':'slo', '2l': 'sk'},
-                                     {'3l':'slv', '2l': 'sl'}]; // PRIDAT DALSI JAZYKY PRO SBIRKY...
-                    for (const lang of languages) {
-                        // console.log('lang', lang['3l'], lang['2l'], 'title.search_' + lang['3l'], doc['title.search_' + lang['3l'][0]]);
-                        if (doc['title.search_' + lang['3l']]) {
-                            // titles2.push({'lang': lang['2l'], 'title': doc['title.search_' + lang['3l']][0]});
-                            titles2[lang['2l']] = doc['title.search_' + lang['3l']][0];
-                        }
-                    }
-                    item.titles = titles2;
-
-                    let descriptions2 = {};
-                    for (const lang of languages) {
-                        if (doc['collection.desc_' + lang['3l']]) {
-                            // descriptions2.push({'lang': lang['2l'], 'description': doc['collection.desc_' + lang['3l']][0]});
-                            descriptions2[lang['2l']] = doc['collection.desc_' + lang['3l']][0];
-                        }
-                    }
-                    item.descriptions = descriptions2;
-            
-
-                } else if (item.doctype == 'page') {
+                // K7
+                if (item.doctype == 'page') {
                     item.title = doc[this.field('root_title')];
                 } else {
-                    item.title = doc[this.field('title')];
+                    item.title = doc[this.field('title')]; // obecne title
+                    if (item.doctype == 'collection') {
+                        let languages = {'cze':'cs',
+                                         'eng':'en',
+                                         'ger':'de',
+                                         'slo':'sk',
+                                         'slv':'sl'}; // PRIDAT DALSI JAZYKY PRO SBIRKY...
+                        let localTitles = {};
+                        for (const key in languages) {
+                            if (doc['title.search_' + key]) {
+                                localTitles[languages[key]] = doc['title.search_' + key][0];
+                            }
+                        }
+                        item.localTitles = localTitles;
+                        let localDescriptions = {};
+                        for (const key in languages) {
+                            if (doc['collection.desc_' + key]) {
+                                localDescriptions[languages[key]] = doc['collection.desc_' + key][0];
+                            }
+                        }  
+                        item.localDescriptions = localDescriptions;                     
+                    }
+
                 }
             }
             if (!item.title || item.title === 'null') {

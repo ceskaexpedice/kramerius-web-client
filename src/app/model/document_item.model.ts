@@ -1,7 +1,7 @@
 export class DocumentItem {
     title: string;
     titleEn: string;
-    titles: any;
+    localTitles: any;
     authors: string[];
     geonames: string[];
     date: string;
@@ -13,7 +13,7 @@ export class DocumentItem {
     url: string;
     description: string;
     descriptionEn: string;
-    descriptions: any;
+    localDescriptions: any;
     volumeNumber: string;
     volumeYear: string;
     pdf = false;
@@ -33,7 +33,7 @@ export class DocumentItem {
 
     selected: boolean = false;
     licence: string;
-    in_collection: string;
+    in_collection: string[];
     in_collections: string[];
 
     resolveUrl(prefix: string) {
@@ -78,26 +78,18 @@ export class DocumentItem {
     }
 
     public getTitle(lang: string): string {
-        if (this.titles) {
-            if (this.titles[lang]) {
-                return this.titles[lang];
-            } else {
-                return this.titles['cs'];
-            }            
-        } else {
-            if (lang == 'en' && this.titleEn) {
-                return this.titleEn;
-            }
-            return this.title;
-        }   
+        if (this.localTitles && this.localTitles[lang]) {
+            return this.localTitles[lang];
+        }
+        return this.title;
     }
 
     public getDescription(lang: string): string {
-        if (this.descriptions) {
-            if (this.descriptions[lang]) {
-                return this.descriptions[lang];
+        if (this.localDescriptions) {
+            if (this.localDescriptions[lang]) {
+                return this.localDescriptions[lang];
             } else {
-                return this.descriptions['cs'];
+                return this.localDescriptions['cs'];
             }
         } else {
             if (lang == 'en' && this.descriptionEn) {
