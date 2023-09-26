@@ -10,7 +10,7 @@
     </div>
 
     <div class="app-card-content">
-      <div *ngIf="item.title" class="app-card-title" [matTooltip]="item.title">
+      <div *ngIf="item.title" class="app-card-title">
         {{ getTitle() }}
       </div>
       <div *ngIf="item.authors && item.authors.length > 0" class="app-card-authors">
@@ -58,9 +58,9 @@
     <div class="app-check"></div>
   </div>
 
-  <div class="app-card-like" *ngIf="auth.isLoggedIn()">
-    <mat-icon *ngIf="in == 'search' && settings.folders" [matMenuTriggerFor]="favoritesMenu" (click)="$event.preventDefault();$event.stopPropagation()" [matTooltip]="'Přidat do oblíbených'">favorite</mat-icon>
-    <mat-icon *ngIf="in == 'folder-owner' && settings.folders" (click)="onDislike(folder); $event.preventDefault();$event.stopPropagation()">clear</mat-icon>
+  <div class="app-card-like">
+    <mat-icon *ngIf="in == 'search' && settings.folders && auth.isLoggedIn()" [matMenuTriggerFor]="favoritesMenu" (click)="$event.preventDefault();$event.stopPropagation()" [matTooltip]="'Přidat do oblíbených'">favorite</mat-icon>
+    <mat-icon *ngIf="in == 'folder-owner' && settings.folders && auth.isLoggedIn()" (click)="onDislike(folder); $event.preventDefault();$event.stopPropagation()">clear</mat-icon>
     <mat-icon (click)="getMetadata(item.uuid); $event.preventDefault();$event.stopPropagation()" [matTooltip]="'Klikni pro více info'">info</mat-icon>
   </div>
 

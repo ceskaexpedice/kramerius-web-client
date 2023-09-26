@@ -1,34 +1,9 @@
 <div class="app-dialog-wrapper" *ngIf="data.metadata">
-    <div class="app-dialog-title">{{ data.metadata.getTitle()}}</div>
-    <div class="app-dialog-message">{{ data.metadata.titles[0].subTitle | translate }}</div>
-    <div class="app-metadata-wrapper">
-        <div *ngFor="let item of data.metadata.titles; let i=index">
-            <div  class="app-metadata-item" *ngIf="i > 0">
-                <div class="app-label">{{ 'metadata.title_other' | translate }}</div>
-                <div class="app-metadata-item-title">{{ item.title }}</div>
-            </div> 
-        </div>
-        <div class="app-metadata-item" *ngFor="let item of data.metadata.getPrimaryAuthors()">
-            <div class="app-label">{{ 'metadata.author' | translate }}</div>
-            <div class="app-metadata-item-title">{{ item.name }}</div>
-        </div>
-        <div *ngIf="data.metadata.publishers.length > 0">
-            <div class="app-metadata-item" *ngFor="let item of data.metadata.publishers">
-                <div class="app-label">{{ 'metadata.publisher' | translate }}</div>
-                <div class="app-metadata-item-title">{{ item.fullDetail() }}</div>
-            </div>
-        </div>
-        <div class="app-metadata-item" *ngIf="data.metadata.keywords.length > 0">
-            <div class="app-label">{{ 'metadata.keywords' | translate }}</div>
-            <div *ngFor="let item of data.metadata.keywords">
-                <div class="app-metadata-item-title">{{ item }}</div>
-                <div></div>
-            </div>
-        </div>
-    </div>
-
+    <app-metadata
+        [metadata]="data.metadata">
+    </app-metadata>
     <div class="app-dialog-actions">
-      <button mat-flat-button (click)="onClose()">{{ data.button | translate }}</button>
+        <button mat-flat-button (click)="onClose()">{{ data.button | translate }}</button>
     </div>
 </div>
 

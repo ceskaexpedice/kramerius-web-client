@@ -12,6 +12,7 @@ import { Folder } from '../../model/folder.model';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { DisplayMetadataDialogComponent } from '../../dialog/display-metadata-dialog/display-metadata-dialog.component';
+import { Metadata } from '../../model/metadata.model';
 
 @Component({
   selector: 'app-document-card',
@@ -29,6 +30,7 @@ export class DocumentCardComponent implements OnInit {
   lock: any;
   legacyLocks: boolean;
   metadataSubscription: any;
+  metadata: Metadata;
 
   constructor(private krameriusApiService: KrameriusApiService,
               private settings: AppSettings,
@@ -77,17 +79,19 @@ export class DocumentCardComponent implements OnInit {
   }
 
   getMetadata(uuid: string) {
-    console.log('getMetadata', uuid);
     this.metadataSubscription = this.krameriusApiService.getMetadata(uuid).subscribe(metadata => {
-      console.log('metadata', metadata);
+      this.metadata = metadata
+      this.metadata.doctype = this.item.doctype;
+      this.metadata.addToContext(this.item.doctype, this.item.uuid);
+      this.metadata.assignDocument(this.item);
       const dialogRef = this.dialog.open(DisplayMetadataDialogComponent, {
         data: {
           title: 'Metadata',
-          message: '',
           metadata: metadata,
           button: 'Zavřít',
           confirm: 'confirm'},
-        autoFocus: false
+        autoFocus: false,
+        maxWidth: '100vw',
       });
     });
   }
