@@ -703,6 +703,7 @@ export class SolrService {
             return null;
         }
         const doc = solr['response']['docs'][0];
+        console.log('doc', doc);
         const item = new DocumentItem();
         item.uuid = doc[this.field('id')];
         item.in_collection = doc[this.field('parent_collections')] || [];

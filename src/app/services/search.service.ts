@@ -369,7 +369,6 @@ export class SearchService {
         }
         if (this.query.collection) {
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
-                console.log('query.collection', this.query.collection);
                 metadata.context['collection'] = this.query.collection;
                 this.collection = metadata;
                 this.api.getItem(this.query.collection).subscribe((item: DocumentItem) => {
@@ -396,44 +395,56 @@ export class SearchService {
     }
 
     getCollectionContent() {
-      if (this.translate.currentLang == 'en' && this.collection.notes.length > 1) {
-        return this.collection.notes[1] || '';
-      } else if (this.collection.notes.length >= 1) {
-        return this.collection.notes[0] || '';
-      }
-      return '';
+        let lang = this.translate.currentLang;
+        const languages = {'cs':'cze',
+                            'en':'eng',
+                            'de':'ger',
+                            'sk':'slo',
+                            'sl':'slv'}; // PRIDAT DALSI JAZYKY PRO SBIRKY...
+        // if (languages[lang]) {
+        //     if (this.collection.getContent(languages[lang])) {
+        //         return this.collection.getContent(languages[lang]);
+        //     } else {
+        //         return this.collection.getContent('cze');
+        //     }
+        // }
+        if (this.collection.getCollectionNotes(languages[lang])) {
+            return this.collection.getCollectionNotes(languages[lang]);
+        } else {
+            return this.collection.getCollectionNotes('cze');
+        }
     }
 
     getCollectionTitle() {
-        if (this.translate.currentLang == 'en') {
-            return this.collection.getCollectionTitle('eng');
-        } else {
-            return this.collection.getCollectionTitle('cze');
+        let lang = this.translate.currentLang;
+        const languages = {'cs':'cze',
+                           'en':'eng',
+                           'de':'ger',
+                           'sk':'slo',
+                           'sl':'slv'}; // PRIDAT DALSI JAZYKY PRO SBIRKY...
+        if (languages[lang]) {
+            if (this.collection.getCollectionTitle(languages[lang])) {
+                return this.collection.getCollectionTitle(languages[lang]);
+            } else {
+                return this.collection.getCollectionTitle('cze');
+            }
         }
     }
 
     getCollectionNavTitle(item) {
-        // console.log('item', item);
-        if (this.translate.currentLang == 'en' && item.titleEn) {
-            return item.titleEn;
-        } else {
-            return item.title;
-        }
+        return item.getTitle(this.translate.currentLang);
     }
     private buildCollectionStructure(uuid: string) {
         let collections = [];
         this.buildCollectionStructureTree(uuid).subscribe(() => {
             collections = this.collectionStructureTree;
-            console.log('collections', collections);
             let startingCol = this.collectionStructureTree.find(x => x.uuid == uuid);   // urcim si pocatecni kolekci stromu
-            console.log('startingCol', startingCol);
             this.findPaths(startingCol)                                            // najdu rekurzivne vsechny cesty v kolekcich
             this.collectionStructure.ready = true;
         });  
     }
 
     findPaths(col: any, path = []) {
-        console.log('col', col);
         if (!col) {
           return;
         }
@@ -446,7 +457,7 @@ export class SearchService {
         } else {
           this.collectionStructure.collections.push(newPath);
         }
-      }
+    }
 
     private buildCollectionStructureTree(uuid: string): Observable<void> {
         return new Observable<void>((subscriber) => {          
@@ -456,7 +467,6 @@ export class SearchService {
               return;
             }
             const item: DocumentItem = this.solr.documentItem(result);
-            console.log('item ze solru', item);
             this.collectionStructureTree.unshift(item);
             if (item.in_collection.length > 0) {
               const observables = item.in_collection.map((col) => this.buildCollectionStructureTree(col));
