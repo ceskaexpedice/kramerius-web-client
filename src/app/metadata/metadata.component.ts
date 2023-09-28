@@ -15,6 +15,8 @@ import { LicenceDialogComponent } from '../dialog/licence-dialog/licence-dialog.
 import { FolderService } from '../services/folder.service';
 import { Folder } from '../model/folder.model';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { TranslateService } from '@ngx-translate/core';
+import { SearchService } from '../services/search.service';
 
 
 @Component({
@@ -37,14 +39,14 @@ export class MetadataComponent implements OnInit {
   constructor(public analytics: AnalyticsService,
               private dialog: MatDialog,
               public bookService: BookService,
+              private translate: TranslateService,
               public licences: LicenceService,
               public auth: AuthService,
               public settings: AppSettings,
               public folderService: FolderService) { }
 
   ngOnInit() {
-    console.log('metadata', this.metadata);
-    if (this.auth.user.authenticated) {
+    if (this.auth.isLoggedIn() && this.settings.folders) {
       this.folderService.getFolders(null);
     }
   }
@@ -62,6 +64,11 @@ export class MetadataComponent implements OnInit {
     return html;
   }
 
+  getCollectionTitle() {
+    const lang = this.translate.currentLang;
+    const title = this.metadata.getCollectionTitle(SearchService.LANGUAGE_MAP[lang]);
+    return title || this.metadata.getCollectionTitle('cze');
+}
 
   expendableTitle(): boolean {
     return this.metadata.getTitle().length > 75 || this.metadata.titles.length > 1;

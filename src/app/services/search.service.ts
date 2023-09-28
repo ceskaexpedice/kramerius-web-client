@@ -21,6 +21,15 @@ import { Observable, Subject, forkJoin } from 'rxjs';
 @Injectable()
 export class SearchService {
 
+
+    public static LANGUAGE_MAP = { 
+        'cs': 'cze',
+        'en': 'eng',
+        'de': 'ger',
+        'sk': 'slo',
+        'sl': 'slv'
+    };
+
     results: DocumentItem[] = [];
     allResults: DocumentItem[] = [];
     private allResultsSubject = new Subject<DocumentItem[]>();
@@ -396,40 +405,15 @@ export class SearchService {
     }
 
     getCollectionContent() {
-        let lang = this.translate.currentLang;
-        const languages = {'cs':'cze',
-                            'en':'eng',
-                            'de':'ger',
-                            'sk':'slo',
-                            'sl':'slv'}; // PRIDAT DALSI JAZYKY PRO SBIRKY...
-        // if (languages[lang]) {
-        //     if (this.collection.getContent(languages[lang])) {
-        //         return this.collection.getContent(languages[lang]);
-        //     } else {
-        //         return this.collection.getContent('cze');
-        //     }
-        // }
-        if (this.collection.getCollectionNotes(languages[lang])) {
-            return this.collection.getCollectionNotes(languages[lang]);
-        } else {
-            return this.collection.getCollectionNotes('cze');
-        }
+        const lang = this.translate.currentLang;
+        const content = this.collection.getCollectionNotes(SearchService.LANGUAGE_MAP[lang]);
+        return content || this.collection.getCollectionNotes('cze');
     }
 
     getCollectionTitle() {
-        let lang = this.translate.currentLang;
-        const languages = {'cs':'cze',
-                           'en':'eng',
-                           'de':'ger',
-                           'sk':'slo',
-                           'sl':'slv'}; // PRIDAT DALSI JAZYKY PRO SBIRKY...
-        if (languages[lang]) {
-            if (this.collection.getCollectionTitle(languages[lang])) {
-                return this.collection.getCollectionTitle(languages[lang]);
-            } else {
-                return this.collection.getCollectionTitle('cze');
-            }
-        }
+        const lang = this.translate.currentLang;
+        const title = this.collection.getCollectionTitle(SearchService.LANGUAGE_MAP[lang]);
+        return title || this.collection.getCollectionTitle('cze');
     }
 
     getCollectionNavTitle(item) {
