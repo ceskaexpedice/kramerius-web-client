@@ -47,7 +47,7 @@ export class FolderComponent implements OnInit {
       console.log('The dialog was closed', result);
       if (result) {
         this.folderService.deleteFolder(uuid)
-        this.router.navigate(['/folders']);
+        // this.router.navigate(['/folders']);
       }
       // else {
       //   console.log('neni zadano jmeno');
