@@ -171,7 +171,7 @@ export class Metadata {
         let i = 0;
         for (let t of this.titles) {
             if (t.lang == lang) {
-                return this.notes[i];
+                return this.notes[i] || "";
             }
             i++;
         }
