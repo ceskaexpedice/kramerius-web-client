@@ -1,9 +1,23 @@
 @import './src/variables.scss';
 
 .app-dialog-wrapper {
-  padding: 20px;
-  min-width: 350px;
+  padding: 0px;
+  width: 550px;
+  height: 80vh;
+  max-width: 100%;
   overflow: hidden;
+  position: relative;
+  .app-close {
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    padding: 9px;
+    cursor: pointer;
+    color: $app-grey-d-1;
+    &:hover {
+      color: #000;
+    }
+  }
   .app-dialog-title {
     color: $app-grey-d-3;
     font-size: 16px;
