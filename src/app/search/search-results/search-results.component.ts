@@ -7,6 +7,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { FolderService } from '../../services/folder.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-search-results',
@@ -14,21 +15,23 @@ import { FolderService } from '../../services/folder.service';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent implements OnInit {
-    displayRows: boolean = true;
+  
+  displayRows: boolean = false;
 
   constructor(public searchService: SearchService,
               private krameriusApiService: KrameriusApiService,
               private settings: AppSettings,
               private _sanitizer: DomSanitizer,
               private snackBar: MatSnackBar,
-              private translate: TranslateService,
-              private folderService: FolderService) {
+              private localStorageService: LocalStorageService,
+              private translate: TranslateService) {
     
   }
 
   ngOnInit() {
-    // this.folderService.getFolders(null);
+    this.displayRows = this.localStorageService.getProperty(LocalStorageService.DEV_MODE) === '1';
   }
+  
   getThumb(item: DocumentItem) {
     let url = '';
     if (item.library) {

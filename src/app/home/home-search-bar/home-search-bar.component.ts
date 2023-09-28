@@ -8,6 +8,7 @@ import { CompleterCmp } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchHelpDialogComponent } from '../../dialog/search-help-dialog/search-help-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home-search-bar',
@@ -31,6 +32,7 @@ export class HomeSearchBarComponent implements OnInit {
     private dialog: MatDialog,
     public appSettings: AppSettings,
     public analytics: AnalyticsService,
+    private snackBar: MatSnackBar,
     private localStorageService: LocalStorageService,
     public service: LibrarySearchService) {
   }
@@ -121,6 +123,17 @@ export class HomeSearchBarComponent implements OnInit {
   private search() {
     const params = { };
     let q = this.searchStr;
+    if (q == '!turnDevModeOn') {
+      this.localStorageService.setProperty(LocalStorageService.DEV_MODE, '1');
+      this.snackBar.open(<string> this.translate.instant('DEV MODE ON'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.searchStr = "";
+      return;
+    } else if (q == '!turnDevModeOff') {
+      this.localStorageService.setProperty(LocalStorageService.DEV_MODE, '0');
+      this.snackBar.open(<string> this.translate.instant('DEV MODE OFF'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.searchStr = "";
+      return;
+    }
     if (q != null && q != "") {
       params['q'] = q;
     }
