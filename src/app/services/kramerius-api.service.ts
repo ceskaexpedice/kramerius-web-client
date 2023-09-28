@@ -478,49 +478,49 @@ export class KrameriusApiService {
     // FOLDERS
 
     private getFoldersUrl(path: string): string {
-        return this.getApiUrl() + '/' + path;
+        return this.getApiUrl() + '/folders/' + path;
     }
     getFolders() {
-        const url = this.getFoldersUrl('folders');
+        const url = this.getFoldersUrl('');
         return this.doGet(url);
     }
     getFolder(uuid: string) {
-        const url = this.getFoldersUrl('folders/' + uuid);
+        const url = this.getFoldersUrl(uuid);
         return this.doGet(url);
     }
     getFolderItems(uuid: string) {
-        const url = this.getFoldersUrl('folders/' + uuid + '/items');
+        const url = this.getFoldersUrl(uuid + '/items');
         return this.doGet(url);
     }
     createNewFolder(name: string): Observable<any> {
-        const url = this.getFoldersUrl('folders/');
+        const url = this.getFoldersUrl('');
         let body = {"name": name};
         return this.http.post<any>(url, body)
     }
     deleteFolder(uuid: string): Observable<any> {
-        const url = this.getFoldersUrl('folders/' + uuid);
+        const url = this.getFoldersUrl(uuid);
         return this.http.delete<any>(url)
     }
     editFolder(uuid: string, name: string): Observable<any> {
-        const url = this.getFoldersUrl('folders/' + uuid);
+        const url = this.getFoldersUrl(uuid);
         let body = {"name": name};
         return this.http.put<any>(url, body)
     }
     followFolder(uuid: string): Observable<any> {
-        const url = this.getFoldersUrl('folders/' + uuid + '/follow');
+        const url = this.getFoldersUrl(uuid + '/follow');
         return this.http.post<any>(url, {})
     }
     unfollowFolder(uuid: string): Observable<any> {
-        const url = this.getFoldersUrl('folders/' + uuid + '/unfollow');
+        const url = this.getFoldersUrl(uuid + '/unfollow');
         return this.http.post<any>(url, {})
     }
     addItemToFolder(uuid: string, items: any): Observable<any> {
-        const url = this.getFoldersUrl('folders/' + uuid + '/items');
+        const url = this.getFoldersUrl(uuid + '/items');
         let body = {"items": items};
         return this.http.put<any>(url, body)
     }
     removeItemFromFolder(uuid: string, items: any): Observable<any> {
-        const url = this.getFoldersUrl('folders/' + uuid + '/items');
+        const url = this.getFoldersUrl(uuid + '/items');
         let body = {"items": items};
         return this.http.delete<any>(url, {body: body})
     }
