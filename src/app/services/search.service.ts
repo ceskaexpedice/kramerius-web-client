@@ -369,7 +369,8 @@ export class SearchService {
         }
         if (this.query.collection) {
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
-                metadata.context['collection'] = this.query.collection;
+                metadata.addToContext('collection', this.query.collection);
+                metadata.doctype = 'collection';
                 this.collection = metadata;
                 this.api.getItem(this.query.collection).subscribe((item: DocumentItem) => {
                     if (item.in_collection) {

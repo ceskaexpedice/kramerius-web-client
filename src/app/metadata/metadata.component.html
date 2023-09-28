@@ -373,7 +373,7 @@
     </div>
 
 
-    <div *ngIf="metadata.abstracts.length > 0 && !metadata.context.collection">
+    <div *ngIf="metadata.abstracts.length > 0 && metadata.doctype != 'collection'">
       <div class="app-label">{{ 'metadata.abstract' | translate }}</div>
       <ng-container *ngFor="let abstract of metadata.abstracts; let i = index">
         <div class="app-value" *ngIf="abstract.length > 115 && !expand['abstract' + i]" >{{ abstract.substring(0, 110) + "..." }}</div>
@@ -396,8 +396,7 @@
       <mat-icon tabindex="0" style="margin-top: 5px;" *ngIf="metadata.contents.length > 5" [matTooltip]="'filters.btn_show_' + (contentsExpanded ? 'less' : 'more') | translate" (click)="contentsExpanded = !contentsExpanded" class="app-more">more_horiz</mat-icon>
     </div>
 
-
-    <div *ngIf="metadata.notes.length > 0 && !metadata.context.collection">
+    <div *ngIf="metadata.notes.length > 0 && metadata.doctype != 'collection'">
       <div class="app-label">{{ 'metadata.notes' | translate }}</div>
       <div>
         <ng-container *ngFor="let note of metadata.notes; let i = index">
