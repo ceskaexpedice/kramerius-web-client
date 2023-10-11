@@ -16,12 +16,12 @@ export class PersistentLinkComponent implements OnInit {
     private router: Router,
     private appSettings: AppSettings,
     private history: HistoryService,
-    private krameriusApiService: KrameriusApiService) { }
+    private api: KrameriusApiService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const uuid = params.get('uuid');
-      this.krameriusApiService.getItem(uuid).subscribe(
+      this.api.getItem(uuid).subscribe(
         (item: DocumentItem) => {
           this.resolveLink(item);
         },
@@ -43,8 +43,36 @@ export class PersistentLinkComponent implements OnInit {
       this.router.navigate(['/view', parentUuid], { queryParams: { article: item.uuid } });
     } else if (item.doctype === 'periodical' || item.doctype === 'periodicalvolume' || item.doctype === 'convolute') {
       this.router.navigate(['/periodical', item.uuid]);
-    } else if (item.doctype === 'soundunit' || item.doctype === 'soundrecording') {
+    } else if (item.doctype === 'soundrecording') {
       this.router.navigate(['/music', item.uuid]);
+    } else if (item.doctype === 'soundunit') {
+      const soundrecording = item.context.find(item => item.doctype == 'soundrecording');
+      if (soundrecording && soundrecording.uuid) {
+        this.router.navigate(['/music', soundrecording.uuid]);
+      } else {
+        this.router.navigateByUrl(this.appSettings.getRouteFor('404'), { skipLocationChange: true });
+      }
+    } else if (item.doctype === 'track') {
+      const soundrecording = item.context.find(item => item.doctype == 'soundrecording');
+      if (soundrecording && soundrecording.uuid) {
+        this.router.navigate(['/music', soundrecording.uuid], { replaceUrl: true, queryParams: { 'track': item.uuid } });
+      } else {
+        this.router.navigateByUrl(this.appSettings.getRouteFor('404'), { skipLocationChange: true });
+      }
+    } else if (item.doctype === 'supplement') {
+      const periodicalItem = item.context.find(item => item.doctype == 'periodicalitem');
+      if (periodicalItem && periodicalItem.uuid) {
+        this.api.getChildren(item.uuid).subscribe((items) => {
+          if (items && items.length > 0) {
+            this.router.navigate(['/view', periodicalItem.uuid], { queryParams: { page: items[0].pid } });
+          } else {
+            this.router.navigate(['/view', periodicalItem.uuid]);
+          }
+        });
+        this.router.navigate(['/view', periodicalItem.uuid]);
+      } else {
+        this.router.navigate(['/view', item.uuid]);
+      }
     } else if (item.doctype === 'collection') {
       this.router.navigate(['/collection', item.uuid]);
     } else {

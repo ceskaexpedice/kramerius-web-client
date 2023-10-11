@@ -24,6 +24,7 @@ export class MusicService {
   downloadedTrack: Track;
   soundUnitIndex = 0;
   uuid: string;
+  trackUuid: string;
   metadata: Metadata;
   document: DocumentItem;
   state: MusicState = MusicState.None;
@@ -55,9 +56,10 @@ export class MusicService {
     private api: KrameriusApiService) {
   }
 
-  init(uuid: string) {
+  init(uuid: string, trackUuid: string = null) {
     this.clear();
     this.uuid = uuid;
+    this.trackUuid = trackUuid;
     this.state = MusicState.Loading;
     this.api.getItem(uuid).subscribe((item: DocumentItem) => {
       this.document = item;
@@ -133,7 +135,14 @@ export class MusicService {
       return;
     }
     if (!this.activeTrack) {
-      this.changeTrack(this.tracks[0], autoplay);
+      let track: Track = null;
+      if (this.trackUuid) {
+        track = this.tracks.find(t => t.uuid === this.trackUuid);
+      } 
+      if (!track) {
+        track = this.tracks[0];
+      }
+      this.changeTrack(track, autoplay);
     } else {
       let index = 0;
       for (const track of this.tracks) {
