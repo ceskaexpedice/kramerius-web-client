@@ -37,8 +37,6 @@ export class AppSettings {
   public containsLicences: boolean;
   public preselectedLicences: [string];
 
-  public ga = APP_GLOBAL.ga;
-  public gaCookieless = APP_GLOBAL.gaCookieless;
   public ga4 = APP_GLOBAL.ga4;
   public ga4clientId = APP_GLOBAL.ga4clientId;
   public matomo = APP_GLOBAL.matomo;
