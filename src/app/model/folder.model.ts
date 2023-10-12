@@ -13,8 +13,8 @@ export class Folder {
             folder.name = json['name'];
             let items = [];
             for (let item of json['items'][0]) {
-                if (item['id']) {
-                    items.push(item['id']);
+                if (item) {
+                    items.push(item);
                 }
             }
             folder.items = items;

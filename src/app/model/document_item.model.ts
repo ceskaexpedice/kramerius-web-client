@@ -36,6 +36,8 @@ export class DocumentItem {
     in_collection: string[];
     in_collections: string[];
 
+    createdAt: string;
+
     resolveUrl(prefix: string) {
         if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume' || this.doctype === 'convolute') {
             this.url = prefix + '/periodical/' + this.uuid;

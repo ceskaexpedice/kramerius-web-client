@@ -69,6 +69,7 @@ export class AuthService {
         }, (error) => {
             this.licences.assignUserLicences([]);
             this.user = null;
+            this.userSub.next(this.user);
             this.cache.clear();
         });
     }

@@ -17,6 +17,19 @@
         .app-folder-toolbar-actions {
             display: flex;
             flex-direction: row;
+            .app-ordering {
+              width: 200px;
+              color: $primary-color;
+              margin-left: 10px;
+              .app-label {
+                color: $app-grey-d-1;
+                font-size: 12px;
+              }
+              cursor: pointer;
+              mat-icon {
+                vertical-align: middle;
+              }
+            }
         }
         mat-icon {
             margin: 14px;

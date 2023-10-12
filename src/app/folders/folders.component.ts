@@ -93,7 +93,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
                 });
                 if (folder.items) {
                   this.folderService.mapFolderItemsToDocumentItems(this.folder).subscribe(items => {
-                    this.folder.items = items; 
+                    this.folder.items = items;
                   });
                 }
                 this.loading = false;
@@ -178,7 +178,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
         message: 'Jméno nového seznamu',
         name: this.name,
         button: 'Vytvořit'},
-      autoFocus: false });
+       });
       
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed', result);
@@ -206,6 +206,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('======ngOnDestroy');
+    this.folderService.folders = null;
     this.userSubscription.unsubscribe();
   }
 

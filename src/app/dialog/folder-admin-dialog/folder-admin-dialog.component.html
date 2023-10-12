@@ -4,7 +4,7 @@
         <div class="app-dialog-message">{{ data.message | translate }}</div>
       </div>
     <div mat-dialog-actions>
-        <button mat-button (click)="onNoClick()">Nic</button>
-        <button mat-button color="warn" [mat-dialog-close]="data.confirm" cdkFocusInitial>Smazat ze seznamu</button>
+        <button mat-flat-button color="warn" [mat-dialog-close]="data.uuids" cdkFocusInitial>Smazat</button>
+        <button mat-button (click)="onNoClick()">Ne</button>
     </div>
 </div>

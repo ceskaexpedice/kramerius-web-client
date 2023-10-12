@@ -11,9 +11,10 @@ export class FolderConfirmDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<FolderConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
+    warn: boolean = false;
   
-
   ngOnInit(): void {
+    this.warn = this.data.warn;
   }
   onNoClick(): void {
     this.dialogRef.close();

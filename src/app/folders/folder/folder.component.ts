@@ -22,6 +22,7 @@ export class FolderComponent implements OnInit {
   @Input() user: string;
 
   folderSelection: boolean;
+  ordering: string = 'alphabetical';
 
   constructor(private folderService: FolderService,
               private router: Router,
@@ -32,7 +33,21 @@ export class FolderComponent implements OnInit {
                }
 
   ngOnInit(): void {
-    console.log('folder', this.folder);
+  }
+
+  changeOrdering(items: any, ordering: string) {
+    if (ordering == 'alphabetical' && this.folder.items) {
+      this.ordering = 'alphabetical';
+      return items.sort((a, b) => a['title'].localeCompare(b['title']));
+    } else
+    if (ordering == 'latest') {
+      this.ordering = 'latest';
+      return items.sort((a, b) => b['createdAt'].localeCompare(a['createdAt']));
+    } else
+    if (ordering == 'earliest') {
+      this.ordering = 'earliest';
+      return items.sort((a, b) => a['createdAt'].localeCompare(b['createdAt']));
+    }
   }
 
   openDeleteFolderDialog(uuid: string) {
@@ -40,7 +55,8 @@ export class FolderComponent implements OnInit {
       data: {
         title: 'Smazat seznam',
         message: 'Opravdu chcete smazat seznam ' + this.folder.name +'?',
-        confirm: 'confirm'}, 
+        confirm: 'confirm',
+        warn: true}, 
       autoFocus: false 
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -109,11 +125,11 @@ export class FolderComponent implements OnInit {
       data: {
         title: 'Přestat sledovat seznam',
         message: 'Opravdu chcete přestat sledovat seznam ' + this.folder.name +'?',
-        confirm: 'confirm'}, 
+        confirm: 'confirm',
+        warn: true}, 
       autoFocus: false 
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if (result) {
         this.folderService.unfollowFolder(folder.uuid);
         folder.user = undefined;
@@ -171,13 +187,21 @@ export class FolderComponent implements OnInit {
         uuids.push(item.uuid);
       }
     }
-    console.log('uuids', uuids);
     const data = {
       uuids: uuids,
-      title: 'Administrace dokumentů',
-      message: 'Co s těmito dokumenty?',
+      title: 'Hromadné mazání dokumentů',
+      message: 'Chcete smazat vybrané dokumenty ze seznamu?',
     }
-    this.dialog.open(FolderAdminDialogComponent, { data: data, autoFocus: false });
+    const dialogRef = this.dialog.open(FolderAdminDialogComponent, { data: data, autoFocus: false });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.folderService.removeItemsFromFolder(this.folder.uuid, uuids);
+        this.folder.items = this.folder.items.filter(item => !uuids.includes(item.uuid));
+      }
+      else {
+        console.log('no uuids');
+      }
+    });
   }
   openBasicDialog() {
     const dialogRef = this.dialog.open(BasicDialogComponent, { 
@@ -188,10 +212,4 @@ export class FolderComponent implements OnInit {
       autoFocus: false 
     });
   }
-
-  sortItems(items: any[]): any[] {
-    // console.log('items in sort', items);
-    return items.sort((a, b) => a['title'].localeCompare(b['title']));
-  }
-
 }

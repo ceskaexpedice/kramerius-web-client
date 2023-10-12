@@ -1,6 +1,6 @@
 <div class="app-folder-container" *ngIf="folder">
     <div class="app-folder-toolbar">
-        <div class="app-folder-toolbar-title">{{folder.name}} ({{folder.items.length}})</div>
+        <div class="app-folder-toolbar-title">{{folder.name}}</div>
         <div class="app-folder-toolbar-actions">
             <div tabindex="0" *ngIf="folderSelection" (click)="openAdminActions()" class="app-view-button" [class.app-active]="true" [matTooltip]="'Editovat vybrané'"><mat-icon>edit_note</mat-icon></div>
             <div tabindex="0" *ngIf="folderSelection" (click)="toggleAllSelected()" class="app-view-button" [class.app-active]="true" [matTooltip]="'Vybrat vše'"><mat-icon>done_all</mat-icon></div>
@@ -12,7 +12,13 @@
             <div tabindex="0" *ngIf="user === 'follower'" (click)="openUnfollowFolderDialog(folder)" [matTooltip]="'Odebrat ze sdílených seznamů'"><mat-icon>delete</mat-icon></div>
             <div tabindex="0" *ngIf="(authService.user.authenticated && user !== 'follower' && user !== 'owner')" (click)="openFollowFolderDialog(folder)" [matTooltip]="'Přidat do sdílených seznamů'"><mat-icon>add</mat-icon></div>
             <div tabindex="0" *ngIf="!authService.user.authenticated" (click)="openBasicDialog()" [matTooltip]="'Přidat do sdílených seznamů'"><mat-icon>add</mat-icon></div>
-
+            <div class="app-ordering">
+                <span class="app-hide-on-med app-label">{{ 'search.ordering.label' | translate }}: </span>
+                <span tabindex="0" class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
+                  <span>{{ 'search.ordering.' + ordering | translate }}</span>
+                  <mat-icon>arrow_drop_down</mat-icon>
+                </span>
+            </div>
         </div>
     </div>
     <!-- <div class="app-folder-content" *ngIf="folder && folder.items">
@@ -24,13 +30,26 @@
         </div>
     </div> -->
     <div *ngIf="user === 'owner'">
-        <app-document-card *ngFor="let item of this.sortItems(folder.items)" [selectable]="folderSelection" [in]="'folder-owner'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
+        <app-document-card *ngFor="let item of changeOrdering(folder.items, ordering)" [selectable]="folderSelection" [in]="'folder-owner'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
     </div>
     <div *ngIf="user === 'follower'">
-        <app-document-card *ngFor="let item of this.sortItems(folder.items)" [selectable]="folderSelection" [in]="'folder-follower'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
+        <app-document-card *ngFor="let item of changeOrdering(folder.items, ordering)" [selectable]="folderSelection" [in]="'folder-follower'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
     </div>
     <div *ngIf="!user">
-        <app-document-card *ngFor="let item of this.sortItems(folder.items)" [selectable]="folderSelection" [in]="'folder-follower'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
+        <app-document-card *ngFor="let item of changeOrdering(folder.items, ordering)" [selectable]="folderSelection" [in]="'folder-follower'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
     </div>
 </div>
+<mat-menu #orderingMenu="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
+    <ng-template matMenuContent>
+      <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="changeOrdering(folder.items, 'alphabetical')">
+        {{ 'search.ordering.alphabetical' | translate }}
+      </div>
+      <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="changeOrdering(folder.items, 'latest')">
+        {{ 'search.ordering.latest' | translate }}
+      </div>
+      <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="changeOrdering(folder.items, 'earliest')">
+        {{ 'search.ordering.earliest' | translate }}
+      </div>
+    </ng-template>
+</mat-menu>
 

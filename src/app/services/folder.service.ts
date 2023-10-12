@@ -1,6 +1,5 @@
 import { Folder } from "../model/folder.model";
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, of } from "rxjs";
 import { KrameriusApiService } from "./kramerius-api.service";
 import { Router } from "@angular/router";
@@ -11,8 +10,7 @@ import { AuthService } from "./auth.service";
 export class FolderService {
     folders: any[]
 
-    constructor(private http: HttpClient,
-                private auth: AuthService,
+    constructor(private auth: AuthService,
                 private krameriusApiService: KrameriusApiService,
                 private router: Router) { }
 
@@ -52,7 +50,6 @@ export class FolderService {
         });
     }
     editFolder(uuid: string, name: string) {
-        console.log('name', name);
         this.krameriusApiService.editFolder(uuid, name).subscribe(results => {
             this.folders[0].find(folder => {
                 if (folder['uuid'] == uuid) {
@@ -86,13 +83,15 @@ export class FolderService {
         });
     }
     removeItemsFromFolder(uuid: string, result: any) {
-        const items = result.split(',').map(item => String(item.trim()));
+        console.log('result', result);
+        // const items = result.split(',').map(item => String(item.trim()));
+        const items = result;
         console.log('items', items);
         this.krameriusApiService.removeItemFromFolder(uuid, items).subscribe(results => {
-            console.log('results', results);
+            // console.log('results', results);
             this.folders[0].find(folder => {
                 if (folder['uuid'] == uuid) {
-                    console.log('folder items', folder);
+                    // console.log('folder items', folder);
                     this.getFolder(uuid).subscribe(result => {
                         this.folders[0].find(folder => {
                             if (folder['uuid'] == uuid) {
@@ -142,7 +141,8 @@ export class FolderService {
     mapFolderItemsToDocumentItems(folder: Folder): Observable<any> {
         let items = [];
         folder.items.map(item => {
-          this.krameriusApiService.getItem(item).subscribe(i => {
+          this.krameriusApiService.getItem(item.id).subscribe(i => {
+            i.createdAt = item.createdAt;
             items.push(i);
           });
         });
@@ -180,4 +180,5 @@ export class FolderService {
             return this.folders[0];
         }
     }
+
 }
