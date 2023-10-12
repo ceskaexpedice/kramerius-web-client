@@ -14,14 +14,22 @@ export class AuthComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-      const sessionState = params.get('session_state');
       const code = params.get('code');
-      const target = localStorage.getItem('login.url') || '/';
-      localStorage.removeItem('login.url');
-      this.auth.getToken(code, () => {
+      if (code) {
+        const target = localStorage.getItem('login.url') || '/';
+        localStorage.removeItem('login.url');
+        this.auth.getToken(code, () => {
+          this.router.navigateByUrl(target);
+        });
+      } else {
+        const target = localStorage.getItem('logout.url') || '/';
+        localStorage.removeItem('logout.url');
         this.router.navigateByUrl(target);
-      });
+      }
     });
   }
+
+
+
 
 }
