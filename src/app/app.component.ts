@@ -76,7 +76,6 @@ export class AppComponent implements OnInit {
     }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        // console.log('pageview', event.urlAfterRedirects);
         this.analytics.sendPageView(event.urlAfterRedirects);
         this.history.push(this.location.path());
         this.state.pageUrl = event.url;

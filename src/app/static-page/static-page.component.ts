@@ -44,6 +44,12 @@ export class StaticPageComponent implements OnInit {
       });
       this.localeChanged();
     });
+    this.route.queryParams.subscribe(params => {
+      const redirectPath = params['redirect_path'];
+      if (redirectPath) {
+        localStorage.setItem('login.url', redirectPath);
+      }
+    });
   }
 
   private localeChanged() {
