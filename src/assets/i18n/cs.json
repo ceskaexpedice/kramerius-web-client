@@ -728,6 +728,8 @@
     "my_lists": "Moje seznamy",
     "shared_lists": "Sdílené seznamy",
     "warning": "Pro správu seznamů je třeba se přihlásit.",
+    "like": "Přidat do oblíbených",
+    "info": "Klikni pro více informací",
     "tooltips": {
       "edit": "Editovat vybrané",
       "select_all": "Vybrat vše",
@@ -739,8 +741,29 @@
       "remove_sharing": "Odebrat ze sdílených seznamů",
       "add_sharing": "Přidat do sdílených seznamů"
     },
-    "dialog": {
-      
+    "dialogs": {
+      "delete": "Smazat",
+      "cancel": "Ne",
+      "confirm": "Ano",
+      "add": "Přidat",
+      "close": "Zavřít",
+      "create": "Vytvořit",
+      "edit_folder_name": "Upravit název seznamu",
+      "save": "Uložit",
+      "delete_folder": "Smazat seznam",
+      "delete_folder_message": "Opravdu chcete smazat seznam",
+      "add_to_folder": "Přidat dokumenty do seznamu",
+      "add_to_folder_message": "Vlož seznam uuid oddělených čárkou",
+      "follow": "Sledovat seznam",
+      "follow_message": "Opravdu chcete sledovat seznam",
+      "unfollow": "Přestat sledovat seznam",
+      "unfollow_message": "Opravdu chcete přestat sledovat seznam",
+      "batch_delete": "Hromadné mazání dokumentů",
+      "batch_delete_message": "Chcete smazat vybrané dokumenty ze seznamu?",
+      "share_warning": "Sdílení seznamu",
+      "share_warning_message": "Pro přidání seznamu se musíte přihlásit.",
+      "add_new_folder": "Vytvořit nový seznam",
+      "add_new_folder_name": "Jméno nového seznamu"
     }
   },
   "source": {

@@ -55,14 +55,15 @@ export class FolderComponent implements OnInit {
   openDeleteFolderDialog(uuid: string) {
     const dialogRef = this.dialog.open(FolderConfirmDialogComponent, { 
       data: {
-        title: 'Smazat seznam',
-        message: 'Opravdu chcete smazat seznam ' + this.folder.name +'?',
+        title: 'folders.dialogs.delete_folder',
+        message: 'folders.dialogs.delete_folder_message',
+        name: this.folder.name,
         confirm: 'confirm',
         warn: true}, 
       autoFocus: false 
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+      // console.log('The dialog was closed', result);
       if (result) {
         this.folderService.deleteFolder(uuid)
         // this.router.navigate(['/folders']);
@@ -76,10 +77,10 @@ export class FolderComponent implements OnInit {
     const name = this.folder.name;
     const dialogRef = this.dialog.open(FolderDialogComponent, { 
       data: {
-        title: 'Upravit název seznamu',
+        title: 'folders.dialogs.edit_folder_name',
         message: '',
         name: name,
-        button: 'Uložit'}, 
+        button: 'folders.dialogs.save'}, 
       autoFocus: false });
       
       dialogRef.afterClosed().subscribe(result => {
@@ -91,29 +92,25 @@ export class FolderComponent implements OnInit {
         if (!result) {
           this.folder.name = name;
         }
-        // else {
-        //   console.log('neni zadano jmeno');
-        // }
       });
   }
   openShareFolderDialog(uuid: string) {
-    let folder = {folder: this.folder};
+    let data = {folder: this.folder};
     this.dialog.open(FolderShareDialogComponent, {
-      data: folder,
+      data: data,
       autoFocus: false
     });
   }
   openAddItemToFolderDialog(uuid: string) {
     const dialogRef = this.dialog.open(FolderDialogComponent, {
       data: {
-        title: 'Přidat dokumenty do seznamu',
-        message: 'Vlož seznam uuid oddělených čárkou',
+        title: 'folders.dialogs.add_to_folder',
+        message: 'folders.dialogs.add_to_folder_message',
         name: '',
-        button: 'Přidat'},
+        button: 'folders.dialogs.add'},
       autoFocus: false
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if (result) {
         this.folderService.addItemsToFolder(uuid, result)
       }
@@ -125,8 +122,9 @@ export class FolderComponent implements OnInit {
   openUnfollowFolderDialog(folder: Folder) {
     const dialogRef = this.dialog.open(FolderConfirmDialogComponent, { 
       data: {
-        title: 'Přestat sledovat seznam',
-        message: 'Opravdu chcete přestat sledovat seznam ' + this.folder.name +'?',
+        title: 'folders.dialogs.unfollow',
+        message: 'folders.dialogs.unfollow_message',
+        name: this.folder.name,
         confirm: 'confirm',
         warn: true}, 
       autoFocus: false 
@@ -145,8 +143,9 @@ export class FolderComponent implements OnInit {
     console.log('folder', folder);
     const dialogRef = this.dialog.open(FolderConfirmDialogComponent, { 
       data: {
-        title: 'Sledovat seznam',
-        message: 'Opravdu chcete sledovat seznam ' + this.folder.name +'?',
+        title: 'folders.dialogs.follow',
+        message: 'folders.dialogs.follow_message',
+        name: this.folder.name,
         confirm: 'confirm'}, 
       autoFocus: false 
     });
@@ -191,8 +190,8 @@ export class FolderComponent implements OnInit {
     }
     const data = {
       uuids: uuids,
-      title: 'Hromadné mazání dokumentů',
-      message: 'Chcete smazat vybrané dokumenty ze seznamu?',
+      title: 'folders.dialogs.batch_delete',
+      message: 'folders.dialogs.batch_delete_message',
     }
     const dialogRef = this.dialog.open(FolderAdminDialogComponent, { data: data, autoFocus: false });
     dialogRef.afterClosed().subscribe(result => {
@@ -208,8 +207,8 @@ export class FolderComponent implements OnInit {
   openBasicDialog() {
     const dialogRef = this.dialog.open(BasicDialogComponent, { 
       data: {
-        title: 'Sdílení seznamu',
-        message: 'Pro přidání seznamu '  + this.folder.name + ' se musíte přihlásit.',
+        title: 'folders.dialogs.share_warning',
+        message: 'folders.dialogs.share_warning_message',
         button: 'OK'}, 
       autoFocus: false 
     });

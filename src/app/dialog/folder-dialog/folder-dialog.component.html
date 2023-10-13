@@ -1,10 +1,11 @@
 <div class="app-dialog-wrapper">
     <div mat-dialog-content>
         <div class="app-dialog-title">{{ data.title | translate }}</div>
+        <div class="app-dialog-message">{{ data.message | translate }}</div>
         <input [(ngModel)]="data.name" #nameInput (keyup.enter)="onEnterKeyPressed()" autofocus>
       </div>
     <div mat-dialog-actions>
-        <button mat-flat-button color="primary" [mat-dialog-close]="data.name">{{data.button}}</button>
-        <button mat-button (click)="onNoClick()">Zavřít</button>
+        <button mat-flat-button color="primary" [mat-dialog-close]="data.name">{{ data.button | translate }}</button>
+        <button mat-button (click)="onNoClick()">{{ 'folders.dialogs.close' | translate }}</button>
     </div>
 </div>

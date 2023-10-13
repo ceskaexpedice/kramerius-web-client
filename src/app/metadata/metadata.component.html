@@ -8,7 +8,7 @@
     <mat-icon tabindex="0" *ngIf="actionAvailable('metadata')" [class.app-disabled]="!actionEnabled('metadata')" (click)="onShowMetadata()" [matTooltip]="'book_controls.tooltip_metadata' | translate">code</mat-icon>
     <mat-icon tabindex="0" *ngIf="auth.isAdmin()" (click)="openAdminActions()" [matTooltip]="'book_controls.tooltip_edit' | translate">edit</mat-icon>
     <span class="app-dropdown" *ngIf="auth.isLoggedIn() && settings.folders" [matMenuTriggerFor]="favoritesMenu">
-      <mat-icon tabindex="0" [matTooltip]="'Přidat do seznamu'">favorite</mat-icon>
+      <mat-icon tabindex="0" [matTooltip]="'folders.like' | translate">favorite</mat-icon>
     </span>
   </div>
 

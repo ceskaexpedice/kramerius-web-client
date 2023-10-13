@@ -177,10 +177,10 @@ export class FoldersComponent implements OnInit, OnDestroy {
     this.name = '';
     const dialogRef = this.dialog.open(FolderDialogComponent, { 
       data: {
-        title: 'Vytvořit nový seznam',
-        message: 'Jméno nového seznamu',
+        title: 'folders.dialogs.add_new_folder',
+        message: 'folders.dialogs.add_new_folder_name',
         name: this.name,
-        button: 'Vytvořit'},
+        button: 'folders.dialogs.create'},
        });
       
       dialogRef.afterClosed().subscribe(result => {
