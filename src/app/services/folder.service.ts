@@ -15,6 +15,7 @@ export class FolderService {
                 private router: Router) { }
 
     getFolders(callback: (folders: Folder[]) => void) {
+        console.log('getFolders');
         if (this.folders && this.folders.length > 0) {
             if (callback) {
                 callback(this.folders);

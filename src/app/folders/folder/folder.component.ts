@@ -10,6 +10,7 @@ import { FolderShareDialogComponent } from '../../dialog/folder-share-dialog/fol
 import { FolderAdminDialogComponent } from '../../dialog/folder-admin-dialog/folder-admin-dialog.component';
 import { BasicDialogComponent } from '../../dialog/basic-dialog/basic-dialog.component';
 import { AuthService } from '../../services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class FolderComponent implements OnInit {
               private router: Router,
               private dialog: MatDialog,
               public searchService: SearchService,
+              private translate: TranslateService,
               public authService: AuthService) { 
 
                }

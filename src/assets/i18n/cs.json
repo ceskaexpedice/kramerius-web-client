@@ -722,6 +722,27 @@
     "category:calendar": "Kalendáře",
     "category:archival": "Archiválie"
   },
+  "folders": {
+    "lists": "Seznamy",
+    "new_list": "Nový seznam",
+    "my_lists": "Moje seznamy",
+    "shared_lists": "Sdílené seznamy",
+    "warning": "Pro správu seznamů je třeba se přihlásit.",
+    "tooltips": {
+      "edit": "Editovat vybrané",
+      "select_all": "Vybrat vše",
+      "edit_all": "Hromadná úprava položek seznamu",
+      "add": "Přidat na seznam",
+      "edit_title": "Editovat název seznamu",
+      "delete": "Smazat seznam",
+      "share": "Sdílet seznam",
+      "remove_sharing": "Odebrat ze sdílených seznamů",
+      "add_sharing": "Přidat do sdílených seznamů"
+    },
+    "dialog": {
+      
+    }
+  },
   "source": {
     "mzk": "Moravská zemská knihovna",
     "svkhk": "Studijní a vědecká knihovna v Hradci Králové",

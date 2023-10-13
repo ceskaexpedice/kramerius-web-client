@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { KrameriusApiService } from '../services/kramerius-api.service';
 import { AuthService } from '../services/auth.service';
 import { AppSettings } from '../services/app-settings';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-folders',
@@ -29,11 +30,13 @@ export class FoldersComponent implements OnInit, OnDestroy {
               private history: HistoryService,
               private api: KrameriusApiService,
               public authService: AuthService,
+              private translate: TranslateService,
               public settings: AppSettings) {
                }
 
   ngOnInit(): void {
     console.log('======ngOnInit Folders');
+    this.folderService.folders = null; // reset folders
     if (!this.settings.folders) {
       this.router.navigateByUrl(this.settings.getRouteFor(''));
       // return;
