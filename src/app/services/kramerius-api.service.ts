@@ -519,7 +519,7 @@ export class KrameriusApiService {
         let body = {"items": items};
         return this.http.put<any>(url, body)
     }
-    removeItemFromFolder(uuid: string, items: any): Observable<any> {
+    removeItemFromFolder(uuid: string, items: any[]): Observable<any> {
         const url = this.getFoldersUrl(uuid + '/items');
         let body = {"items": items};
         return this.http.delete<any>(url, {body: body})

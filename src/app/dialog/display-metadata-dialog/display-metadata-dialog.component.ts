@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AppSettings } from '../../services/app-settings';
 
 @Component({
   selector: 'app-display-metadata-dialog',
@@ -9,7 +10,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class DisplayMetadataDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DisplayMetadataDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              public settings: AppSettings) { }
 
   ngOnInit(): void {
   }

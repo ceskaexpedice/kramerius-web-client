@@ -118,7 +118,7 @@ export class FolderService {
         console.log('like');
     }
     dislike(folder: Folder, uuid: string) {
-        this.removeItemsFromFolder(folder.uuid, uuid)
+        this.removeItemsFromFolder(folder.uuid, [uuid])
         console.log('dislike');
     }
 

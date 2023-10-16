@@ -2,7 +2,7 @@ import { AppSettings } from './../../services/app-settings';
 import { DocumentItem } from './../../model/document_item.model';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AuthService } from '../../services/auth.service';
 import { LicenceService } from '../../services/licence.service';
@@ -20,7 +20,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './document-card.component.html',
   styleUrls: ['./document-card.component.scss']
 })
-export class DocumentCardComponent implements OnInit {
+export class DocumentCardComponent implements OnInit, OnDestroy {
   @Input() item: DocumentItem;
   @Input() in: String;
   @Input() selectable: boolean = false;
@@ -47,6 +47,10 @@ export class DocumentCardComponent implements OnInit {
   ngOnInit() {
     this.init();
     // console.log('this.item', this.item);
+  }
+  ngOnDestroy(): void {
+    console.log('ngOnDestroy');
+    this.dialog.closeAll();
   }
 
   onLike(folder: Folder) {
@@ -100,7 +104,7 @@ export class DocumentCardComponent implements OnInit {
         data: {
           title: 'Metadata',
           metadata: metadata,
-          button: 'Zavřít',
+          button: 'folders.dialogs.open',
           confirm: 'confirm'},
         autoFocus: false,
         maxWidth: '100vw',
