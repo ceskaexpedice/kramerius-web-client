@@ -13,6 +13,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { DisplayMetadataDialogComponent } from '../../dialog/display-metadata-dialog/display-metadata-dialog.component';
 import { Metadata } from '../../model/metadata.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-document-card',
@@ -40,7 +41,8 @@ export class DocumentCardComponent implements OnInit {
               public analytics: AnalyticsService,
               private _sanitizer: DomSanitizer,
               public folderService: FolderService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.init();
@@ -49,7 +51,17 @@ export class DocumentCardComponent implements OnInit {
 
   onLike(folder: Folder) {
     this.folderService.like(folder, this.item.uuid);
+    this.openSnackBar(folder.name);
     console.log('onLike', folder, this.item.uuid);
+  }
+  checkFolders() {
+    if (!this.folderService.folders) {
+      this.folderService.getFolders(null);
+    }
+  }
+  openSnackBar(name: string) {
+    const message = 'Přidáno do seznamu' + ' ' + name;
+    this.snackBar.open(message, '', { duration: 2000, verticalPosition: 'bottom' });
   }
   onDislike(folder: Folder) {
     this.folderService.dislike(folder, this.item.uuid);

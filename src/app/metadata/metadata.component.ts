@@ -17,6 +17,7 @@ import { Folder } from '../model/folder.model';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../services/search.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -43,7 +44,8 @@ export class MetadataComponent implements OnInit {
               public licences: LicenceService,
               public auth: AuthService,
               public settings: AppSettings,
-              public folderService: FolderService) { }
+              public folderService: FolderService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     if (this.auth.isLoggedIn() && this.settings.folders) {
@@ -120,7 +122,12 @@ export class MetadataComponent implements OnInit {
   
   onLike(folder: Folder) {
     this.folderService.like(folder, this.metadata.uuid);
+    this.openSnackBar(folder.name);
     console.log('onLike', folder, this.metadata.uuid);
+  }
+  openSnackBar(name: string) {
+    const message = 'Přidáno do seznamu' + ' ' + name;
+    this.snackBar.open(message, '', { duration: 2000, verticalPosition: 'bottom' });
   }
 
   onNewFolder(name: string) {

@@ -726,6 +726,7 @@
     "shared_lists": "Shared lists",
     "warning": "You need to sign in to manage lists.",
     "like": "Add to favorites",
+    "liked": "Added to list",
     "info": "Click for more information",
     "tooltips": {
       "edit": "Edit selected",
