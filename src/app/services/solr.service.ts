@@ -352,7 +352,6 @@ export class SolrService {
         return filter;
     }
 
-
     getNewestQuery(): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')},${this.field('model')}`;
         if (!this.settings.k5Compat()) {
@@ -512,6 +511,10 @@ export class SolrService {
         return q;
     }
 
+    buildFolderItemsQuery(uuids: any[]) {
+        let q = `&q=${this.field('id')}:"${uuids.join(`" OR ${this.field('id')}:"`)}"&rows=50`;
+        return q;
+    }
 
     buildDocumentFulltextQuery(uuids: string[], query: string) {
         const fl = `${this.field('id')},${this.field('root_pid')}`;
@@ -865,6 +868,7 @@ export class SolrService {
 
 
     buildSearchQuery(query: SearchQuery, facet: string = null) {
+        console.log('buildSearchQuery', query);
         let qString = this.buildQ(query.query);
         let value = qString;
         let q = 'q=';

@@ -49,7 +49,6 @@ export class DocumentCardComponent implements OnInit, OnDestroy {
     // console.log('this.item', this.item);
   }
   ngOnDestroy(): void {
-    console.log('ngOnDestroy');
     this.dialog.closeAll();
   }
 

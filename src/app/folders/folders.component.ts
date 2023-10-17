@@ -57,7 +57,8 @@ export class FoldersComponent implements OnInit, OnDestroy {
                 });
                 if (folder.items) {
                   this.folderService.mapFolderItemsToDocumentItems(this.folder).subscribe(items => {
-                    this.folder.items = items; 
+                    this.folder.items = items;
+                    console.log('folder.items', this.folder.items);
                   });
                 }
                 this.loading = false;
@@ -122,7 +123,8 @@ export class FoldersComponent implements OnInit, OnDestroy {
                     });
                     if (folder.items) {
                       this.folderService.mapFolderItemsToDocumentItems(this.folder).subscribe(items => {
-                        this.folder.items = items; 
+                        this.folder.items = items;
+                        console.log('folder.items', this.folder.items);
                       });
                     }
                     this.loading = false;
@@ -160,7 +162,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
                 });
                 if (folder.items) {
                   this.folderService.mapFolderItemsToDocumentItems(this.folder).subscribe(items => {
-                    this.folder.items = items; 
+                    this.folder.items = items;
                   });
                 }
                 this.loading = false;

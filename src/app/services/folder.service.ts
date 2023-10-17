@@ -4,6 +4,7 @@ import { Observable, Subject, of } from "rxjs";
 import { KrameriusApiService } from "./kramerius-api.service";
 import { Router } from "@angular/router";
 import { AuthService } from "./auth.service";
+import { SolrService } from "./solr.service";
 
 
 @Injectable()
@@ -12,7 +13,8 @@ export class FolderService {
 
     constructor(private auth: AuthService,
                 private krameriusApiService: KrameriusApiService,
-                private router: Router) { }
+                private router: Router,
+                private solrService: SolrService) { }
 
     getFolders(callback: (folders: Folder[]) => void) {
         console.log('getFolders');
@@ -141,14 +143,38 @@ export class FolderService {
 
     mapFolderItemsToDocumentItems(folder: Folder): Observable<any> {
         let items = [];
-        folder.items.map(item => {
-          this.krameriusApiService.getItem(item.id).subscribe(i => {
-            i.createdAt = item.createdAt;
-            items.push(i);
-          });
-        });
+        let folderItems = folder.items;
+        const dividedArrays = this.divideArray(folderItems, 50);
+        for (const dividedArray of dividedArrays) {
+            let uuids = dividedArray.map(item => item.id);
+            this.krameriusApiService.getSearchResults(this.solrService.buildFolderItemsQuery(uuids)).subscribe(results => {
+                for (const i of this.solrService.documentItems(results)) {
+                    i.createdAt = folderItems.find(item => item.id == i.uuid).createdAt;
+                    items.push(i);
+                }
+            });
+        }
         return of(items);
     }
+
+    divideArray(array, size) {
+        const dividedArray = [];
+        for (let i = 0; i < array.length; i += size) {
+          dividedArray.push(array.slice(i, i + size));
+        }
+        return dividedArray;
+    }
+
+    // mapFolderItemsToDocumentItems(folder: Folder): Observable<any> {
+    //     let items = [];
+    //     folder.items.map(item => {
+    //       this.krameriusApiService.getItem(item.id).subscribe(i => {
+    //         // i.createdAt = item.createdAt;
+    //         items.push(i);
+    //       });
+    //     });
+    //     return of(items);
+    // }
 
     sortFoldersByOwner(folders: any): any[] {
         let myFolders: Folder[] = [];
