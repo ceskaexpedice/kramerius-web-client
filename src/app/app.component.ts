@@ -8,6 +8,7 @@ import { DOCUMENT, Location } from '@angular/common';
 import { MatomoInjector } from 'ngx-matomo';
 import { AnalyticsService } from './services/analytics.service';
 import { TranslateService } from '@ngx-translate/core';
+import { MatDialog } from '@angular/material/dialog';
 
 declare global {
   interface Window {
@@ -34,6 +35,7 @@ export class AppComponent implements OnInit {
     private settings: AppSettings,
     private analytics: AnalyticsService,
     public state: AppState,
+    private dialog: MatDialog,
     @Inject(DOCUMENT) private document: Document,
     private matomoInjector: MatomoInjector) {
 
@@ -78,6 +80,7 @@ export class AppComponent implements OnInit {
         this.analytics.sendPageView(event.urlAfterRedirects);
         this.history.push(this.location.path());
         this.state.pageUrl = event.url;
+        this.dialog.closeAll();
       }
     });
     this.document.documentElement.lang = this.translate.currentLang; 

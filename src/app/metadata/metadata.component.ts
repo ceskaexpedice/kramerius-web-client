@@ -126,7 +126,7 @@ export class MetadataComponent implements OnInit {
     console.log('onLike', folder, this.metadata.uuid);
   }
   openSnackBar(name: string) {
-    const message = 'Přidáno do seznamu' + ' ' + name;
+    const message = <string> this.translate.instant('folders.liked') + ' ' + name;
     this.snackBar.open(message, '', { duration: 2000, verticalPosition: 'bottom' });
   }
 

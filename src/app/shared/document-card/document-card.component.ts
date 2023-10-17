@@ -2,7 +2,7 @@ import { AppSettings } from './../../services/app-settings';
 import { DocumentItem } from './../../model/document_item.model';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AuthService } from '../../services/auth.service';
 import { LicenceService } from '../../services/licence.service';
@@ -20,7 +20,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './document-card.component.html',
   styleUrls: ['./document-card.component.scss']
 })
-export class DocumentCardComponent implements OnInit, OnDestroy {
+export class DocumentCardComponent implements OnInit {
   @Input() item: DocumentItem;
   @Input() in: String;
   @Input() selectable: boolean = false;
@@ -48,9 +48,6 @@ export class DocumentCardComponent implements OnInit, OnDestroy {
     this.init();
     // console.log('this.item', this.item);
   }
-  ngOnDestroy(): void {
-    this.dialog.closeAll();
-  }
 
   onLike(folder: Folder) {
     this.folderService.like(folder, this.item.uuid);
@@ -63,7 +60,7 @@ export class DocumentCardComponent implements OnInit, OnDestroy {
     }
   }
   openSnackBar(name: string) {
-    const message = 'Přidáno do seznamu' + ' ' + name;
+    const message = <string> this.translate.instant('folders.liked') + ' ' + name;
     this.snackBar.open(message, '', { duration: 2000, verticalPosition: 'bottom' });
   }
   onDislike(folder: Folder) {
