@@ -35,6 +35,23 @@
           @media (max-width: 900px) {
             width:100%;
           }
+          &.app-search-collection {
+          @media (max-width: 2600px) {
+            width:20%;
+          }
+          @media (max-width: 2200px) {
+            width:25%;
+          }
+          @media (max-width: 1800px) {
+            width:33.33333%;
+          }
+          @media (max-width: 1560px) {
+            width:50%;
+          }
+          @media (max-width: 1200px) {
+            width:100%;
+          }
+        }
         }
         app-paginator {
           display: block;

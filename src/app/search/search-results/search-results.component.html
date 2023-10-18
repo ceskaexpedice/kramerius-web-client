@@ -30,7 +30,7 @@
 
         <!-- IF GRID -->
         <div *ngIf="searchService.contentTypeDisplay === 'grid'">
-            <app-document-card *ngFor="let item of searchService.results" [selectable]="searchService.adminSelection" [in]="'search'" [item]="item" [display]="'grid'"></app-document-card>
+            <app-document-card [ngClass]="{'app-search-collection': searchService.collection}" *ngFor="let item of searchService.results" [selectable]="searchService.adminSelection" [in]="'search'" [item]="item" [display]="'grid'"></app-document-card>
         </div>
 
         <!-- IF TABLE -->

@@ -868,7 +868,6 @@ export class SolrService {
 
 
     buildSearchQuery(query: SearchQuery, facet: string = null) {
-        console.log('buildSearchQuery', query);
         let qString = this.buildQ(query.query);
         let value = qString;
         let q = 'q=';
