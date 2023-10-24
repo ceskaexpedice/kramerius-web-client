@@ -18,7 +18,11 @@
     <app-home-search-bar></app-home-search-bar>
   </section>
 
-  <div class="container app-featured">
+  <div *ngIf="settings.curatorListsEnabled" class="container app-featured">
+    <app-curator-lists></app-curator-lists>
+  </div>
+  
+  <div *ngIf="!settings.curatorListsEnabled" class="container app-featured">
     <div class="app-tabs" [class]="'app-tabs-' + numberOfTabs()">
       <div *ngIf="visited.length > 0" class="app-tab" tabindex="0" [class.app-active]="selectedTab === 'visited'" (click)="changeTab('visited')">
         {{ 'home.tab_visited' | translate }}

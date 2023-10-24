@@ -1,0 +1,25 @@
+<div class="app-curlist-wrapper">
+    <div *ngFor="let list of curatorLists">
+        <div class="app-curlist-title">{{list.title}}</div>
+        <!-- KARTY NA VYSKU -->
+        <div class="app-curlist-content" *ngIf="list.items && niceCards">
+            <ng-container *ngFor="let item of list.items.slice(0, [shownItems]); let last = last">
+                <div class="app-curlist-item">
+                    <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)"></div>
+                    <div class="app-item-title">{{ getTitle(item) }}</div>
+                    <div class="app-item-date">{{ item.date }}</div>
+                    <div class="app-item-plus" *ngIf="last">+</div>
+                </div>
+            </ng-container>
+        </div>
+        <!-- KLASICKE KARTY -->
+        <div class="app-curlist-content" *ngIf="list.items && !niceCards">
+            <app-document-card [ngClass]="{'app-search-collection': searchService.collection}" *ngFor="let item of list.items.slice(0, [shownDocumentCards])" [selectable]="searchService.adminSelection" [in]="'home'" [item]="item" [display]="'grid'"></app-document-card>
+            <div class="app-document-card-last-item">
+                <div class="app-item-plus">
+                    <div>+ {{list.items.length - shownDocumentCards}}</div>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>

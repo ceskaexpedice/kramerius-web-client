@@ -51,6 +51,7 @@ import { NavigationComponent } from './book/navigation/navigation.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { FoldersComponent } from './folders/folders.component';
 import { FolderComponent } from './folders/folder/folder.component';
+import { CuratorListsComponent } from './home/curator-lists/curator-lists.component';
 
 import { Ng2CompleterModule } from 'ng2-completer';
 import { AppState } from './app.state';
@@ -295,7 +296,8 @@ export function appInitializerFactory(translate: TranslateService) {
     FolderConfirmDialogComponent,
     FolderShareDialogComponent,
     FolderAdminDialogComponent,
-    DisplayMetadataDialogComponent
+    DisplayMetadataDialogComponent,
+    CuratorListsComponent
   ],
   imports: [
     BrowserModule,

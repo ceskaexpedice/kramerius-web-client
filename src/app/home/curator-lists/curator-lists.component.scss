@@ -1,0 +1,102 @@
+@import './src/_variables.scss';
+
+.app-curlist-title {
+    color: $primary-color;
+    font-size: medium;
+    margin: 10px 0px 10px 10px;
+}
+.app-curlist-content {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    flex: 100%;
+    .app-curlist-item {
+        margin: 0 10px 10px 0;
+        height: 180px;
+        width: 150px;
+        border-radius: 2px;
+        //background-color: aquamarine;
+        //border: 1px solid #e0e0e0;
+        border-radius: 2px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 5px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.05);
+        .app-item-thumb {
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 110px;
+            float: left;
+            position: relative;
+            background-size: cover;
+            background-position-x: center;
+            border-radius: 2px 2px 0 0;
+        }
+        .app-item-title {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 3px 5px;
+            height: 40px;
+            line-height: 20px;
+            overflow: hidden;
+            display: -webkit-inline-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .app-item-date {
+            font-size: 13px;
+            padding: 3px 5px;
+            position: relative;
+            bottom: 5px;
+        }
+        .app-item-plus {
+            position: relative;
+            right: -49px;
+            bottom: 173px;
+            font-size: 100px;
+            color: #0277bd;
+        }
+    }
+    app-document-card {
+        width:16.66666%;
+        @media (max-width: (2300px + 150px)) {
+          width:20%;
+        }
+        @media (max-width: (1900px + 150px)) {
+          width:25%;
+        }
+        @media (max-width: (1500px + 150px)) {
+          width:33.33333%;
+        }
+        @media (max-width: (1260px + 150px)) {
+          width:50%;
+        }
+        @media (max-width: 900px) {
+          width:100%;
+        }
+    }
+   .app-document-card-last-item {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 150px;
+        background: #fff;
+        position: relative;
+        cursor: pointer;
+        margin: 0.5rem;
+        border-radius: unset;
+        height: 144px;
+        box-shadow: 0 2px 2px 0 transparent, 0 1px 5px 0 rgba(0,0,0,0.1), 0 3px 1px -20px rgba(0,0,0,0.1);
+        border: 1px solid $app-grey-l-2;
+        &:hover {
+            box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border: 1px solid #d3d3d3;
+            .app-card-like {
+            display: flex;
+            }
+        }
+        .app-item-plus {
+            display: flex;
+            font-size: 24Xpx;
+            color: #0277bd;
+        }
+    }
+}
+
