@@ -1,24 +1,51 @@
 @import './src/_variables.scss';
-
-.app-curlist-title {
-    color: $primary-color;
-    font-size: medium;
-    margin: 10px 0px 10px 10px;
+.app-curlist-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    @media (max-width: 450px) {
+        align-items: center;
+      }
 }
+.app-curlist-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    .app-curlist-title {
+        color: $primary-color;
+        font-size: medium;
+        margin: 10px 0px 10px 10px;
+        cursor: pointer;
+    }
+    .app-curlist-collapse-icon {
+        color: $primary-color;
+        margin: 10px 10px 10px 0px;
+        cursor: pointer;
+    }
+}
+
 .app-curlist-content {
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
-    flex: 100%;
+    &.app-curlist-expanded {
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        flex: 100%;
+    }
+    // IF NICE CARDS
     .app-curlist-item {
-        margin: 0 10px 10px 0;
+        flex: 1;
+        flex-basis: 150px;
+        max-width: 167px;
+        margin: 0 5px 10px 10px;
+        cursor: pointer;
         height: 180px;
-        width: 150px;
-        border-radius: 2px;
-        //background-color: aquamarine;
-        //border: 1px solid #e0e0e0;
+        // min-width: 150px;
         border-radius: 2px;
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 5px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.05);
+        &:hover {
+            box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 7px 0 rgba(0, 0, 0, 0.2), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        }
         .app-item-thumb {
             background-repeat: no-repeat;
             width: 100%;
@@ -32,9 +59,10 @@
         .app-item-title {
             font-size: 14px;
             font-weight: 500;
-            padding: 3px 5px;
-            height: 40px;
-            line-height: 20px;
+            color: $primary-color;
+            padding: 6px 5px;
+            height: 44px;
+            line-height: 18px;
             overflow: hidden;
             display: -webkit-inline-box;
             -webkit-line-clamp: 2;
@@ -47,11 +75,19 @@
             bottom: 5px;
         }
         .app-item-plus {
+            height: 181px;
+            flex: 1;
+            // width: 150px;
             position: relative;
-            right: -49px;
-            bottom: 173px;
-            font-size: 100px;
-            color: #0277bd;
+            right: 0px;
+            bottom: 186px;
+            font-size: 35px;
+            color: #ffffff;
+            background: #6c6c6c91;
+            border-radius: 2px;
+            display: flex;
+            justify-content: center;
+            padding: 50px 0 0 0;
         }
     }
     app-document-card {

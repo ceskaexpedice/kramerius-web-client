@@ -14,10 +14,10 @@ import { SearchService } from '../../services/search.service';
 })
 export class CuratorListsComponent implements OnInit {
 
-  niceCards: boolean = false;
+  niceCards: boolean = false ;
   curatorLists;
   curatorListItems = [];
-  collapsed: boolean = true;
+  expanded: any = {};
   windowWidth: number;
   shownItems: number;
   shownDocumentCards: number;
@@ -45,7 +45,7 @@ export class CuratorListsComponent implements OnInit {
     if (this.curatorLists) {
       this.getDocumentItems(this.curatorLists)
     }
-    console.log('windowWidth onInit', this.windowWidth, this.shownItems, this.shownDocumentCards);
+    console.log('windowWidth onInit', this.windowWidth, this.shownItems, this.shownDocumentCards, this.expanded);
   }
   
   getDocumentItems(curatorLists: any[]) {
@@ -68,8 +68,11 @@ export class CuratorListsComponent implements OnInit {
     return this._sanitizer.bypassSecurityTrustStyle(`url(${this.krameriusApiService.getThumbUrl(uuid)})`);
   }
 
-  expandCards() {
-    this.collapsed = !this.collapsed;
+  expandCards(title: string) {
+    this.expanded[title] = !this.expanded[title];
+  }
+  isExpanded(title: string): boolean {
+    return !!this.expanded[title];
   }
 
   findCountOfItems(size) {
@@ -87,11 +90,13 @@ export class CuratorListsComponent implements OnInit {
       this.shownDocumentCards = 6;
     }
 
-    if (size > 993) {
+    if (size > 1800) {
+      this.shownItems = 7;
+    } else if (size > 993 && size <= 1800) {
       this.shownItems = Math.floor(((this.windowWidth*70)/100)/160);
-    } else if (size > 601) {
+    } else if (size > 601 && size <= 993) {
       this.shownItems =  Math.floor(((this.windowWidth*85)/100)/160);
-    } else if (size > 481) {
+    } else if (size > 0 && size <= 601) {
       this.shownItems =  Math.floor(((this.windowWidth*90)/100)/160);
     }
   }
