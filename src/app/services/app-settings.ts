@@ -34,6 +34,8 @@ export class AppSettings {
   public folders: boolean;
   public curatorListsEnabled: boolean;
   public curatorLists: any[];
+  public curatorKeywordsEnabled: boolean;
+  public curatorKeywords: any[];
   public hiddenLocks: boolean;
   public legacyLocks: boolean;
   public licences: any;
@@ -154,8 +156,10 @@ export class AppSettings {
     this.mapSearchType = kramerius.mapSearchType || 'maps';
     this.mapSearchTypeDefault = kramerius.mapSearchTypeDefault || (this.mapSearchType == 'markers' ? 'markers' : 'maps');
     this.folders = !!kramerius.folders;
-    this.curatorListsEnabled = !!kramerius.curatorListsEnabled;
+    this.curatorListsEnabled = !!kramerius.curatorLists;
     this.curatorLists = kramerius.curatorLists || [];
+    this.curatorKeywordsEnabled = !!kramerius.curatorKeywords;
+    this.curatorKeywords = kramerius.curatorKeywords || [];
     this.licences = kramerius.licences;
     this.containsLicences = !!kramerius.containsLicences;
     this.preselectedLicences = kramerius.preselectedLicences;
@@ -300,6 +304,8 @@ interface KrameriusData {
   folders: boolean;
   curatorListsEnabled: boolean;
   curatorLists: any[];
+  curatorKeywordsEnabled: boolean;
+  curatorKeywords: any[];
   hiddenLocks: boolean;
   legacyLocks: boolean;
   type: string;

@@ -21,6 +21,7 @@ export class CuratorListsComponent implements OnInit {
   windowWidth: number;
   shownItems: number;
   shownDocumentCards: number;
+  curatorKeywords: any[];
 
   constructor(public settings: AppSettings,
               public solrService: SolrService,
@@ -41,6 +42,8 @@ export class CuratorListsComponent implements OnInit {
   ngOnInit(): void {
     this.windowWidth = window.innerWidth;
     this.curatorLists = this.settings.curatorLists;
+    this.curatorKeywords = this.settings.curatorKeywords;
+    console.log('===curatorKeywords', this.curatorKeywords);
     this.findCountOfItems(this.windowWidth);
     if (this.curatorLists) {
       this.getDocumentItems(this.curatorLists)
@@ -99,6 +102,15 @@ export class CuratorListsComponent implements OnInit {
     } else if (size > 0 && size <= 601) {
       this.shownItems =  Math.floor(((this.windowWidth*90)/100)/160);
     }
+  }
+  getParams(query: string) {
+    query = decodeURIComponent(query); // zabrani dvojitemu kodovani
+    const params = {};
+    const queryParts = query.split('&');
+    for (const part of queryParts) {
+      params[part.split('=')[0]] = part.split('=')[1];
+    }
+    return params;
   }
 
 }

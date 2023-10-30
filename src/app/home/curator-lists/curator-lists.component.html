@@ -1,4 +1,7 @@
-<div class="app-curlist-wrapper">
+<div class="app-curkeywords-wrapper" *ngIf="settings.curatorKeywordsEnabled">
+    <div class="app-curkeyword" *ngFor="let keyword of curatorKeywords" [routerLink]="settings.getRouteFor('search')" [queryParams]="getParams(keyword.query)">{{keyword.display}}</div>
+</div>
+<div class="app-curlist-wrapper" *ngIf="settings.curatorListsEnabled">
     <div *ngFor="let list of curatorLists">
         <div class="app-curlist-title-wrapper">
             <div class="app-curlist-title" (click)="expandCards(list.title)">{{list.title}}</div>
