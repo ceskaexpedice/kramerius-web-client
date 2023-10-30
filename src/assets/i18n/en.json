@@ -730,8 +730,10 @@
     "info": "Click for more information",
     "tooltips": {
       "edit": "Edit selected",
+      "delete_selected": "Delete selected",
       "select_all": "Select all",
       "edit_all": "Bulk edit list items",
+      "edit_all_end": "End bulk edit list items",
       "add": "Add to list",
       "edit_title": "Edit list title",
       "delete": "Delete list",

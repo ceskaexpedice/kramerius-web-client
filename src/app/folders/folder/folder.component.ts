@@ -11,6 +11,7 @@ import { FolderAdminDialogComponent } from '../../dialog/folder-admin-dialog/fol
 import { BasicDialogComponent } from '../../dialog/basic-dialog/basic-dialog.component';
 import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 
 @Component({
@@ -24,17 +25,20 @@ export class FolderComponent implements OnInit {
 
   folderSelection: boolean;
   ordering: string = 'alphabetical';
+  devMode: boolean = false;
 
   constructor(private folderService: FolderService,
               private router: Router,
               private dialog: MatDialog,
               public searchService: SearchService,
               private translate: TranslateService,
-              public authService: AuthService) { 
+              public authService: AuthService,
+              private localStorageService: LocalStorageService) { 
 
                }
 
   ngOnInit(): void {
+    this.devMode = this.localStorageService.getProperty(LocalStorageService.DEV_MODE) === '1';
   }
 
   changeOrdering(items: any, ordering: string) {

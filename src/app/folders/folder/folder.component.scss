@@ -18,7 +18,7 @@
             display: flex;
             flex-direction: row;
             .app-ordering {
-              width: 200px;
+              // width: 200px;
               color: $primary-color;
               margin-left: 10px;
               .app-label {
@@ -34,6 +34,10 @@
         mat-icon {
             margin: 14px;
             cursor: pointer;
+            color: #757575;
+            &:hover {
+                color: black;
+            }
         }
     }
     .app-folder-content {

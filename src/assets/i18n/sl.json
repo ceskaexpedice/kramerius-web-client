@@ -703,8 +703,10 @@
     "info": "Kliknite za več informacij",
     "tooltips": {
       "edit": "Uredi izbrano",
+      "delete_selected": "Izbriši izbrano",
       "select_all": "Izberi vse",
       "edit_all": "Množično urejanje elementov seznama",
+      "edit_all_end": "Končajte množično urejanje elementov seznama",
       "add": "Dodaj na seznam",
       "edit_title": "Uredi naslov seznama",
       "delete": "Izbriši seznam",

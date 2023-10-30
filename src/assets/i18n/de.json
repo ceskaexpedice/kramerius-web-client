@@ -729,8 +729,10 @@
       "info": "Klicken Sie für weitere Informationen",
       "tooltips": {
         "edit": "Ausgewählte bearbeiten",
+        "delete_selected": "Ausgewählte löschen",
         "select_all": "Alles auswählen",
         "edit_all": "Massenbearbeitung von Listenelementen",
+        "edit_all_end": "Massenbearbeitung von Listenelementen beenden",
         "add": "Zur Liste hinzufügen",
         "edit_title": "Listentitel bearbeiten",
         "delete": "Liste löschen",

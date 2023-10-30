@@ -733,8 +733,10 @@
     "info": "Klikni pro více informací",
     "tooltips": {
       "edit": "Editovat vybrané",
+      "delete_selected": "Smazat vybrané",
       "select_all": "Vybrat vše",
       "edit_all": "Hromadná úprava položek seznamu",
+      "edit_all_end": "Ukončit hromadnou úpravu položek seznamu",
       "add": "Přidat na seznam",
       "edit_title": "Editovat název seznamu",
       "delete": "Smazat seznam",
