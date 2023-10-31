@@ -34,13 +34,13 @@
             {{item.title}}, {{item.date}}, {{item.uuid}}
         </div>
     </div> -->
-    <div *ngIf="user === 'owner'">
+    <div class="app-cards-wrapper" *ngIf="user === 'owner'">
         <app-document-card *ngFor="let item of changeOrdering(folder.items, ordering)" [selectable]="folderSelection" [in]="'folder-owner'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
     </div>
-    <div *ngIf="user === 'follower'">
+    <div class="app-cards-wrapper" *ngIf="user === 'follower'">
         <app-document-card *ngFor="let item of changeOrdering(folder.items, ordering)" [selectable]="folderSelection" [in]="'folder-follower'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
     </div>
-    <div *ngIf="!user">
+    <div class="app-cards-wrapper" *ngIf="!user">
         <app-document-card *ngFor="let item of changeOrdering(folder.items, ordering)" [selectable]="folderSelection" [in]="'folder-follower'" [item]="item" [display]="'grid'" [folder]="folder"></app-document-card>
     </div>
 </div>

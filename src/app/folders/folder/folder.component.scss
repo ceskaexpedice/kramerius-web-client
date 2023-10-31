@@ -1,6 +1,7 @@
 @import './src/variables.scss';
 
 .app-folder-container {
+    height: 100%;
     .app-folder-toolbar {
         height: 55px;
         line-height: 55px;
@@ -40,24 +41,27 @@
             }
         }
     }
-    .app-folder-content {
-        background: #fff;
-        .app-folder-item {
-            padding: 0.5rem 1rem;
-            font-size: 15px;
-            color: $app-grey-text;
-            display: block;
-            &.even {
-            background: $app-grey-l-4;
-            }
-            &:hover {
-            color: $primary-color;
-            background-color: $app-grey-l-2;
-            cursor: pointer;
-            }
-        }
-    }
-    app-document-card {
+    // .app-folder-content {
+    //     background: #fff;
+    //     .app-folder-item {
+    //         padding: 0.5rem 1rem;
+    //         font-size: 15px;
+    //         color: $app-grey-text;
+    //         display: block;
+    //         &.even {
+    //         background: $app-grey-l-4;
+    //         }
+    //         &:hover {
+    //         color: $primary-color;
+    //         background-color: $app-grey-l-2;
+    //         cursor: pointer;
+    //         }
+    //     }
+    // }
+    .app-cards-wrapper {
+      height: calc(100% - 55px);
+      overflow: auto;
+      app-document-card {
         float: left;
         width:16.66666%;
         @media (max-width: 2300px) {
@@ -76,4 +80,6 @@
           width:100%;
         }
       }
+    }
+    
 }
