@@ -36,28 +36,30 @@ export class CuratorListsComponent implements OnInit {
   onResize(event: Event): void {
     this.windowWidth = window.innerWidth; // Aktualizace šířky okna při změně velikosti
     this.findCountOfItems(window.innerWidth);
-    console.log('windowWidth', this.windowWidth, this.shownItems, this.shownDocumentCards);
   }
 
   ngOnInit(): void {
     this.windowWidth = window.innerWidth;
     this.curatorLists = this.settings.curatorLists;
     this.curatorKeywords = this.settings.curatorKeywords;
-    console.log('===curatorKeywords', this.curatorKeywords);
     this.findCountOfItems(this.windowWidth);
     if (this.curatorLists) {
       this.getDocumentItems(this.curatorLists)
     }
-    console.log('windowWidth onInit', this.windowWidth, this.shownItems, this.shownDocumentCards, this.expanded);
   }
   
   getDocumentItems(curatorLists: any[]) {
     console.log('===getDocItems curatorLists2', curatorLists);
     for (const list of curatorLists) {
       if (!list.items) {
-        let query = this.solrService.buildFolderItemsQuery(list.content)
+        let query = this.solrService.buildFolderItemsQuery(list.content);
         this.krameriusApiService.getSearchResults(query).subscribe(results => {
-          list.items = this.solrService.documentItems(results);
+          let docItems = this.solrService.documentItems(results);
+          list.items = list.content.map(item => {
+            if (docItems.find(docItem => docItem.uuid === item)) {
+              return docItems.find(docItem => docItem.uuid === item);
+            }
+          });
         });
       }
     }
