@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var APP_GLOBAL: any;
 
@@ -13,7 +14,9 @@ export class AppSettings {
   public currentCode: string;
 
   public title: string;
+  public titles: any;
   public subtitle: string;
+  public subtitles: any;
   public logo: string;
   public logoHome: string;
   public url: string;
@@ -76,8 +79,9 @@ export class AppSettings {
   public cookiebar = !!APP_GLOBAL.cookiebar;
   public navbarLogoOnHome = !!APP_GLOBAL.navbarLogoOnHome;
 
-
+  public defaultLanguage: string = APP_GLOBAL.defaultLanguage || 'cs';
   public languages: string[] = APP_GLOBAL.languages || ['cs', 'en', 'de', 'sk', 'sl'];
+  public lang: string = this.translate.currentLang;
 
   public citationServiceUrl = APP_GLOBAL.citationServiceUrl || "https://citace.kramerius.cloud";
 
@@ -99,7 +103,10 @@ export class AppSettings {
   public krameriusList: KrameriusData[];
   public krameriusVsList = APP_GLOBAL.krameriusVsList;
 
-  constructor() {
+  constructor(public translate: TranslateService) {
+    this.translate.onLangChange.subscribe(() => {
+      this.lang = this.translate.currentLang;
+    });
     this.krameriusList = [];
     for (const k of APP_GLOBAL.krameriusList) {
       this.krameriusList.push(k);
@@ -135,10 +142,44 @@ export class AppSettings {
     this.assignKramerius(k);
   }
 
+
+  public getTitle() {
+    if (this.titles) {
+      return this.titles[this.lang] || this.titles[this.defaultLanguage];
+    } else {
+      return this.title;
+    }
+  }
+
+  public getTitleForKramerius(kramerius: KrameriusData) {
+    if (kramerius.titles) {
+      return kramerius.titles[this.lang] || kramerius.titles[this.defaultLanguage];
+    } else {
+      return kramerius.title;
+    }
+  }
+  public getTitleForAnalytics(kramerius: KrameriusData) {
+    if (kramerius.title) {
+      return kramerius.title;
+    } else if (kramerius.titles) {
+      return kramerius.titles[0];
+    }
+  }
+
+  public getSubtitle() {
+    if (this.subtitles) {
+      return this.subtitles[this.lang] || this.subtitles[this.defaultLanguage];
+    } else {
+      return this.subtitle;
+    }
+  }
+
   public assignKramerius(kramerius: KrameriusData) {
     this.code = kramerius.code;
     this.title = kramerius.title;
+    this.titles = kramerius.titles;
     this.subtitle = kramerius.subtitle;
+    this.subtitles = kramerius.subtitles;
     this.url = kramerius.url;
     this.version = kramerius.version || 5;
     this.logo = kramerius.logo || 'assets/img/logo.png'
@@ -283,7 +324,9 @@ export class AppSettings {
 interface KrameriusData {
   code: string;
   title: string;
+  titles: any;
   subtitle: string;
+  subtitles: any;
   logo: string;
   logoHome: string;
   url: string;

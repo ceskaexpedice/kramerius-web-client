@@ -49,7 +49,6 @@ export class CuratorListsComponent implements OnInit {
   }
   
   getDocumentItems(curatorLists: any[]) {
-    console.log('===getDocItems curatorLists2', curatorLists);
     for (const list of curatorLists) {
       if (!list.items) {
         let query = this.solrService.buildFolderItemsQuery(list.content);

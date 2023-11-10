@@ -18,7 +18,7 @@
       <a class="sp-library-card" [href]="kramerius.url" (click)="analytics.sendEvent('landing', 'kramerius', kramerius.code);">
         <div class="sp-library-card-content">
           <div class="sp-library-logo" [style.background-image]="getThumb(kramerius.logo)"></div>
-          <div class="sp-library-title">{{ kramerius.title }}<br/>{{ kramerius.subtitle }}</div>
+          <div class="sp-library-title">{{ settings.getTitleForKramerius(kramerius) }}<br/>{{ kramerius.subtitle }}</div>
         </div>
       </a>
     </div>
@@ -28,10 +28,10 @@
   <div class="row" *ngFor="let category of categories">
     <div class="sp-section-title">{{ 'sp.category.' + category | translate }}</div>
     <div class="sp-library-card-wrapper col s12 l6 xl4" *ngFor="let kramerius of libraries[category]">
-      <a class="sp-library-card" [routerLink]="['/' + kramerius.code]" (click)="analytics.sendEvent('landing', 'kramerius', kramerius.title);">
+      <a class="sp-library-card" [routerLink]="['/' + kramerius.code]" (click)="analytics.sendEvent('landing', 'kramerius', settings.getTitleForAnalytics(kramerius));">
         <div class="sp-library-card-content">
             <div class="sp-library-logo" [style.background-image]="getThumb(kramerius.logo)"></div>
-            <div class="sp-library-title">{{ kramerius.title }}</div>
+            <div class="sp-library-title">{{ settings.getTitleForKramerius(kramerius) }}</div>
           </div>
       </a>
     </div>
