@@ -171,6 +171,7 @@ import { FolderAdminDialogComponent } from './dialog/folder-admin-dialog/folder-
 import { DisplayMetadataDialogComponent} from './dialog/display-metadata-dialog/display-metadata-dialog.component';
 
 import { LicenceWindowComponent } from './shared/licence-window/licence-window.component';
+import { NavigationService } from './services/navigation.service';
 
 declare var APP_GLOBAL: any;
 
@@ -370,6 +371,7 @@ export function appInitializerFactory(translate: TranslateService) {
     GeoreferenceService,
     CsvService,
     FolderService,
+    NavigationService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,

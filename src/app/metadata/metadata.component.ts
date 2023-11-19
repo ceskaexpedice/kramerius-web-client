@@ -18,6 +18,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../services/search.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NavigationService } from '../services/navigation.service';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class MetadataComponent implements OnInit {
   constructor(public analytics: AnalyticsService,
               private dialog: MatDialog,
               public bookService: BookService,
+              public navigationService: NavigationService,
               private translate: TranslateService,
               public licences: LicenceService,
               public auth: AuthService,

@@ -29,6 +29,7 @@ import { OcrDialogComponent } from '../dialog/ocr-dialog/ocr-dialog.component';
 import { saveAs } from 'file-saver';
 import { PdfService } from './pdf.service';
 import { GeoreferenceService } from './georeference.service';
+import { SearchService } from './search.service';
 
 @Injectable()
 export class BookService {
@@ -228,7 +229,7 @@ export class BookService {
         return (this.source ? `${this.source}/` : '') + uuid;
     }
 
-
+    
     setupEpub() {
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         this.viewer = 'epub';

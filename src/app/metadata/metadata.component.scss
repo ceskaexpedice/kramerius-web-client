@@ -34,6 +34,43 @@
         }
       }
     }
+
+    .app-navigation-docs {
+      display: block;
+      height: 45px;
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: #e0e0e0;
+      background-color: #FFFFFF;
+      .app-btn {
+        color: $app-grey-text;
+        width: 50%;
+        text-align: center;
+        float: left;
+        padding: 10px 16px;
+        cursor: pointer;
+        &.app-btn-prev {
+          text-align: left;
+        }
+        &.app-btn-next {
+          text-align: right;
+        }
+        &:hover {
+          color: $primary-color;
+        }
+        &.app-disabled {
+          color: $app-grey-l-2;
+          cursor: default;
+          &:hover {
+            color: $app-grey-l-2;
+          }
+          user-select: none;
+        }
+      }
+    }
+
+
+
     .app-metadata-content {
       padding: 1rem;
       overflow: auto;

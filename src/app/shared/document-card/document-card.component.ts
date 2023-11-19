@@ -2,7 +2,7 @@ import { AppSettings } from './../../services/app-settings';
 import { DocumentItem } from './../../model/document_item.model';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AuthService } from '../../services/auth.service';
 import { LicenceService } from '../../services/licence.service';
@@ -22,11 +22,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class DocumentCardComponent implements OnInit {
   @Input() item: DocumentItem;
-  @Input() in: String;
+  @Input() in: string;
   @Input() selectable: boolean = false;
   @Input() folder: Folder;
   @ViewChild(MatMenuTrigger,{static:false}) menu: MatMenuTrigger; 
-  
+  @Output() open = new EventEmitter();
+
   thumb;
   lock: any;
   legacyLocks: boolean;
@@ -38,7 +39,7 @@ export class DocumentCardComponent implements OnInit {
               private translate: TranslateService,
               public auth: AuthService,
               private licences: LicenceService,
-              public analytics: AnalyticsService,
+              private analytics: AnalyticsService,
               private _sanitizer: DomSanitizer,
               public folderService: FolderService,
               private dialog: MatDialog,
@@ -46,7 +47,11 @@ export class DocumentCardComponent implements OnInit {
 
   ngOnInit() {
     this.init();
-    // console.log('this.item', this.item);
+  }
+
+  onOpen() {
+    this.analytics.sendEvent(this.in, 'document', this.item.title)
+    this.open.emit();
   }
 
   onLike(folder: Folder) {
@@ -59,6 +64,7 @@ export class DocumentCardComponent implements OnInit {
       this.folderService.getFolders(null);
     }
   }
+  
   openSnackBar(name: string) {
     const message = <string> this.translate.instant('folders.liked') + ' ' + name;
     this.snackBar.open(message, '', { duration: 2000, verticalPosition: 'bottom' });

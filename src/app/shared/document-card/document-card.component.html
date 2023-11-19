@@ -1,10 +1,10 @@
-<a *ngIf="item" routerLink="{{item.url}}" [queryParams]="item.params" (click)="analytics.sendEvent(in, 'document', item.title);">
+<a *ngIf="item" routerLink="{{item.url}}" [queryParams]="item.params" (click)="onOpen()">
   <div class="app-card-content-wrapper">
     <!-- <div class="app-card-mark {{item.doctype}}"></div> -->
     <div class="app-card-media">
       <div class="app-card-thumb" [style.background-image]="thumb">
         <div matTooltipPosition="above" [matTooltip]="lock.tooltip" class="app-lock {{ lock.class }}" *ngIf="legacyLocks && lock && lock.access != 'open'">
-          <mat-icon>{{ lock.icon }}</mat-icon>
+          <mat-icon>{{ lock.icon }}</mat-icon>s
         </div>
       </div>
     </div>

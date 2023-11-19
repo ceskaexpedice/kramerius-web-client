@@ -1,6 +1,6 @@
 import { SearchService } from './../../services/search.service';
 import { DocumentItem } from './../../model/document_item.model';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { AppSettings } from './../../services/app-settings';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FolderService } from '../../services/folder.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { AuthService } from '../../services/auth.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-search-results',
@@ -27,6 +28,7 @@ export class SearchResultsComponent implements OnInit {
               private localStorageService: LocalStorageService,
               private folderService: FolderService,
               private authService: AuthService,
+              private navigationService: NavigationService,
               private translate: TranslateService) {
     
   }
@@ -48,6 +50,12 @@ export class SearchResultsComponent implements OnInit {
     }
     return this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
   }
+
+
+  onOpen(item: DocumentItem) {
+    this.navigationService.init(item, this.searchService.query, this.searchService.results, this.searchService.numberOfResults);
+  }
+
   onCopied(callback) {
     if (callback && callback['isSuccess']) {
       this.snackBar.open(<string> this.translate.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
