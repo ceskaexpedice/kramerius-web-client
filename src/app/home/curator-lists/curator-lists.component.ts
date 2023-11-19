@@ -93,26 +93,25 @@ export class CuratorListsComponent implements OnInit {
   findCountOfItems(size) {
     if (size <= 900) {
       this.shownDocumentCards = 1;
-    } else if (size > 900 && size <= 1410) {
+    } else if (size <= 1410) {
       this.shownDocumentCards = 2;
-    } else if (size > 1410 && size <= 1650) {
+    } else if (size <= 1800) {
       this.shownDocumentCards = 3;
-    } else if (size > 1650 && size <= 2050) {
+    } else if (size <= 2050) {
       this.shownDocumentCards = 4;
-    } else if (size > 2050 && size <= 2450) {
+    } else if (size <= 2450) {
       this.shownDocumentCards = 5;
-    } else if (size > 2450) {
+    } else {
       this.shownDocumentCards = 6;
     }
 
-    console.log('size', size);
     if (size > 1800) {
       this.shownItems = 7;
-    } else if (size > 993 && size <= 1800) {
+    } else if (size > 993) {
       this.shownItems = Math.floor(((this.windowWidth*70)/100)/160);
-    } else if (size > 601 && size <= 993) {
+    } else if (size > 601) {
       this.shownItems =  Math.floor(((this.windowWidth*85)/100)/160);
-    } else if (size > 0 && size <= 601) {
+    } else {
       this.shownItems =  Math.floor(((this.windowWidth*90)/100)/160);
     }
   }
