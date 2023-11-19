@@ -31,13 +31,15 @@
                 vertical-align: middle;
               }
             }
-        }
-        mat-icon {
-            margin: 14px;
-            cursor: pointer;
-            color: #757575;
-            &:hover {
-                color: black;
+            .app-view-button {
+              cursor: pointer;
+              color: #757575;
+              width: 44px;
+              text-align: center;
+              padding-top: 8px;
+              &:hover {
+                color: #111;
+              }
             }
         }
     }

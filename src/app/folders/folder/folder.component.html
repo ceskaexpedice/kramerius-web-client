@@ -7,16 +7,16 @@
             <div tabindex="0" *ngIf="user === 'owner' && !folderSelection" (click)="this.toggleFolderSelection()" class="app-view-button" [class.app-active]="folderSelection"  matTooltip="{{ 'folders.tooltips.edit_all' | translate }}" style="margin-right: 16px;">
               <mat-icon>check</mat-icon>
             </div>
-            <div tabindex="0" *ngIf="user === 'owner' && folderSelection" (click)="this.toggleFolderSelection()" class="app-view-button" [class.app-active]="folderSelection"  matTooltip="{{ 'folders.tooltips.edit_all_end' | translate }}" style="margin-right: 16px;">
+            <div tabindex="0" *ngIf="user === 'owner' && folderSelection" (click)="this.toggleFolderSelection()" class="app-view-button" [class.app-active]="folderSelection"  matTooltip="{{ 'folders.tooltips.edit_all_end' | translate }}" style="margin-right: -10px;">
               <mat-icon>clear</mat-icon>
             </div>
-            <div tabindex="0" *ngIf="user === 'owner' && devMode" (click)="openAddItemToFolderDialog(folder.uuid)" matTooltip="{{ 'folders.tooltips.add' | translate }}"><mat-icon>add</mat-icon></div>
-            <div tabindex="0" *ngIf="user === 'owner' && !folderSelection" (click)="openEditFolderDialog(folder.uuid)" matTooltip="{{ 'folders.tooltips.edit_title' | translate }}"><mat-icon>drive_file_rename_outline</mat-icon></div>
-            <div tabindex="0" *ngIf="user === 'owner' && !folderSelection" (click)="openDeleteFolderDialog(folder.uuid)" matTooltip="{{ 'folders.tooltips.delete' | translate }}"><mat-icon>delete</mat-icon></div>
-            <div tabindex="0" *ngIf="user === 'owner' && !folderSelection" (click)="openShareFolderDialog(folder.uuid)"  matTooltip="{{ 'folders.tooltips.share' | translate }}"><mat-icon>share</mat-icon></div>
-            <div tabindex="0" *ngIf="user === 'follower'" (click)="openUnfollowFolderDialog(folder)" matTooltip="{{ 'folders.tooltips.remove_sharing' | translate }}"><mat-icon>delete</mat-icon></div>
-            <div tabindex="0" *ngIf="(authService.user.authenticated && user !== 'follower' && user !== 'owner')" (click)="openFollowFolderDialog(folder)" matTooltip="{{ 'folders.tooltips.add_sharing' | translate }}"><mat-icon>add</mat-icon></div>
-            <div tabindex="0" *ngIf="!authService.user.authenticated" (click)="openBasicDialog()" matTooltip="{{ 'folders.tooltips.add_sharing' | translate }}"><mat-icon>add</mat-icon></div>
+            <div tabindex="0" *ngIf="user === 'owner' && devMode" (click)="openAddItemToFolderDialog(folder.uuid)" class="app-view-button" matTooltip="{{ 'folders.tooltips.add' | translate }}"><mat-icon>add</mat-icon></div>
+            <div tabindex="0" *ngIf="user === 'owner' && !folderSelection" (click)="openEditFolderDialog(folder.uuid)" class="app-view-button" matTooltip="{{ 'folders.tooltips.edit_title' | translate }}"><mat-icon>drive_file_rename_outline</mat-icon></div>
+            <div tabindex="0" *ngIf="user === 'owner' && !folderSelection" (click)="openDeleteFolderDialog(folder.uuid)" class="app-view-button" matTooltip="{{ 'folders.tooltips.delete' | translate }}"><mat-icon>delete</mat-icon></div>
+            <div tabindex="0" *ngIf="user === 'owner' && !folderSelection" (click)="openShareFolderDialog(folder.uuid)" class="app-view-button" matTooltip="{{ 'folders.tooltips.share' | translate }}"><mat-icon>share</mat-icon></div>
+            <div tabindex="0" *ngIf="user === 'follower'" (click)="openUnfollowFolderDialog(folder)" class="app-view-button" matTooltip="{{ 'folders.tooltips.remove_sharing' | translate }}"><mat-icon>delete</mat-icon></div>
+            <div tabindex="0" *ngIf="(authService.user.authenticated && user !== 'follower' && user !== 'owner')" (click)="openFollowFolderDialog(folder)" class="app-view-button" matTooltip="{{ 'folders.tooltips.add_sharing' | translate }}"><mat-icon>add</mat-icon></div>
+            <div tabindex="0" *ngIf="!authService.user.authenticated" (click)="openBasicDialog()" class="app-view-button" matTooltip="{{ 'folders.tooltips.add_sharing' | translate }}"><mat-icon>add</mat-icon></div>
             <div class="app-ordering" *ngIf="!folderSelection">
                 <span class="app-hide-on-med app-label">{{ 'search.ordering.label' | translate }}: </span>
                 <span tabindex="0" class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
