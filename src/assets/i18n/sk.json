@@ -506,7 +506,7 @@
       "monograph": "Kniha",
       "monographunit": "Kniha",
       "monographbundle": "Zväzok kníh",
-      "periodical": "Noviny",
+      "periodical": "Periodikum",
       "map": "Mapa",
       "sheetmusic": "Hudobnina",
       "graphic": "Grafika",
@@ -574,7 +574,7 @@
     "model_plural" : {
       "monograph": "Knihy",
       "monographunit": "Knihy",
-      "periodical": "Noviny a časopisy",
+      "periodical": "Periodika",
       "map": "Mapy",
       "sheetmusic": "Hudobniny",
       "graphic": "Grafika",
