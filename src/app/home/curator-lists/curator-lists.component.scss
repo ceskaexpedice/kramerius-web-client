@@ -13,8 +13,9 @@
         border-radius: 19px;
         padding: 6px 10px;
         &:hover {
-            border-color: #555;
-            color: #555;
+            // border-color: #555;
+            // color: #555;
+            background: #eee;
         }
     }
 }
@@ -39,7 +40,8 @@
     }
     .app-curlist-collapse-icon {
         color: $primary-color;
-        margin: 10px 10px 10px 0px;
+        margin-top: 10px;
+        margin-right: 10px;
         cursor: pointer;
     }
 }
@@ -56,21 +58,22 @@
     // IF NICE CARDS
     .app-curlist-item {
         flex: 1;
+        position: relative;
         flex-basis: 150px;
         max-width: 167px;
         margin: 0 5px 10px 10px;
         cursor: pointer;
-        height: 180px;
-        // min-width: 150px;
-        border-radius: 2px;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 5px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.05);
+        height: 186px;
+        border-radius: 5px;
+        border: 1px solid #e8e8e8;
         &:hover {
-            box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 7px 0 rgba(0, 0, 0, 0.2), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+            border: 1px solid #e8e8e8;
+            background: #eee;
         }
         .app-item-thumb {
             background-repeat: no-repeat;
             width: 100%;
-            height: 110px;
+            height: 130px;
             float: left;
             position: relative;
             background-size: cover;
@@ -80,8 +83,9 @@
         .app-item-title {
             font-size: 14px;
             font-weight: 500;
-            color: $primary-color;
-            padding: 6px 5px;
+            // color: $primary-color;
+            color: #333;
+            padding: 10px 8px;
             height: 44px;
             line-height: 18px;
             overflow: hidden;
@@ -96,15 +100,14 @@
             bottom: 5px;
         }
         .app-item-plus {
-            height: 181px;
-            flex: 1;
-            // width: 150px;
-            position: relative;
-            right: 0px;
-            bottom: 186px;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
             font-size: 35px;
             color: #ffffff;
-            background: #6c6c6c91;
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 2px;
             display: flex;
             justify-content: center;

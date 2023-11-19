@@ -14,7 +14,7 @@ import { DocumentItem } from '../../model/document_item.model';
 })
 export class CuratorListsComponent implements OnInit {
 
-  niceCards: boolean = false ;
+  verticalCards: boolean;
   curatorLists;
   curatorListItems = [];
   expanded: any = {};
@@ -29,6 +29,7 @@ export class CuratorListsComponent implements OnInit {
               public translate: TranslateService,
               private _sanitizer: DomSanitizer) { 
                 this.windowWidth = window.innerWidth;
+                this.verticalCards = this.settings.curatorListsCardsVertical;
                }
 
   @HostListener('window:resize', ['$event'])
@@ -104,6 +105,7 @@ export class CuratorListsComponent implements OnInit {
       this.shownDocumentCards = 6;
     }
 
+    console.log('size', size);
     if (size > 1800) {
       this.shownItems = 7;
     } else if (size > 993 && size <= 1800) {

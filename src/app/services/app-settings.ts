@@ -37,6 +37,7 @@ export class AppSettings {
   public folders: boolean;
   public curatorListsEnabled: boolean;
   public curatorLists: any[];
+  public curatorListsCardsVertical: boolean;
   public curatorKeywordsEnabled: boolean;
   public curatorKeywords: any[];
   public hiddenLocks: boolean;
@@ -84,7 +85,6 @@ export class AppSettings {
 
   public defaultLanguage: string = APP_GLOBAL.defaultLanguage || 'cs';
   public languages: string[] = APP_GLOBAL.languages || ['cs', 'en', 'de', 'sk', 'sl'];
-  public lang: string = this.translate.currentLang;
 
   public citationServiceUrl = APP_GLOBAL.citationServiceUrl || "https://citace.kramerius.cloud";
 
@@ -107,9 +107,6 @@ export class AppSettings {
   public krameriusVsList = APP_GLOBAL.krameriusVsList;
 
   constructor(public translate: TranslateService) {
-    this.translate.onLangChange.subscribe(() => {
-      this.lang = this.translate.currentLang;
-    });
     this.krameriusList = [];
     for (const k of APP_GLOBAL.krameriusList) {
       this.krameriusList.push(k);
@@ -148,7 +145,7 @@ export class AppSettings {
 
   public getTitle() {
     if (this.titles) {
-      return this.titles[this.lang] || this.titles[this.defaultLanguage];
+      return this.titles[this.translate.currentLang] || this.titles[this.defaultLanguage];
     } else {
       return this.title;
     }
@@ -156,7 +153,7 @@ export class AppSettings {
 
   public getTitleForKramerius(kramerius: KrameriusData) {
     if (kramerius.titles) {
-      return kramerius.titles[this.lang] || kramerius.titles[this.defaultLanguage];
+      return kramerius.titles[this.translate.currentLang] || kramerius.titles[this.defaultLanguage];
     } else {
       return kramerius.title;
     }
@@ -171,7 +168,7 @@ export class AppSettings {
 
   public getSubtitle() {
     if (this.subtitles) {
-      return this.subtitles[this.lang] || this.subtitles[this.defaultLanguage];
+      return this.subtitles[this.translate.currentLang] || this.subtitles[this.defaultLanguage];
     } else {
       return this.subtitle;
     }
@@ -202,6 +199,7 @@ export class AppSettings {
     this.folders = !!kramerius.folders;
     this.curatorListsEnabled = !!kramerius.curatorLists;
     this.curatorLists = kramerius.curatorLists || [];
+    this.curatorListsCardsVertical = !!kramerius.curatorListsCardsVertical;
     this.curatorKeywordsEnabled = !!kramerius.curatorKeywords;
     this.curatorKeywords = kramerius.curatorKeywords || [];
     this.licences = kramerius.licences;
@@ -353,6 +351,7 @@ interface KrameriusData {
   folders: boolean;
   curatorListsEnabled: boolean;
   curatorLists: any[];
+  curatorListsCardsVertical: boolean;
   curatorKeywordsEnabled: boolean;
   curatorKeywords: any[];
   hiddenLocks: boolean;
