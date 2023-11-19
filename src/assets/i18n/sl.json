@@ -272,11 +272,13 @@
     "download_track": "Naloži skladbo"
   },
   "licence": {
-    "private_label": "Dokument ni javno dostopen",
-    "private_message": "Ta dokument je še vedno zaščiten z Zakonom o avtorski in sorodnih pravicah (Uradni list RS, št. 16/2007, 68/2008) in zato ne more biti javno dostopen, dokler ne mine 70 let od smrti vseh njegovih avtorjev (vključno s prevajalcem, ilustratorjem itd.) in 50 let od objave dela. Do dokumenta je mogoče dostopati le z računalniških postaj v prostorih knjižnice.",
-    "licences_before": "Ta dokument je zajet z naslednjimi licencami",
-    "licences_after": "Če do dokumenta ne morete dostopati, potem veljajo splošna pravila za javno nedostopne dokumente",
-    "metadata_licence": "Na voljo pod licenco"
+    "metadata_licence": "Na voljo pod licenco",
+    "window": {
+      "title": "Dokument ni javno dostopen",
+      "message1": "The document is available under the licenses: ",
+      "message2": "To display it: ",
+      "default_text": "Ta dokument je še vedno zaščiten z Zakonom o avtorski in sorodnih pravicah (Uradni list RS, št. 16/2007, 68/2008) in zato ne more biti javno dostopen, dokler ne mine 70 let od smrti vseh njegovih avtorjev (vključno s prevajalcem, ilustratorjem itd.) in 50 let od objave dela."
+    }
   },
   "alert": {
     "warning": "Pozor",
@@ -351,6 +353,10 @@
     "eodopen": {
       "url": "https://eodopen.eu/",
       "name": "EODOPEN"
+    },
+    "dkrvo19-23": {
+      "url": "https://kramerius.nm.cz/dkrvo",
+      "name": "DKRVO 2019-23"
     }
   },
   "periodical": {
@@ -940,7 +946,9 @@
       "TAE001": "State District Archive Tábor",
       "UHE802": "Library of the Museum Bojkovska",
       "ULC003": "National Institute for the Protection and Conservation of Monuments and Sites - Ústí nad Labem",
-      "ZNE450": "Dominican Library in Znojmo"
+      "ZNE450": "Dominican Library in Znojmo",
+      "ABD186": "Charles University - Faculty of Humanities",
+      "TAE803": "The castle library of Bechyně"
     },
   "language" : {
     "aar": "Afar",

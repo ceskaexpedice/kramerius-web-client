@@ -8,6 +8,7 @@ export class LicenceService {
 
   userLicences: string[];
   licences: any;
+  userLoggedIn = false;
 
   constructor(private translate: TranslateService, private settings: AppSettings) {
     if (!this.settings.ignorePolicyFlag) {
@@ -37,7 +38,8 @@ export class LicenceService {
       }
   }
 
-  assignUserLicences(licences: string[]) {
+  assignUserLicences(licences: string[], userLoggedIn = false) {
+    this.userLoggedIn = userLoggedIn;
     if (this.settings.ignorePolicyFlag) {
       this.userLicences = this.availableLicences(licences || []);
     } else {
@@ -68,7 +70,27 @@ export class LicenceService {
     }
     const lang = this.translate.currentLang;
     const l = this.licences[licence];
-    return l.message[lang] || l.message['en'] || l.message['cs'] || licence;
+    const accessible = this.accessible([licence]);
+
+    let m = l.message;
+    if (this.licences[licence].message3 && accessible) {
+      m = l.message3;
+    } else if (this.userLoggedIn && this.licences[licence].message2 && !accessible) {
+      m = l.message2;
+    }
+    return m[lang] || m['en'] || m['cs'] || licence;
+  }
+
+  instruction(licence: string): string {
+    if (!this.available(licence)) {
+      return '';
+    }
+    if (!this.licences[licence].instruction) {
+      return '';
+    }
+    const lang = this.translate.currentLang;
+    const l = this.licences[licence];
+    return l.instruction[lang] || l.instruction['en'] || l.instruction['cs'];
   }
 
   label(licence: string): string {
@@ -251,9 +273,9 @@ export class LicenceService {
   }
 
 
-  anyAppliedLoginOrTerminlLicense(): boolean {
-    for (const license of this.userLicences) {
-      const access = this.access(license);
+  anyAppliedLoginOrTerminlLicence(): boolean {
+    for (const licence of this.userLicences) {
+      const access = this.access(licence);
       if (['login', 'terminal'].includes(access)) {
         return true;
       }

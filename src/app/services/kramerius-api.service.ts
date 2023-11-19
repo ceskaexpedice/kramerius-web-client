@@ -201,11 +201,18 @@ export class KrameriusApiService {
         return this.getMods(uuid).pipe(map(mods => this.mods.parse(mods, id, type)));
     }
 
-    getItem(uuid: string): Observable<DocumentItem> {
-        if (this.settings.k5Compat()) {
+    getItem(uuid: string, forceIndex = false): Observable<DocumentItem> {
+        if (this.settings.k5Compat() && !forceIndex) {
             return this.doGet(this.getItemUrl(uuid)).pipe(map(response => this.utils.parseItem(response)));
         } else {
-            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => this.solr.documentItem(response)));
+            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => {
+                const item = this.solr.documentItem(response);
+                if (item == null) {
+                    throw new NotFoundError();
+                } else {
+                    return item;
+                }
+             }));
         }
     }
 
@@ -361,6 +368,10 @@ export class KrameriusApiService {
         }
     }
 
+    getEpubUrl(uuid: string): string {
+        return this.getItemUrl(uuid) + '/epub/';
+    }
+
     getMp3Url(uuid: string): string {
         if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_MP3);
@@ -394,6 +405,22 @@ export class KrameriusApiService {
         } else {
             return this.doGetBlob(this.getItemUrl(uuid) + '/image').pipe(map(() => true));
         }
+    }
+
+
+    getEpubFileFromUrl(uuid: string): Observable<File> {
+        let blob: Observable<Blob>;
+        if (this.settings.k5Compat()) {
+            blob = this.doGetBlob(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG));
+        } else {
+            blob = this.doGetBlob(this.getItemUrl(uuid) + '/image')
+        }
+        return blob.pipe(map((blobData) => {
+            const file = new File([blobData], 'image.epub', {
+                type: "application/epub+zip",
+            });
+            return file;
+        }));
     }
 
     getScaledJpegUrl(uuid: string, height: number): string {

@@ -170,6 +170,7 @@ import { FolderShareDialogComponent } from './dialog/folder-share-dialog/folder-
 import { FolderAdminDialogComponent } from './dialog/folder-admin-dialog/folder-admin-dialog.component';
 import { DisplayMetadataDialogComponent} from './dialog/display-metadata-dialog/display-metadata-dialog.component';
 
+import { LicenceWindowComponent } from './shared/licence-window/licence-window.component';
 
 declare var APP_GLOBAL: any;
 
@@ -181,7 +182,7 @@ export function hljsLanguages() {
 }
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.4.9');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.5.1');
 }
 
 export function appInitializerFactory(translate: TranslateService) {
@@ -297,7 +298,8 @@ export function appInitializerFactory(translate: TranslateService) {
     FolderShareDialogComponent,
     FolderAdminDialogComponent,
     DisplayMetadataDialogComponent,
-    CuratorListsComponent
+    CuratorListsComponent,
+    LicenceWindowComponent
   ],
   imports: [
     BrowserModule,

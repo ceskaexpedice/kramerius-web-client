@@ -5,17 +5,24 @@
     <div [innerHTML]="data"></div>
 
     <div class="app-terms-controls" *ngIf="page == 'terms'">
-      <mat-checkbox color="primary" [(ngModel)]="termsAgreed">{{ 'terms.agreement' | translate }}</mat-checkbox>
+      
+      <div>
+      <mat-checkbox color="primary" [(ngModel)]="termsAgreed">{{ 'terms.agreement1' | translate }}
+        <span *ngIf="!termsUrl()" >{{ 'terms.agreement2' | translate }}</span>
+      </mat-checkbox>
+        <a *ngIf="termsUrl()" [href]="termsUrl()" target="_blank">{{ 'terms.agreement2' | translate }}</a>
+      </div>
       <button mat-raised-button [disabled]="!termsAgreed" color="primary" (click)="login()">{{ 'terms.login' | translate }}</button>
     </div>
+    <div *ngIf="data2" [innerHTML]="data2"></div>
   </div>
-  
+
   <mat-spinner *ngIf="loading"
         class="medium-centered-spinner" 
         [strokeWidth]="3" 
         [diameter]="40">
   </mat-spinner>
 
-  <span class="app-version" *ngIf="page == 'about'">v2.4.9</span>
+  <span class="app-version" *ngIf="page == 'about'">v2.5.1</span>
   
 </div>

@@ -7,6 +7,7 @@ export class Article {
   firstPageUuid: string;
   type: string; // none | pdf | pages
   metadata: Metadata;
+  licences: string[] = [];
 
   constructor(uuid?: string, title?: string, policy?: string) {
     this.uuid = uuid;

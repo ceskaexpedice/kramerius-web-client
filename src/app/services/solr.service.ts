@@ -702,7 +702,7 @@ export class SolrService {
     }
 
     documentItem(solr): DocumentItem {
-        if (!solr['response']['docs'] || solr['response']['docs'].lenght < 1) {
+        if (!solr['response']['docs'] || solr['response']['docs'].length < 1) {
             return null;
         }
         const doc = solr['response']['docs'][0];
@@ -718,6 +718,7 @@ export class SolrService {
         item.donators = doc[this.field('donators')];
         item.sources = doc[this.field('cdk_sources')];
         item.pdf = doc[this.field('img_full_mime')] == "application/pdf";
+        item.epub = doc[this.field('img_full_mime')] == "application/epub+zip";
         this.assignLicences(item, doc);
         item.root_uuid = doc[this.field('root_pid')];
         if (item.doctype === 'periodicalvolume') {

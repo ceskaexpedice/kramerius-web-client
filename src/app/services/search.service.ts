@@ -702,11 +702,11 @@ export class SearchService {
         if (this.settings.availableFilter('access')) {
             this.initAccess();
             this.makeFacetRequest('access:open');
-            if (this.anyLoginLicense()) {
+            if (this.anyLoginLicence()) {
                 this.makeFacetRequest('access:login');
             }
             this.makeFacetRequest('access:terminal');
-            if (this.licenceService.anyAppliedLoginOrTerminlLicense()) {
+            if (this.licenceService.anyAppliedLoginOrTerminlLicence()) {
                 this.makeFacetRequest('access:accessible');
             }
             this.makeFacetRequest('access:all');
@@ -715,16 +715,16 @@ export class SearchService {
 
 
     showAccessFilter(type: string): boolean {
-        if (type == 'login' && !this.anyLoginLicense()) {
+        if (type == 'login' && !this.anyLoginLicence()) {
             return false;
         }
-        if (type == 'accessible' && !((this.licenceService.anyAppliedLoginOrTerminlLicense() || (this.access['accessible'].count > 0 && this.access['open'].count == this.access['accessible'].count)))) {
+        if (type == 'accessible' && !((this.licenceService.anyAppliedLoginOrTerminlLicence() || (this.access['accessible'].count > 0 && this.access['open'].count == this.access['accessible'].count)))) {
             return false;
         }
         return true;
     }
 
-    anyLoginLicense(): boolean {
+    anyLoginLicence(): boolean {
         return this.licenceService.licencesByType('login').length > 0;
     }
 

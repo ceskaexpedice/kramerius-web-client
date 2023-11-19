@@ -3,8 +3,6 @@ import { Component, OnInit} from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { EpubService } from '../../services/epub.service';
 
-declare var $: any;
-
 @Component({
   selector: 'app-book-controls',
   templateUrl: './book-controls.component.html',
@@ -59,7 +57,7 @@ export class BookControlsComponent implements OnInit {
 
   uploadEpub() {
     if (this.bookService.isEpub()) {
-      $('#app-file-input').trigger('click');
+      document.getElementById('app-file-input').click();
       return;
     }
   }

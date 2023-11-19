@@ -93,14 +93,14 @@ export class MetadataComponent implements OnInit {
     return this.licences.availableLicences(this.metadata.licences).length > 0;
   }
 
-  showPrivateDialog() {
-    this.analytics.sendEvent('metadata', 'private-dialog');
-    this.dialog.open(LicenceDialogComponent, { data: { licences: this.metadata.licences, full: true }, autoFocus: false });
-  }
+  // showPrivateDialog() {
+  //   this.analytics.sendEvent('metadata', 'private-dialog');
+  //   this.dialog.open(LicenceDialogComponent, { data: { licences: this.metadata.licences, full: true }, autoFocus: false });
+  // }
 
   showLicenceDialog() {
     this.analytics.sendEvent('metadata', 'licence-dialog');
-    this.dialog.open(LicenceDialogComponent, { data: { licences: [this.metadata.licence], full: false }, autoFocus: false });
+    this.dialog.open(LicenceDialogComponent, { data: { licence: this.metadata.licence }, autoFocus: false });
   }
 
   onShowCitation() {

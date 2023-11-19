@@ -121,8 +121,12 @@ export class BookService {
             this.setupEpub();
             return;
         }
-
-        this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
+        this.api.getItem(params.uuid, true).subscribe((item: DocumentItem) => {
+            if (this.settings.k5Compat()) {
+                this.api.getItem(params.uuid).subscribe((item2: DocumentItem) => {
+                    item.donators = item2.donators;
+                });
+            }
             this.licences = this.licenceService.availableLicences(item.licences);
             this.licence = item.licence;
             this.sources = item.sources;
@@ -226,10 +230,11 @@ export class BookService {
 
 
     setupEpub() {
+        this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         this.viewer = 'epub';
         this.activeNavigationTab = 'epubToc';
-        this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
         this.showNavigationPanel = true;
+        this.bookState = BookState.Success;
     }
 
     private setupPdf(uuid: string, index = 1) {
@@ -293,7 +298,9 @@ export class BookService {
             this.localStorageService.addToVisited(item, this.metadata);
             this.metadata.licences = this.licences;
             this.metadata.licence = this.licence;
-            if (item.pdf) {
+            if (item.epub) {
+                this.setupEpub()
+            } else if (item.pdf) {
                 this.setupPdf(params.uuid);
             } else {
                 this.api.getChildren(params.uuid, this.source).subscribe(children => {
@@ -1132,11 +1139,13 @@ export class BookService {
         } else {
             //// doc license from the page ????
             this.licence = page.licence;
+            this.licences = page.licences;
             if (rightPage && !this.licence) {
                 this.licence = rightPage.licence;
+                this.licences = rightPage.licences;
             }
             this.metadata.licence = this.licence;
-            // this.metadata.licence = 'dnnto';
+            this.metadata.licences = this.licences;
             ////
             if (page.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
@@ -1148,7 +1157,6 @@ export class BookService {
                 this.subjectPages.next([page, rightPage]);
             }
         }
-        console.log('----analytics', 'page');
         this.analytics.sendEvent('page', this.metadata.getShortTitleWithUnit(), pages);
     }
 
@@ -1245,6 +1253,7 @@ export class BookService {
                 if (this.metadata) {
                     this.metadata.addToContext('article', article.uuid);
                 }
+                article.licences = item.licences;
                 article.type = item.pdf ? 'pdf' : 'pages';
                 this.onArticleLoaded(article);
                 article.metadata = metadata;
@@ -1270,6 +1279,8 @@ export class BookService {
             this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
             const pdfIndex = this.initPdfPosition;
             this.initPdfPosition = 1;
+            this.licences = article.licences;
+            this.metadata.licences = this.licences;
             this.setupPdf(article.uuid, pdfIndex);
         } else if (article.type === 'pages') {
             if (article.firstPageUuid) {
@@ -1306,10 +1317,13 @@ export class BookService {
             }           
             //// doc license from the page ????
             this.licence = leftPage.licence;
+            this.licences = leftPage.licences;
             if (rightPage && !this.licence) {
                 this.licence = rightPage.licence;
+                this.licences = rightPage.licences;
             }
             this.metadata.licence = this.licence;
+            this.metadata.licences = this.licences;
             ////
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);

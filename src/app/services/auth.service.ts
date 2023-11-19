@@ -44,7 +44,7 @@ export class AuthService {
             console.log('USER', this.user);
             this.userSub.next(this.user);
             // console.log('Licences', this.user.licences);
-            this.licences.assignUserLicences(this.user.licences);
+            this.licences.assignUserLicences(this.user.licences, this.user.authenticated);
             this.cache.clear();
             if (this.settings.keycloak) {
                 this.api.getRights('uuid:1').subscribe(
@@ -67,7 +67,7 @@ export class AuthService {
                 }
             }
         }, (error) => {
-            this.licences.assignUserLicences([]);
+            this.licences.assignUserLicences([], false);
             this.user = null;
             this.userSub.next(this.user);
             this.cache.clear();
@@ -94,7 +94,6 @@ export class AuthService {
             },
             (error) => {
                 console.log('error', error);
-                // this.keycloakLogout(this.user.tokenId, this.baseUrl());
                 const redirectUrl = this.baseUrl();
                 const url = this.api.getK7LogoutUrl(redirectUrl);
                 window.open(url, '_top');
@@ -107,19 +106,13 @@ export class AuthService {
             return;
         }
         if (this.settings.keycloak) {
-            // const tokenId = this.user.tokenId;
             this.cache.clear();
             this.settings.removeToken();
-            const redirectUrl = location.href;
+            const redirectUrl = `${this.baseUrl()}${this.settings.getRouteFor('keycloak')}`;
             const url = this.api.getK7LogoutUrl(redirectUrl);
+            const path = this.settings.getRelativePath();
+            localStorage.setItem('logout.url', path);
             window.open(url, '_top');
-
-            // this.api.logout().subscribe(user => {
-            //     this.cache.clear();
-            //     this.userInfo(null, null, () => {    
-            //         this.keycloakLogout(tokenId, location.href);
-            //     });
-            // });
         } else {
             this.api.logout().subscribe(user => {
                 this.cache.clear();
@@ -127,23 +120,6 @@ export class AuthService {
             });
         }
     }
-
-    // keycloakLogout(tokenId: string, redirectUrl: string) {
-    //     let url = `${this.settings.keycloak.baseUrl}/realms/${this.settings.keycloak.realm || 'kramerius'}/protocol/openid-connect/logout`
-    //     if (this.settings.keycloak.automatic_redirect) {
-    //         url += `?post_logout_redirect_uri=${encodeURIComponent(redirectUrl)}`
-    //         if (tokenId) {
-    //             url += `&id_token_hint=${tokenId}`;
-    //         }
-    //     } else {
-    //         url += `?redirect_uri=${encodeURIComponent(redirectUrl)}`;
-    //     }
-    //     window.open(url, '_top');
-    // }
-
-
-
-
 
     isLoggedIn(): boolean {
         // return true;

@@ -1,2 +1,5 @@
 
-<div *ngIf="html" class="app-licence-message" [innerHTML]="html"></div>
+<div class="app-licence-message">
+    <div *ngIf="title" class="app-licence-title">{{ title }}</div>
+    <div *ngIf="content" class="app-licence-content" [innerHTML]="formattedContent()"></div>
+</div>

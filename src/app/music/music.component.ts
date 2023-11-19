@@ -1,6 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MusicService } from '../services/music.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-music',
@@ -14,10 +15,15 @@ export class MusicComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const uuid = params.get('uuid');
-      this.musicService.init(uuid);
-    });
+    combineLatest([this.route.paramMap, this.route.queryParamMap]).subscribe(
+      results => {
+        const p = results[0];
+        const q = results[1];
+        const uuid = p.get('uuid');
+        const track = q.get('track');
+        this.musicService.init(uuid, track);
+      }
+    );
   }
 
   ngOnDestroy(): void {

@@ -225,7 +225,11 @@ export class ModsParserService {
                 if (type == 'doi' && !value.startsWith('http')) {
                     value = 'https://doi.org/' + value;
                 }
-                metadata.identifiers[type] = value;
+                if (metadata.identifiers[type]) {
+                    metadata.identifiers[type].push(value)
+                } else {
+                    metadata.identifiers[type] = [value];
+                }
             }
         }
     }
@@ -278,10 +282,6 @@ export class ModsParserService {
         for (const item of array) {
             const publisher = new Publisher();
             publisher.name = this.getText(item.publisher);
-
-            // publisher.place = ctx.textInElement($(this), ctx.addNS("placeTerm[type='text'][authority!='marccountry']:first"));
-            // var dateOther = ctx.textInElement($(this), ctx.addNS("dateOther:first"));
-
             if (item.place) {
                 for (const place of item.place) {
                     if (!(place.placeTerm && place.placeTerm[0])) {

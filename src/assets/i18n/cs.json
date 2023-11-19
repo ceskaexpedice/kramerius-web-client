@@ -52,7 +52,8 @@
     "impressum": "Impressum"
   },
   "terms": {
-    "agreement": "Souhlasím s podmínkami použití",
+    "agreement1": "Souhlasím s",
+    "agreement2": "podmínkami použití",
     "login": "Přihlásit knihovním účtem/eduID"
   },
   "sp": {
@@ -291,11 +292,13 @@
     "download_track": "Stáhnout nahrávku"
   },
   "licence": {
-    "private_label": "Dokument není veřejně přístupný",
-    "private_message": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
-    "licences_before": "Tento dokument spadá pod následující licence",
-    "licences_after": "Pokud se k dokumentu nemůžete dostat v rámci licencí, pak platí obecná pravidla pro veřejně nedostupné dokumenty",
-    "metadata_licence": "Zpřístupněno pod licencí"
+    "metadata_licence": "Zpřístupněno pod licencí",
+    "window": {
+      "title": "K tomuto dokumentu nemáte přístup",
+      "message1": "Dokument je dostupný pod licencemi: ",
+      "message2": "Pro jeho zobrazeni: ",
+      "default_text": "Tento dokument není možné volně prohlížet v souladu se zákonem č. 121/2000 Sb. (autorský zákon). Autorský zákon připouští zpřístupnění děl 70 let po smrti všech autorů (včetně překladatele, ilustrátora apod.) a 50 let od vydání díla."
+    }
   },
   "alert": {
     "warning": "Upozornění",
@@ -378,6 +381,10 @@
     },
     "ilnorway": {
       "url": "https://eeagrants.org"
+    },
+    "dkrvo19-23": {
+      "url": "https://kramerius.nm.cz/dkrvo",
+      "name": "DKRVO 2019-23"
     }
   },
   "periodical": {
@@ -979,7 +986,9 @@
     "TAE001": "Státní okresní archiv Tábor",
     "UHE802": "Knihovna Muzea Bojkovska",
     "ULC003": "Národní památkový ústav - Územní odborné pracoviště v Ústí nad Labem",
-    "ZNE450": "Klášter Dominikánů Znojmo"
+    "ZNE450": "Klášter Dominikánů Znojmo",
+    "ABD186": "Univerzita Karlova - Fakulta humanitních studií",
+    "TAE803": "Zámecká knihovna Bechyně"
   },
   "language" : {
     "aar": "afarština",

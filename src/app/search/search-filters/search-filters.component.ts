@@ -36,7 +36,7 @@ export class SearchFiltersComponent implements OnInit {
   }
 
   showLicenceDialog(licence: String) {
-    this.dialog.open(LicenceDialogComponent, { data: { licences: [licence] }, autoFocus: false });
+    this.dialog.open(LicenceDialogComponent, { data: { licence: licence }, autoFocus: false });
   }
 
   onYearFromValueChanged() {

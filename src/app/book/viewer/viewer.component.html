@@ -35,7 +35,7 @@
 
   
   <ng-container *ngIf="bookService.isPageInaccessible()">
-      <app-licence-messages [full]="true" [licences]="bookService.licences"></app-licence-messages>
+      <app-licence-window [licences]="bookService.licences"></app-licence-window>
   </ng-container>
 
 

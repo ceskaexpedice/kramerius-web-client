@@ -1,137 +1,128 @@
 import { Injectable } from '@angular/core';
 
-declare var $: any;
-
 @Injectable()
 export class AltoService {
 
 
-    getBoxes(alto, query, width: number, height: number): any[] {
-      if (query.indexOf('~') > -1) {
+  getBoxes(alto: string, query: string, width: number, height: number): any[] {
+    if (query.includes('~')) {
         query = query.substring(0, query.indexOf('~'));
-      } 
-      const boxes = [];
-      const wordArray = query.replace(/"/g, '').split(' ');
+    }
+    const boxes: any[] = [];
+    const wordArray = query.replace(/"/g, '').split(' ');
 
-      console.log('wordArray', wordArray);
+    console.log('wordArray', wordArray);
 
-      const xmlString = alto; // .replace(/xmlns.*=".*"/g, '');
-      let xml;
-      try {
-        xml = $($.parseXML(xmlString));
-      } catch (err) {
-        return [];
-      }
-      const printSpace = xml.find('Page');
-      const altoHeight = parseInt(printSpace.attr('HEIGHT'), 10);
-      const altoWidth = parseInt(printSpace.attr('WIDTH'), 10);
-      const printSpace2 = xml.find('PrintSpace');
-      const altoHeight2 = parseInt(printSpace2.attr('HEIGHT'), 10);
-      const altoWidth2 = parseInt(printSpace2.attr('WIDTH'), 10);
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(alto, "text/xml");
 
-      let wc = 1;
-      let hc = 1;
-      if (altoHeight > 0 && altoWidth > 0) {
+    const page = xmlDoc.getElementsByTagName('Page')[0];
+    const printSpace = xmlDoc.getElementsByTagName('PrintSpace')[0];
+
+    let altoHeight = parseInt(page.getAttribute('HEIGHT') || '0', 10);
+    let altoWidth = parseInt(page.getAttribute('WIDTH') || '0', 10);
+
+    let altoHeight2 = parseInt(printSpace.getAttribute('HEIGHT') || '0', 10);
+    let altoWidth2 = parseInt(printSpace.getAttribute('WIDTH') || '0', 10);
+
+    let wc = 1;
+    let hc = 1;
+    if (altoHeight > 0 && altoWidth > 0) {
         wc = width / altoWidth;
         hc = height / altoHeight;
-      } else if (altoHeight2 > 0 && altoWidth2 > 0) {
+    } else if (altoHeight2 > 0 && altoWidth2 > 0) {
         wc = width / altoWidth2;
         hc = height / altoHeight2;
-      }
-
-      for (let i = 0; i < wordArray.length; i++) {
-        const word = wordArray[i].toLowerCase().replace(/\-|\?|\!|»|«|\;|\)|\(|\.|„|“|"|,|\)/g, '');
-        const el = xml.find('String').filter(function() {
-          return $(this).attr('CONTENT').toLowerCase().replace(/\-|\?|\!|»|«|\;|\)|\(|\.|„|“|"|,|\)/g, '') === word;
-        });
-        if (!el) {
-          return;
-        }
-        el.each(function () {
-          const w = parseInt($(this).attr('WIDTH'), 10) * wc;
-          const h = parseInt($(this).attr('HEIGHT'), 10) * hc;
-          const vpos = parseInt($(this).attr('VPOS'), 10) * hc;
-          const hpos = parseInt($(this).attr('HPOS'), 10) * wc;
-          const box = [];
-          box.push([hpos, -vpos]);
-          box.push([hpos + w, -vpos]);
-          box.push([hpos + w, -vpos - h]);
-          box.push([hpos, -vpos - h]);
-          box.push([hpos, -vpos]);
-          boxes.push( box);
-        });
-
-      }
-      return boxes;
     }
 
+    const strings = Array.from(xmlDoc.getElementsByTagName('String'));
 
-    getTextInBox(alto, box, width: number, height: number) {
-      const xmlString = alto;
-      const xml = $($.parseXML(xmlString));
+    for (let word of wordArray) {
+        word = word.toLowerCase().replace(/\-|\?|\!|»|«|\;|\)|\(|\.|„|“|"|,|\)/g, '');
 
-      const printSpace = xml.find('Page');
-      const altoHeight = parseInt(printSpace.attr('HEIGHT'), 10);
-      const altoWidth = parseInt(printSpace.attr('WIDTH'), 10);
+        for (let stringEl of strings) {
+            const content = stringEl.getAttribute('CONTENT')?.toLowerCase().replace(/\-|\?|\!|»|«|\;|\)|\(|\.|„|“|"|,|\)/g, '') || '';
+            const subsContent = stringEl.getAttribute('SUBS_CONTENT')?.toLowerCase().replace(/\-|\?|\!|»|«|\;|\)|\(|\.|„|“|"|,|\)/g, '');
 
-      const printSpace2 = xml.find('PrintSpace');
-      const altoHeight2 = parseInt(printSpace2.attr('HEIGHT'), 10);
-      const altoWidth2 = parseInt(printSpace2.attr('WIDTH'), 10);
+            if (content === word || subsContent === word) {
+                const w = parseInt(stringEl.getAttribute('WIDTH') || '0', 10) * wc;
+                const h = parseInt(stringEl.getAttribute('HEIGHT') || '0', 10) * hc;
+                const vpos = parseInt(stringEl.getAttribute('VPOS') || '0', 10) * hc;
+                const hpos = parseInt(stringEl.getAttribute('HPOS') || '0', 10) * wc;
+                const box: any[] = [];
+                box.push([hpos, -vpos]);
+                box.push([hpos + w, -vpos]);
+                box.push([hpos + w, -vpos - h]);
+                box.push([hpos, -vpos - h]);
+                box.push([hpos, -vpos]);
+                boxes.push(box);
+            }
+        }
+    }
 
+    return boxes;
+}
+
+
+    getTextInBox(alto: string, box: number[], width: number, height: number): string {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(alto, "text/xml");
+  
+      const page = xmlDoc.getElementsByTagName('Page')[0];
+      const printSpace = xmlDoc.getElementsByTagName('PrintSpace')[0];
+  
+      let altoHeight = parseInt(page.getAttribute('HEIGHT') || '0', 10);
+      let altoWidth = parseInt(page.getAttribute('WIDTH') || '0', 10);
+  
+      let altoHeight2 = parseInt(printSpace.getAttribute('HEIGHT') || '0', 10);
+      let altoWidth2 = parseInt(printSpace.getAttribute('WIDTH') || '0', 10);
+  
       let wc = 1;
       let hc = 1;
-
+  
       if (altoHeight > 0 && altoWidth > 0) {
-        wc = width / altoWidth;
-        hc = height / altoHeight;
+          wc = width / altoWidth;
+          hc = height / altoHeight;
       } else if (altoHeight2 > 0 && altoWidth2 > 0) {
-        wc = width / altoWidth2;
-        hc = height / altoHeight2;
+          wc = width / altoWidth2;
+          hc = height / altoHeight2;
       }
-
+  
       const w1 = box[0] / wc;
       const w2 = box[2] / wc;
       const h1 = -box[3] / hc;
       const h2 = -box[1] / hc;
+  
       let text = '';
-    
-
-      const tl = xml.find('TextLine').filter(function() {
-          return parseInt($(this).attr('HPOS'), 10) >= w1
-              && parseInt($(this).attr('HPOS'), 10) + parseInt($(this).attr('WIDTH'), 10) <= w2
-              && parseInt($(this).attr('VPOS'), 10) >= h1
-              && parseInt($(this).attr('VPOS'), 10) + parseInt($(this).attr('HEIGHT'), 10) <= h2;
-      });
-      tl.each(function () {
-        const el = $(this).find('String').filter(function() {
-          return parseInt($(this).attr('HPOS'), 10) >= w1
-              && parseInt($(this).attr('HPOS'), 10) + parseInt($(this).attr('WIDTH'), 10) <= w2
-              && parseInt($(this).attr('VPOS'), 10) >= h1
-              && parseInt($(this).attr('VPOS'), 10) + parseInt($(this).attr('HEIGHT'), 10) <= h2;
-        });
-        el.each(function () {
-            const content = $(this).attr('CONTENT') + ' ';
-            text += content;
-        });
-        text += "\n";
-      });
-
-
-      // const el = xml.find('String').filter(function() {
-      //     return parseInt($(this).attr('HPOS'), 10) >= w1
-      //         && parseInt($(this).attr('HPOS'), 10) + parseInt($(this).attr('WIDTH'), 10) <= w2
-      //         && parseInt($(this).attr('VPOS'), 10) >= h1
-      //         && parseInt($(this).attr('VPOS'), 10) + parseInt($(this).attr('HEIGHT'), 10) <= h2;
-      // });
-      // el.each(function () {
-      //     const content = $(this).attr('CONTENT') + ' ';
-      //     text += content;
-      // });
-      
-      
-
+      const textLines = Array.from(xmlDoc.getElementsByTagName('TextLine'));
+  
+      for (let textLine of textLines) {
+          const hpos = parseInt(textLine.getAttribute('HPOS') || '0', 10);
+          const vpos = parseInt(textLine.getAttribute('VPOS') || '0', 10);
+          const textLineWidth = parseInt(textLine.getAttribute('WIDTH') || '0', 10);
+          const textLineHeight = parseInt(textLine.getAttribute('HEIGHT') || '0', 10);
+  
+          if (hpos >= w1 && hpos + textLineWidth <= w2 && vpos >= h1 && vpos + textLineHeight <= h2) {
+              const strings = Array.from(textLine.getElementsByTagName('String'));
+  
+              for (let stringEl of strings) {
+                  const stringHpos = parseInt(stringEl.getAttribute('HPOS') || '0', 10);
+                  const stringVpos = parseInt(stringEl.getAttribute('VPOS') || '0', 10);
+                  const stringWidth = parseInt(stringEl.getAttribute('WIDTH') || '0', 10);
+                  const stringHeight = parseInt(stringEl.getAttribute('HEIGHT') || '0', 10);
+  
+                  if (stringHpos >= w1 && stringHpos + stringWidth <= w2 && stringVpos >= h1 && stringVpos + stringHeight <= h2) {
+                      const content = stringEl.getAttribute('CONTENT') || '';
+                      text += content + ' ';
+                  }
+              }
+              text += '\n';
+          }
+      }
+  
       return text;
+  }
 
-    }
+
 
 }

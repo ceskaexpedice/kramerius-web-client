@@ -6,8 +6,6 @@ import { AnalyticsService } from '../../services/analytics.service';
 import { EpubService } from '../../services/epub.service';
 import { PdfService } from '../../services/pdf.service';
 
-declare var $: any;
-
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
@@ -28,7 +26,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.epubTocExpanded = false;
+    this.epubTocExpanded = true;
     this.container = document.getElementById('app-navigation-container');
     this.goToPage(this.bookService.getPage());
     this.pageSubscription = this.bookService.watchPage().subscribe(

@@ -48,15 +48,15 @@
 
 
       <div *ngIf="metadata.hasIdentifier('issn')" class="app-identifier">
-        ISSN <span class="app-value">{{ metadata.identifiers['issn'] }}</span>
+        ISSN <span class="app-value">{{ metadata.identifiers['issn'].join(", ") }}</span>
       </div>
 
       <div *ngIf="metadata.hasIdentifier('isbn')" class="app-identifier">
-        ISBN <span class="app-value">{{ metadata.identifiers['isbn'] }}</span>
+        ISBN <span class="app-value">{{ metadata.identifiers['isbn'].join(", ") }}</span>
       </div>
 
       <div *ngIf="metadata.hasIdentifier('doi')" class="app-identifier">
-        DOI: <a href="{{ metadata.identifiers['doi'] }}" target="_blank">{{ metadata.identifiers['doi'] }}</a>
+        DOI: <a href="{{ metadata.identifiers['doi'][0] }}" target="_blank">{{ metadata.identifiers['doi'][0] }}</a>
       </div>
 
       <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
@@ -101,16 +101,8 @@
         </ng-template>
       </mat-menu>
     </ng-container>
-
-    <div *ngIf="!metadata.isPublic" class="app-policy">
-
-      <!-- <mat-icon class="app-lock" [class.app-lock-licence-open]="anyLicence()">{{ 'lock' }}</mat-icon> -->
-      <!-- <span class="app-message">{{ 'metadata.policy_private' | translate }}</span> -->
-      <!-- <mat-icon class="app-help" (click)="showPrivateDialog()">info</mat-icon> -->
-
-
-
-      <div *ngIf="metadata.licence" class="app-active-license">
+    <div *ngIf="!metadata.isPublic || settings.ignorePolicyFlag" class="app-policy">      
+      <div *ngIf="metadata.licence" class="app-active-licence">
         <div class="app-label">
           {{ 'licence.metadata_licence' | translate }}
         </div>
@@ -118,12 +110,12 @@
           {{ licences.label(metadata.licence) }}
         </div>
         <div class="app-licence-image" *ngIf="licences.image(metadata.licence)">
-          <ng-container *ngIf="licences.web(metadata.licence); else no_link_license">
-            <a style="display:block" target="_blank" [href]="licences.web(metadata.licence)" (click)="analytics.sendEvent('metadata', 'link', 'license');">
+          <ng-container *ngIf="licences.web(metadata.licence); else no_link_licence">
+            <a style="display:block" target="_blank" [href]="licences.web(metadata.licence)" (click)="analytics.sendEvent('metadata', 'link', 'licence');">
               <img [alt]="licences.label(metadata.licence)" [src]="licences.image(metadata.licence)">
             </a>
           </ng-container>
-          <ng-template #no_link_license>
+          <ng-template #no_link_licence>
             <img [alt]="licences.label(metadata.licence)" [src]="licences.image(metadata.licence)">
           </ng-template>
         </div>

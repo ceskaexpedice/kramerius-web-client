@@ -27,6 +27,7 @@ export class CitationDialogComponent implements OnInit {
 
     ngOnInit(): void {
       this.items = this.data.metadata.getFullContext(SolrService.allDoctypesShareable);
+      console.log('CitationDialogComponent ngOnInit', this.data.metadata);
       if (this.items.length > 0) {
         this.changeTab(this.items[0]);
       }

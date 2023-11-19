@@ -1,11 +1,9 @@
-import { forkJoin } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettings } from '../services/app-settings';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageTitleService } from '../services/page-title.service';
 import { TranslateService } from '@ngx-translate/core';
-import { map } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -15,8 +13,8 @@ import { AuthService } from '../services/auth.service';
 })
 export class StaticPageComponent implements OnInit {
   
-  private dataSet: Map<string, string>;
   data = '';
+  data2 = '';
   loading: boolean;
   page: string;
   termsAgreed: boolean;
@@ -25,53 +23,56 @@ export class StaticPageComponent implements OnInit {
               private pageTitle: PageTitleService, 
               private translate: TranslateService, 
               private auth: AuthService,
-              private appSettings: AppSettings, 
+              private settings: AppSettings, 
               private route: ActivatedRoute,
               private router: Router) {
-    this.dataSet = new Map<string, string>();
   }
+
+
   ngOnInit() {
     this.loading = true;
     this.route.data.subscribe(data => {
       this.page = data['page'];
-      const pageDef: [string, string] = this.appSettings[this.page + 'Page'];
+      const pageDef: [string, string] = this.settings[this.page + 'Page'];
       if (!pageDef) {
-        this.router.navigate([this.appSettings.getRouteFor('')]);
+        this.router.navigate([this.settings.getRouteFor('')]);
       }
       this.pageTitle.setTitle(this.page, null);
       this.loading = true;
       this.translate.onLangChange.subscribe(() => {
         this.localeChanged();
       });
-      const reqs = [];
-      const dataArray = [];
-      for(const [key, element] of Object.entries(pageDef)){
-          reqs.push(this.http.get(element, { observe: 'response', responseType: 'text' })
-          .pipe(map(response => response['body'])));
+      this.localeChanged();
+    });
+    this.route.queryParams.subscribe(params => {
+      const redirectPath = params['redirect_path'];
+      if (redirectPath) {
+        localStorage.setItem('login.url', redirectPath);
       }
-      forkJoin(reqs)
-      .subscribe( result => {
-        for(const element in result) {
-          dataArray.push(result[element]);
-        }
-        let keys = Object.keys(pageDef);
-        for(let i = 0; i < dataArray.length; i++){
-          this.dataSet.set(keys[i], dataArray[i]);
-        }
-        this.localeChanged();
-        this.loading = false;
-      },
-      error => {
-        this.loading = false;
-      });
     });
   }
 
   private localeChanged() {
-    if (this.dataSet.has(this.translate.currentLang)) {
-      this.data = this.dataSet.get(this.translate.currentLang);
-    } else {
-      this.data = this.dataSet.get('en') || this.dataSet.get('cs')
+    this.loading = true;
+    const pageDef: [string, string] = this.settings[this.page + 'Page'];
+    console.log('pageDef', pageDef);
+    const url = pageDef[this.translate.currentLang] || pageDef['cs'];
+    console.log('url', url);  
+    this.http.get(url, { observe: 'response', responseType: 'text' }).subscribe(response => {
+      this.data = response['body'];
+      this.loading = false;
+    }, error => {
+      this.loading = false;
+    });
+    const pageDef2: [string, string] = this.settings[this.page + 'Page2'];
+    if (pageDef2) {
+      const url2 = pageDef2[this.translate.currentLang] || pageDef2['cs'];
+      this.http.get(url2, { observe: 'response', responseType: 'text' }).subscribe(response => {
+        this.data2 = response['body'];
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      });
     }
   }
 
@@ -79,6 +80,14 @@ export class StaticPageComponent implements OnInit {
     if (this.termsAgreed) {
       this.auth.login();
     }
+  }
+
+  termsUrl(): string {
+    if (!this.settings.termsUrl) {
+      return null;
+    }
+    const pageDef: [string, string] = this.settings.termsUrl;
+    return pageDef[this.translate.currentLang] || pageDef['cs'];
   }
 
 }

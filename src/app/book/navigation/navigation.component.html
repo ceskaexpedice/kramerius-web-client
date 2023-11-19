@@ -79,7 +79,7 @@
 <ng-container *ngIf="bookService.isEpub()">
 
   <div class="app-epub-search-bar-wrapper" style="min-height: 45px;">
-    <div class="app-epub-search-bar" [class.app-is-query]="query" *ngIf="epubService.totalPages()">
+    <div class="app-epub-search-bar" [class.app-is-query]="query" *ngIf="epubService.ready">
       <input (keyup.enter)="epubService.onSearch()" type="text" placeholder="Hledat" [(ngModel)]="epubService.searchQuery" />
       <mat-icon tabindex="0" class="app-close" *ngIf="epubService.searchQuery" (click)="epubService.cleanQuery()" [matTooltip]="'searchbar.delete_query' | translate">close</mat-icon>
       <mat-icon class="app-magnify" (click)="epubService.onSearch()">search</mat-icon>

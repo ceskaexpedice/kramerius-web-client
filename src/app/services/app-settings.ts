@@ -45,18 +45,21 @@ export class AppSettings {
   public containsLicences: boolean;
   public preselectedLicences: [string];
 
-  public ga = APP_GLOBAL.ga;
-  public gaCookieless = APP_GLOBAL.gaCookieless;
   public ga4 = APP_GLOBAL.ga4;
   public ga4clientId = APP_GLOBAL.ga4clientId;
   public matomo = APP_GLOBAL.matomo;
+  public matomoSiteId = APP_GLOBAL.matomoSiteId;
+
   public maxOmnibusParts: number;
   public maxOmnibusPages: number;
   public adminClientUrl: string;
+  public copyrightedText: string;
 
   public keycloak: boolean;
   public georef: boolean;
   public termsPage : [string, string];
+  public termsPage2 : [string, string];
+  public termsUrl: [string, string];
   public auth: any;
   public deployPath = APP_GLOBAL.deployPath || '';
 
@@ -209,9 +212,12 @@ export class AppSettings {
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
     this.adminClientUrl = kramerius.adminClientUrl;
+    this.copyrightedText = kramerius.copyrightedText;
     this.keycloak = !!kramerius.keycloak;
     this.georef = !!kramerius.georef;
     this.termsPage = kramerius.termsPage;
+    this.termsPage2 = kramerius.termsPage2;
+    this.termsUrl = kramerius.termsUrl;
     this.auth = kramerius.auth;
     this.currentCode = this.code;
     this.listner.next(kramerius);
@@ -356,9 +362,12 @@ interface KrameriusData {
   maxOmnibusPages: number;
   keycloak: boolean;
   georef: boolean;
-  termsPage : [string, string];
+  termsPage: [string, string];
+  termsPage2: [string, string];
+  termsUrl: [string, string];
   auth: any;
   adminClientUrl: string;
   containsLicences: boolean;
   preselectedLicences: [string];
+  copyrightedText: string;
 }
