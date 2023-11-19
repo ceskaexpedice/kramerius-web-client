@@ -4,7 +4,7 @@ import { SolrService } from '../../services/solr.service';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SearchService } from '../../services/search.service';
+import { DocumentItem } from '../../model/document_item.model';
 
 
 @Component({
@@ -27,20 +27,23 @@ export class CuratorListsComponent implements OnInit {
               public solrService: SolrService,
               public krameriusApiService: KrameriusApiService,
               public translate: TranslateService,
-              private _sanitizer: DomSanitizer,
-              private searchService: SearchService) { 
+              private _sanitizer: DomSanitizer) { 
                 this.windowWidth = window.innerWidth;
                }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
-    this.windowWidth = window.innerWidth; // Aktualizace šířky okna při změně velikosti
+    this.windowWidth = window.innerWidth;
     this.findCountOfItems(window.innerWidth);
   }
 
   ngOnInit(): void {
     this.windowWidth = window.innerWidth;
     this.curatorLists = this.settings.curatorLists;
+    let idx = 0;
+    for (const list of this.curatorLists) {
+      list.id = idx++;
+    }
     this.curatorKeywords = this.settings.curatorKeywords;
     this.findCountOfItems(this.windowWidth);
     if (this.curatorLists) {
@@ -64,19 +67,26 @@ export class CuratorListsComponent implements OnInit {
     }
   }
 
-  getTitle(item : any) {
-    return item.getTitle ? item.getTitle(this.translate.currentLang) : item.title;
+  keywordLabel(keyword: any) {
+    return keyword[this.translate.currentLang] || keyword[this.settings.defaultLanguage];
+  }
+
+  getTitle(item: DocumentItem) {
+    return item.getTitle(this.translate.currentLang);
   }
 
   thumb(uuid: string) {
     return this._sanitizer.bypassSecurityTrustStyle(`url(${this.krameriusApiService.getThumbUrl(uuid)})`);
   }
 
-  expandCards(title: string) {
-    this.expanded[title] = !this.expanded[title];
+  listLabel(list: any) {
+    return list[this.translate.currentLang] || list[this.settings.defaultLanguage];
   }
-  isExpanded(title: string): boolean {
-    return !!this.expanded[title];
+  expandCards(list: any) {
+    this.expanded[list.id] = !this.expanded[list.id];
+  }
+  isExpanded(list: any): boolean {
+    return !!this.expanded[list.id];
   }
 
   findCountOfItems(size) {
