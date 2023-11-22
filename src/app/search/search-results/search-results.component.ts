@@ -10,6 +10,7 @@ import { FolderService } from '../../services/folder.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { AuthService } from '../../services/auth.service';
 import { NavigationService } from '../../services/navigation.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-results',
@@ -29,7 +30,9 @@ export class SearchResultsComponent implements OnInit {
               private folderService: FolderService,
               private authService: AuthService,
               private navigationService: NavigationService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private route: ActivatedRoute,
+              private router: Router) {
     
   }
 
@@ -60,6 +63,9 @@ export class SearchResultsComponent implements OnInit {
     if (callback && callback['isSuccess']) {
       this.snackBar.open(<string> this.translate.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
     }
+  }
+  getSnapshot() {
+    this.router.navigate(['/search'], { queryParams: this.route.snapshot.queryParams });
   }
   ngOnDestroy(): void {
     this.folderService.folders = null;

@@ -3,7 +3,9 @@
         <ng-container *ngIf="searchService.collection">
             <div class="app-collection-navigation">
                 <ng-container *ngIf="searchService.collectionStructure && searchService.collectionStructure.ready">
-                    <div *ngFor="let collection of searchService.collectionStructure.collections">
+                    <div *ngFor="let collection of searchService.collectionStructure.collections" class="app-collection-navigation-row">
+                        <mat-icon class="app-collection-navigation-icon" (click)="getSnapshot()">home</mat-icon>
+                        <span>&gt;</span>
                         <div class="app-collection-navigation-item" *ngFor="let item of collection; let last = last;">
                             <ng-container *ngIf="!last; else ll;">
                                 <a routerLink="{{ item.url }}">{{ searchService.getCollectionNavTitle(item) }}</a>

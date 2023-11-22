@@ -65,13 +65,29 @@
           margin-left: 8px;
           display: flex;
           flex-direction: column;
-          .app-collection-navigation-item {
-            float: left;
-            color: #555;
+          .app-collection-navigation-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .app-collection-navigation-icon {
+              cursor: pointer;
+              color: #0277bd;
+              font-size: 19px;
+              height: 19px;
+              width: 19px;
+            }
             span {
+              color:#555;
               margin: 0 6px;
             }
+            .app-collection-navigation-item {
+              color: #555;
+              span {
+                margin: 0 6px;
+              }
+            }
           }
+          
         }
       
         .app-collection-description {
