@@ -23,10 +23,7 @@ export class PersistentLinkComponent implements OnInit {
     combineLatest([this.route.paramMap, this.route.queryParams]).subscribe(results => {
       const params = results[0];
       const queryParams = results[1];
-      console.log('queryParams', queryParams);
       const fulltext = queryParams['fulltext'];
-      console.log('fulltext', fulltext);
-      // return;
       const uuid = params.get('uuid');
       this.api.getItem(uuid).subscribe(
         (item: DocumentItem) => {
