@@ -286,7 +286,8 @@
     "no_results_found": "Ni zadetkov. Prosimo, preoblikujte iskalno zahtevo.",
     "failed_to_load_image": "Nalaganje slike ni uspelo",
     "failed_to_load_pdf": "Nalaganje dokumenta ni uspelo",
-    "book_no_results": "Ni zadetkov"
+    "book_no_results": "Iskani besedilo ni bilo najdeno na nobeni strani dokumenta.",
+    "cancel_fulltext":  "Naloži celoten dokument"
   },
   "home": {
     "title": "Digitalna knjižnica Slovenije",

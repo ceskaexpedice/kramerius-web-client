@@ -35,6 +35,22 @@
         color: #fff;
       }
     }
+    .app-alert-not-found {
+      text-align: center;
+      margin-top: 60px;
+      height: 100%;
+      .app-message {
+        color: #af451c;
+        line-height: 120%;
+        font-weight: 600;
+        font-size: 18px;
+        padding: 0 20px;
+      }
+      button {
+        display: block;
+        margin: 30px auto 20px;
+      }
+    }
 
     app-licence-window {
       display: block;

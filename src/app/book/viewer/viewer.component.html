@@ -45,12 +45,10 @@
               message="alert.failed_to_load_image">
   </app-alert>
 
-
-  <app-alert *ngIf="bookService.noFulltextResults()"
-             type="warning"
-             label="alert.warning"
-             message="alert.book_no_results">
-  </app-alert>
+<div class="app-alert-not-found" *ngIf="bookService.noFulltextResults()">
+      <div class="app-message">{{ "alert.book_no_results" | translate }}</div>    
+      <button (click)="bookService.fulltextChanged('')" mat-raised-button color="primary">{{ "alert.cancel_fulltext" | translate }}</button>
+</div>
 
   <mat-spinner *ngIf="bookService.isPageLoading() || imageLoading" 
                class="medium-centered-spinner" 
