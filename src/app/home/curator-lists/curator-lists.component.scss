@@ -21,6 +21,7 @@
 }
 .app-curlist-wrapper {
     display: flex;
+    justify-content: center;
     flex-direction: column;
     width: 100%;
     margin: 0 0 30px 0;
@@ -55,12 +56,14 @@
         justify-content: flex-start;
         flex: 100%;
     }
-    // IF NICE CARDS
+    // IF VERTICAL CARDS
     .app-curlist-item {
-        flex: 1;
+        // flex: 1;
         position: relative;
-        flex-basis: 150px;
-        max-width: 167px;
+        flex-basis: 160px;
+        flex-shrink: 1;
+        flex-grow: 0;
+        // max-width: 167px;
         margin: 0 5px 10px 10px;
         cursor: pointer;
         height: 186px;

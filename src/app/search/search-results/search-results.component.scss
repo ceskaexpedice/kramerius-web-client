@@ -4,6 +4,11 @@
     height: calc(100% - #{$app-toolbar-height});
     width: 100%;
     // overflow: auto;
+    .app-collection-metadata {
+      @media #{$medium-and-down} {
+        display: none;
+      }
+    }
     .app-search-results {
         width: 100%;
         display: block;
@@ -13,6 +18,9 @@
         overflow: auto;
         &.app-search-collection {
             width: calc(100% - 300px);
+            @media #{$medium-and-down} {
+              width: calc(100%);
+            }
         }
         &.app-display-table {
           padding: 0;
