@@ -19,6 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../services/search.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationService } from '../services/navigation.service';
+import { SolrService } from '../services/solr.service';
 
 
 @Component({
@@ -37,6 +38,11 @@ export class MetadataComponent implements OnInit {
   @ViewChild(MatMenuTrigger,{static:false}) menu: MatMenuTrigger; 
 
   expand = {}
+  allDoctypes;
+  items = [];
+  selectedUuid: string;
+  selectedType: string;
+
 
   constructor(public analytics: AnalyticsService,
               private dialog: MatDialog,
@@ -47,12 +53,36 @@ export class MetadataComponent implements OnInit {
               public auth: AuthService,
               public settings: AppSettings,
               public folderService: FolderService,
-              private snackBar: MatSnackBar) { }
+              private snackBar: MatSnackBar,
+              public solrService: SolrService) {
+                this.allDoctypes = SolrService.allDoctypes;
+              }
 
   ngOnInit() {
     if (this.auth.isLoggedIn() && this.settings.folders) {
       this.folderService.getFolders(null);
     }
+    this.selectedUuid = this.metadata.uuid;
+    this.selectedType = this.metadata.doctype;
+  }
+
+  openLikeMenu() {
+    this.items = this.metadata.getFullContext(SolrService.allDoctypes);
+    if (this.items.length == 1) {
+      this.selectedType = this.items[0].type;
+    } else if (this.items.length > 1) {
+      if (this.items[0].type == 'page') {
+        this.selectedType = this.items[1].type;
+      } else {
+        this.selectedType = this.items[0].type;
+      }
+    }
+  }
+
+  changeUuid(uuid: string, type: string) {
+    this.selectedUuid = uuid;
+    this.selectedType = type;
+    console.log('changeUuid', uuid);
   }
 
   toHtml(text: string): string {
@@ -122,11 +152,12 @@ export class MetadataComponent implements OnInit {
     this.dialog.open(ShareDialogComponent, { data: opts, autoFocus: false });
   }
   
-  onLike(folder: Folder) {
-    this.folderService.like(folder, this.metadata.uuid);
+  onLike(folder: Folder, uuid: string) {
+    this.folderService.like(folder, uuid);
     this.openSnackBar(folder.name);
-    console.log('onLike', folder, this.metadata.uuid);
+    console.log('onLike', folder, uuid);
   }
+
   openSnackBar(name: string) {
     const message = <string> this.translate.instant('folders.liked') + ' ' + name;
     this.snackBar.open(message, '', { duration: 2000, verticalPosition: 'bottom' });

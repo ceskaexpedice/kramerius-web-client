@@ -214,3 +214,28 @@
       }
     }
   }
+  .app-doctypes-label {
+    margin: 10px;
+  }
+  .app-dropdown-doctypes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 10px 5px;
+    font-size: 14px;
+    color: #777;
+    .app-doctype-item {
+      padding: 0px 5px;
+      cursor: pointer;
+      &:not(:first-child) {
+        border-left: 1px solid #ccc;
+      }
+      &.active {
+        color: $primary-color;
+      }
+    }
+  }
+  .mat-menu-panel {
+    max-height: 350px;
+    overflow: auto;
+  }
