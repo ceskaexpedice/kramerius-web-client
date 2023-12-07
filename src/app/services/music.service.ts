@@ -72,6 +72,25 @@ export class MusicService {
         this.pageTitle.setTitle(null, this.metadata.getShortTitle());
         this.localStorageService.addToVisited(this.document, this.metadata);
         this.loadSoundUnits();
+        if (item.in_collection) {
+          console.log('item', item);
+          for (const collection of item.in_collection) {
+              let uuid = collection;
+              let name = '';
+              this.api.getItem(collection).subscribe(col => {
+                  name = col.title
+                  this.metadata.inCollectionsDirect.push({'uuid': uuid, 'name': name})
+              })
+          }
+          for (const collection of item.in_collections) {
+              let uuid = collection;
+              let name = '';
+              this.api.getItem(collection).subscribe(col => {
+                  name = col.title
+                  this.metadata.inCollections.push({'uuid': uuid, 'name': name})
+              })
+          }
+        }
       });
     },
     error => {
