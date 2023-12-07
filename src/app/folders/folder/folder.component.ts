@@ -12,6 +12,7 @@ import { BasicDialogComponent } from '../../dialog/basic-dialog/basic-dialog.com
 import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { CsvService } from '../../services/csv.service';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class FolderComponent implements OnInit {
               public searchService: SearchService,
               private translate: TranslateService,
               public authService: AuthService,
-              private localStorageService: LocalStorageService) { 
+              private localStorageService: LocalStorageService,
+              public csv: CsvService) { 
 
                }
 
@@ -216,5 +218,9 @@ export class FolderComponent implements OnInit {
         button: 'OK'}, 
       autoFocus: false 
     });
+  }
+  downloadCsv() {
+    console.log(this.folder.items)
+    this.csv.downloadTableAsCSV(this.folder.items, this.folder.name)
   }
 }

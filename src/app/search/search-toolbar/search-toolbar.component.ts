@@ -38,7 +38,7 @@ export class SearchToolbarComponent implements OnInit {
   }
   downloadCsv() {
     console.log(this.search.results)
-    this.csv.downloadTableAsCSV(this.search.results)
+    this.csv.downloadTableAsCSV(this.search.results, 'kramerius_data')
   }
 
 }

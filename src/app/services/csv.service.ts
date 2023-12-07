@@ -76,7 +76,7 @@ export class CsvService {
 // selected
 // sources
 
-    public downloadTableAsCSV(data: any[]) {
+    public downloadTableAsCSV(data: any[], name: string) {
         let editedData = [];
         for (const record of data) {
             if (record.url) {
@@ -106,7 +106,7 @@ export class CsvService {
                         'pdf', 
                         'public', 
                         'sources']; // Klíče objektu
-        this.exportCSVFile(colNames, colIds, editedData, 'kramerius_data');
+        this.exportCSVFile(colNames, colIds, editedData, name);
     }
 
 }
