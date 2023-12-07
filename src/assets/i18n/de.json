@@ -733,7 +733,8 @@
       "warning": "Sie müssen sich anmelden, um Listen zu verwalten.",
       "like": "Zu Favoriten hinzufügen",
       "liked": "Zur Liste hinzugefügt",
-      "info": "Klicken Sie für weitere Informationen",
+      "info": "Weitere Informationen",
+      "clear": "Aus Liste entfernen",
       "tooltips": {
         "edit": "Ausgewählte bearbeiten",
         "delete_selected": "Ausgewählte löschen",

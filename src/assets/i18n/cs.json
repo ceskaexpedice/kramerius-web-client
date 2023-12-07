@@ -737,7 +737,8 @@
     "warning": "Pro správu seznamů je třeba se přihlásit.",
     "like": "Přidat do oblíbených",
     "liked": "Přidáno do seznamu",
-    "info": "Klikni pro více informací",
+    "info": "Více informací",
+    "clear": "Odebrat ze seznamu",
     "tooltips": {
       "edit": "Editovat vybrané",
       "delete_selected": "Smazat vybrané",

@@ -706,7 +706,8 @@
     "warning": "Za upravljanje seznamov morate biti prijavljeni.",
     "like": "Dodaj med priljubljene",
     "liked": "Dodano na seznam",
-    "info": "Kliknite za več informacij",
+    "info": "Več informacij",
+    "clear": "Odstrani s seznama",
     "tooltips": {
       "edit": "Uredi izbrano",
       "delete_selected": "Izbriši izbrano",

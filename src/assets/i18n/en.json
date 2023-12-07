@@ -734,7 +734,8 @@
     "warning": "You need to sign in to manage lists.",
     "like": "Add to favorites",
     "liked": "Added to list",
-    "info": "Click for more information",
+    "info": "More information",
+    "clear": "Remove from list",
     "tooltips": {
       "edit": "Edit selected",
       "delete_selected": "Delete selected",
