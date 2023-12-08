@@ -218,7 +218,7 @@ export class MapViewerComponent implements OnInit, OnChanges {
       case ViewerActions.fitToScreen:
         this.fitToScreen();
         break;
-      case ViewerActions.cropImage:
+      case ViewerActions.cromMap:
         this.cliped = !this.cliped;
         this.changeCliped();
         break;

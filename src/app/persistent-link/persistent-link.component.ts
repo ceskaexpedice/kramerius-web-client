@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NotFoundError } from '../common/errors/not-found-error';
 import { AppSettings } from '../services/app-settings';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-persistent-link',
@@ -18,12 +19,16 @@ export class PersistentLinkComponent implements OnInit {
     private history: HistoryService,
     private api: KrameriusApiService) { }
 
-  ngOnInit() {
-    this.route.paramMap.subscribe(params => {
+  ngOnInit() {  
+    combineLatest([this.route.paramMap, this.route.queryParams]).subscribe(results => {
+      const params = results[0];
+      const queryParams = results[1];
+      const fulltext = queryParams['fulltext'];
+      const bb = queryParams['bb'];
       const uuid = params.get('uuid');
       this.api.getItem(uuid).subscribe(
         (item: DocumentItem) => {
-          this.resolveLink(item);
+          this.resolveLink(item, fulltext, bb);
         },
         error => {
           if (error instanceof NotFoundError) {
@@ -33,16 +38,16 @@ export class PersistentLinkComponent implements OnInit {
     });
   }
 
-  private resolveLink(item: DocumentItem) {
+  private resolveLink(item: DocumentItem, fulltext?: string, bb?: string) {
     this.history.removeCurrent();
     if (item.doctype === 'page') {
       const parentUuid = item.context[item.context.length - 2].uuid;
-      this.router.navigate(['/view', parentUuid], { queryParams: { page: item.uuid } });
+      this.router.navigate(['/view', parentUuid], { queryParams: { page: item.uuid, fulltext: fulltext, bb: bb } });
     } else if (item.doctype === 'article') {
       const parentUuid = item.context[item.context.length - 2].uuid;
       this.router.navigate(['/view', parentUuid], { queryParams: { article: item.uuid } });
     } else if (item.doctype === 'periodical' || item.doctype === 'periodicalvolume' || item.doctype === 'convolute') {
-      this.router.navigate(['/periodical', item.uuid]);
+      this.router.navigate(['/periodical', item.uuid], { queryParams: { fulltext: fulltext } });
     } else if (item.doctype === 'soundrecording') {
       this.router.navigate(['/music', item.uuid]);
     } else if (item.doctype === 'soundunit') {
@@ -76,7 +81,7 @@ export class PersistentLinkComponent implements OnInit {
     } else if (item.doctype === 'collection') {
       this.router.navigate(['/collection', item.uuid]);
     } else {
-      this.router.navigate(['/view', item.uuid]);
+      this.router.navigate(['/view', item.uuid], { queryParams: { fulltext: fulltext } });
     }
   }
 

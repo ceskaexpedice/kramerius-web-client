@@ -25,6 +25,17 @@ export class ShareDialogComponent implements OnInit {
 
 
   ngOnInit(): void {
+    if (!this.data['metadata'] && this.data['uuid'] && this.data['box']) {
+      this.items = [
+        {
+          type: 'page',
+          uuid: this.data['uuid'],
+          link: this.shareService.getPersistentLink(this.data['uuid']) + '?bb=' + this.data['box']
+        }
+      ]
+      this.selection = this.items[0];
+      return;
+    }
     this.items = this.data['metadata'].getFullContext(SolrService.allDoctypesShareable);
     for (let item of this.items) {
       if (item.type == 'page') {

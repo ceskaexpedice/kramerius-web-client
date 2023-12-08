@@ -6,9 +6,9 @@ export class IiifService {
   constructor() {
   }
 
-  imageCrop(url: string, x1: number, y1: number, x2: number, y2: number) {
+  xywh(x1: number, y1: number, x2: number, y2: number): string {
     if (x1 < 0) {
-        x1 = 0;
+      x1 = 0;
     }
     if (x2 < 0) {
         if (x1 === 0) {
@@ -29,7 +29,11 @@ export class IiifService {
     const b = Math.round(Math.abs(y2));
     const c = Math.max(Math.round(x2 - x1), 0);
     const d = Math.max(Math.round(Math.abs(y1) - Math.abs(y2)), 0);
-    return `${url}/${a},${b},${c},${d}/max/0/default.jpg`;
+    return `${a},${b},${c},${d}`;
+  }
+
+  imageCrop(url: string, x1: number, y1: number, x2: number, y2: number) {
+    return `${url}/${this.xywh(x1,y1,x2,y2)}/max/0/default.jpg`;
   }
 
 

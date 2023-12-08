@@ -30,6 +30,7 @@ import { saveAs } from 'file-saver';
 import { PdfService } from './pdf.service';
 import { GeoreferenceService } from './georeference.service';
 import { SearchService } from './search.service';
+import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 
 @Injectable()
 export class BookService {
@@ -90,6 +91,9 @@ export class BookService {
 
     private initPdfPosition = 1;
 
+    private bb: string;
+    private bbPage;
+
     constructor(private location: Location,
         private altoService: AltoService,
         private settings: AppSettings,
@@ -114,6 +118,7 @@ export class BookService {
         this.extraParents = [];
         this.uuid = params.uuid;
         this.fulltextQuery = params.fulltext;
+        this.bb = params.bb;
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
         this.initPdfPosition = Number(params.pdfIndex) || 1;
@@ -261,6 +266,7 @@ export class BookService {
             parentUuid: null,
             pdfIndex: null,
             fulltext: this.fulltextQuery,
+            bb: null,
             source: source
         });
     }
@@ -865,6 +871,13 @@ export class BookService {
         }
     }
 
+    shareSelection(extent, right: boolean) {
+        const box = this.iiif.xywh(extent[0], extent[1], extent[2], extent[3]);
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        let opts = { uuid: uuid, box: box };
+        this.dialog.open(ShareDialogComponent, { data: opts, autoFocus: false });
+    }
+
     showJpeg() {
         if (this.pageState === BookPageState.Inaccessible) {
             this.dialog.open(BasicDialogComponent, { data: {
@@ -1425,6 +1438,19 @@ export class BookService {
         if (rightPage) {
             data.uuid2 = this.id(rightPage.uuid);
         }
+        if (this.bb) {
+            if (!this.bbPage) {
+                this.bbPage = leftPage.uuid;
+                data.bb = this.bb;
+            } else {
+                if (this.bbPage != leftPage.uuid) {
+                    this.bb = null;
+                    this.bbPage = null;
+                } else {
+                    data.bb = this.bb;
+                }
+            }
+        }
         if (this.settings.georef) {
             const smUuid = leftPage.uuid;
             const previouslyShowGeoreference = this.showGeoreference;
@@ -1470,6 +1496,7 @@ export class BookService {
         this.iiifEnabled = false;
         this.hasGeoreference = false;
         this.showGeoreference = false;
+        this.bb = null;
     }
 
     private computeDoublePageBounds(pageCount: number, titlePage: number, lastSingle: number, firstBackSingle: number) {
@@ -1548,6 +1575,7 @@ export interface BookParams {
     parentUuid: string;
     internalPartUuid: string;
     fulltext: string;
+    bb: string,
     source: string;
 }
 
@@ -1561,6 +1589,7 @@ uuid1: string;
 uuid2: string;
 imageType: ViewerImageType;
 query: string;
+bb: string;
 
 doublePage(): boolean {
     return !!this.uuid2;

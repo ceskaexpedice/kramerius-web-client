@@ -74,12 +74,12 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.updateSite);
     }
 
-    selectText() {
-        this.listners.next(ViewerActions.selectText);
+    cropMap() {
+        this.listners.next(ViewerActions.cromMap);
     }
 
-    cropImage() {
-        this.listners.next(ViewerActions.cropImage);
+    enterSelectionMode() {
+        this.listners.next(ViewerActions.enterSelectionMode);
     }
 
     hideWarpedLayer() {
@@ -183,8 +183,8 @@ export enum ViewerActions {
     rotateLeft = 3,
     rotateRight = 4,
     fitToScreen = 5,
-    selectText = 6,
-    cropImage = 7,
+    enterSelectionMode = 6,
+    cromMap = 7,
     updateSite = 8,
     doublePageOn = 9,
     doublePageOff = 10,

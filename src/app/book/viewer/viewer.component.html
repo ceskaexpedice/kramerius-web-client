@@ -45,12 +45,10 @@
               message="alert.failed_to_load_image">
   </app-alert>
 
-
-  <app-alert *ngIf="bookService.noFulltextResults()"
-             type="warning"
-             label="alert.warning"
-             message="alert.book_no_results">
-  </app-alert>
+<div class="app-alert-not-found" *ngIf="bookService.noFulltextResults()">
+      <div class="app-message">{{ "alert.book_no_results" | translate }}</div>    
+      <button (click)="bookService.fulltextChanged('')" mat-raised-button color="primary">{{ "alert.cancel_fulltext" | translate }}</button>
+</div>
 
   <mat-spinner *ngIf="bookService.isPageLoading() || imageLoading" 
                class="medium-centered-spinner" 
@@ -66,4 +64,57 @@
       </span>
   </div>
 
+
+
+<!-- <div id="selectionmenu">
+      <div class="app-sel-button" (click)="onShowTextSelection()">Vypsat text</div>
+      <div class="app-sel-button" (click)="onShowImageCrop()">Obrázek výřezu</div>
+      <div class="app-sel-button">Sdílet</div>
+      <div class="app-sel-cancel" (click)="cancelSelection()">Zvřít</div>
+
+  </div> -->
+
+
+  <div id="selectionmenu">
+
+      <mat-icon (click)="onShowTextSelection()"
+            [matTooltip]="'Textový přepis'" 
+            *ngIf="showSelectText()"
+            [class.app-inactive]="!selectTextEnabled()">
+            title
+      </mat-icon>
+
+      <mat-icon (click)="onShowImageCrop()"
+            [matTooltip]="'Obrázek'" 
+            [class.app-inactive]="!imageCropEnabled()"
+            *ngIf="showImageCrop()">
+            image
+      </mat-icon>
+
+      <mat-icon (click)="onShareSelection()"
+            [matTooltip]="'book_controls.tooltip_share' | translate">
+            share
+      </mat-icon>
+
+      <mat-icon (click)="onShareSelection()"
+            [matTooltip]="'Přečti'">
+            record_voice_over
+      </mat-icon>
+
+      <mat-icon (click)="cancelSelection()"
+      [matTooltip]="'common.close' | translate">
+      close
+</mat-icon>
+
+  </div>
+
+
+
+
+  <!-- <div id="selectionmenu" style="display: none; position: absolute; background-color: red; border-radius: 10px; width: 10px; height: 10px;">
+
+  </div> -->
 </div>
+
+
+

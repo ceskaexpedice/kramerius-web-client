@@ -303,7 +303,8 @@
     "no_results_found": "No results found. Please, try a different query.",
     "failed_to_load_image": "Failed to load the image",
     "failed_to_load_pdf": "Failed to load the document",
-    "book_no_results": "No results found"
+    "book_no_results": "The searched text was not found on any page of the document.",
+    "cancel_fulltext":  "Load the entire document"
   },
   "home": {
     "title": "Digital library Kramerius",
