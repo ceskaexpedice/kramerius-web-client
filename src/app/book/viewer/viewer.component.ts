@@ -14,6 +14,7 @@ import { ZoomifyService } from '../../services/zoomify.service';
 import { AltoService } from '../../services/alto-service';
 import { LoggerService } from '../../services/logger.service';
 import { LicenceService } from '../../services/licence.service';
+import { PageImageType } from '../../model/page.model';
 
 declare var ol: any;
 
@@ -31,8 +32,18 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private imageLayer2;
   private zoomifyLayer2;
   private vectorLayer;
+  private selectionMenu;
+  private selectionPosition;
+  private selectionWidth;
+  private selectionHeight;
+  private selectionRight;
+  private selectionExtent;
+  private selectionModeOn = false;
+  private maskLayer;
+
   private watermark;
   private extent;
+
 
   private imageWidth = 0;
   private imageWidth1 = 0;
@@ -56,8 +67,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private mouseWheelZoomInteraction;
   private dragPanInteraction;
   private doubleClickZoomInteraction;
-
-  private selectionType: SelectionType;
 
   private data: ViewerData;
 
@@ -120,6 +129,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   init() {
+    this.selectionMenu = document.getElementById('selectionmenu');
+    this.maskLayer = new ol.layer.Vector({
+      source:  new ol.source.Vector(),
+      style: new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: 'rgba(0, 0, 0, 0.85)' 
+        })
+      })
+    });
     const mainStyle = new ol.style.Style({
       fill: new ol.style.Fill({
         color: 'rgba(244, 81, 30, 0.20)'
@@ -177,7 +195,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
 
     this.view.on('pointerup', (e) => {
-      if (!this.lastTouchTime || !this.lastTouchX || this.view.getView().getResolution() != this.initialResolution) {
+      if (this.selectionModeOn || !this.lastTouchTime || !this.lastTouchX || this.view.getView().getResolution() != this.initialResolution) {
         return;
       }
       const deltaT = new Date().getTime() - this.lastTouchTime;
@@ -195,53 +213,41 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
 
     this.view.on('moveend', (e) => {
+      this.updateMenuPosition();
       if (this.bookService.zoomLockEnabled || this.view.getView().getResolution() < this.initialResolution) {
         this.dragPanInteraction.setActive(true);
       } else {
         this.dragPanInteraction.setActive(false);
         if (this.initialResolution) {
-          // this.fitToScreen();
           this.view.updateSize();
           this.view.getView().fit(this.extent);
         }
       }
     })
   
-
-    
-    // this.view.on('moveend', (e) => {
-    //   if (this.bookService.doublePage || window.innerWidth > 600) {
-    //     return;
-    //   }
-    //   const xCenter = this.view.getView().getCenter()[0];
-    //   const width = this.extent[2]
-    //   if (xCenter == 0) {
-    //     this.bookService.goToPrevious();
-    //   } else if (width == xCenter) {
-    //     this.bookService.goToNext();
-    //   }
-    // });
-
-
     this.selectionInteraction.on('boxend', () => {
-      this.view.removeInteraction(this.selectionInteraction);
-      this.view.getViewport().style.cursor = '';
       let extent = this.selectionInteraction.getGeometry().getExtent();
-      if (this.imageWidth1 > 0) {
-        // double page;
-        const startExtentX = extent[0];
-        if (-this.imageWidth / 2 + this.imageWidth1 > startExtentX) {
-          extent = [extent[0] + this.imageWidth1, extent[1], extent[2] + this.imageWidth1, extent[3]];
-          this.onSelectionEnd(extent, this.imageWidth1, this.imageHeight, false);
-        } else {
-          const offset = this.imageWidth / 2 - this.imageWidth1;
-          extent = [extent[0] + offset, extent[1], extent[2] + offset, extent[3]];
-          this.onSelectionEnd(extent, this.imageWidth - this.imageWidth1, this.imageHeight, true);
-        }
-      } else {
-        this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
-      }
+      this.onBoxEnd(extent);
     });
+  }
+
+
+  private onBoxEnd(extent) {
+    console.log('boxend', extent);
+    if (this.imageWidth1 > 0) {
+      // double page;
+      const startExtentX = extent[0];
+      if (-this.imageWidth / 2 + this.imageWidth1 > startExtentX) {
+        extent = [extent[0] + this.imageWidth1, extent[1], extent[2] + this.imageWidth1, extent[3]];
+        this.onSelectionEnd(extent, this.imageWidth1, this.imageHeight, false);
+      } else {
+        const offset = this.imageWidth / 2 - this.imageWidth1;
+        extent = [extent[0] + offset, extent[1], extent[2] + offset, extent[3]];
+        this.onSelectionEnd(extent, this.imageWidth - this.imageWidth1, this.imageHeight, true);
+      }
+    } else {
+      this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
+    }
   }
 
   private toggleLock() {
@@ -264,26 +270,107 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.resolution = this.view.getView().getResolution();
   }
 
-  onSelectionStart(type: SelectionType) {
-    this.selectionType = type;
-    this.view.addInteraction(this.selectionInteraction);
-    this.view.getViewport().style.cursor = 'crosshair';
+  selectTextEnabled(): boolean {
+    return this.bookService.viewer === 'image' && this.bookService.isActionEnabled('selection');
+  }
+
+  showSelectText(): boolean {
+    return !this.bookService.showGeoreference && this.bookService.viewer === 'image' && this.bookService.isActionAvailable('selection');
+  }
+
+  imageCropEnabled(): boolean {
+    return this.bookService.viewer === 'image' && this.bookService.iiifEnabled && this.bookService.isActionEnabled('crop');
+  }
+
+  showImageCrop(): boolean {
+    return this.bookService.viewer === 'image' && this.bookService.iiifEnabled && this.bookService.isActionAvailable('crop') && this.bookService.getPage() && this.bookService.getPage().imageType == PageImageType.TILES;
+  }
+
+  private positionMenu(pixel) {
+    this.selectionMenu.style.left = pixel[0] + 'px';
+    this.selectionMenu.style.top = pixel[1] + 'px';
+    this.selectionMenu.style.display = 'block';
+  }
+
+  private updateMenuPosition() {
+    if (!this.selectionPosition) {
+      this.selectionMenu.style.display = 'none';
+      return;
+    }
+    const pixel = this.view.getPixelFromCoordinate(this.selectionPosition);
+    if (pixel) {
+      this.positionMenu(pixel);
+    }
+  }
+
+  createMask(extent) {
+    const innerRing = [
+      [extent[0], extent[1]],
+      [extent[0], extent[3]],
+      [extent[2], extent[3]],
+      [extent[2], extent[1]],
+      [extent[0], extent[1]]
+    ];
+    const mapExtent = this.extent;
+    const outerRing = [
+      [mapExtent[0], mapExtent[1]],
+      [mapExtent[0], mapExtent[3]],
+      [mapExtent[2], mapExtent[3]],
+      [mapExtent[2], mapExtent[1]],
+      [mapExtent[0], mapExtent[1]]
+    ];
+    const maskFeature = new ol.Feature({
+      geometry: new ol.geom.Polygon([outerRing, innerRing])
+    });
+    this.maskLayer.getSource().clear();
+    this.maskLayer.getSource().addFeature(maskFeature);
   }
 
   onSelectionEnd(extent, width: number, height: number, right: boolean) {
+    this.selectionWidth = width;
+    this.selectionHeight = height;
+    this.selectionRight = right;
+    this.selectionExtent = extent;
+    this.selectionPosition = [extent[2], extent[3]];
+    this.createMask(extent);
+    this.updateMenuPosition();
     this.view.removeInteraction(this.selectionInteraction);
-    if (this.selectionType === SelectionType.textSelection) {
-      this.bookService.showTextSelection(extent, width, height, right);
-    } else if (this.selectionType === SelectionType.imageSelection) {
-      this.bookService.showImageCrop(extent, right);
-    }
+    this.view.getViewport().style.cursor = '';
+  }
+
+  onShareSelection() {
+    this.bookService.shareSelection(this.selectionExtent, this.selectionRight);
+}
+
+  onShowImageCrop() {
+      this.bookService.showImageCrop(this.selectionExtent, this.selectionRight);
+  }
+
+  onShowTextSelection() {
+      this.bookService.showTextSelection(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
+  }
+
+  cancelSelection() {
+    this.maskLayer.getSource().clear();
+    this.selectionPosition = null;
+    this.selectionExtent = null;
+    this.selectionWidth = null;
+    this.selectionHeight = null;
+    this.selectionRight = null;
+    this.selectionModeOn = false;
+    this.updateMenuPosition();
+  }
+
+  enterSelectionMode() {
+    this.selectionModeOn = true;
+    this.view.addInteraction(this.selectionInteraction);
+    this.view.getViewport().style.cursor = 'crosshair';
   }
 
   onMouseMove() {
     this.lastMouseMove = new Date().getTime();
     this.hideOnInactivity = false;
   }
-
 
   private onActionPerformed(action: ViewerActions) {
     switch (action) {
@@ -308,11 +395,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
       case ViewerActions.toggleLock:
         this.toggleLock();
         break;
-      case ViewerActions.selectText:
-        this.onSelectionStart(SelectionType.textSelection);
-        break;
-      case ViewerActions.cropImage:
-        this.onSelectionStart(SelectionType.imageSelection);
+      case ViewerActions.enterSelectionMode:
+        this.enterSelectionMode();
         break;
     }
   }
@@ -651,9 +735,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.view.getView().fit(this.extent);
       this.initialResolution = this.view.getView().getResolution();
     }
-
+    this.view.addLayer(this.maskLayer);
     this.updateBoxes();
     this.addWaterMark();
+    if (this.data.bb) {
+      const bb = this.data.bb.split(',');
+      const extent = [parseInt(bb[0]),  -1*(parseInt(bb[1]) + parseInt(bb[3])),  parseInt(bb[0])+parseInt(bb[2]) , -parseInt(bb[1])];
+      this.onBoxEnd(extent);
+      this.view.getView().fit(extent);
+    }
   }
 
   onImageFailure() {
@@ -689,6 +779,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   updateImage(data: ViewerData) {
+    this.cancelSelection();
     if (!data) {
       return;
     }
@@ -700,6 +791,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.removeLayer(this.imageLayer2);
     this.view.removeLayer(this.zoomifyLayer2);
     this.view.removeLayer(this.vectorLayer);
+    this.view.removeLayer(this.maskLayer);
     this.data = data;
     switch (data.imageType) {
       case ViewerImageType.IIIF: 
@@ -878,7 +970,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.removeLayer(this.imageLayer2);
     this.view.removeLayer(this.zoomifyLayer2);
     this.view.removeLayer(this.vectorLayer);
-
+    this.view.removeLayer(this.maskLayer);
   }
 
   today() {
@@ -909,9 +1001,4 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-}
-
-export enum SelectionType {
-  imageSelection = 1,
-  textSelection = 2
 }

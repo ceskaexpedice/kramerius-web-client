@@ -7,6 +7,50 @@
     overflow: hidden;
     background-color: $app-grey-l-4;    
     position: relative;
+
+
+    #selectionmenu {
+      z-index: 1000; 
+      display: none; 
+      position: absolute; 
+      padding-left: 10px;
+      .app-sel-button {
+        cursor: pointer;
+        margin-bottom: 2px;
+        font-size: 12px;
+        padding: 3px 5px;
+        background: #fff;
+        color: #000;
+        &.app-sel-cancel {
+          background: #fff;
+          color: red;
+        }
+      }
+      mat-icon {
+        display: block;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background: #eee;
+        color: #333;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 18px;
+        margin-bottom: 4px;
+        &:hover:not(.app-inactive) {
+          background: #fff;
+          color: #000;
+          font-size: 20px;
+        } 
+        &.app-inactive {
+          opacity: 0.2;
+          cursor: default !important;
+          pointer-events: none; 
+        }
+      }
+    }
+
     .app-licence-bar {
       position: absolute;
       top: 0;

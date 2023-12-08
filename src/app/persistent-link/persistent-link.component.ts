@@ -24,10 +24,11 @@ export class PersistentLinkComponent implements OnInit {
       const params = results[0];
       const queryParams = results[1];
       const fulltext = queryParams['fulltext'];
+      const bb = queryParams['bb'];
       const uuid = params.get('uuid');
       this.api.getItem(uuid).subscribe(
         (item: DocumentItem) => {
-          this.resolveLink(item, fulltext);
+          this.resolveLink(item, fulltext, bb);
         },
         error => {
           if (error instanceof NotFoundError) {
@@ -37,11 +38,11 @@ export class PersistentLinkComponent implements OnInit {
     });
   }
 
-  private resolveLink(item: DocumentItem, fulltext?: string) {
+  private resolveLink(item: DocumentItem, fulltext?: string, bb?: string) {
     this.history.removeCurrent();
     if (item.doctype === 'page') {
       const parentUuid = item.context[item.context.length - 2].uuid;
-      this.router.navigate(['/view', parentUuid], { queryParams: { page: item.uuid, fulltext: fulltext } });
+      this.router.navigate(['/view', parentUuid], { queryParams: { page: item.uuid, fulltext: fulltext, bb: bb } });
     } else if (item.doctype === 'article') {
       const parentUuid = item.context[item.context.length - 2].uuid;
       this.router.navigate(['/view', parentUuid], { queryParams: { article: item.uuid } });
