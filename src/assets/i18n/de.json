@@ -736,6 +736,8 @@
       "liked": "Zur Liste hinzugefügt",
       "info": "Weitere Informationen",
       "clear": "Aus Liste entfernen",
+      "add":"Hinzufügen",
+      "to_folder": "zur Liste",
       "tooltips": {
         "edit": "Ausgewählte bearbeiten",
         "delete_selected": "Ausgewählte löschen",

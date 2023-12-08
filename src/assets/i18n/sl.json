@@ -709,6 +709,8 @@
     "liked": "Dodano na seznam",
     "info": "Več informacij",
     "clear": "Odstrani s seznama",
+    "add":"Dodaj",
+    "to_folder": "na seznam",
     "tooltips": {
       "edit": "Uredi izbrano",
       "delete_selected": "Izbriši izbrano",

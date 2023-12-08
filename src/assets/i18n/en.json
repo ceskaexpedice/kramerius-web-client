@@ -737,6 +737,8 @@
     "liked": "Added to list",
     "info": "More information",
     "clear": "Remove from list",
+    "add":"Add",
+    "to_folder": "to list",
     "tooltips": {
       "edit": "Edit selected",
       "delete_selected": "Delete selected",

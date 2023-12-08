@@ -439,17 +439,24 @@
 </div>
 
 <mat-menu #favoritesMenu="matMenu" xPosition="before" class="app-dropdown-menu">
-  <div class="app-doctypes-label">Přidat</div>
+  <div class="app-doctypes-label" (click)="$event.stopPropagation()">{{'folders.add' | translate}}</div>
   <div class="app-dropdown-doctypes">
     <div *ngFor="let item of items" class="app-doctype-item" [class.active]="selectedType === item.type" (click)="changeUuid(item.uuid, item.type); $event.stopPropagation()">{{ 'model_4p.' + item.type | translate}}</div>
   </div>
-  <div class="app-doctypes-label">do seznamu:</div>
+
+  <!-- <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
+    <mat-select [(value)]="selectedItem" (click)="$event.stopPropagation()">
+      <mat-option [value]="item" *ngFor="let item of items" (click)="changeUuid(item.uuid, item.type)">{{ item.type }}</mat-option>
+    </mat-select>
+  </mat-form-field> -->
+  
+  <div class="app-doctypes-label" (click)="$event.stopPropagation()">{{'folders.to_folder' | translate}}</div>
   <ng-template matMenuContent>
     <div mat-menu-item tabindex="0" class="app-dropdown-item" *ngFor="let folder of folderService.getMyFolders()" (click)="onLike(folder, selectedUuid)">
       {{ folder.name }}
     </div>
     <div class="app-dropdown-input">
-      <input #matInput placeholder="+ Nový seznam" (click)="$event.stopPropagation()" (keyup.enter)="onNewFolder(matInput.value)" (keydown)="$event.stopPropagation()">
+      <input #matInput [placeholder]="'folders.new_list' | translate" (click)="$event.stopPropagation()" (keyup.enter)="onNewFolder(matInput.value)" (keydown)="$event.stopPropagation()">
   </div>
   </ng-template>
 </mat-menu>

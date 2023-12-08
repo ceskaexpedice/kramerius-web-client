@@ -736,6 +736,8 @@
       "liked": "Pridané do zoznamu",
       "info": "Viac informácií",
       "clear": "Odobrať zo zoznamu",
+      "add":"Pridať",
+      "to_folder": "do zoznamu",
       "tooltips": {
         "edit": "Editovať vybrané",
         "delete_selected": "Zmazať vybrané",

@@ -20,7 +20,7 @@ import { SearchService } from '../services/search.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationService } from '../services/navigation.service';
 import { SolrService } from '../services/solr.service';
-
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-metadata',
@@ -42,6 +42,7 @@ export class MetadataComponent implements OnInit {
   items = [];
   selectedUuid: string;
   selectedType: string;
+  selectedItem: any;
 
 
   constructor(public analytics: AnalyticsService,
@@ -68,13 +69,20 @@ export class MetadataComponent implements OnInit {
 
   openLikeMenu() {
     this.items = this.metadata.getFullContext(SolrService.allDoctypes);
+    console.log('openLikeMenu', this.items);
     if (this.items.length == 1) {
+      this.selectedItem = this.items[0];
       this.selectedType = this.items[0].type;
+      this.selectedUuid = this.items[0].uuid;
     } else if (this.items.length > 1) {
       if (this.items[0].type == 'page') {
+        this.selectedItem = this.items[1];
         this.selectedType = this.items[1].type;
+        this.selectedUuid = this.items[1].uuid;
       } else {
+        this.selectedItem = this.items[0];
         this.selectedType = this.items[0].type;
+        this.selectedUuid = this.items[0].uuid;
       }
     }
   }
@@ -84,6 +92,9 @@ export class MetadataComponent implements OnInit {
     this.selectedType = type;
     console.log('changeUuid', uuid);
   }
+  // changeUuid() {
+  //   console.log('changeUuid', this.selectedItem.uuid);
+  // }
 
   toHtml(text: string): string {
     if (!text) {

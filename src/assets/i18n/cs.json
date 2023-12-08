@@ -740,6 +740,8 @@
     "liked": "Přidáno do seznamu",
     "info": "Více informací",
     "clear": "Odebrat ze seznamu",
+    "add":"Přidat",
+    "to_folder": "do seznamu",
     "tooltips": {
       "edit": "Editovat vybrané",
       "delete_selected": "Smazat vybrané",
