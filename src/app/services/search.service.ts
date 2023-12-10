@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AdvancedSearchDialogComponent } from '../dialog/advanced-search-dialog/advanced-search-dialog.component';
 import { MapSeriesService } from './mapseries.service';
 import { Observable, Subject, forkJoin } from 'rxjs';
+import { Cutting } from '../model/cutting';
 
 
 @Injectable()
@@ -65,6 +66,8 @@ export class SearchService {
     collectionStructure: any;
     collectionStructureTree: any;
 
+    collectionCuttings: Cutting[];
+
     adminSelection: boolean;
 
     constructor(
@@ -85,6 +88,7 @@ export class SearchService {
         this.collection = null;
         this.collectionStructure = {};
         this.collectionStructureTree = [];
+        this.collectionCuttings = null;
         this.results = [];
         this.allResults = [];
         this.keywords = [];
@@ -419,7 +423,34 @@ export class SearchService {
     getCollectionNavTitle(item) {
         return item.getTitle(this.translate.currentLang);
     }
+
+
     private buildCollectionStructure(uuid: string) {
+        this.api.getColletionCuttings(uuid).subscribe((cuttings) => {
+            this.collectionCuttings = [];
+            for (const cutting of cuttings) {
+                let item = new Cutting();
+                item.title = cutting.name;
+                item.description = cutting.description;
+                item.url = cutting.url.replace('https://kramerius.trinera.cloud', 'http://localhost:4200/t');
+                const regex = /uuid\/(uuid:[A-Fa-f0-9-]+)\?bb=([\d,]+)/;
+                const match = cutting.url.match(regex);
+                if (match) {
+                    const uuid = match[1];
+                    const bb = match[2];
+                    item.thumb = `${this.api.getIiifBaseUrl(uuid)}/${bb}/^!400,400/0/default.jpg`;
+                    item.uuid = uuid;
+                    // console.log(`UUID: ${uuid}, BB: ${bb}`);
+                    item.path = this.settings.getPathPrefix() + '/uuid/' + uuid;
+                    item.bb = bb;
+                }
+                // console.log('item', item);
+                this.collectionCuttings.push(item);
+            }
+            // this.numberOfResults += cuttings.length;
+            // this.collectionCuttings = cuttings;
+        });
+
         let collections = [];
         this.buildCollectionStructureTree(uuid).subscribe(() => {
             collections = this.collectionStructureTree;
