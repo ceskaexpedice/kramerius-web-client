@@ -73,7 +73,7 @@
     </div>
     <!-- <div mat-menu-item tabindex="0" class="app-dropdown-item app-dropdown-new" (click)="onNewFolder()">+ Nový seznam</div> -->
     <div class="app-dropdown-input">
-        <input #matInput placeholder="+ Nový seznam" (click)="$event.stopPropagation()" (keyup.enter)="onNewFolder(matInput.value)">
+        <input #matInput [placeholder]="'folders.new_list' | translate" (click)="$event.stopPropagation()" (keyup.enter)="onNewFolder(matInput.value)">
     </div>
   </ng-template>
 </mat-menu>

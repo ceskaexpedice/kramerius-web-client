@@ -706,7 +706,7 @@ export class SolrService {
             return null;
         }
         const doc = solr['response']['docs'][0];
-        //console.log('doc', doc);
+        // console.log('doc', doc);
         const item = new DocumentItem();
         item.uuid = doc[this.field('id')];
         item.in_collection = doc[this.field('parent_collections')] || [];
@@ -1415,6 +1415,7 @@ export class SolrService {
     documentItems(json): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const doc of json['response']['docs']) {
+            // console.log(doc);
             const item = new DocumentItem();
             item.doctype = doc[this.field('model')];
             if (this.settings.code == 'snk' && item.doctype == 'internalpart') {
@@ -1436,7 +1437,11 @@ export class SolrService {
                 // K7
                 if (item.doctype == 'page') {
                     item.title = doc[this.field('root_title')];
-                } else {
+                } 
+                else {
+                    if (item.doctype == 'periodicalvolume' || item.doctype == 'periodicalitem') {
+                        item.root_title = doc[this.field('root_title')];
+                    } 
                     item.title = doc[this.field('title')]; // obecne title
                     if (item.doctype == 'collection') {
                         let languages = {'cze':'cs',

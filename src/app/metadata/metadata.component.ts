@@ -1,6 +1,6 @@
 import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AnalyticsService } from '../services/analytics.service';
 import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { AuthService } from '../services/auth.service';
@@ -20,7 +20,6 @@ import { SearchService } from '../services/search.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationService } from '../services/navigation.service';
 import { SolrService } from '../services/solr.service';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-metadata',
@@ -65,6 +64,7 @@ export class MetadataComponent implements OnInit {
     }
     this.selectedUuid = this.metadata.uuid;
     this.selectedType = this.metadata.doctype;
+    this.selectedItem = { uuid: this.metadata.uuid, type: this.metadata.doctype };
   }
 
   openLikeMenu() {
@@ -90,11 +90,14 @@ export class MetadataComponent implements OnInit {
   changeUuid(uuid: string, type: string) {
     this.selectedUuid = uuid;
     this.selectedType = type;
-    console.log('changeUuid', uuid);
+    console.log('changeUuid', type, uuid);
   }
-  // changeUuid() {
-  //   console.log('changeUuid', this.selectedItem.uuid);
-  // }
+  changeUuid2() {
+    // this.selectedItem = 
+    // this.selectedUuid = uuid;
+    // this.selectedType = type;
+    console.log('changeUuid', this.selectedItem, this.selectedType, this.selectedUuid);
+  }
 
   toHtml(text: string): string {
     if (!text) {

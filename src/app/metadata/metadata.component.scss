@@ -214,8 +214,11 @@
       }
     }
   }
-  .app-doctypes-label {
-    margin: 10px;
+  .app-doctypes-label-add {
+    margin: 10px 10px 0 10px;
+  }
+  .app-doctypes-label-to-folder {
+    margin: 0px 0px 10px 10px;
   }
   .app-dropdown-doctypes {
     display: flex;
@@ -238,4 +241,18 @@
   .mat-menu-panel {
     max-height: 350px;
     overflow: auto;
+  }
+
+  .app-dropdown-header {
+    display: flex;
+    flex-direction: column;
+  }
+  .app-mat-form-field {
+    padding: 0 10px;
+    width: 100%;
+  }
+  ::ng-deep {
+    .mat-select-value {
+      color: #777;
+    }
   }

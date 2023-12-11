@@ -81,7 +81,13 @@ export class DocumentCardComponent implements OnInit {
   }
 
   getTitle() {
-    return this.item.getTitle ? this.item.getTitle(this.translate.currentLang) : this.item.title;
+    if ((this.in === 'folder-owner' || this.in === 'collection' ) && (this.item.doctype === 'periodicalitem' || this.item.doctype === 'periodicalvolume')) {
+      console.log('item', this.item);
+      // return this.item.root_title.split(':')[0] + ' ' + this.item.title;
+      return this.item.root_title;
+    } else {
+      return this.item.getTitle ? this.item.getTitle(this.translate.currentLang) : this.item.title;
+    }
   }
 
   getDescription() {

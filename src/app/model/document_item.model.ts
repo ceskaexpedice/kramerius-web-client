@@ -9,6 +9,7 @@ export class DocumentItem {
     category: string;
     uuid: string;
     root_uuid: string;
+    root_title: string;
     public: boolean;
     url: string;
     description: string;

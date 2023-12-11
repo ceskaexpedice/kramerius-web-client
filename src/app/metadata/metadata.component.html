@@ -439,18 +439,21 @@
 </div>
 
 <mat-menu #favoritesMenu="matMenu" xPosition="before" class="app-dropdown-menu">
-  <div class="app-doctypes-label" (click)="$event.stopPropagation()">{{'folders.add' | translate}}</div>
-  <div class="app-dropdown-doctypes">
-    <div *ngFor="let item of items" class="app-doctype-item" [class.active]="selectedType === item.type" (click)="changeUuid(item.uuid, item.type); $event.stopPropagation()">{{ 'model_4p.' + item.type | translate}}</div>
-  </div>
-
-  <!-- <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
-    <mat-select [(value)]="selectedItem" (click)="$event.stopPropagation()">
-      <mat-option [value]="item" *ngFor="let item of items" (click)="changeUuid(item.uuid, item.type)">{{ item.type }}</mat-option>
-    </mat-select>
-  </mat-form-field> -->
+  <div class="app-dropdown-header">
+    <div class="app-doctypes-label-add" (click)="$event.stopPropagation()">{{'folders.add' | translate}}</div>
   
-  <div class="app-doctypes-label" (click)="$event.stopPropagation()">{{'folders.to_folder' | translate}}</div>
+    <!-- <div class="app-dropdown-doctypes">
+      <div *ngFor="let item of items" class="app-doctype-item" [class.active]="selectedType === item.type" (click)="changeUuid(item.uuid, item.type); $event.stopPropagation()">{{ 'model_4p.' + item.type | translate}}</div>
+    </div> -->
+  
+    <mat-form-field class="app-mat-form-field" (click)="$event.stopPropagation()">
+      <mat-select [(value)]="selectedItem" (click)="$event.stopPropagation()" panelClass="app-select">
+        <mat-option [value]="item" *ngFor="let item of items" (click)="changeUuid(item.uuid, item.type)">{{ 'model_4p.' + item.type | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <div class="app-doctypes-label-to-folder" (click)="$event.stopPropagation()">{{'folders.to_folder' | translate}}</div>
+  </div>
   <ng-template matMenuContent>
     <div mat-menu-item tabindex="0" class="app-dropdown-item" *ngFor="let folder of folderService.getMyFolders()" (click)="onLike(folder, selectedUuid)">
       {{ folder.name }}
