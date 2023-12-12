@@ -74,6 +74,7 @@ export class AdminCollectionsComponent implements OnInit {
 
   removeFromCollection(col: any) {
     if (this._uuids.length > 1) {
+      console.log("Not implemented");
       return;
     }
     this.state = 'progress';
@@ -104,8 +105,8 @@ export class AdminCollectionsComponent implements OnInit {
   addToCollection(col: any) {
     this.state = 'progress';
     this.adminApi.addItemsToCollection(col.uuid, this._uuids).subscribe(() => {
-      this.collectionsRest.splice(this.collectionsRest.indexOf(col), 1);
       if (this._uuids.length == 1) {
+        this.collectionsRest.splice(this.collectionsRest.indexOf(col), 1);
         this.collectionsIn.unshift(col);
       }
       this.snackBar.open("Přidání objektu do sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });

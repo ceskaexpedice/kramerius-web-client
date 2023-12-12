@@ -24,7 +24,7 @@
         .app-btn-remove {
           font-size: 30px;
           cursor: pointer;
-          padding: 0 20px 0 10px;
+          padding: 0 10px 0 10px;
           color: #ccc;
           &:hover {
             color: red;
@@ -32,6 +32,7 @@
         }
         .app-col-name {
           color: #444;
+          margin-left: 10px;
           margin-right: 10px;
         }
         .app-col-desc {
