@@ -13,6 +13,7 @@
   </div>
 
   <div class="app-dialog-content">
+    <app-admin-licences *ngIf="selection && category == 'licences'" [uuids]="selection.uuids"></app-admin-licences>
     <app-admin-collections *ngIf="selection && category == 'collections'" [uuids]="selection.uuids"></app-admin-collections>
     <app-admin-accessibility *ngIf="selection && category == 'accessibility'" [uuids]="selection.uuids"></app-admin-accessibility>    
     <app-admin-reindexation *ngIf="selection && category == 'reindexation'" [uuids]="selection.uuids"></app-admin-reindexation>
@@ -28,6 +29,7 @@
 
 <mat-menu #categoryMenu="matMenu" xPosition="after" class="app-dropdown-menu">
   <ng-template matMenuContent>
+    <div class="app-dropdown-item" (click)="changeCategory('licences')">{{ categoryLabel('licences') }}</div>
     <div class="app-dropdown-item" (click)="changeCategory('collections')">{{ categoryLabel('collections') }}</div>
     <div class="app-dropdown-item" (click)="changeCategory('accessibility')">{{ categoryLabel('accessibility') }}</div>
     <div class="app-dropdown-item" (click)="changeCategory('reindexation')">{{ categoryLabel('reindexation') }}</div>

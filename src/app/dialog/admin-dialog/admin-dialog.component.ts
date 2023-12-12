@@ -73,6 +73,7 @@ export class AdminDialogComponent implements OnInit {
 
   categoryLabel(category: string): string {
     switch (category) {
+      case 'licences': return "Licence";
       case 'collections': return "Sbírky";
       case 'accessibility': return "Změna viditelnosti";
       case 'reindexation': return "Reindexace";

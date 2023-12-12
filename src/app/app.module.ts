@@ -122,6 +122,7 @@ import { SignpostFooterComponent } from './signpost/footer/footer.component';
 import { SignpostHeaderComponent } from './signpost/header/header.component';
 import { SignpostHelpComponent } from './signpost/help/help.component';
 import { AdminCollectionsComponent } from './dialog/admin-dialog/admin-collections/admin-collections.component';
+import { AdminLicencesComponent } from './dialog/admin-dialog/admin-licences/admin-licences.component';
 import { AdminAccessibilityComponent } from './dialog/admin-dialog/admin-accessibility/admin-accessibility.component';
 import { AdminReindexationComponent } from './dialog/admin-dialog/admin-reindexation/admin-reindexation.component';
 import { AdminReprePageComponent } from './dialog/admin-dialog/admin-reprepage/admin-reprepage.component';
@@ -270,6 +271,7 @@ export function appInitializerFactory(translate: TranslateService) {
     SignpostHeaderComponent,
     SignpostHelpComponent,
     AdminCollectionsComponent,
+    AdminLicencesComponent,
     AdminAccessibilityComponent,
     AdminReindexationComponent,
     AdminReprePageComponent,

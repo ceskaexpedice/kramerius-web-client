@@ -1,0 +1,32 @@
+<div *ngIf="state != 'loading'" class="app-licences">
+  
+    <ng-container *ngIf="_uuids.length == 1">
+      <div class="app-label">{{ licencesIn.length == 0 ? "Nemá žádnou licenci" : "Má licence" }}</div>
+      <div class="app-licences-list">
+        <div *ngFor="let licence of licencesIn" class="app-licence">
+          <div class="app-btn-remove" (click)="removeLicence(licence)">-</div>
+          <span class="app-col-name">{{ licence.name }}</span>
+          <span class="app-col-desc">{{ licence.description }}</span>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="app-label" *ngIf="_uuids.length < 2">{{ licencesRest.length == 0 ? "" : "Přidat licenci" }}</div>
+    <div class="app-label" *ngIf="_uuids.length > 1">{{ licencesRest.length == 0 ? "" : "Přidat nebo odebrat licenci všem vybraným objektům" }}</div>
+    <div class="app-licences-list">
+      <div *ngFor="let licence of licencesRest" class="app-licence">
+        <div class="app-btn" (click)="addLicence(licence)">+</div>
+        <div class="app-btn-remove" *ngIf="_uuids.length > 1" (click)="removeLicence(licence)">-</div>
+        <span class="app-col-name">{{ licence.name }}</span>
+        <span class="app-col-desc">{{ licence.description }}</span>
+      </div>
+    </div>
+  
+    <div class="app-actions">
+      <mat-spinner *ngIf="state == 'progress'"
+        [strokeWidth]="2" 
+        [diameter]="20">
+      </mat-spinner>
+    </div>
+  
+</div>

@@ -61,6 +61,34 @@ export class AdminApiService {
     return this.get(`/collections`);
   }
 
+  getAllLicences(): Observable<any> {
+    return this.get(`/licenses`);
+  }
+  getLicences(uuid): Observable<any> {
+    return this.get(`/items/`+ uuid + `/licenses`);
+  }
+  removeLicence(uuid: string, licence: string): Observable<any> {
+    console.log('removeLicence', uuid, licence);
+    const body = {
+      defid: 'remove_license',
+      params: {
+        license: licence,
+        pid: uuid
+      }
+    }
+    return this.post('/processes/', body);
+  }
+  addLicence(uuid: string, licence: string): Observable<any> {
+    const body = {
+      defid: 'add_license',
+      params: {
+        license: licence,
+        pid: uuid
+      }
+    }
+    return this.post('/processes/', body);
+  }
+
   changeAccessibility(uuid: string, scope: string, accessibility: string): Observable<any> {
     const payload = {
       defid: 'set_policy',
