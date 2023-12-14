@@ -84,7 +84,12 @@ export class AdminDialogComponent implements OnInit {
 
   openInAdmin() {
     // console.log(this.settings.adminClientUrl + '/object/' + this.selection.uuid);
-    window.open(this.settings.adminClientUrl + '/object/' + this.selection.uuid , '_blank');
+    if (this.selection.type == 'multiple') {
+      window.open(this.settings.adminClientUrl + '/object/' + this.selection.uuids[0], '_blank');
+      return;
+    } else {
+      window.open(this.settings.adminClientUrl + '/object/' + this.selection.uuid , '_blank');
+    }
   }
 
   onCancel() {

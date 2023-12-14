@@ -13,6 +13,9 @@ import { NotFoundError } from '../common/errors/not-found-error';
 import { HistoryService } from './history.service';
 import { AnalyticsService } from './analytics.service';
 import { TranslateService } from '@ngx-translate/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
+
 
 @Injectable()
 export class PeriodicalService {
@@ -41,6 +44,7 @@ export class PeriodicalService {
   issuesReverseOrder: boolean;
 
   orderingType = 'none'; // none | periodical | fulltext
+  adminSelection: boolean = false;
 
   constructor(
     private router: Router,
@@ -50,7 +54,68 @@ export class PeriodicalService {
     private analytics: AnalyticsService,
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
-    private api: KrameriusApiService) {
+    private api: KrameriusApiService,
+    private dialog: MatDialog) {
+  }
+
+  toggleAllSelected() {
+    let allSelected = true;
+    if (this.items) {
+      for (const item of this.items) {
+        if (!item.selected) {
+            allSelected = false;
+            break
+        }
+      }
+      for (const item of this.items) {
+          item.selected = !allSelected;
+      }
+    } else if (this.units) {
+      for (const item of this.units) {
+        if (!item.selected) {
+            allSelected = false;
+            break
+        }
+      }
+      for (const item of this.units) {
+          item.selected = !allSelected;
+      }
+    }
+  }
+
+  openAdminActions() {
+    const uuids = [];
+    if (this.items) {
+      for (const item of this.items) {
+        if (item.selected) {
+          uuids.push(item.uuid);
+        }
+      }
+    } else if (this.units) {
+      for (const unit of this.units) {
+        if (unit.selected) {
+          uuids.push(unit.uuid);
+        }
+      }
+    }
+    this.dialog.open(AdminDialogComponent, { data: { uuids: uuids }, autoFocus: false });
+    // this.adminSelection = !this.adminSelection;
+  }
+
+  toggleAdminSelection() {
+    console.log('toggleAdminSelection');
+    if (this.items) {
+      this.changeActiveLayout('grid')
+      for (const item of this.items) {
+        item.selected = false;
+      }
+    } else if (this.units) {
+      for (const unit of this.units) {
+        console.log(unit)
+        unit.selected = false;
+      }
+    }
+    this.adminSelection = !this.adminSelection;
   }
 
   init(query: PeriodicalQuery) {
@@ -122,7 +187,7 @@ export class PeriodicalService {
           }
         }
         if (item.in_collection) {
-          console.log('item', item);
+          // console.log('item', item);
           for (const collection of item.in_collection) {
               let uuid = collection;
               let name = '';

@@ -25,7 +25,6 @@
 
   <div class="col app-nav-item" [ngClass]="{'s6 m7 l5 xl3 app-mq-small-1 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <ul class="float-right">
-
       <li tabindex="0" [matMenuTriggerFor]="orderingMenu1" *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid'" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
         <mat-icon>sort</mat-icon>
         <mat-menu #orderingMenu1="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
@@ -58,20 +57,30 @@
       <li class="app-nav-item-mobile app-nav-item-tablet" (click)="periodicalService.activeMobilePanel = 'filters'" [class.active]="periodicalService.activeMobilePanel == 'filters'">
         <mat-icon >filter_alt</mat-icon>
       </li>
-      <li tabindex="0" *ngIf="!periodicalService.fulltext && periodicalService.gridLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_grid' | translate"  (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid' && periodicalService.activeMobilePanel != 'filters'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
+      <li tabindex="0" *ngIf="!periodicalService.fulltext && periodicalService.gridLayoutEnabled && !periodicalService.adminSelection" [matTooltip]="'toolbar.tooltip_display_grid' | translate"  (click)="selectLayout('grid')" [class.active]="periodicalService.activeLayout == 'grid' && periodicalService.activeMobilePanel != 'filters'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <mat-icon>grid_view</mat-icon>
       </li>
-      <li tabindex="0" *ngIf="!periodicalService.fulltext && periodicalService.yearsLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_years' | translate" (click)="selectLayout('years')" class="layout-button" [class.active]="periodicalService.activeLayout == 'years'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
+      <li tabindex="0" *ngIf="!periodicalService.fulltext && periodicalService.yearsLayoutEnabled && !periodicalService.adminSelection" [matTooltip]="'toolbar.tooltip_display_years' | translate" (click)="selectLayout('years')" class="layout-button" [class.active]="periodicalService.activeLayout == 'years'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <mat-icon>calendar_today</mat-icon>
       </li>
-      <li tabindex="0" *ngIf="!periodicalService.fulltext && periodicalService.calendarLayoutEnabled" [matTooltip]="'toolbar.tooltip_display_calendar' | translate" (click)="selectLayout('calendar')" class="layout-button" [class.active]="periodicalService.activeLayout == 'calendar'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
+      <li tabindex="0" *ngIf="!periodicalService.fulltext && periodicalService.calendarLayoutEnabled && !periodicalService.adminSelection" [matTooltip]="'toolbar.tooltip_display_calendar' | translate" (click)="selectLayout('calendar')" class="layout-button" [class.active]="periodicalService.activeLayout == 'calendar'" [class.active-mobile-dismiss]="periodicalService.activeMobilePanel != 'content'">
         <mat-icon>calendar_month</mat-icon>
       </li>
-      <li tabindex="0" *ngIf="periodicalService.fulltext" (click)="periodicalService.activeMobilePanel = 'content'" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'content'">
+      <li tabindex="0" *ngIf="periodicalService.fulltext" (click)="periodicalService.activeMobilePanel = 'content' && !periodicalService.adminSelection" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'content'">
         <mat-icon>grid_view</mat-icon>
       </li>
       <li tabindex="0" class="app-nav-item-mobile" (click)="periodicalService.activeMobilePanel = 'metadata'" [class.active]="periodicalService.activeMobilePanel == 'metadata'">
         <mat-icon>info</mat-icon>
+      </li>
+      <!-- ADMIN SELECTION -->
+      <li tabindex="0" *ngIf="auth.isAdmin() && periodicalService.adminSelection" (click)="periodicalService.openAdminActions()" class="app-view-button" [class.app-active]="true">
+        <mat-icon>edit</mat-icon>
+      </li>
+      <li tabindex="0" *ngIf="auth.isAdmin() && periodicalService.adminSelection" (click)="periodicalService.toggleAllSelected()" class="app-view-button" [class.app-active]="true">
+        <mat-icon>done_all</mat-icon>
+      </li>
+      <li tabindex="0" *ngIf="auth.isAdmin() && !periodicalService.fulltext" (click)="periodicalService.toggleAdminSelection()" class="app-view-button" [class.app-active]="periodicalService.adminSelection">
+        <mat-icon>check</mat-icon>
       </li>
     </ul>
   </div>

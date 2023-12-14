@@ -1,6 +1,7 @@
 import { PeriodicalService } from './../../../services/periodical.service';
 import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from '../../../services/analytics.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-periodical-toolbar',
@@ -9,7 +10,9 @@ import { AnalyticsService } from '../../../services/analytics.service';
 })
 export class PeriodicalToolbarComponent implements OnInit {
 
-  constructor(public periodicalService: PeriodicalService, public analytics: AnalyticsService) { }
+  constructor(public periodicalService: PeriodicalService, 
+              public analytics: AnalyticsService,
+              public auth: AuthService) { }
 
   ngOnInit() {
   }

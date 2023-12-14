@@ -2,7 +2,7 @@
 
   <div class="app-tabs" *ngIf="selection">
 
-    <mat-icon (click)="openInAdmin()" class="app-open-in-admin" *ngIf="settings.adminClientUrl" >settings</mat-icon>
+    <mat-icon (click)="openInAdmin()" class="app-open-in-admin" *ngIf="settings.adminClientUrl && uuids.length < 2" >settings</mat-icon>
 
     <div [matMenuTriggerFor]="categoryMenu" class="app-dialog-title">{{ categoryLabel(category) }}</div>
     <div *ngFor="let item of items" class="app-tab" [class.active]="selection.type === item.type"
