@@ -51,6 +51,7 @@ export class AdminDialogComponent implements OnInit {
       });
       this.changeTab(this.items[0]);
     }
+    console.log('items', this.items);
   }
 
   changeTab(item) {

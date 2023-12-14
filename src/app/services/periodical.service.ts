@@ -282,6 +282,7 @@ export class PeriodicalService {
     this.orderingType = 'none';
     this.volumesReverseOrder = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_VOLUMES_REVERSE_ORDER) === 'true';
     this.issuesReverseOrder = this.localStorageService.getProperty(LocalStorageService.PERIODICAL_ISSUES_REVERSE_ORDER) === 'true';
+    this.adminSelection = false;
   }
 
   isPeriodicalVolume(): boolean {
