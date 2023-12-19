@@ -671,8 +671,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateIiifImage(uuid1: string, uuid2: string) {
-    const url1 = this.api.getIiifBaseUrl(uuid1);
-    const url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
+    let url1 = this.api.getIiifBaseUrl(uuid1);
+    let url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
+
+    if (this.settings.replaceImageUrl) {
+      url1 = url1.replace(this.settings.url, this.settings.replaceImageUrl);
+      if (url2) {
+        url2 = url2.replace(this.settings.url, this.settings.replaceImageUrl);
+      }
+    }
+
     this.onImageLoading();
     const rq = [];
     let w1, w2, h1, h2;

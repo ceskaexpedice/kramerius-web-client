@@ -22,7 +22,7 @@
         {{item.date}}
       </div>
 
-      <div *ngIf="item.localDescriptions" class="app-card-description">
+      <div *ngIf="item.localDescriptions || item.description" class="app-card-description">
         {{ getDescription() }}
       </div>
 
