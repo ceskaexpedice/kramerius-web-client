@@ -722,7 +722,8 @@
       "delete": "Izbriši seznam",
       "share": "Deli seznam",
       "remove_sharing": "Odstrani s seznamov v skupni rabi",
-      "add_sharing": "Dodaj na sezname v skupni rabi"
+      "add_sharing": "Dodaj na sezname v skupni rabi",
+      "search": "Išči med seznamom"
     },
     "dialogs": {
       "delete": "Izbriši",

@@ -749,7 +749,8 @@
         "delete": "Zmazať zoznam",
         "share": "Zdieľať zoznam",
         "remove_sharing": "Odobrať zo zdieľaných zoznamov",
-        "add_sharing": "Pridať do zdieľaných zoznamov"
+        "add_sharing": "Pridať do zdieľaných zoznamov",
+        "search": "Hľadať v zozname"
       },
       "dialogs": {
         "delete": "Zmazať",

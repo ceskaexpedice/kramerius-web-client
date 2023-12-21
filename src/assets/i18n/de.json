@@ -749,7 +749,8 @@
         "delete": "Liste löschen",
         "share": "Liste teilen",
         "remove_sharing": "Aus geteilten Listen entfernen",
-        "add_sharing": "Zu geteilten Listen hinzufügen"
+        "add_sharing": "Zu geteilten Listen hinzufügen",
+        "search": "Suche in der Liste"
       },
       "dialogs": {
         "delete": "Löschen",

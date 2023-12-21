@@ -750,7 +750,8 @@
       "delete": "Delete list",
       "share": "Share list",
       "remove_sharing": "Remove from shared lists",
-      "add_sharing": "Add to shared lists"
+      "add_sharing": "Add to shared lists",
+      "search": "Search in list"
     },
     "dialogs": {
       "delete": "Delete",

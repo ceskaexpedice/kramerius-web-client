@@ -82,7 +82,7 @@ export class DocumentCardComponent implements OnInit {
 
   getTitle() {
     if ((this.in === 'folder-owner' || this.in === 'collection' ) && (this.item.doctype === 'periodicalitem' || this.item.doctype === 'periodicalvolume')) {
-      console.log('item', this.item);
+      // console.log('item', this.item);
       // return this.item.root_title.split(':')[0] + ' ' + this.item.title;
       return this.item.root_title;
     } else {

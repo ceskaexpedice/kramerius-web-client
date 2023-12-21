@@ -223,4 +223,7 @@ export class FolderComponent implements OnInit {
     console.log(this.folder.items)
     this.csv.downloadTableAsCSV(this.folder.items, this.folder.name)
   }
+  searchFolder() {
+    console.log('searchFolder', this.folder);
+  }
 }

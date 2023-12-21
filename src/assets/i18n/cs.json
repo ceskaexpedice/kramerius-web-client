@@ -753,7 +753,8 @@
       "delete": "Smazat seznam",
       "share": "Sdílet seznam",
       "remove_sharing": "Odebrat ze sdílených seznamů",
-      "add_sharing": "Přidat do sdílených seznamů"
+      "add_sharing": "Přidat do sdílených seznamů",
+      "search": "Prohledej seznam"
     },
     "dialogs": {
       "delete": "Smazat",
