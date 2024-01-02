@@ -62,14 +62,16 @@ export class MetadataComponent implements OnInit {
     if (this.auth.isLoggedIn() && this.settings.folders) {
       this.folderService.getFolders(null);
     }
-    this.selectedUuid = this.metadata.uuid;
-    this.selectedType = this.metadata.doctype;
-    this.selectedItem = { uuid: this.metadata.uuid, type: this.metadata.doctype };
+    if (this.metadata) {
+      this.selectedUuid = this.metadata.uuid;
+      this.selectedType = this.metadata.doctype;
+      this.selectedItem = { uuid: this.metadata.uuid, type: this.metadata.doctype };
+    }
   }
 
   openLikeMenu() {
+    this.folderService.getFolders(null);
     this.items = this.metadata.getFullContext(SolrService.allDoctypes);
-    console.log('openLikeMenu', this.items);
     if (this.items.length == 1) {
       this.selectedItem = this.items[0];
       this.selectedType = this.items[0].type;

@@ -191,8 +191,8 @@ export class SearchService {
         this.contentType = contentType;
         this.contentTypeDisplay = contentTypeDisplay;
         if (this.contentType === 'map') {
-            if (this.collectionStructure.collections && this.collectionStructure.collections.length > 1) {
-                if (this.collectionStructure.collections[0].uuid.toString() === this.mapSeries.rootCollectionUUID) {
+            if (this.collectionStructure.collections && this.collectionStructure.collections.length > 0) {
+                if (this.collectionStructure.collections[0][0].uuid.toString() === this.mapSeries.rootCollectionUUID) {
                     const nav = ['mapseries']
                     nav.push(this.query.collection)
                     this.router.navigate(nav)
