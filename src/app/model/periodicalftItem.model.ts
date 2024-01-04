@@ -49,4 +49,28 @@ export class PeriodicalFtItem {
         }
     }
 
+    clone(): PeriodicalFtItem {
+        const clone = new PeriodicalFtItem();
+        clone.volume = this.volume;
+        clone.authors = this.authors;
+        clone.issue = this.issue;
+        clone.supplement = this.supplement;
+        clone.page = this.page;
+        clone.date = this.date;
+        clone.year = this.year;
+        clone.part = this.part;
+        clone.title = this.title;
+        clone.context = this.context;
+        clone.uuid = this.uuid;
+        clone.public = this.public;
+        clone.thumb = this.thumb;
+        clone.text = this.text;
+        clone.query = this.query;
+        clone.model = this.model;
+        clone.type = this.type;
+        clone.parent = this.parent;
+        clone.licences = this.licences;
+        return clone;
+    }
+
 }

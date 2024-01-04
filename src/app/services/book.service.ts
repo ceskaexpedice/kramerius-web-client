@@ -989,21 +989,41 @@ export class BookService {
         this.api.getDocumentFulltextPage(uuids, query).subscribe((result: any[]) => {
             this.ftPages = [];
             let index = 0;
-            for (const page of this.allPages) {
-                page.snippet = null;
-                page.display = 2;
-                for (const item of result) {
+            // for (const page of this.allPages) {
+            //     page.snippet = null;
+            //     page.display = 2;
+            //     for (const item of result) {
+            //         if (item['uuid'] === page.uuid) {
+            //             page.selected = false;
+            //             page.index = index;
+            //             page.display = 1;
+            //             page.snippet = item['snippet'];
+            //             index += 1;
+            //             this.ftPages.push(page);
+            //             break;
+            //         }
+            //     }
+            // }
+
+
+            for (const item of result) {
+                for (const p of this.allPages) {
+                    const page = p.clone();
+                    page.snippet = null;
+                    page.display = 2;
                     if (item['uuid'] === page.uuid) {
                         page.selected = false;
                         page.index = index;
                         page.display = 1;
                         page.snippet = item['snippet'];
-                        index += 1;
                         this.ftPages.push(page);
                         break;
                     }
+                    // index += 1;
+
                 }
             }
+
             this.fulltextAllPagesChanged(pageUuid);
         });
     }

@@ -522,35 +522,42 @@ export class SolrService {
         const fq = `(${parent}) AND ${this.field('model')}:page`;
         const q = `_query_:"{!edismax qf=\'${this.field('text_ocr')}\' v=$q1}\"`;
         let term = this.buildQ(query);
-        return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&rows=300&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
+        // return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&rows=300&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
+        return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&rows=2000&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=false&hl.snippets=20&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
     }
 
     documentFulltextQuery(solr): string[] {
         const list = [];
         for (const doc of solr['response']['docs']) {
             // console.log('doc', doc);
-            let snippet = "";
             const uuid = doc[this.field('id')];
             const rootUuid = doc[this.field('root_pid')];
             if (solr['highlighting'][uuid]) {
                 const ocr = solr['highlighting'][uuid][this.field('text_ocr')];
                 if (ocr) {
-                    snippet = ocr[0];
+                    for (let snippet of ocr) {
+                        list.push({
+                            uuid: uuid,
+                            snippet: snippet
+                        });
+                    } 
                 }
             } else {
                 const composedId = `${rootUuid}!${uuid}`;
                 if (solr['highlighting'][composedId]) {
                     const ocr = solr['highlighting'][composedId][this.field('text_ocr')];
                     if (ocr) {
-                        snippet = ocr[0];
+                        for (let snippet of ocr) {
+                            list.push({
+                                uuid: uuid,
+                                snippet: snippet
+                            });
+                        } 
                     }
                 }
             }
-            list.push({
-                uuid: uuid,
-                snippet: snippet
-            });
         }
+        console.log('list', list);
         return list;
     }
 
@@ -694,7 +701,8 @@ export class SolrService {
         } else if (query.ordering === 'earliest') {
             sort = `${this.field('date_from_periodical_sort')} asc, ${this.field('date')} asc`;
         }
-        return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&sort=${sort}&rows=${limit}&start=${offset}&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
+        // return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&sort=${sort}&rows=${limit}&start=${offset}&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=true&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
+        return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&sort=${sort}&rows=${limit}&start=${offset}&hl=true&hl.fl=${this.field('text_ocr')}&hl.mergeContiguous=false&hl.snippets=20&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
     }
 
     buildDocumentQuery(uuid: string): string {
@@ -1691,20 +1699,32 @@ export class SolrService {
             if (solr['highlighting'][uuid]) {
                 const ocr = solr['highlighting'][uuid][this.field('text_ocr')];
                 if (ocr) {
-                    item.text = ocr[0];
+                    // item.text = ocr[0];
+                    for (let snippet of ocr) {
+                        let i = item.clone();
+                        i.text = snippet;
+                        items.push(i);
+                    } 
                 }
             } else {
                 const composedId = `${pidPath.split('/')[0]}!${uuid}`;
                 if (solr['highlighting'][composedId]) {
                     const ocr = solr['highlighting'][composedId][this.field('text_ocr')];
                     if (ocr) {
-                        item.text = ocr[0];
+                        // item.text = ocr[0];
+                        for (let snippet of ocr) {
+                            let i = item.clone();
+                            i.text = snippet;
+                            items.push(i);
+                        } 
                     }
                 }
             }
-            items.push(item);
+            // items.push(item);
         }
+        console.log('items', items);
         return items;
+
     }
 
 

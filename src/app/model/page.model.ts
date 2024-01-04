@@ -63,6 +63,30 @@ export class Page {
         this.loaded = false;
         this.imageType = PageImageType.None;
     }
+
+    public clone(): Page {
+        const clone = new Page();
+        clone.snippet = this.snippet;
+        clone.loaded = this.loaded;
+        clone.uuid = this.uuid;
+        clone.parentDoctype = this.parentDoctype;
+        clone.parentUuid = this.parentUuid;
+        clone.type = this.type;
+        clone.number = this.number;
+        clone.index = this.index;
+        clone.thumb = this.thumb;
+        clone.display = this.display;
+        clone.selected = this.selected;
+        clone.position = this.position;
+        clone.imageType = this.imageType;
+        clone.licences = this.licences;
+        clone.licence = this.licence;
+        clone.originUrl = this.originUrl;
+        clone.public = this.public;
+        clone.title = this.title;
+        clone.placement = this.placement;
+        return clone;
+    }
 }
 
 
