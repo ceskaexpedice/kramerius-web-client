@@ -37,6 +37,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private selectionWidth;
   private selectionHeight;
   private selectionRight;
+  private selectionHA;
+  private selectionVA;
   private selectionExtent;
   private selectionModeOn = false;
   private maskLayer;
@@ -233,7 +235,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   private onBoxEnd(extent) {
-    console.log('boxend', extent);
     if (this.imageWidth1 > 0) {
       // double page;
       const startExtentX = extent[0];
@@ -246,6 +247,19 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.onSelectionEnd(extent, this.imageWidth - this.imageWidth1, this.imageHeight, true);
       }
     } else {
+     
+      if (extent[0] < 0) {
+        extent[0] = 0;
+      }
+      if (extent[2] > this.imageWidth) {
+        extent[2] = this.imageWidth;
+      }
+      if (extent[1] < -this.imageHeight) {
+        extent[1] = -this.imageHeight;
+      }
+      if (extent[3] > 0) {
+        extent[3] = 0;
+      }
       this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
     }
   }
@@ -287,16 +301,24 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   private positionMenu(pixel) {
-    this.selectionMenu.style.left = pixel[0] + 'px';
-    this.selectionMenu.style.top = pixel[1] + 'px';
-    this.selectionMenu.style.display = 'block';
+    if (this.selectionHA == 'right') {
+      this.selectionMenu.style.left = (pixel[0] - 40) + 'px';
+    } else {
+      this.selectionMenu.style.left = (pixel[0] + 10) + 'px';
+    }
+    if (this.selectionVA == 'top') {
+      this.selectionMenu.style.top = pixel[1] + 'px';
+    } else {
+      this.selectionMenu.style.top = (pixel[1]  - this.selectionMenu.clientHeight) + 'px';
+    }
   }
 
   private updateMenuPosition() {
     if (!this.selectionPosition) {
-      this.selectionMenu.style.display = 'none';
+      this.selectionMenu.style.left = '-1000px';
       return;
     }
+    // this.hideOnInactivity = true;
     const pixel = this.view.getPixelFromCoordinate(this.selectionPosition);
     if (pixel) {
       this.positionMenu(pixel);
@@ -327,11 +349,34 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   onSelectionEnd(extent, width: number, height: number, right: boolean) {
+    const viewExtent = this.view.getView().calculateExtent(this.view.getSize());
     this.selectionWidth = width;
     this.selectionHeight = height;
     this.selectionRight = right;
     this.selectionExtent = extent;
-    this.selectionPosition = [extent[2], extent[3]];
+    let vPosition = extent[3];
+    let hPosition = extent[2];
+    const topRightSelection = this.view.getPixelFromCoordinate([extent[2], extent[3]]);
+    const topRightView = this.view.getPixelFromCoordinate([viewExtent[2], viewExtent[3]]);
+    const bottomLeftSelection = this.view.getPixelFromCoordinate([extent[0], extent[1]]);
+    const bottomLeftView = this.view.getPixelFromCoordinate([viewExtent[0], viewExtent[1]]);
+    const menuHeight = this.selectionMenu.clientHeight;
+    this.selectionVA = 'top';
+    vPosition = extent[3];
+    if (bottomLeftView[1] - topRightSelection[1] < menuHeight) {
+      this.selectionVA = 'bottom';
+      vPosition = extent[1];
+    }
+    this.selectionHA = 'left';
+    if (topRightView[0] - topRightSelection[0] < 50) {
+      if (bottomLeftSelection[0] - bottomLeftView[0] > 50) {
+        hPosition = extent[0];
+        this.selectionHA = 'right';
+      } else {
+        this.selectionHA = 'right';
+      }
+    }
+    this.selectionPosition = [hPosition, vPosition];
     this.createMask(extent);
     this.updateMenuPosition();
     this.view.removeInteraction(this.selectionInteraction);
@@ -362,12 +407,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   enterSelectionMode() {
+    this.hideOnInactivity = true;
     this.selectionModeOn = true;
     this.view.addInteraction(this.selectionInteraction);
     this.view.getViewport().style.cursor = 'crosshair';
   }
 
   onMouseMove() {
+    if (this.selectionModeOn) {
+      return;
+    }
     this.lastMouseMove = new Date().getTime();
     this.hideOnInactivity = false;
   }
