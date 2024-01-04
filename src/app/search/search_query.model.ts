@@ -42,6 +42,7 @@ export class SearchQuery {
     settings: AppSettings;
 
     collection: string;
+    folder: any;
 
     constructor(settings: AppSettings) {
         this.settings = settings;
@@ -69,7 +70,6 @@ export class SearchQuery {
         query.setFiled(query.publishers, 'publishers', params);
         query.setFiled(query.places, 'places', params);
         query.setFiled(query.genres, 'genres', params);
-
         query.setOrdering(params['sort']);
         if (settings.filters.indexOf('accessibility') > -1) {
             query.setAccessibility(params['accessibility']);
@@ -83,6 +83,10 @@ export class SearchQuery {
         }
         if (context.key === 'collection') {
             query.collection = context.value;
+        }
+        if (params['folder']) {
+            query.folder = {};
+            query.folder['uuid'] = params['folder'];
         }
         return query;
     }
@@ -443,6 +447,9 @@ export class SearchQuery {
             return true;
         }
         if (this.isYearRangeSet()) {
+            return true;
+        }
+        if (this.folder) {
             return true;
         }
         return false;

@@ -754,7 +754,9 @@
       "share": "Sdílet seznam",
       "remove_sharing": "Odebrat ze sdílených seznamů",
       "add_sharing": "Přidat do sdílených seznamů",
-      "search": "Prohledej seznam"
+      "search": "Prohledej seznam",
+      "search_end": "Zrušit hledání",
+      "search_warning": "Pole nesmí zůstat prázdné"
     },
     "dialogs": {
       "delete": "Smazat",

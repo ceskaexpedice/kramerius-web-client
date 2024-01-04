@@ -723,7 +723,9 @@
       "share": "Deli seznam",
       "remove_sharing": "Odstrani s seznamov v skupni rabi",
       "add_sharing": "Dodaj na sezname v skupni rabi",
-      "search": "Išči med seznamom"
+      "search": "Išči med seznamom",
+      "search_end": "Končaj iskanje",
+      "search_warning": "Polje ne sme ostati prazno"
     },
     "dialogs": {
       "delete": "Izbriši",

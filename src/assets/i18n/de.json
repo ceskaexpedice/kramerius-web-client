@@ -750,7 +750,9 @@
         "share": "Liste teilen",
         "remove_sharing": "Aus geteilten Listen entfernen",
         "add_sharing": "Zu geteilten Listen hinzufügen",
-        "search": "Suche in der Liste"
+        "search": "Suche in der Liste",
+        "search_end": "Suche beenden",
+        "search_warning": "Das Feld darf nicht leer bleiben"
       },
       "dialogs": {
         "delete": "Löschen",

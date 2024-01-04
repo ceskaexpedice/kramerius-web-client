@@ -47,6 +47,42 @@
                 color: #111;
               }
             }
+            .app-folder-search-bar-wrapper {
+              display: flex;
+              padding: 0 20px;
+              margin-right: 10px;
+              width: 100%;
+              .app-folder-search-bar {
+                position: relative;
+                input {
+                  margin: 0;
+                  border-bottom-color: transparent;
+                  padding: 0 0 0 34px;
+                  &::placeholder {
+                    color: $app-grey;
+                  }
+                }
+                mat-icon {
+                  cursor: pointer;
+                  top: 16px;
+                  left: 5px;
+                  position: absolute;
+                  color: $app-grey-text;
+                }
+                &.app-is-query {
+                  input {
+                    border-bottom: 1px solid $primary-color !important;
+                    box-shadow: 0 1px 0 0 $primary-color;
+                  }
+                }
+                
+                &.app-is-query, &:focus-within {
+                  .app-magnify  {
+                    color: $primary-color;
+                  }
+                }
+              }
+            }
         }
     }
     // .app-folder-content {
@@ -91,3 +127,6 @@
     }
     
 }
+
+
+

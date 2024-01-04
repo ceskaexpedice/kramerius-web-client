@@ -751,7 +751,9 @@
       "share": "Share list",
       "remove_sharing": "Remove from shared lists",
       "add_sharing": "Add to shared lists",
-      "search": "Search in list"
+      "search": "Search in list",
+      "search_end": "End search",
+      "search_warning": "The field must be filled"
     },
     "dialogs": {
       "delete": "Delete",

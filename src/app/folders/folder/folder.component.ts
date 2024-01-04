@@ -25,6 +25,9 @@ export class FolderComponent implements OnInit {
   @Input() user: string;
 
   folderSelection: boolean;
+  searchSelection: boolean = false;
+  searchQuery: string = null;
+  searchPlaceholder: string = this.translate.instant('folders.tooltips.search');
   ordering: string = 'alphabetical';
   devMode: boolean = false;
 
@@ -223,7 +226,18 @@ export class FolderComponent implements OnInit {
     console.log(this.folder.items)
     this.csv.downloadTableAsCSV(this.folder.items, this.folder.name)
   }
-  searchFolder() {
-    console.log('searchFolder', this.folder);
+  toggleSearchSelection() {
+    this.searchSelection = !this.searchSelection;
+    this.searchPlaceholder = this.translate.instant('folders.tooltips.search');
+    console.log('toggleSearchSelection', this.searchSelection);
   }
+  searchFolder() {
+    if (this.searchQuery && this.searchQuery.length > 0) {
+      this.router.navigate(['search'], { queryParams: { folder: this.folder.uuid, q: this.searchQuery } });
+    } else {
+      this.searchPlaceholder = this.translate.instant('folders.tooltips.search_warning');
+    }
+  }
+
+
 }

@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AdvancedSearchDialogComponent } from '../dialog/advanced-search-dialog/advanced-search-dialog.component';
 import { MapSeriesService } from './mapseries.service';
 import { Observable, Subject, forkJoin } from 'rxjs';
+import { FolderService } from './folder.service';
 
 
 @Injectable()
@@ -66,6 +67,7 @@ export class SearchService {
     collectionStructureTree: any;
 
     adminSelection: boolean;
+    folder: any;
 
     constructor(
         private router: Router,
@@ -78,7 +80,8 @@ export class SearchService {
         private localStorageService: LocalStorageService,
         private api: KrameriusApiService,
         private settings: AppSettings,
-        private dialog: MatDialog) {
+        private dialog: MatDialog,
+        private folderService: FolderService) {
     }
 
     public init(context, params) {
@@ -113,7 +116,19 @@ export class SearchService {
         if (this.settings.availableFilter('access')) {
             this.initAccess();
         }
-        this.search();
+        if (this.query.folder) {
+            console.log('folder', this.query.folder);
+           this.folderService.getFolder(this.query.folder.uuid).subscribe(folder => {
+            this.folder = folder;
+            this.query.folder['name'] = this.folder.name;
+            this.query.folder['items'] = this.folder.items[0];
+            this.query
+            console.log('folder', this.query);
+            this.search();
+           });
+        } else {
+            this.search();
+        }
     }
 
     watchAllResults(): Observable<DocumentItem[]> {
@@ -337,6 +352,11 @@ export class SearchService {
 
     public removeQueryString() {
         this.query.query = null;
+        this.reload(false);
+    }
+
+    public removeFolder() {
+        this.query.folder = null;
         this.reload(false);
     }
 

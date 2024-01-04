@@ -750,7 +750,9 @@
         "share": "Zdieľať zoznam",
         "remove_sharing": "Odobrať zo zdieľaných zoznamov",
         "add_sharing": "Pridať do zdieľaných zoznamov",
-        "search": "Hľadať v zozname"
+        "search": "Hľadať v zozname",
+        "search_end": "Ukončiť hľadanie",
+        "search_warning": "Pole nesmie zostať prázdne"
       },
       "dialogs": {
         "delete": "Zmazať",
