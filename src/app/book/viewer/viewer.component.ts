@@ -306,9 +306,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.selectionMenu.style.left = (pixel[0] + 10) + 'px';
     }
     if (this.selectionVA == 'top') {
-      this.selectionMenu.style.top = pixel[1] + 'px';
+      this.selectionMenu.style.top = (pixel[1] + 5) + 'px';
     } else {
-      this.selectionMenu.style.top = (pixel[1]  - this.selectionMenu.clientHeight) + 'px';
+      this.selectionMenu.style.top = (pixel[1] - this.selectionMenu.clientHeight) + 'px';
     }
   }
 
@@ -361,8 +361,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const bottomLeftView = this.view.getPixelFromCoordinate([viewExtent[0], viewExtent[1]]);
     const menuHeight = this.selectionMenu.clientHeight;
     this.selectionVA = 'top';
-    vPosition = extent[3];
-    if (bottomLeftView[1] - topRightSelection[1] < menuHeight) {
+    if (bottomLeftView[1] - topRightSelection[1] < menuHeight + 5) {
       this.selectionVA = 'bottom';
       vPosition = extent[1];
     }
@@ -799,10 +798,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.updateBoxes();
     this.addWaterMark();
     if (this.data.bb) {
+
       const bb = this.data.bb.split(',');
       const extent = [parseInt(bb[0]),  -1*(parseInt(bb[1]) + parseInt(bb[3])),  parseInt(bb[0])+parseInt(bb[2]) , -parseInt(bb[1])];
-      this.onBoxEnd(extent);
-      this.view.getView().fit(extent);
+      setTimeout(() => {
+        this.view.getView().fit(extent);      
+        this.onBoxEnd(extent);
+      }, 100);  
     }
   }
 
