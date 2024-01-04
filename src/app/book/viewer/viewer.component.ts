@@ -247,7 +247,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.onSelectionEnd(extent, this.imageWidth - this.imageWidth1, this.imageHeight, true);
       }
     } else {
-     
       if (extent[0] < 0) {
         extent[0] = 0;
       }
@@ -407,6 +406,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   enterSelectionMode() {
+    if (this.imageWidth1 > 0) {
+      this.bookService.toggleDoublePage();
+      return;
+    }
     this.hideOnInactivity = true;
     this.selectionModeOn = true;
     this.view.addInteraction(this.selectionInteraction);
