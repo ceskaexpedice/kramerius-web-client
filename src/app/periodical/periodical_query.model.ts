@@ -10,6 +10,7 @@ export class PeriodicalQuery {
     from: number;
     to: number;
     ordering: string; // relevance | earliest | latest
+    folder: any = {};
 
     constructor() {
     }
@@ -23,6 +24,7 @@ export class PeriodicalQuery {
         query.setYearRange(params.get('from'), params.get('to'));
         query.setOrdering(params.get('sort'));
         query.setPage(params.get('page'));
+        query.folder['uuid'] = params.get('folder');
         return query;
     }
 

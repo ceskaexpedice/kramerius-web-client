@@ -354,6 +354,9 @@ export class SearchQuery {
         if (this.page && this.page > 1) {
             params['page'] = this.page;
         }
+        if (this.folder) {
+            params['folder'] = this.folder.uuid;
+        }
         return params;
     }
 

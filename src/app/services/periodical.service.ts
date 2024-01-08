@@ -156,7 +156,17 @@ export class PeriodicalService {
           this.metadata.addToContext('periodical', query.uuid);
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (query.fulltext) {
-            this.initFulltext();
+            if (query.folder) {
+              console.log('mam folder', query.folder, this.query);
+              this.api.getFolder(query.folder.uuid).subscribe(folder => {
+                this.query.folder['uuid'] = folder['uuid'];
+                this.query.folder['name'] = folder['name'];
+                this.query.folder['items'] = folder['items'][0];
+                this.initFulltext();
+              });
+            } else {
+              this.initFulltext();
+            }
           } else {
             this.api.getPeriodicalVolumes(query.uuid, query).subscribe((volumes: PeriodicalItem[]) => {
               this.assignItems(volumes);
@@ -204,7 +214,7 @@ export class PeriodicalService {
                   this.metadata.inCollections.push({'uuid': uuid, 'name': name})
               })
           }
-      }
+        }
       });
     },
       error => {

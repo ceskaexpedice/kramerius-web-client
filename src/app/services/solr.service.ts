@@ -685,6 +685,11 @@ export class SolrService {
             const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
             fq += ` AND (${modelRestriction})`;
         }
+        if (query.folder) {
+            let items = query.folder.items.map(i => this.field('parent_pid') + ':"' + i.id + '"');
+            let itemsQ = items.join(' OR ');
+            fq += ` AND (${itemsQ})`;
+        }
         // fq += ` AND (${this.field('model')}:page OR ${this.field('model')}:article OR ${this.field('model')}:monographunit OR ${this.field('model')}:monograph )`;
         let term = this.buildQ(query.fulltext);
         const q = `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('authors_search')}^2 ${this.field('keywords_search')} ${this.field('text_ocr')}^1\' v=$q1}\"`;
@@ -1106,10 +1111,6 @@ export class SolrService {
             }   
         }
 
-
-
-
-
         if (facet && facet.startsWith('access:')) {
             if (facet == 'access:accessible') {
                 let q = this.settings.ignorePolicyFlag ? '' : `${this.field('accessibility')}:public`;
@@ -1225,20 +1226,6 @@ export class SolrService {
             }   
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         if (query.isYearRangeSet()) {
             const from = query.from === 0 ? 1 : query.from;
             let yearQ = `((${this.field('date_year_from')}:[* TO ${query.to}] AND ${this.field('date_year_to')}:[${from} TO *])`
@@ -1265,6 +1252,11 @@ export class SolrService {
         fqFilters.push(this.buildFacetFilter(withQueryString, 'genres', query.genres, facet));
         if (!query.isBoundingBoxSet() && this.settings.k5Compat()) {
             fqFilters.push(this.getDateOrderingRestriction(query));
+        }
+        if (query.folder && query.folder.items && query.folder.items.length > 0) {
+            let items = query.folder.items.map(i => this.field('parent_pid') + ':"' + i.id + '"');
+            let itemsQ = items.join(' OR ');
+            fqFilters.push(`(${itemsQ})`);
         }
         fqFilters = fqFilters.filter( (el) => {
             return el != null && el !== '';
@@ -1969,18 +1961,6 @@ export class SolrService {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     searchResultItems(solr, query: SearchQuery): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const group of solr['grouped'][this.field('root_pid')]['groups']) {
@@ -2012,6 +1992,9 @@ export class SolrService {
                 if (query.isYearRangeSet()) {
                     params['from'] = query.from;
                     params['to'] = query.to;
+                }
+                if (query.folder) {
+                    params['folder'] = query.folder.uuid;
                 }
             }
             item.date = doc[this.field('date')];
