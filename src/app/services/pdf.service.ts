@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { PDFDocumentProxy, PdfViewerComponent } from 'ng2-pdf-viewer';
 import { AppSettings } from './app-settings';
 
 @Injectable()
 export class PdfService {
-
-
 
     url: string;
     pdfObject: any;
@@ -19,6 +17,7 @@ export class PdfService {
     lastZoom: number = 1;
     pdfLoading: boolean;
     index = 1;
+    data: PDFDocumentProxy;
 
     constructor(private settings: AppSettings) {}
 
@@ -45,8 +44,9 @@ export class PdfService {
         this.pdfObject = null;
     }
 
-    init(data: any, pdfComponent: PdfViewerComponent) {
+    init(data: PDFDocumentProxy, pdfComponent: PdfViewerComponent) {
         this.pdfComponent = pdfComponent;
+        this.data = data;
         this.outline = [];
         this.totalPages = data.numPages;
         data.getOutline().then((outline: any[]) => {
@@ -185,6 +185,15 @@ export class PdfService {
             return;
         }
         this.pageIndex -= 1;
+    }
+
+    getPageContent() {
+        console.log('pageIndex', this.pdfComponent.pdfViewer.getPageView(this.pageIndex));
+        this.data.getPage(this.pageIndex).then((page) => {
+            page.getTextContent().then((textContent) => {
+              console.log('textContent', textContent);
+            });
+          });
     }
 
 }

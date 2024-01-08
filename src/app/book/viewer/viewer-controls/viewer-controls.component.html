@@ -50,7 +50,7 @@
 
 
 
-  <mat-icon (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate')"
+  <mat-icon (click)="rotate()"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_rotate_right' | translate" 

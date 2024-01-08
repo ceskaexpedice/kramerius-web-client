@@ -73,6 +73,14 @@ export class ViewerControlsComponent implements OnInit {
     return !this.bookService.isEpub();
   }
 
+  rotate() {
+    // if (this.bookService.isPdf()) {
+    //   this.pdfService.getPageContent();
+    // }
+    this.controlsService.rotateRight();
+    this.analytics.sendEvent('viewer', 'controls', 'rotate')
+  }
+
   showRotation(): boolean {
     return !this.bookService.showGeoreference && !this.bookService.isEpub();
   }
