@@ -468,7 +468,7 @@ export class KrameriusApiService {
         if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid) + '/children');
         } else {
-            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, null, false));
+            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, null, true));
         }
     }
 
