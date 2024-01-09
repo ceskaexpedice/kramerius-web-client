@@ -76,7 +76,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   constructor(public bookService: BookService,
               public authService: AuthService,
-              public settings: AppSettings,
+              private settings: AppSettings,
               public licences: LicenceService,
               private http: HttpClient,
               private iiif: IiifService,
@@ -391,6 +391,30 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   onShowTextSelection() {
       this.bookService.showTextSelection(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
+  }
+
+  aiActionsEnabled(): boolean {
+    return this.settings.ai;
+  }
+
+  showPageActions(): boolean {
+    return !this.selectionModeOn && this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
+  }
+
+  onReadSelection() {
+
+  }
+
+  onTranslateSelection() {
+
+  }
+
+  onSummarizeSelection() {
+
+  }
+
+  onPageOcr() {
+    this.bookService.showOcr();
   }
 
   cancelSelection() {

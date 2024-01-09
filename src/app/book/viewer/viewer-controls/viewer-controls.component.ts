@@ -23,10 +23,10 @@ export class ViewerControlsComponent implements OnInit {
   ngOnInit() {
   }
 
-  enterSelectionMode() {
-    this.analytics.sendEvent('viewer', 'controls', 'selection');
-    this.controlsService.enterSelectionMode();
-  }
+  // enterSelectionMode() {
+  //   this.analytics.sendEvent('viewer', 'controls', 'selection');
+  //   this.controlsService.enterSelectionMode();
+  // }
 
   showPrevNextPage(): boolean {
     return true;
@@ -56,9 +56,9 @@ export class ViewerControlsComponent implements OnInit {
     return !this.bookService.showGeoreference && this.bookService.doublePageSupported() && !this.bookService.doublePageEnabled;
   }
 
-  showSelectionMode(): boolean {
-    return this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
-  }
+  // showSelectionMode(): boolean {
+  //   return this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
+  // }
 
 
   showCropMap(): boolean {

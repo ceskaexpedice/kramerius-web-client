@@ -57,6 +57,7 @@ export class AppSettings {
   public copyrightedText: string;
   public replaceImageUrl: string;
 
+  public ai: boolean;
   public keycloak: boolean;
   public georef: boolean;
   public termsPage : [string, string];
@@ -215,6 +216,7 @@ export class AppSettings {
     this.replaceImageUrl = kramerius.replaceImageUrl;
     this.copyrightedText = kramerius.copyrightedText;
     this.keycloak = !!kramerius.keycloak;
+    this.ai = !!kramerius.ai;
     this.georef = !!kramerius.georef;
     this.termsPage = kramerius.termsPage;
     this.termsPage2 = kramerius.termsPage2;
@@ -363,6 +365,7 @@ interface KrameriusData {
   maxOmnibusParts: number;
   maxOmnibusPages: number;
   keycloak: boolean;
+  ai: boolean;
   georef: boolean;
   termsPage: [string, string];
   termsPage2: [string, string];
