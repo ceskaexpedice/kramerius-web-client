@@ -10,13 +10,15 @@ export class PeriodicalQuery {
     from: number;
     to: number;
     ordering: string; // relevance | earliest | latest
-    folder: any = {};
+    folderUuid: string;
+    folder: any;
 
     constructor() {
     }
 
     public static fromParams(uuid: string, params): PeriodicalQuery {
         const query = new PeriodicalQuery();
+        console.log('fromParams', params);
         query.uuid = uuid;
         query.setAccessibility(params.get('accessibility'));
         query.setSource(params.get('source'));
@@ -24,7 +26,7 @@ export class PeriodicalQuery {
         query.setYearRange(params.get('from'), params.get('to'));
         query.setOrdering(params.get('sort'));
         query.setPage(params.get('page'));
-        query.folder['uuid'] = params.get('folder');
+        query.folderUuid = params.get('folder');
         return query;
     }
 
@@ -110,7 +112,5 @@ export class PeriodicalQuery {
         }
         return params;
     }
-
-
 
 }

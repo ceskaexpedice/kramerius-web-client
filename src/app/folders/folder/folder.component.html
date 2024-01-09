@@ -43,7 +43,7 @@
                 <mat-icon>search</mat-icon>
               </button>
             </div>
-            <div tabindex="0" *ngIf="!folderSelection && searchSelection" (click)="this.toggleSearchSelection()" class="app-view-button" [class.app-active]="folderSelection"  matTooltip="{{ 'folders.tooltips.search_end' | translate }}" style="margin-right: -10px;">
+            <div tabindex="0" *ngIf="!folderSelection && searchSelection" (click)="this.toggleSearchSelection()" class="app-view-button app-folder-search-clear" [class.app-active]="folderSelection"  matTooltip="{{ 'folders.tooltips.search_end' | translate }}">
               <mat-icon>clear</mat-icon>
             </div>
             <!-- ORDERING -->

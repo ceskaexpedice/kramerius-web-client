@@ -156,9 +156,10 @@ export class PeriodicalService {
           this.metadata.addToContext('periodical', query.uuid);
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (query.fulltext) {
-            if (query.folder) {
-              console.log('mam folder', query.folder, this.query);
-              this.api.getFolder(query.folder.uuid).subscribe(folder => {
+            if (query.folderUuid) {
+              console.log('query.folder', query.folderUuid);
+              this.api.getFolder(query.folderUuid).subscribe(folder => {
+                this.query.folder = {};
                 this.query.folder['uuid'] = folder['uuid'];
                 this.query.folder['name'] = folder['name'];
                 this.query.folder['items'] = folder['items'][0];
@@ -420,6 +421,7 @@ export class PeriodicalService {
       models = ['page', 'article'];
     }
     this.api.getPeriodicalFulltext(uuid1, uuid2, this.fulltext.getOffset(), this.fulltext.limit, this.query, models).subscribe(([pages, results]: [PeriodicalFtItem[], number]) => {
+      console.log('query', this.query);
       this.fulltext.pages = pages;
       this.fulltext.results = results;
       const issuePids = [];

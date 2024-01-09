@@ -47,11 +47,14 @@
                 color: #111;
               }
             }
+            .app-folder-search-clear {
+              margin-right: 20px;
+            }
             .app-folder-search-bar-wrapper {
               display: flex;
               padding: 0 20px;
               margin-right: 10px;
-              width: 100%;
+              // width: 100%;
               .app-folder-search-bar {
                 position: relative;
                 input {
