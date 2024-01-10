@@ -51,6 +51,7 @@ export class AdminDialogComponent implements OnInit {
       });
       this.changeTab(this.items[0]);
     }
+    console.log('items', this.items);
   }
 
   changeTab(item) {
@@ -73,6 +74,7 @@ export class AdminDialogComponent implements OnInit {
 
   categoryLabel(category: string): string {
     switch (category) {
+      case 'licences': return "Licence";
       case 'collections': return "Sbírky";
       case 'accessibility': return "Změna viditelnosti";
       case 'reindexation': return "Reindexace";
@@ -83,7 +85,12 @@ export class AdminDialogComponent implements OnInit {
 
   openInAdmin() {
     // console.log(this.settings.adminClientUrl + '/object/' + this.selection.uuid);
-    window.open(this.settings.adminClientUrl + '/object/' + this.selection.uuid , '_blank');
+    if (this.selection.type == 'multiple') {
+      window.open(this.settings.adminClientUrl + '/object/' + this.selection.uuids[0], '_blank');
+      return;
+    } else {
+      window.open(this.settings.adminClientUrl + '/object/' + this.selection.uuid , '_blank');
+    }
   }
 
   onCancel() {

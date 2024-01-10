@@ -50,7 +50,7 @@
 
 
 
-  <mat-icon (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate')"
+  <mat-icon (click)="rotate()"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_rotate_right' | translate" 
@@ -90,49 +90,39 @@
   lock
 </mat-icon>
 
-  <mat-icon *ngIf="authService.isLoggedIn()" (click)="controlsService.toggleTts();analytics.sendEvent('viewer', 'controls', 'tts')"
-    tabindex="0"
-    class="hide-on-small"
-    [matTooltip]="'Přečti text'" >
-    record_voice_over
-  </mat-icon>
-
-  <mat-icon *ngIf="authService.isLoggedIn()" (click)="controlsService.summarize();analytics.sendEvent('viewer', 'controls', 'sumarize')"
-    tabindex="0"
-    class="hide-on-small"
-    [matTooltip]="'Sumarizuj'" >
-    list
-  </mat-icon>
-
-  <mat-icon *ngIf="authService.isLoggedIn()" (click)="controlsService.translate();analytics.sendEvent('viewer', 'controls', 'translate')"
-  tabindex="0"
-  class="hide-on-small"
-  [matTooltip]="'Přelož'" >
-  translate
-  </mat-icon>
-
-  <mat-icon (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text')"
+  <!-- <mat-icon (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text')"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_select_text' | translate"
             [class.app-inactive]="!selectTextEnabled()" 
             *ngIf="showSelectText()">
             title
-  </mat-icon>
+  </mat-icon> -->
 
-  <mat-icon (click)="onCropImageClicked()"
+  <!-- <mat-icon (click)="onCropImageClicked()"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.' + (bookService.showGeoreference ? 'tooltip_cutline' : 'tooltip_crop_image') | translate" 
             [class.app-inactive]="!imageCropEnabled()"
             *ngIf="showImageCrop()">
             crop
-  </mat-icon>
+  </mat-icon> -->
   
-  <!-- <mat-icon (click)="hideWarpedLayer()"
-            [matTooltip]="'view_controls.tooltip_hidewarpedlayer' | translate" 
-            *ngIf="bookService.hasGeoreference && bookService.showGeoreference">
-            visibility
+ <mat-icon (click)="controlsService.cropMap();analytics.sendEvent('viewer', 'controls', 'map crop')"
+            tabindex="0"
+            class="hide-on-small"
+            [matTooltip]="'view_controls.tooltip_cutline' | translate" 
+            *ngIf="showCropMap()">
+            crop
+  </mat-icon>
+
+  <!-- <mat-icon 
+    tabindex="0"
+    class="hide-on-small"
+    (click)="enterSelectionMode()"
+    [matTooltip]="'Vybrat oblast'"
+    *ngIf="showSelectionMode()">
+    crop
   </mat-icon> -->
 
   <mat-icon (click)="showGeoMap()"

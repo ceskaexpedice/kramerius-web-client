@@ -5,7 +5,7 @@ import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { throwError } from 'rxjs';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { AppSettings } from './app-settings';
@@ -21,6 +21,7 @@ import { BrowseQuery } from '../browse/browse_query.model';
 import { Metadata } from '../model/metadata.model';
 import { ModsParserService } from './mods-parser.service';
 import { catchError, map } from 'rxjs/operators';
+import { Folder } from '../model/folder.model';
 
 @Injectable()
 export class KrameriusApiService {
@@ -200,11 +201,18 @@ export class KrameriusApiService {
         return this.getMods(uuid).pipe(map(mods => this.mods.parse(mods, id, type)));
     }
 
-    getItem(uuid: string): Observable<DocumentItem> {
-        if (this.settings.k5Compat()) {
+    getItem(uuid: string, forceIndex = false): Observable<DocumentItem> {
+        if (this.settings.k5Compat() && !forceIndex) {
             return this.doGet(this.getItemUrl(uuid)).pipe(map(response => this.utils.parseItem(response)));
         } else {
-            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => this.solr.documentItem(response)));
+            return this.getSearchResults(this.solr.buildDocumentQuery(uuid)).pipe(map(response => {
+                const item = this.solr.documentItem(response);
+                if (item == null) {
+                    throw new NotFoundError();
+                } else {
+                    return item;
+                }
+             }));
         }
     }
 
@@ -257,7 +265,11 @@ export class KrameriusApiService {
     }
 
     getIiifBaseUrl(uuid: string): string {
-        return this.getbaseUrl() + '/search/iiif/' + uuid;
+        let baseUrl = this.getbaseUrl();
+        if (this.settings.replaceImageUrl) {
+            baseUrl = baseUrl.replace(this.settings.url, this.settings.replaceImageUrl);
+        }
+        return baseUrl + '/search/iiif/' + uuid;
     }
 
     getIiifPresentationUrl(uuid: string): string {
@@ -346,6 +358,11 @@ export class KrameriusApiService {
             .pipe(map(response => response));
     }
 
+    getColletionCuttings(uuid: string):  Observable<any> {
+        const url = this.getItemUrl(uuid) + '/collection/cuttings';
+        return this.doGet(url);
+    }
+
     getKrameriusInfo(language: string): Observable<KrameriusInfo> {
         const url = this.getApiUrl() + '/info?language=' + language;
         return this.doGet(url)
@@ -399,6 +416,22 @@ export class KrameriusApiService {
         }
     }
 
+
+    getEpubFileFromUrl(uuid: string): Observable<File> {
+        let blob: Observable<Blob>;
+        if (this.settings.k5Compat()) {
+            blob = this.doGetBlob(this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG));
+        } else {
+            blob = this.doGetBlob(this.getItemUrl(uuid) + '/image')
+        }
+        return blob.pipe(map((blobData) => {
+            const file = new File([blobData], 'image.epub', {
+                type: "application/epub+zip",
+            });
+            return file;
+        }));
+    }
+
     getScaledJpegUrl(uuid: string, height: number): string {
         let url = this.getbaseUrl() + '/search/img?pid=' + uuid + '&stream=IMG_FULL';
         if (height) {
@@ -435,7 +468,7 @@ export class KrameriusApiService {
         if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid) + '/children');
         } else {
-            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, null, false));
+            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, null, true));
         }
     }
 
@@ -450,7 +483,11 @@ export class KrameriusApiService {
             return this.doGet(this.getItemUrl(uuid))
                 .pipe(map(response => this.parseItemInfoForPage(response)));
         } else {
-            return this.doGet(this.getItemUrl(uuid) + '/info')
+            let url = this.getItemUrl(uuid) + '/info';
+            if (this.settings.replaceImageUrl) {
+                url = url.replace(this.settings.url, this.settings.replaceImageUrl);
+            }
+            return this.doGet(url)
                 .pipe(map(response => this.parseItemInfoForPage(response)));
         }
     }
@@ -478,5 +515,54 @@ export class KrameriusApiService {
         }
     }
 
+    // FOLDERS
+
+    private getFoldersUrl(path: string): string {
+        return this.getApiUrl() + '/folders/' + path;
+    }
+    getFolders() {
+        const url = this.getFoldersUrl('');
+        return this.doGet(url);
+    }
+    getFolder(uuid: string) {
+        const url = this.getFoldersUrl(uuid);
+        return this.doGet(url);
+    }
+    getFolderItems(uuid: string) {
+        const url = this.getFoldersUrl(uuid + '/items');
+        return this.doGet(url);
+    }
+    createNewFolder(name: string): Observable<any> {
+        const url = this.getFoldersUrl('');
+        let body = {"name": name};
+        return this.http.post<any>(url, body)
+    }
+    deleteFolder(uuid: string): Observable<any> {
+        const url = this.getFoldersUrl(uuid);
+        return this.http.delete<any>(url)
+    }
+    editFolder(uuid: string, name: string): Observable<any> {
+        const url = this.getFoldersUrl(uuid);
+        let body = {"name": name};
+        return this.http.put<any>(url, body)
+    }
+    followFolder(uuid: string): Observable<any> {
+        const url = this.getFoldersUrl(uuid + '/follow');
+        return this.http.post<any>(url, {})
+    }
+    unfollowFolder(uuid: string): Observable<any> {
+        const url = this.getFoldersUrl(uuid + '/unfollow');
+        return this.http.post<any>(url, {})
+    }
+    addItemToFolder(uuid: string, items: any): Observable<any> {
+        const url = this.getFoldersUrl(uuid + '/items');
+        let body = {"items": items};
+        return this.http.put<any>(url, body)
+    }
+    removeItemFromFolder(uuid: string, items: any[]): Observable<any> {
+        const url = this.getFoldersUrl(uuid + '/items');
+        let body = {"items": items};
+        return this.http.delete<any>(url, {body: body})
+    }
 
 }

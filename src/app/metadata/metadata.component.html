@@ -1,17 +1,28 @@
 <div class="app-metadata-wrapper" *ngIf="metadata">
 
   <div class="app-metadata-controls" *ngIf="controlsEnabled">
-      <mat-icon tabindex="0" *ngIf="actionAvailable('share')" [class.app-disabled]="!actionEnabled('share')" (click)="onShare()" [matTooltip]="'book_controls.tooltip_share' | translate">share</mat-icon>
-      <mat-icon tabindex="0" *ngIf="actionAvailable('citation')" [class.app-disabled]="!actionEnabled('citation')" (click)="onShowCitation()" [matTooltip]="'book_controls.tooltip_citation' | translate">format_quote</mat-icon>
-      <mat-icon tabindex="0" *ngIf="actionAvailable('metadata')" [class.app-disabled]="!actionEnabled('metadata')" (click)="onShowMetadata()" [matTooltip]="'book_controls.tooltip_metadata' | translate">code</mat-icon>
-      <mat-icon tabindex="0" *ngIf="auth.isAdmin()" (click)="openAdminActions()" [matTooltip]="'book_controls.tooltip_edit' | translate">edit</mat-icon>
-    </div>
+    
+    <!-- <mat-icon tabindex="0" *ngIf="actionAvailable('like')" [class.app-disabled]="!actionEnabled('like')" (click)="onLike()" [matTooltip]="'book_controls.tooltip_share' | translate">favorite</mat-icon> -->
+    <mat-icon tabindex="0" *ngIf="actionAvailable('share')" [class.app-disabled]="!actionEnabled('share')" (click)="onShare()" [matTooltip]="'book_controls.tooltip_share' | translate">share</mat-icon>
+    <mat-icon tabindex="0" *ngIf="actionAvailable('citation')" [class.app-disabled]="!actionEnabled('citation')" (click)="onShowCitation()" [matTooltip]="'book_controls.tooltip_citation' | translate">format_quote</mat-icon>
+    <mat-icon tabindex="0" *ngIf="actionAvailable('metadata')" [class.app-disabled]="!actionEnabled('metadata')" (click)="onShowMetadata()" [matTooltip]="'book_controls.tooltip_metadata' | translate">code</mat-icon>
+    <mat-icon tabindex="0" *ngIf="auth.isAdmin()" (click)="openAdminActions()" [matTooltip]="'book_controls.tooltip_edit' | translate">edit</mat-icon>
+    <span class="app-dropdown" *ngIf="auth.isLoggedIn() && settings.folders" [matMenuTriggerFor]="favoritesMenu" (click)="openLikeMenu()">
+      <mat-icon tabindex="0" [matTooltip]="'folders.like' | translate">favorite</mat-icon>
+    </span>
+  </div>
+
+  <div class="app-navigation-docs" *ngIf="settings.docsNav && navigationService.hasNav() && controlsEnabled">
+    <div class="app-btn app-btn-prev" [class.app-disabled]="!navigationService.hasPrevious()" (click)="navigationService.previous()"><mat-icon>keyboard_double_arrow_left</mat-icon></div>
+    <div class="app-btn app-btn-next" [class.app-disabled]="!navigationService.hasNext()" (click)="navigationService.next()"><mat-icon>keyboard_double_arrow_right</mat-icon></div>
+  </div>
 
   <div class="app-metadata-content">
 
     <ng-container *ngIf="metadata.titles[0]">
-      
-      <ng-container *ngIf="!expandedTitle">
+      <ng-container *ngIf="metadata.doctype == 'collection'">{{ getCollectionTitle() }}</ng-container>
+
+      <ng-container *ngIf="!expandedTitle && metadata.doctype != 'collection'">
         <h1 *ngIf="metadata.getTitle()" [class.app-cut]="metadata.getTitle().length > 75">
           {{ metadata.getTitle() }}
         </h1>
@@ -23,7 +34,7 @@
         <mat-icon tabindex="0" style="margin-bottom: 0px;" *ngIf="expendableTitle()" [matTooltip]="'filters.btn_show_more' | translate" (click)="toggleExpandedTitle()" class="app-more">more_horiz</mat-icon>
       </ng-container>
 
-      <ng-container *ngIf="expandedTitle">
+      <ng-container *ngIf="expandedTitle && metadata.doctype != 'collection'">
         <ng-container *ngFor="let title of metadata.titles; let i=index">
           <div *ngIf="i == 1">
             <div class="app-label">{{ 'metadata.title_other' | translate }}</div>
@@ -42,15 +53,15 @@
 
 
       <div *ngIf="metadata.hasIdentifier('issn')" class="app-identifier">
-        ISSN <span class="app-value">{{ metadata.identifiers['issn'] }}</span>
+        ISSN <span class="app-value">{{ metadata.identifiers['issn'].join(", ") }}</span>
       </div>
 
       <div *ngIf="metadata.hasIdentifier('isbn')" class="app-identifier">
-        ISBN <span class="app-value">{{ metadata.identifiers['isbn'] }}</span>
+        ISBN <span class="app-value">{{ metadata.identifiers['isbn'].join(", ") }}</span>
       </div>
 
       <div *ngIf="metadata.hasIdentifier('doi')" class="app-identifier">
-        DOI: <a href="{{ metadata.identifiers['doi'] }}" target="_blank">{{ metadata.identifiers['doi'] }}</a>
+        DOI: <a href="{{ metadata.identifiers['doi'][0] }}" target="_blank">{{ metadata.identifiers['doi'][0] }}</a>
       </div>
 
       <a *ngIf="settings.originLink && metadata.getOriginUrl()" target="_blank" [href]="metadata.getOriginUrl()" (click)="analytics.sendEvent('metadata', 'link', 'origin');">{{ 'metadata.origin' | translate }}</a>
@@ -95,16 +106,8 @@
         </ng-template>
       </mat-menu>
     </ng-container>
-
-    <div *ngIf="!metadata.isPublic" class="app-policy">
-
-      <!-- <mat-icon class="app-lock" [class.app-lock-licence-open]="anyLicence()">{{ 'lock' }}</mat-icon> -->
-      <!-- <span class="app-message">{{ 'metadata.policy_private' | translate }}</span> -->
-      <!-- <mat-icon class="app-help" (click)="showPrivateDialog()">info</mat-icon> -->
-
-
-
-      <div *ngIf="metadata.licence" class="app-active-license">
+    <div *ngIf="!metadata.isPublic || settings.ignorePolicyFlag" class="app-policy">      
+      <div *ngIf="metadata.licence" class="app-active-licence">
         <div class="app-label">
           {{ 'licence.metadata_licence' | translate }}
         </div>
@@ -112,12 +115,12 @@
           {{ licences.label(metadata.licence) }}
         </div>
         <div class="app-licence-image" *ngIf="licences.image(metadata.licence)">
-          <ng-container *ngIf="licences.web(metadata.licence); else no_link_license">
-            <a style="display:block" target="_blank" [href]="licences.web(metadata.licence)" (click)="analytics.sendEvent('metadata', 'link', 'license');">
+          <ng-container *ngIf="licences.web(metadata.licence); else no_link_licence">
+            <a style="display:block" target="_blank" [href]="licences.web(metadata.licence)" (click)="analytics.sendEvent('metadata', 'link', 'licence');">
               <img [alt]="licences.label(metadata.licence)" [src]="licences.image(metadata.licence)">
             </a>
           </ng-container>
-          <ng-template #no_link_license>
+          <ng-template #no_link_licence>
             <img [alt]="licences.label(metadata.licence)" [src]="licences.image(metadata.licence)">
           </ng-template>
         </div>
@@ -275,6 +278,15 @@
       <div class="divider"></div>
     </div>
 
+    <div *ngIf="metadata.inCollections.length > 0">
+      <div class="app-label">{{ 'metadata.in_collection' | translate }}</div>
+      <div *ngFor="let collection of metadata.inCollections">
+          <a [routerLink]="[settings.getRouteFor('collection'), collection.uuid]">
+              {{ collection.name }}
+          </a>
+      </div>
+    </div>
+
     <div *ngIf="metadata.keywords.length > 0">
       <div class="app-label">{{ 'metadata.keywords' | translate }}</div>
       <div *ngFor="let keyword of metadata.keywords">
@@ -359,7 +371,7 @@
     </div>
 
 
-    <div *ngIf="metadata.abstracts.length > 0">
+    <div *ngIf="metadata.abstracts.length > 0 && metadata.doctype != 'collection'">
       <div class="app-label">{{ 'metadata.abstract' | translate }}</div>
       <ng-container *ngFor="let abstract of metadata.abstracts; let i = index">
         <div class="app-value" *ngIf="abstract.length > 115 && !expand['abstract' + i]" >{{ abstract.substring(0, 110) + "..." }}</div>
@@ -382,8 +394,7 @@
       <mat-icon tabindex="0" style="margin-top: 5px;" *ngIf="metadata.contents.length > 5" [matTooltip]="'filters.btn_show_' + (contentsExpanded ? 'less' : 'more') | translate" (click)="contentsExpanded = !contentsExpanded" class="app-more">more_horiz</mat-icon>
     </div>
 
-
-    <div *ngIf="metadata.notes.length > 0">
+    <div *ngIf="metadata.notes.length > 0 && metadata.doctype != 'collection'">
       <div class="app-label">{{ 'metadata.notes' | translate }}</div>
       <div>
         <ng-container *ngFor="let note of metadata.notes; let i = index">
@@ -426,3 +437,29 @@
 
   </div>
 </div>
+
+<mat-menu #favoritesMenu="matMenu" xPosition="before" class="app-dropdown-menu">
+  <div class="app-dropdown-header">
+    <div class="app-doctypes-label-add" (click)="$event.stopPropagation()">{{'folders.add' | translate}}</div>
+  
+    <!-- <div class="app-dropdown-doctypes">
+      <div *ngFor="let item of items" class="app-doctype-item" [class.active]="selectedType === item.type" (click)="changeUuid(item.uuid, item.type); $event.stopPropagation()">{{ 'model_4p.' + item.type | translate}}</div>
+    </div> -->
+  
+    <mat-form-field class="app-mat-form-field" (click)="$event.stopPropagation()">
+      <mat-select [(value)]="selectedItem" (click)="$event.stopPropagation()" panelClass="app-select">
+        <mat-option [value]="item" *ngFor="let item of items" (click)="changeUuid(item.uuid, item.type)">{{ 'model_4p.' + item.type | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <div class="app-doctypes-label-to-folder" (click)="$event.stopPropagation()">{{'folders.to_folder' | translate}}</div>
+  </div>
+  <ng-template matMenuContent>
+    <div mat-menu-item tabindex="0" class="app-dropdown-item" *ngFor="let folder of folderService.getMyFolders()" (click)="onLike(folder, selectedUuid)">
+      {{ folder.name }}
+    </div>
+    <div class="app-dropdown-input">
+      <input #matInput [placeholder]="'folders.new_list' | translate" (click)="$event.stopPropagation()" (keyup.enter)="onNewFolder(matInput.value)" (keydown)="$event.stopPropagation()">
+  </div>
+  </ng-template>
+</mat-menu>

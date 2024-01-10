@@ -9,6 +9,7 @@ export class SearchQuery {
     access: string;
     query: string;
     page: number;
+    rows: number;
     ordering: string;
 
     keywords: string[] = [];
@@ -54,6 +55,7 @@ export class SearchQuery {
             query.setCustomField(params);
         }
         query.setPage(params['page']);
+        query.setRows(params['rows']);
         query.setFiled(query.keywords, 'keywords', params);
         query.setFiled(query.doctypes, 'doctypes', params);
         query.setFiled(query.categories, 'categories', params);
@@ -182,12 +184,24 @@ export class SearchQuery {
         this.page = p;
     }
 
-    getRows(): number {
-        return 60;
+    public getRows(): number {
+        if (this.rows) {
+            return this.rows
+        } else {
+            return 60
+        }
+    }
+
+    public setRows(rows) {
+        this.rows = rows;
     }
 
     getStart(): number {
-        return 60 * (this.page - 1);
+        if (this.rows) {
+            return this.rows * (this.page - 1);
+        } else {
+            return 60 * (this.page - 1);
+        }   
     }
 
     getRawQ() {
@@ -329,6 +343,9 @@ export class SearchQuery {
                     params['sort'] = this.ordering;
                 }
             }
+        }
+        if (this.rows) {
+            params['rows'] = this.rows;
         }
         if (this.page && this.page > 1) {
             params['page'] = this.page;

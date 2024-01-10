@@ -4,6 +4,8 @@ import { User } from '../model/user.model';
 import { HttpRequestCache } from './http-request-cache.service';
 import { AppSettings } from './app-settings';
 import { LicenceService } from './licence.service';
+import { Subject, Observable } from 'rxjs';
+import { FolderService } from './folder.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +14,12 @@ export class AuthService {
 
     user: User = null;
     redirectUrl: string;
+    userSub = new Subject<User>();
 
-    constructor(private settings: AppSettings, private licences: LicenceService, private api: KrameriusApiService, private cache: HttpRequestCache) {
+    constructor(private settings: AppSettings, 
+                private licences: LicenceService, 
+                private api: KrameriusApiService, 
+                private cache: HttpRequestCache) {
         if ((settings.auth || settings.krameriusLogin || settings.version >= 7) && !settings.multiKramerius) {
             this.userInfo(null, null);
         }
@@ -35,16 +41,16 @@ export class AuthService {
     userInfo(username: string, password: string, callback: (status: string) => void = null) {
         this.api.getUserInfo(username, password).subscribe(user => {
             this.user = user;
-            // console.log('USER', this.user);
+            console.log('USER', this.user);
+            this.userSub.next(this.user);
             // console.log('Licences', this.user.licences);
-            this.licences.assignUserLicences(this.user.licences);
+            this.licences.assignUserLicences(this.user.licences, this.user.authenticated);
             this.cache.clear();
-
             if (this.settings.keycloak) {
                 this.api.getRights('uuid:1').subscribe(
                     (actions) => {
                         this.user.actions = actions || [];
-                        console.log('user', this.user);
+                        // console.log('user', this.user);
                         if (callback) {
                             callback('ok');
                         }
@@ -61,8 +67,9 @@ export class AuthService {
                 }
             }
         }, (error) => {
-            this.licences.assignUserLicences([]);
+            this.licences.assignUserLicences([], false);
             this.user = null;
+            this.userSub.next(this.user);
             this.cache.clear();
         });
     }
@@ -87,7 +94,6 @@ export class AuthService {
             },
             (error) => {
                 console.log('error', error);
-                // this.keycloakLogout(this.user.tokenId, this.baseUrl());
                 const redirectUrl = this.baseUrl();
                 const url = this.api.getK7LogoutUrl(redirectUrl);
                 window.open(url, '_top');
@@ -100,19 +106,13 @@ export class AuthService {
             return;
         }
         if (this.settings.keycloak) {
-            // const tokenId = this.user.tokenId;
             this.cache.clear();
             this.settings.removeToken();
-            const redirectUrl = location.href;
+            const redirectUrl = `${this.baseUrl()}${this.settings.getRouteFor('keycloak')}`;
             const url = this.api.getK7LogoutUrl(redirectUrl);
+            const path = this.settings.getRelativePath();
+            localStorage.setItem('logout.url', path);
             window.open(url, '_top');
-
-            // this.api.logout().subscribe(user => {
-            //     this.cache.clear();
-            //     this.userInfo(null, null, () => {    
-            //         this.keycloakLogout(tokenId, location.href);
-            //     });
-            // });
         } else {
             this.api.logout().subscribe(user => {
                 this.cache.clear();
@@ -120,23 +120,6 @@ export class AuthService {
             });
         }
     }
-
-    // keycloakLogout(tokenId: string, redirectUrl: string) {
-    //     let url = `${this.settings.keycloak.baseUrl}/realms/${this.settings.keycloak.realm || 'kramerius'}/protocol/openid-connect/logout`
-    //     if (this.settings.keycloak.automatic_redirect) {
-    //         url += `?post_logout_redirect_uri=${encodeURIComponent(redirectUrl)}`
-    //         if (tokenId) {
-    //             url += `&id_token_hint=${tokenId}`;
-    //         }
-    //     } else {
-    //         url += `?redirect_uri=${encodeURIComponent(redirectUrl)}`;
-    //     }
-    //     window.open(url, '_top');
-    // }
-
-
-
-
 
     isLoggedIn(): boolean {
         // return true;
@@ -162,5 +145,10 @@ export class AuthService {
             return false;
         }
         return this.user.actions.indexOf('a_admin_read') >= 0;
+    }
+
+    watchUser(): Observable<User> {
+        console.log('watchUser', this.userSub);
+        return this.userSub.asObservable();
     }
 }

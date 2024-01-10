@@ -1,77 +1,209 @@
 @import './src/variables.scss';
-
-.app-search-results {
-  display: block;
-  height: calc(100% - #{$app-toolbar-height});
-  overflow: auto;
-  padding: 0.5rem;
-  background-color: $app-grey-l-4;
-  position: relative;
-  app-document-card {
-    float: left;
-    width:16.66666%;
-    @media (max-width: 2300px) {
-      width:20%;
-    }
-    @media (max-width: 1900px) {
-      width:25%;
-    }
-    @media (max-width: 1500px) {
-      width:33.33333%;
-    }
-    @media (max-width: 1260px) {
-      width:50%;
-    }
-    @media (max-width: 900px) {
-      width:100%;
-    }
-  }
-  app-paginator {
-    display: block;
-    clear: both;
-    padding-top: 1px;
-  }
-
-  .app-collection-navigation {
-    // height: 40px;
-    overflow: hidden;
-    margin-left: 8px;
-    .app-collection-navigation-item {
-      float: left;
-      color: #555;
-      span {
-        margin: 0 6px;
+.app-search-results-wrapper {
+    display: flex;
+    height: calc(100% - #{$app-toolbar-height});
+    width: 100%;
+    // overflow: auto;
+    .app-collection-metadata {
+      @media #{$medium-and-down} {
+        display: none;
       }
     }
-  }
-
-  .app-collection-description {
-    padding: 10px;
-    font-size: 15px;
-    color: #666;
-    line-height: 21px;
-    h2 {
-      color: #444;
-      font-size: 22px;
-      padding: 0;
-      margin: 8px 0 5px;
-    }
-    h3 {
-      color: #444;
-      font-size: 20px;
-      padding: 0;
-      margin: 8px 0 5px;
-    }
-    h4 {
-      color: #555;
-      font-size: 16px;
-      padding: 0;
-      margin: 5px 0 3px;
-    }
-    strong {
-      font-weight: 600;
-      color: #333;
-    }
-  }
-
+    .app-search-results {
+        width: 100%;
+        display: block;
+        padding: 0.5rem;
+        background-color: $app-grey-l-4;
+        position: relative;
+        overflow: auto;
+        &.app-search-collection {
+            width: calc(100% - 300px);
+            @media #{$medium-and-down} {
+              width: calc(100%);
+            }
+        }
+        &.app-display-table {
+          padding: 0;
+        }
+        app-document-card {
+          float: left;
+          width:16.66666%;
+          @media (max-width: 2300px) {
+            width:20%;
+          }
+          @media (max-width: 1900px) {
+            width:25%;
+          }
+          @media (max-width: 1500px) {
+            width:33.33333%;
+          }
+          @media (max-width: 1260px) {
+            width:50%;
+          }
+          @media (max-width: 900px) {
+            width:100%;
+          }
+          &.app-search-collection {
+            @media (max-width: 200px) {
+              width:20%;
+            }
+            @media (max-width: 2200px) {
+              width:25%;
+            }
+            @media (max-width: 1800px) {
+              width:33.33333%;
+            }
+            @media (max-width: 1560px) {
+              width:50%;
+            }
+            @media (max-width: 1200px) {
+              width:100%;
+            }
+          }
+        }
+        app-cutting-card {
+          float: left;
+          width:16.66666%;
+          @media (max-width: 200px) {
+            width:20%;
+          }
+          @media (max-width: 2200px) {
+            width:25%;
+          }
+          @media (max-width: 1800px) {
+            width:33.33333%;
+          }
+          @media (max-width: 1560px) {
+            width:50%;
+          }
+          @media (max-width: 1200px) {
+            width:100%;
+          }
+        }
+        app-paginator {
+          display: block;
+          clear: both;
+          padding-top: 1px;
+        }
+      
+        .app-collection-navigation {
+        //   height: 40px;
+          overflow: hidden;
+          margin-left: 8px;
+          display: flex;
+          flex-direction: column;
+          .app-collection-navigation-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .app-collection-navigation-icon {
+              cursor: pointer;
+              color: #0277bd;
+              font-size: 19px;
+              height: 19px;
+              width: 19px;
+            }
+            span {
+              color:#555;
+              margin: 0 6px;
+            }
+            .app-collection-navigation-item {
+              color: #555;
+              span {
+                margin: 0 6px;
+              }
+            }
+          }
+          
+        }
+      
+        .app-collection-description {
+          padding: 10px;
+          font-size: 15px;
+          color: #666;
+          line-height: 21px;
+          h2 {
+            color: #444;
+            font-size: 22px;
+            padding: 0;
+            margin: 8px 0 5px;
+          }
+          h3 {
+            color: #444;
+            font-size: 20px;
+            padding: 0;
+            margin: 8px 0 5px;
+          }
+          h4 {
+            color: #555;
+            font-size: 16px;
+            padding: 0;
+            margin: 5px 0 3px;
+          }
+          strong {
+            font-weight: 600;
+            color: #333;
+          }
+        }
+        .app-table-container {
+          background-color: white;
+          .app-table {
+            table-layout: fixed;
+            width: 100%;
+            border-spacing: 0px;
+            .app-table-row {
+              color: $app-grey-text;
+              height: 40px;
+              &.even {
+                background: $app-grey-l-4;
+              }
+              .app-table-col-thumb {
+                height: 10px;
+                width: 10%;
+                .app-card-thumb {
+                  height: 100%;
+                  width: 100%;
+                  background-repeat: no-repeat;
+                  background-position: top center;
+                  background-size: contain;
+                  position: relative;
+                }
+              }
+              .app-table-col-title {
+                width: 40%;
+                .app-col-title {
+                  cursor: pointer;
+                  white-space: nowrap; /* Zabraňuje zalomení textu na více řádků */
+                  overflow: hidden; /* Skryje text, který přesahuje dostupný prostor */
+                  text-overflow: ellipsis; /* Přidá tři tečky jako indikátor zkráceného textu */
+                } 
+              }
+              .app-table-col-authors {
+                width: 20%;
+                .app-col-authors {
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                } 
+              }
+              .app-table-col-date {
+                width: 15%;
+                .app-col-date {
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                } 
+              }
+              .app-table-col-doctype {
+                width: 10%;
+              }
+              .app-table-col-uuid {
+                width: 5%;
+              }
+              
+            }
+          }  
+        }
+        
+      }
 }

@@ -15,11 +15,21 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AdvancedSearchDialogComponent } from '../dialog/advanced-search-dialog/advanced-search-dialog.component';
 import { MapSeriesService } from './mapseries.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, forkJoin } from 'rxjs';
+import { Cutting } from '../model/cutting';
 
 
 @Injectable()
 export class SearchService {
+
+
+    public static LANGUAGE_MAP = { 
+        'cs': 'cze',
+        'en': 'eng',
+        'de': 'ger',
+        'sk': 'slo',
+        'sl': 'slv'
+    };
 
     results: DocumentItem[] = [];
     allResults: DocumentItem[] = [];
@@ -50,9 +60,13 @@ export class SearchService {
     activeMobilePanel: String;
 
     contentType = 'grid'; // 'grid' | 'map'
+    contentTypeDisplay = 'grid'; // 'grid' | 'table'
 
     collection: Metadata;
     collectionStructure: any;
+    collectionStructureTree: any;
+
+    collectionCuttings: Cutting[];
 
     adminSelection: boolean;
 
@@ -73,6 +87,8 @@ export class SearchService {
     public init(context, params) {
         this.collection = null;
         this.collectionStructure = {};
+        this.collectionStructureTree = [];
+        this.collectionCuttings = null;
         this.results = [];
         this.allResults = [];
         this.keywords = [];
@@ -175,8 +191,9 @@ export class SearchService {
         return this.translate.instant('searchbar.main.' + key) + ' ' + filters.join(', ');
     }
 
-    selectContentType(contentType: string) {
+    selectContentType(contentType: string, contentTypeDisplay: string) {
         this.contentType = contentType;
+        this.contentTypeDisplay = contentTypeDisplay;
         if (this.contentType === 'map') {
             if (this.collectionStructure.collections && this.collectionStructure.collections.length > 1) {
                 if (this.collectionStructure.collections[0].uuid.toString() === this.mapSeries.rootCollectionUUID) {
@@ -212,7 +229,7 @@ export class SearchService {
     }
 
     changeLibrary(kramerius) {
-        this.analytics.sendEvent('home', 'change-library', kramerius.title);
+        this.analytics.sendEvent('home', 'change-library', this.settings.getTitleForAnalytics(kramerius));
         const qp = this.query.getChangeLibraryUrlParams();
         this.settings.assignKramerius(kramerius);
         qp['l'] = kramerius.code;
@@ -300,6 +317,11 @@ export class SearchService {
         this.reload(true);
     }
 
+    public setRows(rows: number) {
+        this.query.setRows(rows);
+        this.reload(true);
+    }
+
     public nextPage() {
         this.analytics.sendEvent('search', 'paginator', 'next');
         this.query.setPage(this.query.page + 1);
@@ -360,8 +382,23 @@ export class SearchService {
         }
         if (this.query.collection) {
             this.api.getMetadata(this.query.collection).subscribe((metadata: Metadata) => {
+                metadata.addToContext('collection', this.query.collection);
+                metadata.doctype = 'collection';
                 this.collection = metadata;
+                this.api.getItem(this.query.collection).subscribe((item: DocumentItem) => {
+                    if (item.in_collection) {
+                        for (const collection of item.in_collection) {
+                            let uuid = collection;
+                            let name = '';
+                            this.api.getItem(collection).subscribe(col => {
+                                name = col.title
+                                this.collection.inCollections.push({'uuid': uuid, 'name': name})
+                            })
+                        }
+                    }
+                });
             });
+            
             let uuid = this.query.collection;
             this.collectionStructure = {
                 collections: [],
@@ -372,57 +409,97 @@ export class SearchService {
     }
 
     getCollectionContent() {
-      if (this.translate.currentLang == 'en' && this.collection.notes.length > 1) {
-        return this.collection.notes[1] || '';
-      } else if (this.collection.notes.length >= 1) {
-        return this.collection.notes[0] || '';
-      }
-      return '';
+        const lang = this.translate.currentLang;
+        const content = this.collection.getCollectionNotes(SearchService.LANGUAGE_MAP[lang]);
+        return content || this.collection.getCollectionNotes('cze');
     }
 
     getCollectionTitle() {
-        if (this.translate.currentLang == 'en') {
-            return this.collection.getCollectionTitle('eng');
-        } else {
-            return this.collection.getCollectionTitle('cze');
-        }
+        const lang = this.translate.currentLang;
+        const title = this.collection.getCollectionTitle(SearchService.LANGUAGE_MAP[lang]);
+        return title || this.collection.getCollectionTitle('cze');
     }
 
     getCollectionNavTitle(item) {
-        if (this.translate.currentLang == 'en' && item.titleEn) {
-            return item.titleEn;
+        return item.getTitle(this.translate.currentLang);
+    }
+
+
+    private buildCollectionStructure(uuid: string) {
+        this.api.getColletionCuttings(uuid).subscribe((cuttings) => {
+            this.collectionCuttings = [];
+            for (const cutting of cuttings) {
+                let item = new Cutting();
+                item.title = cutting.name;
+                item.description = cutting.description;
+                item.url = cutting.url.replace('https://kramerius.trinera.cloud', 'http://localhost:4200/t');
+                const regex = /uuid\/(uuid:[A-Fa-f0-9-]+)\?bb=([\d,]+)/;
+                const match = cutting.url.match(regex);
+                if (match) {
+                    const uuid = match[1];
+                    const bb = match[2];
+                    item.thumb = `${this.api.getIiifBaseUrl(uuid)}/${bb}/^!400,400/0/default.jpg`;
+                    item.uuid = uuid;
+                    // console.log(`UUID: ${uuid}, BB: ${bb}`);
+                    item.path = this.settings.getPathPrefix() + '/uuid/' + uuid;
+                    item.bb = bb;
+                }
+                // console.log('item', item);
+                this.collectionCuttings.push(item);
+            }
+            // this.numberOfResults += cuttings.length;
+            // this.collectionCuttings = cuttings;
+        });
+
+        let collections = [];
+        this.buildCollectionStructureTree(uuid).subscribe(() => {
+            collections = this.collectionStructureTree;
+            let startingCol = this.collectionStructureTree.find(x => x.uuid == uuid);   // urcim si pocatecni kolekci stromu
+            this.findPaths(startingCol)                                            // najdu rekurzivne vsechny cesty v kolekcich
+            this.collectionStructure.ready = true;
+        });  
+    }
+
+    findPaths(col: any, path = []) {
+        if (!col) {
+          return;
+        }
+        const newPath = [col, ...path];
+        if (col.in_collections && col.in_collections.length > 0) {
+          for (const childUuid of col.in_collections) {
+            const childCol = this.collectionStructureTree.find(x => x.uuid == childUuid);
+            this.findPaths(childCol, newPath);
+          }
         } else {
-            return item.title;
+          this.collectionStructure.collections.push(newPath);
         }
     }
 
-    private buildCollectionStructure(uuid: string) {
-        this.api.getSearchResults(`q=pid:"${uuid}"&fl=in_collections.direct,titles.search`).subscribe((result) => {
+    private buildCollectionStructureTree(uuid: string): Observable<void> {
+        return new Observable<void>((subscriber) => {          
+          this.api.getSearchResults(`q=pid:"${uuid}"&fl=pid,in_collections.direct,in_collections,title.search,titles.search,title.search_*,model`).subscribe((result) => {
             if (!result['response']['docs'] || result['response']['docs'].length < 1) {
-                return;
+              subscriber.complete();
+              return;
             }
-            const doc = result['response']['docs'][0];
-            const names = doc['titles.search'] || [];
-            let title = '';
-            let titleEn = '';
-            if (names.length > 0) {
-                title = names[0];
-            }
-            if (names.length > 1) {
-                titleEn = names[1];
-            }
-            this.collectionStructure.collections.unshift({ uuid: uuid, title: title, titleEn: titleEn, url: this.settings.getPathPrefix() + '/collection/' + uuid });
-            const cols = doc['in_collections.direct'] || [];
-            if (cols.length > 0) {
-                this.buildCollectionStructure(cols[0]);
+            const item: DocumentItem = this.solr.documentItem(result);
+            this.collectionStructureTree.unshift(item);
+            if (item.in_collection.length > 0) {
+              const observables = item.in_collection.map((col) => this.buildCollectionStructureTree(col));
+              forkJoin(observables).subscribe(() => {
+                subscriber.next();
+                subscriber.complete();
+              }, (error) => {
+                subscriber.error(error);
+              });
             } else {
-                if (this.collectionStructure.collections.length > 1) {
-                    this.collectionStructure.ready = true;
-                }
+              if (this.collectionStructure.collections.length > 1) {
+              }
+              subscriber.next();
+              subscriber.complete();
             }
+          });
         });
-
-
     }
 
     public highlightDoctype(doctype: string) {
@@ -656,11 +733,11 @@ export class SearchService {
         if (this.settings.availableFilter('access')) {
             this.initAccess();
             this.makeFacetRequest('access:open');
-            if (this.anyLoginLicense()) {
+            if (this.anyLoginLicence()) {
                 this.makeFacetRequest('access:login');
             }
             this.makeFacetRequest('access:terminal');
-            if (this.licenceService.anyAppliedLoginOrTerminlLicense()) {
+            if (this.licenceService.anyAppliedLoginOrTerminlLicence()) {
                 this.makeFacetRequest('access:accessible');
             }
             this.makeFacetRequest('access:all');
@@ -669,16 +746,16 @@ export class SearchService {
 
 
     showAccessFilter(type: string): boolean {
-        if (type == 'login' && !this.anyLoginLicense()) {
+        if (type == 'login' && !this.anyLoginLicence()) {
             return false;
         }
-        if (type == 'accessible' && !((this.licenceService.anyAppliedLoginOrTerminlLicense() || (this.access['accessible'].count > 0 && this.access['open'].count == this.access['accessible'].count)))) {
+        if (type == 'accessible' && !((this.licenceService.anyAppliedLoginOrTerminlLicence() || (this.access['accessible'].count > 0 && this.access['open'].count == this.access['accessible'].count)))) {
             return false;
         }
         return true;
     }
 
-    anyLoginLicense(): boolean {
+    anyLoginLicence(): boolean {
         return this.licenceService.licencesByType('login').length > 0;
     }
 

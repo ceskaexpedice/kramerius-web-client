@@ -4,7 +4,6 @@ import { Component, OnInit} from '@angular/core';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { PdfService } from '../../../services/pdf.service';
 import { EpubService } from '../../../services/epub.service';
-import { PageImageType } from '../../../model/page.model';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -26,12 +25,10 @@ export class ViewerControlsComponent implements OnInit {
   ngOnInit() {
   }
 
-  onCropImageClicked() {
-    if (this.bookService.cropEnabled() || this.bookService.showGeoreference) {
-      this.controlsService.cropImage();
-      this.analytics.sendEvent('viewer', 'controls', 'crop image');
-    }
-  }
+  // enterSelectionMode() {
+  //   this.analytics.sendEvent('viewer', 'controls', 'selection');
+  //   this.controlsService.enterSelectionMode();
+  // }
 
   showPrevNextPage(): boolean {
     return true;
@@ -61,20 +58,13 @@ export class ViewerControlsComponent implements OnInit {
     return !this.bookService.showGeoreference && this.bookService.doublePageSupported() && !this.bookService.doublePageEnabled;
   }
 
-  selectTextEnabled(): boolean {
-    return this.bookService.viewer === 'image' && this.bookService.isActionEnabled('selection');
-  }
+  // showSelectionMode(): boolean {
+  //   return this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
+  // }
 
-  showSelectText(): boolean {
-    return !this.bookService.showGeoreference && this.bookService.viewer === 'image' && this.bookService.isActionAvailable('selection');
-  }
 
-  imageCropEnabled(): boolean {
-    return this.bookService.viewer === 'image' && this.bookService.iiifEnabled && this.bookService.isActionEnabled('crop');
-  }
-
-  showImageCrop(): boolean {
-    return this.bookService.viewer === 'image' && this.bookService.iiifEnabled && this.bookService.isActionAvailable('crop') && this.bookService.getPage() && this.bookService.getPage().imageType == PageImageType.TILES;
+  showCropMap(): boolean {
+    return this.bookService.viewer === 'image' && this.bookService.getPage() && this.bookService.showGeoreference;
   }
 
   showZoom(): boolean {
@@ -83,6 +73,14 @@ export class ViewerControlsComponent implements OnInit {
 
   showFitToScreen(): boolean {
     return !this.bookService.isEpub();
+  }
+
+  rotate() {
+    // if (this.bookService.isPdf()) {
+    //   this.pdfService.getPageContent();
+    // }
+    this.controlsService.rotateRight();
+    this.analytics.sendEvent('viewer', 'controls', 'rotate')
   }
 
   showRotation(): boolean {

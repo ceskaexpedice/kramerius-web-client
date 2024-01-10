@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Input, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-paginator',
@@ -10,15 +11,27 @@ export class PaginatorComponent implements OnInit {
   @Input() activeIndex: number;
   @Input() overallCount: number;
   @Input() step: number;
+  @Input() displayRows: boolean;
 
   @Output() next = new EventEmitter();
   @Output() previous = new EventEmitter();
   @Output() change = new EventEmitter<number>();
+  @Output() rows = new EventEmitter<number>();
 
-  constructor() {
+  rowsOptions = [20, 60, 200, 500, 1000]
+  actualRows: number;
+
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['rows']) {
+        this.actualRows = Number(params['rows']);
+      } else {
+        this.actualRows = 60;
+      }
+    });
   }
 
   onNext() {
@@ -35,6 +48,11 @@ export class PaginatorComponent implements OnInit {
 
   onIndex(index: number) {
     this.change.emit(index);
+  }
+
+  onSelectRowsOption(option: number) {
+    this.rows.emit(option);
+    this.actualRows = option;
   }
 
   isActive(index: number): boolean {

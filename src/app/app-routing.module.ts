@@ -17,6 +17,7 @@ import { StaticPageComponent } from './static-page/static-page.component';
 import { SignpostHelpComponent } from './signpost/help/help.component';
 import { AuthComponent } from './auth/auth.component';
 import { MapSeriesComponent } from './map/series/map-series.component';
+import { FoldersComponent } from './folders/folders.component';
 
 const ROUTES: Routes = [
     { path: '404', component: NotFoundComponent},
@@ -29,6 +30,8 @@ const ROUTES: Routes = [
     { path: 'impressum', component: StaticPageComponent, canActivate: [ RoutingGuardService ], data: { page: 'impressum' } },
     { path: 'login', component: LoginComponent, canActivate: [ RoutingGuardService ] },
     { path: 'browse', component: BrowseComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'folders', component: FoldersComponent, canActivate: [ RoutingGuardService ] },
+    { path: 'folders/:uuid', component: FoldersComponent, canActivate: [ RoutingGuardService ] },
     { path: 'search', component: SearchComponent, canActivate: [ RoutingGuardService ] },
     { path: 'collections', component: CollectionsComponent, canActivate: [ RoutingGuardService ] },
     { path: 'mapseries/:uuid', component: MapSeriesComponent, canActivate: [ RoutingGuardService ] },
@@ -46,6 +49,8 @@ const ROUTES: Routes = [
     { path: ':k/impressum', component: StaticPageComponent, canActivate: [ RoutingPrefixGuardService ], data: { page: 'impressum' } },
     { path: ':k/login', component: LoginComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/browse', component: BrowseComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/folders', component: FoldersComponent, canActivate: [ RoutingPrefixGuardService ] },
+    { path: ':k/folders/:uuid', component: FoldersComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/search', component: SearchComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/collections', component: CollectionsComponent, canActivate: [ RoutingPrefixGuardService ] },
     { path: ':k/mapseries/:uuid', component: MapSeriesComponent, canActivate: [ RoutingPrefixGuardService ] },

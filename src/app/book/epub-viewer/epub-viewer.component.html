@@ -7,7 +7,7 @@
     width: 100%;padding: 25px; display: block;background: #fff;"
     [autoTOC]="true"
     [autoMetadata]="true"
-    [autoPagination]="false"
+    [autoPagination]="true"
     (mousemove)="onMouseMove()"
     (onSearchFinished)="epub.onSearchFinished($event)"
     (onLocationFound)="epub.onLocationFound($event)"
@@ -47,7 +47,7 @@
 
 
     <ng-container *ngIf="bookService.isPageInaccessible()">
-        <app-licence-messages [full]="true" [licences]="bookService.licences"></app-licence-messages>
+        <app-licence-window [licences]="bookService.licences"></app-licence-window>
   </ng-container>
   
   <app-alert *ngIf="bookService.isPageFailure()"

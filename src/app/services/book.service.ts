@@ -31,6 +31,8 @@ import { PdfService } from './pdf.service';
 import { GeoreferenceService } from './georeference.service';
 import { TtsService } from './tts.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SearchService } from './search.service';
+import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 
 @Injectable()
 export class BookService {
@@ -93,6 +95,8 @@ export class BookService {
 
     epubUrl: string;
     continueTts = false;
+    private bb: string;
+    private bbPage;
 
     constructor(private location: Location,
         private altoService: AltoService,
@@ -115,20 +119,26 @@ export class BookService {
     }
 
     init(params: BookParams) {
-        console.log('init', params);
+        // console.log('init', params);
         this.clear();
         this.extraParents = [];
         this.uuid = params.uuid;
         this.fulltextQuery = params.fulltext;
+        this.bb = params.bb;
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
         this.initPdfPosition = Number(params.pdfIndex) || 1;
         if (params.uuid == 'epub') {
             this.bookState = BookState.Success;
-            this.setupEpub('');
+            this.setupEpub();
             return;
         }
-        this.api.getItem(params.uuid).subscribe((item: DocumentItem) => {
+        this.api.getItem(params.uuid, true).subscribe((item: DocumentItem) => {
+            if (this.settings.k5Compat()) {
+                this.api.getItem(params.uuid).subscribe((item2: DocumentItem) => {
+                    item.donators = item2.donators;
+                });
+            }
             this.licences = this.licenceService.availableLicences(item.licences);
             this.licence = item.licence;
             this.sources = item.sources;
@@ -230,10 +240,9 @@ export class BookService {
         return (this.source ? `${this.source}/` : '') + uuid;
     }
 
-
-    setupEpub(uuid: string) {
+    
+    setupEpub() {
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
-        this.epubUrl = uuid ? this.api.getEpubUrl(uuid) : null;
         this.viewer = 'epub';
         this.activeNavigationTab = 'epubToc';
         this.showNavigationPanel = true;
@@ -263,6 +272,7 @@ export class BookService {
             parentUuid: null,
             pdfIndex: null,
             fulltext: this.fulltextQuery,
+            bb: null,
             source: source
         });
     }
@@ -302,7 +312,7 @@ export class BookService {
             this.metadata.licences = this.licences;
             this.metadata.licence = this.licence;
             if (item.epub) {
-                this.setupEpub(params.uuid)
+                this.setupEpub()
             } else if (item.pdf) {
                 this.setupPdf(params.uuid);
             } else {
@@ -314,6 +324,25 @@ export class BookService {
                         this.onDataLoaded(children, item.doctype, params);
                     }
                 });
+            }
+            if (item.in_collection) {
+                console.log('item', item);
+                for (const collection of item.in_collection) {
+                    let uuid = collection;
+                    let name = '';
+                    this.api.getItem(collection).subscribe(col => {
+                        name = col.title
+                        this.metadata.inCollectionsDirect.push({'uuid': uuid, 'name': name})
+                    })
+                }
+                for (const collection of item.in_collections) {
+                    let uuid = collection;
+                    let name = '';
+                    this.api.getItem(collection).subscribe(col => {
+                        name = col.title
+                        this.metadata.inCollections.push({'uuid': uuid, 'name': name})
+                    })
+                }
             }
         });
     }
@@ -663,7 +692,7 @@ export class BookService {
             index += 1;
         }
         const usePlacement = this.allPages.length > 0 && withPlacement == this.allPages.length;
-        console.log('use mods page placement', usePlacement);
+        // console.log('use mods page placement', usePlacement);
         if (!usePlacement) {
             const bounds = this.computeDoublePageBounds(this.pages.length, titlePage, lastSingle, firstBackSingle);
             if (bounds !== null) {
@@ -934,6 +963,14 @@ export class BookService {
             this.continueTts = true;
             this.goToNext();
         });
+    }
+
+    
+    shareSelection(extent, right: boolean) {
+        const box = this.iiif.xywh(extent[0], extent[1], extent[2], extent[3]);
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        let opts = { uuid: uuid, box: box };
+        this.dialog.open(ShareDialogComponent, { data: opts, autoFocus: false });
     }
 
     showJpeg() {
@@ -1211,11 +1248,13 @@ export class BookService {
         } else {
             //// doc license from the page ????
             this.licence = page.licence;
+            this.licences = page.licences;
             if (rightPage && !this.licence) {
                 this.licence = rightPage.licence;
+                this.licences = rightPage.licences;
             }
             this.metadata.licence = this.licence;
-            // this.metadata.licence = 'dnnto';
+            this.metadata.licences = this.licences;
             ////
             if (page.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
@@ -1227,7 +1266,6 @@ export class BookService {
                 this.subjectPages.next([page, rightPage]);
             }
         }
-        console.log('----analytics', 'page');
         this.analytics.sendEvent('page', this.metadata.getShortTitleWithUnit(), pages);
 
         if (this.continueTts) {
@@ -1334,6 +1372,7 @@ export class BookService {
                 if (this.metadata) {
                     this.metadata.addToContext('article', article.uuid);
                 }
+                article.licences = item.licences;
                 article.type = item.pdf ? 'pdf' : 'pages';
                 this.onArticleLoaded(article);
                 article.metadata = metadata;
@@ -1359,6 +1398,8 @@ export class BookService {
             this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
             const pdfIndex = this.initPdfPosition;
             this.initPdfPosition = 1;
+            this.licences = article.licences;
+            this.metadata.licences = this.licences;
             this.setupPdf(article.uuid, pdfIndex);
         } else if (article.type === 'pages') {
             if (article.firstPageUuid) {
@@ -1395,10 +1436,13 @@ export class BookService {
             }           
             //// doc license from the page ????
             this.licence = leftPage.licence;
+            this.licences = leftPage.licences;
             if (rightPage && !this.licence) {
                 this.licence = rightPage.licence;
+                this.licences = rightPage.licences;
             }
             this.metadata.licence = this.licence;
+            this.metadata.licences = this.licences;
             ////
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
@@ -1499,6 +1543,19 @@ export class BookService {
         if (rightPage) {
             data.uuid2 = this.id(rightPage.uuid);
         }
+        if (this.bb) {
+            if (!this.bbPage) {
+                this.bbPage = leftPage.uuid;
+                data.bb = this.bb;
+            } else {
+                if (this.bbPage != leftPage.uuid) {
+                    this.bb = null;
+                    this.bbPage = null;
+                } else {
+                    data.bb = this.bb;
+                }
+            }
+        }
         if (this.settings.georef) {
             const smUuid = leftPage.uuid;
             const previouslyShowGeoreference = this.showGeoreference;
@@ -1544,6 +1601,8 @@ export class BookService {
         this.iiifEnabled = false;
         this.hasGeoreference = false;
         this.showGeoreference = false;
+        this.bb = null;
+        this.bbPage = null;
     }
 
     private computeDoublePageBounds(pageCount: number, titlePage: number, lastSingle: number, firstBackSingle: number) {
@@ -1622,6 +1681,7 @@ export interface BookParams {
     parentUuid: string;
     internalPartUuid: string;
     fulltext: string;
+    bb: string,
     source: string;
 }
 
@@ -1635,6 +1695,7 @@ uuid1: string;
 uuid2: string;
 imageType: ViewerImageType;
 query: string;
+bb: string;
 
 doublePage(): boolean {
     return !!this.uuid2;

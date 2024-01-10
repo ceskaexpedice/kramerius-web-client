@@ -7,6 +7,108 @@
     overflow: hidden;
     background-color: $app-grey-l-4;    
     position: relative;
+
+
+    .app-selection-actions {
+      opacity: 0.7;
+      transition-property: opacity;
+      transition-duration: 0.2s;
+      transition-timing-function: linear;
+      position: absolute;
+      top: 50px;
+      right: 50px;
+      z-index: 990;
+      // background-color: red;
+      // padding: 10px;
+      // background-color: red;;
+      .app-selection {
+        display: none;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        margin: 10px;
+        background: #fff;
+        color: #000;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 22px;
+        opacity: 0.9;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+        &.app-type-ai {
+          background-color: #409640;
+          color: #fff;
+        }
+      }
+      .app-main-selection {
+        display: block;
+      }
+      &.hide-on-inactivity {
+        opacity: 0;
+      }
+      &:hover {
+        .app-selection {
+          display: block;
+        }
+        opacity: 1;
+      }
+    }
+
+    #selectionmenu {
+      z-index: 1000; 
+      // left: -1000px;
+      display: block;
+      position: absolute; 
+      // padding-left: 10px;
+      .app-sel-button {
+        cursor: pointer;
+        margin-bottom: 2px;
+        font-size: 12px;
+        padding: 3px 5px;
+        background: #fff;
+        color: #000;
+        &.app-sel-cancel {
+          background: #fff;
+          color: red;
+        }
+      }
+      mat-icon {
+        display: block;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        color: #111;
+        background: #eee;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 18px;
+        opacity: 0.9;
+        margin-bottom: 4px;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+        &:hover:not(.app-inactive) {
+          // background: #fff;
+          // color: #000;
+          font-size: 20px;
+          opacity: 1;
+        } 
+        &.app-inactive {
+          opacity: 0.2;
+          cursor: default !important;
+          pointer-events: none; 
+        }
+        &.app-type-ai {
+          background-color: #409640;
+          color: #fff;
+        }
+        &.app-type-cancel {
+          background: #777;
+          color: #fff;
+          // background-color: #c34a28;
+        }
+      }
+    }
+
     .app-licence-bar {
       position: absolute;
       top: 0;
@@ -31,12 +133,28 @@
         float:right;
         line-height: 32px;
         padding-right: 32px;
-        font-size: 15px;
+        font-size: 15px;  
         color: #fff;
       }
     }
+    .app-alert-not-found {
+      text-align: center;
+      margin-top: 60px;
+      height: 100%;
+      .app-message {
+        color: #af451c;
+        line-height: 120%;
+        font-weight: 600;
+        font-size: 18px;
+        padding: 0 20px;
+      }
+      button {
+        display: block;
+        margin: 30px auto 20px;
+      }
+    }
 
-    app-licence-messages {
+    app-licence-window {
       display: block;
       max-width: 800px;
       margin: 0 auto;

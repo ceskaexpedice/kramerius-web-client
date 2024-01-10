@@ -1,6 +1,6 @@
 import { AppSettings } from './../services/app-settings';
 import { Metadata } from './../model/metadata.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AnalyticsService } from '../services/analytics.service';
 import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { AuthService } from '../services/auth.service';
@@ -12,6 +12,14 @@ import { AuthorsDialogComponent } from '../dialog/authors-dialog/authors-dialog.
 import { CitationDialogComponent } from '../dialog/citation-dialog/citation-dialog.component';
 import { MetadataDialogComponent } from '../dialog/metadata-dialog/metadata-dialog.component';
 import { LicenceDialogComponent } from '../dialog/licence-dialog/licence-dialog.component';
+import { FolderService } from '../services/folder.service';
+import { Folder } from '../model/folder.model';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { TranslateService } from '@ngx-translate/core';
+import { SearchService } from '../services/search.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NavigationService } from '../services/navigation.service';
+import { SolrService } from '../services/solr.service';
 
 @Component({
   selector: 'app-metadata',
@@ -26,17 +34,69 @@ export class MetadataComponent implements OnInit {
   }
   @Input() metadata: Metadata;
   expandedTitle = false;
+  @ViewChild(MatMenuTrigger,{static:false}) menu: MatMenuTrigger; 
 
   expand = {}
+  allDoctypes;
+  items = [];
+  selectedUuid: string;
+  selectedType: string;
+  selectedItem: any;
+
 
   constructor(public analytics: AnalyticsService,
               private dialog: MatDialog,
               public bookService: BookService,
+              public navigationService: NavigationService,
+              private translate: TranslateService,
               public licences: LicenceService,
               public auth: AuthService,
-              public settings: AppSettings) { }
+              public settings: AppSettings,
+              public folderService: FolderService,
+              private snackBar: MatSnackBar,
+              public solrService: SolrService) {
+                this.allDoctypes = SolrService.allDoctypes;
+              }
 
   ngOnInit() {
+    if (this.auth.isLoggedIn() && this.settings.folders) {
+      this.folderService.getFolders(null);
+    }
+    this.selectedUuid = this.metadata.uuid;
+    this.selectedType = this.metadata.doctype;
+    this.selectedItem = { uuid: this.metadata.uuid, type: this.metadata.doctype };
+  }
+
+  openLikeMenu() {
+    this.items = this.metadata.getFullContext(SolrService.allDoctypes);
+    console.log('openLikeMenu', this.items);
+    if (this.items.length == 1) {
+      this.selectedItem = this.items[0];
+      this.selectedType = this.items[0].type;
+      this.selectedUuid = this.items[0].uuid;
+    } else if (this.items.length > 1) {
+      if (this.items[0].type == 'page') {
+        this.selectedItem = this.items[1];
+        this.selectedType = this.items[1].type;
+        this.selectedUuid = this.items[1].uuid;
+      } else {
+        this.selectedItem = this.items[0];
+        this.selectedType = this.items[0].type;
+        this.selectedUuid = this.items[0].uuid;
+      }
+    }
+  }
+
+  changeUuid(uuid: string, type: string) {
+    this.selectedUuid = uuid;
+    this.selectedType = type;
+    console.log('changeUuid', type, uuid);
+  }
+  changeUuid2() {
+    // this.selectedItem = 
+    // this.selectedUuid = uuid;
+    // this.selectedType = type;
+    console.log('changeUuid', this.selectedItem, this.selectedType, this.selectedUuid);
   }
 
   toHtml(text: string): string {
@@ -52,6 +112,11 @@ export class MetadataComponent implements OnInit {
     return html;
   }
 
+  getCollectionTitle() {
+    const lang = this.translate.currentLang;
+    const title = this.metadata.getCollectionTitle(SearchService.LANGUAGE_MAP[lang]);
+    return title || this.metadata.getCollectionTitle('cze');
+}
 
   expendableTitle(): boolean {
     return this.metadata.getTitle().length > 75 || this.metadata.titles.length > 1;
@@ -74,14 +139,14 @@ export class MetadataComponent implements OnInit {
     return this.licences.availableLicences(this.metadata.licences).length > 0;
   }
 
-  showPrivateDialog() {
-    this.analytics.sendEvent('metadata', 'private-dialog');
-    this.dialog.open(LicenceDialogComponent, { data: { licences: this.metadata.licences, full: true }, autoFocus: false });
-  }
+  // showPrivateDialog() {
+  //   this.analytics.sendEvent('metadata', 'private-dialog');
+  //   this.dialog.open(LicenceDialogComponent, { data: { licences: this.metadata.licences, full: true }, autoFocus: false });
+  // }
 
   showLicenceDialog() {
     this.analytics.sendEvent('metadata', 'licence-dialog');
-    this.dialog.open(LicenceDialogComponent, { data: { licences: [this.metadata.licence], full: false }, autoFocus: false });
+    this.dialog.open(LicenceDialogComponent, { data: { licence: this.metadata.licence }, autoFocus: false });
   }
 
   onShowCitation() {
@@ -99,6 +164,23 @@ export class MetadataComponent implements OnInit {
     this.analytics.sendEvent('metadata', 'share');
     let opts = { metadata: this.metadata };
     this.dialog.open(ShareDialogComponent, { data: opts, autoFocus: false });
+  }
+  
+  onLike(folder: Folder, uuid: string) {
+    this.folderService.like(folder, uuid);
+    this.openSnackBar(folder.name);
+    console.log('onLike', folder, uuid);
+  }
+
+  openSnackBar(name: string) {
+    const message = <string> this.translate.instant('folders.liked') + ' ' + name;
+    this.snackBar.open(message, '', { duration: 2000, verticalPosition: 'bottom' });
+  }
+
+  onNewFolder(name: string) {
+    this.menu.closeMenu();
+    console.log('onNewFolder', name);
+    this.folderService.addFolderAndItem(name, this.metadata.uuid);
   }
 
   onShowMetadata() {

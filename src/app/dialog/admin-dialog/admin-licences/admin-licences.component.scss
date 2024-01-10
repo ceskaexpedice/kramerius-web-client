@@ -1,0 +1,47 @@
+@import './src/variables.scss';
+.app-licences {
+    .app-label {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 5px;
+    }
+    .app-licences-list {
+      margin-left: -8px;
+      .app-licence {
+        display: flex;
+        line-height: 26px;
+        height: 26px;
+        overflow: hidden;
+        .app-btn {
+          font-size: 22px;
+          cursor: pointer;
+          padding: 0 10px;
+          color: #ccc;
+          &:hover {
+            color: $primary-color;
+          }
+        }
+        .app-btn-remove {
+          font-size: 30px;
+          cursor: pointer;
+          padding: 0 10px 0 10px;
+          color: #ccc;
+          &:hover {
+            color: red;
+          }
+        }
+        .app-col-name {
+          color: #444;
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+        .app-col-desc {
+          color: #999;
+          font-size: 12px;
+        }
+      }
+    }
+    .app-actions {
+      margin-top: 10px;
+    }
+  }

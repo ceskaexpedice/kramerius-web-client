@@ -1,0 +1,15 @@
+<div class="app-dialog-wrapper" *ngIf="data.metadata">
+    <app-metadata
+        [metadata]="data.metadata">
+    </app-metadata>
+    <div class="app-close" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+    </div>
+    <div class="app-open">
+        <button mat-flat-button color="primary" [routerLink]="[settings.getRouteFor('uuid'), data.metadata.uuid]">{{ data.button | translate }}</button>
+    </div>
+</div>
+
+<div class="app-dialog-wrapper" *ngIf="!data.metadata">
+    <div class="app-dialog-title">{{ 'folders.dialogs.no_metadata' | translate }}</div>
+</div>

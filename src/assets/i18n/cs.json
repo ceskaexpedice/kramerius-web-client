@@ -17,7 +17,8 @@
     },
     "set_page_number": "Zadejte číslo stránky",
     "copy_to_clipboard": "Zkopírovat do schránky",
-    "copied_to_clipboard": "Zkopirováno do schránky",
+    "copy_uuid_to_clipboard": "Zkopírovat UUID do schránky",
+    "copied_to_clipboard": "Zkopírováno do schránky",
     "num_of_docs": {
       "one": "titul",
       "few": "tituly",
@@ -51,7 +52,8 @@
     "impressum": "Impressum"
   },
   "terms": {
-    "agreement": "Souhlasím s podmínkami použití",
+    "agreement1": "Souhlasím s",
+    "agreement2": "podmínkami použití",
     "login": "Přihlásit knihovním účtem/eduID"
   },
   "sp": {
@@ -92,7 +94,8 @@
     "back": "Zpět na předchozí stránku",
     "home": "Domovská stránka",
     "login": "Přihlásit",
-    "logout": "Odhlásit"
+    "logout": "Odhlásit",
+    "folders": "Seznamy"
   },
   "searchbar": {
     "main": {
@@ -158,7 +161,9 @@
     "tooltip_display_years": "Zobraz roky",
     "tooltip_display_calendar": "Zobraz kalendář",
     "tooltip_display_map": "Zobrazit výsledky na mapě",
-    "tooltip_display_cards": "Zobrazit karty s výsledky"
+    "tooltip_display_cards": "Zobrazit karty s výsledky",
+    "tooltip_display_table": "Zobrazit tabulku s výsledky",
+    "tooltip_download_csv": "Stáhnout výsledky v CSV"
   },
   "search": {
     "k3": "Hledat ve staré digitalizaci",
@@ -211,6 +216,9 @@
       "from": "Od",
       "to": "Do",
       "apply": "Použít"
+    },
+    "paginator": {
+      "label": "Položek na stránku"
     }
   },
   "advanced_search": {
@@ -284,11 +292,13 @@
     "download_track": "Stáhnout nahrávku"
   },
   "licence": {
-    "private_label": "Dokument není veřejně přístupný",
-    "private_message": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
-    "licences_before": "Tento dokument spadá pod následující licence",
-    "licences_after": "Pokud se k dokumentu nemůžete dostat v rámci licencí, pak platí obecná pravidla pro veřejně nedostupné dokumenty",
-    "metadata_licence": "Zpřístupněno pod licencí"
+    "metadata_licence": "Zpřístupněno pod licencí",
+    "window": {
+      "title": "K tomuto dokumentu nemáte přístup",
+      "message1": "Dokument je dostupný pod licencemi: ",
+      "message2": "Pro jeho zobrazeni: ",
+      "default_text": "Tento dokument není možné volně prohlížet v souladu se zákonem č. 121/2000 Sb. (autorský zákon). Autorský zákon připouští zpřístupnění děl 70 let po smrti všech autorů (včetně překladatele, ilustrátora apod.) a 50 let od vydání díla."
+    }
   },
   "alert": {
     "warning": "Upozornění",
@@ -296,7 +306,8 @@
     "no_results_found": "Nebyly nalezeny žádné výsledky. Prosím, zkuste jiný dotaz.",
     "failed_to_load_image": "Obrázek se nepodařilo načíst",
     "failed_to_load_pdf": "Dokument se nepodařilo načíst",
-    "book_no_results": "Nebyly nalezeny žádné výsledky"
+    "book_no_results": "Hledaný text nebyl nalezen na žádné straně dokumentu.",
+    "cancel_fulltext": "Načíst celý dokument"
   },
   "home": {
     "title": "Digitální knihovna Kramerius",
@@ -310,9 +321,9 @@
     "preselected_licences_filter": "Pouze přístupné online"
   },
   "metadata": {
-    "title_other": "Dalši názvy",
+    "title_other": "Další názvy",
     "author": "Autor",
-    "author_other": "Dalši tvůrci",
+    "author_other": "Další tvůrci",
     "publisher": "Nakladatelské údaje",
     "keywords": "Klíčová slova",
     "languages": "Jazyk",
@@ -353,7 +364,8 @@
     "shelf_locator": "Signatura: {{shelf_locator}}",
     "authors_info": "Více o autorech",
     "donator": "S podporou",
-    "policy_private": "Dokument není veřejně přístupný"
+    "policy_private": "Dokument není veřejně přístupný",
+    "in_collection": "Ve sbírce"
   },
   "donator": {
     "norway": {
@@ -370,6 +382,10 @@
     },
     "ilnorway": {
       "url": "https://eeagrants.org"
+    },
+    "dkrvo19-23": {
+      "url": "https://kramerius.nm.cz/dkrvo",
+      "name": "DKRVO 2019-23"
     }
   },
   "periodical": {
@@ -495,7 +511,7 @@
     "monograph": "Kniha",
     "monographunit": "Kniha",
     "monographbundle": "Svazek knih",
-    "periodical": "Noviny",
+    "periodical": "Periodikum",
     "map": "Mapa",
     "sheetmusic": "Hudebniny",
     "graphic": "Grafika",
@@ -563,7 +579,7 @@
   "model_plural" : {
     "monograph": "Knihy",
     "monographunit": "Knihy",
-    "periodical": "Noviny a časopisy",
+    "periodical": "Periodika",
     "map": "Mapy",
     "sheetmusic": "Hudebniny",
     "graphic": "Grafiky",
@@ -713,6 +729,58 @@
     "category:addressbook": "Adresáře",
     "category:calendar": "Kalendáře",
     "category:archival": "Archiválie"
+  },
+  "folders": {
+    "lists": "Seznamy",
+    "new_list": "Nový seznam",
+    "my_lists": "Moje seznamy",
+    "shared_lists": "Sdílené seznamy",
+    "warning": "Pro správu seznamů je třeba se přihlásit.",
+    "like": "Přidat do oblíbených",
+    "liked": "Přidáno do seznamu",
+    "info": "Více informací",
+    "clear": "Odebrat ze seznamu",
+    "add":"Přidat",
+    "to_folder": "do seznamu",
+    "tooltips": {
+      "edit": "Editovat vybrané",
+      "delete_selected": "Smazat vybrané",
+      "select_all": "Vybrat vše",
+      "edit_all": "Hromadná úprava položek seznamu",
+      "edit_all_end": "Ukončit hromadnou úpravu položek seznamu",
+      "add": "Přidat na seznam",
+      "edit_title": "Editovat název seznamu",
+      "delete": "Smazat seznam",
+      "share": "Sdílet seznam",
+      "remove_sharing": "Odebrat ze sdílených seznamů",
+      "add_sharing": "Přidat do sdílených seznamů"
+    },
+    "dialogs": {
+      "delete": "Smazat",
+      "cancel": "Ne",
+      "confirm": "Ano",
+      "add": "Přidat",
+      "close": "Zavřít",
+      "open": "Otevřít",
+      "create": "Vytvořit",
+      "no_metadata": "Žádná metadata ke zobrazení",
+      "edit_folder_name": "Upravit název seznamu",
+      "save": "Uložit",
+      "delete_folder": "Smazat seznam",
+      "delete_folder_message": "Opravdu chcete smazat seznam",
+      "add_to_folder": "Přidat dokumenty do seznamu",
+      "add_to_folder_message": "Vlož seznam uuid oddělených čárkou",
+      "follow": "Sledovat seznam",
+      "follow_message": "Opravdu chcete sledovat seznam",
+      "unfollow": "Přestat sledovat seznam",
+      "unfollow_message": "Opravdu chcete přestat sledovat seznam",
+      "batch_delete": "Hromadné mazání dokumentů",
+      "batch_delete_message": "Chcete smazat vybrané dokumenty ze seznamu?",
+      "share_warning": "Sdílení seznamu",
+      "share_warning_message": "Pro přidání seznamu se musíte přihlásit.",
+      "add_new_folder": "Vytvořit nový seznam",
+      "add_new_folder_name": "Jméno nového seznamu"
+    }
   },
   "source": {
     "mzk": "Moravská zemská knihovna",
@@ -922,7 +990,9 @@
     "TAE001": "Státní okresní archiv Tábor",
     "UHE802": "Knihovna Muzea Bojkovska",
     "ULC003": "Národní památkový ústav - Územní odborné pracoviště v Ústí nad Labem",
-    "ZNE450": "Klášter Dominikánů Znojmo"
+    "ZNE450": "Klášter Dominikánů Znojmo",
+    "ABD186": "Univerzita Karlova - Fakulta humanitních studií",
+    "TAE803": "Zámecká knihovna Bechyně"
   },
   "language" : {
     "aar": "afarština",

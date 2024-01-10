@@ -176,7 +176,7 @@ export class TtsService {
         "speakingRate": 1
       },
       "input": {
-        "text": text
+        "text": text.toLocaleLowerCase()
       },
       "voice": voice
     };

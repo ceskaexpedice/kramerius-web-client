@@ -2,7 +2,7 @@
 
   <div class="app-tabs" *ngIf="selection">
 
-    <mat-icon (click)="openInAdmin()" class="app-open-in-admin" *ngIf="settings.adminClientUrl" >settings</mat-icon>
+    <mat-icon (click)="openInAdmin()" class="app-open-in-admin" *ngIf="settings.adminClientUrl && items[0].uuids.length < 2" >settings</mat-icon>
 
     <div [matMenuTriggerFor]="categoryMenu" class="app-dialog-title">{{ categoryLabel(category) }}</div>
     <div *ngFor="let item of items" class="app-tab" [class.active]="selection.type === item.type"
@@ -13,6 +13,7 @@
   </div>
 
   <div class="app-dialog-content">
+    <app-admin-licences *ngIf="selection && category == 'licences'" [uuids]="selection.uuids"></app-admin-licences>
     <app-admin-collections *ngIf="selection && category == 'collections'" [uuids]="selection.uuids"></app-admin-collections>
     <app-admin-accessibility *ngIf="selection && category == 'accessibility'" [uuids]="selection.uuids"></app-admin-accessibility>    
     <app-admin-reindexation *ngIf="selection && category == 'reindexation'" [uuids]="selection.uuids"></app-admin-reindexation>
@@ -28,6 +29,7 @@
 
 <mat-menu #categoryMenu="matMenu" xPosition="after" class="app-dropdown-menu">
   <ng-template matMenuContent>
+    <div class="app-dropdown-item" (click)="changeCategory('licences')">{{ categoryLabel('licences') }}</div>
     <div class="app-dropdown-item" (click)="changeCategory('collections')">{{ categoryLabel('collections') }}</div>
     <div class="app-dropdown-item" (click)="changeCategory('accessibility')">{{ categoryLabel('accessibility') }}</div>
     <div class="app-dropdown-item" (click)="changeCategory('reindexation')">{{ categoryLabel('reindexation') }}</div>

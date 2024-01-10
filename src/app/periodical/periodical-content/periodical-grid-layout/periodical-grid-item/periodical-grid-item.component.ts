@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class PeriodicalGridItemComponent implements OnInit {
   @Input() item: PeriodicalItem;
   @Input() container;
+  @Input() selectable: boolean = false;
   lock: any;
   
   constructor(public periodicalService: PeriodicalService,

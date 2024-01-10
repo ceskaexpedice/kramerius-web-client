@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./browse-results.component.scss']
 })
 export class BrowseResultsComponent implements OnInit {
+    displayRows: boolean = false;
 
   constructor(public browseService: BrowseService, public appSettings: AppSettings) {
   }

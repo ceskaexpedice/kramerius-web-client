@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var APP_GLOBAL: any;
 
@@ -13,7 +14,9 @@ export class AppSettings {
   public currentCode: string;
 
   public title: string;
+  public titles: any;
   public subtitle: string;
+  public subtitles: any;
   public logo: string;
   public logoHome: string;
   public url: string;
@@ -31,24 +34,35 @@ export class AppSettings {
   public mapSearch: boolean;
   public mapSearchType: string;
   public mapSearchTypeDefault: string;
+  public folders: boolean;
+  public curatorListsEnabled: boolean;
+  public curatorLists: any[];
+  public curatorListsCardsVertical: boolean;
+  public curatorKeywordsEnabled: boolean;
+  public curatorKeywords: any[];
   public hiddenLocks: boolean;
   public legacyLocks: boolean;
   public licences: any;
   public containsLicences: boolean;
   public preselectedLicences: [string];
 
-  public ga = APP_GLOBAL.ga;
-  public gaCookieless = APP_GLOBAL.gaCookieless;
   public ga4 = APP_GLOBAL.ga4;
   public ga4clientId = APP_GLOBAL.ga4clientId;
   public matomo = APP_GLOBAL.matomo;
+  public matomoSiteId = APP_GLOBAL.matomoSiteId;
+
   public maxOmnibusParts: number;
   public maxOmnibusPages: number;
   public adminClientUrl: string;
+  public copyrightedText: string;
+  public replaceImageUrl: string;
 
+  public ai: boolean;
   public keycloak: boolean;
   public georef: boolean;
   public termsPage : [string, string];
+  public termsPage2 : [string, string];
+  public termsUrl: [string, string];
   public auth: any;
   public deployPath = APP_GLOBAL.deployPath || '';
 
@@ -71,7 +85,8 @@ export class AppSettings {
   public cookiebar = !!APP_GLOBAL.cookiebar;
   public navbarLogoOnHome = !!APP_GLOBAL.navbarLogoOnHome;
 
-
+  public defaultLanguage: string = APP_GLOBAL.defaultLanguage || 'cs';
+  public docsNav = !!APP_GLOBAL.docsNav;
   public languages: string[] = APP_GLOBAL.languages || ['cs', 'en', 'de', 'sk', 'sl'];
 
   public citationServiceUrl = APP_GLOBAL.citationServiceUrl || "https://citace.kramerius.cloud";
@@ -94,7 +109,7 @@ export class AppSettings {
   public krameriusList: KrameriusData[];
   public krameriusVsList = APP_GLOBAL.krameriusVsList;
 
-  constructor() {
+  constructor(public translate: TranslateService) {
     this.krameriusList = [];
     for (const k of APP_GLOBAL.krameriusList) {
       this.krameriusList.push(k);
@@ -130,10 +145,44 @@ export class AppSettings {
     this.assignKramerius(k);
   }
 
+
+  public getTitle() {
+    if (this.titles) {
+      return this.titles[this.translate.currentLang] || this.titles[this.defaultLanguage];
+    } else {
+      return this.title;
+    }
+  }
+
+  public getTitleForKramerius(kramerius: KrameriusData) {
+    if (kramerius.titles) {
+      return kramerius.titles[this.translate.currentLang] || kramerius.titles[this.defaultLanguage];
+    } else {
+      return kramerius.title;
+    }
+  }
+  public getTitleForAnalytics(kramerius: KrameriusData) {
+    if (kramerius.title) {
+      return kramerius.title;
+    } else if (kramerius.titles) {
+      return kramerius.titles[0];
+    }
+  }
+
+  public getSubtitle() {
+    if (this.subtitles) {
+      return this.subtitles[this.translate.currentLang] || this.subtitles[this.defaultLanguage];
+    } else {
+      return this.subtitle;
+    }
+  }
+
   public assignKramerius(kramerius: KrameriusData) {
     this.code = kramerius.code;
     this.title = kramerius.title;
+    this.titles = kramerius.titles;
     this.subtitle = kramerius.subtitle;
+    this.subtitles = kramerius.subtitles;
     this.url = kramerius.url;
     this.version = kramerius.version || 5;
     this.logo = kramerius.logo || 'assets/img/logo.png'
@@ -150,6 +199,12 @@ export class AppSettings {
     this.mapSearch = !!kramerius.mapSearch;
     this.mapSearchType = kramerius.mapSearchType || 'maps';
     this.mapSearchTypeDefault = kramerius.mapSearchTypeDefault || (this.mapSearchType == 'markers' ? 'markers' : 'maps');
+    this.folders = !!kramerius.folders;
+    this.curatorListsEnabled = !!kramerius.curatorLists;
+    this.curatorLists = kramerius.curatorLists || [];
+    this.curatorListsCardsVertical = !!kramerius.curatorListsCardsVertical;
+    this.curatorKeywordsEnabled = !!kramerius.curatorKeywords;
+    this.curatorKeywords = kramerius.curatorKeywords || [];
     this.licences = kramerius.licences;
     this.containsLicences = !!kramerius.containsLicences;
     this.preselectedLicences = kramerius.preselectedLicences;
@@ -158,9 +213,14 @@ export class AppSettings {
     this.maxOmnibusPages = kramerius.maxOmnibusPages || 0;
     this.maxOmnibusParts = kramerius.maxOmnibusParts || 0;
     this.adminClientUrl = kramerius.adminClientUrl;
+    this.replaceImageUrl = kramerius.replaceImageUrl;
+    this.copyrightedText = kramerius.copyrightedText;
     this.keycloak = !!kramerius.keycloak;
+    this.ai = !!kramerius.ai;
     this.georef = !!kramerius.georef;
     this.termsPage = kramerius.termsPage;
+    this.termsPage2 = kramerius.termsPage2;
+    this.termsUrl = kramerius.termsUrl;
     this.auth = kramerius.auth;
     this.currentCode = this.code;
     this.listner.next(kramerius);
@@ -273,7 +333,9 @@ export class AppSettings {
 interface KrameriusData {
   code: string;
   title: string;
+  titles: any;
   subtitle: string;
+  subtitles: any;
   logo: string;
   logoHome: string;
   url: string;
@@ -291,16 +353,27 @@ interface KrameriusData {
   mapSearch: boolean;
   mapSearchType: string;
   mapSearchTypeDefault: string;
+  folders: boolean;
+  curatorListsEnabled: boolean;
+  curatorLists: any[];
+  curatorListsCardsVertical: boolean;
+  curatorKeywordsEnabled: boolean;
+  curatorKeywords: any[];
   hiddenLocks: boolean;
   legacyLocks: boolean;
   type: string;
   maxOmnibusParts: number;
   maxOmnibusPages: number;
   keycloak: boolean;
+  ai: boolean;
   georef: boolean;
-  termsPage : [string, string];
+  termsPage: [string, string];
+  termsPage2: [string, string];
+  termsUrl: [string, string];
   auth: any;
   adminClientUrl: string;
+  replaceImageUrl: string;
   containsLicences: boolean;
   preselectedLicences: [string];
+  copyrightedText: string;
 }

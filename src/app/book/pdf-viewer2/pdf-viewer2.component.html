@@ -1,7 +1,7 @@
 <div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
 <app-viewer-controls *ngIf="bookService.pageAvailable" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 <ng-container *ngIf="bookService.isPageInaccessible()">
-    <app-licence-messages [full]="true" [licences]="bookService.licences"></app-licence-messages>
+    <app-licence-window [licences]="bookService.licences"></app-licence-window>
 </ng-container>
 
 <app-alert *ngIf="bookService.isPageFailure()"

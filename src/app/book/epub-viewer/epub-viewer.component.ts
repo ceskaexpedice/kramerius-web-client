@@ -29,7 +29,7 @@ export class EpubViewerComponent implements  OnInit, OnDestroy {
 
   ngOnInit() {
     // console.log('EpubViewerComponent ngOnInit');
-    this.epub.init(this.epubViewer, this.bookService.doublePageEnabled, this.bookService.epubUrl);
+    this.epub.init(this.epubViewer, this.bookService.doublePageEnabled, this.bookService.getUuid());
     this.intervalSubscription = interval(4000).subscribe( () => {
       const lastMouseDist = new Date().getTime() - this.lastMouseMove;
       if (lastMouseDist >= 4000) {

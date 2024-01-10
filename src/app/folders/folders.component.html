@@ -1,0 +1,43 @@
+
+<div class="app-folders-wrapper" *ngIf="!loading && authService.isLoggedIn()">
+    <div class="app-folders-container">
+        <div class="app-folders-header">
+            <div class="app-folders-header-title">{{ 'folders.lists' | translate }} ({{folderService.folders[0].length + folderService.folders[1].length}})</div>
+            <div class="app-folders-header-actions" (click)="openFoldersDialog()">+ {{'folders.new_list' | translate }}</div>
+        </div>
+        <div class="app-folder-items">
+            <div class="app-folder-header">{{'folders.my_lists' | translate }}</div>
+            <a class="app-folder-item" 
+            *ngFor="let item of folderService.folders[0]"
+            [routerLink]="['/folders', item.uuid]"
+            [class.app-selected]="folder.uuid === item.uuid">
+                <div>
+                    {{item.name}}
+                </div>
+            </a>
+        </div>
+        <div class="app-folder-items" *ngIf="folderService.folders[1].length > 0">
+            <div class="app-folder-header">{{'folders.shared_lists' | translate }}</div>
+            <a class="app-folder-item" 
+            *ngFor="let item of folderService.folders[1]"
+            [routerLink]="['/folders', item.uuid]"
+            [class.app-selected]="folder.uuid === item.uuid">
+                <div>
+                    {{item.name}} 
+                    <span *ngIf="findUser(item)">({{ findUser(item) }})</span>
+                </div>
+            </a>
+        </div>
+    </div> 
+    <app-folder *ngIf="folder" [folder]="folder" [user]="folder.user"></app-folder>
+</div>
+<div class="app-folders-wrapper" *ngIf="!loading && !authService.isLoggedIn()">
+    <div class="app-folders-container">
+        <div class="app-folders-header">{{ 'folders.lists' | translate }}</div>
+        <div class="app-folder-items">
+            <!-- <div class="app-folder-header">Sdílené seznamy</div> -->
+            <div class="app-folders-warning">{{ 'folders.warning' | translate }}</div>
+        </div>
+    </div>
+    <app-folder *ngIf="folder" [folder]="folder" [user]="folder.user"></app-folder>
+</div>

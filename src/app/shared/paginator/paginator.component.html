@@ -1,13 +1,32 @@
-<div class="app-paginator">
-  <ul *ngIf="numberOfPages() > 1">
-    <li [class.disabled]="!hasPrevious()" class="app-arrow">
-      <mat-icon tabindex="0" (click)="onPrevious()">chevron_left</mat-icon>
-    </li>
-    <li *ngFor="let page of pages()" [class.app-active]="isActive(page)" class="waves-effect" >
-      <a tabindex="0" (click)="onIndex(page)">{{page}}</a>
-    </li>
-    <li [class.disabled]="!hasNext()" class="app-arrow">
-      <mat-icon tabindex="0" (click)="onNext()">chevron_right</mat-icon>
-    </li>
-  </ul>
+<div class="app-container">
+  <div class="app-empty-div"></div>
+  <div class="app-paginator">
+    <ul *ngIf="numberOfPages() > 1">
+      <li [class.disabled]="!hasPrevious()" class="app-arrow">
+        <mat-icon tabindex="0" (click)="onPrevious()">chevron_left</mat-icon>
+      </li>
+      <li *ngFor="let page of pages()" [class.app-active]="isActive(page)" class="waves-effect" >
+        <a tabindex="0" (click)="onIndex(page)">{{page}}</a>
+      </li>
+      <li [class.disabled]="!hasNext()" class="app-arrow">
+        <mat-icon tabindex="0" (click)="onNext()">chevron_right</mat-icon>
+      </li>
+    </ul>
+  </div>
+  <!-- POLOZEK NA STRANKU -->
+  <div class="app-rows" *ngIf="displayRows && numberOfPages() > 1">
+    <span class="app-label">{{ 'search.paginator.label' | translate }}: </span>
+    <span tabindex="0" class="app-dropdown" [matMenuTriggerFor]="rowsMenu">
+      <span>{{actualRows}}</span>
+        <!-- <span>{{ 'search.ordering.' + search.query.ordering | translate }}</span> -->
+      <mat-icon>arrow_drop_down</mat-icon>
+    </span>
+  </div>
 </div>
+
+
+<mat-menu #rowsMenu="matMenu" >
+  <div *ngFor="let option of rowsOptions">
+    <div mat-menu-item (click)="onSelectRowsOption(option)">{{option}}</div>
+  </div>
+</mat-menu>

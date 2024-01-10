@@ -1,10 +1,10 @@
-<a *ngIf="item" routerLink="{{item.url}}" [queryParams]="item.params" (click)="analytics.sendEvent(in, 'document', item.title);">
+<a *ngIf="item" routerLink="{{item.url}}" [queryParams]="item.params" (click)="onOpen()">
   <div class="app-card-content-wrapper">
     <!-- <div class="app-card-mark {{item.doctype}}"></div> -->
     <div class="app-card-media">
       <div class="app-card-thumb" [style.background-image]="thumb">
         <div matTooltipPosition="above" [matTooltip]="lock.tooltip" class="app-lock {{ lock.class }}" *ngIf="legacyLocks && lock && lock.access != 'open'">
-          <mat-icon>{{ lock.icon }}</mat-icon>
+          <mat-icon>{{ lock.icon }}</mat-icon>s
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
         {{item.date}}
       </div>
 
-      <div *ngIf="item.description" class="app-card-description">
+      <div *ngIf="item.localDescriptions || item.description" class="app-card-description">
         {{ getDescription() }}
       </div>
 
@@ -51,10 +51,29 @@
         </div>
       </div>
     </div>
-
   </div>
+
   <div *ngIf="selectable" class="app-selectable" [class.app-selected]="item.selected"
     (click)="item.selected = !item.selected; $event.preventDefault();$event.stopPropagation()">
     <div class="app-check"></div>
   </div>
+
+  <div class="app-card-like">
+    <mat-icon *ngIf="(in == 'search' || in == 'folder-follower') && settings.folders && auth.isLoggedIn()" [matMenuTriggerFor]="favoritesMenu" (click)="$event.preventDefault();$event.stopPropagation();checkFolders()" matTooltip="{{ 'folders.like' | translate }}">favorite</mat-icon>
+    <mat-icon *ngIf="in == 'folder-owner' && settings.folders && auth.isLoggedIn()" (click)="onDislike(folder); $event.preventDefault();$event.stopPropagation()" matTooltip="{{ 'folders.clear' | translate }}">clear</mat-icon>
+    <mat-icon (click)="getMetadata(item.uuid); $event.preventDefault();$event.stopPropagation()" matTooltip="{{ 'folders.info' | translate }}">info</mat-icon>
+  </div>
+
 </a>
+
+<mat-menu #favoritesMenu="matMenu" xPosition="before" class="app-dropdown-menu">
+  <ng-template matMenuContent>
+    <div mat-menu-item tabindex="0" class="app-dropdown-item" *ngFor="let folder of folderService.getMyFolders()" (click)="onLike(folder)">
+      {{ folder.name }}
+    </div>
+    <!-- <div mat-menu-item tabindex="0" class="app-dropdown-item app-dropdown-new" (click)="onNewFolder()">+ Nový seznam</div> -->
+    <div class="app-dropdown-input">
+        <input #matInput [placeholder]="'folders.new_list' | translate" (click)="$event.stopPropagation()" (keyup.enter)="onNewFolder(matInput.value)">
+    </div>
+  </ng-template>
+</mat-menu>

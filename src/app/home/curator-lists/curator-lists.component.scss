@@ -1,0 +1,165 @@
+@import './src/_variables.scss';
+.app-curkeywords-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0 0 25px 0;
+    .app-curkeyword {
+        margin: 0px 10px 10px 5px;
+        color: #707070;
+        cursor: pointer;
+        font-size: 14px;
+        border: 1px solid #d1d1d1;
+        border-radius: 19px;
+        padding: 6px 10px;
+        &:hover {
+            // border-color: #555;
+            // color: #555;
+            background: #eee;
+        }
+    }
+}
+.app-curlist-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 0 30px 0;
+    @media (max-width: 450px) {
+        align-items: center;
+      }
+}
+.app-curlist-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    .app-curlist-title {
+        // color: $primary-color;
+        color: #707070;
+        font-size: medium;
+        margin: 10px 0px 10px 10px;
+        cursor: pointer;
+    }
+    .app-curlist-collapse-icon {
+        color: $primary-color;
+        margin-top: 10px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+}
+
+.app-curlist-content {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    &.app-curlist-expanded {
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        flex: 100%;
+    }
+    // IF VERTICAL CARDS
+    .app-curlist-item {
+        // flex: 1;
+        position: relative;
+        flex-basis: 160px;
+        flex-shrink: 1;
+        flex-grow: 0;
+        // max-width: 167px;
+        margin: 0 5px 10px 10px;
+        cursor: pointer;
+        height: 186px;
+        border-radius: 5px;
+        border: 1px solid #e8e8e8;
+        &:hover {
+            border: 1px solid #e8e8e8;
+            background: #eee;
+        }
+        .app-item-thumb {
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 130px;
+            float: left;
+            position: relative;
+            background-size: cover;
+            background-position-x: center;
+            border-radius: 2px 2px 0 0;
+        }
+        .app-item-title {
+            font-size: 14px;
+            font-weight: 500;
+            // color: $primary-color;
+            color: #333;
+            padding: 10px 8px;
+            height: 44px;
+            line-height: 18px;
+            overflow: hidden;
+            display: -webkit-inline-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .app-item-date {
+            font-size: 13px;
+            padding: 3px 5px;
+            position: relative;
+            bottom: 5px;
+        }
+        .app-item-plus {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 35px;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 2px;
+            display: flex;
+            justify-content: center;
+            padding: 50px 0 0 0;
+        }
+    }
+    app-document-card {
+        width:16.66666%;
+        @media (max-width: (2300px + 150px)) {
+          width:20%;
+        }
+        @media (max-width: (1900px + 150px)) {
+          width:25%;
+        }
+        @media (max-width: (1500px + 150px)) {
+          width:33.33333%;
+        }
+        @media (max-width: (1260px + 150px)) {
+          width:50%;
+        }
+        @media (max-width: 900px) {
+          width:100%;
+        }
+    }
+   .app-document-card-last-item {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 150px;
+        background: #fff;
+        position: relative;
+        cursor: pointer;
+        margin: 0.5rem;
+        border-radius: unset;
+        height: 144px;
+        box-shadow: 0 2px 2px 0 transparent, 0 1px 5px 0 rgba(0,0,0,0.1), 0 3px 1px -20px rgba(0,0,0,0.1);
+        border: 1px solid $app-grey-l-2;
+        &:hover {
+            box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border: 1px solid #d3d3d3;
+            .app-card-like {
+            display: flex;
+            }
+        }
+        .app-item-plus {
+            display: flex;
+            font-size: 24Xpx;
+            color: #0277bd;
+        }
+    }
+}
+

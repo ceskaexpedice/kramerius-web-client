@@ -16,6 +16,7 @@ export class PeriodicalItem {
     metadata: Metadata;
     editionType: string;
     licences: string[];
+    selected: boolean;
 
     constructor() {
     }

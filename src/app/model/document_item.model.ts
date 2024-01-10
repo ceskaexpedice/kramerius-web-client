@@ -1,6 +1,7 @@
 export class DocumentItem {
     title: string;
     titleEn: string;
+    localTitles: any;
     authors: string[];
     geonames: string[];
     date: string;
@@ -8,10 +9,12 @@ export class DocumentItem {
     category: string;
     uuid: string;
     root_uuid: string;
+    root_title: string;
     public: boolean;
     url: string;
     description: string;
     descriptionEn: string;
+    localDescriptions: any;
     volumeNumber: string;
     volumeYear: string;
     pdf = false;
@@ -32,6 +35,10 @@ export class DocumentItem {
 
     selected: boolean = false;
     licence: string;
+    in_collection: string[];
+    in_collections: string[];
+
+    createdAt: string;
 
     resolveUrl(prefix: string) {
         if (this.doctype === 'periodical' || this.doctype === 'periodicalvolume' || this.doctype === 'convolute') {
@@ -75,19 +82,26 @@ export class DocumentItem {
     }
 
     public getTitle(lang: string): string {
-        if (lang == 'en' && this.titleEn) {
-            return this.titleEn;
+        if (this.localTitles && this.localTitles[lang]) {
+            return this.localTitles[lang];
         }
         return this.title;
     }
 
     public getDescription(lang: string): string {
-        if (lang == 'en' && this.descriptionEn) {
-            return this.descriptionEn;
+        if (this.localDescriptions) {
+            if (this.localDescriptions[lang]) {
+                return this.localDescriptions[lang];
+            } else {
+                return this.localDescriptions['cs'];
+            }
+        } else {
+            if (lang == 'en' && this.descriptionEn) {
+                return this.descriptionEn;
+            }
+            return this.description;
         }
-        return this.description;
     }
-
 }
 
 export class Context {

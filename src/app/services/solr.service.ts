@@ -352,7 +352,6 @@ export class SolrService {
         return filter;
     }
 
-
     getNewestQuery(): string {
         let q = `fl=${this.field('id')},${this.field('accessibility')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')},${this.field('model')}`;
         if (!this.settings.k5Compat()) {
@@ -512,6 +511,10 @@ export class SolrService {
         return q;
     }
 
+    buildFolderItemsQuery(uuids: any[]) {
+        let q = `&q=${this.field('id')}:"${uuids.join(`" OR ${this.field('id')}:"`)}"&rows=50`;
+        return q;
+    }
 
     buildDocumentFulltextQuery(uuids: string[], query: string) {
         const fl = `${this.field('id')},${this.field('root_pid')}`;
@@ -699,12 +702,15 @@ export class SolrService {
     }
 
     documentItem(solr): DocumentItem {
-        if (!solr['response']['docs'] || solr['response']['docs'].lenght < 1) {
+        if (!solr['response']['docs'] || solr['response']['docs'].length < 1) {
             return null;
         }
         const doc = solr['response']['docs'][0];
+        // console.log('doc', doc);
         const item = new DocumentItem();
         item.uuid = doc[this.field('id')];
+        item.in_collection = doc[this.field('parent_collections')] || [];
+        item.in_collections = doc[this.field('ancestor_collections')] || [];
         item.title = doc[this.field('title')];
         item.doctype = doc[this.field('model')];
         item.date = doc[this.field('date')];
@@ -718,6 +724,27 @@ export class SolrService {
         if (item.doctype === 'periodicalvolume') {
             item.volumeNumber = doc[this.field('part_number')];
             item.volumeYear = item.date;
+        }
+        if (item.doctype == 'collection') {
+            let languages = {'cze':'cs',
+                             'eng':'en',
+                             'ger':'de',
+                             'slo':'sk',
+                             'slv':'sl'}; // PRIDAT DALSI JAZYKY PRO SBIRKY...
+            let localTitles = {};
+            for (const key in languages) {
+                if (doc['title.search_' + key]) {
+                    localTitles[languages[key]] = doc['title.search_' + key][0];
+                }
+            }
+            item.localTitles = localTitles;
+            let localDescriptions = {};
+            for (const key in languages) {
+                if (doc['collection.desc_' + key]) {
+                    localDescriptions[languages[key]] = doc['collection.desc_' + key][0];
+                }
+            }  
+            item.localDescriptions = localDescriptions;                     
         }
         const pidPath = this.getPidPath(doc);
         const modelPath = this.getModelPath(doc);
@@ -886,13 +913,13 @@ export class SolrService {
             q += '&group.truncate=true';
             q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model_path')},${this.field('authors')},${this.field('root_title')},${this.field('root_pid')},${this.field('title')},${this.field('date')},score`;
         } else {
-            q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')}`;
+            q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')},title.search_*`;
         }
         if (this.settings.filters.indexOf('sources') > -1) {
             q+= `,${this.field('cdk_sources')}`
         }
         if (!this.settings.k5Compat()) {
-            q += `,${this.field('collection_description')}`;
+            q += `,${this.field('collection_description')}, collection.desc_*`;
         } else if (this.settings.filters.indexOf('categories') >= 0) {
             q += `,${this.field('category')}`;
         }
@@ -1388,6 +1415,7 @@ export class SolrService {
     documentItems(json): DocumentItem[] {
         const items: DocumentItem[] = [];
         for (const doc of json['response']['docs']) {
+            // console.log(doc);
             const item = new DocumentItem();
             item.doctype = doc[this.field('model')];
             if (this.settings.code == 'snk' && item.doctype == 'internalpart') {
@@ -1406,30 +1434,37 @@ export class SolrService {
                     }
                 }
             } else {
-                if (item.doctype == 'collection') {
-                    let titles = doc[this.field('titles')];
-                    titles = titles || [];
-                    if (this.settings.code == 'cdk2' && this.settings.version >= 7) {
-                        item.title = titles;
-                    } else {
-                        if (titles.length > 0) {
-                            item.title = titles[0];
-                        }
-                        if (titles.length > 1  && titles[1] && titles[1] != 'null') {
-                            item.titleEn = titles[1];
-                        }
-                    }
-                    const descriptions = doc[this.field('collection_description')] || [];
-                    if (descriptions.length > 0) {
-                        item.description = descriptions[0];
-                    }
-                    if (descriptions.length > 1) {
-                        item.descriptionEn = descriptions[1];
-                    }
-                } else if (item.doctype == 'page') {
+                // K7
+                if (item.doctype == 'page') {
                     item.title = doc[this.field('root_title')];
-                } else {
-                    item.title = doc[this.field('title')];
+                } 
+                else {
+                    if (item.doctype == 'periodicalvolume' || item.doctype == 'periodicalitem') {
+                        item.root_title = doc[this.field('root_title')];
+                    } 
+                    item.title = doc[this.field('title')]; // obecne title
+                    if (item.doctype == 'collection') {
+                        let languages = {'cze':'cs',
+                                         'eng':'en',
+                                         'ger':'de',
+                                         'slo':'sk',
+                                         'slv':'sl'}; // PRIDAT DALSI JAZYKY PRO SBIRKY...
+                        let localTitles = {};
+                        for (const key in languages) {
+                            if (doc['title.search_' + key]) {
+                                localTitles[languages[key]] = doc['title.search_' + key][0];
+                            }
+                        }
+                        item.localTitles = localTitles;
+                        let localDescriptions = {};
+                        for (const key in languages) {
+                            if (doc['collection.desc_' + key]) {
+                                localDescriptions[languages[key]] = doc['collection.desc_' + key][0];
+                            }
+                        }  
+                        item.localDescriptions = localDescriptions;                     
+                    }
+
                 }
             }
             if (!item.title || item.title === 'null') {

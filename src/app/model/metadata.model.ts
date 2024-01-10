@@ -60,6 +60,9 @@ export class Metadata {
     public originUrl: string;
 
     public licence: string;
+
+    public inCollections: InCollections[] = [];
+    public inCollectionsDirect: InCollections[] = [];
     
     constructor() {
     }
@@ -162,7 +165,16 @@ export class Metadata {
                 return t.mainTitle();
             }
         }
-        return this.getTitle();
+    }
+
+    public getCollectionNotes(lang: string) {
+        let i = 0;
+        for (let t of this.titles) {
+            if (t.lang == lang) {
+                return this.notes[i] || "";
+            }
+            i++;
+        }
     }
 
 
@@ -332,4 +344,9 @@ export class Publisher {
     empty() {
         return !(this.name || this. date || this.place);
     }
+}
+
+export class InCollections {
+    public uuid: string;
+    public name: string;
 }

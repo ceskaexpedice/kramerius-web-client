@@ -1,73 +1,84 @@
 @import './src/variables.scss';
 
-.app-search-bar-wrapper {
-  position: relative;
-  display: inline-block;
-  width: calc(100% - 16px);
-  height: $app-search-bar-height;
-  vertical-align: middle;
-  margin-bottom: 3px;
-  background-color: #fff;
-  border: 1px solid $app-grey-l-2;
-  border-radius: $app-border-radius;
-  box-shadow:  0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 5px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.05);
-  
-  mat-icon {
-    position: absolute;
-    line-height: normal;
-    height: auto;
-    top: 10px;
-    color: $app-grey-text;
-    cursor: pointer;
-    &.app-button-search {
-      left: 0.8rem;
-    }
-    &.app-button-close {
-      right: 2.6rem;
-    }
-    &.app-button-help {
-      right: 0.6rem;
-    }
-  }
-  ::ng-deep {
-    .input-field {
-      padding-right: 3rem;
-      margin-top: 0;
-      input[type=search] {
-        display: block;
-        // height: $app-search-bar-height;
-        // line-height: $app-search-bar-height;
-        padding-left: 3rem;
-        border: none !important;
-        width: calc(100% - 3rem);
-
-        &:focus {
-          background-color: transparent;
-          box-shadow: none !important;
-        }
-        &::-ms-clear {
-          display: none; // for IE - not display his display button
-        }
-      }      
-    }
-  }
-}
-
-mat-checkbox {
-  margin-top: 5px;
-  display: block;
-}
-
-@media #{$large-and-up} {
-  mat-checkbox {
-    display: inline-block;
-    padding-left: 20px;
-    margin-top: 0;
-  }
-}
-@media #{$large-and-up} {
+.app-home-search-bar{
   .app-search-bar-wrapper {
-    width: 600px;
-  }
-}
+    position: relative;
+    display: inline-block;
+    width: calc(100% - 16px);
+    height: $app-search-bar-height;
+    vertical-align: middle;
+    margin-bottom: 3px;
+    background-color: #fff;
+    border: 1px solid $app-grey-l-2;
+    border-radius: $app-border-radius;
+    box-shadow:  0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 5px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.05);
+    
+    mat-icon {
+      position: absolute;
+      line-height: normal;
+      height: auto;
+      top: 10px;
+      color: $app-grey-text;
+      cursor: pointer;
+      &.app-button-search {
+        left: 0.8rem;
+      }
+      &.app-button-close {
+        right: 2.6rem;
+      }
+      &.app-button-help {
+        right: 0.6rem;
+      }
+    }
+    ::ng-deep {
+      .input-field {
+        padding-right: 3rem;
+        margin-top: 0;
+        input[type=search] {
+          display: block;
+          // height: $app-search-bar-height;
+          // line-height: $app-search-bar-height;
+          padding-left: 3rem;
+          border: none !important;
+          width: calc(100% - 3rem);
 
+          &:focus {
+            background-color: transparent;
+            box-shadow: none !important;
+          }
+          &::-ms-clear {
+            display: none; // for IE - not display his display button
+          }
+        }      
+      }
+    }
+  }
+
+  ::ng-deep {
+    mat-checkbox {
+      label {
+        font-size: 14px;
+        color: $app-grey-text;
+      }
+    }
+  }
+
+  mat-checkbox {
+    margin-top: 5px;
+    display: block;
+  }
+
+  @media #{$large-and-up} {
+    mat-checkbox {
+      display: inline-block;
+      padding-left: 20px;
+      margin-top: 0;
+    }
+  }
+  @media #{$large-and-up} {
+    .app-search-bar-wrapper {
+      width: 600px;
+    }
+  }
+
+}

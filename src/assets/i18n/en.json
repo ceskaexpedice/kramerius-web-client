@@ -17,6 +17,7 @@
     },
     "set_page_number": "Set page number",
     "copy_to_clipboard": "Copy to clipboard",
+    "copy_uuid_to_clipboard": "Copy UUID to clipboard",
     "copied_to_clipboard": "Copied to clipboard",
     "num_of_docs": {
       "one": "document",
@@ -51,7 +52,8 @@
     "impressum": "Impressum"
   },
   "terms": {
-    "agreement": "I agree to the terms of use",
+    "agreement1": "I agree to the",
+    "agreement2": "terms of use",
     "login": "Log in with library account/eduID"
   },
   "sp": {
@@ -92,7 +94,8 @@
     "back": "Back for previous page",
     "home": "Home page",
     "login": "Log in",
-    "logout": "Log out"
+    "logout": "Log out",
+    "folders": "Lists"
   },
   "searchbar": {
     "main": {
@@ -158,7 +161,9 @@
     "tooltip_display_years": "Display years",
     "tooltip_display_calendar": "Display calendar",
     "tooltip_display_map": "Show results on a map",
-    "tooltip_display_cards": "Show results"
+    "tooltip_display_cards": "Show results",
+    "tooltip_display_table": "Show table",
+    "tooltip_download_csv": "Download in CSV"
   },
   "search": {
     "k3": "Search in the old digitization",
@@ -210,6 +215,9 @@
       "from": "From",
       "to": "To",
       "apply": "Apply"
+    },
+    "paginator": {
+      "label": "Items per page"
     }
   },
   "advanced_search": {
@@ -281,11 +289,13 @@
     "download_track": "Download track"
   },
   "licence": {
-    "private_label": "The document is not publicly accessible",
-    "private_message": "Tento dokument je stále chráněn Autorským zákonem (č. 121/2000 Sb.) a není ho tedy možné veřejně zpřístupnit, dokud neuplyne 70 let od smrti všech jeho autorů (včetně překladatele, ilustrátora atd.) a 50 let od vydání díla. K dokumentu lze získat přístup z počítačových stanic v budově knihovny, která jej vlastní. Informaci o vlastnictví požadovaného dokument zjistíte v podrobnostech vpravo jako „Místo uložení“.",
-    "licences_before": "This document is covered by the following licenses",
-    "licences_after": "If you cannot access the document under licenses, then the general rules for non-public documents apply",
-    "metadata_licence": "Available under license"
+    "metadata_licence": "Available under license",
+    "window": {
+      "title": "You do not have access to this document",
+      "message1": "The document is available under the licenses: ",
+      "message2": "To display it: ",
+      "default_text": "This document cannot be viewed freely in accordance with Act No. 121/2000 Coll. (Copyright Act). The Copyright Act allows works to be made available 70 years after the death of all authors (including the translator, illustrator, etc.) and 50 years from publication of the work."
+    }
   },
   "alert": {
     "warning": "Attention",
@@ -293,7 +303,8 @@
     "no_results_found": "No results found. Please, try a different query.",
     "failed_to_load_image": "Failed to load the image",
     "failed_to_load_pdf": "Failed to load the document",
-    "book_no_results": "No results found"
+    "book_no_results": "The searched text was not found on any page of the document.",
+    "cancel_fulltext":  "Load the entire document"
   },
   "home": {
     "title": "Digital library Kramerius",
@@ -350,7 +361,8 @@
     "shelf_locator": "Shelf/Call number: {{shelf_locator}}",
     "authors_info": "More about authors",
     "donator": "Supported by",
-    "policy_private": "Not publicly accessible document"
+    "policy_private": "Not publicly accessible document",
+    "in_collection": "In collection"
   },
   "donator": {
     "norway": {
@@ -367,6 +379,10 @@
     },
     "ilnorway": {
       "url": "https://eeagrants.org"
+    },
+    "dkrvo19-23": {
+      "url": "https://kramerius.nm.cz/dkrvo",
+      "name": "DKRVO 2019-23"
     }
   },
   "periodical": {
@@ -711,6 +727,58 @@
     "category:calendar": "Calendars",
     "category:archival": "Archives"
   },
+  "folders": {
+    "lists": "Lists",
+    "new_list": "New list",
+    "my_lists": "My lists",
+    "shared_lists": "Shared lists",
+    "warning": "You need to sign in to manage lists.",
+    "like": "Add to favorites",
+    "liked": "Added to list",
+    "info": "More information",
+    "clear": "Remove from list",
+    "add":"Add",
+    "to_folder": "to list",
+    "tooltips": {
+      "edit": "Edit selected",
+      "delete_selected": "Delete selected",
+      "select_all": "Select all",
+      "edit_all": "Bulk edit list items",
+      "edit_all_end": "End bulk edit list items",
+      "add": "Add to list",
+      "edit_title": "Edit list title",
+      "delete": "Delete list",
+      "share": "Share list",
+      "remove_sharing": "Remove from shared lists",
+      "add_sharing": "Add to shared lists"
+    },
+    "dialogs": {
+      "delete": "Delete",
+      "cancel": "No",
+      "confirm": "Yes",
+      "add": "Add",
+      "close": "Close",
+      "open": "Open",
+      "create": "Create",
+      "no_metadata": "No metadata to display",
+      "edit_folder_name": "Edit list name",
+      "save": "Save",
+      "delete_folder": "Delete list",
+      "delete_folder_message": "Do you really want to delete the list",
+      "add_to_folder": "Add documents to the list",
+      "add_to_folder_message": "Insert list UUIDs separated by commas",
+      "follow": "Follow list",
+      "follow_message": "Do you really want to follow the list",
+      "unfollow": "Unfollow list",
+      "unfollow_message": "Do you really want to unfollow the list",
+      "batch_delete": "Batch delete documents",
+      "batch_delete_message": "Do you want to delete selected documents from the list?",
+      "share_warning": "List sharing",
+      "share_warning_message": "You need to sign in to add the list.",
+      "add_new_folder": "Create a new list",
+      "add_new_folder_name": "Name of the new list"
+    }
+  },
   "source": {
     "mzk": "Moravská zemská knihovna",
     "svkhk": "Studijní a vědecká knihovna v Hradci Králové",
@@ -919,7 +987,9 @@
     "TAE001": "State District Archive Tábor",
     "UHE802": "Library of the Museum Bojkovska",
     "ULC003": "National Institute for the Protection and Conservation of Monuments and Sites - Ústí nad Labem",
-    "ZNE450": "Dominican Library in Znojmo"
+    "ZNE450": "Dominican Library in Znojmo",
+    "ABD186": "Charles University - Faculty of Humanities",
+    "TAE803": "The castle library of Bechyně"
   },
   "language" : {
     "aar": "Afar",

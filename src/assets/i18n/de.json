@@ -17,6 +17,7 @@
       },
       "set_page_number": "Seitenzahl eingeben",
       "copy_to_clipboard": "In den Zwischenspeicher kopieren",
+      "copy_uuid_to_clipboard": "UUID in den Zwischenspeicher kopieren",
       "copied_to_clipboard": "In den Zwischenspeicher kopiert",
       "num_of_docs": {
         "one": "Titel",
@@ -51,7 +52,8 @@
       "impressum": "Impressum"
     },
     "terms": {
-      "agreement": "I agree to the terms of use",
+      "agreement1": "I agree to the",
+      "agreement2": "terms of use",
       "login": "Log in with library account/eduID"
     },
     "sp": {
@@ -92,7 +94,8 @@
       "back": "Zurück zur vorherigen Seite",
       "home": "Home",
       "login": "Anmelden",
-      "logout": "Abmelden"
+      "logout": "Abmelden",
+      "folders": "Listen"
     },
     "searchbar": {
       "main": {
@@ -158,7 +161,9 @@
       "tooltip_display_years": "Jahre anzeigen",
       "tooltip_display_calendar": "Kalender anzeigen",
       "tooltip_display_map": "Ergebnisse auf der Karte anzeigen",
-      "tooltip_display_cards": "Ergebnisse anzeigen"
+      "tooltip_display_cards": "Ergebnisse anzeigen",
+      "tooltip_display_table": "Tabelle anzeigen",
+      "tooltip_download_csv": "Als CSV herunterladen"
     },
     "search": {
       "k3": "Suche in alter Digitalisierung",
@@ -210,6 +215,9 @@
         "from": "Von",
         "to": "Bis",
         "apply": "Anwenden"
+      },
+      "paginator": {
+        "label": "Objekte pro Seite"
       }
     },
     "advanced_search": {
@@ -281,11 +289,13 @@
       "download_track": "Die Audioaufzeichnung herunterladen"
     },
     "licence": {
-      "private_label": "Das Dokument ist nicht öffentlich zugänglich",
-      "private_message": "Dieses Dokument ist immer noch durch das Urheberrechtsgesetz (Nr. 121/2000 Slg.) geschützt und kann daher erst 70 Jahre nach dem Tod aller Autoren (einschließlich des Übersetzers, Illustrators usw.) und 50 Jahre nach der Herausgabe des Werks öffentlich zugänglich gemacht werden. Der Zugriff auf das Dokument ist über Computer im Gebäude der Bibliothek möglich, die das Dokument besitzt. Informationen zu den Eigentumsverhältnissen des angeforderten Dokuments finden Sie in den Angaben rechts unter „Speicherort“.",
-      "licences_before": "Dieses Dokument untersteht den folgenden Lizenzen",
-      "licences_after": "Wenn Sie im Rahmen der Lizenzen keinen Zugang zu dem Dokument haben, gelten die allgemeinen Regeln für nicht öffentliche Dokumente",
-      "metadata_licence": "Zugänglich unter Lizenz"
+      "metadata_licence": "Zugänglich unter Lizenz",
+      "window": {
+        "title": "Das Dokument ist nicht öffentlich zugänglich",
+        "message1": "The document is available under the licenses: ",
+        "message2": "To display it: ",
+        "default_text": "Dieses Dokument ist immer noch durch das Urheberrechtsgesetz (Nr. 121/2000 Slg.) geschützt und kann daher erst 70 Jahre nach dem Tod aller Autoren (einschließlich des Übersetzers, Illustrators usw.) und 50 Jahre nach der Herausgabe des Werks öffentlich zugänglich gemacht werden. Der Zugriff auf das Dokument ist über Computer im Gebäude der Bibliothek möglich, die das Dokument besitzt."
+      }
     },
     "alert": {
       "warning": "Hinweis",
@@ -293,7 +303,8 @@
       "no_results_found": "Es wurden keine Ergebnisse gefunden. Bitte versuchen Sie eine andere Anfrage.",
       "failed_to_load_image": "Bild konnte nicht geladen werden",
       "failed_to_load_pdf": "Failed to load the document",
-      "book_no_results": "Keine Treffer"
+      "book_no_results": "Der gesuchte Text wurde auf keiner Seite des Dokuments gefunden.",
+      "cancel_fulltext":  "Gesamtes Dokument laden"
     },
     "home": {
       "title": "Digitale Bibliothek Kramerius",
@@ -367,6 +378,10 @@
       },
       "ilnorway": {
         "url": "https://eeagrants.org"
+      },
+      "dkrvo19-23": {
+        "url": "https://kramerius.nm.cz/dkrvo",
+        "name": "DKRVO 2019-23"
       }
     },
     "periodical": {
@@ -711,6 +726,58 @@
       "category:calendar": "Kalender",
       "category:archival": "Archiv"
     },
+    "folders": {
+      "lists": "Listen",
+      "new_list": "Neue Liste",
+      "my_lists": "Meine Listen",
+      "shared_lists": "Geteilte Listen",
+      "warning": "Sie müssen sich anmelden, um Listen zu verwalten.",
+      "like": "Zu Favoriten hinzufügen",
+      "liked": "Zur Liste hinzugefügt",
+      "info": "Weitere Informationen",
+      "clear": "Aus Liste entfernen",
+      "add":"Hinzufügen",
+      "to_folder": "zur Liste",
+      "tooltips": {
+        "edit": "Ausgewählte bearbeiten",
+        "delete_selected": "Ausgewählte löschen",
+        "select_all": "Alles auswählen",
+        "edit_all": "Massenbearbeitung von Listenelementen",
+        "edit_all_end": "Massenbearbeitung von Listenelementen beenden",
+        "add": "Zur Liste hinzufügen",
+        "edit_title": "Listentitel bearbeiten",
+        "delete": "Liste löschen",
+        "share": "Liste teilen",
+        "remove_sharing": "Aus geteilten Listen entfernen",
+        "add_sharing": "Zu geteilten Listen hinzufügen"
+      },
+      "dialogs": {
+        "delete": "Löschen",
+        "cancel": "Nein",
+        "confirm": "Ja",
+        "add": "Hinzufügen",
+        "close": "Schließen",
+        "open": "Offen",
+        "create": "Erstellen",
+        "no_metadata": "Keine Metadaten zum Anzeigen",
+        "edit_folder_name": "Listennamen bearbeiten",
+        "save": "Speichern",
+        "delete_folder": "Liste löschen",
+        "delete_folder_message": "Möchten Sie die Liste wirklich löschen",
+        "add_to_folder": "Dokumente zur Liste hinzufügen",
+        "add_to_folder_message": "Fügen Sie durch Kommas getrennte Listen-UUIDs ein",
+        "follow": "Liste verfolgen",
+        "follow_message": "Möchten Sie die Liste wirklich verfolgen",
+        "unfollow": "Liste nicht mehr verfolgen",
+        "unfollow_message": "Möchten Sie die Liste wirklich nicht mehr verfolgen",
+        "batch_delete": "Dokumente stapelweise löschen",
+        "batch_delete_message": "Möchten Sie ausgewählte Dokumente aus der Liste löschen?",
+        "share_warning": "Listenfreigabe",
+        "share_warning_message": "Sie müssen sich anmelden, um die Liste hinzuzufügen.",
+        "add_new_folder": "Neue Liste erstellen",
+        "add_new_folder_name": "Name der neuen Liste"
+      }
+    },
     "source": {
       "mzk": "Moravská zemská knihovna",
       "svkhk": "Studijní a vědecká knihovna v Hradci Králové",
@@ -919,7 +986,9 @@
       "TAE001": "State District Archive Tábor",
       "UHE802": "Library of the Museum Bojkovska",
       "ULC003": "National Institute for the Protection and Conservation of Monuments and Sites - Ústí nad Labem",
-      "ZNE450": "Dominican Library in Znojmo"
+      "ZNE450": "Dominican Library in Znojmo",
+      "ABD186": "Charles University - Faculty of Humanities",
+      "TAE803": "The castle library of Bechyně"
     },
     "language" : {
       "aar": "Danakil-Sprache",

@@ -15,6 +15,7 @@ import { AltoService } from '../../services/alto-service';
 import { LoggerService } from '../../services/logger.service';
 import { LicenceService } from '../../services/licence.service';
 import { TtsService } from '../../services/tts.service';
+import { PageImageType } from '../../model/page.model';
 
 declare var ol: any;
 
@@ -32,8 +33,20 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private imageLayer2;
   private zoomifyLayer2;
   private vectorLayer;
+  private selectionMenu;
+  private selectionPosition;
+  private selectionWidth;
+  private selectionHeight;
+  private selectionRight;
+  private selectionHA;
+  private selectionVA;
+  private selectionExtent;
+  private selectionModeOn = false;
+  private maskLayer;
+
   private watermark;
   private extent;
+
 
   private imageWidth = 0;
   private imageWidth1 = 0;
@@ -59,8 +72,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private mouseWheelZoomInteraction;
   private dragPanInteraction;
   private doubleClickZoomInteraction;
-
-  private selectionType: SelectionType;
 
   private data: ViewerData;
 
@@ -129,6 +140,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   init() {
+    this.selectionMenu = document.getElementById('selectionmenu');
+    this.maskLayer = new ol.layer.Vector({
+      source:  new ol.source.Vector(),
+      style: new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: 'rgba(0, 0, 0, 0.85)' 
+        })
+      })
+    });
     const mainStyle = new ol.style.Style({
       fill: new ol.style.Fill({
         color: 'rgba(2, 119, 189, 0.20)'
@@ -186,7 +206,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
 
     this.view.on('pointerup', (e) => {
-      if (!this.lastTouchTime || !this.lastTouchX || this.view.getView().getResolution() != this.initialResolution) {
+      if (this.selectionModeOn || !this.lastTouchTime || !this.lastTouchX || this.view.getView().getResolution() != this.initialResolution) {
         return;
       }
       const deltaT = new Date().getTime() - this.lastTouchTime;
@@ -204,57 +224,55 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
 
     this.view.on('moveend', (e) => {
+      this.updateMenuPosition();
       if (this.bookService.zoomLockEnabled || this.view.getView().getResolution() < this.initialResolution) {
         this.dragPanInteraction.setActive(true);
       } else {
         this.dragPanInteraction.setActive(false);
         if (this.initialResolution) {
-          // this.fitToScreen();
           this.view.updateSize();
           this.view.getView().fit(this.extent);
         }
       }
     })
   
-
-    
-    // this.view.on('moveend', (e) => {
-    //   if (this.bookService.doublePage || window.innerWidth > 600) {
-    //     return;
-    //   }
-    //   const xCenter = this.view.getView().getCenter()[0];
-    //   const width = this.extent[2]
-    //   if (xCenter == 0) {
-    //     this.bookService.goToPrevious();
-    //   } else if (width == xCenter) {
-    //     this.bookService.goToNext();
-    //   }
-    // });
-
-
     this.selectionInteraction.on('boxend', () => {
-      this.view.removeInteraction(this.selectionInteraction);
-      this.view.getViewport().style.cursor = '';
       let extent = this.selectionInteraction.getGeometry().getExtent();
-      if (this.imageWidth1 > 0) {
-        // double page;
-        const startExtentX = extent[0];
-        if (-this.imageWidth / 2 + this.imageWidth1 > startExtentX) {
-          extent = [extent[0] + this.imageWidth1, extent[1], extent[2] + this.imageWidth1, extent[3]];
-          this.onSelectionEnd(extent, this.imageWidth1, this.imageHeight, false);
-        } else {
-          const offset = this.imageWidth / 2 - this.imageWidth1;
-          extent = [extent[0] + offset, extent[1], extent[2] + offset, extent[3]];
-          this.onSelectionEnd(extent, this.imageWidth - this.imageWidth1, this.imageHeight, true);
-        }
-      } else {
-        this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
-      }
+      this.onBoxEnd(extent);
     });
   }
 
   private toggleTts() {
     this.bookService.toggleReading();
+  }
+
+  private onBoxEnd(extent) {
+    if (this.imageWidth1 > 0) {
+      // double page;
+      const startExtentX = extent[0];
+      if (-this.imageWidth / 2 + this.imageWidth1 > startExtentX) {
+        extent = [extent[0] + this.imageWidth1, extent[1], extent[2] + this.imageWidth1, extent[3]];
+        this.onSelectionEnd(extent, this.imageWidth1, this.imageHeight, false);
+      } else {
+        const offset = this.imageWidth / 2 - this.imageWidth1;
+        extent = [extent[0] + offset, extent[1], extent[2] + offset, extent[3]];
+        this.onSelectionEnd(extent, this.imageWidth - this.imageWidth1, this.imageHeight, true);
+      }
+    } else {
+      if (extent[0] < 0) {
+        extent[0] = 0;
+      }
+      if (extent[2] > this.imageWidth) {
+        extent[2] = this.imageWidth;
+      }
+      if (extent[1] < -this.imageHeight) {
+        extent[1] = -this.imageHeight;
+      }
+      if (extent[3] > 0) {
+        extent[3] = 0;
+      }
+      this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
+    }
   }
 
   private toggleLock() {
@@ -277,30 +295,173 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.resolution = this.view.getView().getResolution();
   }
 
-  onSelectionStart(type: SelectionType) {
-    this.selectionType = type;
+  selectTextEnabled(): boolean {
+    return this.bookService.viewer === 'image' && this.bookService.isActionEnabled('selection');
+  }
+
+  showSelectText(): boolean {
+    return !this.bookService.showGeoreference && this.bookService.viewer === 'image' && this.bookService.isActionAvailable('selection');
+  }
+
+  imageCropEnabled(): boolean {
+    return this.bookService.viewer === 'image' && this.bookService.iiifEnabled && this.bookService.isActionEnabled('crop');
+  }
+
+  showImageCrop(): boolean {
+    return this.bookService.viewer === 'image' && this.bookService.iiifEnabled && this.bookService.isActionAvailable('crop') && this.bookService.getPage() && this.bookService.getPage().imageType == PageImageType.TILES;
+  }
+
+  private positionMenu(pixel) {
+    if (this.selectionHA == 'right') {
+      this.selectionMenu.style.left = (pixel[0] - 40) + 'px';
+    } else {
+      this.selectionMenu.style.left = (pixel[0] + 10) + 'px';
+    }
+    if (this.selectionVA == 'top') {
+      this.selectionMenu.style.top = (pixel[1] + 5) + 'px';
+    } else {
+      this.selectionMenu.style.top = (pixel[1] - this.selectionMenu.clientHeight) + 'px';
+    }
+  }
+
+  private updateMenuPosition() {
+    if (!this.selectionPosition) {
+      this.selectionMenu.style.left = '-1000px';
+      return;
+    }
+    // this.hideOnInactivity = true;
+    const pixel = this.view.getPixelFromCoordinate(this.selectionPosition);
+    if (pixel) {
+      this.positionMenu(pixel);
+    }
+  }
+
+  createMask(extent) {
+    const innerRing = [
+      [extent[0], extent[1]],
+      [extent[0], extent[3]],
+      [extent[2], extent[3]],
+      [extent[2], extent[1]],
+      [extent[0], extent[1]]
+    ];
+    const mapExtent = this.extent;
+    const outerRing = [
+      [mapExtent[0], mapExtent[1]],
+      [mapExtent[0], mapExtent[3]],
+      [mapExtent[2], mapExtent[3]],
+      [mapExtent[2], mapExtent[1]],
+      [mapExtent[0], mapExtent[1]]
+    ];
+    const maskFeature = new ol.Feature({
+      geometry: new ol.geom.Polygon([outerRing, innerRing])
+    });
+    this.maskLayer.getSource().clear();
+    this.maskLayer.getSource().addFeature(maskFeature);
+  }
+
+  onSelectionEnd(extent, width: number, height: number, right: boolean) {
+    const viewExtent = this.view.getView().calculateExtent(this.view.getSize());
+    this.selectionWidth = width;
+    this.selectionHeight = height;
+    this.selectionRight = right;
+    this.selectionExtent = extent;
+    let vPosition = extent[3];
+    let hPosition = extent[2];
+    const topRightSelection = this.view.getPixelFromCoordinate([extent[2], extent[3]]);
+    const topRightView = this.view.getPixelFromCoordinate([viewExtent[2], viewExtent[3]]);
+    const bottomLeftSelection = this.view.getPixelFromCoordinate([extent[0], extent[1]]);
+    const bottomLeftView = this.view.getPixelFromCoordinate([viewExtent[0], viewExtent[1]]);
+    const menuHeight = this.selectionMenu.clientHeight;
+    this.selectionVA = 'top';
+    if (bottomLeftView[1] - topRightSelection[1] < menuHeight + 5) {
+      this.selectionVA = 'bottom';
+      vPosition = extent[1];
+    }
+    this.selectionHA = 'left';
+    if (topRightView[0] - topRightSelection[0] < 50) {
+      if (bottomLeftSelection[0] - bottomLeftView[0] > 50) {
+        hPosition = extent[0];
+        this.selectionHA = 'right';
+      } else {
+        this.selectionHA = 'right';
+      }
+    }
+    this.selectionPosition = [hPosition, vPosition];
+    this.createMask(extent);
+    this.updateMenuPosition();
+    this.view.removeInteraction(this.selectionInteraction);
+    this.view.getViewport().style.cursor = '';
+  }
+
+  onShareSelection() {
+    this.bookService.shareSelection(this.selectionExtent, this.selectionRight);
+}
+
+  onShowImageCrop() {
+      this.bookService.showImageCrop(this.selectionExtent, this.selectionRight);
+  }
+
+  onShowTextSelection() {
+      this.bookService.showTextSelection(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
+  }
+
+  aiActionsEnabled(): boolean {
+    return this.settings.ai;
+  }
+
+  showPageActions(): boolean {
+    return !this.selectionModeOn && this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
+  }
+
+  onReadSelection() {
+
+  }
+
+  onTranslateSelection() {
+
+  }
+
+  onSummarizeSelection() {
+
+  }
+
+  onPageOcr() {
+    this.bookService.showOcr();
+  }
+
+  onReadPage() {
+    this.bookService.toggleReading();
+  }
+
+  cancelSelection() {
+    this.maskLayer.getSource().clear();
+    this.selectionPosition = null;
+    this.selectionExtent = null;
+    this.selectionWidth = null;
+    this.selectionHeight = null;
+    this.selectionRight = null;
+    this.selectionModeOn = false;
+    this.updateMenuPosition();
+  }
+
+  enterSelectionMode() {
+    if (this.imageWidth1 > 0) {
+      this.bookService.toggleDoublePage();
+      return;
+    }
+    this.hideOnInactivity = true;
+    this.selectionModeOn = true;
     this.view.addInteraction(this.selectionInteraction);
     this.view.getViewport().style.cursor = 'crosshair';
   }
 
-  onSelectionEnd(extent, width: number, height: number, right: boolean) {
-    this.view.removeInteraction(this.selectionInteraction);
-    if (this.selectionType === SelectionType.summarize) {
-      this.bookService.summarizeSelection(extent, width, height, right);
-    } else if (this.selectionType === SelectionType.textSelection) {
-      this.bookService.showTextSelection(extent, width, height, right);
-    } else if (this.selectionType === SelectionType.imageSelection) {
-      this.bookService.showImageCrop(extent, right);
-    } else if (this.selectionType === SelectionType.translate) {
-      this.bookService.translate(extent, width, height, right);
-    }
-  }
-
   onMouseMove() {
+    if (this.selectionModeOn) {
+      return;
+    }
     this.lastMouseMove = new Date().getTime();
     this.hideOnInactivity = false;
   }
-
 
   private onActionPerformed(action: ViewerActions) {
     switch (action) {
@@ -327,18 +488,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
         break;
       case ViewerActions.toggleTts:
         this.toggleTts();
-        break;
-      case ViewerActions.summarize:
-        this.onSelectionStart(SelectionType.summarize);
-        break;
-      case ViewerActions.selectText:
-        this.onSelectionStart(SelectionType.textSelection);
-        break;
-      case ViewerActions.cropImage:
-        this.onSelectionStart(SelectionType.imageSelection);
-        break;
-      case ViewerActions.translate:
-        this.onSelectionStart(SelectionType.translate);
         break;
     }
   }
@@ -638,8 +787,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateIiifImage(uuid1: string, uuid2: string) {
-    const url1 = this.api.getIiifBaseUrl(uuid1);
-    const url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
+    let url1 = this.api.getIiifBaseUrl(uuid1);
+    let url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
+
+    if (this.settings.replaceImageUrl) {
+      url1 = url1.replace(this.settings.url, this.settings.replaceImageUrl);
+      if (url2) {
+        url2 = url2.replace(this.settings.url, this.settings.replaceImageUrl);
+      }
+    }
+
     this.onImageLoading();
     const rq = [];
     let w1, w2, h1, h2;
@@ -702,9 +859,18 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.view.getView().fit(this.extent);
       this.initialResolution = this.view.getView().getResolution();
     }
-
+    this.view.addLayer(this.maskLayer);
     this.updateBoxes();
     this.addWaterMark();
+    if (this.data.bb) {
+
+      const bb = this.data.bb.split(',');
+      const extent = [parseInt(bb[0]),  -1*(parseInt(bb[1]) + parseInt(bb[3])),  parseInt(bb[0])+parseInt(bb[2]) , -parseInt(bb[1])];
+      setTimeout(() => {
+        this.view.getView().fit(extent);      
+        this.onBoxEnd(extent);
+      }, 100);  
+    }
   }
 
   onImageFailure() {
@@ -740,6 +906,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   updateImage(data: ViewerData) {
+    this.cancelSelection();
     if (!data) {
       return;
     }
@@ -751,6 +918,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.removeLayer(this.imageLayer2);
     this.view.removeLayer(this.zoomifyLayer2);
     this.view.removeLayer(this.vectorLayer);
+    this.view.removeLayer(this.maskLayer);
     this.data = data;
     switch (data.imageType) {
       case ViewerImageType.IIIF: 
@@ -932,7 +1100,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.removeLayer(this.imageLayer2);
     this.view.removeLayer(this.zoomifyLayer2);
     this.view.removeLayer(this.vectorLayer);
-
+    this.view.removeLayer(this.maskLayer);
   }
 
   today() {
@@ -963,11 +1131,4 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-}
-
-export enum SelectionType {
-  imageSelection = 1,
-  textSelection = 2,
-  summarize = 3,
-  translate = 4
 }

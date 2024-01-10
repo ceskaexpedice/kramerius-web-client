@@ -88,7 +88,8 @@
     "home": "Domača stran",
     "checkbox_label": "javni dostop",
     "login": "Vstop",
-    "logout": "Izstop"
+    "logout": "Izstop",
+    "folders": "Sezname"
   },
   "searchbar": {
     "main": {
@@ -271,11 +272,13 @@
     "download_track": "Naloži skladbo"
   },
   "licence": {
-    "private_label": "Dokument ni javno dostopen",
-    "private_message": "Ta dokument je še vedno zaščiten z Zakonom o avtorski in sorodnih pravicah (Uradni list RS, št. 16/2007, 68/2008) in zato ne more biti javno dostopen, dokler ne mine 70 let od smrti vseh njegovih avtorjev (vključno s prevajalcem, ilustratorjem itd.) in 50 let od objave dela. Do dokumenta je mogoče dostopati le z računalniških postaj v prostorih knjižnice.",
-    "licences_before": "Ta dokument je zajet z naslednjimi licencami",
-    "licences_after": "Če do dokumenta ne morete dostopati, potem veljajo splošna pravila za javno nedostopne dokumente",
-    "metadata_licence": "Na voljo pod licenco"
+    "metadata_licence": "Na voljo pod licenco",
+    "window": {
+      "title": "Dokument ni javno dostopen",
+      "message1": "The document is available under the licenses: ",
+      "message2": "To display it: ",
+      "default_text": "Ta dokument je še vedno zaščiten z Zakonom o avtorski in sorodnih pravicah (Uradni list RS, št. 16/2007, 68/2008) in zato ne more biti javno dostopen, dokler ne mine 70 let od smrti vseh njegovih avtorjev (vključno s prevajalcem, ilustratorjem itd.) in 50 let od objave dela."
+    }
   },
   "alert": {
     "warning": "Pozor",
@@ -283,7 +286,8 @@
     "no_results_found": "Ni zadetkov. Prosimo, preoblikujte iskalno zahtevo.",
     "failed_to_load_image": "Nalaganje slike ni uspelo",
     "failed_to_load_pdf": "Nalaganje dokumenta ni uspelo",
-    "book_no_results": "Ni zadetkov"
+    "book_no_results": "Iskani besedilo ni bilo najdeno na nobeni strani dokumenta.",
+    "cancel_fulltext":  "Naloži celoten dokument"
   },
   "home": {
     "title": "Digitalna knjižnica Slovenije",
@@ -350,6 +354,10 @@
     "eodopen": {
       "url": "https://eodopen.eu/",
       "name": "EODOPEN"
+    },
+    "dkrvo19-23": {
+      "url": "https://kramerius.nm.cz/dkrvo",
+      "name": "DKRVO 2019-23"
     }
   },
   "periodical": {
@@ -691,6 +699,58 @@
     "category:addressbook": "Imeniki",
     "category:calendar": "Koledarji"
   },
+  "folders": {
+    "lists": "Seznami",
+    "new_list": "Nov seznam",
+    "my_lists": "Moji seznami",
+    "shared_lists": "Seznami v skupni rabi",
+    "warning": "Za upravljanje seznamov morate biti prijavljeni.",
+    "like": "Dodaj med priljubljene",
+    "liked": "Dodano na seznam",
+    "info": "Več informacij",
+    "clear": "Odstrani s seznama",
+    "add":"Dodaj",
+    "to_folder": "na seznam",
+    "tooltips": {
+      "edit": "Uredi izbrano",
+      "delete_selected": "Izbriši izbrano",
+      "select_all": "Izberi vse",
+      "edit_all": "Množično urejanje elementov seznama",
+      "edit_all_end": "Končajte množično urejanje elementov seznama",
+      "add": "Dodaj na seznam",
+      "edit_title": "Uredi naslov seznama",
+      "delete": "Izbriši seznam",
+      "share": "Deli seznam",
+      "remove_sharing": "Odstrani s seznamov v skupni rabi",
+      "add_sharing": "Dodaj na sezname v skupni rabi"
+    },
+    "dialogs": {
+      "delete": "Izbriši",
+      "cancel": "Ne",
+      "confirm": "Da",
+      "add": "Dodaj",
+      "close": "Zapri",
+      "open": "Odpri",
+      "create": "Ustvari",
+      "no_metadata": "Ni metapodatkov za prikaz",
+      "edit_folder_name": "Uredi ime mape",
+      "save": "Shrani",
+      "delete_folder": "Izbriši seznam",
+      "delete_folder_message": "Ali ste prepričani, da želite izbrisati mapo",
+      "add_to_folder": "Dodaj dokumente na seznam",
+      "add_to_folder_message": "Vstavi z vejicami ločen seznam uuid-ov",
+      "follow": "Sledi seznamu",
+      "follow_message": "Ali res želite slediti seznamu",
+      "unfollow": "Seznam za prenehanje spremljanja",
+      "unfollow_message": "Ali res želite prenehati slediti seznamu",
+      "batch_delete": "Paketno brisanje dokumentov",
+      "batch_delete_message": "Ali želite izbrisati izbrane dokumente s seznama?",
+      "share_warning": "Deljenje seznama",
+      "share_warning_message": "Za dodajanje seznama morate biti prijavljeni.",
+      "add_new_folder": "Ustvari novo mapo",
+      "add_new_folder_name": "Novo ime mape"
+    }
+  },
     "sigla": {
       "BOA001": "Moravská zemská knihovna v Brně",
       "BOE801": "Muzeum Brněnska",
@@ -890,7 +950,9 @@
       "TAE001": "State District Archive Tábor",
       "UHE802": "Library of the Museum Bojkovska",
       "ULC003": "National Institute for the Protection and Conservation of Monuments and Sites - Ústí nad Labem",
-      "ZNE450": "Dominican Library in Znojmo"
+      "ZNE450": "Dominican Library in Znojmo",
+      "ABD186": "Charles University - Faculty of Humanities",
+      "TAE803": "The castle library of Bechyně"
     },
   "language" : {
     "aar": "Afar",

@@ -32,4 +32,17 @@ export class ShareService {
     return this.getPersistentLink(AppSettings.getUuidFromUrl());
   }
 
+  getPersistentLinkForFolder(uuid: string): string {
+    if (!uuid) {
+      return;
+    }
+    let url: string;
+    if (this.appSettings.multiKramerius) {
+      url = location.protocol + '//' + location.host + '/' + this.appSettings.code + '/folders/' + uuid;
+    } else {
+      url = location.protocol + '//' + location.host + '/folders/' + uuid;
+    }
+    return url;
+  }
+
 }

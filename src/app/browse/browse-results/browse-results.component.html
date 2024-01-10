@@ -11,6 +11,7 @@
   <app-paginator [activeIndex]="browseService.query.page"
                 [overallCount]="browseService.getNumberOfResults()"
                 [step]="browseService.query.getRows()"
+                [displayRows]="displayRows"
                 (next)="browseService.nextPage()"
                 (previous)="browseService.previousPage()"
                 (change)="browseService.onPage($event)">

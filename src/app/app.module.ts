@@ -49,6 +49,9 @@ import { HomeComponent } from './home/home.component';
 import { BrowseComponent } from './browse/browse.component';
 import { NavigationComponent } from './book/navigation/navigation.component';
 import { MetadataComponent } from './metadata/metadata.component';
+import { FoldersComponent } from './folders/folders.component';
+import { FolderComponent } from './folders/folder/folder.component';
+import { CuratorListsComponent } from './home/curator-lists/curator-lists.component';
 
 import { Ng2CompleterModule } from 'ng2-completer';
 import { AppState } from './app.state';
@@ -119,6 +122,7 @@ import { SignpostFooterComponent } from './signpost/footer/footer.component';
 import { SignpostHeaderComponent } from './signpost/header/header.component';
 import { SignpostHelpComponent } from './signpost/help/help.component';
 import { AdminCollectionsComponent } from './dialog/admin-dialog/admin-collections/admin-collections.component';
+import { AdminLicencesComponent } from './dialog/admin-dialog/admin-licences/admin-licences.component';
 import { AdminAccessibilityComponent } from './dialog/admin-dialog/admin-accessibility/admin-accessibility.component';
 import { AdminReindexationComponent } from './dialog/admin-dialog/admin-reindexation/admin-reindexation.component';
 import { AdminReprePageComponent } from './dialog/admin-dialog/admin-reprepage/admin-reprepage.component';
@@ -160,6 +164,17 @@ import { MapSeriesService } from './services/mapseries.service';
 import { MapViewerComponent } from './book/map-viewer/map-viewer.component';
 import { GeoreferenceService } from './services/georeference.service';
 import { TtsService } from './services/tts.service';
+import { CsvService } from './services/csv.service';
+import { FolderService } from './services/folder.service';
+import { FolderDialogComponent } from './dialog/folder-dialog/folder-dialog.component';
+import { FolderConfirmDialogComponent } from './dialog/folder-confirm-dialog/folder-confirm-dialog.component';
+import { FolderShareDialogComponent } from './dialog/folder-share-dialog/folder-share-dialog.component';
+import { FolderAdminDialogComponent } from './dialog/folder-admin-dialog/folder-admin-dialog.component';
+import { DisplayMetadataDialogComponent} from './dialog/display-metadata-dialog/display-metadata-dialog.component';
+
+import { LicenceWindowComponent } from './shared/licence-window/licence-window.component';
+import { NavigationService } from './services/navigation.service';
+import { CuttingCardComponent } from './shared/cutting-card/cutting-card.component';
 
 declare var APP_GLOBAL: any;
 
@@ -171,7 +186,7 @@ export function hljsLanguages() {
 }
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.4.9');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.6.1-dev');
 }
 
 export function appInitializerFactory(translate: TranslateService) {
@@ -258,6 +273,7 @@ export function appInitializerFactory(translate: TranslateService) {
     SignpostHeaderComponent,
     SignpostHelpComponent,
     AdminCollectionsComponent,
+    AdminLicencesComponent,
     AdminAccessibilityComponent,
     AdminReindexationComponent,
     AdminReprePageComponent,
@@ -279,7 +295,17 @@ export function appInitializerFactory(translate: TranslateService) {
     AuthComponent,
     AdvancedSearchDialogComponent,
     SearchHelpDialogComponent,
-    MapViewerComponent
+    MapViewerComponent,
+    FoldersComponent,
+    FolderComponent,
+    FolderDialogComponent,
+    FolderConfirmDialogComponent,
+    FolderShareDialogComponent,
+    FolderAdminDialogComponent,
+    DisplayMetadataDialogComponent,
+    CuratorListsComponent,
+    LicenceWindowComponent,
+    CuttingCardComponent
   ],
   imports: [
     BrowserModule,
@@ -349,6 +375,9 @@ export function appInitializerFactory(translate: TranslateService) {
     MapSeriesService,
     GeoreferenceService,
     TtsService,
+    CsvService,
+    FolderService,
+    NavigationService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,

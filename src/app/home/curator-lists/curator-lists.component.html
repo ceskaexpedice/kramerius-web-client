@@ -1,0 +1,44 @@
+<div class="app-curkeywords-wrapper" *ngIf="settings.curatorKeywordsEnabled">
+    <div class="app-curkeyword" *ngFor="let keyword of curatorKeywords" [routerLink]="settings.getRouteFor('search')" [queryParams]="getParams(keyword.query)">{{ keywordLabel(keyword) }}</div>
+</div>
+<div class="app-curlist-wrapper" *ngIf="settings.curatorListsEnabled">
+    <div *ngFor="let list of curatorLists">
+        <div class="app-curlist-title-wrapper">
+            <div class="app-curlist-title" (click)="expandCards(list)">{{ listLabel(list) }}</div>
+            <div class="app-curlist-collapse-icon" *ngIf="isExpanded(list)" (click)="expandCards(list)"><mat-icon>expand_less</mat-icon></div>
+        </div>
+        <!-- KARTY NA VYSKU -->
+        <div class="app-curlist-content" *ngIf="list.items && verticalCards && !isExpanded(list)">
+            <ng-container *ngFor="let item of list.items.slice(0, [shownItems]); let last = last">
+                <a [routerLink]="item.url" class="app-curlist-item" *ngIf="!last">
+                    <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)"></div>
+                    <div class="app-item-title">{{ getTitle(item) }}</div>
+                </a>
+                <div class="app-curlist-item app-item-last" *ngIf="last">
+                    <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)"></div>
+                    <div class="app-item-title">{{ getTitle(item) }}</div>
+                    <div class="app-item-plus" *ngIf="list.items.length - shownItems > 0" (click)="expandCards(list)">+ {{list.items.length - shownItems}}</div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="app-curlist-content app-curlist-expanded" *ngIf="list.items && verticalCards && isExpanded(list)">
+            <a [routerLink]="item.url" class="app-curlist-item" *ngFor="let item of list.items">
+                <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)"></div>
+                <div class="app-item-title">{{ getTitle(item) }}</div>
+                <!-- <div class="app-item-date">{{ item.date }}</div> -->
+            </a>
+        </div>
+        <!-- KLASICKE KARTY -->
+        <div class="app-curlist-content" *ngIf="list.items && !verticalCards && !isExpanded(list)">
+            <app-document-card *ngFor="let item of list.items.slice(0, [shownDocumentCards])" [in]="'curlist'" [item]="item" [display]="'grid'"></app-document-card>
+            <div class="app-document-card-last-item" (click)="expandCards(list)" *ngIf="list.items.length - shownDocumentCards > 0">
+                <div class="app-item-plus">
+                    <div>+ {{list.items.length - shownDocumentCards}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="app-curlist-content app-curlist-expanded" *ngIf="list.items && !verticalCards && isExpanded(list)">
+            <app-document-card *ngFor="let item of list.items" [in]="'curlist'" [item]="item" [display]="'grid'"></app-document-card>
+        </div>
+    </div>
+</div>

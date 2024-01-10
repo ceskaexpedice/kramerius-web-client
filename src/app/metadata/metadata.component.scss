@@ -3,6 +3,8 @@
   .app-metadata-wrapper {
     height: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
     strong {
       font-weight: 500;
       color: $app-grey-d-4;
@@ -20,7 +22,7 @@
         margin-left: 17px; 
         margin-right: 17px;  
         font-size: 21px;
-        float: right;  
+        float: left;  
         color: $app-grey-d-1;
         line-height: inherit;
         height: inherit;
@@ -34,10 +36,48 @@
         }
       }
     }
+
+    .app-navigation-docs {
+      display: block;
+      height: 45px;
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: #e0e0e0;
+      background-color: #FFFFFF;
+      .app-btn {
+        color: $app-grey-text;
+        width: 50%;
+        text-align: center;
+        float: left;
+        padding: 10px 16px;
+        cursor: pointer;
+        &.app-btn-prev {
+          text-align: left;
+        }
+        &.app-btn-next {
+          text-align: right;
+        }
+        &:hover {
+          color: $primary-color;
+        }
+        &.app-disabled {
+          color: $app-grey-l-2;
+          cursor: default;
+          &:hover {
+            color: $app-grey-l-2;
+          }
+          user-select: none;
+        }
+      }
+    }
+
+
+
     .app-metadata-content {
       padding: 1rem;
       overflow: auto;
-      height: calc(100% - 55px);
+      flex: 1;
+      // height: calc(100% - 55px);
       h1 {
         font-size: 1.1rem;
         padding: 5px 0;
@@ -161,5 +201,58 @@
           }
         }
       }
+    }
+  }
+  .app-dropdown-input {
+    color: #0277bd;
+    // width: 150px;
+    padding: 0 10px;
+    input {
+      height: 30px;
+      &:focus {
+        outline: none !important; 
+      }
+    }
+  }
+  .app-doctypes-label-add {
+    margin: 10px 10px 0 10px;
+  }
+  .app-doctypes-label-to-folder {
+    margin: 0px 0px 10px 10px;
+  }
+  .app-dropdown-doctypes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 10px 5px;
+    font-size: 14px;
+    color: #777;
+    .app-doctype-item {
+      padding: 0px 5px;
+      cursor: pointer;
+      &:not(:first-child) {
+        border-left: 1px solid #ccc;
+      }
+      &.active {
+        color: $primary-color;
+      }
+    }
+  }
+  .mat-menu-panel {
+    max-height: 350px;
+    overflow: auto;
+  }
+
+  .app-dropdown-header {
+    display: flex;
+    flex-direction: column;
+  }
+  .app-mat-form-field {
+    padding: 0 10px;
+    width: 100%;
+  }
+  ::ng-deep {
+    .mat-select-value {
+      color: #777;
     }
   }

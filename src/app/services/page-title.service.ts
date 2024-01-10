@@ -27,7 +27,7 @@ export class PageTitleService {
     this.part1 = part1;
     this.part2 = part2;
     let title = <string> this.translate.instant('title.main');
-    title = this.appSettings.title + ' | ' + title;
+    title = this.appSettings.getTitle() + ' | ' + title;
     if (part1 && part1.length > 0) {
       title = <string> this.translate.instant('title.' + part1) + ' | ' + title;
     }
