@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Folder } from './../../model/folder.model';
 import { FolderService } from './../../services/folder.service';
 import { Router } from '@angular/router';
@@ -30,6 +30,8 @@ export class FolderComponent implements OnInit {
   searchPlaceholder: string = this.translate.instant('folders.tooltips.search');
   ordering: string = 'alphabetical';
   devMode: boolean = false;
+
+  @ViewChild('inputElement') inputElement: ElementRef;
 
   constructor(private folderService: FolderService,
               private router: Router,
@@ -227,7 +229,11 @@ export class FolderComponent implements OnInit {
     this.csv.downloadTableAsCSV(this.folder.items, this.folder.name)
   }
   toggleSearchSelection() {
+    this.searchQuery = null;
     this.searchSelection = !this.searchSelection;
+    if (this.searchSelection) {
+      setTimeout(() => this.inputElement.nativeElement.focus(), 0);
+    }
     this.searchPlaceholder = this.translate.instant('folders.tooltips.search');
     console.log('toggleSearchSelection', this.searchSelection);
   }

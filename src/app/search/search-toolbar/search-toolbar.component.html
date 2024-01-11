@@ -2,64 +2,70 @@
 
   <div class="app-col-right">
 
-
+    <!-- ADMIN AKCE -->
     <ng-container *ngIf="auth.isAdmin()">
-      <div tabindex="0" *ngIf="search.adminSelection" (click)="search.openAdminActions()" class="app-view-button" [class.app-active]="true">
+      <div tabindex="0" *ngIf="search.adminSelection && search.itemSelected" (click)="search.openAdminActions()" class="app-view-button" [class.app-active]="true">
+        <mat-icon>edit</mat-icon>
+      </div>
+      <div tabindex="0" *ngIf="search.adminSelection && !search.itemSelected" class="app-view-button app-view-button-disabled" [class.app-active]="true">
         <mat-icon>edit</mat-icon>
       </div>
       <div tabindex="0" *ngIf="search.adminSelection" (click)="search.toggleAllSelected()" class="app-view-button" [class.app-active]="true">
         <mat-icon>done_all</mat-icon>
       </div>
-      <div tabindex="0" (click)="search.toggleAdminSelection()" class="app-view-button" [class.app-active]="search.adminSelection" style="margin-right: 16px;">
+      <div tabindex="0" *ngIf="!search.adminSelection" (click)="search.toggleAdminSelection()" class="app-view-button" [class.app-active]="search.adminSelection" style="margin-right: 16px;">
         <mat-icon>check</mat-icon>
+      </div>
+      <div tabindex="0" *ngIf="search.adminSelection" (click)="search.toggleAdminSelection()" class="app-view-button" [class.app-active]="search.adminSelection" style="margin-right: 16px;">
+        <mat-icon>clear</mat-icon>
       </div>
     </ng-container>
 
-
-    <div tabindex="0" *ngIf="settings.advancedSearch" [class.app-in-collection]="!!search.collection" [matTooltip]="'search.advanced' | translate" (click)="search.showAdvancedSearchDialog()" class="app-view-button app-advanced-icon" [class.app-active]="true">
+    <!-- ADVANCED SEARCH -->
+    <div tabindex="0" *ngIf="settings.advancedSearch && !search.adminSelection" [class.app-in-collection]="!!search.collection" [matTooltip]="'search.advanced' | translate" (click)="search.showAdvancedSearchDialog()" class="app-view-button app-advanced-icon" [class.app-active]="true">
       <mat-icon>manage_search</mat-icon>
     </div>
 
-      <ng-container *ngIf="settings.mapSearch">
-
-        <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_cards' | translate"  (click)="search.selectContentType('grid', 'grid')" class="app-view-button" [class.app-active]="search.contentTypeDisplay == 'grid'">
-          <mat-icon>grid_view</mat-icon>
-        </div>
-        <div *ngIf="devMode" tabindex="0" [matTooltip]="'toolbar.tooltip_display_table' | translate"  (click)="search.selectContentType('grid', 'table')" class="app-view-button" [class.app-active]="search.contentTypeDisplay == 'table'">
-          <mat-icon class="material-icons-sharp">view_list_sharp</mat-icon>
-          <!-- <mat-icon class="material-icons-outlined">table_rows_narrow</mat-icon> -->
-        </div>
-        <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_map' | translate"  (click)="search.selectContentType('map', '')" class="app-view-button" [class.app-active]="search.contentType == 'map'">
-          <mat-icon>map</mat-icon>
-        </div>
-        <div *ngIf="devMode" tabindex="0" [matTooltip]="'toolbar.tooltip_download_csv' | translate"  (click)="downloadCsv()" class="app-view-button">
-          <mat-icon>file_download</mat-icon>
-        </div>
-      </ng-container>
-
-      <div *ngIf="search.contentType == 'grid'" class="app-ordering">
-        <span class="app-hide-on-med app-label">{{ 'search.ordering.label' | translate }}: </span>
-        <span tabindex="0" class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
-          <span>{{ 'search.ordering.' + search.query.ordering | translate }}</span>
-          <mat-icon>arrow_drop_down</mat-icon>
-        </span>
+    <!-- MAP SEARCH -->
+    <ng-container *ngIf="settings.mapSearch && !search.adminSelection">
+      <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_cards' | translate"  (click)="search.selectContentType('grid', 'grid')" class="app-view-button" [class.app-active]="search.contentTypeDisplay == 'grid'">
+        <mat-icon>grid_view</mat-icon>
       </div>
+      <div *ngIf="devMode" tabindex="0" [matTooltip]="'toolbar.tooltip_display_table' | translate"  (click)="search.selectContentType('grid', 'table')" class="app-view-button" [class.app-active]="search.contentTypeDisplay == 'table'">
+        <mat-icon class="material-icons-sharp">view_list_sharp</mat-icon>
+        <!-- <mat-icon class="material-icons-outlined">table_rows_narrow</mat-icon> -->
+      </div>
+      <div tabindex="0" [matTooltip]="'toolbar.tooltip_display_map' | translate"  (click)="search.selectContentType('map', '')" class="app-view-button" [class.app-active]="search.contentType == 'map'">
+        <mat-icon>map</mat-icon>
+      </div>
+      <div *ngIf="devMode" tabindex="0" [matTooltip]="'toolbar.tooltip_download_csv' | translate"  (click)="downloadCsv()" class="app-view-button">
+        <mat-icon>file_download</mat-icon>
+      </div>
+    </ng-container>
 
-    </div>
-
-    <div class="app-col-left">
-      <a tabindex="0" (click)="toggleFilters()" class="hide-on-med-and-up app-filter-toggle">
-        <mat-icon *ngIf="search.activeMobilePanel == 'results'">filter_alt</mat-icon>
-        <mat-icon *ngIf="search.activeMobilePanel == 'filters'" class="grey-text">filter_alt_off</mat-icon>
-      </a>
-      <span class="app-collection-title" *ngIf="search.collection" class="app-hide-on-med">
-        {{ search.getCollectionTitle() }}
+    <!-- ORDERING -->
+    <div *ngIf="search.contentType == 'grid' && !search.adminSelection" class="app-ordering">
+      <span class="app-hide-on-med app-label">{{ 'search.ordering.label' | translate }}: </span>
+      <span tabindex="0" class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
+        <span>{{ 'search.ordering.' + search.query.ordering | translate }}</span>
+        <mat-icon>arrow_drop_down</mat-icon>
       </span>
-      <div class="app-btns">
-        <span *ngIf="settings.k3"><a [href]="search.buildK3Link()" class="app-hide-on-med" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
-        <span tabindex="0" class="app-advanced-btn" *ngIf="settings.advancedSearch && !search.collection" (click)="search.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
-      </div>
     </div>
+  </div>
+
+  <div class="app-col-left">
+    <a tabindex="0" (click)="toggleFilters()" class="hide-on-med-and-up app-filter-toggle">
+      <mat-icon *ngIf="search.activeMobilePanel == 'results'">filter_alt</mat-icon>
+      <mat-icon *ngIf="search.activeMobilePanel == 'filters'" class="grey-text">filter_alt_off</mat-icon>
+    </a>
+    <span class="app-collection-title" *ngIf="search.collection" class="app-hide-on-med">
+      {{ search.getCollectionTitle() }}
+    </span>
+    <div class="app-btns">
+      <span *ngIf="settings.k3"><a [href]="search.buildK3Link()" class="app-hide-on-med" (click)="analytics.sendEvent('search', 'k3');" target="_blank">{{ 'search.k3' | translate }}</a></span>
+      <span tabindex="0" class="app-advanced-btn" *ngIf="settings.advancedSearch && !search.collection" (click)="search.showAdvancedSearchDialog()">{{ 'search.advanced' | translate }}</span>
+    </div>
+  </div>
 
 </div>
 

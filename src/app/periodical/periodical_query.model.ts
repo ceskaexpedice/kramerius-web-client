@@ -110,6 +110,9 @@ export class PeriodicalQuery {
         if (this.ordering === 'latest' || this.ordering === 'earliest') {
             params['sort'] = this.ordering;
         }
+        if (this.folderUuid) {
+            params['folder'] = this.folderUuid;
+        }
         return params;
     }
 

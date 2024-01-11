@@ -44,6 +44,7 @@ export class PeriodicalSearchComponent implements OnInit {
     this.query = null;
     this.analytics.sendEvent('periodical', 'cancel search');
     this.periodicalService.changeSearchQuery(null);
+    this.periodicalService.removeFolder();
   }
 
 }

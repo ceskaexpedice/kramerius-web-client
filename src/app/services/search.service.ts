@@ -68,6 +68,7 @@ export class SearchService {
 
     adminSelection: boolean;
     folder: any;
+    itemSelected: boolean;
 
     constructor(
         private router: Router,
@@ -85,6 +86,8 @@ export class SearchService {
     }
 
     public init(context, params) {
+        this.adminSelection = false;
+        this.itemSelected = false;
         this.collection = null;
         this.collectionStructure = {};
         this.collectionStructureTree = [];
@@ -784,6 +787,7 @@ export class SearchService {
     for (const item of this.results) {
         item.selected = !allSelected;
     }
+    this.itemSelection();
   }
 
   openAdminActions() {
@@ -803,6 +807,17 @@ export class SearchService {
       }
     }
     this.adminSelection = !this.adminSelection;
+  }
+
+  itemSelection() {
+    for (const item of this.results) {
+      if (item.selected) {
+        this.itemSelected = true;
+        break;
+      } else {
+        this.itemSelected = false;
+      }
+    }
   }
 
 

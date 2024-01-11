@@ -18,15 +18,23 @@
         line-height: $app-toolbar-height;
         overflow: hidden;
         font-size: 1.4rem;
+        &.app-disabled {
+          opacity: 0.3;
+          cursor: default !important;
+        }
       }
       mat-icon {
         color: $app-grey-d-1;
         margin-top: 15px;
         float: left;
         display: block;
+        &.app-disabled {
+          opacity: 0.3;
+          cursor: default !important;
+        }
       }
       &:hover {
-        mat-icon, .app-periodical-title:not(.app-periodical-root) {
+        mat-icon:not(.app-disabled), .app-periodical-title:not(.app-periodical-root, .app-disabled) {
           color: #000;
         }
       }
@@ -67,6 +75,10 @@
         text-overflow: ellipsis;
         @media #{$small-400-and-down} {
           margin: 0;
+        }
+        &.app-disabled {
+          opacity: 0.3;
+          cursor: default !important;
         }
       }
 
@@ -131,6 +143,19 @@
                   color: $app-grey-d-1;
                 }
               }
+            }
+          }
+          &.app-view-button-admin {
+            color: $primary-color;
+            &:hover {
+              color: $primary-color;
+            }
+          }
+          &.app-view-button-disabled {
+            cursor: default;
+            color: $app-grey-d-1;
+            &:hover {
+              color: $app-grey-d-1;
             }
           }
           mat-icon {

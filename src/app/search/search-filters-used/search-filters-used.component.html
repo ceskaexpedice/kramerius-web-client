@@ -4,14 +4,14 @@
     <mat-icon tabindex="0" [matTooltip]="'filters.tooltip_remove_filter_all' | translate" (click)="searchService.removeAllFilters()">close</mat-icon>
   </div>
 
-  <div tabindex="0" *ngIf="searchService.query.hasQueryString()" (click)="searchService.removeQueryString()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngIf="searchService.query.hasQueryString()" (click)="searchService.removeQueryString(); searchService.removeFolder()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>search</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ searchService.query.query }}
   </div>
 
   <div tabindex="0" *ngIf="searchService.query.folder && searchService.folder" (click)="searchService.removeFolder()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
-    <mat-icon>search</mat-icon>
+    <mat-icon>list_alt</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
     {{ searchService.folder.name }}
   </div>

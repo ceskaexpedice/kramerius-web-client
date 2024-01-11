@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DisplayMetadataDialogComponent } from '../../dialog/display-metadata-dialog/display-metadata-dialog.component';
 import { Metadata } from '../../model/metadata.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-document-card',
@@ -43,7 +44,8 @@ export class DocumentCardComponent implements OnInit {
               private _sanitizer: DomSanitizer,
               public folderService: FolderService,
               private dialog: MatDialog,
-              private snackBar: MatSnackBar) { }
+              private snackBar: MatSnackBar,
+              private searchService: SearchService) { }
 
   ngOnInit() {
     this.init();

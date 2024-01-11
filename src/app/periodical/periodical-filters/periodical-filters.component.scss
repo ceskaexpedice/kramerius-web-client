@@ -27,6 +27,26 @@
         &:hover {
           color: $app-grey-d-4;
         }
+        mat-icon {
+          font-size: 18px;
+          height: 20px;
+          vertical-align: middle;
+          &.app-licence {
+            color: $app-licence-color;
+          }
+          &.app-close {
+            display: none;
+          }
+        }
+        &:hover, &:focus-visible {
+          mat-icon {
+            display: none;
+            &.app-close {
+              display: inline-block;
+              color: $app-red;
+            }
+          }
+        }
       }
     }
     .year-range-wrapper {

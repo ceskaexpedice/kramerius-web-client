@@ -18,7 +18,7 @@
   </div>
 
   <div *ngIf="selectable" class="app-selectable" [class.app-selected]="item.selected"
-      (click)="item.selected = !item.selected; $event.preventDefault();$event.stopPropagation()">
+      (click)="item.selected = !item.selected; periodicalService.itemSelection(); $event.preventDefault();$event.stopPropagation()">
       <div class="app-check"></div>
   </div>
 

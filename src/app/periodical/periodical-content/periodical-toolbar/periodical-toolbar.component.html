@@ -1,31 +1,56 @@
 <div class="app-periodical-toolbar row">
+  <!-- NAZEV PERIODIKA -->
   <div class="col app-periodical-info" [ngClass]="{'s6 m5 l7 xl9 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
-    <a *ngIf="periodicalService.isPeriodicalVolume() && periodicalService.metadata.getTitle()" [routerLink]="['/periodical', periodicalService.document.root_uuid]" [queryParams]="periodicalService.getUrlParams()">
+    <a *ngIf="periodicalService.isPeriodicalVolume() && periodicalService.metadata.getTitle() && !periodicalService.adminSelection" [routerLink]="['/periodical', periodicalService.document.root_uuid]" [queryParams]="periodicalService.getUrlParams()">
       <mat-icon [matTooltip]="'periodical.volume_list' | translate">chevron_left</mat-icon>
       <span class="app-periodical-title">{{ periodicalService.metadata.getTitle() }}</span>
     </a>
+    <div *ngIf="periodicalService.isPeriodicalVolume() && periodicalService.metadata.getTitle() && periodicalService.adminSelection">
+      <mat-icon class="app-disabled">chevron_left</mat-icon>
+      <span class="app-periodical-title app-disabled">{{ periodicalService.metadata.getTitle() }}</span>
+    </div>
     <span *ngIf="periodicalService.isPeriodical() || periodicalService.isMonograph()" class="app-periodical-title app-periodical-root">{{ periodicalService.metadata.getTitle() }}</span>
   </div>
   
+  <!-- ROCNIK, CISLO -->
   <div class="col s4 m4 l4 xl2 app-volume-info center-align" *ngIf="periodicalService.volumeDetail">
     <div>
-      <a *ngIf="periodicalService.volumeDetail.previous" [routerLink]="['/periodical', periodicalService.volumeDetail.previous.uuid]" [queryParams]="periodicalService.getUrlParams()"
+      <a *ngIf="periodicalService.volumeDetail.previous && !periodicalService.adminSelection" [routerLink]="['/periodical', periodicalService.volumeDetail.previous.uuid]" [queryParams]="periodicalService.getUrlParams()"
          [matTooltip]="'periodical.previous_volume' | translate">
         <mat-icon>chevron_left</mat-icon>
       </a>
-      <a *ngIf="!periodicalService.volumeDetail.previous" class="app-disabled"><mat-icon>chevron_left</mat-icon></a>
-      <span class="app-volume-title">{{ periodicalService.volumeDetail.current.getTitle() }}</span>
-      <a *ngIf="periodicalService.volumeDetail.next" [routerLink]="['/periodical', periodicalService.volumeDetail.next.uuid]" [queryParams]="periodicalService.getUrlParams()"
+      <a *ngIf="!periodicalService.volumeDetail.previous || periodicalService.adminSelection" class="app-disabled">
+        <mat-icon>chevron_left</mat-icon>
+      </a>
+      <span class="app-volume-title" [ngClass]="periodicalService.adminSelection ? 'app-disabled': ''">{{ periodicalService.volumeDetail.current.getTitle() }}</span>
+      <a *ngIf="periodicalService.volumeDetail.next && !periodicalService.adminSelection" [routerLink]="['/periodical', periodicalService.volumeDetail.next.uuid]" [queryParams]="periodicalService.getUrlParams()"
         [matTooltip]="'periodical.next_volume' | translate">
         <mat-icon>chevron_right</mat-icon>
       </a>
-      <a *ngIf="!periodicalService.volumeDetail.next" class="app-disabled"><mat-icon>chevron_right</mat-icon></a>
+      <a *ngIf="!periodicalService.volumeDetail.next || periodicalService.adminSelection" class="app-disabled"><mat-icon>chevron_right</mat-icon></a>
     </div>
   </div>
 
   <div class="col app-nav-item" [ngClass]="{'s6 m7 l5 xl3 app-mq-small-1 app-no-volume-detail': !periodicalService.volumeDetail, 's4 m4 l4 xl5': periodicalService.volumeDetail}">
     <ul class="float-right">
-      <li tabindex="0" [matMenuTriggerFor]="orderingMenu1" *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid'" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+      <!-- ADMIN SELECTION -->
+      <li tabindex="0" *ngIf="auth.isAdmin() && periodicalService.adminSelection && periodicalService.itemSelected" (click)="periodicalService.openAdminActions()" class="app-view-button app-view-button-admin" [class.app-active]="true">
+        <mat-icon>edit</mat-icon>
+      </li>
+      <li tabindex="0" *ngIf="auth.isAdmin() && periodicalService.adminSelection && !periodicalService.itemSelected" class="app-view-button app-view-button-disabled app-view-button-admin" [class.app-active]="true">
+        <mat-icon>edit</mat-icon>
+      </li>
+      <li tabindex="0" *ngIf="auth.isAdmin() && periodicalService.adminSelection" (click)="periodicalService.toggleAllSelected()" class="app-view-button app-view-button-admin" [class.app-active]="true">
+        <mat-icon>done_all</mat-icon>
+      </li>
+      <li tabindex="0" *ngIf="auth.isAdmin() && !periodicalService.adminSelection && !periodicalService.fulltext" (click)="periodicalService.toggleAdminSelection()" class="app-view-button app-view-button" [class.app-active]="periodicalService.adminSelection">
+        <mat-icon>check</mat-icon>
+      </li>
+      <li tabindex="0" *ngIf="auth.isAdmin() && periodicalService.adminSelection && !periodicalService.fulltext" (click)="periodicalService.toggleAdminSelection()" class="app-view-button app-view-button-admin" [class.app-active]="periodicalService.adminSelection">
+        <mat-icon>clear</mat-icon>
+      </li>
+      <!-- ORDERING -->
+      <li tabindex="0" [matMenuTriggerFor]="orderingMenu1" *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid' && !periodicalService.adminSelection" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
         <mat-icon>sort</mat-icon>
         <mat-menu #orderingMenu1="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
           <ng-template matMenuContent>
@@ -38,7 +63,7 @@
           </ng-template>
         </mat-menu>
       </li>
-      <li tabindex="0" [matMenuTriggerFor]="orderingMenu2" *ngIf="periodicalService.orderingType === 'fulltext'" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+      <li tabindex="0" [matMenuTriggerFor]="orderingMenu2" *ngIf="periodicalService.orderingType === 'fulltext' && !periodicalService.adminSelection" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
         <mat-icon>sort</mat-icon>
         <mat-menu #orderingMenu2="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
           <ng-template matMenuContent>
@@ -69,18 +94,8 @@
       <li tabindex="0" *ngIf="periodicalService.fulltext" (click)="periodicalService.activeMobilePanel = 'content' && !periodicalService.adminSelection" class="app-nav-item-mobile app-nav-item-tablet" [class.active]="periodicalService.activeMobilePanel == 'content'">
         <mat-icon>grid_view</mat-icon>
       </li>
-      <li tabindex="0" class="app-nav-item-mobile" (click)="periodicalService.activeMobilePanel = 'metadata'" [class.active]="periodicalService.activeMobilePanel == 'metadata'">
+      <li tabindex="0" *ngIf="!periodicalService.adminSelection" class="app-nav-item-mobile" (click)="periodicalService.activeMobilePanel = 'metadata'" [class.active]="periodicalService.activeMobilePanel == 'metadata'">
         <mat-icon>info</mat-icon>
-      </li>
-      <!-- ADMIN SELECTION -->
-      <li tabindex="0" *ngIf="auth.isAdmin() && periodicalService.adminSelection" (click)="periodicalService.openAdminActions()" class="app-view-button" [class.app-active]="true">
-        <mat-icon>edit</mat-icon>
-      </li>
-      <li tabindex="0" *ngIf="auth.isAdmin() && periodicalService.adminSelection" (click)="periodicalService.toggleAllSelected()" class="app-view-button" [class.app-active]="true">
-        <mat-icon>done_all</mat-icon>
-      </li>
-      <li tabindex="0" *ngIf="auth.isAdmin() && !periodicalService.fulltext" (click)="periodicalService.toggleAdminSelection()" class="app-view-button" [class.app-active]="periodicalService.adminSelection">
-        <mat-icon>check</mat-icon>
       </li>
     </ul>
   </div>

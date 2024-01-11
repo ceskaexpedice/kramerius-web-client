@@ -13,6 +13,7 @@ export class PeriodicalFiltersComponent implements OnInit {
   yearFrom: number;
   yearTo: number;
   filters: string[];
+  folderUuid: string;
 
   constructor(public periodicalService: PeriodicalService,
               public settings: AppSettings,
@@ -23,6 +24,10 @@ export class PeriodicalFiltersComponent implements OnInit {
     this.yearFrom = this.periodicalService.query.from;
     this.yearTo = this.periodicalService.query.to;
     this.filters = this.settings.filters;
+    this.folderUuid = this.periodicalService.query.folderUuid;
+    if (this.folderUuid) {
+      this.periodicalService.assignFolder(this.folderUuid);
+    }
   }
 
   onYearFromValueChanged() {

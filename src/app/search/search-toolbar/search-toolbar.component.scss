@@ -80,6 +80,11 @@
           }
         }
       }
+      &.app-view-button-disabled {
+        cursor: default;
+        color: $app-grey-d-1;
+      
+      }
     }
     .app-ordering {
       margin-top: 16px;

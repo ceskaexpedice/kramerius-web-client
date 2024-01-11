@@ -54,11 +54,11 @@
   </div>
 
   <div *ngIf="selectable" class="app-selectable" [class.app-selected]="item.selected"
-    (click)="item.selected = !item.selected; $event.preventDefault();$event.stopPropagation()">
+    (click)="item.selected = !item.selected; searchService.itemSelection(); $event.preventDefault();$event.stopPropagation()">
     <div class="app-check"></div>
   </div>
 
-  <div class="app-card-like">
+  <div class="app-card-like" *ngIf="!selectable">
     <mat-icon *ngIf="(in == 'search' || in == 'folder-follower') && settings.folders && auth.isLoggedIn()" [matMenuTriggerFor]="favoritesMenu" (click)="$event.preventDefault();$event.stopPropagation();checkFolders()" matTooltip="{{ 'folders.like' | translate }}">favorite</mat-icon>
     <mat-icon *ngIf="in == 'folder-owner' && settings.folders && auth.isLoggedIn()" (click)="onDislike(folder); $event.preventDefault();$event.stopPropagation()" matTooltip="{{ 'folders.clear' | translate }}">clear</mat-icon>
     <mat-icon (click)="getMetadata(item.uuid); $event.preventDefault();$event.stopPropagation()" matTooltip="{{ 'folders.info' | translate }}">info</mat-icon>

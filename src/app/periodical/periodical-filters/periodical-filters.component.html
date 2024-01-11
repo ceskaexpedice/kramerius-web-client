@@ -2,6 +2,21 @@
 <app-periodical-search></app-periodical-search>
 
 <mat-accordion [displayMode]="'flat'" [multi]="true" class="app-filters-wrapper">
+  <!-- FILTR FOLDER -->
+  <mat-expansion-panel *ngIf="periodicalService.query.folder" class="app-filter-panel" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Seznam   
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="app-filter-items">
+      <div class="app-filter-item" tabindex="0" [class.app-selected]="periodicalService.query.folder.name" (click)="periodicalService.removeFolder()">
+        <mat-icon class="app-close">close</mat-icon>
+        {{ periodicalService.query.folder.name }}
+      </div>
+    </div>
+  </mat-expansion-panel>
+
   <mat-expansion-panel *ngIf="filters.indexOf('accessibility') > -1" class="app-filter-panel" [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>

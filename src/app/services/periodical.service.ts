@@ -45,6 +45,7 @@ export class PeriodicalService {
 
   orderingType = 'none'; // none | periodical | fulltext
   adminSelection: boolean = false;
+  itemSelected: boolean = false;
 
   constructor(
     private router: Router,
@@ -81,6 +82,7 @@ export class PeriodicalService {
           item.selected = !allSelected;
       }
     }
+    this.itemSelection();
   }
 
   openAdminActions() {
@@ -103,7 +105,6 @@ export class PeriodicalService {
   }
 
   toggleAdminSelection() {
-    console.log('toggleAdminSelection');
     if (this.items) {
       this.changeActiveLayout('grid')
       for (const item of this.items) {
@@ -116,6 +117,18 @@ export class PeriodicalService {
       }
     }
     this.adminSelection = !this.adminSelection;
+    this.itemSelected = false;
+  }
+
+  itemSelection() {
+    for (const item of this.items) {
+      if (item.selected) {
+        this.itemSelected = true;
+        break;
+      } else {
+        this.itemSelected = false;
+      }
+    }
   }
 
   init(query: PeriodicalQuery) {
@@ -157,14 +170,7 @@ export class PeriodicalService {
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (query.fulltext) {
             if (query.folderUuid) {
-              console.log('query.folder', query.folderUuid);
-              this.api.getFolder(query.folderUuid).subscribe(folder => {
-                this.query.folder = {};
-                this.query.folder['uuid'] = folder['uuid'];
-                this.query.folder['name'] = folder['name'];
-                this.query.folder['items'] = folder['items'][0];
-                this.initFulltext();
-              });
+              this.assignFolder(query.folderUuid)
             } else {
               this.initFulltext();
             }
@@ -225,6 +231,20 @@ export class PeriodicalService {
       });
   }
 
+  assignFolder(folder) {
+    this.api.getFolder(folder).subscribe(folder => {
+      this.query.folder = {};
+      this.query.folder['uuid'] = folder['uuid'];
+      this.query.folder['name'] = folder['name'];
+      this.query.folder['items'] = folder['items'][0];
+      this.initFulltext();
+    });
+  }
+  removeFolder() {
+    this.query.folder = null;
+    this.query.folderUuid = null;
+    this.reload();
+  }
 
   getNumberOfResults(): number {
     if (this.fulltext) {
