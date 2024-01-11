@@ -489,6 +489,16 @@
       "date": "Datum",
       "role": "Funktion"
     },
+    "admin-dialog": {
+      "remove_from_col_title": "Objekte aus einer Sammlung entfernen",
+      "remove_from_col_message": "Möchten Sie die ausgewählten Objekte wirklich aus der Sammlung entfernen? Sammlung: ",
+      "add_to_col_title": "Objekte zu einer Sammlung hinzufügen",
+      "add_to_col_message": "Möchten Sie die ausgewählten Objekte wirklich zu der Sammlung hinzufügen? Sammlung: ",
+      "remove_licence_title": "Lizenzentzug",
+      "remove_licence_message": "Möchten Sie wirklich die Lizenz von den ausgewählten Objekten entfernen? Lizenz:",
+      "add_licence_title": "Lizenz hinzufügen",
+      "add_licence_message": "Möchten Sie den ausgewählten Objekten wirklich eine Lizenz hinzufügen? Lizenz:"
+    },
     "dialogs": {
       "private_sheetmusic": {
         "message": "Leider darf urheberrechtlich geschützte Musik aufgrund einer Ausnahme im Urheberrechtsgesetz nicht kopiert werden"

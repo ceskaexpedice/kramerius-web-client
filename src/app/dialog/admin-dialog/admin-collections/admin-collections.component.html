@@ -4,7 +4,7 @@
     <div class="app-label">{{ collectionsIn.length == 0 ? "Není v žádné sbírce" : "Je ve sbírkách" }}</div>
     <div class="app-collection-list">
       <div *ngFor="let col of collectionsIn" class="app-collection">
-        <div class="app-btn-remove" (click)="removeFromCollection(col)">-</div>
+        <div class="app-btn-remove" (click)="removeFromCollectionDialog(col)">-</div>
         <span class="app-col-name">{{ col.name }}</span>
         <span class="app-col-desc">{{ col.desc }}</span>
       </div>
@@ -14,8 +14,8 @@
   <input *ngIf="_uuids.length > 1" autocapitalize="off" autocomplete="off" autocorrect="off"  placeholder="Přidat/odebrat všechny vybrané objekty do/ze sbírky" [(ngModel)]="query" (input)="onCollectionSearchChange($event.target.value)">
   <div class="app-collection-list">
     <div *ngFor="let col of collectionsRest" class="app-collection">
-      <div class="app-btn" (click)="addToCollection(col)">+</div>
-      <div class="app-btn-remove" *ngIf="_uuids.length > 1" (click)="removeFromCollection(col)">-</div>
+      <div class="app-btn" (click)="addToCollectionDialog(col)">+</div>
+      <div class="app-btn-remove" *ngIf="_uuids.length > 1" (click)="removeFromCollectionDialog(col)">-</div>
         <span class="app-col-name">{{ col.name }}</span>
         <span class="app-col-desc">{{ col.desc }}</span>
     </div>

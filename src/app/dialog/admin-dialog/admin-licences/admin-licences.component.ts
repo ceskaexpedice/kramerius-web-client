@@ -3,6 +3,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { KrameriusApiService } from '../../../services/kramerius-api.service';
 import { SolrService } from '../../../services/solr.service';
+import { AdminConfirmDialogComponent } from '../admin-confirm-dialog/admin-confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-admin-licences',
@@ -25,7 +28,8 @@ export class AdminLicencesComponent implements OnInit {
   constructor(private api: KrameriusApiService, 
               private solr: SolrService,
               private snackBar: MatSnackBar,
-              private adminApi: AdminApiService) { }
+              private adminApi: AdminApiService,
+              private dialog: MatDialog) { }
 
   ngOnInit(): void {
     
@@ -67,6 +71,22 @@ export class AdminLicencesComponent implements OnInit {
     this.loadLicences();
   }
 
+  removeLicenceDialog(licence: Licence) {
+    const dialogRef = this.dialog.open(AdminConfirmDialogComponent, { 
+      data: {
+        title: 'admin-dialog.remove_licence_title',
+        message: 'admin-dialog.remove_licence_message',
+        name: licence.name,
+        confirm: 'confirm',
+        warn: true}, 
+      autoFocus: false 
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.removeLicence(licence);
+      }
+    });
+  }
   removeLicence(licence: Licence, index = 0) {
     this.state = 'progress';
     this.adminApi.removeLicence(this._uuids[index], licence.name).subscribe(() => {
@@ -80,7 +100,22 @@ export class AdminLicencesComponent implements OnInit {
       }
     });
   }
-
+  addLicenceDialog(licence: Licence) {
+    const dialogRef = this.dialog.open(AdminConfirmDialogComponent, { 
+      data: {
+        title: 'admin-dialog.add_licence_title',
+        message: 'admin-dialog.add_licence_message',
+        name: licence.name,
+        confirm: 'confirm',
+        warn: true}, 
+      autoFocus: false 
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addLicence(licence);
+      }
+    });
+  }
   addLicence(licence: Licence, index = 0) {
     console.log('addLicence', licence);
     this.state = 'progress';

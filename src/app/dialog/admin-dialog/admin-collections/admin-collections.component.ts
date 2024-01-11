@@ -3,6 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { KrameriusApiService } from '../../../services/kramerius-api.service';
 import { SolrService } from '../../../services/solr.service';
+import { AdminConfirmDialogComponent } from '../admin-confirm-dialog/admin-confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -30,7 +32,8 @@ export class AdminCollectionsComponent implements OnInit {
     private api: KrameriusApiService, 
     private solr: SolrService,
     private snackBar: MatSnackBar,
-    private adminApi: AdminApiService) {
+    private adminApi: AdminApiService,
+    private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -72,18 +75,42 @@ export class AdminCollectionsComponent implements OnInit {
       });
   }
 
-  removeFromCollection(col: any) {
-    if (this._uuids.length > 1) {
-      console.log("Not implemented");
-      return;
-    }
-    this.state = 'progress';
-    this.adminApi.removeItemFromCollection(col.uuid, this._uuids[0]).subscribe(() => {
-      this.collectionsIn.splice(this.collectionsIn.indexOf(col), 1);
-      this.collectionsRest.unshift(col);
-      this.snackBar.open("Odstranění objektu ze sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
-      this.state = 'ok';
+  removeFromCollectionDialog(col: any) {
+    console.log('removeFromCollectionDialog');
+    const dialogRef = this.dialog.open(AdminConfirmDialogComponent, { 
+      data: {
+        title: 'admin-dialog.remove_from_col_title',
+        message: 'admin-dialog.remove_from_col_message',
+        name: col.name,
+        confirm: 'confirm',
+        warn: true}, 
+      autoFocus: false 
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.removeFromCollection(col);
+      }
+    });
+  }
+
+  removeFromCollection(col: any) {
+    this.state = 'progress';
+    if (this._uuids.length > 1) {
+      for (const uuid of this._uuids) {
+        this.adminApi.removeItemFromCollection(col.uuid, uuid).subscribe((result) => {
+          // console.log('result', result);
+          this.snackBar.open("Odstranění objektů ze sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
+          this.state = 'ok';
+        });
+      }
+    } else {
+      this.adminApi.removeItemFromCollection(col.uuid, this._uuids[0]).subscribe(() => {
+        this.collectionsIn.splice(this.collectionsIn.indexOf(col), 1);
+        this.collectionsRest.unshift(col);
+        this.snackBar.open("Odstranění objektu ze sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
+        this.state = 'ok';
+      });
+    }
   }
 
   // addToCollection(col: any, index = 0) {
@@ -101,6 +128,24 @@ export class AdminCollectionsComponent implements OnInit {
   //     }
   //   });
   // }
+
+  addToCollectionDialog(col: any) {
+    console.log('addToCollectionDialog');
+    const dialogRef = this.dialog.open(AdminConfirmDialogComponent, { 
+      data: {
+        title: 'admin-dialog.add',
+        message: 'admin-dialog.add_to_col',
+        name: col.name,
+        confirm: 'confirm',
+        warn: true}, 
+      autoFocus: false 
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addToCollection(col);
+      }
+    });
+  }
 
   addToCollection(col: any) {
     this.state = 'progress';

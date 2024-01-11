@@ -465,6 +465,16 @@
     "date": "Datum",
     "role": "Vrsta avtorstva"
   },
+  "admin-dialog": {
+    "remove_from_col_title": "Odebrání objektů ze sbírky",
+    "remove_from_col_message": "Opravdu chcete odebrat vybrané objekty ze sbírky ",
+    "add_to_col_title": "Přidání objektů do sbírky",
+    "add_to_col_message": "Opravdu chcete přidat vybrané objekty do sbírky ",
+    "remove_licence_title": "Odebrání licence",
+    "remove_licence_message": "Opravdu chcete odebrat vybraným objektům licenci ",
+    "add_licence_title": "Přidání licence",
+    "add_licence_message": "Opravdu chcete přidat vybraným objektům licenci "
+  },
   "dialogs": {
     "private_sheetmusic": {
       "message": "Žal avtorsko zaščitenih not ni dovoljeno kopirati na noben način zaradi izjeme v Zakonu o avtorski in sorodnih pravicah."

@@ -490,6 +490,16 @@
     "date": "Date",
     "role": "Roles"
   },
+  "admin-dialog": {
+    "remove_from_col_title": "Remove objects from a collection",
+    "remove_from_col_message": "Do you really want to remove the selected objects from the collection ",
+    "add_to_col_title": "Add objects to a collection",
+    "add_to_col_message": "You really want to add the selected objects to the collection ",
+    "remove_licence_title": "Remove license",
+    "remove_licence_message": "Do you really want to remove the license from the selected objects? License: ",
+    "add_licence_title": "Add license",
+    "add_licence_message": "Do you really want to add a license to the selected objects? License: "
+  },
   "dialogs": {
     "private_sheetmusic": {
       "message": "Unfortunately, it is not allowed to copy copyright-protected sheet music in any way due to an exception in the Copyright Act."

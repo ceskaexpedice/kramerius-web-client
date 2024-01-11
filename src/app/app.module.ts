@@ -147,6 +147,7 @@ import { CitationDialogComponent } from './dialog/citation-dialog/citation-dialo
 import { MetadataDialogComponent } from './dialog/metadata-dialog/metadata-dialog.component';
 import { LicenceDialogComponent } from './dialog/licence-dialog/licence-dialog.component';
 import { AdminDialogComponent } from './dialog/admin-dialog/admin-dialog.component';
+import { AdminConfirmDialogComponent } from './dialog/admin-dialog/admin-confirm-dialog/admin-confirm-dialog.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PluralPipe } from './pipes/plural.pipe';
@@ -287,6 +288,7 @@ export function appInitializerFactory(translate: TranslateService) {
     MetadataDialogComponent,
     LicenceDialogComponent,
     AdminDialogComponent,
+    AdminConfirmDialogComponent,
     PluralPipe,
     DatepickerComponent,
     CookiebarComponent,
