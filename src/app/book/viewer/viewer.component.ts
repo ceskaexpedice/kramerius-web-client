@@ -414,22 +414,34 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   onReadSelection() {
-
+    this.bookService.readSelection(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
   onTranslateSelection() {
-
+    this.bookService.translate(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
   onSummarizeSelection() {
-
+    this.bookService.summarize(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
   onPageOcr() {
     this.bookService.showOcr();
   }
 
-  onReadPage() {
+  onTranslatePage() {
+    this.bookService.translate();
+  }
+
+  onSummarizePage() {
+    this.bookService.summarize();
+  }
+  
+  onStartReadingPage() {
+    this.bookService.toggleReading();
+  }
+
+  onStopReadingPage() {
     this.bookService.toggleReading();
   }
 

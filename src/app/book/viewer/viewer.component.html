@@ -4,47 +4,62 @@
 <div class="app-selection-actions" 
       [class.hide-on-inactivity]="hideOnInactivity"
       *ngIf="showPageActions()">
-      <mat-icon
-            [matTooltip]="'Vybrat oblast'"
-            matTooltipPosition="left"
-            (click)="enterSelectionMode()"
-            class="app-selection app-main-selection">
-            auto_awesome
-      </mat-icon>
 
-      <mat-icon
-            [matTooltip]="'Textový přepis strany'"
-            matTooltipPosition="left"
-            (click)="onPageOcr()"
-            class="app-selection">
-            title
-      </mat-icon>
+      <ng-container *ngIf="!tts.inProgress()">
+            <mat-icon
+                  [matTooltip]="'Vybrat oblast'"
+                  matTooltipPosition="left"
+                  (click)="enterSelectionMode()"
+                  class="app-selection app-main-selection">
+                  auto_awesome
+            </mat-icon>
 
-      <mat-icon
-            [matTooltip]="'Přečíst stranu'"
-            matTooltipPosition="left"
-            (click)="onReadPage()"
-            *ngIf="aiActionsEnabled()"
-            class="app-selection app-type-ai">
-            record_voice_over
-      </mat-icon>
+            <mat-icon
+                  [matTooltip]="'Textový přepis strany'"
+                  matTooltipPosition="left"
+                  (click)="onPageOcr()"
+                  class="app-selection">
+                  title
+            </mat-icon>
 
-      <mat-icon
-            [matTooltip]="'Přeložit stranu'"
-            matTooltipPosition="left"
-            *ngIf="aiActionsEnabled()"
-            class="app-selection app-type-ai">
-            translate
-      </mat-icon>
+            <mat-icon
+                  [matTooltip]="'Přečíst stranu'"
+                  matTooltipPosition="left"
+                  (click)="onStartReadingPage()"
+                  *ngIf="aiActionsEnabled()"
+                  class="app-selection app-type-ai">
+                  record_voice_over
+            </mat-icon>
 
-      <mat-icon
-            [matTooltip]="'Sumarizovat stranu'"
-            matTooltipPosition="left"
-            *ngIf="aiActionsEnabled()"
-            class="app-selection app-type-ai">
-            list
-      </mat-icon>
+            <mat-icon
+                  [matTooltip]="'Přeložit stranu'"
+                  matTooltipPosition="left"
+                  (click)="onTranslatePage()"
+                  *ngIf="aiActionsEnabled()"
+                  class="app-selection app-type-ai">
+                  translate
+            </mat-icon>
 
+            <mat-icon
+                  [matTooltip]="'Sumarizovat stranu'"
+                  matTooltipPosition="left"
+                  (click)="onSummarizePage()"
+                  *ngIf="aiActionsEnabled()"
+                  class="app-selection app-type-ai">
+                  list
+            </mat-icon>
+      </ng-container>
+
+      <ng-container *ngIf="tts.inProgress()">
+            <mat-icon
+                  [matTooltip]="'Zastavit čtení'"
+                  matTooltipPosition="left"
+                  *ngIf="aiActionsEnabled()"
+                  (click)="onStopReadingPage()"
+                  class="app-selection app-main-selection">
+                  voice_over_off
+            </mat-icon>
+      </ng-container>
 
 </div>
 

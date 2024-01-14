@@ -131,6 +131,37 @@ export class AltoService {
   }
 
 
+  getFullText(alto: string): string {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(alto, "text/xml");
+    let text = '';
+    const textLines = Array.from(xmlDoc.getElementsByTagName('TextLine'));
+    for (let textLine of textLines) {
+        const hpos = parseInt(textLine.getAttribute('HPOS') || '0', 10);
+        const vpos = parseInt(textLine.getAttribute('VPOS') || '0', 10);
+        const textLineWidth = parseInt(textLine.getAttribute('WIDTH') || '0', 10);
+        const textLineHeight = parseInt(textLine.getAttribute('HEIGHT') || '0', 10);
+        const strings = Array.from(textLine.getElementsByTagName('String'));
+        for (let stringEl of strings) {
+            const stringHpos = parseInt(stringEl.getAttribute('HPOS') || '0', 10);
+            const stringVpos = parseInt(stringEl.getAttribute('VPOS') || '0', 10);
+            const stringWidth = parseInt(stringEl.getAttribute('WIDTH') || '0', 10);
+            const stringHeight = parseInt(stringEl.getAttribute('HEIGHT') || '0', 10);
+            let content = stringEl.getAttribute('CONTENT') || '';
+            const subsContent = stringEl.getAttribute('SUBS_CONTENT') || '';
+            const subsType = stringEl.getAttribute('SUBS_TYPE') || '';
+            if (subsType === 'HypPart1') {
+                content = subsContent
+            } else if (subsType === 'HypPart2') {
+                continue;
+            }
+            text += content + ' ';
+        }
+    }
+    return text;
+}
+
+
 
 
 
@@ -225,6 +256,7 @@ export class AltoService {
     if (block.text.length > 0) {
         blocks.push(block);
     }
+    console.log('blocks', blocks);
     return blocks;
 }
 

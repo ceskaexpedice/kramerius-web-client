@@ -64,7 +64,12 @@ export class TtsService {
     );
   }
 
-
+  readSelection(text: string, onFinished: () => void) {
+    this.userLanguage = this.translateService.currentLang;
+    this.state = 'loading';
+    this.onFinished = onFinished;
+    this.readText(text);
+  }
 
   stop() {
     if (this.audio) {
@@ -93,9 +98,9 @@ export class TtsService {
   }
 
 
-
   private next() {
     if (!this.blocks) {
+      this.state = 'none';
       return;
     }
     console.log('next');
@@ -108,14 +113,7 @@ export class TtsService {
     const block = this.blocks[this.activeBlockIndex];
     this.block.next(block);
     console.log('bt', block.text);
-    const tr = false;
-    if (tr) {
-      this.askGPT(block.text, "Přelož do češtiny", (answer) => {
-        this.readText(answer);
-      });
-    } else {
-      this.readText(block.text);
-    }
+    this.readText(block.text);
   }
 
   private readText(text: string) {    

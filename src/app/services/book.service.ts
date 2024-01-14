@@ -837,22 +837,14 @@ export class BookService {
     }
 
 
-
-
-    translate(extent, width: number, height: number, right: boolean) {
-        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+    private getAltoText(uuid: string, callback: (text: string) => void, extent, width: number, height: number) {
         this.api.getAlto(uuid).subscribe(
             result => {
-                const text = this.altoService.getTextInBox(result, extent, width, height);
-                this.tts.translate(text, (answer) => {
-                    const options = {
-                        title: '',
-                        ocr: answer,
-                        uuid: uuid,
-                        showCitation: false
-                    };
-                    this.bottomSheet.open(OcrDialogComponent, { data: options });
-                });
+                if (extent) {
+                    callback(this.altoService.getTextInBox(result, extent, width, height));
+                } else {
+                    callback(this.altoService.getFullText(result));
+                }
             },
             error => {
                 if (error instanceof NotFoundError) {
@@ -866,50 +858,55 @@ export class BookService {
         );
     }
 
-    summarizeSelection(extent, width: number, height: number, right: boolean) {
-        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
-        this.api.getAlto(uuid).subscribe(
-            result => {
-                const lang = this.translateSrvice.currentLang
-                let instruction = "Summarize the entered text in bullet points";
-                let title = "Summary";
-                if (lang == "cs") {
-                    instruction = "Sumarizuj v odrážkách zadaný text";
-                    title = "Shrnutí";
-                } else if (lang == "de") {
-                    instruction = "Fassen Sie den eingegebenen Text in Aufzählungspunkten zusammen";
-                    title = "Zusammenfassung";
-                } else if (lang == "sk") {
-                    instruction = "Sumarizuj v odrážkach zadaný text";
-                    title = "Zhrnutie";
-                }
-                const text = this.altoService.getTextInBox(result, extent, width, height);
-                this.tts.translate(text, (translation) => {
-
-                    this.tts.askGPT(translation, instruction, (answer) => {
-                        // this.tts.askGPT(text, "Udělej fact checking článku z dobových novin padesátých let", (answer) => {
     
-                            const options = {
-                                title: title,
-                                ocr: answer,
-                                uuid: this.getPage().uuid,
-                                showCitation: false
-                            };
-                            this.bottomSheet.open(OcrDialogComponent, { data: options });
-                        });
+    translate(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.getAltoText(uuid, (text) => {
+            this.tts.translate(text, (answer) => {
+                const options = {
+                    title: '',
+                    ocr: answer,
+                    uuid: uuid,
+                    showCitation: false
+                };
+                this.bottomSheet.open(OcrDialogComponent, { data: options });
+            });
+        }, extent, width, height);
+    }
 
-                }, lang); 
-            },
-            error => {
-                if (error instanceof NotFoundError) {
-                    this.dialog.open(BasicDialogComponent, { data: {
-                        title: 'common.warning',
-                        message: 'dialogs.missing_alto.message',
-                        button: 'common.close'
-                    }, autoFocus: false });
-                }
+
+    summarize(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.getAltoText(uuid, (text) => {
+            const lang = this.translateSrvice.currentLang
+            let instruction = "Summarize the entered text in bullet points";
+            let title = "Summary";
+            if (lang == "cs") {
+                instruction = "Sumarizuj v odrážkách zadaný text";
+                title = "Shrnutí";
+            } else if (lang == "de") {
+                instruction = "Fassen Sie den eingegebenen Text in Aufzählungspunkten zusammen";
+                title = "Zusammenfassung";
+            } else if (lang == "sk") {
+                instruction = "Sumarizuj v odrážkach zadaný text";
+                title = "Zhrnutie";
             }
-        );
+            this.tts.translate(text, (translation) => {
+
+                this.tts.askGPT(translation, instruction, (answer) => {
+                    // this.tts.askGPT(text, "Udělej fact checking článku z dobových novin padesátých let", (answer) => {
+
+                        const options = {
+                            title: title,
+                            ocr: answer,
+                            uuid: this.getPage().uuid,
+                            showCitation: false
+                        };
+                        this.bottomSheet.open(OcrDialogComponent, { data: options });
+                    });
+
+            }, lang); 
+        }, extent, width, height);
     }
 
     showTextSelection(extent, width: number, height: number, right: boolean) {
@@ -934,7 +931,7 @@ export class BookService {
                 }
             }
         );
-    }
+}
 
     showImageCrop(extent, right: boolean) {
         if (this.pageState === BookPageState.Inaccessible) {
@@ -963,6 +960,15 @@ export class BookService {
             this.continueTts = true;
             this.goToNext();
         });
+    }
+
+    readSelection(extent, width: number, height: number, right: boolean) {
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.getAltoText(uuid, (text) => {
+            this.tts.readSelection(text, () => {
+                console.log('reading finished');
+            });
+        }, extent, width, height);
     }
 
     
