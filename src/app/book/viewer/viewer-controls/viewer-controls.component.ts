@@ -4,6 +4,7 @@ import { Component, OnInit} from '@angular/core';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { PdfService } from '../../../services/pdf.service';
 import { EpubService } from '../../../services/epub.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-viewer-controls',
@@ -14,6 +15,7 @@ export class ViewerControlsComponent implements OnInit {
 
   constructor(
     public controlsService: ViewerControlsService, 
+    public authService: AuthService,
     public analytics: AnalyticsService,
     public pdfService: PdfService,
     public epubService: EpubService,
@@ -23,10 +25,10 @@ export class ViewerControlsComponent implements OnInit {
   ngOnInit() {
   }
 
-  enterSelectionMode() {
-    this.analytics.sendEvent('viewer', 'controls', 'selection');
-    this.controlsService.enterSelectionMode();
-  }
+  // enterSelectionMode() {
+  //   this.analytics.sendEvent('viewer', 'controls', 'selection');
+  //   this.controlsService.enterSelectionMode();
+  // }
 
   showPrevNextPage(): boolean {
     return true;
@@ -56,9 +58,9 @@ export class ViewerControlsComponent implements OnInit {
     return !this.bookService.showGeoreference && this.bookService.doublePageSupported() && !this.bookService.doublePageEnabled;
   }
 
-  showSelectionMode(): boolean {
-    return this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
-  }
+  // showSelectionMode(): boolean {
+  //   return this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
+  // }
 
 
   showCropMap(): boolean {
@@ -71,6 +73,14 @@ export class ViewerControlsComponent implements OnInit {
 
   showFitToScreen(): boolean {
     return !this.bookService.isEpub();
+  }
+
+  rotate() {
+    // if (this.bookService.isPdf()) {
+    //   this.pdfService.getPageContent();
+    // }
+    this.controlsService.rotateRight();
+    this.analytics.sendEvent('viewer', 'controls', 'rotate')
   }
 
   showRotation(): boolean {

@@ -50,7 +50,7 @@
 
 
 
-  <mat-icon (click)="controlsService.rotateRight();analytics.sendEvent('viewer', 'controls', 'rotate')"
+  <mat-icon (click)="rotate()"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_rotate_right' | translate" 
@@ -75,20 +75,20 @@
   </mat-icon>
 
   <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'lock')"
-          tabindex="0"
-          class="hide-on-small"
-          [matTooltip]="'view_controls.tooltip_zoom_lock_on' | translate" 
-          *ngIf="showLock()">
-          lock_open
-  </mat-icon>
+  tabindex="0"
+  class="hide-on-small"
+  [matTooltip]="'view_controls.tooltip_zoom_lock_on' | translate" 
+  *ngIf="showLock()">
+  lock_open
+</mat-icon>
 
-  <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'unlock')"
-          tabindex="0"
-          class="hide-on-small"
-          [matTooltip]="'view_controls.tooltip_zoom_lock_off' | translate" 
-          *ngIf="showUnlock()">
-          lock
-  </mat-icon>
+<mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'unlock')"
+  tabindex="0"
+  class="hide-on-small"
+  [matTooltip]="'view_controls.tooltip_zoom_lock_off' | translate" 
+  *ngIf="showUnlock()">
+  lock
+</mat-icon>
 
   <!-- <mat-icon (click)="controlsService.selectText();analytics.sendEvent('viewer', 'controls', 'select text')"
             tabindex="0"
@@ -116,14 +116,14 @@
             crop
   </mat-icon>
 
-  <mat-icon 
+  <!-- <mat-icon 
     tabindex="0"
     class="hide-on-small"
     (click)="enterSelectionMode()"
     [matTooltip]="'Vybrat oblast'"
     *ngIf="showSelectionMode()">
     crop
-  </mat-icon>
+  </mat-icon> -->
 
   <mat-icon (click)="showGeoMap()"
             [matTooltip]="'view_controls.tooltip_showgeoreferenced' | translate" 

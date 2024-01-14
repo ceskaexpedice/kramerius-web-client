@@ -1,6 +1,69 @@
 <div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
   <app-viewer-controls *ngIf="bookService.pageAvailable" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 
+<div class="app-selection-actions" 
+      [class.hide-on-inactivity]="hideOnInactivity"
+      *ngIf="showPageActions()">
+
+      <ng-container *ngIf="!tts.inProgress()">
+            <mat-icon
+                  [matTooltip]="'Vybrat oblast'"
+                  matTooltipPosition="left"
+                  (click)="enterSelectionMode()"
+                  class="app-selection app-main-selection">
+                  auto_awesome
+            </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'Textový přepis strany'"
+                  matTooltipPosition="left"
+                  (click)="onPageOcr()"
+                  class="app-selection">
+                  title
+            </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'Přečíst stranu'"
+                  matTooltipPosition="left"
+                  (click)="onStartReadingPage()"
+                  *ngIf="aiActionsEnabled()"
+                  class="app-selection app-type-ai">
+                  record_voice_over
+            </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'Přeložit stranu'"
+                  matTooltipPosition="left"
+                  (click)="onTranslatePage()"
+                  *ngIf="aiActionsEnabled()"
+                  class="app-selection app-type-ai">
+                  translate
+            </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'Sumarizovat stranu'"
+                  matTooltipPosition="left"
+                  (click)="onSummarizePage()"
+                  *ngIf="aiActionsEnabled()"
+                  class="app-selection app-type-ai">
+                  list
+            </mat-icon>
+      </ng-container>
+
+      <ng-container *ngIf="tts.inProgress()">
+            <mat-icon
+                  [matTooltip]="'Zastavit čtení'"
+                  matTooltipPosition="left"
+                  *ngIf="aiActionsEnabled()"
+                  (click)="onStopReadingPage()"
+                  class="app-selection app-main-selection">
+                  voice_over_off
+            </mat-icon>
+      </ng-container>
+
+</div>
+
+
   <span *ngIf="controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
         class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
         tabindex="0"
@@ -80,30 +143,54 @@
       <mat-icon (click)="onShowTextSelection()"
             [matTooltip]="'Textový přepis'" 
             *ngIf="showSelectText()"
+            matTooltipPosition="right"
             [class.app-inactive]="!selectTextEnabled()">
             title
       </mat-icon>
 
       <mat-icon (click)="onShowImageCrop()"
             [matTooltip]="'Obrázek'" 
+            matTooltipPosition="right"
             [class.app-inactive]="!imageCropEnabled()"
             *ngIf="showImageCrop()">
             image
       </mat-icon>
 
       <mat-icon (click)="onShareSelection()"
+            matTooltipPosition="right"
             [matTooltip]="'book_controls.tooltip_share' | translate">
             share
       </mat-icon>
 
-      <mat-icon (click)="onShareSelection()"
+      <mat-icon (click)="onReadSelection()"
+            matTooltipPosition="right"
+            *ngIf="aiActionsEnabled()"
+            class="app-type-ai"
             [matTooltip]="'Přečti'">
             record_voice_over
       </mat-icon>
 
+      <mat-icon (click)="onTranslateSelection()"
+            matTooltipPosition="right"
+            *ngIf="aiActionsEnabled()"
+            class="app-type-ai"
+            [matTooltip]="'Přelož'">
+            translate
+      </mat-icon>
+
+      <mat-icon (click)="onSummarizeSelection()"
+            matTooltipPosition="right"
+            *ngIf="aiActionsEnabled()"
+            class="app-type-ai"
+            [matTooltip]="'Sumarizuj'">
+            list
+      </mat-icon>
+
       <mat-icon (click)="cancelSelection()"
-      [matTooltip]="'common.close' | translate">
-      close
+            matTooltipPosition="right"
+            class="app-type-cancel"
+            [matTooltip]="'common.close' | translate">
+            close
 </mat-icon>
 
   </div>

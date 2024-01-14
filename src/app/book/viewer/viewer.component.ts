@@ -14,6 +14,7 @@ import { ZoomifyService } from '../../services/zoomify.service';
 import { AltoService } from '../../services/alto-service';
 import { LoggerService } from '../../services/logger.service';
 import { LicenceService } from '../../services/licence.service';
+import { TtsService } from '../../services/tts.service';
 import { PageImageType } from '../../model/page.model';
 
 declare var ol: any;
@@ -37,6 +38,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private selectionWidth;
   private selectionHeight;
   private selectionRight;
+  private selectionHA;
+  private selectionVA;
   private selectionExtent;
   private selectionModeOn = false;
   private maskLayer;
@@ -56,6 +59,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   private viewerActionsSubscription: Subscription;
   private pageSubscription: Subscription;
+  private ttsSubscription: Subscription;
+
   private intervalSubscription: Subscription;
 
   public hideOnInactivity = false;
@@ -74,6 +79,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   constructor(public bookService: BookService,
               public authService: AuthService,
+              private tts: TtsService,
               public settings: AppSettings,
               public licences: LicenceService,
               private http: HttpClient,
@@ -96,6 +102,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.pageSubscription = this.bookService.watchViewerData().subscribe(
       (data: ViewerData) => {
         this.updateImage(data);
+      }
+    );
+    this.ttsSubscription = this.tts.watchBlock().subscribe(
+      (block: any) => {
+        this.updateTtsBlock(block);
       }
     );
     this.updateImage(this.bookService.getViewerData());
@@ -140,11 +151,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
     const mainStyle = new ol.style.Style({
       fill: new ol.style.Fill({
-        color: 'rgba(244, 81, 30, 0.20)'
+        color: 'rgba(2, 119, 189, 0.20)'
       }),
       stroke: new ol.style.Stroke({
-        color: '#F4511E',
-        width: 2
+        color: '#0277bd',
+        width: 0
       })
     });
     this.vectorLayer = new ol.layer.Vector({
@@ -231,9 +242,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
   }
 
+  private toggleTts() {
+    this.bookService.toggleReading();
+  }
 
   private onBoxEnd(extent) {
-    console.log('boxend', extent);
     if (this.imageWidth1 > 0) {
       // double page;
       const startExtentX = extent[0];
@@ -246,6 +259,18 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.onSelectionEnd(extent, this.imageWidth - this.imageWidth1, this.imageHeight, true);
       }
     } else {
+      if (extent[0] < 0) {
+        extent[0] = 0;
+      }
+      if (extent[2] > this.imageWidth) {
+        extent[2] = this.imageWidth;
+      }
+      if (extent[1] < -this.imageHeight) {
+        extent[1] = -this.imageHeight;
+      }
+      if (extent[3] > 0) {
+        extent[3] = 0;
+      }
       this.onSelectionEnd(extent, this.imageWidth, this.imageHeight, false);
     }
   }
@@ -287,16 +312,24 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   private positionMenu(pixel) {
-    this.selectionMenu.style.left = pixel[0] + 'px';
-    this.selectionMenu.style.top = pixel[1] + 'px';
-    this.selectionMenu.style.display = 'block';
+    if (this.selectionHA == 'right') {
+      this.selectionMenu.style.left = (pixel[0] - 40) + 'px';
+    } else {
+      this.selectionMenu.style.left = (pixel[0] + 10) + 'px';
+    }
+    if (this.selectionVA == 'top') {
+      this.selectionMenu.style.top = (pixel[1] + 5) + 'px';
+    } else {
+      this.selectionMenu.style.top = (pixel[1] - this.selectionMenu.clientHeight) + 'px';
+    }
   }
 
   private updateMenuPosition() {
     if (!this.selectionPosition) {
-      this.selectionMenu.style.display = 'none';
+      this.selectionMenu.style.left = '-1000px';
       return;
     }
+    // this.hideOnInactivity = true;
     const pixel = this.view.getPixelFromCoordinate(this.selectionPosition);
     if (pixel) {
       this.positionMenu(pixel);
@@ -327,11 +360,33 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   onSelectionEnd(extent, width: number, height: number, right: boolean) {
+    const viewExtent = this.view.getView().calculateExtent(this.view.getSize());
     this.selectionWidth = width;
     this.selectionHeight = height;
     this.selectionRight = right;
     this.selectionExtent = extent;
-    this.selectionPosition = [extent[2], extent[3]];
+    let vPosition = extent[3];
+    let hPosition = extent[2];
+    const topRightSelection = this.view.getPixelFromCoordinate([extent[2], extent[3]]);
+    const topRightView = this.view.getPixelFromCoordinate([viewExtent[2], viewExtent[3]]);
+    const bottomLeftSelection = this.view.getPixelFromCoordinate([extent[0], extent[1]]);
+    const bottomLeftView = this.view.getPixelFromCoordinate([viewExtent[0], viewExtent[1]]);
+    const menuHeight = this.selectionMenu.clientHeight;
+    this.selectionVA = 'top';
+    if (bottomLeftView[1] - topRightSelection[1] < menuHeight + 5) {
+      this.selectionVA = 'bottom';
+      vPosition = extent[1];
+    }
+    this.selectionHA = 'left';
+    if (topRightView[0] - topRightSelection[0] < 50) {
+      if (bottomLeftSelection[0] - bottomLeftView[0] > 50) {
+        hPosition = extent[0];
+        this.selectionHA = 'right';
+      } else {
+        this.selectionHA = 'right';
+      }
+    }
+    this.selectionPosition = [hPosition, vPosition];
     this.createMask(extent);
     this.updateMenuPosition();
     this.view.removeInteraction(this.selectionInteraction);
@@ -350,6 +405,46 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.bookService.showTextSelection(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
+  aiActionsEnabled(): boolean {
+    return this.settings.ai;
+  }
+
+  showPageActions(): boolean {
+    return !this.selectionModeOn && this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
+  }
+
+  onReadSelection() {
+    this.bookService.readSelection(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
+  }
+
+  onTranslateSelection() {
+    this.bookService.translate(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
+  }
+
+  onSummarizeSelection() {
+    this.bookService.summarize(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
+  }
+
+  onPageOcr() {
+    this.bookService.showOcr();
+  }
+
+  onTranslatePage() {
+    this.bookService.translate();
+  }
+
+  onSummarizePage() {
+    this.bookService.summarize();
+  }
+  
+  onStartReadingPage() {
+    this.bookService.toggleReading();
+  }
+
+  onStopReadingPage() {
+    this.bookService.toggleReading();
+  }
+
   cancelSelection() {
     this.maskLayer.getSource().clear();
     this.selectionPosition = null;
@@ -362,12 +457,20 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   enterSelectionMode() {
+    if (this.imageWidth1 > 0) {
+      this.bookService.toggleDoublePage();
+      return;
+    }
+    this.hideOnInactivity = true;
     this.selectionModeOn = true;
     this.view.addInteraction(this.selectionInteraction);
     this.view.getViewport().style.cursor = 'crosshair';
   }
 
   onMouseMove() {
+    if (this.selectionModeOn) {
+      return;
+    }
     this.lastMouseMove = new Date().getTime();
     this.hideOnInactivity = false;
   }
@@ -395,8 +498,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
       case ViewerActions.toggleLock:
         this.toggleLock();
         break;
-      case ViewerActions.enterSelectionMode:
-        this.enterSelectionMode();
+      case ViewerActions.toggleTts:
+        this.toggleTts();
         break;
     }
   }
@@ -450,6 +553,31 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.updateSize();
     this.view.getView().setRotation(0);
     this.view.getView().fit(this.extent);
+  }
+
+  private updateTtsBlock(block: any) {
+    this.view.removeLayer(this.vectorLayer);
+    this.vectorLayer.getSource().clear();
+    if (!block) {
+      return;
+    }
+    const box: any[] = [];
+    const wc = block.width > 0 ? this.imageWidth / block.width : 1;
+    const hc = block.height > 0 ? this.imageHeight / block.height : 1;
+    console.log('wc', wc);
+    console.log('hc', hc);
+    console.log('block.width', block.aw);
+    console.log('this.imageWidth', this.imageWidth);
+
+    box.push([block.hMin * wc, -block.vMin * hc]);
+    box.push([block.hMax * wc, -block.vMin * hc]);
+    box.push([block.hMax * wc, -block.vMax * hc]);
+    box.push([block.hMin * wc, -block.vMax * hc]);
+    box.push([block.hMin * wc, -block.vMin * hc]);
+    const polygon = new ol.geom.Polygon([box]);
+    const feature = new ol.Feature(polygon);
+    this.vectorLayer.getSource().addFeature(feature);
+    this.view.addLayer(this.vectorLayer);
   }
 
   updateBoxes() {
@@ -671,8 +799,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateIiifImage(uuid1: string, uuid2: string) {
-    const url1 = this.api.getIiifBaseUrl(uuid1);
-    const url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
+    let url1 = this.api.getIiifBaseUrl(uuid1);
+    let url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
+
+    if (this.settings.replaceImageUrl) {
+      url1 = url1.replace(this.settings.url, this.settings.replaceImageUrl);
+      if (url2) {
+        url2 = url2.replace(this.settings.url, this.settings.replaceImageUrl);
+      }
+    }
+
     this.onImageLoading();
     const rq = [];
     let w1, w2, h1, h2;
@@ -739,10 +875,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.updateBoxes();
     this.addWaterMark();
     if (this.data.bb) {
+
       const bb = this.data.bb.split(',');
       const extent = [parseInt(bb[0]),  -1*(parseInt(bb[1]) + parseInt(bb[3])),  parseInt(bb[0])+parseInt(bb[2]) , -parseInt(bb[1])];
-      this.onBoxEnd(extent);
-      this.view.getView().fit(extent);
+      setTimeout(() => {
+        this.view.getView().fit(extent);      
+        this.onBoxEnd(extent);
+      }, 100);  
     }
   }
 
@@ -961,6 +1100,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
     if (this.pageSubscription) {
       this.pageSubscription.unsubscribe();
+    }
+    if (this.ttsSubscription) {
+      this.ttsSubscription.unsubscribe();
     }
     if (this.intervalSubscription) {
       this.intervalSubscription.unsubscribe();

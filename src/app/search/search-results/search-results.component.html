@@ -22,9 +22,14 @@
             <div class="app-collection-description"
             [innerHTML]="searchService.getCollectionContent() | safeHtml">
             </div>
+
+            <div style="clear:both;" *ngIf="searchService.collectionCuttings && searchService.collectionCuttings.length > 0">
+                <app-cutting-card *ngFor="let cutting of searchService.collectionCuttings" [item]="cutting" ></app-cutting-card>
+            </div>
+        
         </ng-container>
     
-        <app-alert *ngIf="!searchService.loading && searchService.getNumberOfResults() === 0"
+        <app-alert *ngIf="!searchService.loading && searchService.getNumberOfResults() === 0 && (!searchService.collection || (searchService.collectionCuttings && searchService.collectionCuttings.length === 0))"
                 type="warning"
                 label="alert.warning"
                 message="alert.no_results_found">

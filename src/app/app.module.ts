@@ -164,6 +164,7 @@ import { MapSeriesService } from './services/mapseries.service';
 
 import { MapViewerComponent } from './book/map-viewer/map-viewer.component';
 import { GeoreferenceService } from './services/georeference.service';
+import { TtsService } from './services/tts.service';
 import { CsvService } from './services/csv.service';
 import { FolderService } from './services/folder.service';
 import { FolderDialogComponent } from './dialog/folder-dialog/folder-dialog.component';
@@ -174,6 +175,7 @@ import { DisplayMetadataDialogComponent} from './dialog/display-metadata-dialog/
 
 import { LicenceWindowComponent } from './shared/licence-window/licence-window.component';
 import { NavigationService } from './services/navigation.service';
+import { CuttingCardComponent } from './shared/cutting-card/cutting-card.component';
 
 declare var APP_GLOBAL: any;
 
@@ -185,7 +187,7 @@ export function hljsLanguages() {
 }
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.6.1');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.6.1-dev');
 }
 
 export function appInitializerFactory(translate: TranslateService) {
@@ -304,7 +306,8 @@ export function appInitializerFactory(translate: TranslateService) {
     FolderAdminDialogComponent,
     DisplayMetadataDialogComponent,
     CuratorListsComponent,
-    LicenceWindowComponent
+    LicenceWindowComponent,
+    CuttingCardComponent
   ],
   imports: [
     BrowserModule,
@@ -373,6 +376,7 @@ export function appInitializerFactory(translate: TranslateService) {
     EpubService,
     MapSeriesService,
     GeoreferenceService,
+    TtsService,
     CsvService,
     FolderService,
     NavigationService,

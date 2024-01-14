@@ -29,6 +29,8 @@ import { OcrDialogComponent } from '../dialog/ocr-dialog/ocr-dialog.component';
 import { saveAs } from 'file-saver';
 import { PdfService } from './pdf.service';
 import { GeoreferenceService } from './georeference.service';
+import { TtsService } from './tts.service';
+import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from './search.service';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 
@@ -91,6 +93,8 @@ export class BookService {
 
     private initPdfPosition = 1;
 
+    epubUrl: string;
+    continueTts = false;
     private bb: string;
     private bbPage;
 
@@ -109,6 +113,8 @@ export class BookService {
         private pdf: PdfService,
         private bottomSheet: MatBottomSheet,
         private licenceService: LicenceService,
+        private tts: TtsService,
+        private translateSrvice: TranslateService,
         private geoService: GeoreferenceService) {
     }
 
@@ -831,6 +837,78 @@ export class BookService {
     }
 
 
+    private getAltoText(uuid: string, callback: (text: string) => void, extent, width: number, height: number) {
+        this.api.getAlto(uuid).subscribe(
+            result => {
+                if (extent) {
+                    callback(this.altoService.getTextInBox(result, extent, width, height));
+                } else {
+                    callback(this.altoService.getFullText(result));
+                }
+            },
+            error => {
+                if (error instanceof NotFoundError) {
+                    this.dialog.open(BasicDialogComponent, { data: {
+                        title: 'common.warning',
+                        message: 'dialogs.missing_alto.message',
+                        button: 'common.close'
+                    }, autoFocus: false });
+                }
+            }
+        );
+    }
+
+    
+    translate(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.getAltoText(uuid, (text) => {
+            this.tts.translate(text, (answer) => {
+                const options = {
+                    title: '',
+                    ocr: answer,
+                    uuid: uuid,
+                    showCitation: false
+                };
+                this.bottomSheet.open(OcrDialogComponent, { data: options });
+            });
+        }, extent, width, height);
+    }
+
+
+    summarize(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.getAltoText(uuid, (text) => {
+            const lang = this.translateSrvice.currentLang
+            let instruction = "Summarize the entered text in bullet points";
+            let title = "Summary";
+            if (lang == "cs") {
+                instruction = "Sumarizuj v odrážkách zadaný text";
+                title = "Shrnutí";
+            } else if (lang == "de") {
+                instruction = "Fassen Sie den eingegebenen Text in Aufzählungspunkten zusammen";
+                title = "Zusammenfassung";
+            } else if (lang == "sk") {
+                instruction = "Sumarizuj v odrážkach zadaný text";
+                title = "Zhrnutie";
+            }
+            this.tts.translate(text, (translation) => {
+
+                this.tts.askGPT(translation, instruction, (answer) => {
+                    // this.tts.askGPT(text, "Udělej fact checking článku z dobových novin padesátých let", (answer) => {
+
+                        const options = {
+                            title: title,
+                            ocr: answer,
+                            uuid: this.getPage().uuid,
+                            showCitation: false
+                        };
+                        this.bottomSheet.open(OcrDialogComponent, { data: options });
+                    });
+
+            }, lang); 
+        }, extent, width, height);
+    }
+
     showTextSelection(extent, width: number, height: number, right: boolean) {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.api.getAlto(uuid).subscribe(
@@ -853,7 +931,7 @@ export class BookService {
                 }
             }
         );
-    }
+}
 
     showImageCrop(extent, right: boolean) {
         if (this.pageState === BookPageState.Inaccessible) {
@@ -871,6 +949,29 @@ export class BookService {
         }
     }
 
+    toggleReading() {
+        if (this.tts.inProgress()) {
+            this.continueTts = false;
+            this.tts.stop();
+            return;
+        }
+        this.tts.readPage(this.getPage().uuid, () => {
+            console.log('page reading finished');
+            this.continueTts = true;
+            this.goToNext();
+        });
+    }
+
+    readSelection(extent, width: number, height: number, right: boolean) {
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.getAltoText(uuid, (text) => {
+            this.tts.readSelection(text, () => {
+                console.log('reading finished');
+            });
+        }, extent, width, height);
+    }
+
+    
     shareSelection(extent, right: boolean) {
         const box = this.iiif.xywh(extent[0], extent[1], extent[2], extent[3]);
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
@@ -1172,6 +1273,16 @@ export class BookService {
             }
         }
         this.analytics.sendEvent('page', this.metadata.getShortTitleWithUnit(), pages);
+
+        if (this.continueTts) {
+            setTimeout(() => {
+                this.tts.readPage(this.getPage().uuid, () => {
+                    console.log('page reading finished');
+                    this.continueTts = true;
+                    this.goToNext();
+                });
+            }, 400);
+        }
     }
 
 
@@ -1497,6 +1608,7 @@ export class BookService {
         this.hasGeoreference = false;
         this.showGeoreference = false;
         this.bb = null;
+        this.bbPage = null;
     }
 
     private computeDoublePageBounds(pageCount: number, titlePage: number, lastSingle: number, firstBackSingle: number) {

@@ -265,7 +265,11 @@ export class KrameriusApiService {
     }
 
     getIiifBaseUrl(uuid: string): string {
-        return this.getbaseUrl() + '/search/iiif/' + uuid;
+        let baseUrl = this.getbaseUrl();
+        if (this.settings.replaceImageUrl) {
+            baseUrl = baseUrl.replace(this.settings.url, this.settings.replaceImageUrl);
+        }
+        return baseUrl + '/search/iiif/' + uuid;
     }
 
     getIiifPresentationUrl(uuid: string): string {
@@ -352,6 +356,11 @@ export class KrameriusApiService {
         const url = this.getApiUrl() + '/vc';
         return this.doGet(url)
             .pipe(map(response => response));
+    }
+
+    getColletionCuttings(uuid: string):  Observable<any> {
+        const url = this.getItemUrl(uuid) + '/collection/cuttings';
+        return this.doGet(url);
     }
 
     getKrameriusInfo(language: string): Observable<KrameriusInfo> {
@@ -459,7 +468,7 @@ export class KrameriusApiService {
         if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid) + '/children');
         } else {
-            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, null, false));
+            return this.getSearchResults(this.solr.buildBookChildrenQuery(uuid, null, true));
         }
     }
 
@@ -474,7 +483,11 @@ export class KrameriusApiService {
             return this.doGet(this.getItemUrl(uuid))
                 .pipe(map(response => this.parseItemInfoForPage(response)));
         } else {
-            return this.doGet(this.getItemUrl(uuid) + '/info')
+            let url = this.getItemUrl(uuid) + '/info';
+            if (this.settings.replaceImageUrl) {
+                url = url.replace(this.settings.url, this.settings.replaceImageUrl);
+            }
+            return this.doGet(url)
                 .pipe(map(response => this.parseItemInfoForPage(response)));
         }
     }
