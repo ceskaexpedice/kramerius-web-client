@@ -106,7 +106,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     );
     this.ttsSubscription = this.tts.watchBlock().subscribe(
       (block: any) => {
-        this.updateTtsBlock(block);
+        if (this.bookService.getPage().uuid == this.tts.readingPageUuid) {
+          this.updateTtsBlock(block);
+        }
       }
     );
     this.updateImage(this.bookService.getViewerData());
@@ -242,9 +244,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
   }
 
-  private toggleTts() {
-    this.bookService.toggleReading();
-  }
 
   private onBoxEnd(extent) {
     if (this.imageWidth1 > 0) {
@@ -406,7 +405,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   aiActionsEnabled(): boolean {
-    return this.settings.ai;
+    return this.settings.ai && this.authService.isLoggedIn();
   }
 
   showPageActions(): boolean {
@@ -497,9 +496,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
         break;
       case ViewerActions.toggleLock:
         this.toggleLock();
-        break;
-      case ViewerActions.toggleTts:
-        this.toggleTts();
         break;
     }
   }

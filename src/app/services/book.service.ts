@@ -956,9 +956,13 @@ export class BookService {
             return;
         }
         this.tts.readPage(this.getPage().uuid, () => {
-            console.log('page reading finished');
-            this.continueTts = true;
-            this.goToNext();
+            console.log('page reading finished, shoul read next page');
+            if (this.getPage().uuid == this.tts.readingPageUuid) {
+                this.continueTts = true;
+                this.goToNext();
+            } else {
+                this.continueTts = false;
+            }
         });
     }
 
@@ -1275,11 +1279,16 @@ export class BookService {
         this.analytics.sendEvent('page', this.metadata.getShortTitleWithUnit(), pages);
 
         if (this.continueTts) {
+            this.continueTts = false;
             setTimeout(() => {
                 this.tts.readPage(this.getPage().uuid, () => {
-                    console.log('page reading finished');
-                    this.continueTts = true;
-                    this.goToNext();
+                    console.log('page reading finished, shoul read next page');
+                    if (this.getPage().uuid == this.tts.readingPageUuid) {
+                        this.continueTts = true;
+                        this.goToNext();
+                    } else {
+                        this.continueTts = false;
+                    }
                 });
             }, 400);
         }

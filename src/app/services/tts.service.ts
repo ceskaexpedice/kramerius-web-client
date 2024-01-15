@@ -21,6 +21,9 @@ export class TtsService {
   // private model = 'text-davinci-003';
   private state: string = 'none';
   private blocks: any[] = [];
+  
+
+  readingPageUuid: string = null;
 
   activeBlockIndex: number = -1;
 
@@ -42,6 +45,7 @@ export class TtsService {
 
 
   readPage(uuid: string, onFinished: () => void) {
+    this.readingPageUuid = uuid;
     this.userLanguage = this.translateService.currentLang;
     this.state = 'loading';
     this.onFinished = onFinished;

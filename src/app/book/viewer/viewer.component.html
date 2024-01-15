@@ -6,13 +6,27 @@
       *ngIf="showPageActions()">
 
       <ng-container *ngIf="!tts.inProgress()">
-            <mat-icon
+            <!-- <mat-icon
                   [matTooltip]="'Vybrat oblast'"
                   matTooltipPosition="left"
                   (click)="enterSelectionMode()"
                   class="app-selection app-main-selection">
                   auto_awesome
+            </mat-icon> -->
+
+            <mat-icon
+                  class="app-selection app-main-selection app-hide-on-hover">
+                  auto_awesome
             </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'Vybrat oblast'"
+                  matTooltipPosition="left"
+                  (click)="enterSelectionMode()"
+                  class="app-selection">
+                  highlight_alt
+            </mat-icon>
+
 
             <mat-icon
                   [matTooltip]="'Textový přepis strany'"
