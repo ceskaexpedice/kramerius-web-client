@@ -8,12 +8,13 @@
   }
   .app-collection-list {
     margin-left: -8px;
+    margin-top: 14px;
     .app-collection {
-      display: flex;
-      line-height: 26px;
-      height: 26px;
+      line-height: 30px;
+      height: 30px;
       overflow: hidden;
       .app-btn {
+        float: left;
         font-size: 22px;
         cursor: pointer;
         padding: 0 10px;
@@ -21,23 +22,23 @@
         &:hover {
           color: $primary-color;
         }
-      }
-      .app-btn-remove {
-        font-size: 30px;
-        cursor: pointer;
-        padding: 0 10px 0 10px;
-        color: #ccc;
-        &:hover {
-          color: red;
+        &.app-btn-remove {
+          &:hover {
+            color: red;
+          }
         }
       }
       .app-col-name {
         color: #444;
         margin-right: 10px;
+        padding-left: 10px;
       }
       .app-col-desc {
         color: #999;
         font-size: 12px;
+      }
+      &:hover {
+        background: #eeeeee;
       }
     }
   }

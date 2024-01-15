@@ -4,7 +4,7 @@
       <div class="app-label">{{ licencesIn.length == 0 ? "Nemá žádnou licenci" : "Má licence" }}</div>
       <div class="app-licences-list">
         <div *ngFor="let licence of licencesIn" class="app-licence">
-          <div class="app-btn-remove" (click)="removeLicenceDialog(licence)">-</div>
+          <div class="app-btn app-btn-remove" (click)="removeLicenceDialog(licence)">-</div>
           <span class="app-col-name">{{ licence.name }}</span>
           <span class="app-col-desc">{{ licence.description }}</span>
         </div>
@@ -16,7 +16,7 @@
     <div class="app-licences-list">
       <div *ngFor="let licence of licencesRest" class="app-licence">
         <div class="app-btn" (click)="addLicenceDialog(licence)">+</div>
-        <div class="app-btn-remove" *ngIf="_uuids.length > 1" (click)="removeLicenceDialog(licence)">-</div>
+        <div class="app-btn app-btn-remove" *ngIf="_uuids.length > 1" (click)="removeLicenceDialog(licence)">-</div>
         <span class="app-col-name">{{ licence.name }}</span>
         <span class="app-col-desc">{{ licence.description }}</span>
       </div>

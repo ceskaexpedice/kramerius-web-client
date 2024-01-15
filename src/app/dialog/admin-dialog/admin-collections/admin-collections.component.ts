@@ -133,8 +133,8 @@ export class AdminCollectionsComponent implements OnInit {
     console.log('addToCollectionDialog');
     const dialogRef = this.dialog.open(AdminConfirmDialogComponent, { 
       data: {
-        title: 'admin-dialog.add',
-        message: 'admin-dialog.add_to_col',
+        title: 'admin-dialog.add_to_col_title',
+        message: 'admin-dialog.add_to_col_message',
         name: col.name,
         confirm: 'confirm',
         warn: true}, 
