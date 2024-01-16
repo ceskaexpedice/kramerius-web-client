@@ -14,7 +14,8 @@
 
 
         <div class="app-navigation">
-            <a [routerLink]="ms.getRootUrl()">Mapová díla</a>
+            <!-- <a [routerLink]="ms.getRootUrl()">Mapová díla</a> -->
+            <a (click)="goToMapSeries()">Mapová díla</a>
             <ng-container *ngIf="selectedSeries">
                 <span style="margin: 0 6px;">&gt;</span>
                 <div class="app-name" [matMenuTriggerFor]="seriesMenu">

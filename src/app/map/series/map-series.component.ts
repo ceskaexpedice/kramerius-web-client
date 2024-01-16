@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MapSeriesService } from '../../services/mapseries.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-map-series',
@@ -45,7 +46,8 @@ export class MapSeriesComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private _sanitizer: DomSanitizer,
               private router: Router,
-              public translate: TranslateService) {
+              public translate: TranslateService,
+              public searchService: SearchService) {
   }
 
   ngOnInit() {
@@ -57,10 +59,19 @@ export class MapSeriesComponent implements OnInit, OnDestroy {
       this.ms.init(() => {
         if (!this.mapSeries) {
           this.fetchAllMapSeries(() => {
+            if (uuid && uuid !== this.ms.rootCollectionUUID) {
+              this.selectMapSeries(uuid);
+            } else {
+              this.router.navigateByUrl(`/mapseries/${this.mapSeries[0].pid}`);
+            }
             this.selectMapSeries(uuid);
           });
         } else {
-          this.selectMapSeries(uuid);
+          if (uuid && uuid !== this.ms.rootCollectionUUID) {
+            this.selectMapSeries(uuid);
+          } else {
+            this.router.navigateByUrl(`/mapseries/${this.mapSeries[0].pid}`);
+          }
         }
       });
     });
@@ -89,6 +100,10 @@ export class MapSeriesComponent implements OnInit, OnDestroy {
   changeMapSeries(pid: string) {
     this.router.navigateByUrl(`/mapseries/${pid}`);
   }
+  goToMapSeries() {
+    this.searchService.contentTypeDisplay = 'grid';
+    this.router.navigateByUrl(`/collection/${this.ms.rootCollectionUUID}`);
+  }
 
   selectMapSeries(pid: string) {
     this.selectedPolygons = [];
@@ -116,6 +131,7 @@ export class MapSeriesComponent implements OnInit, OnDestroy {
   }
 
   goToCollectionView() {
+    this.searchService.contentTypeDisplay = 'grid';
     this.router.navigateByUrl(`/collection/${this.selectedSeries.pid}`);
   }
 
