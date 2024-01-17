@@ -1,7 +1,7 @@
 import { AppSettings } from './../../services/app-settings';
 import { ViewerControlsService, ViewerActions } from '../../services/viewer-controls.service';
 import { BookService, ViewerData, ViewerImageType } from './../../services/book.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { interval } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -41,7 +41,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private selectionHA;
   private selectionVA;
   private selectionExtent;
-  private selectionModeOn = false;
+  private selectionState = 'off';
   private maskLayer;
 
   private watermark;
@@ -95,6 +95,17 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  @HostListener('document:keydown.escape', ['$event']) 
+  onKeydownHandler(event: KeyboardEvent) {
+    if (this.selectionState == 'ready' || this.selectionState == 'on') {
+      this.cancelSelection();
+    }
+  }
+
+  showHelpMessage(): boolean {
+    return this.selectionState == 'ready';
+  }
 
   ngOnInit() {
     this.init();
@@ -208,7 +219,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
 
     this.view.on('pointerup', (e) => {
-      if (this.selectionModeOn || !this.lastTouchTime || !this.lastTouchX || this.view.getView().getResolution() != this.initialResolution) {
+      console.log('pointerup', e);
+      console.log('pointerup', e.pixel);
+
+      if (this.selectionState != 'off' || !this.lastTouchTime || !this.lastTouchX || this.view.getView().getResolution() != this.initialResolution) {
         return;
       }
       const deltaT = new Date().getTime() - this.lastTouchTime;
@@ -238,7 +252,22 @@ export class ViewerComponent implements OnInit, OnDestroy {
       }
     })
   
+
+    this.selectionInteraction.on('boxcancel', () => {
+      console.log('INTER  --- boxcancel');
+    });
+
+    this.selectionInteraction.on('boxdrag', () => {
+      console.log('INTER  --- boxdrag');
+      this.selectionState = 'selecting';
+    });
+
+    this.selectionInteraction.on('boxstart', () => {
+      console.log('INTER  --- boxstart');
+    });
+
     this.selectionInteraction.on('boxend', () => {
+      console.log('INTER  --- boxend');
       let extent = this.selectionInteraction.getGeometry().getExtent();
       this.onBoxEnd(extent);
     });
@@ -390,6 +419,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.updateMenuPosition();
     this.view.removeInteraction(this.selectionInteraction);
     this.view.getViewport().style.cursor = '';
+    this.selectionState = 'on';
   }
 
   onShareSelection() {
@@ -409,7 +439,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   showPageActions(): boolean {
-    return !this.selectionModeOn && this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
+    return this.selectionState == 'off' && this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
   }
 
   onReadSelection() {
@@ -451,8 +481,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.selectionWidth = null;
     this.selectionHeight = null;
     this.selectionRight = null;
-    this.selectionModeOn = false;
+    this.selectionState = 'off';
     this.updateMenuPosition();
+    this.view.removeInteraction(this.selectionInteraction);
+    this.view.getViewport().style.cursor = '';
   }
 
   enterSelectionMode() {
@@ -461,13 +493,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
       return;
     }
     this.hideOnInactivity = true;
-    this.selectionModeOn = true;
+    this.selectionState = 'ready';
     this.view.addInteraction(this.selectionInteraction);
     this.view.getViewport().style.cursor = 'crosshair';
   }
 
   onMouseMove() {
-    if (this.selectionModeOn) {
+    if (this.selectionState != 'off') {
       return;
     }
     this.lastMouseMove = new Date().getTime();

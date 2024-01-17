@@ -405,6 +405,22 @@
     "tooltip_opacity": "Opacity",
     "tooltip_cutline": "Show/hide edges"
   },
+  "viewer_page": {
+    "region_selection": "Izberi območje",
+    "region_selection_help": "Izberite območje z miško",
+    "region_selection_cancel": "Prekliči izbor",
+    "page_text": "Besedilo strani",
+    "page_read": "Preberi stran",
+    "page_translate": "Prevedi stran",
+    "page_summarize": "Povzetek strani",
+    "stop_reading": "Ustavi branje",
+    "region_text": "Besedilo",
+    "region_read": "Preberi",
+    "region_translate": "Prevedi",
+    "region_summarize": "Povzetek",
+    "region_share": "Deli",
+    "region_image": "Slika"
+  },
   "book_controls": {
     "tooltip_print": "Priprava na tisk",
     "tooltip_pdf": "Prenesi PDF",

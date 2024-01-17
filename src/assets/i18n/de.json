@@ -429,6 +429,22 @@
       "tooltip_opacity": "Opacity",
       "tooltip_cutline": "Show/hide edges"
     },
+    "viewer_page": {
+      "region_selection": "Bereich auswählen",
+      "region_selection_help": "Wählen Sie einen Bereich mit der Maus aus",
+      "region_selection_cancel": "Auswahl abbrechen",
+      "page_text": "Text der Seite",
+      "page_read": "Seite vorlesen",
+      "page_translate": "Seite übersetzen",
+      "page_summarize": "Seite zusammenfassen",
+      "stop_reading": "Lesen stoppen",
+      "region_text": "Text",
+      "region_read": "Vorlesen",
+      "region_translate": "Übersetzen",
+      "region_summarize": "Zusammenfassen",
+      "region_share": "Teilen",
+      "region_image": "Bild"
+    },
     "book_controls": {
       "tooltip_print": "Drucken",
       "tooltip_pdf": "PDF erstellen",
