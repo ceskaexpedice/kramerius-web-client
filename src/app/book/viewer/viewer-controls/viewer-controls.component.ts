@@ -76,11 +76,11 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   rotate() {
-    // if (this.bookService.isPdf()) {
-    //   this.pdfService.getPageContent();
-    // }
-    this.controlsService.rotateRight();
-    this.analytics.sendEvent('viewer', 'controls', 'rotate')
+    if (this.bookService.isPdf()) {
+      this.pdfService.getPageContent();
+    }
+    // this.controlsService.rotateRight();
+    // this.analytics.sendEvent('viewer', 'controls', 'rotate')
   }
 
   showRotation(): boolean {

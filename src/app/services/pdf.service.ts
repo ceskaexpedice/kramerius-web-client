@@ -191,9 +191,160 @@ export class PdfService {
         console.log('pageIndex', this.pdfComponent.pdfViewer.getPageView(this.pageIndex));
         this.data.getPage(this.pageIndex).then((page) => {
             page.getTextContent().then((textContent) => {
-              console.log('textContent', textContent);
+                let creepychars = ['¬']
+                console.log('textContent', textContent);
+                if (textContent && textContent.items.length > 0) {
+                    let items = textContent.items;
+                    let finalString = "";
+                    let EOLHeight = [];
+                    let fontType = textContent.items[0]['fontName'];
+                    let fontHeight = textContent.items[0]['height'];
+                    let lineHeight = textContent.items[0]['transform'][5];
+                    // EOLHeight.push(items[0]['transform'][5]);
+                    let i = 0;
+                    let averageFontHeight = this.averageFontHeight(items);
+                    let averageLineHeight = this.averageLine(items);
+                    for (const item of items) {
+                        
+                        // finalString += item['str'] + '( ' + item['transform'][5] + ')';
+                        // KONEC RADKU - neni vzdy realny, nekdy je text clenen po odstavcich
+                        if (item['hasEOL'] === true) {
+                            // finalString += ' XXX' + "\n";
+                            finalString += "\n";
+                            EOLHeight.push(item['transform'][5]);
+                        }
+                        // ZMENA FONTU
+                        // if (item['fontName'] !== fontType) {
+                        //     // finalString += "\n" + 'FONT CHANGED' + " " + i + "\n\n";
+                        //     finalString += "\n\n";
+                        //     fontType = item['fontName'];
+                        //     // continue;
+                        // }
+                        // ZMENA VYSKY FONTU
+                        // if (item['height'] !== 0 && this.significantChangeOfFontHeight(item['height'], fontHeight)) {
+                        //     finalString += "\n" + 'CHAR HEIGHT CHANGED' + " " + i + "\n\n";
+                        //     // finalString += "\n\n";
+                        //     fontHeight = item['height'];
+                        //     // console.log('HEIGHT CHANGED', fontHeight, item['height']);
+                        // }
+                        // ZMENA VYSKY RADKU - nekdy je string jeden radek, nekdy je clenen po odstavcich, pak to nefunguje
+                        // if (item['height'] !== 0) {
+                        //     if (this.significantChangeOfLineHeight(item['transform'][5], lineHeight, item['height'], averageFontHeight, item['str'])) {
+                        //         // finalString += "\n" + 'LINE HEIGHT CHANGED' + " " + i + "\n\n";
+                                
+                        //         finalString += "\n\n";
+                        //         lineHeight = item['transform'][5];
+                        //         fontHeight = item['height'];
+                        //     } else {
+                        //         lineHeight = item['transform'][5];
+                        //         fontHeight = item['height'];
+                        //     }
+                        // }
+                        // finalString += item['str'];
+                        // i = i + 1;
+                        if (item['height'] !== 0) {
+                            let line = lineHeight - item['transform'][5];
+                            if (line > averageLineHeight * 1.5) {
+                                finalString += "\n\n";
+                            }
+                            lineHeight = item['transform'][5];
+                        }
+                        finalString += item['str'];
+                    }
+                    console.log(finalString.replace(/\n{3,}/g, "\n\n"));
+                    // console.log(finalString, "pozice od spodniho okraje: " + EOLHeight, Object.keys(textContent.styles).length);
+                } else {
+                    console.log('no text');
+                }            
             });
           });
     }
+
+    significantChangeOfFontHeight(itemHeight: number, previousItemHeight: number): boolean {
+        return (Math.abs((itemHeight + previousItemHeight)/2) > itemHeight || Math.abs((itemHeight + previousItemHeight)/2) < itemHeight - 1); 
+    }
+    significantChangeOfLine(itemLine: number, previousItemLine: number, fontHeight: number, averageLineHeight: number): boolean {
+        if (((previousItemLine - itemLine) - fontHeight) > fontHeight + 1) {
+            console.log('significantChangeOfLine', (previousItemLine - itemLine) - fontHeight, previousItemLine, itemLine, fontHeight, averageLineHeight);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    significantChangeOfLineHeight(itemLine: number, previousItemLine: number, fontHeight: number, averageFontHeight: number, str: string): boolean {
+        if (averageFontHeight > fontHeight) {
+            if (((previousItemLine - itemLine) - fontHeight) > averageFontHeight + 2) {
+                console.log('significantChangeOfLine', (previousItemLine - itemLine) - fontHeight, 'font: ' + fontHeight, 'aveFont: ' + averageFontHeight, previousItemLine, itemLine, str );
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (((previousItemLine - itemLine) - fontHeight) > fontHeight + 2) {
+                console.log('significantChangeOfLine', (previousItemLine - itemLine) - fontHeight, 'font: ' + fontHeight, 'aveFont: ' + averageFontHeight, previousItemLine, itemLine, str );
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    averageLineHeight(items: any): number {
+        let sum = 0;
+        let i = 0;
+        for (const item of items) {
+            if (item['height'] !== 0) {
+                sum += item['height'];
+                i = i + 1;
+            }
+        }
+        return sum / i;
+    }
+    averageFontHeight(items: any): number {
+        let sum = 0;
+        let i = 0;
+        for (const item of items) {
+            if (item['height'] !== 0) {
+                sum += item['height'];
+                i = i + 1;
+            }
+        }
+        return sum / i;
+    }
+
+    averageLine(items: any): number {
+        let sum = 0;
+        let i = 0;
+        let lineHeight = items[0]['transform'][5];
+        let lineHeights = [];
+        for (const item of items) {
+            if (item['height'] !== 0) {
+                if ((item['transform'][5] !== lineHeight) && (Math.abs(item['transform'][5] - lineHeight) > 5)) {
+                    // console.log((lineHeight - item['transform'][5]), lineHeight, item['transform'][5], item['height'], Math.abs(item['transform'][5] - lineHeight));
+                    let change = (lineHeight - item['transform'][5]);
+                    lineHeights.push(change);
+                    lineHeight = item['transform'][5];
+                    sum += change;
+                    i = i + 1;
+                } 
+                // else {
+                //     lineHeight = item['transform'][5];
+                // }
+            }
+        }
+        lineHeights.sort((a, b) => b - a);
+        if (lineHeights.length > 20) {
+            lineHeights.splice(0, 5);
+            lineHeights.splice(-5, 5);
+        } else if (lineHeights.length > 10) {
+            lineHeights.splice(0, 2);
+            lineHeights.splice(-2, 2);
+        }
+        let sum2 = lineHeights.reduce((a, b) => a + b, 0);
+        let average = sum2 / lineHeights.length;
+        console.log('lineHeights', lineHeights, average);
+        return average;
+    }
+
 
 }
