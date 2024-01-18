@@ -892,10 +892,7 @@ export class BookService {
                 title = "Zhrnutie";
             }
             this.tts.translate(text, (translation) => {
-
                 this.tts.askGPT(translation, instruction, (answer) => {
-                    // this.tts.askGPT(text, "Udělej fact checking článku z dobových novin padesátých let", (answer) => {
-
                         const options = {
                             title: title,
                             ocr: answer,
