@@ -359,7 +359,11 @@ export class SearchService {
 
     public removeQueryString() {
         this.query.query = null;
-        this.reload(false);
+        if ( this.query && this.query.folder && this.query.folder.uuid) {
+            this.router.navigate(['/folders', this.query.folder.uuid]);
+        } else {
+            this.reload(false);
+        }
     }
 
     public removeFolder() {

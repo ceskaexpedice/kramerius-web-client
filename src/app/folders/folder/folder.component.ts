@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Folder } from './../../model/folder.model';
 import { FolderService } from './../../services/folder.service';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchService } from './../../services/search.service';
 import { FolderConfirmDialogComponent } from '../../dialog/folder-confirm-dialog/folder-confirm-dialog.component';
@@ -10,7 +9,6 @@ import { FolderShareDialogComponent } from '../../dialog/folder-share-dialog/fol
 import { FolderAdminDialogComponent } from '../../dialog/folder-admin-dialog/folder-admin-dialog.component';
 import { BasicDialogComponent } from '../../dialog/basic-dialog/basic-dialog.component';
 import { AuthService } from '../../services/auth.service';
-import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { CsvService } from '../../services/csv.service';
 
@@ -25,19 +23,14 @@ export class FolderComponent implements OnInit {
   @Input() user: string;
 
   folderSelection: boolean;
-  searchSelection: boolean = false;
-  searchQuery: string = null;
-  searchPlaceholder: string = this.translate.instant('folders.tooltips.search');
   ordering: string = 'alphabetical';
   devMode: boolean = false;
 
   @ViewChild('inputElement') inputElement: ElementRef;
 
   constructor(private folderService: FolderService,
-              private router: Router,
               private dialog: MatDialog,
               public searchService: SearchService,
-              private translate: TranslateService,
               public authService: AuthService,
               private localStorageService: LocalStorageService,
               public csv: CsvService) { 
@@ -228,22 +221,5 @@ export class FolderComponent implements OnInit {
     console.log(this.folder.items)
     this.csv.downloadTableAsCSV(this.folder.items, this.folder.name)
   }
-  toggleSearchSelection() {
-    this.searchQuery = null;
-    this.searchSelection = !this.searchSelection;
-    if (this.searchSelection) {
-      setTimeout(() => this.inputElement.nativeElement.focus(), 0);
-    }
-    this.searchPlaceholder = this.translate.instant('folders.tooltips.search');
-    console.log('toggleSearchSelection', this.searchSelection);
-  }
-  searchFolder() {
-    if (this.searchQuery && this.searchQuery.length > 0) {
-      this.router.navigate(['search'], { queryParams: { folder: this.folder.uuid, q: this.searchQuery } });
-    } else {
-      this.searchPlaceholder = this.translate.instant('folders.tooltips.search_warning');
-    }
-  }
-
 
 }

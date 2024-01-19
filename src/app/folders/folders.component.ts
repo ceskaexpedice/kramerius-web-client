@@ -22,6 +22,9 @@ export class FoldersComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   name: string;
   userSubscription: Subscription;
+  searchQuery: string = null;
+  searchPlaceholder: string = this.translate.instant('folders.tooltips.search');
+
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -207,6 +210,18 @@ export class FoldersComponent implements OnInit, OnDestroy {
     if (folder && folder.users) {
       return folder.users[0].find(user => user.userRole == "owner").userId;
     }
+  }
+
+  searchFolder() {
+    if (this.searchQuery && this.searchQuery.length > 0) {
+      this.router.navigate(['search'], { queryParams: { folder: this.folder.uuid, q: this.searchQuery } });
+    } else {
+      this.searchPlaceholder = this.translate.instant('folders.tooltips.search_warning');
+    }
+  }
+  cleanQuery() {
+    this.searchQuery = null;
+    this.searchPlaceholder = this.translate.instant('folders.tooltips.search');
   }
 
   ngOnDestroy() {
