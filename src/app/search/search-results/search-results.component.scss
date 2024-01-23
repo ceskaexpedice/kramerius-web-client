@@ -145,6 +145,31 @@
             color: #333;
           }
         }
+        .app-tabs {
+          display: flex;
+          flex-direction: row;
+          margin: 0 0 0 8px;
+          .app-tab {
+            cursor: pointer;
+            padding: 10px 15px;
+            border-bottom: 2px solid #ddd;
+            color: #777;
+            ;
+            font-size: 14px;
+            // font-weight: 600;
+            &:hover {
+              color: #555;
+              background-color: #eee;
+              border-bottom: 2px solid $primary-color;
+            }
+            &.active {
+              color: #000;
+              // background-color: #fff;
+              border-bottom: 2px solid $primary-color;
+            }
+            
+          }
+        }
         .app-table-container {
           background-color: white;
           .app-table {

@@ -70,5 +70,8 @@ export class SearchResultsComponent implements OnInit {
   ngOnDestroy(): void {
     this.folderService.folders = null;
   }
+  changeTab(tab: string) {
+    this.searchService.activeTab = tab;
+  }
 
 }

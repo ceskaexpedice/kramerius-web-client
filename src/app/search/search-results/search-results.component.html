@@ -23,7 +23,12 @@
             [innerHTML]="searchService.getCollectionContent() | safeHtml">
             </div>
 
-            <div style="clear:both;" *ngIf="searchService.collectionCuttings && searchService.collectionCuttings.length > 0">
+            <div class="app-tabs" *ngIf="searchService.displayTabs">
+                <div class="app-tab" [class.active]="searchService.activeTab === 'documents'" (click)="changeTab('documents')">Dokumenty</div>
+                <div class="app-tab" [class.active]="searchService.activeTab === 'cuttings'"  (click)="changeTab('cuttings')">Výstřižky</div>
+            </div>
+
+            <div style="clear:both;" *ngIf="searchService.collectionCuttings && searchService.collectionCuttings.length > 0 && (!searchService.displayTabs || searchService.activeTab === 'cuttings')">
                 <app-cutting-card *ngFor="let cutting of searchService.collectionCuttings" [item]="cutting" ></app-cutting-card>
             </div>
         
@@ -36,7 +41,7 @@
         </app-alert>
 
         <!-- IF GRID -->
-        <div *ngIf="searchService.contentTypeDisplay === 'grid'">
+        <div *ngIf="searchService.contentTypeDisplay === 'grid' && (!searchService.displayTabs || searchService.activeTab === 'documents')">
             <app-document-card [ngClass]="{'app-search-collection': searchService.collection}" *ngFor="let item of searchService.results" [selectable]="searchService.adminSelection" [in]="searchService.collection ? 'collection' : 'search'" (open)="onOpen(item)" [item]="item" [display]="'grid'"></app-document-card>
         </div>
 

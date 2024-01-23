@@ -73,6 +73,9 @@ export class SearchService {
     folder: any;
     itemSelected: boolean;
 
+    activeTab: string;
+    displayTabs: boolean ;
+
     constructor(
         private router: Router,
         public licenceService: LicenceService,
@@ -114,6 +117,7 @@ export class SearchService {
         this.genres = [];
         this.numberOfResults = 0;
         this.activeMobilePanel = 'results';
+        this.displayTabs = false;
         this.query = SearchQuery.fromParams(params, context, this.settings);
         if (this.query.isBoundingBoxSet()) {
             this.contentType = 'map';
@@ -454,6 +458,16 @@ export class SearchService {
 
     private buildCollectionStructure(uuid: string) {
         this.api.getColletionCuttings(uuid).subscribe((cuttings) => {
+            console.log('cuttings', cuttings);
+            if (cuttings.length > 0) {
+                console.log('results', this.results);
+                if (this.results.length > 0) {
+                    this.displayTabs = true;
+                    this.activeTab = 'documents';
+                } else {
+                    this.activeTab = 'cuttings';
+                }
+            }
             this.collectionCuttings = [];
             for (const cutting of cuttings) {
                 let item = new Cutting();
