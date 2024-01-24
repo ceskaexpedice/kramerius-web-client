@@ -2,21 +2,21 @@
 <div class="app-folders-wrapper" *ngIf="!loading && authService.isLoggedIn()">
     <div class="app-folders-container">
         <div class="app-folders-header">
-            <div class="app-folders-header-title">{{ 'folders.lists' | translate }} ({{folderService.folders[0].length + folderService.folders[1].length}})</div>
+            <!-- <div class="app-folders-header-title">{{ 'folders.lists' | translate }} ({{folderService.folders[0].length + folderService.folders[1].length}})</div> -->
             <div class="app-folders-header-actions" (click)="openFoldersDialog()">+ {{'folders.new_list' | translate }}</div>
         </div>
-        <div class="app-folders-search-bar-wrapper">
+        <div class="app-folders-search-bar-wrapper" *ngIf="folder">
             <div class="app-folder-search-bar" [class.app-is-query]="searchQuery">
               <input type="text" 
                  #inputElement
                  class="app-folder-search" [(ngModel)]="searchQuery" 
                  (keyup.enter)="searchFolder()" 
-                 [placeholder]="searchPlaceholder">
+                 placeholder="{{ 'folders.tooltips.search' | translate }} {{ folder.name}} ">
               <mat-icon tabindex="0" class="app-close" *ngIf="searchQuery" (click)="cleanQuery()" [matTooltip]="'searchbar.delete_query' | translate">close</mat-icon>
               <mat-icon class="app-magnify" (click)="searchFolder()">search</mat-icon>
             </div>
         </div>
-        <div class="app-folder-items">
+        <div class="app-folder-items" *ngIf="folderService.folders[0].length > 0">
             <div class="app-folder-header">{{'folders.my_lists' | translate }}</div>
             <a class="app-folder-item" 
             *ngFor="let item of folderService.folders[0]"
