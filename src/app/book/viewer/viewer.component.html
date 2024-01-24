@@ -16,13 +16,6 @@
       *ngIf="showPageActions()">
 
       <ng-container *ngIf="!tts.inProgress()">
-            <!-- <mat-icon
-                  [matTooltip]="'Vybrat oblast'"
-                  matTooltipPosition="left"
-                  (click)="enterSelectionMode()"
-                  class="app-selection app-main-selection">
-                  auto_awesome
-            </mat-icon> -->
 
             <mat-icon
                   class="app-selection app-main-selection app-hide-on-hover">
@@ -42,6 +35,7 @@
                   [matTooltip]="'viewer_page.page_text' | translate"
                   matTooltipPosition="left"
                   (click)="onPageOcr()"
+                  *ngIf="aiActionsEnabled()"
                   class="app-selection">
                   title
             </mat-icon>
