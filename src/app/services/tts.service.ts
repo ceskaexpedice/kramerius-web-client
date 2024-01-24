@@ -12,15 +12,21 @@ import { TranslateService } from '@ngx-translate/core';
 @Injectable()
 export class TtsService {
 
+  private baseUrl = 'https://api.trinera.cloud/api';
+
   private block = new Subject<any>();
 
   private temperature = 0;
   private maxTokens = 1000;
-  private model = 'gpt-3.5-turbo'; 
+  // private model = 'gpt-3.5-turbo'; 
   // private model = 'gpt-3.5-turbo-16k'; 
+  private model = 'gpt-3.5-turbo-1106';
   // private model = 'text-davinci-003';
   private state: string = 'none';
   private blocks: any[] = [];
+  
+
+  readingPageUuid: string = null;
 
   activeBlockIndex: number = -1;
 
@@ -42,6 +48,7 @@ export class TtsService {
 
 
   readPage(uuid: string, onFinished: () => void) {
+    this.readingPageUuid = uuid;
     this.userLanguage = this.translateService.currentLang;
     this.state = 'loading';
     this.onFinished = onFinished;
@@ -158,7 +165,7 @@ export class TtsService {
     }
 
     const token = this.settings.getToken();
-    const url = `https://api.trinera.cloud/api/google/tts`;
+    const url = `${this.baseUrl}/google/tts`;
     let headers = new HttpHeaders()
       .set('X-Tai-Source', location.href)
       .set('X-Tai-Project', `Kramerius`)
@@ -208,16 +215,25 @@ export class TtsService {
     return bytes;
   }
 
- askGPT(input: string, instructions: string, callback: (answer: string) => void) {
-    // let promt = !!instructions ? `${instructions}:\n\n${input}` : input;
+
+  private post(path: string, body: any, callback: (response: any) => void) {
     const token = this.settings.getToken();
-    const url = `https://api.trinera.cloud/api/openai/chat/completions`;
+    const url = `${this.baseUrl}${path}`;
     let headers = new HttpHeaders()
       .set('X-Tai-Source', location.href)
       .set('X-Tai-Project', `Kramerius`)
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', `application/json`);
 
+    this.http.post(url, body, { headers: headers }).subscribe((response: any) => {
+      if (callback) {
+        callback(response);
+      }
+    });
+  }
+
+ askGPT(input: string, instructions: string, callback: (answer: string) => void) {
+    const path = `/openai/chat/completions`;
     const body = {
       'model': this.model,
       'messages': [
@@ -233,7 +249,7 @@ export class TtsService {
       'temperature': this.temperature,
       'max_tokens': this.maxTokens
     };
-    this.http.post(url, body, { headers: headers }).subscribe((response: any) => {
+    this.post(path, body, (response: any) => {
       console.log('respnse', response);
       let answer = response['choices'][0]['message']['content'];
       const searchString = "\n\n";
@@ -245,21 +261,14 @@ export class TtsService {
     });
   }
 
-
   translate(input: string, callback: (answer: string) => void, target: string = null) {
     target = target || this.translateService.currentLang;
-    const token = this.settings.getToken();
-    const url = `https://api.trinera.cloud/api/deepl/translate`;
-    let headers = new HttpHeaders()
-      .set('X-Tai-Source', location.href)
-      .set('X-Tai-Project', `Kramerius`)
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', `application/json`);
+    const path = `/deepl/translate`;
     const body = {
       'text': [input ],
       'target_lang': target
     };
-    this.http.post(url, body, { headers: headers }).subscribe((response: any) => {
+    this.post(path, body, (response: any) => {
       console.log('respnse', response);
       const answer = response['translations'][0]['text'];
       callback(answer);
@@ -267,17 +276,11 @@ export class TtsService {
   }
 
   detectLanguage(input: string, callback: (answer: string) => void) {
-    const token = this.settings.getToken();
-    const url = `https://api.trinera.cloud/api/google/translate/detect`;
-    let headers = new HttpHeaders()
-      .set('X-Tai-Source', location.href)
-      .set('X-Tai-Project', `Kramerius`)
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', `application/json`);
+    const path = `/google/translate/detect`;
     const body = {
       'q': input,
     };
-    this.http.post(url, body, { headers: headers }).subscribe((response: any) => {
+    this.post(path, body, (response: any) => {
       console.log('respnse', response);
       const answer = response['data']['detections'][0][0]['language'];
       callback(answer);

@@ -8,6 +8,36 @@
     background-color: $app-grey-l-4;    
     position: relative;
 
+    .app-help-message {
+      position: absolute;
+      left: 50%;
+      z-index: 949;
+      bottom: 12px;
+      box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+      margin-right: -50%;
+      -webkit-transform: translate(-50%, 0%);    
+      transform: translate(-50%, 0%);
+      user-select: none;
+      background: $primary-color;
+      color: white;
+      padding: 5px 5px;
+      border-radius: 22px;
+      display: inline-block;
+      span {
+        font-size: 14px;
+        font-weight: 600;
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+      mat-icon {
+        float: right;
+        cursor: pointer;
+        opacity: 0.85;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
 
     .app-selection-actions {
       opacity: 0.7;
@@ -50,28 +80,17 @@
         .app-selection {
           display: block;
         }
+        .app-hide-on-hover {
+          display: none;
+        }
         opacity: 1;
       }
     }
 
     #selectionmenu {
       z-index: 1000; 
-      // left: -1000px;
       display: block;
       position: absolute; 
-      // padding-left: 10px;
-      .app-sel-button {
-        cursor: pointer;
-        margin-bottom: 2px;
-        font-size: 12px;
-        padding: 3px 5px;
-        background: #fff;
-        color: #000;
-        &.app-sel-cancel {
-          background: #fff;
-          color: red;
-        }
-      }
       mat-icon {
         display: block;
         cursor: pointer;
@@ -103,6 +122,7 @@
         }
         &.app-type-cancel {
           background: #777;
+          background: #c53c3c;
           color: #fff;
           // background-color: #c34a28;
         }

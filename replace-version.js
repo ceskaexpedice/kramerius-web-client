@@ -3,7 +3,7 @@ const path = require('path');
 
 const newVersion = process.argv[2]
 const filesToReplace = ['src/index.html', 'src/app/static-page/static-page.component.html', 'src/app/app.module.ts']; // seznam souborů k nahrazení
-const versionRegex = /v\d+\.\d+\.\d+(-dev)?/g; 
+const versionRegex = /v\d+\.\d+\.\d+(.\d+)?(-dev)?/g; 
 
 filesToReplace.forEach(file => {
   const filePath = path.join(__dirname, file);

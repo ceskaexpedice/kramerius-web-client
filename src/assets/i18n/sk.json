@@ -429,6 +429,22 @@
       "tooltip_opacity": "Priehľadnosť",
       "tooltip_cutline": "Zobraziť/skryť okraje"
     },
+    "viewer_page": {
+      "region_selection": "Vybrať oblasť",
+      "region_selection_help": "Vyberte oblasť ťahaním myši",
+      "region_selection_cancel": "Zrušiť výber",
+      "page_text": "Textový prepis strany",
+      "page_read": "Prečítať stranu",
+      "page_translate": "Preložiť stranu",
+      "page_summarize": "Sumarizovať stranu",
+      "stop_reading": "Zastaviť čítanie",
+      "region_text": "Textový prepis",
+      "region_read": "Prečítať",
+      "region_translate": "Preložiť",
+      "region_summarize": "Sumarizovať",
+      "region_share": "Zdieľať",
+      "region_image": "Obrázok"
+    },
     "book_controls": {
       "tooltip_print": "Príprava na tlač",
       "tooltip_pdf": "Stiahnuť PDF",

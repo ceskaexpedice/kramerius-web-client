@@ -1,21 +1,45 @@
 <div id="app-viewer" class="app-viewer-wrapper" (mousemove)="onMouseMove()" (click)="onMouseMove()">
   <app-viewer-controls *ngIf="bookService.pageAvailable" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 
+
+<div class="app-help-message" *ngIf="showHelpMessage()">
+      <mat-icon (click)="cancelSelection()"
+            [matTooltip]="'viewer_page.region_selection_cancel' | translate">
+            cancel
+      </mat-icon>
+      <span>{{ "viewer_page.region_selection_help" | translate }}</span>
+</div>  
+
+
 <div class="app-selection-actions" 
       [class.hide-on-inactivity]="hideOnInactivity"
       *ngIf="showPageActions()">
 
       <ng-container *ngIf="!tts.inProgress()">
-            <mat-icon
+            <!-- <mat-icon
                   [matTooltip]="'Vybrat oblast'"
                   matTooltipPosition="left"
                   (click)="enterSelectionMode()"
                   class="app-selection app-main-selection">
                   auto_awesome
+            </mat-icon> -->
+
+            <mat-icon
+                  class="app-selection app-main-selection app-hide-on-hover">
+                  auto_awesome
             </mat-icon>
 
             <mat-icon
-                  [matTooltip]="'Textový přepis strany'"
+                  [matTooltip]="'viewer_page.region_selection' | translate"
+                  matTooltipPosition="left"
+                  (click)="enterSelectionMode()"
+                  class="app-selection">
+                  highlight_alt
+            </mat-icon>
+
+
+            <mat-icon
+                  [matTooltip]="'viewer_page.page_text' | translate"
                   matTooltipPosition="left"
                   (click)="onPageOcr()"
                   class="app-selection">
@@ -23,7 +47,7 @@
             </mat-icon>
 
             <mat-icon
-                  [matTooltip]="'Přečíst stranu'"
+                  [matTooltip]="'viewer_page.page_read' | translate"
                   matTooltipPosition="left"
                   (click)="onStartReadingPage()"
                   *ngIf="aiActionsEnabled()"
@@ -32,7 +56,7 @@
             </mat-icon>
 
             <mat-icon
-                  [matTooltip]="'Přeložit stranu'"
+                  [matTooltip]="'viewer_page.page_translate' | translate"
                   matTooltipPosition="left"
                   (click)="onTranslatePage()"
                   *ngIf="aiActionsEnabled()"
@@ -41,7 +65,7 @@
             </mat-icon>
 
             <mat-icon
-                  [matTooltip]="'Sumarizovat stranu'"
+                  [matTooltip]="'viewer_page.page_summarize' | translate"
                   matTooltipPosition="left"
                   (click)="onSummarizePage()"
                   *ngIf="aiActionsEnabled()"
@@ -52,7 +76,7 @@
 
       <ng-container *ngIf="tts.inProgress()">
             <mat-icon
-                  [matTooltip]="'Zastavit čtení'"
+                  [matTooltip]="'viewer_page.stop_reading' | translate"
                   matTooltipPosition="left"
                   *ngIf="aiActionsEnabled()"
                   (click)="onStopReadingPage()"
@@ -128,20 +152,10 @@
   </div>
 
 
-
-<!-- <div id="selectionmenu">
-      <div class="app-sel-button" (click)="onShowTextSelection()">Vypsat text</div>
-      <div class="app-sel-button" (click)="onShowImageCrop()">Obrázek výřezu</div>
-      <div class="app-sel-button">Sdílet</div>
-      <div class="app-sel-cancel" (click)="cancelSelection()">Zvřít</div>
-
-  </div> -->
-
-
   <div id="selectionmenu">
 
       <mat-icon (click)="onShowTextSelection()"
-            [matTooltip]="'Textový přepis'" 
+            [matTooltip]="'viewer_page.region_text' | translate"
             *ngIf="showSelectText()"
             matTooltipPosition="right"
             [class.app-inactive]="!selectTextEnabled()">
@@ -149,7 +163,7 @@
       </mat-icon>
 
       <mat-icon (click)="onShowImageCrop()"
-            [matTooltip]="'Obrázek'" 
+            [matTooltip]="'viewer_page.region_image' | translate"
             matTooltipPosition="right"
             [class.app-inactive]="!imageCropEnabled()"
             *ngIf="showImageCrop()">
@@ -158,7 +172,7 @@
 
       <mat-icon (click)="onShareSelection()"
             matTooltipPosition="right"
-            [matTooltip]="'book_controls.tooltip_share' | translate">
+            [matTooltip]="'viewer_page.region_share' | translate">
             share
       </mat-icon>
 
@@ -166,7 +180,7 @@
             matTooltipPosition="right"
             *ngIf="aiActionsEnabled()"
             class="app-type-ai"
-            [matTooltip]="'Přečti'">
+            [matTooltip]="'viewer_page.region_read' | translate">
             record_voice_over
       </mat-icon>
 
@@ -174,7 +188,7 @@
             matTooltipPosition="right"
             *ngIf="aiActionsEnabled()"
             class="app-type-ai"
-            [matTooltip]="'Přelož'">
+            [matTooltip]="'viewer_page.region_translate' | translate">
             translate
       </mat-icon>
 
@@ -182,7 +196,7 @@
             matTooltipPosition="right"
             *ngIf="aiActionsEnabled()"
             class="app-type-ai"
-            [matTooltip]="'Sumarizuj'">
+            [matTooltip]="'viewer_page.region_summarize' | translate">
             list
       </mat-icon>
 

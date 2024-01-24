@@ -433,6 +433,22 @@
     "tooltip_opacity": "Průhlednost",
     "tooltip_cutline": "Zobrazit/skrýt okraje"
   },
+  "viewer_page": {
+    "region_selection": "Vybrat oblast",
+    "region_selection_help": "Vyberte oblast tažením myši",
+    "region_selection_cancel": "Zrušit výběr",
+    "page_text": "Textový přepis strany",
+    "page_read": "Přečíst stranu",
+    "page_translate": "Přeložit stranu",
+    "page_summarize": "Sumarizovat stranu",
+    "stop_reading": "Zastavit čtení",
+    "region_text": "Textový přepis",
+    "region_read": "Přečíst",
+    "region_translate": "Přeložit",
+    "region_summarize": "Sumarizovat",
+    "region_share": "Sdílet",
+    "region_image": "Obrázek"
+  },
   "book_controls": {
     "tooltip_print": "Příprava k tisku",
     "tooltip_pdf": "Stáhnout PDF",

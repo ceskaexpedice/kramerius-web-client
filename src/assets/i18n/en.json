@@ -430,6 +430,22 @@
     "tooltip_opacity": "Opacity",
     "tooltip_cutline": "Show/hide edges"
   },
+  "viewer_page": {
+    "region_selection": "Select region",
+    "region_selection_help": "Select region by dragging the mouse",
+    "region_selection_cancel": "Cancel selection",
+    "page_text": "Text transcription",
+    "page_read": "Read page",
+    "page_translate": "Translate page",
+    "page_summarize": "Summarize page",
+    "stop_reading": "Stop reading",
+    "region_text": "Text transcription",
+    "region_read": "Read",
+    "region_translate": "Translate",
+    "region_summarize": "Summarize",
+    "region_share": "Share",
+    "region_image": "Image"
+  },
   "book_controls": {
     "tooltip_print": "Prepare to print",
     "tooltip_pdf": "Download PDF",
