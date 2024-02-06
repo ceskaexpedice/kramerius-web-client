@@ -181,6 +181,7 @@
       "places": "Ort der Publikation",
       "genres": "Genre",
       "authors": "Geistige(r) Schöpfer",
+      "switch_kramerius": "Suche in einer anderen Bibliothek",
       "inaccessible_document": "Das Dokument ist öffentlich nicht zugänglich",
       "map": {
         "maps": "Areas",

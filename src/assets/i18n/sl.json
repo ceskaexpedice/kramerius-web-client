@@ -172,6 +172,7 @@
     "places": "Mesto založbe",
     "genres": "Žanr",
     "authors": "Avtor",
+    "switch_kramerius": "Iskanje v drugi knjižnici",
     "inaccessible_document": "Delo ni javno dostopno",
     "ordering": {
       "label": "Razvrščanje",

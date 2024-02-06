@@ -181,6 +181,7 @@
       "places": "Miesto vydania",
       "genres": "Žáner",
       "authors": "Autor",
+      "switch_kramerius": "Vyhľadať v inej knižnici",
       "inaccessible_document": "Dokument nie je verejne prístupný",
       "map": {
         "maps": "Oblasti",

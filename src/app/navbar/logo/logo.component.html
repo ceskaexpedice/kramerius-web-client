@@ -9,7 +9,12 @@
   <span class="app-brand-text hide-on-small-only">{{ settings.getTitle() }}</span>
   
   </a>  
-  <mat-icon *ngIf="settings.multiKramerius && state.atSearchScreen()" [matMenuTriggerFor]="librariesMenu" class="app-dropdown-selector">expand_more</mat-icon>
+  <mat-icon *ngIf="settings.multiKramerius && state.atSearchScreen()" 
+            [matMenuTriggerFor]="librariesMenu" 
+            class="app-dropdown-selector"
+            [matTooltip]="'search.switch_kramerius' | translate">
+            expand_more
+  </mat-icon>
   </div>
 
 

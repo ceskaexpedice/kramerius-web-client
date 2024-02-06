@@ -181,6 +181,7 @@
     "places": "Place of Publication",
     "genres": "Genre",
     "authors": "Author",
+    "switch_kramerius": "Search in another library",
     "inaccessible_document": "The document is not publicly accessible",
     "map": {
       "maps": "Areas",
