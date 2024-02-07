@@ -176,6 +176,7 @@ import { DisplayMetadataDialogComponent} from './dialog/display-metadata-dialog/
 import { LicenceWindowComponent } from './shared/licence-window/licence-window.component';
 import { NavigationService } from './services/navigation.service';
 import { CuttingCardComponent } from './shared/cutting-card/cutting-card.component';
+import { AiService } from './services/ai.service';
 
 declare var APP_GLOBAL: any;
 
@@ -377,6 +378,7 @@ export function appInitializerFactory(translate: TranslateService) {
     MapSeriesService,
     GeoreferenceService,
     TtsService,
+    AiService,
     CsvService,
     FolderService,
     NavigationService,

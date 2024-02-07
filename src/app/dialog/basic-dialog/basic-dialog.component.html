@@ -1,7 +1,9 @@
 
 <div class="app-dialog-wrapper">
-  <div class="app-dialog-title">{{ data.title | translate }}</div>
-  <div class="app-dialog-message">{{ data.message | translate }}</div>
+  <div class="app-dialog-title" *ngIf="data.title">{{ data.title | translate }}</div>
+  <div class="app-dialog-message" *ngIf="data.message">{{ data.message | translate }}</div>
+  <div class="app-dialog-message" *ngIf="data.messageHtml" [innerHTML]="data.messageHtml | translate"></div>
+
   <div class="app-dialog-actions">
     <button mat-flat-button (click)="onClose()">{{ data.button | translate }}</button>
   </div>

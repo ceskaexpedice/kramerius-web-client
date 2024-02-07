@@ -1,57 +1,49 @@
 import { Injectable } from '@angular/core';
-import { KrameriusApiService } from './kramerius-api.service';
 import { NotFoundError } from '../common/errors/not-found-error';
 import { AltoService } from './alto-service';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs-compat';
-import { AppSettings } from './app-settings';
 import { TranslateService } from '@ngx-translate/core';
+import { AiService } from './ai.service';
+import { KrameriusApiService } from './kramerius-api.service';
 
 @Injectable()
 export class TtsService {
 
-  private baseUrl = 'https://api.trinera.cloud/api';
-
   private block = new Subject<any>();
-
-  private temperature = 0;
-  private maxTokens = 1000;
-  // private model = 'gpt-3.5-turbo'; 
-  // private model = 'gpt-3.5-turbo-16k'; 
-  private model = 'gpt-3.5-turbo-1106';
-  // private model = 'text-davinci-003';
   private state: string = 'none';
   private blocks: any[] = [];
   
-
   readingPageUuid: string = null;
 
   activeBlockIndex: number = -1;
 
-  audio: any;
+  audio: HTMLAudioElement;
 
-  language: string = null;
+  documentLanguage: string = null;
   userLanguage: string = null;
 
   onFinished: () => void;
+  onError: (error: string) => void;
 
+  private userPaused: boolean = false;
 
-  constructor(private api: KrameriusApiService,
-    private settings: AppSettings,
-    private http: HttpClient,
+  continuing: boolean = false;
+
+  constructor(private ai: AiService,
+    private api: KrameriusApiService,
     private translateService: TranslateService,
     private altoService: AltoService) {
   } 
 
-
-
-  readPage(uuid: string, onFinished: () => void) {
+  readPage(uuid: string, onFinished: () => void, onError: (error: string) => void) {
+    this.continuing = true;
     this.readingPageUuid = uuid;
     this.userLanguage = this.translateService.currentLang;
     this.state = 'loading';
     this.onFinished = onFinished;
+    this.onError = onError;
     this.api.getAlto(uuid).subscribe(
         result => {
             const blocks = this.altoService.getBlocksForReading(result);
@@ -71,19 +63,41 @@ export class TtsService {
     );
   }
 
-  readSelection(text: string, onFinished: () => void) {
-    this.userLanguage = this.translateService.currentLang;
+  setInProgress() {
     this.state = 'loading';
+  }
+
+  readSelection(text: string, onFinished: () => void, onError: (error: string) => void) {
+    this.continuing = false;
+    this.state = 'loading';
+    this.userLanguage = this.translateService.currentLang;
     this.onFinished = onFinished;
+    this.onError = onError;
     this.readText(text);
   }
 
   stop() {
+    this.finish(true);
+  }
+
+  pause() {
+    this.userPaused = true;
     if (this.audio) {
       this.audio.pause();
     }
-    this.finish(true);
   }
+
+  paused(): boolean {
+    return this.userPaused;
+  }
+
+  resume() {
+    if (this.audio) {
+      this.audio.play();
+    }
+    this.userPaused = false;
+  } 
+
 
   watchBlock(): Observable<any> {
     return this.block.asObservable();
@@ -94,16 +108,28 @@ export class TtsService {
   }
 
   private finish(fromUser: boolean = false) {
-    this.language = null;
+    this.userPaused = false;
+    this.documentLanguage = null;
     this.state = 'none';
     this.blocks = null;
     this.activeBlockIndex = -1;
     this.block.next(null);
+    if (this.audio) {
+      this.audio.pause();
+      this.audio = null;
+    }
     if (this.onFinished && !fromUser) {
       this.onFinished();
     }
   }
 
+  skipNext() {
+    if (this.audio) {
+      this.audio.pause();
+      this.audio = null;
+    }
+    this.next();
+  }
 
   private next() {
     if (!this.blocks) {
@@ -124,72 +150,35 @@ export class TtsService {
   }
 
   private readText(text: string) {    
-    if (this.language) {
-      if (this.language !== this.userLanguage) {
-          this.translate(text, (answer) => {
-            this.sayIt(answer);
-          }, this.userLanguage);
+    if (this.documentLanguage) {
+      if (this.documentLanguage !== this.userLanguage) {
+          this.ai.translate(text, this.userLanguage, (translation, error) => {
+            if (error) { this.onAiError(error); return; }
+            this.ai.textToSpeech(translation, this.userLanguage, (audioContent, error) => {
+              if (error) { this.onAiError(error); return; }
+              this.playAudioContent(audioContent);
+            });
+          });
       } else {
-        this.sayIt(text);
+        this.ai.textToSpeech(text, this.userLanguage, (audioContent, error) => {
+          if (error) { this.onAiError(error); return; }
+          this.playAudioContent(audioContent);
+        });
       }
     } else {
-      this.detectLanguage(text, (language) => {
-        this.language = language;
+      const dText = text.substring(0,40);
+      this.ai.detectLanguage(dText, (language, error) => {
+        if (error) { this.onAiError(error); return; }
+        this.documentLanguage = language;
         this.readText(text);
       });
     }
   }
 
-  private sayIt(text: string) {
-    let voice;
-    if (this.userLanguage === 'cs') {
-      voice = {
-        "languageCode": "cs-CZ",
-        "name": "cs-CZ-Wavenet-A"
-      }
-    } else if (this.userLanguage === 'sk') {
-      voice = {
-        "languageCode": "sk-SK",
-        "name": "sk-SK-Wavenet-A"
-      }
-    } else if (this.userLanguage === 'de') {
-      voice = {
-        "languageCode": "de-DE",
-        "name": "de-DE-Wavenet-F"
-      }
-    } else {  
-      voice = {
-        "languageCode": "en-US",
-        "name": "en-US-Neural2-J"
-      }
-    }
-
-    const token = this.settings.getToken();
-    const url = `${this.baseUrl}/google/tts`;
-    let headers = new HttpHeaders()
-      .set('X-Tai-Source', location.href)
-      .set('X-Tai-Project', `Kramerius`)
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', `application/json`);
-    const body = {
-      "audioConfig": {
-        "audioEncoding": "LINEAR16",
-        "effectsProfileId": [
-          "small-bluetooth-speaker-class-device"
-        ],
-        "pitch": 0,
-        "speakingRate": 1
-      },
-      "input": {
-        "text": text.toLocaleLowerCase()
-      },
-      "voice": voice
-    };
-    this.http.post(url, body, { headers: headers }).subscribe((repsonse: any) => {
-      this.playAudioContent(repsonse['audioContent']);
-    })
+  private onAiError(error: string) {
+    this.finish(true);
+    this.onError(error);
   }
-
 
   private playAudioContent(audioContent: string) {
     this.state = 'speaking'
@@ -201,8 +190,10 @@ export class TtsService {
       this.state = 'loading';
       this.next();
     };
-    this.audio.stop
-    this.audio.play();
+    // this.audio.stop();
+    if (!this.userPaused) {
+      this.audio.play();
+    }
   }
 
   private base64ToUint8Array(base64: string): Uint8Array {
@@ -216,75 +207,5 @@ export class TtsService {
   }
 
 
-  private post(path: string, body: any, callback: (response: any) => void) {
-    const token = this.settings.getToken();
-    const url = `${this.baseUrl}${path}`;
-    let headers = new HttpHeaders()
-      .set('X-Tai-Source', location.href)
-      .set('X-Tai-Project', `Kramerius`)
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', `application/json`);
-
-    this.http.post(url, body, { headers: headers }).subscribe((response: any) => {
-      if (callback) {
-        callback(response);
-      }
-    });
-  }
-
- askGPT(input: string, instructions: string, callback: (answer: string) => void) {
-    const path = `/openai/chat/completions`;
-    const body = {
-      'model': this.model,
-      'messages': [
-        {
-          "role": "system",
-          "content": instructions
-        },
-        {
-          "role": "user",
-          "content": input
-        }
-      ],
-      'temperature': this.temperature,
-      'max_tokens': this.maxTokens
-    };
-    this.post(path, body, (response: any) => {
-      console.log('respnse', response);
-      let answer = response['choices'][0]['message']['content'];
-      const searchString = "\n\n";
-      const startIndex = input.indexOf(searchString);
-      if (startIndex !== -1 && startIndex < 10) {
-        answer = answer.substring(startIndex + searchString.length);
-      }
-      callback(answer);
-    });
-  }
-
-  translate(input: string, callback: (answer: string) => void, target: string = null) {
-    target = target || this.translateService.currentLang;
-    const path = `/deepl/translate`;
-    const body = {
-      'text': [input ],
-      'target_lang': target
-    };
-    this.post(path, body, (response: any) => {
-      console.log('respnse', response);
-      const answer = response['translations'][0]['text'];
-      callback(answer);
-    });
-  }
-
-  detectLanguage(input: string, callback: (answer: string) => void) {
-    const path = `/google/translate/detect`;
-    const body = {
-      'q': input,
-    };
-    this.post(path, body, (response: any) => {
-      console.log('respnse', response);
-      const answer = response['data']['detections'][0][0]['language'];
-      callback(answer);
-    });
-  }
 
 }

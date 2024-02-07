@@ -79,7 +79,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   constructor(public bookService: BookService,
               public authService: AuthService,
-              private tts: TtsService,
+              public tts: TtsService,
               public settings: AppSettings,
               public licences: LicenceService,
               private http: HttpClient,
@@ -466,12 +466,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.bookService.summarize();
   }
   
-  onStartReadingPage() {
-    this.bookService.toggleReading();
-  }
-
-  onStopReadingPage() {
-    this.bookService.toggleReading();
+  onReadPage() {
+    this.bookService.readPage();
   }
 
   cancelSelection() {
@@ -492,16 +488,20 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.bookService.toggleDoublePage();
       return;
     }
-    this.hideOnInactivity = true;
+    // this.hideOnInactivity = true;
     this.selectionState = 'ready';
     this.view.addInteraction(this.selectionInteraction);
     this.view.getViewport().style.cursor = 'crosshair';
   }
 
+  selectionStateOff(): boolean {
+    return this.selectionState == 'off';
+  }
+
   onMouseMove() {
-    if (this.selectionState != 'off') {
-      return;
-    }
+    // if (this.selectionState != 'off') {
+    //   return;
+    // }
     this.lastMouseMove = new Date().getTime();
     this.hideOnInactivity = false;
   }

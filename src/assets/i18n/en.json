@@ -32,6 +32,12 @@
     "sk": "Slovenčina",
     "sl": "Slovenščina"
   },
+  "ai": {
+    "warning": {
+      "quota_exceeded": "Dear user, <br/><br/>It seems that you have reached the maximum number of uses of smart functions for this month. In order to ensure a fair distribution of resources among all our users and maintain a high quality of service, we unfortunately have to limit the frequency of their use. <br/><br/>Thank you for your understanding.",
+      "unknown_error": "An error occurred while processing the request. Please try again later."
+    }
+  },
   "share": {
     "available_from": "Available also from"
   },
