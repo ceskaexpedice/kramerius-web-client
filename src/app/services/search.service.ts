@@ -479,7 +479,7 @@ export class SearchService {
                 if (match) {
                     const uuid = match[1];
                     const bb = match[2];
-                    item.thumb = `${this.api.getIiifBaseUrl(uuid)}/${bb}/^!400,400/0/default.jpg`;
+                    item.thumb = `${this.api.getIiifBaseUrl(uuid)}/${bb}/!400,400/0/default.jpg`;
                     item.uuid = uuid;
                     // console.log(`UUID: ${uuid}, BB: ${bb}`);
                     item.path = this.settings.getPathPrefix() + '/uuid/' + uuid;
