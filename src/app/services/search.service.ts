@@ -128,16 +128,26 @@ export class SearchService {
             this.initAccess();
         }
         if (this.query.folder) {
-            console.log('folder', this.query.folder);
            this.folderService.getFolder(this.query.folder.uuid).subscribe(folder => {
-            this.folder = folder;
-            this.query.folder['name'] = this.folder.name;
-            this.query.folder['items'] = this.folder.items[0];
-            this.query
-            console.log('folder', this.query);
-            this.search();
+                this.folder = folder;
+                this.query.folder['name'] = this.folder.name;
+                this.query.folder['items'] = [];
+                let dividedItems = this.folderService.divideArray(this.folder.items[0], 50);
+                let i = 0;
+                for (const dividedItem of dividedItems) {
+                    let uuids = dividedItem.map(uuid => uuid.id);
+                    this.api.getSearchResults(this.solr.buildFolderItemsPathsQuery(uuids)).subscribe(response => {
+                        let items = response['response']['docs'].map(x => x.own_pid_path);
+                        this.query.folder['items'] = this.query.folder['items'].concat(items);
+                        i = i + 1;
+                        if (i == dividedItems.length) {   
+                            this.search();
+                        }
+                    });
+                }
            });
-        } else {
+        }
+         else {
             this.search();
         }
     }

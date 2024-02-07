@@ -15,6 +15,8 @@ import { AnalyticsService } from './analytics.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
+import { SolrService } from './solr.service';
+import { FolderService } from './folder.service';
 
 
 @Injectable()
@@ -56,7 +58,9 @@ export class PeriodicalService {
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
     private api: KrameriusApiService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private solr: SolrService,
+    private folderService: FolderService) {
   }
 
   toggleAllSelected() {
@@ -236,10 +240,23 @@ export class PeriodicalService {
       this.query.folder = {};
       this.query.folder['uuid'] = folder['uuid'];
       this.query.folder['name'] = folder['name'];
-      this.query.folder['items'] = folder['items'][0];
-      this.initFulltext();
+      this.query.folder['items'] = [];
+      let dividedItems = this.folderService.divideArray(folder['items'][0], 50);
+      let i = 0;
+      for (const dividedItem of dividedItems) {
+        let uuids = dividedItem.map(uuid => uuid.id);
+        this.api.getSearchResults(this.solr.buildFolderItemsPathsQuery(uuids)).subscribe(response => {
+              let items = response['response']['docs'].map(x => x.own_pid_path);
+              this.query.folder['items'] = this.query.folder['items'].concat(items);
+              i = i + 1;
+              if (i == dividedItems.length) {   
+                  this.initFulltext();
+              }
+          });
+      }
     });
   }
+  
   removeFolder() {
     this.query.folder = null;
     this.query.folderUuid = null;

@@ -515,6 +515,10 @@ export class SolrService {
         let q = `&q=${this.field('id')}:"${uuids.join(`" OR ${this.field('id')}:"`)}"&rows=50`;
         return q;
     }
+    buildFolderItemsPathsQuery(uuids: any[]) {
+        let q = `&q=${this.field('id')}:"${uuids.join(`" OR ${this.field('id')}:"`)}"&fl=own_pid_path`;
+        return q;
+    }
 
     buildDocumentFulltextQuery(uuids: string[], query: string) {
         const fl = `${this.field('id')},${this.field('root_pid')}`;
@@ -686,7 +690,7 @@ export class SolrService {
             fq += ` AND (${modelRestriction})`;
         }
         if (query.folder) {
-            let items = query.folder.items.map(i => this.field('parent_pid') + ':"' + i.id + '"');
+            let items = query.folder.items.map(i => this.field('pid_path') + ':' + i.replace(/[:]/g, '\\:') + '*' );
             let itemsQ = items.join(' OR ');
             fq += ` AND (${itemsQ})`;
         }
@@ -1254,7 +1258,7 @@ export class SolrService {
             fqFilters.push(this.getDateOrderingRestriction(query));
         }
         if (query.folder && query.folder.items && query.folder.items.length > 0) {
-            let items = query.folder.items.map(i => this.field('parent_pid') + ':"' + i.id + '"');
+            let items = query.folder.items.map(i => this.field('pid_path') + ':' + i.replace(/[:]/g, '\\:') + '*' );
             let itemsQ = items.join(' OR ');
             fqFilters.push(`(${itemsQ})`);
         }
