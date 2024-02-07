@@ -32,6 +32,12 @@
       "sk": "Slovenčina",
       "sl": "Slovenščina"
     },
+    "ai": {
+      "warning": {
+        "quota_exceeded": "Vážený užívateľ,<br/><br/>zdá sa, že ste dosiahli maximálny počet použití chytrých funkcií pre tento mesiac. Aby sme zabezpečili spravodlivé rozdelenie zdrojov medzi všetkých našich užívateľov a udržali vysokú kvalitu služieb, musíme bohužiaľ obmedziť frekvenciu ich využívania.<br/><br/>Ďakujeme za pochopenie.",
+        "unknown_error": "Zdá sa, že nastala chyba pri spracovaní vášho požiadavku. Skúste to prosím neskôr znovu."
+      }
+    },
     "share": {
       "available_from": "Dostupné tiež z"
     },
@@ -181,6 +187,7 @@
       "places": "Miesto vydania",
       "genres": "Žáner",
       "authors": "Autor",
+      "switch_kramerius": "Vyhľadať v inej knižnici",
       "inaccessible_document": "Dokument nie je verejne prístupný",
       "map": {
         "maps": "Oblasti",

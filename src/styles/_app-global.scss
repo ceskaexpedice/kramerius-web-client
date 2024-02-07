@@ -155,3 +155,7 @@ input[type="search"]::-webkit-search-decoration {
 label.app-hidden-label {
   display: none;
 }
+
+.mat-dialog-container:focus-visible {
+  outline: none !important;
+}

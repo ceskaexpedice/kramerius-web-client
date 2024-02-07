@@ -31,6 +31,12 @@
     "sk": "Slovenčina",
     "sl": "Slovenščina"
   },
+  "ai": {
+    "warning": {
+      "quota_exceeded": "Spoštovani uporabnik,<br/><br/>Zdi se, da ste dosegli največje število uporab chytrih funkcij za ta mesec. Da bi zagotovili pošteno porazdelitev virov med vsemi našimi uporabniki in ohranili visoko kakovost storitev, moramo žal omejiti pogostost njihove uporabe.<br/><br/>Hvala za razumevanje.",
+      "unknown_error_sl": "Zdi se, da je prišlo do napake pri obdelavi vašega zahtevka. Poskusite znova pozneje."
+    }
+  },
   "share": {
     "available_from": "dostopno tudi na"
   },
@@ -172,6 +178,7 @@
     "places": "Mesto založbe",
     "genres": "Žanr",
     "authors": "Avtor",
+    "switch_kramerius": "Iskanje v drugi knjižnici",
     "inaccessible_document": "Delo ni javno dostopno",
     "ordering": {
       "label": "Razvrščanje",

@@ -176,6 +176,7 @@ import { DisplayMetadataDialogComponent} from './dialog/display-metadata-dialog/
 import { LicenceWindowComponent } from './shared/licence-window/licence-window.component';
 import { NavigationService } from './services/navigation.service';
 import { CuttingCardComponent } from './shared/cutting-card/cutting-card.component';
+import { AiService } from './services/ai.service';
 
 declare var APP_GLOBAL: any;
 
@@ -187,7 +188,7 @@ export function hljsLanguages() {
 }
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.6.2-dev');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.7.0');
 }
 
 export function appInitializerFactory(translate: TranslateService) {
@@ -377,6 +378,7 @@ export function appInitializerFactory(translate: TranslateService) {
     MapSeriesService,
     GeoreferenceService,
     TtsService,
+    AiService,
     CsvService,
     FolderService,
     NavigationService,

@@ -31,8 +31,8 @@ import { PdfService } from './pdf.service';
 import { GeoreferenceService } from './georeference.service';
 import { TtsService } from './tts.service';
 import { TranslateService } from '@ngx-translate/core';
-import { SearchService } from './search.service';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
+import { AiService } from './ai.service';
 
 @Injectable()
 export class BookService {
@@ -114,6 +114,7 @@ export class BookService {
         private bottomSheet: MatBottomSheet,
         private licenceService: LicenceService,
         private tts: TtsService,
+        private ai: AiService,
         private translateSrvice: TranslateService,
         private geoService: GeoreferenceService) {
     }
@@ -852,17 +853,27 @@ export class BookService {
                         title: 'common.warning',
                         message: 'dialogs.missing_alto.message',
                         button: 'common.close'
-                    }, autoFocus: false });
+                    }});
                 }
             }
         );
     }
 
+    private showAiError(error: string) {
+        this.dialog.open(BasicDialogComponent, { data: {
+            messageHtml: 'ai.warning.' + error,
+            button: 'common.close'
+        }, autoFocus: false });
+    }
     
     translate(extent = null, width: number = null, height: number = null, right: boolean = null) {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.getAltoText(uuid, (text) => {
-            this.tts.translate(text, (answer) => {
+            this.ai.translate(text, this.translateSrvice.currentLang, (answer, error) => {
+                if (error) {
+                    this.showAiError(error);
+                    return;
+                }
                 const options = {
                     title: '',
                     ocr: answer,
@@ -891,8 +902,16 @@ export class BookService {
                 instruction = "Sumarizuj v odrážkach zadaný text";
                 title = "Zhrnutie";
             }
-            this.tts.translate(text, (translation) => {
-                this.tts.askGPT(translation, instruction, (answer) => {
+            this.ai.translate(text, this.translateSrvice.currentLang, (translation, error) => {
+                if (error) {
+                    this.showAiError(error);
+                    return;
+                }
+                this.ai.askGPT(translation, instruction, (answer, error) => {
+                        if (error) {
+                            this.showAiError(error);
+                            return;
+                        }
                         const options = {
                             title: title,
                             ocr: answer,
@@ -902,7 +921,7 @@ export class BookService {
                         this.bottomSheet.open(OcrDialogComponent, { data: options });
                     });
 
-            }, lang); 
+            }); 
         }, extent, width, height);
     }
 
@@ -946,28 +965,33 @@ export class BookService {
         }
     }
 
-    toggleReading() {
+    readPage() {
         if (this.tts.inProgress()) {
-            this.continueTts = false;
-            this.tts.stop();
             return;
         }
         this.tts.readPage(this.getPage().uuid, () => {
-            console.log('page reading finished, shoul read next page');
             if (this.getPage().uuid == this.tts.readingPageUuid) {
                 this.continueTts = true;
                 this.goToNext();
             } else {
                 this.continueTts = false;
             }
+        }, (error) => {
+            this.showAiError(error);
         });
     }
 
     readSelection(extent, width: number, height: number, right: boolean) {
+        if (this.tts.inProgress()) {
+            return;
+        }
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.tts.setInProgress();
         this.getAltoText(uuid, (text) => {
             this.tts.readSelection(text, () => {
                 console.log('reading finished');
+            }, (error) => {
+                this.showAiError(error);
             });
         }, extent, width, height);
     }
@@ -1286,6 +1310,8 @@ export class BookService {
                     } else {
                         this.continueTts = false;
                     }
+                }, (error) => {
+                    this.showAiError(error);
                 });
             }, 400);
         }

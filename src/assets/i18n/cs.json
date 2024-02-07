@@ -32,6 +32,12 @@
     "sk": "Slovenčina",
     "sl": "Slovenščina"
   },
+  "ai": {
+    "warning": {
+      "quota_exceeded": "Vážený uživateli, <br/><br/>zdá se, že jste dosáhl(a) maximálního počtu použití chytrých funkcí pro tento měsíc. Abychom zajistili spravedlivé rozdělení zdrojů mezi všechny naše uživatele a udrželi vysokou kvalitu služeb, musíme bohužel omezit frekvenci jejich využívání. <br/><br/>Děkujeme za pochopení.",
+      "unknown_error": "Zdá se, že nastala chyba při zpracování vašeho požadavku. Zkuste to prosím později znovu."
+    }
+  },
   "share": {
     "available_from": "Dostupné také z"
   },
@@ -182,6 +188,7 @@
     "places": "Místo vydání",
     "genres": "Žánr",
     "authors": "Autor",
+    "switch_kramerius": "Vyhledat v jiné knihovně",
     "inaccessible_document": "Dokument není veřejně přístupný",
     "map": {
       "maps": "Oblasti",
@@ -447,7 +454,11 @@
     "region_translate": "Přeložit",
     "region_summarize": "Sumarizovat",
     "region_share": "Sdílet",
-    "region_image": "Obrázek"
+    "region_image": "Obrázek",
+    "read_pause": "Pozastavit čtení",
+    "read_resume": "Pokračovat v čtení",
+    "read_stop": "Zastavit čtení",
+    "read_next": "Přeskočit na další"
   },
   "book_controls": {
     "tooltip_print": "Příprava k tisku",
