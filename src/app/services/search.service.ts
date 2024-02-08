@@ -128,6 +128,7 @@ export class SearchService {
             this.initAccess();
         }
         if (this.query.folder) {
+            this.loading = true;
             this.folderService.getFolder(this.query.folder.uuid).subscribe(folder => {
                 this.folder = folder;
                 this.query.folder['name'] = this.folder.name;
