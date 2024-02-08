@@ -512,11 +512,11 @@ export class SolrService {
     }
 
     buildFolderItemsQuery(uuids: any[]) {
-        let q = `&q=${this.field('id')}:"${uuids.join(`" OR ${this.field('id')}:"`)}"&rows=50`;
+        let q = `&q=${this.field('id')}:"${uuids.join(`" OR ${this.field('id')}:"`)}"&rows=1000`;
         return q;
     }
     buildFolderItemsPathsQuery(uuids: any[]) {
-        let q = `&q=${this.field('id')}:"${uuids.join(`" OR ${this.field('id')}:"`)}"&fl=own_pid_path`;
+        let q = `&q=${this.field('id')}:"${uuids.join(`" OR ${this.field('id')}:"`)}"&fl=own_pid_path&rows=1000`;
         return q;
     }
 
