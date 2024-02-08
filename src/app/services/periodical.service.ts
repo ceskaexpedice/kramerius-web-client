@@ -240,20 +240,12 @@ export class PeriodicalService {
       this.query.folder = {};
       this.query.folder['uuid'] = folder['uuid'];
       this.query.folder['name'] = folder['name'];
-      this.query.folder['items'] = [];
-      let dividedItems = this.folderService.divideArray(folder['items'][0], 50);
-      let i = 0;
-      for (const dividedItem of dividedItems) {
-        let uuids = dividedItem.map(uuid => uuid.id);
-        this.api.getSearchResults(this.solr.buildFolderItemsPathsQuery(uuids)).subscribe(response => {
-              let items = response['response']['docs'].map(x => x.own_pid_path);
-              this.query.folder['items'] = this.query.folder['items'].concat(items);
-              i = i + 1;
-              if (i == dividedItems.length) {   
-                  this.initFulltext();
-              }
-          });
-      }
+      let uuids = folder['items'][0].map(uuid => uuid.id);
+      this.api.getSearchResults(this.solr.buildFolderItemsPathsQuery(uuids)).subscribe(response => {
+        let items = response['response']['docs'].map(x => x.own_pid_path);
+        this.query.folder['items'] = items;
+        this.initFulltext();
+      });
     });
   }
   
