@@ -12,7 +12,7 @@
     <div class="app-filter-items">
       <div class="app-filter-item" tabindex="0" [class.app-selected]="periodicalService.query.folder.name" (click)="periodicalService.removeFolder()">
         <mat-icon class="app-close">close</mat-icon>
-        {{ periodicalService.query.folder.name }}
+        {{ periodicalService.folderName }}
       </div>
     </div>
   </mat-expansion-panel>

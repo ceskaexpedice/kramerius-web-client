@@ -689,8 +689,8 @@ export class SolrService {
             const modelRestriction = models.map(a => `${this.field('model')}:` + a).join(' OR ');
             fq += ` AND (${modelRestriction})`;
         }
-        if (query.folder) {
-            let items = query.folder.items.map(i => this.field('pid_path') + ':' + i.replace(/[:]/g, '\\:') + '*' );
+        if (query.folder && query.folderItems) {
+            let items = query.folderItems.map(i => 'pid_paths:' + i.replace(/[:]/g, '\\:') + '*' );
             let itemsQ = items.join(' OR ');
             fq += ` AND (${itemsQ})`;
         }
@@ -1257,8 +1257,8 @@ export class SolrService {
         if (!query.isBoundingBoxSet() && this.settings.k5Compat()) {
             fqFilters.push(this.getDateOrderingRestriction(query));
         }
-        if (query.folder && query.folder.items && query.folder.items.length > 0) {
-            let items = query.folder.items.map(i => this.field('pid_path') + ':' + i.replace(/[:]/g, '\\:') + '*' );
+        if (query.folder && query.folderItems) {
+            let items = query.folderItems.map(i =>  'pid_paths:' + i.replace(/[:]/g, '\\:') + '*' );
             let itemsQ = items.join(' OR ');
             fqFilters.push(`(${itemsQ})`);
         }
@@ -1998,7 +1998,7 @@ export class SolrService {
                     params['to'] = query.to;
                 }
                 if (query.folder) {
-                    params['folder'] = query.folder.uuid;
+                    params['folder'] = query.folder;
                 }
             }
             item.date = doc[this.field('date')];

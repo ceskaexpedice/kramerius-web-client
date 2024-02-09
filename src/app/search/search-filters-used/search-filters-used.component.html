@@ -10,10 +10,10 @@
     {{ searchService.query.query }}
   </div>
 
-  <div tabindex="0" *ngIf="searchService.query.folder && searchService.folder" (click)="searchService.removeFolder()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
+  <div tabindex="0" *ngIf="searchService.query.folder && searchService.folderName" (click)="searchService.removeFolder()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">
     <mat-icon>list_alt</mat-icon>
     <mat-icon class="app-close">close</mat-icon>
-    {{ searchService.folder.name }}
+    {{ searchService.folderName }}
   </div>
 
   <div tabindex="0" *ngIf="searchService.query.isCustomFieldSet()" (click)="searchService.removeCustomField()" [matTooltip]="'filters.tooltip_remove_filter' | translate" class="app-filter">

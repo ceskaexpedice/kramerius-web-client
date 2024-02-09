@@ -10,8 +10,8 @@ export class PeriodicalQuery {
     from: number;
     to: number;
     ordering: string; // relevance | earliest | latest
-    folderUuid: string;
     folder: any;
+    folderItems: string[] = [];  
 
     constructor() {
     }
@@ -26,7 +26,7 @@ export class PeriodicalQuery {
         query.setYearRange(params.get('from'), params.get('to'));
         query.setOrdering(params.get('sort'));
         query.setPage(params.get('page'));
-        query.folderUuid = params.get('folder');
+        query.folder = params.get('folder');
         return query;
     }
 
@@ -110,8 +110,8 @@ export class PeriodicalQuery {
         if (this.ordering === 'latest' || this.ordering === 'earliest') {
             params['sort'] = this.ordering;
         }
-        if (this.folderUuid) {
-            params['folder'] = this.folderUuid;
+        if (this.folder) {
+            params['folder'] = this.folder;
         }
         return params;
     }

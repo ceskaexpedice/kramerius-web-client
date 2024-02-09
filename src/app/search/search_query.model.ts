@@ -43,6 +43,7 @@ export class SearchQuery {
 
     collection: string;
     folder: any;
+    folderItems: string[] = [];  
 
     constructor(settings: AppSettings) {
         this.settings = settings;
@@ -85,8 +86,7 @@ export class SearchQuery {
             query.collection = context.value;
         }
         if (params['folder']) {
-            query.folder = {};
-            query.folder['uuid'] = params['folder'];
+            query.folder = params['folder'];
         }
         return query;
     }
@@ -355,7 +355,7 @@ export class SearchQuery {
             params['page'] = this.page;
         }
         if (this.folder) {
-            params['folder'] = this.folder.uuid;
+            params['folder'] = this.folder;
         }
         return params;
     }

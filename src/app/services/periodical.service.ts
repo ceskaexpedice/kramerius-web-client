@@ -16,8 +16,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { SolrService } from './solr.service';
-import { FolderService } from './folder.service';
-
 
 @Injectable()
 export class PeriodicalService {
@@ -49,6 +47,8 @@ export class PeriodicalService {
   adminSelection: boolean = false;
   itemSelected: boolean = false;
 
+  folderName: string;
+
   constructor(
     private router: Router,
     private settings: AppSettings,
@@ -59,8 +59,7 @@ export class PeriodicalService {
     private localStorageService: LocalStorageService,
     private api: KrameriusApiService,
     private dialog: MatDialog,
-    private solr: SolrService,
-    private folderService: FolderService) {
+    private solr: SolrService) {
   }
 
   toggleAllSelected() {
@@ -173,8 +172,8 @@ export class PeriodicalService {
           this.metadata.addToContext('periodical', query.uuid);
           this.localStorageService.addToVisited(this.document, this.metadata);
           if (query.fulltext) {
-            if (query.folderUuid) {
-              this.assignFolder(query.folderUuid)
+            if (query.folder) {
+              this.assignFolder(query.folder)
             } else {
               this.initFulltext();
             }
@@ -236,14 +235,12 @@ export class PeriodicalService {
   }
 
   assignFolder(folder) {
-    this.api.getFolder(folder).subscribe(folder => {
-      this.query.folder = {};
-      this.query.folder['uuid'] = folder['uuid'];
-      this.query.folder['name'] = folder['name'];
+this.api.getFolder(folder).subscribe(folder => {
+      this.folderName = folder.name;
       let uuids = folder['items'][0].map(uuid => uuid.id);
       this.api.getSearchResults(this.solr.buildFolderItemsPathsQuery(uuids)).subscribe(response => {
         let items = response['response']['docs'].map(x => x.own_pid_path);
-        this.query.folder['items'] = items;
+        this.query.folderItems = items;
         this.initFulltext();
       });
     });
@@ -251,7 +248,7 @@ export class PeriodicalService {
   
   removeFolder() {
     this.query.folder = null;
-    this.query.folderUuid = null;
+    this.folderName = null;
     this.reload();
   }
 
@@ -300,6 +297,7 @@ export class PeriodicalService {
   }
 
   clear() {
+    this.folderName = null;
     this.state = PeriodicalState.None;
     this.query = null;
     this.minYear = null;

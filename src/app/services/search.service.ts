@@ -53,7 +53,7 @@ export class SearchService {
     publishers: any[] = [];
     places: any[] = [];
     genres: any[] = [];
-
+    folderName: string;
     loading = false;
 
     numberOfResults: number;
@@ -92,6 +92,7 @@ export class SearchService {
     }
 
     public init(context, params) {
+        this.folderName = null;
         this.adminSelection = false;
         this.itemSelected = false;
         this.collection = null;
@@ -129,13 +130,11 @@ export class SearchService {
         }
         if (this.query.folder) {
             this.loading = true;
-            this.folderService.getFolder(this.query.folder.uuid).subscribe(folder => {
-                this.folder = folder;
-                this.query.folder['name'] = this.folder.name;
-                let uuids = this.folder.items[0].map(uuid => uuid.id);
+            this.folderService.getFolder(this.query.folder).subscribe(folder => {
+                let uuids = folder.items[0].map(uuid => uuid.id);
+                this.folderName = folder.name;
                 this.api.getSearchResults(this.solr.buildFolderItemsPathsQuery(uuids)).subscribe(response => {
-                    let items = response['response']['docs'].map(x => x.own_pid_path);
-                    this.query.folder['items'] = items;
+                    this.query.folderItems = response['response']['docs'].map(x => x.own_pid_path);
                     this.search();
                 });
             });
@@ -366,14 +365,15 @@ export class SearchService {
 
     public removeQueryString() {
         this.query.query = null;
-        if ( this.query && this.query.folder && this.query.folder.uuid) {
-            this.router.navigate(['/folders', this.query.folder.uuid]);
+        if ( this.query && this.query.folder && this.query.folder) {
+            this.router.navigate(['/folders', this.query.folder]);
         } else {
             this.reload(false);
         }
     }
 
     public removeFolder() {
+        this.folderName = null;
         this.query.folder = null;
         this.reload(false);
     }

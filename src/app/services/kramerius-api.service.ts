@@ -524,7 +524,7 @@ export class KrameriusApiService {
         const url = this.getFoldersUrl('');
         return this.doGet(url);
     }
-    getFolder(uuid: string) {
+    getFolder(uuid: string): Observable<any> {
         const url = this.getFoldersUrl(uuid);
         return this.doGet(url);
     }
