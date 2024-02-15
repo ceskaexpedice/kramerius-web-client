@@ -48,6 +48,7 @@ export class AppSettings {
 
   public ga4 = APP_GLOBAL.ga4;
   public ga4clientId = APP_GLOBAL.ga4clientId;
+  public clientId = APP_GLOBAL.clientId;
   public matomo = APP_GLOBAL.matomo;
   public matomoSiteId = APP_GLOBAL.matomoSiteId;
 
@@ -303,6 +304,13 @@ export class AppSettings {
 
   getToken() {
     return localStorage.getItem('auth.token.' + this.code);
+  }
+
+  getClientId() {
+    if (this.version < 7) {
+      return null;
+    }
+    return this.clientId || this.ga4clientId;
   }
 
   setToken(token: string) {

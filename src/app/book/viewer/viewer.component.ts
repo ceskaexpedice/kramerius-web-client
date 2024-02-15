@@ -735,11 +735,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const url = this.api.getFullJpegUrl(uuid);
     const image = new Image();
     const token = this.settings.getToken();
+    const clientId = this.settings.getClientId();
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url);
     xhr.responseType = "arraybuffer";
     if (token) {
       xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+    }
+    if (clientId) {
+      xhr.setRequestHeader('Client', clientId);
     }
     const context = this;
     xhr.onload = function () {
@@ -1082,6 +1086,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
       extent = [this.imageWidth / 2 - width, -height, this.imageWidth / 2, 0];
     }
     const token = this.settings.getToken();
+    const clientId = this.settings.getClientId();
     const source = new ol.source.ImageStatic({
       url: url,
       imageSize: [width, height],
@@ -1092,6 +1097,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
         xhr.responseType = "arraybuffer";
         if (token) {
           xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        }
+        if (clientId) {
+          xhr.setRequestHeader('Client', clientId);
         }
         xhr.onload = function () {
             var arrayBufferView = new Uint8Array(this.response);

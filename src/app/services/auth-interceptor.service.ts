@@ -8,19 +8,22 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private settings: AppSettings) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!request.url.startsWith(this.settings.url) || request.url.startsWith("https://tomcat.kramerius.trinera.cloud/kramerius-folders")) {
-    // if (!request.url.startsWith(this.settings.url)) {
+    if (!request.url.startsWith(this.settings.url)) {
       return next.handle(request);
     }
-    // console.log('intercepting', request.url);
     const token = this.settings.getToken();
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          'Authorization': 'Bearer ' + token
-        }
-      });
+    const clientId = this.settings.getClientId();
+    if (!token && !clientId) {
+      return next.handle(request);
     }
-    return next.handle(request);
+    let headers = request.headers;
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    if (clientId) {
+      headers = headers.set('Client', clientId);
+    }
+    const newRequest = request.clone({ headers });
+    return next.handle(newRequest);
   }
 }

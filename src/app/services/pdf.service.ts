@@ -29,10 +29,18 @@ export class PdfService {
         this.index = pageIndex;
         this.url = url;
         const token = this.settings.getToken();
-        if (token) {
+        const clientId = this.settings.getClientId();
+        if (token || clientId) {
+            let headers = {};
+            if (token) {
+                headers["Authorization"] = 'Bearer ' + token;
+            }
+            if (clientId) {
+                headers["Client"] = clientId;
+            }
             this.pdfObject = {
                 url: url,
-                httpHeaders: { Authorization: 'Bearer ' + token }
+                httpHeaders: headers
             }
         } else {
             this.pdfObject = { url: url };

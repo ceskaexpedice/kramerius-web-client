@@ -396,6 +396,10 @@ export class KrameriusApiService {
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }
+        const clientId = this.settings.getClientId();
+        if (clientId) {
+            headers.set('Client', clientId);
+        }
         return this.http.get(url, { headers, responseType: 'blob' }).pipe(
             map(blob => {
                 const blobUrl = URL.createObjectURL(blob);
