@@ -435,7 +435,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   aiActionsEnabled(): boolean {
-    return this.settings.ai && this.authService.isLoggedIn();
+    return this.authService.aiEnabled();
   }
 
   showPageActions(): boolean {

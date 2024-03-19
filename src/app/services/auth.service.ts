@@ -5,7 +5,6 @@ import { HttpRequestCache } from './http-request-cache.service';
 import { AppSettings } from './app-settings';
 import { LicenceService } from './licence.service';
 import { Subject, Observable } from 'rxjs';
-import { FolderService } from './folder.service';
 
 @Injectable({
     providedIn: 'root'
@@ -121,8 +120,11 @@ export class AuthService {
         }
     }
 
+    aiEnabled(): boolean {
+        return (this.settings.ai && this.isLoggedIn()) || !!this.settings.getAiToken();
+    }
+
     isLoggedIn(): boolean {
-        // return true;
         return this.user && this.user.isLoggedIn();
     }
 

@@ -66,7 +66,7 @@ export class AppSettings {
   public termsUrl: [string, string];
   public auth: any;
   public deployPath = APP_GLOBAL.deployPath || '';
-
+  public forceAiTokenFrom = APP_GLOBAL.forceAiTokenFrom;
   public share_url = APP_GLOBAL.share_url;
   public googleMapsApiKey = APP_GLOBAL.googleMapsApiKey;
   public enablePeriodicalVolumesYearsLayout = APP_GLOBAL.enablePeriodicalVolumesYearsLayout;
@@ -304,6 +304,12 @@ export class AppSettings {
 
   getToken() {
     return localStorage.getItem('auth.token.' + this.code);
+  }
+
+  getAiToken() {
+    if (this.forceAiTokenFrom) {
+      return localStorage.getItem('auth.token.' + this.forceAiTokenFrom);
+    }
   }
 
   getClientId() {

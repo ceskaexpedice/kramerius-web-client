@@ -175,10 +175,52 @@ export class TtsService {
     }
   }
 
+  // private readText(text: string) {    
+  //   if (this.documentLanguage) {
+  //     if (this.documentLanguage !== this.userLanguage) {
+  //         this.ai.translate(text, this.userLanguage, (translation, error) => {
+  //           if (error) { this.onAiError(error); return; }
+  //           this.ai.testOpenAiTTS(translation, (blob, error) => {
+  //             if (error) { this.onAiError(error); return; }
+  //             this.playAudioBlob(blob);
+  //           });
+  //         });
+  //     } else {
+  //       this.ai.testOpenAiTTS(text, (blob, error) => {
+  //         if (error) { this.onAiError(error); return; }
+  //         this.playAudioBlob(blob);
+  //       });
+  //     }
+  //   } else {
+  //     const dText = text.substring(0,40);
+  //     this.ai.detectLanguage(dText, (language, error) => {
+  //       if (error) { this.onAiError(error); return; }
+  //       this.documentLanguage = language;
+  //       this.readText(text);
+  //     });
+  //   }
+  // }
+
   private onAiError(error: string) {
     this.finish(true);
     this.onError(error);
   }
+
+
+  private playAudioBlob(blob) {
+    this.state = 'speaking'
+    const audioUrl = URL.createObjectURL(blob);
+    this.audio = new Audio(audioUrl);
+    this.audio.onended = (event) => {
+      this.state = 'loading';
+      this.next();
+    };
+    // this.audio.stop();
+    if (!this.userPaused) {
+      this.audio.play();
+    }
+  }
+
 
   private playAudioContent(audioContent: string) {
     this.state = 'speaking'

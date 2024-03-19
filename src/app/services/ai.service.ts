@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppSettings } from './app-settings';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AiService {
@@ -19,12 +20,18 @@ export class AiService {
 
   constructor(
     private settings: AppSettings,
+    private auth: AuthService,
     private http: HttpClient) {
   } 
   
 
   private post(path: string, body: any, callback: (response: any) => void, errorCallback?: (error: string) => void) {
-    const token = this.settings.getToken();
+    let token;
+    if (this.settings.ai && this.auth.isLoggedIn()) {
+      token = this.settings.getToken();
+    } else {
+      token = this.settings.getAiToken();
+    }
     const url = `${this.baseUrl}${path}`;
     let headers = new HttpHeaders()
       .set('X-Tai-Source', location.href)
@@ -51,6 +58,21 @@ export class AiService {
     });
   }
 
+
+  testOpenAiTTS(text: string, callback: (blob: any, error?: string) => void) {
+    var formData = JSON.stringify({
+      'model':'tts-1',
+      'voice':'onyx',  //alloy, echo, fable, onyx, nova, and shimmer
+      'input':text
+    });
+    let headers = new HttpHeaders()
+      .set('Content-Type', `application/json`)
+      .set('Authorization', `Bearer *`);
+    this.http.post('https://api.openai.com/v1/audio/speech', formData, { headers: headers , responseType: 'arraybuffer' }).subscribe((response: any) => {
+      var blob = new Blob([response]);
+      callback(blob);
+    });
+  }
 
   textToSpeech(text: string, language: string, callback: (audioContent: string, error?: string) => void) {
     let voice;

@@ -75,7 +75,7 @@ export class PdfViewer2Component implements  OnInit {
   }
 
   aiActionsEnabled(): boolean {
-    return this.settings.ai && this.authService.isLoggedIn();
+    return this.authService.aiEnabled();
   }
 
   onPageOcr() {
