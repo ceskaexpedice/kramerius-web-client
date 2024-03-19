@@ -29,6 +29,96 @@
 </pdf-viewer>
 
 
+<div class="app-selection-actions" 
+      [class.hide-on-inactivity]="hideOnInactivity"
+      *ngIf="showPageActions()">
+
+      <ng-container>
+
+            <mat-icon
+                  class="app-selection app-main-selection app-hide-on-hover">
+                  auto_awesome
+            </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'viewer_page.page_text' | translate"
+                  matTooltipPosition="left"
+                  (click)="onPageOcr()"
+                  *ngIf="aiActionsEnabled()"
+                  class="app-selection">
+                  title
+            </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'viewer_page.page_read' | translate"
+                  matTooltipPosition="left"
+                  (click)="onReadPage()"
+                  *ngIf="aiActionsEnabled()"
+                  [class.app-inactive]="tts.inProgress()"
+                  class="app-selection app-type-ai">
+                  record_voice_over
+            </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'viewer_page.page_translate' | translate"
+                  matTooltipPosition="left"
+                  (click)="onTranslatePage()"
+                  *ngIf="aiActionsEnabled()"
+                  class="app-selection app-type-ai">
+                  translate
+            </mat-icon>
+
+             
+            <mat-icon
+                  [matTooltip]="'viewer_page.page_summarize' | translate"
+                  matTooltipPosition="left"
+                  (click)="onSummarizePage()"
+                  *ngIf="aiActionsEnabled()"
+                  class="app-selection app-type-ai">
+                  list
+            </mat-icon>
+      </ng-container>
+
+</div>
+
+
+<div class="app-sound-controls" *ngIf="tts.inProgress()"
+      [class.hide-on-inactivity]="hideOnInactivity">
+
+            <mat-icon
+                  *ngIf="!tts.paused()"
+                  [matTooltip]="'viewer_page.read_pause' | translate"
+                  matTooltipPosition="below"
+                  (click)="tts.pause()">
+                  pause
+            </mat-icon>
+
+            <mat-icon *ngIf="tts.paused()"
+                  [matTooltip]="'viewer_page.read_resume' | translate"
+                  matTooltipPosition="below"
+                  (click)="tts.resume()">
+                  play_arrow
+            </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'viewer_page.read_stop' | translate"
+                  matTooltipPosition="below"
+                  (click)="tts.stop()">
+                  stop
+            </mat-icon>
+
+            <mat-icon *ngIf="tts.continuing"
+                  [matTooltip]="'viewer_page.read_next' | translate"
+                  matTooltipPosition="below"
+                  (click)="tts.skipNext()">
+                  skip_next
+      </mat-icon>
+
+</div>
+
+
+
+
 <span *ngIf="bookService.showNavigationPanel && controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"
 class="app-handle app-left-handle valign-wrapper hide-on-small-only" 
 (click)="controlsService.hideLeftPanel()" 

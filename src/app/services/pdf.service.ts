@@ -195,7 +195,8 @@ export class PdfService {
         this.pageIndex -= 1;
     }
 
-    getPageContent() {
+    getPageContent(callback: (string) => void) {
+        console.log('getPageContent', this.pageIndex);
         // console.log('pageIndex', this.pdfComponent.pdfViewer.getPageView(this.pageIndex));
         this.data.getPage(this.pageIndex).then((page) => {
             page.getTextContent().then((textContent) => {
@@ -239,12 +240,16 @@ export class PdfService {
                         }
                         finalString += item['str'];
                     }
-                    console.log(finalString.replace(/\n{3,}/g, "\n\n"));
+                    finalString = finalString.replace(/\n{3,}/g, "\n\n");
+                    console.log(finalString);
+                    callback(finalString);
                 } else {
                     console.log('no text');
+                    callback("");
                 }            
             });
           });
+          
     }
 
     averageLine(items: any): number {

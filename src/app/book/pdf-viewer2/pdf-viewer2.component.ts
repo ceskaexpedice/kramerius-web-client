@@ -1,5 +1,5 @@
 import { BookService } from '../../services/book.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ViewerActions, ViewerControlsService } from '../../services/viewer-controls.service';
 import { AppSettings } from '../../services/app-settings';
 import { KrameriusInfoService } from '../../services/kramerius-info.service';
@@ -8,6 +8,7 @@ import { PdfService } from '../../services/pdf.service';
 import { PDFDocumentProxy, PdfViewerComponent } from 'ng2-pdf-viewer';
 import { LicenceService } from '../../services/licence.service';
 import { AuthService } from '../../services/auth.service';
+import { TtsService } from '../../services/tts.service';
 
 @Component({
   selector: 'app-pdf-viewer2',
@@ -21,6 +22,7 @@ export class PdfViewer2Component implements  OnInit {
   rotation: number = 0;
   zoomScale = 'page-fit';
 
+
   public hideOnInactivity = false;
   public lastMouseMove = 0;
 
@@ -29,9 +31,11 @@ export class PdfViewer2Component implements  OnInit {
   constructor(public bookService: BookService, 
               public settings: AppSettings,
               public pdf: PdfService,
+              public tts: TtsService,
               public authService: AuthService,
               public licences: LicenceService,
               public krameriusInfo: KrameriusInfoService,
+              private pdfService: PdfService,
               public controlsService: ViewerControlsService) {
     (window as any).pdfWorkerSrc = '/assets/js/pdf.worker.min.js';
   }
@@ -64,6 +68,38 @@ export class PdfViewer2Component implements  OnInit {
     this.pdf.zoom = 1;
     this.pdf.pdfLoading = false;
     this.bookService.onPdfSuccess();
+  }
+
+  showPageActions(): boolean {
+    return !this.pdf.pdfLoading && this.aiActionsEnabled();
+  }
+
+  aiActionsEnabled(): boolean {
+    return this.settings.ai && this.authService.isLoggedIn();
+  }
+
+  onPageOcr() {
+    // this.pdfService.getPageContent((text: string) => {
+    //   console.log('text', text);
+    //   this.bookService.showPdfOcr(text);
+    // });
+    this.bookService.showOcr();
+  }
+
+  onReadPage() {
+    this.bookService.readPdfPage();
+  }
+
+  onTranslatePage() {
+    this.pdfService.getPageContent((text: string) => {
+      this.bookService.translateText(text, this.bookService.getUuid());
+    });  
+  }
+
+  onSummarizePage() {
+    this.pdfService.getPageContent((text: string) => {
+      this.bookService.summarizeText(text, this.bookService.getUuid());
+    });  
   }
 
   pageRendered(e) {

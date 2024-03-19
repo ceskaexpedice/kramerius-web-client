@@ -13,9 +13,9 @@ export class TtsService {
 
   private block = new Subject<any>();
   private state: string = 'none';
-  private blocks: any[] = [];
+  private blocks: any[] = null;
   
-  readingPageUuid: string = null;
+  readingPageUuid = null;
 
   activeBlockIndex: number = -1;
 
@@ -133,7 +133,7 @@ export class TtsService {
 
   private next() {
     if (!this.blocks) {
-      this.state = 'none';
+      this.finish();
       return;
     }
     console.log('next');

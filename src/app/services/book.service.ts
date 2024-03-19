@@ -327,7 +327,7 @@ export class BookService {
                 });
             }
             if (item.in_collection) {
-                console.log('item', item);
+                // console.log('item', item);
                 for (const collection of item.in_collection) {
                     let uuid = collection;
                     let name = '';
@@ -819,6 +819,17 @@ export class BookService {
     }
 
     showOcr() {
+        if (this.isPdf()) {
+            this.pdf.getPageContent((text: string) => {
+                const options = {
+                    ocr: text,
+                        uuid: this.uuid,
+                        showCitation: this.isActionAvailable('citation')
+                    };
+                this.bottomSheet.open(OcrDialogComponent, { data: options });
+            });
+            return;
+        }
         const requests = [];
         requests.push(this.api.getOcr(this.id(this.getPage().uuid)));
         if (this.getRightPage()) {
@@ -836,7 +847,6 @@ export class BookService {
             this.bottomSheet.open(OcrDialogComponent, { data: options });
         });
     }
-
 
     private getAltoText(uuid: string, callback: (text: string) => void, extent, width: number, height: number) {
         this.api.getAlto(uuid).subscribe(
@@ -869,27 +879,35 @@ export class BookService {
     translate(extent = null, width: number = null, height: number = null, right: boolean = null) {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.getAltoText(uuid, (text) => {
-            this.ai.translate(text, this.translateSrvice.currentLang, (answer, error) => {
-                if (error) {
-                    this.showAiError(error);
-                    return;
-                }
-                const options = {
-                    title: '',
-                    ocr: answer,
-                    uuid: uuid,
-                    showCitation: false
-                };
-                this.bottomSheet.open(OcrDialogComponent, { data: options });
-            });
+            this.translateText(text, uuid);
         }, extent, width, height);
     }
 
+    translateText(text: string, uuid: string) {
+        this.ai.translate(text, this.translateSrvice.currentLang, (answer, error) => {
+            if (error) {
+                this.showAiError(error);
+                return;
+            }
+            const options = {
+                title: '',
+                ocr: answer,
+                uuid: uuid,
+                showCitation: false
+            };
+            this.bottomSheet.open(OcrDialogComponent, { data: options });
+        });
+    }
 
     summarize(extent = null, width: number = null, height: number = null, right: boolean = null) {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.getAltoText(uuid, (text) => {
-            const lang = this.translateSrvice.currentLang
+            this.summarizeText(text, uuid);
+        }, extent, width, height);
+    }
+
+    summarizeText(text: string, uuid: string) {
+        const lang = this.translateSrvice.currentLang
             let instruction = "Summarize the entered text in bullet points";
             let title = "Summary";
             if (lang == "cs") {
@@ -915,15 +933,16 @@ export class BookService {
                         const options = {
                             title: title,
                             ocr: answer,
-                            uuid: this.getPage().uuid,
+                            uuid: uuid,
                             showCitation: false
                         };
                         this.bottomSheet.open(OcrDialogComponent, { data: options });
                     });
 
             }); 
-        }, extent, width, height);
     }
+
+
 
     showTextSelection(extent, width: number, height: number, right: boolean) {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
@@ -989,13 +1008,32 @@ export class BookService {
         this.tts.setInProgress();
         this.getAltoText(uuid, (text) => {
             this.tts.readSelection(text, () => {
-                console.log('reading finished');
+                // console.log('reading finished');
             }, (error) => {
                 this.showAiError(error);
             });
         }, extent, width, height);
     }
 
+    readPdfPage() {
+        if (this.tts.inProgress()) {
+            return;
+        }
+        this.pdf.getPageContent((text: string) => {
+            this.tts.readingPageUuid = this.pdf.pageIndex;
+            this.tts.setInProgress();
+            this.tts.readSelection(text, () => {
+                if (this.pdf.hasNext() && this.pdf.pageIndex == this.tts.readingPageUuid) {
+                    this.pdf.goToNext();
+                    setTimeout(() => {
+                        this.readPdfPage();
+                    }, 50);
+                }
+                }, (error) => {
+                    this.showAiError(error);
+                });
+            });
+    }
     
     shareSelection(extent, right: boolean) {
         const box = this.iiif.xywh(extent[0], extent[1], extent[2], extent[3]);
@@ -1303,7 +1341,6 @@ export class BookService {
             this.continueTts = false;
             setTimeout(() => {
                 this.tts.readPage(this.getPage().uuid, () => {
-                    console.log('page reading finished, shoul read next page');
                     if (this.getPage().uuid == this.tts.readingPageUuid) {
                         this.continueTts = true;
                         this.goToNext();

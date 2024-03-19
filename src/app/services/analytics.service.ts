@@ -29,6 +29,7 @@ export class AnalyticsService {
       if (this.settings.code) {
         params['code_'] = `${this.settings.code}`;
       }
+      // console.log('sending event', params);
       (<any>window).gtag('event', `${category}_`, params);
     }
   }
@@ -50,6 +51,7 @@ export class AnalyticsService {
       if (this.settings.code) {
         params['code_'] = `${this.settings.code}`;
       }
+      // console.log('sending page_view', params);
       (<any>window).gtag('event', `page_view`, params);
     }
   }
