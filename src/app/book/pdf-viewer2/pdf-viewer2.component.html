@@ -83,7 +83,14 @@
 
 
 <div class="app-sound-controls" *ngIf="tts.inProgress()"
-      [class.hide-on-inactivity]="hideOnInactivity">
+      [class.hide-on-inactivity]="hideOnInactivity && !tts.isLoading()">
+
+      <mat-icon class="app-rotate-icon" 
+      *ngIf="tts.isLoading()">
+      hourglass_top
+</mat-icon>
+
+<ng-container *ngIf="!tts.isLoading()">
 
             <mat-icon
                   *ngIf="!tts.paused()"
@@ -113,10 +120,12 @@
                   (click)="tts.skipNext()">
                   skip_next
       </mat-icon>
+    </ng-container>
 
 </div>
 
 
+<mat-icon class="app-rotate-icon app-main-service-loader" *ngIf="bookService.serviceLoading">hourglass_top</mat-icon>
 
 
 <span *ngIf="bookService.showNavigationPanel && controlsService.leftPanelVisible && !controlsService.fullscreenEnabled()"

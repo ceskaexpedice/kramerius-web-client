@@ -17,7 +17,6 @@ export class AiService {
   // private model = 'gpt-3.5-turbo-1106';
   // private model = 'text-davinci-003';
   
-
   constructor(
     private settings: AppSettings,
     private auth: AuthService,
@@ -45,6 +44,10 @@ export class AiService {
       }
     }, error => {
       console.log('error', error);
+      if (error.status === 403 || error.status === 401) {
+        errorCallback('unauthorized');
+        return;
+      }
       let e = "error";
       if (error.error && error.error.errorMessage) {
         e = error.error.errorMessage;
@@ -59,10 +62,10 @@ export class AiService {
   }
 
 
-  testOpenAiTTS(text: string, callback: (blob: any, error?: string) => void) {
+  testOpenAiTTS(text: string, voice: String, callback: (blob: any, error?: string) => void) {
     var formData = JSON.stringify({
       'model':'tts-1',
-      'voice':'onyx',  //alloy, echo, fable, onyx, nova, and shimmer
+      'voice': voice,
       'input':text
     });
     let headers = new HttpHeaders()
@@ -71,7 +74,7 @@ export class AiService {
     this.http.post('https://api.openai.com/v1/audio/speech', formData, { headers: headers , responseType: 'arraybuffer' }).subscribe((response: any) => {
       var blob = new Blob([response]);
       callback(blob);
-    });
+    }, (error) => {});
   }
 
   textToSpeech(text: string, language: string, callback: (audioContent: string, error?: string) => void) {

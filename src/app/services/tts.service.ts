@@ -107,6 +107,10 @@ export class TtsService {
     return this.state === 'speaking' || this.state === 'loading';
   }
 
+  isLoading(): boolean {
+    return this.state === 'loading';
+  }
+
   private finish(fromUser: boolean = false) {
     this.userPaused = false;
     this.documentLanguage = null;
@@ -145,11 +149,17 @@ export class TtsService {
     }
     const block = this.blocks[this.activeBlockIndex];
     this.block.next(block);
-    console.log('bt', block.text);
     this.readText(block.text);
   }
 
+
   private readText(text: string) {    
+    this.readTextG(text);
+    // const voice = 'fable';  //alloy, echo, fable, onyx, nova, and shimmer
+    // this.readTextO(text, voice);
+  }
+
+  private readTextG(text: string) {    
     if (this.documentLanguage) {
       if (this.documentLanguage !== this.userLanguage) {
           this.ai.translate(text, this.userLanguage, (translation, error) => {
@@ -175,31 +185,31 @@ export class TtsService {
     }
   }
 
-  // private readText(text: string) {    
-  //   if (this.documentLanguage) {
-  //     if (this.documentLanguage !== this.userLanguage) {
-  //         this.ai.translate(text, this.userLanguage, (translation, error) => {
-  //           if (error) { this.onAiError(error); return; }
-  //           this.ai.testOpenAiTTS(translation, (blob, error) => {
-  //             if (error) { this.onAiError(error); return; }
-  //             this.playAudioBlob(blob);
-  //           });
-  //         });
-  //     } else {
-  //       this.ai.testOpenAiTTS(text, (blob, error) => {
-  //         if (error) { this.onAiError(error); return; }
-  //         this.playAudioBlob(blob);
-  //       });
-  //     }
-  //   } else {
-  //     const dText = text.substring(0,40);
-  //     this.ai.detectLanguage(dText, (language, error) => {
-  //       if (error) { this.onAiError(error); return; }
-  //       this.documentLanguage = language;
-  //       this.readText(text);
-  //     });
-  //   }
-  // }
+  private readTextO(text: string, voice = 'onyx') {    
+    if (this.documentLanguage) {
+      if (this.documentLanguage !== this.userLanguage) {
+          this.ai.translate(text, this.userLanguage, (translation, error) => {
+            if (error) { this.onAiError(error); return; }
+            this.ai.testOpenAiTTS(translation, voice, (blob, error) => {
+              if (error) { this.onAiError(error); return; }
+              this.playAudioBlob(blob);
+            });
+          });
+      } else {
+        this.ai.testOpenAiTTS(text, voice, (blob, error) => {
+          if (error) { this.onAiError(error); return; }
+          this.playAudioBlob(blob);
+        });
+      }
+    } else {
+      const dText = text.substring(0,40);
+      this.ai.detectLanguage(dText, (language, error) => {
+        if (error) { this.onAiError(error); return; }
+        this.documentLanguage = language;
+        this.readText(text);
+      });
+    }
+  }
 
   private onAiError(error: string) {
     this.finish(true);

@@ -98,6 +98,8 @@ export class BookService {
     private bb: string;
     private bbPage;
 
+    serviceLoading = false;
+
     constructor(private location: Location,
         private altoService: AltoService,
         private settings: AppSettings,
@@ -819,6 +821,7 @@ export class BookService {
     }
 
     showOcr() {
+        this.serviceLoading = true;
         if (this.isPdf()) {
             this.pdf.getPageContent((text: string) => {
                 const options = {
@@ -826,6 +829,7 @@ export class BookService {
                         uuid: this.uuid,
                         showCitation: this.isActionAvailable('citation')
                     };
+                this.serviceLoading = false;
                 this.bottomSheet.open(OcrDialogComponent, { data: options });
             });
             return;
@@ -844,6 +848,7 @@ export class BookService {
             if (result.length > 1) {
                 options['ocr2'] = result[1];
             }
+            this.serviceLoading = false;
             this.bottomSheet.open(OcrDialogComponent, { data: options });
         });
     }
@@ -858,7 +863,8 @@ export class BookService {
                 }
             },
             error => {
-                if (error instanceof NotFoundError) {
+                this.serviceLoading = false;
+                if (error && error.status == 404) {
                     this.dialog.open(BasicDialogComponent, { data: {
                         title: 'common.warning',
                         message: 'dialogs.missing_alto.message',
@@ -870,6 +876,7 @@ export class BookService {
     }
 
     private showAiError(error: string) {
+        this.serviceLoading = false;
         this.dialog.open(BasicDialogComponent, { data: {
             messageHtml: 'ai.warning.' + error,
             button: 'common.close'
@@ -877,6 +884,7 @@ export class BookService {
     }
     
     translate(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        this.serviceLoading = true;
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.getAltoText(uuid, (text) => {
             this.translateText(text, uuid);
@@ -884,6 +892,7 @@ export class BookService {
     }
 
     translateText(text: string, uuid: string) {
+        this.serviceLoading = true;
         this.ai.translate(text, this.translateSrvice.currentLang, (answer, error) => {
             if (error) {
                 this.showAiError(error);
@@ -895,11 +904,13 @@ export class BookService {
                 uuid: uuid,
                 showCitation: false
             };
+            this.serviceLoading = false;
             this.bottomSheet.open(OcrDialogComponent, { data: options });
         });
     }
 
     summarize(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        this.serviceLoading = true
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.getAltoText(uuid, (text) => {
             this.summarizeText(text, uuid);
@@ -907,6 +918,7 @@ export class BookService {
     }
 
     summarizeText(text: string, uuid: string) {
+        this.serviceLoading = true
         const lang = this.translateSrvice.currentLang
             let instruction = "Summarize the entered text in bullet points";
             let title = "Summary";
@@ -936,6 +948,7 @@ export class BookService {
                             uuid: uuid,
                             showCitation: false
                         };
+                        this.serviceLoading = false
                         this.bottomSheet.open(OcrDialogComponent, { data: options });
                     });
 
@@ -945,6 +958,7 @@ export class BookService {
 
 
     showTextSelection(extent, width: number, height: number, right: boolean) {
+        this.serviceLoading = true
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.api.getAlto(uuid).subscribe(
             result => {
@@ -954,10 +968,12 @@ export class BookService {
                     uuid: this.getPage().uuid,
                     showCitation: this.isActionAvailable('citation')
                 };
+                this.serviceLoading = false;
                 this.bottomSheet.open(OcrDialogComponent, { data: options });
             },
             error => {
-                if (error instanceof NotFoundError) {
+                this.serviceLoading = false;
+                if (error && error.status == 404) {
                     this.dialog.open(BasicDialogComponent, { data: {
                         title: 'common.warning',
                         message: 'dialogs.missing_alto.message',
@@ -966,7 +982,7 @@ export class BookService {
                 }
             }
         );
-}
+    }
 
     showImageCrop(extent, right: boolean) {
         if (this.pageState === BookPageState.Inaccessible) {
@@ -1004,9 +1020,11 @@ export class BookService {
         if (this.tts.inProgress()) {
             return;
         }
+        this.serviceLoading = true;
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.tts.setInProgress();
         this.getAltoText(uuid, (text) => {
+            this.serviceLoading = false;
             this.tts.readSelection(text, () => {
                 // console.log('reading finished');
             }, (error) => {
@@ -1019,9 +1037,11 @@ export class BookService {
         if (this.tts.inProgress()) {
             return;
         }
+        this.serviceLoading = true;
         this.pdf.getPageContent((text: string) => {
             this.tts.readingPageUuid = this.pdf.pageIndex;
             this.tts.setInProgress();
+            this.serviceLoading = false;
             this.tts.readSelection(text, () => {
                 if (this.pdf.hasNext() && this.pdf.pageIndex == this.tts.readingPageUuid) {
                     this.pdf.goToNext();
@@ -1654,6 +1674,7 @@ export class BookService {
 
     clear() {
         this.pdf.clear();
+        this.serviceLoading = false;
         this.zoomLockEnabled = false;
         this.bookState = BookState.None;
         this.pageState = BookPageState.None;

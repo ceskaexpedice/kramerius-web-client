@@ -16,6 +16,7 @@ import { LoggerService } from '../../services/logger.service';
 import { LicenceService } from '../../services/licence.service';
 import { TtsService } from '../../services/tts.service';
 import { PageImageType } from '../../model/page.model';
+import { AiService } from '../../services/ai.service';
 
 declare var ol: any;
 
@@ -80,6 +81,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   constructor(public bookService: BookService,
               public authService: AuthService,
               public tts: TtsService,
+              public ai: AiService,
               public settings: AppSettings,
               public licences: LicenceService,
               private http: HttpClient,
@@ -439,7 +441,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   showPageActions(): boolean {
-    return this.selectionState == 'off' && this.bookService.getPage() && !this.bookService.showGeoreference;
+    return !this.bookService.serviceLoading && this.selectionState == 'off' && this.bookService.getPage() && !this.bookService.showGeoreference;
   }
 
   onReadSelection() {

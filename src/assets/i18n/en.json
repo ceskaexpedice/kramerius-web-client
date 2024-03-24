@@ -35,7 +35,8 @@
   "ai": {
     "warning": {
       "quota_exceeded": "Dear user, <br/><br/>It seems that you have reached the maximum number of uses of smart functions for this month. In order to ensure a fair distribution of resources among all our users and maintain a high quality of service, we unfortunately have to limit the frequency of their use. <br/><br/>Thank you for your understanding.",
-      "unknown_error": "An error occurred while processing the request. Please try again later."
+      "unknown_error": "An error occurred while processing the request. Please try again later.",
+      "unauthorized": "It seems that you are not authorized to use the smart functions. Please log in to your account to use them."
     }
   },
   "share": {

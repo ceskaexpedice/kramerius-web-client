@@ -38,8 +38,13 @@ export class AuthService {
     }
 
     userInfo(username: string, password: string, callback: (status: string) => void = null) {
+        console.log('userInfo');
+
         this.api.getUserInfo(username, password).subscribe(user => {
             this.user = user;
+            if (!user.authenticated) {
+                this.settings.removeToken();
+            }
             console.log('USER', this.user);
             this.userSub.next(this.user);
             // console.log('Licences', this.user.licences);

@@ -35,7 +35,8 @@
   "ai": {
     "warning": {
       "quota_exceeded": "Vážený uživateli, <br/><br/>zdá se, že jste dosáhl(a) maximálního počtu použití chytrých funkcí pro tento měsíc. Abychom zajistili spravedlivé rozdělení zdrojů mezi všechny naše uživatele a udrželi vysokou kvalitu služeb, musíme bohužel omezit frekvenci jejich využívání. <br/><br/>Děkujeme za pochopení.",
-      "unknown_error": "Zdá se, že nastala chyba při zpracování vašeho požadavku. Zkuste to prosím později znovu."
+      "unknown_error": "Zdá se, že nastala chyba při zpracování vašeho požadavku. Zkuste to prosím později znovu.",
+      "unauthorized": "Zdá se, že nemáte přístup k chytrým funkcím. Pro jejich využití se prosím přihlaste."
     }
   },
   "share": {

@@ -71,7 +71,7 @@ export class PdfViewer2Component implements  OnInit {
   }
 
   showPageActions(): boolean {
-    return !this.pdf.pdfLoading && this.aiActionsEnabled();
+    return !this.bookService.serviceLoading && !this.pdf.pdfLoading && this.aiActionsEnabled();
   }
 
   aiActionsEnabled(): boolean {
