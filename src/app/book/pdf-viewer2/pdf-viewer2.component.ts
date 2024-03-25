@@ -71,18 +71,14 @@ export class PdfViewer2Component implements  OnInit {
   }
 
   showPageActions(): boolean {
-    return !this.bookService.serviceLoading && !this.pdf.pdfLoading && this.aiActionsEnabled();
+    return !this.bookService.serviceLoading && !this.pdf.pdfLoading && this.aiActionsAvailable();
   }
 
-  aiActionsEnabled(): boolean {
-    return this.authService.aiEnabled();
+  aiActionsAvailable(): boolean {
+    return this.authService.aiAvailable();
   }
 
   onPageOcr() {
-    // this.pdfService.getPageContent((text: string) => {
-    //   console.log('text', text);
-    //   this.bookService.showPdfOcr(text);
-    // });
     this.bookService.showOcr();
   }
 
@@ -91,15 +87,11 @@ export class PdfViewer2Component implements  OnInit {
   }
 
   onTranslatePage() {
-    this.pdfService.getPageContent((text: string) => {
-      this.bookService.translateText(text, this.bookService.getUuid());
-    });  
+    this.bookService.translatePdfPage();
   }
 
   onSummarizePage() {
-    this.pdfService.getPageContent((text: string) => {
-      this.bookService.summarizeText(text, this.bookService.getUuid());
-    });  
+    this.bookService.summarizePdfPage();
   }
 
   pageRendered(e) {

@@ -33,6 +33,7 @@ import { TtsService } from './tts.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 import { AiService } from './ai.service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class BookService {
@@ -113,6 +114,7 @@ export class BookService {
         private history: HistoryService,
         private router: Router,
         private pdf: PdfService,
+        private auth: AuthService,
         private bottomSheet: MatBottomSheet,
         private licenceService: LicenceService,
         private tts: TtsService,
@@ -883,7 +885,33 @@ export class BookService {
         }, autoFocus: false });
     }
     
+    private checkAiActionsEnabled(): boolean {
+        if (this.auth.aiEnabled()) {
+            return true;
+        }
+        this.dialog.open(BasicDialogComponent, { data: {
+            title: 'ai.not_logged_in.title',
+            messageHtml: 'ai.not_logged_in.message',
+            button: 'common.close',
+            buttonPositive: 'ai.not_logged_in.action'
+        }, autoFocus: false }).afterClosed().subscribe(result => {
+            if (result == 'positive') {
+                const path = this.settings.getRelativePath();
+                localStorage.setItem('login.url', path);
+                if (this.settings.termsPage) {
+                  this.router.navigate(['/terms']);
+                } else {
+                  this.auth.login();
+                }
+
+
+            }
+        });
+        return false;
+    }
+
     translate(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        if (!this.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.getAltoText(uuid, (text) => {
@@ -910,6 +938,7 @@ export class BookService {
     }
 
     summarize(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        if (!this.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.getAltoText(uuid, (text) => {
@@ -1004,6 +1033,7 @@ export class BookService {
         if (this.tts.inProgress()) {
             return;
         }
+        if (!this.checkAiActionsEnabled()) { return; }
         this.tts.readPage(this.getPage().uuid, () => {
             if (this.getPage().uuid == this.tts.readingPageUuid) {
                 this.continueTts = true;
@@ -1020,6 +1050,7 @@ export class BookService {
         if (this.tts.inProgress()) {
             return;
         }
+        if (!this.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.tts.setInProgress();
@@ -1033,10 +1064,27 @@ export class BookService {
         }, extent, width, height);
     }
 
+    summarizePdfPage() {
+        if (!this.checkAiActionsEnabled()) { return; }
+        this.serviceLoading = true;
+        this.pdf.getPageContent((text: string) => {
+            this.summarizeText(text, this.getUuid());
+        });
+    }
+
+    translatePdfPage() {
+        if (!this.checkAiActionsEnabled()) { return; }
+        this.serviceLoading = true;
+        this.pdf.getPageContent((text: string) => {
+            this.translateText(text, this.getUuid());
+        });
+    }
+
     readPdfPage() {
         if (this.tts.inProgress()) {
             return;
         }
+        if (!this.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         this.pdf.getPageContent((text: string) => {
             this.tts.readingPageUuid = this.pdf.pageIndex;

@@ -44,7 +44,7 @@
                   [matTooltip]="'viewer_page.page_text' | translate"
                   matTooltipPosition="left"
                   (click)="onPageOcr()"
-                  *ngIf="aiActionsEnabled()"
+                  *ngIf="aiActionsAvailable()"
                   class="app-selection">
                   title
             </mat-icon>
@@ -53,7 +53,7 @@
                   [matTooltip]="'viewer_page.page_read' | translate"
                   matTooltipPosition="left"
                   (click)="onReadPage()"
-                  *ngIf="aiActionsEnabled()"
+                  *ngIf="aiActionsAvailable()"
                   [class.app-inactive]="tts.inProgress()"
                   class="app-selection app-type-ai">
                   record_voice_over
@@ -63,7 +63,7 @@
                   [matTooltip]="'viewer_page.page_translate' | translate"
                   matTooltipPosition="left"
                   (click)="onTranslatePage()"
-                  *ngIf="aiActionsEnabled()"
+                  *ngIf="aiActionsAvailable()"
                   class="app-selection app-type-ai">
                   translate
             </mat-icon>
@@ -73,7 +73,7 @@
                   [matTooltip]="'viewer_page.page_summarize' | translate"
                   matTooltipPosition="left"
                   (click)="onSummarizePage()"
-                  *ngIf="aiActionsEnabled()"
+                  *ngIf="aiActionsAvailable()"
                   class="app-selection app-type-ai">
                   list
             </mat-icon>

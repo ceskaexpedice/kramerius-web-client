@@ -81,7 +81,7 @@
                   [matTooltip]="'viewer_page.page_text' | translate"
                   matTooltipPosition="left"
                   (click)="onPageOcr()"
-                  *ngIf="aiActionsEnabled()"
+                  *ngIf="aiActionsAvailable()"
                   [class.app-inactive]="bookService.serviceLoading"
                   class="app-selection">
                   title
@@ -91,7 +91,7 @@
                   [matTooltip]="'viewer_page.page_read' | translate"
                   matTooltipPosition="left"
                   (click)="onReadPage()"
-                  *ngIf="aiActionsEnabled()"
+                  *ngIf="aiActionsAvailable()"
                   [class.app-inactive]="tts.inProgress() || bookService.serviceLoading"
                   class="app-selection app-type-ai">
                   record_voice_over
@@ -102,7 +102,7 @@
                   matTooltipPosition="left"
                   (click)="onTranslatePage()"
                   [class.app-inactive]="bookService.serviceLoading"
-                  *ngIf="aiActionsEnabled()"
+                  *ngIf="aiActionsAvailable()"
                   class="app-selection app-type-ai">
                   translate
             </mat-icon>
@@ -112,7 +112,7 @@
                   matTooltipPosition="left"
                   (click)="onSummarizePage()"
                   [class.app-inactive]="bookService.serviceLoading"
-                  *ngIf="aiActionsEnabled()"
+                  *ngIf="aiActionsAvailable()"
                   class="app-selection app-type-ai">
                   list
             </mat-icon>
@@ -211,7 +211,7 @@
 
       <mat-icon (click)="onReadSelection()"
             matTooltipPosition="right"
-            *ngIf="aiActionsEnabled()"
+            *ngIf="aiActionsAvailable()"
             class="app-type-ai"
             [class.app-inactive]="tts.inProgress()"
             [matTooltip]="'viewer_page.region_read' | translate">
@@ -220,7 +220,7 @@
 
       <mat-icon (click)="onTranslateSelection()"
             matTooltipPosition="right"
-            *ngIf="aiActionsEnabled()"
+            *ngIf="aiActionsAvailable()"
             class="app-type-ai"
             [class.app-inactive]="bookService.serviceLoading"
             [matTooltip]="'viewer_page.region_translate' | translate">
@@ -229,7 +229,7 @@
 
       <mat-icon (click)="onSummarizeSelection()"
             matTooltipPosition="right"
-            *ngIf="aiActionsEnabled()"
+            *ngIf="aiActionsAvailable()"
             class="app-type-ai"
             [class.app-inactive]="bookService.serviceLoading"
             [matTooltip]="'viewer_page.region_summarize' | translate">

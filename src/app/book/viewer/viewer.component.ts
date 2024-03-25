@@ -436,8 +436,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.bookService.showTextSelection(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
-  aiActionsEnabled(): boolean {
-    return this.authService.aiEnabled();
+  aiActionsAvailable(): boolean {
+    return this.authService.aiAvailable();
   }
 
   showPageActions(): boolean {

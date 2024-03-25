@@ -129,6 +129,10 @@ export class AuthService {
         return (this.settings.ai && this.isLoggedIn()) || !!this.settings.getAiToken();
     }
 
+    aiAvailable(): boolean {
+        return this.settings.ai || !!this.settings.getAiToken();
+    }
+
     isLoggedIn(): boolean {
         return this.user && this.user.isLoggedIn();
     }

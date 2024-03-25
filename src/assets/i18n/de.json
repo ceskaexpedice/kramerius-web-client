@@ -37,6 +37,11 @@
         "quota_exceeded": "Sehr geehrter Benutzer, <br/><br/>Es scheint, dass Sie die maximale Anzahl von Smart-Funktionen für diesen Monat erreicht haben. Um eine faire Verteilung der Ressourcen unter allen unseren Benutzern sicherzustellen und eine hohe Qualität der Dienstleistungen zu gewährleisten, müssen wir leider die Häufigkeit ihrer Nutzung einschränken. <br/><br/>Vielen Dank für Ihr Verständnis.",
         "unknown_error": "Es scheint, dass ein Fehler bei der Verarbeitung Ihrer Anfrage aufgetreten ist. Bitte versuchen Sie es später erneut.",
         "unauthorized": "It seems that you are not authorized to use the smart functions. Please log in to your account to use them."
+      },
+      "not_logged_in": {
+        "title": "",
+        "message": "Lieber Leser,<br/><br/>um alle intelligenten Funktionen unserer digitalen Bibliothek, einschließlich Vorlesen, Übersetzungen und Zusammenfassungen, vollständig nutzen zu können, müssen Sie angemeldet sein.",
+        "action": "Anmelden" 
       }
     },
     "share": {

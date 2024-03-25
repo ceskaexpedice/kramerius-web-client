@@ -36,6 +36,11 @@
       "quota_exceeded": "Spoštovani uporabnik,<br/><br/>Zdi se, da ste dosegli največje število uporab chytrih funkcij za ta mesec. Da bi zagotovili pošteno porazdelitev virov med vsemi našimi uporabniki in ohranili visoko kakovost storitev, moramo žal omejiti pogostost njihove uporabe.<br/><br/>Hvala za razumevanje.",
       "unknown_error": "Zdi se, da je prišlo do napake pri obdelavi vašega zahtevka. Poskusite znova pozneje.",
       "unauthorized": "Videti je, da niste pooblaščeni za uporabo pametnih funkcij. Za njihovo uporabo se prijavite v svoj račun."
+    },
+    "not_logged_in": {
+      "title": "",
+      "message": "Dragi bralec,<br/><br/>če želite v celoti uporabljati vse pametne funkcije naše digitalne knjižnice, vključno z glasnim branjem, prevodi in povzemanjem, morate biti prijavljeni.",
+      "action": "Prijava"
     }
   },
   "share": {

@@ -5,6 +5,7 @@
   <div class="app-dialog-message" *ngIf="data.messageHtml" [innerHTML]="data.messageHtml | translate"></div>
 
   <div class="app-dialog-actions">
+    <button mat-flat-button (click)="onClose('positive')" color="primary">{{ data.buttonPositive | translate }}</button>
     <button mat-flat-button (click)="onClose()">{{ data.button | translate }}</button>
   </div>
 </div>
