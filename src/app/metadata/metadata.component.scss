@@ -77,7 +77,6 @@
       padding: 1rem;
       overflow: auto;
       flex: 1;
-      // height: calc(100% - 55px);
       h1 {
         font-size: 1.1rem;
         padding: 5px 0;
@@ -92,6 +91,66 @@
           display: -webkit-box;
         }
       }
+      h2 {
+        color: $app-grey-d-3;
+        padding: 0;
+        margin: 0;
+        font-weight: normal;
+        font-size: 15px;
+        &.app-identifier {
+          color: $app-grey-text;
+          font-size: 14px;
+          margin-top: 4px;
+          a {
+            line-break: anywhere;
+          }
+        }
+      }
+      h3 {
+        font-size: 0.9rem;
+        margin-top: 15px;
+        display: block;
+        margin-bottom: 2px;
+        color: $app-grey-text;
+        font-weight: normal;
+      }
+      ul {
+        margin: 0;
+        li {
+          font-size: 15px;
+          color: $app-grey-d-2;
+          &.app-list-mb {
+            &:not(:last-child) {
+              margin-bottom: 10px;
+            }
+          }
+        }
+      }
+
+      // .app-identifier {
+      //   color: $app-grey-text;
+      //   font-size: 14px;
+      //   margin-top: 4px;
+      //   a {
+      //   line-break: anywhere;
+      //   }
+      // }
+
+      // .divider {
+      //   margin: 10px 0;
+      //   background: transparent;
+      // }
+
+
+      // .app-value {
+      //   font-size: 15px;
+      //   color: $app-grey-d-2;
+      //   &.app-note {
+      //     &:not(:last-child) {
+      //       margin-bottom: 10px;
+      //     }
+      //   }
+      // }
 
       .single-line {
         overflow: hidden;
@@ -114,44 +173,8 @@
         }
       }
       
-      .app-label {
-        font-size: 0.9rem;
-        margin-top: 15px;
-        display: block;
-        margin-bottom: 2px;
-        color: $app-grey-text;
-      }
-      
-      .app-subtitle {
-        color: $app-grey-d-3;
-      }
-      .app-identifier {
-        color: $app-grey-text;
-        font-size: 14px;
-        margin-top: 4px;
-        a {
-        line-break: anywhere;
-        }
-      }
-      .app-part-number {
-        color: $app-grey-text;
-      }
-      .app-part-name {
-        color: $app-grey-d-3;
-      }
-      .divider {
-        margin: 10px 0;
-        background: transparent;
-      }
-      .app-value {
-        font-size: 15px;
-        color: $app-grey-d-2;
-        &.app-note {
-          &:not(:last-child) {
-            margin-bottom: 10px;
-          }
-        }
-      }
+    
+
 
       .app-source {
         display: block;
