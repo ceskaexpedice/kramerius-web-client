@@ -1,3 +1,5 @@
-<div class="app-periodical-years-layout-wrapper">
-  <app-periodical-years-item [item]="item" *ngFor="let item of periodicalService.yearItems"></app-periodical-years-item>
-</div>
+<ul class="app-periodical-years-layout-wrapper">
+  <li *ngFor="let item of periodicalService.yearItems">
+    <app-periodical-years-item [item]="item"></app-periodical-years-item>
+  </li>
+</ul>

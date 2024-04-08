@@ -1,9 +1,7 @@
 <a [routerLink]="settings.getRouteFor(item.getPath())" [queryParams]="periodicalService.getUrlParams()" (click)="analytics.sendEvent('periodical', 'open from', 'grid');">
 
   <div class="app-card-content center-align">
-    <div class="app-card-title">
-      {{ item.getTitle() }}
-    </div>
+    <h3 class="app-card-title">{{ item.getTitle() }}</h3>
     <div class="app-card-thumb" [scrollTarget]="container" [lazyLoad]="item.thumb" >
       <div matTooltipPosition="above" [matTooltip]="lock.tooltip" class="app-lock {{ lock.class }}" *ngIf="lock">
         <mat-icon>{{ lock.icon }}</mat-icon>

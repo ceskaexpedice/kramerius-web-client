@@ -1,3 +1,5 @@
-<div id="app-periodical-grid-container" class="app-periodical-grid-layout-wrapper">
-  <app-periodical-grid-item [selectable]="periodicalService.adminSelection" [container]="container" [item]="item" *ngFor="let item of periodicalService.items"></app-periodical-grid-item>
-</div>
+<ul id="app-periodical-grid-container" class="app-periodical-grid-layout-wrapper">
+  <li *ngFor="let item of periodicalService.items">
+    <app-periodical-grid-item [selectable]="periodicalService.adminSelection" [container]="container" [item]="item"></app-periodical-grid-item>
+  </li>
+</ul>

@@ -1,3 +1,5 @@
-<div class="app-periodical-unit-layout-wrapper">
-  <app-document-card *ngFor="let item of periodicalService.units" [selectable]="periodicalService.adminSelection" [in]="'periodical'" [item]="item"></app-document-card>
-</div>
+<ul class="app-periodical-unit-layout-wrapper">
+  <li *ngFor="let item of periodicalService.units">
+    <app-document-card [selectable]="periodicalService.adminSelection" [in]="'periodical'" [item]="item"></app-document-card>
+  </li>
+</ul>

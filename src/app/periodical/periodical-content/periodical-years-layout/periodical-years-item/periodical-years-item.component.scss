@@ -13,19 +13,26 @@ a {
     border: 1px solid #d3d3d3;
   }
   .app-card-content {
-    text-align: center;
-    height: 55px;
-    line-height: 55px;
     overflow: hidden;
     position: relative;
-    font-weight: 400;
-    color: $app-grey-d-3;
+    text-align: center;
+    h3 {
+      font-weight: 400;
+      color: $app-grey-d-3;
+      height: 55px;
+      line-height: 55px;
+      font-size: 15px;
+      margin: 0;
+      padding: 0;
+    }
     .app-lock {
       color: $app-grey-d-2;
       opacity: 0.6;
       position: absolute;
       top: 0;
       left: 10px;
+      height: 35px;
+      top: 10px;
       &.app-lock-licence-open, &.app-lock-licence-locked {
         color: $app-licence-color;
       }

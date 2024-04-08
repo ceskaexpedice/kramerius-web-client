@@ -1,5 +1,9 @@
 <div id="app-periodical-fulltext-container" class="app-periodical-fulltext-layout-wrapper">
-  <app-periodical-fulltext-item [item]="item" *ngFor="let item of periodicalService.fulltext.pages"></app-periodical-fulltext-item>
+  <ul>
+    <li *ngFor="let item of periodicalService.fulltext.pages">
+      <app-periodical-fulltext-item [item]="item"></app-periodical-fulltext-item>
+    </li>
+  </ul>
   <app-alert *ngIf="periodicalService.getNumberOfResults() === 0"
     type="warning"
     label="alert.warning"

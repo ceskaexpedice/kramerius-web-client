@@ -2,6 +2,9 @@
   height: 100%;
   overflow: auto;
   padding: 0.5rem;
+  ul {
+    margin: 0;
+  }
   app-periodical-fulltext-item {
     width:16.66666%;
     @media (max-width: 2300px) {
