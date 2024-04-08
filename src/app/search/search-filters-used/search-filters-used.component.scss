@@ -2,13 +2,15 @@
 
 .app-search-filters-used {
   border-bottom: 1px solid $app-grey-l-2;
-  padding: 15px 16px;
-  .app-header {
+  padding: 15px 16px 10px;
+  h3 {
     position: relative;
     font-weight: 500;
-    color: $primary-color;
+    color: $app-grey-d-2;
+    font-size: 15px;
     line-height: 20px;
-    margin-bottom: 5px;
+    margin: 0;
+    margin-bottom: 8px;
     .mat-icon {
       position: absolute;
       top: -3px;
@@ -19,23 +21,63 @@
       cursor: pointer;
     }
   }
+  // .app-filter {
+  //   cursor: pointer;
+  //   overflow: hidden;
+  //   color: $app-grey-text;
+  //   mat-icon {
+  //     font-size: 18px;
+  //     height: 20px;
+  //     vertical-align: middle;
+  //     &.app-licence {
+  //       color: $app-licence-color;
+  //     }
+  //     &.app-close {
+  //       display: none;
+  //     }
+  //   }
+  //   &:hover, &:focus-visible {
+  //     color: $app-red;
+  //     mat-icon {
+  //       display: none;
+  //       &.app-close {
+  //         display: inline-block;
+  //       }
+  //     }
+  //   }
+  // }
   .app-filter {
     cursor: pointer;
     overflow: hidden;
-    color: $app-grey-text;
+    display: inline-block;
+    padding: 4px 8px;
+    color: #fff;
+    background-color: $primary-color;
+    margin: 0px 4px 0 0;
+    border-radius: 10px;
+    font-size: 13px;
+    position: relative;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    display: -webkit-inline-box;
+    text-overflow: ellipsis;
     mat-icon {
+      display: none;
+      position: absolute;
+      color: $app-red;
+      background-color: #ffffff;
+      width: 22px;
+      height: 18px;
       font-size: 18px;
-      height: 20px;
-      vertical-align: middle;
-      &.app-licence {
-        color: $app-licence-color;
-      }
-      &.app-close {
-        display: none;
-      }
+      right: 0px;
+      top: 0px;
+      height: 31px;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      padding-top: 6px;
+      padding-left: 2px;
     }
     &:hover, &:focus-visible {
-      color: $app-red;
       mat-icon {
         display: none;
         &.app-close {

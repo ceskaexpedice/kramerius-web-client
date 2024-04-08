@@ -130,6 +130,22 @@
             text-overflow: ellipsis;
           }
         }
+        .mat-ripple-element {
+          display: none !important;
+        }
+      }
+      mat-radio-button {
+        .mat-radio-container {
+          width: 16px;
+          height: 16px;
+          .mat-radio-outer-circle, .mat-radio-inner-circle {
+            width: 16px;
+            height: 16px;
+          }
+        }
+        .mat-ripple-element {
+            display: none !important;
+        }
       }
     }
   }

@@ -15,8 +15,8 @@
       <div class="app-filter-items">
         <mat-radio-group [(ngModel)]="searchService.query.accessibility">
           <ul>
-            <li *ngFor="let item of searchService.accessibility" [class.app-selected]="item.value === searchService.query.accessibility" style="height: 25px;">
-              <mat-radio-button [value]="item.value" (change)="searchService.setAccessibility(item.value);analytics.sendEvent('search', 'accessibility', item.value)">
+            <li *ngFor="let item of searchService.accessibility" [class.app-selected]="item.value === searchService.query.accessibility">
+              <mat-radio-button [disableRipple]="true" [value]="item.value" (change)="searchService.setAccessibility(item.value);analytics.sendEvent('search', 'accessibility', item.value)">
                 {{ 'search.accessibility.' + item.value | translate}}
               </mat-radio-button>
               <span class="app-filter-count">{{item.count}}</span>
@@ -38,7 +38,7 @@
         <mat-radio-group [(ngModel)]="searchService.query.access">
           <ul>
             <ng-container *ngFor="let item of searchService.accessArray()">
-              <li *ngIf="searchService.showAccessFilter(item.value)" [class.app-selected]="item.value === searchService.query.access" style="height: 25px;">
+              <li *ngIf="searchService.showAccessFilter(item.value)" [class.app-selected]="item.value === searchService.query.access">
                 <mat-radio-button [value]="item.value" (change)="searchService.setAccess(item.value);analytics.sendEvent('search', 'access', item.value)">
                   {{ 'search.access.' + item.value | translate}}
                 </mat-radio-button>
