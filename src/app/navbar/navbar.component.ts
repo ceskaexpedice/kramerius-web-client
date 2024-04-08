@@ -3,11 +3,12 @@ import { AuthService } from './../services/auth.service';
 import { AppSettings } from './../services/app-settings';
 import { LibrarySearchService } from './../services/library-search.service';
 import { Router } from '@angular/router';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { AppState } from '../app.state';
 import { HistoryService } from '../services/history.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-navbar',
@@ -15,6 +16,8 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+
+  @ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
 
   mobileSearchBarExpanded = false;
 
@@ -35,6 +38,10 @@ export class NavbarComponent implements OnInit {
 
   languages(): string[] {
     return this.appSettings.languages;
+  }
+
+  closeMenu() {
+    this.menuTrigger.closeMenu();
   }
 
   onLanguageChanged(lang: string) {

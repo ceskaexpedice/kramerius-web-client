@@ -3,11 +3,11 @@
   <nav class="sp-header-buttons">
     <ul>
       <li>
-        <a (click)="analytics.sendEvent('landing', 'help');" [routerLink]="['/', 'help']" class="sp-header-button">{{ 'sp.header.help' | translate }}</a>
+        <a tabindex="0" (click)="analytics.sendEvent('landing', 'help');" [routerLink]="['/', 'help']" class="sp-header-button">{{ 'sp.header.help' | translate }}</a>
       </li>
 
-      <li class="app-language">
-        <div *ngIf="languages().length > 1" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu" role="button">
+      <li class="app-language" *ngIf="languages().length > 1">
+        <div tabindex="0" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu" role="button">
           <img src="assets/img/flag_{{translate.currentLang}}.png">
         </div>
       </li>
@@ -15,7 +15,7 @@
   </nav>
 
 
-  <a class="sp-header-logo" [routerLink]="['/']" [matTooltip]="'sp.logo_tooltip' | translate">
+  <a tabindex="0" class="sp-header-logo" [routerLink]="['/']" [matTooltip]="'sp.logo_tooltip' | translate">
     <img [src]="'sp.header.logo' | translate">
   </a>
 
@@ -24,7 +24,7 @@
 
 <mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
   <ul>
-    <li class="app-dropdown-item" *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)" role="button">
+    <li class="app-dropdown-item" *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)" (keydown.enter)="closeMenu()" mat-menu-item role="button" tabindex="0">
       <div class="app-language">
         <img src="assets/img/flag_{{lang}}.png">
         <div class="app-language-name">{{ 'lang.' + lang | translate }}</div>
