@@ -133,6 +133,8 @@ a {
       position: relative;
       
       .app-card-title {
+        margin: 0;
+        padding: 0;
         font-weight: 400;
         font-size: $app-card-title-font-size;
         margin-bottom: 5px;

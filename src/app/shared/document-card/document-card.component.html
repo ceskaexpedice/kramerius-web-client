@@ -10,9 +10,9 @@
     </div>
 
     <div class="app-card-content">
-      <div *ngIf="item.title" class="app-card-title">
+      <h3 *ngIf="item.title" class="app-card-title">
         {{ getTitle() }}
-      </div>
+      </h3>
       <div *ngIf="item.authors && item.authors.length > 0" class="app-card-authors">
         <!-- <mat-icon>person</mat-icon> -->
         {{item.authors[0]}}

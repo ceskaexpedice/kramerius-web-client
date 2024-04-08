@@ -4,6 +4,10 @@
     height: calc(100% - #{$app-toolbar-height});
     width: 100%;
     // overflow: auto;
+    ul {
+      margin: 0;
+      padding: 0;
+    }
     .app-collection-metadata {
       @media #{$medium-and-down} {
         display: none;
