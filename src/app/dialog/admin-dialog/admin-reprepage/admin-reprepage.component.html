@@ -9,7 +9,7 @@
   </mat-radio-group>
 
   <div class="app-actions">
-    <button mat-raised-button [disabled]="!objectPid || state == 'progress'" color="primary" (click)="apply()">Nastavit</button>
+    <button mat-flat-button [disabled]="!objectPid || state == 'progress'" color="primary" (click)="apply()">Nastavit</button>
     <mat-spinner *ngIf="state == 'progress'"
       [strokeWidth]="2" 
       [diameter]="20">

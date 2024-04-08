@@ -167,7 +167,7 @@
 
 <div class="app-alert-not-found" *ngIf="bookService.noFulltextResults()">
       <div class="app-message">{{ "alert.book_no_results" | translate }}</div>    
-      <button (click)="bookService.fulltextChanged('')" mat-raised-button color="primary">{{ "alert.cancel_fulltext" | translate }}</button>
+      <button (click)="bookService.fulltextChanged('')" mat-flat-button color="primary">{{ "alert.cancel_fulltext" | translate }}</button>
 </div>
 
   <mat-spinner *ngIf="bookService.isPageLoading() || imageLoading" 

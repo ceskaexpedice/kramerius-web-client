@@ -92,10 +92,10 @@ app-root {
         border-left: 5px solid $app-grey-l-2;
         display: block;
         .app-metadata-wrapper {
-          overflow: unset;
+          overflow: hidden;
           .app-metadata-content {
             padding: 8px 0 0 8px;
-            margin-bottom: -10px;
+            // margin-bottom: -10px;
           }
         }
       }

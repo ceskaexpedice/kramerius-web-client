@@ -38,7 +38,7 @@
     <div class="app-progress" *ngIf="inProgress">
       {{ 'pdf-dialog.warning_generate' | translate }}
     </div>
-    <button mat-raised-button color="primary" (click)="action()" [disabled]="inProgress || selectedPages > maxPageCount || selectedPages == 0">{{ 'pdf-dialog.action_' + type | translate }}</button>
+    <button mat-flat-button color="primary" (click)="action()" [disabled]="inProgress || selectedPages > maxPageCount || selectedPages == 0">{{ 'pdf-dialog.action_' + type | translate }}</button>
     <button mat-button (click)="onCancel()">{{ 'common.cancel' | translate }}</button>
   </div>
 

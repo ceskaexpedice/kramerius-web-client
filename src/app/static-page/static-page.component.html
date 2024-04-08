@@ -12,7 +12,7 @@
       </mat-checkbox>
         <a *ngIf="termsUrl()" [href]="termsUrl()" target="_blank">{{ 'terms.agreement2' | translate }}</a>
       </div>
-      <button mat-raised-button [disabled]="!termsAgreed" color="primary" (click)="login()">{{ 'terms.login' | translate }}</button>
+      <button mat-flat-button [disabled]="!termsAgreed" color="primary" (click)="login()">{{ 'terms.login' | translate }}</button>
     </div>
     <div *ngIf="data2" [innerHTML]="data2"></div>
   </div>

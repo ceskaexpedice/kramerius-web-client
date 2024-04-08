@@ -635,11 +635,11 @@ export class SearchService {
             case 'genres':
             case 'publishers':
             case 'places': {
-                this[facet] = this.solr.facetList(response, this.solr.getFilterField(facet), this.query[facet], true);
+                this[facet] = this.solr.facetList(response, this.solr.getFilterField(facet), this.query[facet], false);
                 break;
             }
             case 'collections': {
-                this.collections = this.solr.facetList(response, this.solr.getFilterField('collections'), this.query['collections'], true);
+                this.collections = this.solr.facetList(response, this.solr.getFilterField('collections'), this.query['collections'], false);
                 if (this.collectionService.ready()) {
                     this.dropEmptyCollections();
                 } else {

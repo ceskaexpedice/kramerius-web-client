@@ -88,7 +88,7 @@
           <span>{{ 'search.year-range.to' | translate }}</span>
           <input [(ngModel)]="yearTo" (change)="onYearToValueChanged()" type="number">
         </div>
-        <button (click)="applyYearRange()" mat-raised-button color="primary">{{ 'search.year-range.apply' | translate }}</button>
+        <button (click)="applyYearRange()" mat-flat-button color="primary">{{ 'search.year-range.apply' | translate }}</button>
       </div>
     </div>
   </mat-expansion-panel>

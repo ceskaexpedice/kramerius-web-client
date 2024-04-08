@@ -8,7 +8,7 @@
   </mat-radio-group>
 
   <div class="app-actions">
-    <button mat-raised-button [disabled]="state == 'progress'" color="primary" (click)="apply()">Reindexovat</button>
+    <button mat-flat-button [disabled]="state == 'progress'" color="primary" (click)="apply()">Reindexovat</button>
     <mat-spinner *ngIf="state == 'progress'"
       [strokeWidth]="2" 
       [diameter]="20">

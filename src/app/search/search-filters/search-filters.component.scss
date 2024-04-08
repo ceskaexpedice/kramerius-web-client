@@ -17,47 +17,82 @@
         background: transparent !important;
       }
     }
-    .app-filter-items {
+    ul {
       margin-top: -5px;
-      .app-filter-item {
-        line-height: 22px;
-        cursor: pointer;
+      margin-bottom: 0;
+      padding: 0;
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         color: $app-grey-text;
-        &.app-selected {
-          font-weight: 600;
-          color: $app-grey-d-3;
-        }
-        &:hover {
-          color: $app-grey-d-4;
-        }
-        &.app-expand {
-          color: $primary-color;
+        mat-checkbox, mat-radio-button {
           &:hover {
-            color: $primary-color-dark;
+            color: $app-grey-d-4;
           }
-        }
-        span {
-          float: right;
-          margin-left: 5px;
-        }
-        mat-icon {
-          font-size: 18px;
-          width: 18px;
-          vertical-align: middle;
+          // .app-lock {
+          //   float: left;
+          //   color: $app-licence-color;
+          //   margin-right: 4px;
+          //   mat-icon {
+          //     font-size: 16px;
+          //     width: 18px;
+          //     height: 18px;
+          //     vertical-align: middle;
+          //   }
+          // }
         }
         .app-lock {
           float: left;
           color: $app-licence-color;
           margin-right: 4px;
-
-        }
-        .app-licence-info {
-          color: $app-grey-text;
-          cursor: pointer;
-          &:hover {
-            color: #111;
+          margin-left: 4px;
+          mat-icon {
+            font-size: 16px;
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
           }
         }
+        .app-info {
+          display: none;
+          color: $app-grey-d-1;
+          cursor: pointer;
+          font-size: 16px;
+          width: 18px;
+          height: 18px;
+          padding-top: 1px;
+          margin-left: 3px;
+          &:hover {
+            color: $app-grey-d-4;
+          }
+        }
+        .app-filter-count {
+          margin-left: auto;
+          font-size: 12px;
+          color: #999;
+          padding-left: 5px;
+        }
+        &.app-selected {
+          font-weight: 600;
+          color: $app-grey-d-2;
+          .app-filter-count {
+            color: $app-grey-d-2;
+          }
+        }
+        &:hover {
+          .app-info {
+            display: inline-block;
+          }
+        }
+      }
+    }
+    .app-expand {
+      margin-top: 5px;
+      cursor: pointer;
+      color: $primary-color;
+      &:hover {
+        color: $primary-color-dark;
       }
     }
     .year-range-wrapper {
@@ -73,6 +108,28 @@
       }
       button {
         margin-top: 20px;
+      }
+    }
+  }
+}
+
+
+::ng-deep {
+  .app-filter-panel {    
+    ul {
+      mat-checkbox {
+        .mat-checkbox-layout {
+          white-space: normal;
+          .mat-checkbox-label {
+            overflow: hidden;
+            line-height: 20px;
+            height: 20px;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            display: -webkit-box;
+            text-overflow: ellipsis;
+          }
+        }
       }
     }
   }

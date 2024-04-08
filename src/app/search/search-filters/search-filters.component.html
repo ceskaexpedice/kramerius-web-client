@@ -4,6 +4,8 @@
   <app-search-filters-used *ngIf="searchService.query.anyFilter()"></app-search-filters-used>
 
   <mat-accordion [displayMode]="'flat'" [multi]="true" class="app-filters-wrapper">
+
+    
     <mat-expansion-panel *ngIf="filters.indexOf('accessibility') > -1" class="app-filter-panel" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -11,17 +13,18 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="app-filter-items">
-        <div *ngFor="let item of searchService.accessibility"
-              [class.app-selected]="item.value === searchService.query.accessibility"
-              tabindex="0"
-              (click)="searchService.setAccessibility(item.value);analytics.sendEvent('search', 'accessibility', item.value)"
-              class="app-filter-item">
-              <span>{{item.count}}</span>
-              {{ 'search.accessibility.' + item.value | translate}}
-        </div>
+        <mat-radio-group [(ngModel)]="searchService.query.accessibility">
+          <ul>
+            <li *ngFor="let item of searchService.accessibility" [class.app-selected]="item.value === searchService.query.accessibility" style="height: 25px;">
+              <mat-radio-button [value]="item.value" (change)="searchService.setAccessibility(item.value);analytics.sendEvent('search', 'accessibility', item.value)">
+                {{ 'search.accessibility.' + item.value | translate}}
+              </mat-radio-button>
+              <span class="app-filter-count">{{item.count}}</span>
+            </li>
+          </ul>
+        </mat-radio-group>
       </div>
     </mat-expansion-panel>
-
 
     <mat-expansion-panel *ngIf="filters.indexOf('access') > -1" class="app-filter-panel" [expanded]="true">
       <mat-expansion-panel-header>
@@ -29,29 +32,24 @@
           {{ 'search.access.label' | translate }}
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="app-filter-items">
-        <ng-container *ngFor="let item of searchService.accessArray()">
-        <div *ngIf="searchService.showAccessFilter(item.value)"
-              [class.app-selected]="item.value === searchService.query.access"
-              tabindex="0"
-              (click)="searchService.setAccess(item.value);analytics.sendEvent('search', 'access', item.value)"
-              style="overflow: hidden;"
-              class="app-filter-item">
-              <span>{{item.count}}</span>
-              <div *ngIf="item.value != 'all' && item.value != 'accessible'" class="app-lock {{ item.accessible ? 'app-lock-licence-open' : 'app-lock-licence-locked' }}">
-                <mat-icon>{{ licences.accessIcon(item.value, item.accessible) }}</mat-icon>
-              </div>
-              <span style="float: none;" *ngIf="item.value != 'all' && item.value != 'accessible'"
-                [class.app-lock-licence-open]="item.accessible"
-                [class.app-lock-licence-locked]="!item.accessible">
-                  {{ 'search.access.' + item.value | translate}}
-              </span>
-              <span style="float: none; padding-left: 22px;" *ngIf="item.value == 'all' || item.value == 'accessible'">
-                  {{ 'search.access.' + item.value | translate}}
-              </span>
-        </div>
-      </ng-container>
 
+
+      <div class="app-filter-items">
+        <mat-radio-group [(ngModel)]="searchService.query.access">
+          <ul>
+            <ng-container *ngFor="let item of searchService.accessArray()">
+              <li *ngIf="searchService.showAccessFilter(item.value)" [class.app-selected]="item.value === searchService.query.access" style="height: 25px;">
+                <mat-radio-button [value]="item.value" (change)="searchService.setAccess(item.value);analytics.sendEvent('search', 'access', item.value)">
+                  {{ 'search.access.' + item.value | translate}}
+                </mat-radio-button>
+                <div *ngIf="item.value != 'all' && item.value != 'accessible'" class="app-lock {{ item.accessible ? 'app-lock-licence-open' : 'app-lock-licence-locked' }}">
+                  <mat-icon>{{ licences.accessIcon(item.value, item.accessible) }}</mat-icon>
+                </div>
+                <span class="app-filter-count">{{item.count}}</span>
+              </li>
+            </ng-container>
+          </ul>
+        </mat-radio-group>
       </div>
     </mat-expansion-panel>
 
@@ -62,30 +60,32 @@
           {{ 'search.licences' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.licences; let i = index">
-          <div *ngIf="i < 6 || licencesExpanded"
-                [class.app-selected]="item.selected"
-                tabindex="0"
-                (click)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licence', item.value)"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                <div class="app-lock {{ licences.buildLock([item.value], false).class }}" *ngIf="licences.buildLock([item.value], false)">
-                  <mat-icon>{{ licences.buildLock([item.value], false).icon }}</mat-icon>
-                </div>
-                {{ licences.label(item.value) }}
-                <mat-icon class="app-licence-info" tabindex="0" (click)="showLicenceDialog(item.value); $event.preventDefault();$event.stopPropagation()">info</mat-icon>
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.licences; let i = index">
+          <li *ngIf="i < 6 || categoriesExpanded" [title]="licences.label(item.value)" [class.app-selected]="searchService.query.licences.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.licences.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licence', item.value)">
+              <span>{{ licences.label(item.value) }}</span>
+            </mat-checkbox>
+            <div class="app-lock {{ licences.buildLock([item.value], false).class }}" *ngIf="licences.buildLock([item.value], false)">
+              <mat-icon>{{ licences.buildLock([item.value], false).icon }}</mat-icon>
+            </div>
+            <mat-icon class="app-info" tabindex="0" (click)="showLicenceDialog(item.value); $event.preventDefault();$event.stopPropagation()">info</mat-icon>
+            <span class="app-filter-count">
+              {{item.count}}
+            </span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.licences.length > 6"
-            (click)="licencesExpanded = !licencesExpanded"
-            tabindex="0"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (licencesExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.licences.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="categoriesExpanded = !categoriesExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (categoriesExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
-
 
 
 
@@ -95,18 +95,18 @@
           {{ 'search.doctypes' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="app-filter-items">
-        <div *ngFor="let item of searchService.doctypes"
-              [class.app-selected]="searchService.query.doctypes.indexOf(item.value) >= 0"
-              tabindex="0"
-              (click)="searchService.toggleFilter(searchService.query.doctypes, item.value);analytics.sendEvent('search', 'doctype', item.value)"
-              class="app-filter-item">
-              <span>{{item.count}}</span>
-              {{'model_plural.' + item.value | translate | appUpcase }}
-        </div>
-      </div>
-    </mat-expansion-panel>
+        <ul>
+          <li *ngFor="let item of searchService.doctypes" [class.app-selected]="searchService.query.doctypes.indexOf(item.value) >= 0">
+            <mat-checkbox
+                [checked]="searchService.query.doctypes.indexOf(item.value) >= 0"
+                (change)="searchService.toggleFilter(searchService.query.doctypes, item.value);analytics.sendEvent('search', 'doctype', item.value)">
+                {{'model_plural.' + item.value | translate | appUpcase }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
+        </ul>
 
+    </mat-expansion-panel>
 
     <mat-expansion-panel *ngIf="searchService.categories.length && filters.indexOf('categories') > -1" class="app-filter-panel" [expanded]="true">
       <mat-expansion-panel-header>
@@ -114,17 +114,27 @@
           {{ 'search.categories' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="app-filter-items">
-        <div *ngFor="let item of searchService.categories"
-              [class.app-selected]="searchService.query.categories.indexOf(item.value) >= 0"
-              tabindex="0"
-              (click)="searchService.toggleFilter(searchService.query.categories, item.value);analytics.sendEvent('search', 'category', item.value)"
-              class="app-filter-item">
-              <span>{{item.count}}</span>
+      <ul>
+        <ng-container *ngFor="let item of searchService.categories; let i = index">
+          <li *ngIf="i < 6 || categoriesExpanded" [title]="'category.' + item.value | translate | appUpcase" [class.app-selected]="searchService.query.categories.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.categories.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.categories, item.value);analytics.sendEvent('search', 'category', item.value)">
               {{'category.' + item.value | translate | appUpcase }}
-        </div>
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
+        </ng-container>
+      </ul>
+      <div *ngIf="searchService.categories.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="categoriesExpanded = !categoriesExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (categoriesExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
+
 
     <mat-expansion-panel *ngIf="searchService.sources.length && filters.indexOf('sources') > -1" class="app-filter-panel" [expanded]="true">
       <mat-expansion-panel-header>
@@ -132,22 +142,24 @@
           {{ 'search.sources' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.sources; let i = index">
-          <div *ngIf="i < 6 || sourcesExpanded"
-                (click)="searchService.toggleFilter(searchService.query.sources, item.value);analytics.sendEvent('search', 'source', item.value)"
-                tabindex="0"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                {{'source.' + item.value | translate | appRemovePrefix:'source.' }}
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.sources; let i = index">
+          <li *ngIf="i < 6 || sourcesExpanded" [title]="'source.' + item.value | translate | appRemovePrefix:'source.'" [class.app-selected]="searchService.query.sources.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.sources.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.sources, item.value);analytics.sendEvent('search', 'cource', item.value)">
+              {{'source.' + item.value | translate | appRemovePrefix:'source.' }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.sources.length > 6"
-            tabindex="0"
-            (click)="sourcesExpanded = !sourcesExpanded"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (sourcesExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.sources.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="sourcesExpanded = !sourcesExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (sourcesExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
 
@@ -166,7 +178,7 @@
             <label for="yearTo">{{ 'search.year-range.to' | translate }}</label>
             <input id="yearTo" [(ngModel)]="yearTo" (change)="onYearToValueChanged()" type="number">
           </div>
-          <button (click)="applyYearRange()" mat-raised-button color="primary">{{ 'search.year-range.apply' | translate }}</button>
+          <button (click)="applyYearRange()" mat-flat-button color="primary">{{ 'search.year-range.apply' | translate }}</button>
         </div>
       </div>
     </mat-expansion-panel>
@@ -180,22 +192,24 @@
           {{ 'search.keywords' | translate }}            
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.keywords; let i = index ">
-          <div *ngIf="i < 6 || keywordsExpanded"
-                tabindex="0"
-                (click)="searchService.toggleFilter(searchService.query.keywords, item.value);analytics.sendEvent('search', 'keyword', item.value)"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                {{ item.value | appUpcase }}
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.keywords; let i = index">
+          <li *ngIf="i < 6 || keywordsExpanded" [title]="item.value | appUpcase" [class.app-selected]="searchService.query.keywords.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.keywords.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.keywords, item.value);analytics.sendEvent('search', 'keyword', item.value)">
+              {{ item.value | appUpcase }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.keywords.length > 6"
-            tabindex="0"
-            (click)="keywordsExpanded = !keywordsExpanded"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (keywordsExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.keywords.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="keywordsExpanded = !keywordsExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (keywordsExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
 
@@ -206,24 +220,28 @@
           {{ 'search.authors' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.authors; let i = index ">
-          <div *ngIf="i < 6 || authorsExpanded"
-                tabindex="0"
-                (click)="searchService.toggleFilter(searchService.query.authors, item.value);analytics.sendEvent('search', 'author', item.value)"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                {{ item.value | appUpcase }}
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.authors; let i = index ">
+          <li *ngIf="i < 6 || authorsExpanded" [title]="item.value | appUpcase" [class.app-selected]="searchService.query.authors.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.authors.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.authors, item.value);analytics.sendEvent('search', 'author', item.value)">
+              {{ item.value | appUpcase }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.authors.length > 6"
-            tabindex="0"
-            (click)="authorsExpanded = !authorsExpanded"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (authorsExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.authors.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="authorsExpanded = !authorsExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (authorsExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
+
+
 
     <mat-expansion-panel *ngIf="searchService.geonames.length && filters.indexOf('geonames') > -1" class="app-filter-panel" [expanded]="true">
       <mat-expansion-panel-header>
@@ -231,22 +249,24 @@
           {{ 'search.geonames' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.geonames; let i = index">
-          <div *ngIf="i < 6 || geonamesExpanded"
-                tabindex="0"
-                (click)="searchService.toggleFilter(searchService.query.geonames, item.value);analytics.sendEvent('search', 'geoname', item.value)"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                {{ item.value | appUpcase }}
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.geonames; let i = index">
+          <li *ngIf="i < 6 || geonamesExpanded" [title]="item.value | appUpcase" [class.app-selected]="searchService.query.geonames.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.geonames.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.geonames, item.value);analytics.sendEvent('search', 'geoname', item.value)">
+              {{ item.value | appUpcase }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.authors.length > 6"
-            tabindex="0"
-            (click)="geonamesExpanded = !geonamesExpanded"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (geonamesExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.geonames.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="geonamesExpanded = !geonamesExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (geonamesExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
 
@@ -256,25 +276,26 @@
           {{ 'search.genres' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.genres; let i = index">
-          <div *ngIf="i < 6 || genresExpanded"
-                tabindex="0"
-                (click)="searchService.toggleFilter(searchService.query.genres, item.value);analytics.sendEvent('search', 'genre', item.value)"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                {{ item.value | appUpcase }}
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.genres; let i = index">
+          <li *ngIf="i < 6 || genresExpanded" [title]="item.value | appUpcase" [class.app-selected]="searchService.query.genres.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.genres.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.genres, item.value);analytics.sendEvent('search', 'genre', item.value)">
+              {{ item.value | appUpcase }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.genres.length > 6"
-            tabindex="0"
-            (click)="genresExpanded = !genresExpanded"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (genresExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.genres.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="genresExpanded = !genresExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (genresExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
-
 
     <mat-expansion-panel *ngIf="searchService.publishers.length && filters.indexOf('publishers') > -1" class="app-filter-panel" [expanded]="true">
       <mat-expansion-panel-header>
@@ -282,25 +303,26 @@
           {{ 'search.publishers' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.publishers; let i = index">
-          <div *ngIf="i < 6 || publishersExpanded"
-                tabindex="0"
-                (click)="searchService.toggleFilter(searchService.query.publishers, item.value);analytics.sendEvent('search', 'publisher', item.value)"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                {{ item.value | appUpcase }}
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.publishers; let i = index">
+          <li *ngIf="i < 6 || publishersExpanded" [title]="item.value | appUpcase" [class.app-selected]="searchService.query.publishers.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.publishers.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.publishers, item.value);analytics.sendEvent('search', 'publisher', item.value)">
+              {{ item.value | appUpcase }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.publishers.length > 6"
-            tabindex="0"
-            (click)="publishersExpanded = !publishersExpanded"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (publishersExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.publishers.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="publishersExpanded = !publishersExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (publishersExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
-
 
     <mat-expansion-panel *ngIf="searchService.places.length && filters.indexOf('places') > -1" class="app-filter-panel" [expanded]="true">
       <mat-expansion-panel-header>
@@ -308,22 +330,24 @@
           {{ 'search.places' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.places; let i = index">
-          <div *ngIf="i < 6 || placesExpanded"
-                tabindex="0"
-                (click)="searchService.toggleFilter(searchService.query.places, item.value);analytics.sendEvent('search', 'place', item.value)"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                {{ item.value | appUpcase }}
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.places; let i = index">
+          <li *ngIf="i < 6 || placesExpanded" [title]="item.value | appUpcase" [class.app-selected]="searchService.query.places.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.places.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.places, item.value);analytics.sendEvent('search', 'place', item.value)">
+              {{ item.value | appUpcase }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.places.length > 6"
-            tabindex="0"
-            (click)="placesExpanded = !placesExpanded"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (placesExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.places.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="placesExpanded = !placesExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (placesExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
 
@@ -335,25 +359,26 @@
           {{ 'search.locations' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.locations; let i = index">
-          <div *ngIf="i < 6 || locationsExpanded"
-                tabindex="0"
-                (click)="searchService.toggleFilter(searchService.query.locations, item.value);analytics.sendEvent('search', 'location', item.value)"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                {{'sigla.' + item.value | translate | appRemovePrefix:'sigla.' }}
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.locations; let i = index">
+          <li *ngIf="i < 6 || locationsExpanded" [title]="'sigla.' + item.value | translate | appRemovePrefix:'sigla.'" [class.app-selected]="searchService.query.locations.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.locations.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.locations, item.value);analytics.sendEvent('search', 'location', item.value)">
+              {{'sigla.' + item.value | translate | appRemovePrefix:'sigla.' }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.locations.length > 6"
-            tabindex="0"
-            (click)="locationsExpanded = !locationsExpanded"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (locationsExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.locations.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="locationsExpanded = !locationsExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (locationsExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
-
 
 
     <mat-expansion-panel *ngIf="searchService.languages.length && filters.indexOf('languages') > -1" class="app-filter-panel" [expanded]="true">
@@ -362,25 +387,26 @@
           {{ 'search.languages' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.languages; let i = index">
-          <div *ngIf="i < 6 || languagesExpanded"
-                tabindex="0"
-                (click)="searchService.toggleFilter(searchService.query.languages, item.value);analytics.sendEvent('search', 'language', item.value)"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                {{'language.' + item.value | translate | appUpcase }}
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.languages; let i = index">
+          <li *ngIf="i < 6 || languagesExpanded" [title]="'language.' + item.value | translate | appUpcase" [class.app-selected]="searchService.query.languages.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.languages.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.languages, item.value);analytics.sendEvent('search', 'language', item.value)">
+              {{'language.' + item.value | translate | appUpcase }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.languages.length > 6"
-            tabindex="0"
-            (click)="languagesExpanded = !languagesExpanded"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (languagesExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.languages.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="languagesExpanded = !languagesExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (languagesExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
-
 
 
     <mat-expansion-panel *ngIf="searchService.collections.length && filters.indexOf('collections') > -1" class="app-filter-panel" [expanded]="true">
@@ -389,24 +415,27 @@
           {{ 'search.collections' | translate }}   
         </mat-panel-title>
       </mat-expansion-panel-header>
-        <div class="app-filter-items">
-          <ng-container *ngFor="let item of searchService.collections; let i = index">
-          <div *ngIf="i < 6 || collectionsExpanded"
-                tabindex="0"
-                (click)="searchService.toggleFilter(searchService.query.collections, item.value);analytics.sendEvent('search', 'collection', item.value)"
-                class="app-filter-item">
-                <span>{{item.count}}</span>
-                {{ collectionService.getNameByPid(item.value) | appUpcase }}
-          </div>
+      <ul>
+        <ng-container *ngFor="let item of searchService.collections; let i = index">
+          <li *ngIf="i < 6 || collectionsExpanded" [title]="collectionService.getNameByPid(item.value) | appUpcase" [class.app-selected]="searchService.query.collections.indexOf(item.value) >= 0">
+            <mat-checkbox 
+              [checked]="searchService.query.collections.indexOf(item.value) >= 0"
+              (change)="searchService.toggleFilter(searchService.query.collections, item.value);analytics.sendEvent('search', 'collection', item.value)">
+              {{ collectionService.getNameByPid(item.value) | appUpcase }}
+            </mat-checkbox>
+            <span class="app-filter-count">{{item.count}}</span>
+          </li>
         </ng-container>
-        <div *ngIf="searchService.collections.length > 6"
-             tabindex="0"
-            (click)="collectionsExpanded = !collectionsExpanded"
-             class="app-filter-item app-expand">
-            {{ 'filters.btn_show_' + (collectionsExpanded ? 'less' : 'more') | translate }}  
-        </div>
+      </ul>
+      <div *ngIf="searchService.collections.length > 6"
+        tabindex="0"
+        role="button"
+        (click)="collectionsExpanded = !collectionsExpanded"
+        class="app-expand">
+        {{ 'filters.btn_show_' + (collectionsExpanded ? 'less' : 'more') | translate }}  
       </div>
     </mat-expansion-panel>
+
 
   </mat-accordion>
 
