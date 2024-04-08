@@ -17,102 +17,101 @@
   
   <div class="col app-col-right" [class.app-col-right-home]="state.atHome()" [class.app-search-bar-displayed]="mobileSearchBarExpanded">
     <app-navbar-search-bar *ngIf="!state.atHome()" [class.app-search-bar-show]="mobileSearchBarExpanded"></app-navbar-search-bar>
-    <div class="app-buttons">
-      
-      <div class="app-navbar-item">
-        <ng-container *ngIf="appSettings.k5Compat(); else newCollections">
-          <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
-          <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
+    <nav class="app-buttons">
+      <ul>
+        <li class="app-navbar-item">
+          <ng-container *ngIf="appSettings.k5Compat(); else newCollections">
+            <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
+            <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
+          </ng-container>
+          <ng-template #newCollections>
+            <a *ngIf="appSettings.availableDoctype('collection')" (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
+          </ng-template>
+        </li>
+        <li class="app-navbar-item">
+          <a (click)="analytics.sendEvent('navbar', 'browse');" [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
+        </li>
+        <li class="app-navbar-item" *ngIf="appSettings.aboutPage">
+          <a (click)="analytics.sendEvent('navbar', 'about');" [routerLink]="appSettings.getRouteFor('about')">{{ 'navbar.about' | translate }}</a>
+        </li>
+        <li class="app-navbar-item" *ngIf="appSettings.faqPage">
+          <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
+        </li>
+        <li class="app-navbar-item" *ngIf="appSettings.impressumPage">
+          <a (click)="analytics.sendEvent('navbar', 'impressum');" [routerLink]="appSettings.getRouteFor('impressum')">{{ 'navbar.impressum' | translate }}</a>
+        </li>
+        <li class="app-navbar-item" *ngIf="authService.isLoggedIn() && appSettings.folders">
+          <a (click)="analytics.sendEvent('navbar', 'folders');" [routerLink]="appSettings.getRouteFor('folders')">{{ 'navbar.folders' | translate }}</a>
+        </li>
+        <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.keycloak">
+          <li class="app-navbar-item" *ngIf="authService.isLoggedIn()">
+            <a tabindex="0" (click)="logout()">{{ 'navbar.logout' | translate }}</a>
+          </li>
+          <li class="app-navbar-item" *ngIf="!authService.isLoggedIn()">
+            <a tabindex="0" (click)="login()">{{ 'navbar.login' | translate }}</a>
+          </li>
         </ng-container>
-        <ng-template #newCollections>
-          <a *ngIf="appSettings.availableDoctype('collection')" (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
-        </ng-template>
-      </div>
-      <div class="app-navbar-item">
-        <a (click)="analytics.sendEvent('navbar', 'browse');" [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
-      </div>
-      <div class="app-navbar-item" *ngIf="appSettings.aboutPage">
-        <a (click)="analytics.sendEvent('navbar', 'about');" [routerLink]="appSettings.getRouteFor('about')">{{ 'navbar.about' | translate }}</a>
-      </div>
-      <div class="app-navbar-item" *ngIf="appSettings.faqPage">
-        <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
-      </div>
-      <div class="app-navbar-item" *ngIf="appSettings.impressumPage">
-        <a (click)="analytics.sendEvent('navbar', 'impressum');" [routerLink]="appSettings.getRouteFor('impressum')">{{ 'navbar.impressum' | translate }}</a>
-      </div>
-      <div class="app-navbar-item" *ngIf="authService.isLoggedIn() && appSettings.folders">
-        <a (click)="analytics.sendEvent('navbar', 'folders');" [routerLink]="appSettings.getRouteFor('folders')">{{ 'navbar.folders' | translate }}</a>
-      </div>
-      <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.keycloak">
-        <div class="app-navbar-item" *ngIf="authService.isLoggedIn()">
-          <a tabindex="0" (click)="logout()">{{ 'navbar.logout' | translate }}</a>
-        </div>
-        <div class="app-navbar-item" *ngIf="!authService.isLoggedIn()">
-          <a tabindex="0" (click)="login()">{{ 'navbar.login' | translate }}</a>
-        </div>
-      </ng-container>
-
-
-      <div class="app-language">
-        <div tabindex="0" *ngIf="languages().length > 1" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu">
-          <img [alt]="'lang.' + translate.currentLang | translate"  src="assets/img/flag_{{translate.currentLang}}.png" >
-        </div>
-
-      </div>
-
+        <li class="app-language">
+          <div tabindex="0" role="button" *ngIf="languages().length > 1" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu">
+            <img [alt]="'lang.' + translate.currentLang | translate"  src="assets/img/flag_{{translate.currentLang}}.png" >
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div role="button" class="app-mobile-menu-trigger" [matMenuTriggerFor]="mobileMenu" [class.app-home]="state.atHome()" >
+      <mat-icon>more_vert</mat-icon>
     </div>
-    <a tabindex="0" class="app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="!state.atHome()">
+    <a tabindex="0" role="button" class="app-btn-search-bar" (click)="toggleMobileSearchBar()" *ngIf="!state.atHome()">
       <mat-icon *ngIf="!mobileSearchBarExpanded">search</mat-icon>
       <mat-icon *ngIf="mobileSearchBarExpanded">close</mat-icon>
     </a>
-    
-    <div class="app-mobile-menu-trigger" [matMenuTriggerFor]="mobileMenu" [class.app-home]="state.atHome()" >
-      <mat-icon>more_vert</mat-icon>
-    </div>
   </div>
 </div>
 
 
 <mat-menu #mobileMenu="matMenu" xPosition="after" class="app-mobile-menu">
-  <ng-template matMenuContent ngFor>
+  <ng-template matMenuContent>
+    <nav>
+      <ul>
+        <li class="app-navbar-item">
+          <ng-container *ngIf="appSettings.k5Compat(); else newCollections">
+            <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
+            <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
+          </ng-container>
+          <ng-template #newCollections>
+            <a *ngIf="appSettings.availableDoctype('collection')" (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
+          </ng-template>
+        </li>
+        <li class="app-navbar-item">
+          <a (click)="analytics.sendEvent('navbar', 'browse');" [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
+        </li>
+        <li class="app-navbar-item" *ngIf="appSettings.aboutPage">
+          <a (click)="analytics.sendEvent('navbar', 'about');" [routerLink]="appSettings.getRouteFor('about')">{{ 'navbar.about' | translate }}</a>
+        </li>
+        <li class="app-navbar-item" *ngIf="appSettings.faqPage">
+          <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
+        </li>
+        <li class="app-navbar-item" *ngIf="appSettings.impressumPage">
+          <a (click)="analytics.sendEvent('navbar', 'impressum');" [routerLink]="appSettings.getRouteFor('impressum')">Impressum</a>
+        </li>
+        <li class="app-navbar-item" *ngIf="authService.isLoggedIn() && appSettings.folders">
+          <a (click)="analytics.sendEvent('navbar', 'folders');"  [routerLink]="appSettings.getRouteFor('folders')">{{ 'navbar.folders' | translate }}</a>
+        </li>
+        <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.keycloak">
+          <li class="app-navbar-item" *ngIf="authService.isLoggedIn()">
+            <a tabindex="0" (click)="logout()">{{ 'navbar.logout' | translate }}</a>
+          </li>
+          <li class="app-navbar-item" *ngIf="!authService.isLoggedIn()">
+            <a tabindex="0" (click)="login()">{{ 'navbar.login' | translate }}</a>
+          </li>
+        </ng-container>
 
-    <div class="app-navbar-item">
-      <ng-container *ngIf="appSettings.k5Compat(); else newCollections">
-        <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="!appSettings.richCollections" [routerLink]="appSettings.getRouteFor('browse')" [queryParams]="{category: 'collections'}">{{ 'navbar.collections' | translate }}</a>
-        <a (click)="analytics.sendEvent('navbar', 'collections');" *ngIf="appSettings.richCollections" [routerLink]="appSettings.getRouteFor('collections')">{{ 'navbar.collections' | translate }}</a>
-      </ng-container>
-      <ng-template #newCollections>
-        <a *ngIf="appSettings.availableDoctype('collection')" (click)="analytics.sendEvent('navbar', 'collections');" [routerLink]="appSettings.getRouteFor('search')" [queryParams]="{doctypes: 'collection'}">{{ 'navbar.collections' | translate }}</a>
-      </ng-template>
-    </div>
-    <div class="app-navbar-item">
-      <a (click)="analytics.sendEvent('navbar', 'browse');" [routerLink]="appSettings.getRouteFor('browse')">{{ 'navbar.browse' | translate }}</a>
-    </div>
-    <div class="app-navbar-item" *ngIf="appSettings.aboutPage">
-      <a (click)="analytics.sendEvent('navbar', 'about');" [routerLink]="appSettings.getRouteFor('about')">{{ 'navbar.about' | translate }}</a>
-    </div>
-    <div class="app-navbar-item" *ngIf="appSettings.faqPage">
-      <a (click)="analytics.sendEvent('navbar', 'faq');" [routerLink]="appSettings.getRouteFor('faq')">{{ 'navbar.faq' | translate }}</a>
-    </div>
-    <div class="app-navbar-item" *ngIf="appSettings.impressumPage">
-      <a (click)="analytics.sendEvent('navbar', 'impressum');" [routerLink]="appSettings.getRouteFor('impressum')">Impressum</a>
-    </div>
-    <div class="app-navbar-item" *ngIf="authService.isLoggedIn() && appSettings.folders">
-      <a (click)="analytics.sendEvent('navbar', 'folders');"  [routerLink]="appSettings.getRouteFor('folders')">{{ 'navbar.folders' | translate }}</a>
-    </div>
-    <ng-container *ngIf="appSettings.auth || appSettings.krameriusLogin || appSettings.keycloak">
+        <li tabindex="0" (click)="$event.preventDefault();$event.stopPropagation()" *ngIf="languages().length > 1" class="app-language" [matMenuTriggerFor]="languagesMenu">
+          <img src="assets/img/flag_{{translate.currentLang}}.png">
+        </li>
+      </ul>
+    </nav>
 
-      <div class="app-navbar-item" *ngIf="authService.isLoggedIn()">
-        <a tabindex="0" (click)="logout()">{{ 'navbar.logout' | translate }}</a>
-      </div>
-      <div class="app-navbar-item" *ngIf="!authService.isLoggedIn()">
-        <a tabindex="0" (click)="login()">{{ 'navbar.login' | translate }}</a>
-      </div>
-    </ng-container>
-
-    <div tabindex="0" (click)="$event.preventDefault();$event.stopPropagation()" *ngIf="languages().length > 1" class="app-language" [matMenuTriggerFor]="languagesMenu">
-      <img src="assets/img/flag_{{translate.currentLang}}.png">
-    </div>
 
   </ng-template>
 </mat-menu>
@@ -120,12 +119,12 @@
 
 
 <mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
-  <!-- <ng-template matMenuContent ngFor> -->
-    <div class="app-dropdown-item" mat-menu-item tabindex="0" *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)">
+  <ul>
+    <li class="app-dropdown-item" mat-menu-item tabindex="0" *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)" role="button">
       <div class="app-language">
         <img src="assets/img/flag_{{lang}}.png">
         <div class="app-language-name">{{ 'lang.' + lang | translate }}</div>
       </div>
-    </div>
-  <!-- </ng-template> -->
+    </li>
+  </ul>
 </mat-menu>

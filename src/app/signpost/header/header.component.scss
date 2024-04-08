@@ -14,10 +14,12 @@
   .sp-header-buttons {
     float: right;
     overflow: hidden;
+    li {
+      float: left;
+    }
     .sp-header-button {
       transition: background-color .3s;
       font-size: 1rem;
-      float: left;
       color: #757575;
       display: block;
       padding: 0 15px;
@@ -28,7 +30,6 @@
     }
     .app-language {
       margin-right: 5px;
-      float: left;
       .app-dropdown-language {
         height: 68px;
         padding: 14px 16px;

@@ -108,7 +108,6 @@ export class AppSettings {
   public crossOrigin = !!APP_GLOBAL.crossOrigin;
 
   public krameriusList: KrameriusData[];
-  public krameriusVsList = APP_GLOBAL.krameriusVsList;
 
   constructor(public translate: TranslateService) {
     this.krameriusList = [];

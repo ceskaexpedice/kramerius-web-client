@@ -1,31 +1,34 @@
 <div class="sp-header">
       
-<div class="sp-header-buttons">
-  
-  <a (click)="analytics.sendEvent('landing', 'help');" [routerLink]="['/', 'help']" class="sp-header-button">{{ 'sp.header.help' | translate }}</a>
+  <nav class="sp-header-buttons">
+    <ul>
+      <li>
+        <a (click)="analytics.sendEvent('landing', 'help');" [routerLink]="['/', 'help']" class="sp-header-button">{{ 'sp.header.help' | translate }}</a>
+      </li>
 
-  <div class="app-language">
-    <div *ngIf="languages().length > 1" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu">
-      <img src="assets/img/flag_{{translate.currentLang}}.png">
-    </div>
-
-    <mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
-      <ng-template matMenuContent ngFor>
-        <div class="app-dropdown-item" *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)">
-          <div class="app-language">
-            <img src="assets/img/flag_{{lang}}.png">
-            <div class="app-language-name">{{ 'lang.' + lang | translate }}</div>
-          </div>
+      <li class="app-language">
+        <div *ngIf="languages().length > 1" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu" role="button">
+          <img src="assets/img/flag_{{translate.currentLang}}.png">
         </div>
-      </ng-template>
-    </mat-menu>
+      </li>
+    </ul>
+  </nav>
 
-  </div>
 
-</div>
-
-<a class="sp-header-logo" [routerLink]="['/']" [matTooltip]="'sp.logo_tooltip' | translate">
-  <img [src]="'sp.header.logo' | translate">
-</a>
+  <a class="sp-header-logo" [routerLink]="['/']" [matTooltip]="'sp.logo_tooltip' | translate">
+    <img [src]="'sp.header.logo' | translate">
+  </a>
 
 </div>
+
+
+<mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
+  <ul>
+    <li class="app-dropdown-item" *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)" role="button">
+      <div class="app-language">
+        <img src="assets/img/flag_{{lang}}.png">
+        <div class="app-language-name">{{ 'lang.' + lang | translate }}</div>
+      </div>
+    </li>
+  </ul>
+</mat-menu>
