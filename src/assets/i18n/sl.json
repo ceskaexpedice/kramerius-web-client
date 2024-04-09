@@ -430,7 +430,11 @@
     "region_translate": "Prevedi",
     "region_summarize": "Povzetek",
     "region_share": "Deli",
-    "region_image": "Slika"
+    "region_image": "Slika",
+    "read_pause": "Začasno ustavi branje",
+    "read_resume": "Nadaljuj z branjem",
+    "read_stop": "Ustavi branje",
+    "read_next": "Preskoči na naslednje"
   },
   "book_controls": {
     "tooltip_print": "Priprava na tisk",
