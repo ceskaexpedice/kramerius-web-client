@@ -24,7 +24,7 @@ export class AiService {
   } 
   
 
-  private post(path: string, body: any, callback: (response: any) => void, errorCallback?: (error: string) => void) {
+  private post(path: string, body: any, callback: (response: any) => void, errorCallback?: (error: string) => void, responseType: string = null) {
     let token;
     if (this.settings.ai && this.auth.isLoggedIn()) {
       token = this.settings.getToken();
@@ -38,7 +38,11 @@ export class AiService {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', `application/json`);
 
-    this.http.post(url, body, { headers: headers }).subscribe((response: any) => {
+    let options = { headers: headers };
+    if (responseType === 'arraybuffer') {
+      options['responseType'] = 'arraybuffer';
+    }
+    this.http.post(url, body, options).subscribe((response: any) => {
       if (callback) {
         callback(response);
       }
@@ -63,18 +67,17 @@ export class AiService {
 
 
   testOpenAiTTS(text: string, voice: String, callback: (blob: any, error?: string) => void) {
-    var formData = JSON.stringify({
+    var body = JSON.stringify({
       'model':'tts-1',
       'voice': voice,
       'input':text
     });
-    let headers = new HttpHeaders()
-      .set('Content-Type', `application/json`)
-      .set('Authorization', `Bearer *`);
-    this.http.post('https://api.openai.com/v1/audio/speech', formData, { headers: headers , responseType: 'arraybuffer' }).subscribe((response: any) => {
+    this.post('/openai/tts', body, (response: any) => {
       var blob = new Blob([response]);
       callback(blob);
-    }, (error) => {});
+    },(error: string) => {
+      callback(null, error);
+    }, 'arraybuffer');
   }
 
   textToSpeech(text: string, language: string, callback: (audioContent: string, error?: string) => void) {
