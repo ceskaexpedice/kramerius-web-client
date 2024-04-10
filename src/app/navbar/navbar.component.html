@@ -1,7 +1,8 @@
 <div class="app-navbar">
   <div *ngIf="!state.atHome()" class="col app-col-left" [class.app-col-hidden]="mobileSearchBarExpanded">
     <a tabindex="0" class="app-arrow-left" (click)="goBack()">
-      <mat-icon [matTooltip]="'navbar.back' | translate" matTooltipPosition="above">arrow_back</mat-icon>
+      <mat-icon [matTooltip]="'navbar.back' | translate" matTooltipPosition="above" aria-hidden="true">arrow_back</mat-icon>
+      <span class="app-visualy-hidden">{{ 'navbar.back' | translate }}</span>
     </a>
     <app-logo></app-logo>
   </div>
