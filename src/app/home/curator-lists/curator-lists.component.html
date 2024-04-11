@@ -1,33 +1,39 @@
 <div class="app-curkeywords-wrapper" *ngIf="settings.curatorKeywordsEnabled">
-    <div class="app-curkeyword" *ngFor="let keyword of curatorKeywords" [routerLink]="settings.getRouteFor('search')" [queryParams]="getParams(keyword.query)">{{ keywordLabel(keyword) }}</div>
+    <h3 class="app-visualy-hidden"> {{ 'home.suggested' | translate }}</h3>
+    <ul>
+        <li>
+            <a *ngFor="let keyword of curatorKeywords" [routerLink]="settings.getRouteFor('search')" [queryParams]="getParams(keyword.query)">{{ keywordLabel(keyword) }}</a>
+        </li>
+    </ul>
 </div>
 <div class="app-curlist-wrapper" *ngIf="settings.curatorListsEnabled">
     <div *ngFor="let list of curatorLists">
         <div class="app-curlist-title-wrapper">
-            <div class="app-curlist-title" (click)="expandCards(list)">{{ listLabel(list) }}</div>
-            <div class="app-curlist-collapse-icon" *ngIf="isExpanded(list)" (click)="expandCards(list)"><mat-icon>expand_less</mat-icon></div>
+            <h3 (click)="expandCards(list)">{{ listLabel(list) }}</h3>
+            <div role="button" aria-label="{{ 'filters.btn_show_less' | translate }}" class="app-curlist-collapse-icon" *ngIf="isExpanded(list)" (click)="expandCards(list)"><mat-icon>expand_less</mat-icon></div>
         </div>
         <!-- KARTY NA VYSKU -->
-        <div class="app-curlist-content" *ngIf="list.items && verticalCards && !isExpanded(list)">
-            <ng-container *ngFor="let item of list.items.slice(0, [shownItems]); let last = last">
+        <ul class="app-curlist-content" *ngIf="list.items && verticalCards && !isExpanded(list)">
+            <li *ngFor="let item of list.items.slice(0, [shownItems]); let last = last">
                 <a [routerLink]="item.url" class="app-curlist-item" *ngIf="!last">
                     <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)"></div>
                     <div class="app-item-title">{{ getTitle(item) }}</div>
                 </a>
-                <div class="app-curlist-item app-item-last" *ngIf="last">
+                <div tabindex="0" role="button"  aria-label="{{ 'filters.btn_show_more' | translate }}" class="app-curlist-item app-item-last" *ngIf="last">
                     <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)"></div>
                     <div class="app-item-title">{{ getTitle(item) }}</div>
                     <div class="app-item-plus" *ngIf="list.items.length - shownItems > 0" (click)="expandCards(list)">+ {{list.items.length - shownItems}}</div>
                 </div>
-            </ng-container>
-        </div>
-        <div class="app-curlist-content app-curlist-expanded" *ngIf="list.items && verticalCards && isExpanded(list)">
-            <a [routerLink]="item.url" class="app-curlist-item" *ngFor="let item of list.items">
-                <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)"></div>
-                <div class="app-item-title">{{ getTitle(item) }}</div>
-                <!-- <div class="app-item-date">{{ item.date }}</div> -->
-            </a>
-        </div>
+            </li>
+        </ul>
+        <ul class="app-curlist-content app-curlist-expanded" *ngIf="list.items && verticalCards && isExpanded(list)">
+            <li *ngFor="let item of list.items">
+                <a [routerLink]="item.url" class="app-curlist-item">
+                    <div class="app-item-thumb" [style.background-image]="thumb(item.uuid)"></div>
+                    <div class="app-item-title">{{ getTitle(item) }}</div>
+                </a>
+            </li>
+        </ul>
         <!-- KLASICKE KARTY -->
         <div class="app-curlist-content" *ngIf="list.items && !verticalCards && !isExpanded(list)">
             <app-document-card *ngFor="let item of list.items.slice(0, [shownDocumentCards])" [in]="'curlist'" [item]="item" [display]="'grid'"></app-document-card>

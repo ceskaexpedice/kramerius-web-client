@@ -1,21 +1,19 @@
 @import './src/_variables.scss';
 .app-curkeywords-wrapper {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
     margin: 0 0 25px 0;
-    .app-curkeyword {
-        margin: 0px 10px 10px 5px;
-        color: #707070;
-        cursor: pointer;
-        font-size: 14px;
-        border: 1px solid #d1d1d1;
-        border-radius: 19px;
-        padding: 6px 10px;
-        &:hover {
-            // border-color: #555;
-            // color: #555;
-            background: #eee;
+    ul {
+        text-align: center;
+        a {
+            margin: 0px 10px 10px 5px;
+            color: #707070;
+            display: inline-block;
+            font-size: 14px;
+            border: 1px solid #d1d1d1;
+            border-radius: 19px;
+            padding: 6px 10px;
+            &:hover {
+                background: #eee;
+            }
         }
     }
 }
@@ -32,8 +30,9 @@
 .app-curlist-title-wrapper {
     display: flex;
     justify-content: space-between;
-    .app-curlist-title {
-        // color: $primary-color;
+    h3{
+        font-size: 16px;
+        font-weight: normal;
         color: #707070;
         font-size: medium;
         margin: 10px 0px 10px 10px;
@@ -57,17 +56,19 @@
         flex: 100%;
     }
     // IF VERTICAL CARDS
-    .app-curlist-item {
-        // flex: 1;
-        position: relative;
+    li {
         flex-basis: 160px;
         flex-shrink: 1;
         flex-grow: 0;
-        // max-width: 167px;
-        margin: 0 5px 10px 10px;
-        cursor: pointer;
         height: 186px;
+        margin: 0 5px 10px 10px;
+    }
+    .app-curlist-item {
+        display: block;
+        height: 100%;
+        position: relative;
         border-radius: 5px;
+        cursor: pointer;
         border: 1px solid #e8e8e8;
         &:hover {
             border: 1px solid #e8e8e8;

@@ -326,7 +326,8 @@
       "tab_latest": "Najnovšie",
       "select_library": "Vybrať knižnicu",
       "public_filter": "Iba verejné",
-      "preselected_licences_filter": "Len prístupné online"
+      "preselected_licences_filter": "Len prístupné online",
+      "suggested": "Navrhované:"
     },
     "metadata": {
       "title_other": "Ďalšie názvy",

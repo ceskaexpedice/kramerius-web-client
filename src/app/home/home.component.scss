@@ -14,17 +14,17 @@
       &:nth-child(2) {
         margin-bottom: 10px;
       }
-      
-      .col {      
-        &.app-desc {
-          color: $app-grey-l-1;
-          span {
-            display: block;
-            min-height: 8px;
-            color: $app-grey;
-          }
-        }
+      h1 {
+        font-size: 15px;
+        font-weight: normal;
+        color: $app-grey;
+        margin: 0;
       }
+    }
+
+    app-home-search-bar {
+      margin-top: 20px;
+      display: block;
     }
     
     // mq

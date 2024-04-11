@@ -11,8 +11,8 @@
       <span class="app-brand-img app-brand-top">
         <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.getTitle() }}" />
       </span>
-      <span *ngIf="!appSettings.hideHomeTitle" class="app-brand-text app-brand-top">{{ appSettings.getTitle() }}</span>
-      <mat-icon class="app-brand-handle">expand_more</mat-icon>
+      <span *ngIf="!appSettings.hideHomeTitle" class="app-brand-text app-brand-top" aria-hidden="true">{{ appSettings.getTitle() }}</span>
+      <mat-icon class="app-brand-handle" aria-hidden="true">expand_more</mat-icon>
     </span>
   </a>
 </div>
@@ -23,8 +23,8 @@
       <span class="app-brand-img app-brand-top">
         <img src="{{ appSettings.logoHome }}" class="img-responsive app-pipe" alt="{{ appSettings.getTitle() }}" />
       </span>
-      <span *ngIf="!appSettings.hideHomeTitle" class="app-brand-text app-brand-top">{{ appSettings.getTitle() }}</span>
-      <mat-icon class="app-brand-handle">expand_more</mat-icon>
+      <span *ngIf="!appSettings.hideHomeTitle" class="app-brand-text app-brand-top" aria-hidden="true">{{ appSettings.getTitle() }}</span>
+      <mat-icon class="app-brand-handle" aria-hidden="true">expand_more</mat-icon>
     </span>
   </div>
 

@@ -307,7 +307,10 @@
     "tab_visited": "Obiskano",
     "tab_recommended": "Priporočeno",        
     "tab_latest": "Najnovejše",
-    "select_library": "Izberi knjižnico"
+    "select_library": "Izberi knjižnico",
+    "public_filter": "Samo javno",
+    "preselected_licences_filter": "Na voljo samo na spletu",
+    "suggested": "Predlagano:"
   },
   "metadata": {
     "title_other": "Drugi naslovi",

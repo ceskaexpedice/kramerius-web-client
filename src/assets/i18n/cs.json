@@ -329,7 +329,8 @@
     "tab_latest": "Nejnovější",
     "select_library": "Vybrat knihovnu",
     "public_filter": "Pouze veřejné",
-    "preselected_licences_filter": "Pouze přístupné online"
+    "preselected_licences_filter": "Pouze přístupné online",
+    "suggested": "Doporučené:"
   },
   "metadata": {
     "title_other": "Další názvy",

@@ -326,7 +326,8 @@
       "tab_latest": "Neueste",
       "select_library": "Bibliothek wählen",
       "public_filter": "nur öffentlich",
-      "preselected_licences_filter": "Only available online"
+      "preselected_licences_filter": "Only available online",
+      "suggested": "Empfohlen:"
     },
     "metadata": {
       "title_other": "Andere Namen",
