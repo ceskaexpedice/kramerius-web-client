@@ -2,7 +2,7 @@
   <app-periodical-toolbar></app-periodical-toolbar>
 
   <ng-container *ngIf="!periodicalService.fulltext">
-
+    <h2 class="app-visualy-hidden">{{ 'search.results' | translate }}</h2>
     <app-periodical-unit-layout
       *ngIf="periodicalService.activeLayout=='title'">
     </app-periodical-unit-layout>  

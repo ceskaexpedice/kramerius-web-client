@@ -42,6 +42,7 @@
 
         <!-- IF GRID -->
         <div *ngIf="searchService.contentTypeDisplay === 'grid' && (!searchService.displayTabs || searchService.activeTab === 'documents')">
+            <h2 class="app-visualy-hidden">{{ 'search.results' | translate }}</h2>
             <ul>
                 <li *ngFor="let item of searchService.results">
                     <app-document-card [ngClass]="{'app-search-collection': searchService.collection}" [selectable]="searchService.adminSelection" [in]="searchService.collection ? 'collection' : 'search'" (open)="onOpen(item)" [item]="item" [display]="'grid'"></app-document-card>

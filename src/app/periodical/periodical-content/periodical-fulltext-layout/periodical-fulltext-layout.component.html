@@ -1,4 +1,5 @@
 <div id="app-periodical-fulltext-container" class="app-periodical-fulltext-layout-wrapper">
+  <h2 class="app-visualy-hidden">{{ 'search.results' | translate }}</h2>
   <ul>
     <li *ngFor="let item of periodicalService.fulltext.pages">
       <app-periodical-fulltext-item [item]="item"></app-periodical-fulltext-item>
