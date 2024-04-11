@@ -82,12 +82,15 @@
     </mat-expansion-panel-header>
     <div class="app-filter-items">
       <div class="year-range-wrapper">
-        <div class="year-range">
-          <span>{{ 'search.year-range.from' | translate }}</span>
-          <input [(ngModel)]="yearFrom" (change)="onYearFromValueChanged()" type="number">
-          <span>{{ 'search.year-range.to' | translate }}</span>
-          <input [(ngModel)]="yearTo" (change)="onYearToValueChanged()" type="number">
-        </div>
+        <fieldset>
+          <legend class="app-visualy-hidden">{{ 'search.year-range.label' | translate }}</legend>
+          <div class="year-range">
+            <span>{{ 'search.year-range.from' | translate }}</span>
+            <input [(ngModel)]="yearFrom" (change)="onYearFromValueChanged()" type="number">
+            <span>{{ 'search.year-range.to' | translate }}</span>
+            <input [(ngModel)]="yearTo" (change)="onYearToValueChanged()" type="number">
+          </div>
+        </fieldset>
         <button (click)="applyYearRange()" mat-flat-button color="primary">{{ 'search.year-range.apply' | translate }}</button>
       </div>
     </div>

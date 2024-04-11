@@ -1,10 +1,10 @@
-<div class="app-count" *ngIf="periodicalService.fulltext">
+<h1 *ngIf="periodicalService.fulltext">
   <span>{{ 'search.results' | translate }}: {{ periodicalService.fulltext.getResultsRange() }}</span>
   <span class="app-slash">/</span> 
   <span class="app-all">{{periodicalService.getNumberOfResults()}}</span>
-</div>
-<div class="app-count" *ngIf="!periodicalService.fulltext">
+</h1>
+<h1 *ngIf="!periodicalService.fulltext">
   <span>{{ 'search.results' | translate }}: </span>
   <span class="app-all">{{periodicalService.getNumberOfResults()}}</span>
-</div>
+</h1>
 

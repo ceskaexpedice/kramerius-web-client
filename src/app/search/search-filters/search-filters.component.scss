@@ -97,6 +97,11 @@
     }
     .year-range-wrapper {
       padding: 0;
+      fieldset {
+        border: none;
+        padding: 0;
+        margin: 0;
+      }
       .year-range {
         label {
           color: $app-grey-text;

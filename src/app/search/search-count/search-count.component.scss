@@ -1,6 +1,6 @@
 @import './src/variables.scss';
 
-.app-count {
+h1 {
     border: none;
     height: 100%;
     color: $app-grey-d-1;
@@ -9,6 +9,9 @@
     line-height: $app-toolbar-height;
     border-bottom: 1px solid $app-grey-l-2;
     background: #fff;
+    margin: 0;
+    font-weight: normal;
+    font-size: 15px;
     .app-all {
       font-weight: 500;
     }
