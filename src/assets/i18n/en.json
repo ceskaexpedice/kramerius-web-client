@@ -226,10 +226,11 @@
       "from": "From",
       "to": "To",
       "apply": "Apply"
-    },
-    "paginator": {
-      "label": "Items per page"
     }
+  },
+  "paginator": {
+    "label": "Items per page",
+    "nav_label": "Pagination"
   },
   "advanced_search": {
     "title": "Advanced Search",

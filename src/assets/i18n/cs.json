@@ -227,10 +227,11 @@
       "from": "Od",
       "to": "Do",
       "apply": "Použít"
-    },
-    "paginator": {
-      "label": "Položek na stránku"
     }
+  },
+  "paginator": {
+    "label": "Položek na stránku",
+    "nav_label": "Stránkování"
   },
   "advanced_search": {
     "title": "Pokročilé vyhledávání",

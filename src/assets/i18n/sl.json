@@ -215,6 +215,10 @@
       "apply": "Poišči"
     }
   },
+  "paginator": {
+    "label": "Elementov na stran",
+    "nav_label": "Paginacija"
+  },
   "advanced_search": {
     "title": "Napredno iskanje",
     "field": {

@@ -226,10 +226,11 @@
         "from": "Von",
         "to": "Bis",
         "apply": "Anwenden"
-      },
-      "paginator": {
-        "label": "Objekte pro Seite"
       }
+    },
+    "paginator": {
+      "label": "Objekte pro Seite",
+      "nav_label": "Paginierung"
     },
     "advanced_search": {
       "title": "Advances Search",
