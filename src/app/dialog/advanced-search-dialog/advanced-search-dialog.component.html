@@ -1,12 +1,12 @@
 <div class="app-advanced-search-dialog app-dialog">
 
-  <div class="app-dialog-title">{{ 'advanced_search.title' | translate }}</div>
+  <h1 class="app-dialog-title">{{ 'advanced_search.title' | translate }}</h1>
 
   <div class="app-dialog-content">
 
     <label>{{ 'advanced_search.field.field' | translate }}</label>
 
-    <div class="app-field-type-wrapper" tabindex="0" [matMenuTriggerFor]="fieldMenu">
+    <div class="app-field-type-wrapper" tabindex="0" role="button" [matMenuTriggerFor]="fieldMenu">
       <div class="app-field-type">{{ 'advanced_search.field.' + fieldType | translate }}</div>
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
@@ -33,6 +33,10 @@
 
 <mat-menu #fieldMenu="matMenu" xPosition="after" class="app-dropdown-menu">
   <ng-template matMenuContent>
-    <div mat-menu-item tabindex="0" *ngFor="let field of fields" class="app-dropdown-item" (click)="fieldType = field">{{ 'advanced_search.field.' + field | translate }}</div>
+    <ul>
+      <li *ngFor="let field of fields">
+        <div mat-menu-item tabindex="0" role="button" class="app-dropdown-item" (click)="changeField(field)">{{ 'advanced_search.field.' + field | translate }}</div>
+      </li>
+    </ul>
   </ng-template>
 </mat-menu>

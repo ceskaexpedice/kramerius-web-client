@@ -1,7 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   templateUrl: './advanced-search-dialog.component.html',
@@ -10,6 +11,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 })
 export class AdvancedSearchDialogComponent implements OnInit {
+
+  @ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
+
 
   fieldType = 'all';
   fieldValue = '';
@@ -32,7 +36,10 @@ export class AdvancedSearchDialogComponent implements OnInit {
 
   }
 
-
+  changeField(field: string) {
+    this.menuTrigger.closeMenu();
+    this.fieldType = field;
+  }
 
   onSearch() {
     this.analytics.sendEvent('advanced search', 'field', this.fieldType + ':' + this.fieldValue);
