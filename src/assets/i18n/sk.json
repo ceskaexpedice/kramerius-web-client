@@ -118,7 +118,8 @@
       },
       "document": "Hľadať v dokumente",
       "delete_query": "Vymazať dopyt",
-      "help": "Pomoc"
+      "help": "Pomoc",
+      "search": "Vyhľadať"
     },
     "search-help-dialog": {
       "e1": {

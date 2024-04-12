@@ -91,14 +91,14 @@
       </h3>
 
       <div class="app-source" [matMenuTriggerFor]="sourcesMenu">
-        <img [alt]="'source.' + bookService.source | translate" src='{{ "https://registr.digitalniknihovna.cz/libraries/" + bookService.source + "/logo" }}'>
+        <img alt="" src='{{ "https://registr.digitalniknihovna.cz/libraries/" + bookService.source + "/logo" }}'>
         <span>{{ 'source.' + bookService.source | translate }}</span>
       </div>
       <mat-menu #sourcesMenu="matMenu" class="app-libraries-menu">
         <ng-template matMenuContent ngFor>
           <div class="app-dropdown-item" *ngFor="let source of bookService.sources">
             <a [routerLink]="[settings.getRouteFor('view'), bookService.uuid]" [queryParams]="{source: source, fulltext: bookService.fulltextQuery }" (click)="analytics.sendEvent('metadata', 'change source', source);">
-              <img [alt]="'source.' + source | translate" src='{{ "https://registr.digitalniknihovna.cz/libraries/" + source + "/logo" }}' class="app-library-icon" />
+              <img [alt]="" src='{{ "https://registr.digitalniknihovna.cz/libraries/" + source + "/logo" }}' class="app-library-icon" />
               <div class="app-library-name">{{ 'source.' + source | translate }} </div>
             </a>
           </div>

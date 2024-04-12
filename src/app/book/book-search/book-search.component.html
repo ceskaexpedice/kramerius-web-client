@@ -4,9 +4,12 @@
     <ng2-completer #completer (keyup)="onKeyUp($event)" (selected)="onSelected($event)" [(ngModel)]="fulltextQuery" [matchClass]="'highlight'"
     [datasource]="service" [minSearchLength]="2" [inputId]="'document-search'" [inputClass]="'autocomplete'" [placeholder]="'searchbar.document' | translate" [inputName]="'autocomplete-input'">
     </ng2-completer>
-
-    <mat-icon tabindex="0" class="app-close" *ngIf="fulltextQuery" (click)="cleanQuery()">close</mat-icon>
-    <mat-icon class="app-magnify" (click)="onMagnifyIconClick()">search</mat-icon>
+    <button (click)="onMagnifyIconClick()" class="app-button app-button-search" mat-icon-button [attr.aria-label]="'searchbar.search' | translate" [matTooltip]="'searchbar.search' | translate">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button *ngIf="fulltextQuery" (click)="cleanQuery()" class="app-button app-button-close" mat-icon-button [attr.aria-label]="'searchbar.delete_query' | translate" [matTooltip]="'searchbar.delete_query' | translate">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
   <mat-checkbox *ngIf="bookService.getFulltextQuery()" color="primary" (change)="checkboxChanged()" [(ngModel)]="bookService.fulltextAllPages">{{ 'book_controls.all_pages' | translate }}</mat-checkbox>
 </div>

@@ -7,9 +7,22 @@
         [datasource]="service" [minSearchLength]="1" [inputId]="'autocomplete-input'" [inputClass]="'autocomplete'" [placeholder]="getPlaceholder()" [inputName]="'autocomplete-input'">
         </ng2-completer>
       </div>
-      <mat-icon (click)="onMagnifyIconClick()" class="app-button-search">search</mat-icon>
+      <!-- <mat-icon (click)="onMagnifyIconClick()" class="app-button-search">search</mat-icon>
       <mat-icon *ngIf="searchStr" (click)="cleanQuery()" class="app-button-close" [matTooltip]="'searchbar.delete_query' | translate">close</mat-icon>
-      <mat-icon tabindex="0" (click)="showHelp()" class="app-button-help" [matTooltip]="'searchbar.help' | translate">info_outline</mat-icon>
+      <mat-icon tabindex="0" (click)="showHelp()" class="app-button-help" [matTooltip]="'searchbar.help' | translate">info_outline</mat-icon> -->
+
+      <button (click)="onMagnifyIconClick()" class="app-button app-button-search" mat-icon-button [attr.aria-label]="'searchbar.search' | translate" [matTooltip]="'searchbar.search' | translate">
+        <mat-icon>search</mat-icon>
+      </button>
+    
+      <button *ngIf="searchStr" (click)="cleanQuery()" class="app-button app-button-close" mat-icon-button [attr.aria-label]="'searchbar.delete_query' | translate" [matTooltip]="'searchbar.delete_query' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    
+      <button (click)="showHelp()" class="app-button app-button-help" mat-icon-button [attr.aria-label]="'searchbar.help' | translate" [matTooltip]="'searchbar.help' | translate">
+        <mat-icon>info_outline</mat-icon>
+      </button>
+
     </div>
     <mat-checkbox *ngIf="accessibilityFilterEnabled()" color="primary" (change)="onAccessibilityFilterChanged()" [(ngModel)]="accessibilityFilter">{{ 'home.public_filter' | translate }}</mat-checkbox>
     <mat-checkbox *ngIf="preselectedLicencesFilterEnabled()" color="primary" (change)="onPreselectedLicencesFilterChanged()" [(ngModel)]="preselectedLicencesFilter">{{ 'home.preselected_licences_filter' | translate }}</mat-checkbox>

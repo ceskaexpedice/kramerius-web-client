@@ -17,17 +17,18 @@
         color: $app-grey;
       }
     }
-    mat-icon {
-      cursor: pointer;
-      top: 11px;
+    .app-button {
       position: absolute;
+      top: 1px;
       color: $app-grey-text;
-      &.app-close {
-        right: 0px;
-        font-size: 20px;
+      &.app-button-search {
+        left: -5px;
       }
-      &.app-magnify {
-        left: 0;
+      &.app-button-close {
+        right: -5px;
+        mat-icon {
+          font-size: 20px;
+        }
       }
     }
     &.app-is-query {
@@ -38,7 +39,7 @@
     }
     
     &.app-is-query, &:focus-within {
-      .app-magnify  {
+      .app-button-search  {
         color: $primary-color;
       }
     }

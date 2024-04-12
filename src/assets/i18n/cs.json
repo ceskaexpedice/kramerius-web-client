@@ -118,7 +118,8 @@
     },
     "document": "Hledat v dokumentu",
     "delete_query": "Vymazat dotaz",
-    "help": "Nápověda"
+    "help": "Nápověda",
+    "search": "Vyhledat"
   },
   "search-help-dialog": {
     "e1": {

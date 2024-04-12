@@ -11,23 +11,20 @@
   border: 1px solid $app-grey-l-2;
   border-radius: $app-border-radius;
   box-shadow:  0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 5px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.05);
-  
-  mat-icon {
+  .app-button {
     position: absolute;
-    line-height: normal;
-    height: auto;
-    top: 10px;
-    color: $app-grey-text;
-    cursor: pointer;
+    top: 1px;
     &.app-button-search {
-      left: 0.8rem;
+      left: 0;
     }
     &.app-button-close {
-      // right: 2.6rem;
       right: 3.2rem;
     }
     &.app-button-help {
       right: 0.6rem;
+    }
+    mat-icon {
+      color: $app-grey-text;
     }
   }
   ::ng-deep {

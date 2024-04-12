@@ -118,7 +118,8 @@
     },
     "document": "Search in document",
     "delete_query": "Delete query",
-    "help": "Help"
+    "help": "Help",
+    "search": "Suche"
   },
   "search-help-dialog": {
     "e1": {
