@@ -1,9 +1,35 @@
 <div class="app-book-controls">
-   <mat-icon tabindex="0" *ngIf="bookService.isImage() && bookService.isActionAvailable('print')" [class.app-disabled]="!bookService.isActionEnabled('print')" (click)="print()" [matTooltip]="'book_controls.tooltip_print' | translate">print</mat-icon>
-   <mat-icon tabindex="0" *ngIf="bookService.isImage() && bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="pdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate">picture_as_pdf</mat-icon>
-   <mat-icon tabindex="0" *ngIf="bookService.isImage() && bookService.isActionAvailable('jpeg')" [class.app-disabled]="!bookService.isActionEnabled('jpeg')" (click)="jpeg()" [matTooltip]="'book_controls.tooltip_jpg' | translate">image</mat-icon>
-   <mat-icon tabindex="0" *ngIf="bookService.isActionAvailable('text')" [class.app-disabled]="!bookService.isActionEnabled('text')" (click)="ocr()" [matTooltip]="'book_controls.tooltip_ocr' | translate">title</mat-icon>
-   <mat-icon tabindex="0" *ngIf="bookService.isPdf() && bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="downloadPdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate">file_download</mat-icon>
-   <mat-icon tabindex="0" *ngIf="bookService.isEpub() && bookService.getUuid() == 'epub'" (click)="uploadEpub()" [matTooltip]="'Nahrát epub'" style="float: right;">file_upload</mat-icon>
+
+   <button *ngIf="bookService.isImage() && bookService.isActionAvailable('print')" [class.app-disabled]="!bookService.isActionEnabled('print')" (click)="print()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_print' | translate" [matTooltip]="'book_controls.tooltip_print' | translate">
+      <mat-icon>print</mat-icon>
+   </button>
+
+   <button *ngIf="bookService.isImage() && bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="pdf()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_pdf' | translate" [matTooltip]="'book_controls.tooltip_pdf' | translate">
+      <mat-icon>picture_as_pdf</mat-icon>
+   </button>
+
+   <button *ngIf="bookService.isImage() && bookService.isActionAvailable('jpeg')" [class.app-disabled]="!bookService.isActionEnabled('jpeg')" (click)="jpeg()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_jpg' | translate" [matTooltip]="'book_controls.tooltip_jpg' | translate">
+      <mat-icon>image</mat-icon>
+   </button>
+
+   <button *ngIf="bookService.isActionAvailable('text')" [class.app-disabled]="!bookService.isActionEnabled('text')" (click)="ocr()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_ocr' | translate" [matTooltip]="'book_controls.tooltip_ocr' | translate">
+      <mat-icon>title</mat-icon>
+   </button>
+
+   <button *ngIf="bookService.isPdf() && bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="downloadPdf()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_pdf' | translate" [matTooltip]="'book_controls.tooltip_pdf' | translate">
+      <mat-icon>file_download</mat-icon>
+   </button>
+
+   <button *ngIf="bookService.isEpub() && bookService.getUuid() == 'epub'" (click)="uploadEpub()" mat-icon-button aria-label="Nahrát epub" matTooltip="Nahrát epub">
+      <mat-icon>file_upload</mat-icon>
+   </button>
+
+
+   <!-- <mat-icon [class.app-disabled]="!bookService.isActionEnabled('print')" (click)="print()" [matTooltip]="'book_controls.tooltip_print' | translate">print</mat-icon> -->
+   <!-- <mat-icon tabindex="0" *ngIf="bookService.isImage() && bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="pdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate">picture_as_pdf</mat-icon> -->
+   <!-- <mat-icon tabindex="0" *ngIf="bookService.isImage() && bookService.isActionAvailable('jpeg')" [class.app-disabled]="!bookService.isActionEnabled('jpeg')" (click)="jpeg()" [matTooltip]="'book_controls.tooltip_jpg' | translate">image</mat-icon> -->
+   <!-- <mat-icon tabindex="0" *ngIf="bookService.isActionAvailable('text')" [class.app-disabled]="!bookService.isActionEnabled('text')" (click)="ocr()" [matTooltip]="'book_controls.tooltip_ocr' | translate">title</mat-icon> -->
+   <!-- <mat-icon tabindex="0" *ngIf="bookService.isPdf() && bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="downloadPdf()" [matTooltip]="'book_controls.tooltip_pdf' | translate">file_download</mat-icon> -->
+   <!-- <mat-icon tabindex="0" *ngIf="bookService.isEpub() && bookService.getUuid() == 'epub'" (click)="uploadEpub()" [matTooltip]="'Nahrát epub'" style="float: right;">file_upload</mat-icon> -->
 </div>
 <input *ngIf="bookService.isEpub()" style="display: none" id="app-file-input" type="file" accept="application/epub+zip" (change)="openFile($event)">

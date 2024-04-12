@@ -9,15 +9,13 @@
   border-style: solid;
   border-color: #e0e0e0;
   background-color: #FFFFFF;
-  mat-icon {
-    cursor: pointer;
-    margin-left: 20px; 
-    margin-right: 20px;  
-    font-size: 21px;
+  button {
     float: left;  
     color: $app-grey-d-1;
-    line-height: inherit;
-    height: inherit;
+    margin: 7px 12px;
+    mat-icon {
+      font-size: 21px;
+    }
     &:hover {
       color: #000;
     }
