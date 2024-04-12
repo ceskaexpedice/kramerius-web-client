@@ -46,7 +46,7 @@
     <!-- ORDERING -->
     <div *ngIf="search.contentType == 'grid' && !search.adminSelection" class="app-ordering">
       <span class="app-hide-on-med app-label">{{ 'search.ordering.label' | translate }}: </span>
-      <span tabindex="0" class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
+      <span tabindex="0" role="button" class="app-dropdown" [matMenuTriggerFor]="orderingMenu">
         <span>{{ 'search.ordering.' + search.query.ordering | translate }}</span>
         <mat-icon>arrow_drop_down</mat-icon>
       </span>
@@ -71,20 +71,12 @@
 
 <mat-menu #orderingMenu="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
   <ng-template matMenuContent>
-    <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="search.changeOrdering('relevance')" *ngIf="search.query.relevanceOrderingEnabled()">
-      {{ 'search.ordering.relevance' | translate }}
-    </div>
-    <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="search.changeOrdering('alphabetical')">
-      {{ 'search.ordering.alphabetical' | translate }}
-    </div>
-    <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="search.changeOrdering('newest')">
-      {{ 'search.ordering.newest' | translate }}
-    </div>
-    <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="search.changeOrdering('latest')">
-      {{ 'search.ordering.latest' | translate }}
-    </div>
-    <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="search.changeOrdering('earliest')">
-      {{ 'search.ordering.earliest' | translate }}
-    </div>
+    <ul>
+      <li *ngFor="let option of getOrderingOptions()">
+        <div mat-menu-item tabindex="0" role="button" class="app-dropdown-item" (click)="changeOrdering(option)">
+          {{ 'search.ordering.' + option | translate }}
+        </div>
+      </li>
+    </ul>
   </ng-template>
 </mat-menu>

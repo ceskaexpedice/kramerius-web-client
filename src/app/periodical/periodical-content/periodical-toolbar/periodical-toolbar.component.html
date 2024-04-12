@@ -50,34 +50,11 @@
         <mat-icon>clear</mat-icon>
       </li>
       <!-- ORDERING -->
-      <li tabindex="0" [matMenuTriggerFor]="orderingMenu1" *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid' && !periodicalService.adminSelection" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+      <li [attr.aria-label]="'search.ordering.label' | translate" tabindex="0" role="button" [matMenuTriggerFor]="orderingMenu" *ngIf="periodicalService.orderingType === 'periodical' && periodicalService.activeLayout === 'grid' && !periodicalService.adminSelection" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
         <mat-icon>sort</mat-icon>
-        <mat-menu #orderingMenu1="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
-          <ng-template matMenuContent>
-            <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="periodicalService.setReverseOrder(false)">
-              {{ 'periodical.ordering.earliest' | translate }}
-            </div>
-            <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="periodicalService.setReverseOrder(true)">
-              {{ 'periodical.ordering.latest' | translate }}
-            </div>
-          </ng-template>
-        </mat-menu>
       </li>
-      <li tabindex="0" [matMenuTriggerFor]="orderingMenu2" *ngIf="periodicalService.orderingType === 'fulltext' && !periodicalService.adminSelection" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
+      <li [attr.aria-label]="'search.ordering.label' | translate" tabindex="0" role="button" [matMenuTriggerFor]="orderingMenu" *ngIf="periodicalService.orderingType === 'fulltext' && !periodicalService.adminSelection" [matTooltip]="'search.ordering.label' | translate" class="app-nav-item-sort" [class.app-fulltext-active]="periodicalService.fulltext">
         <mat-icon>sort</mat-icon>
-        <mat-menu #orderingMenu2="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
-          <ng-template matMenuContent>
-            <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="periodicalService.setOrdering('relevance')">
-              {{ 'periodical.ordering.relevance' | translate }}
-            </div>
-            <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="periodicalService.setOrdering('earliest')">
-              {{ 'periodical.ordering.earliest' | translate }}
-            </div>
-            <div mat-menu-item tabindex="0" class="app-dropdown-item" (click)="periodicalService.setOrdering('latest')">
-              {{ 'periodical.ordering.latest' | translate }}
-            </div>
-          </ng-template>
-        </mat-menu>
       </li>
       <li class="app-nav-item-mobile app-nav-item-tablet" (click)="periodicalService.activeMobilePanel = 'filters'" [class.active]="periodicalService.activeMobilePanel == 'filters'">
         <mat-icon >filter_alt</mat-icon>
@@ -104,3 +81,15 @@
 
 
 
+
+<mat-menu #orderingMenu="matMenu" xPosition="after" class="app-ordering-menu app-dropdown-menu">
+  <ng-template matMenuContent>
+    <ul>
+      <li *ngFor="let option of getOrderingOptions()">
+        <div mat-menu-item tabindex="0" role="button" class="app-dropdown-item" (click)="changeOrdering(option)">
+          {{ 'periodical.ordering.' + option | translate }}
+        </div>
+      </li>
+    </ul>
+  </ng-template>
+</mat-menu>
