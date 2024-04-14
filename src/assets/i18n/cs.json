@@ -30,7 +30,16 @@
     "en": "English",
     "de": "Deutsch",
     "sk": "Slovenčina",
-    "sl": "Slovenščina"
+    "sl": "Slovenščina",
+    "pl": "Polski",
+    "es": "Español",
+    "fr": "Français",
+    "it": "Italiano",
+    "ru": "Русский",
+    "uk": "Українська",
+    "pt": "Português",
+    "lt": "Lietuvių",
+    "lv": "Latviešu"
   },
   "ai": {
     "warning": {

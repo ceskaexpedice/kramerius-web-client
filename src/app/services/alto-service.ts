@@ -215,7 +215,7 @@ export class AltoService {
         const textLineVpos = parseInt(textLine.getAttribute('VPOS') || '0', 10);
         const bottom = textLineVpos + textLineHeight;
         const diff = textLineVpos  - lastBottom;
-        console.log('diff', diff);
+        // console.log('diff', diff);
         if (lastBottom > 0 && diff > 50) {
             blocks.push(block);
             block = { text: '', hMin: 0, hMax: 0, vMin: 0, vMax: 0, width: aw, height: ah };
@@ -243,7 +243,7 @@ export class AltoService {
             }
             const content = stringEl.getAttribute('CONTENT') || '';
             block.text += content;
-            console.log(lines, block.text.length, content);
+            // console.log(lines, block.text.length, content);
             if (lines >= 3 && block.text.length > 120 && (content.endsWith('.') || content.endsWith(';'))) {
                 blocks.push(block);
                 block = { text: '', hMin: 0, hMax: 0, vMin: 0, vMax: 0, width: aw, height: ah };
@@ -256,7 +256,7 @@ export class AltoService {
     if (block.text.length > 0) {
         blocks.push(block);
     }
-    console.log('blocks', blocks);
+    // console.log('blocks', blocks);
     return blocks;
 }
 

@@ -1,0 +1,68 @@
+<div class="app-tts-dialog">
+  
+
+  <h1>Nastavení</h1>
+
+  <div class="app-content">
+
+  
+  <h2>Text to speech</h2>
+
+  <div class="app-content-in">
+
+      <div class="app-section app-section-languages">
+        <!-- <div class="app-label">Jazyky</div> -->
+
+        <div class="app-table">
+          <div class="app-row app-header">
+            <div class="app-col" style="width: 100px;">Primární jazyk</div>
+            <div class="app-col" style="width: 100px; text-align: right;">Nepřekládat</div>
+          </div>
+          <div class="app-row" *ngFor="let l of languages" (click)="onLanguageChange(l)" [class.app-active]="l == language">
+            <div class="app-col" style="width: 35px;">
+              <mat-icon class="app-rb">{{ 'radio_button_' + (l == language ? 'checked' : 'unchecked') }}</mat-icon>
+            </div>
+            <div class="app-col" style="width: 145px;">
+              {{ 'lang.' + l | translate }}</div>
+            <div class="app-col" style="width: 20px;">
+              <mat-icon class="app-cb" [class.app-disabled]="l == language" [class.app-active]="dntLanguages.indexOf(l) >= 0 && l != language" (click)="toggleDntLanguage(l); $event.stopPropagation()">{{ (l == language || dntLanguages.indexOf(l) >= 0) ? 'check_box' : 'check_box_outline_blank' }}</mat-icon>
+            </div>            
+          </div>
+        </div>
+    </div>
+
+    <div class="app-section app-section-voices">
+      <!-- <div class="app-label">Hlas</div> -->
+        <div class="app-table">
+          <div class="app-row app-header">
+            <div class="app-col" style="width: 160px;">Hlas</div>
+            <div class="app-col" style="width: 55px;">Gender</div>
+            <div class="app-col" style="width: 57px;">Zdroj</div>
+            <div class="app-col" style="width: 28px; text-align: right;">Test</div>
+
+          </div>
+          <div class="app-row" *ngFor="let v of voices[language]" (click)="onVoiceChange(v)" [class.app-active]="v == voice">
+            <div class="app-col" style="width: 35px;">
+              <mat-icon class="app-rb">{{ 'radio_button_' + (v == voice ? 'checked' : 'unchecked') }}</mat-icon>
+            </div>
+            <div class="app-col" style="width: 150px;">{{ v.name }}</div>
+            <div class="app-col" style="width: 30px;">{{ v.gender == 'male' ? 'M' : 'F' }}</div>
+            <div class="app-col" style="width: 65px;">{{ v.source }}</div>
+            <div class="app-col" style="width: 20px;"><mat-icon class="app-play" (click)="read(v); $event.stopPropagation()" [class.app-disabled]="!!loading">play_arrow</mat-icon></div>            
+          </div>
+        </div>
+    </div>
+  
+
+  </div>
+
+
+
+
+  </div>
+  <div class="app-actions">
+    <button mat-flat-button color="primary" (click)="save()">Uložit</button>
+    <button mat-flat-button color="default" (click)="close()">Zavřít</button>
+  </div>
+
+</div>

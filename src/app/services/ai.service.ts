@@ -80,29 +80,29 @@ export class AiService {
     }, 'arraybuffer');
   }
 
-  textToSpeech(text: string, language: string, callback: (audioContent: string, error?: string) => void) {
-    let voice;
-    if (language === 'cs') {
-      voice = {
-        "languageCode": "cs-CZ",
-        "name": "cs-CZ-Wavenet-A"
-      }
-    } else if (language === 'sk') {
-      voice = {
-        "languageCode": "sk-SK",
-        "name": "sk-SK-Wavenet-A"
-      }
-    } else if (language === 'de') {
-      voice = {
-        "languageCode": "de-DE",
-        "name": "de-DE-Wavenet-F"
-      }
-    } else {  
-      voice = {
-        "languageCode": "en-US",
-        "name": "en-US-Neural2-J"
-      }
-    }
+  textToSpeech(text: string, voice: any, callback: (audioContent: string, error?: string) => void) {
+    // let voice;
+    // if (language === 'cs') {
+    //   voice = {
+    //     "languageCode": "cs-CZ",
+    //     "name": "cs-CZ-Wavenet-A"
+    //   }
+    // } else if (language === 'sk') {
+    //   voice = {
+    //     "languageCode": "sk-SK",
+    //     "name": "sk-SK-Wavenet-A"
+    //   }
+    // } else if (language === 'de') {
+    //   voice = {
+    //     "languageCode": "de-DE",
+    //     "name": "de-DE-Wavenet-F"
+    //   }
+    // } else {  
+    //   voice = {
+    //     "languageCode": "en-US",
+    //     "name": "en-US-Neural2-J"
+    //   }
+    // }
     const path = `/google/tts`;
     const body = {
       "audioConfig": {
@@ -116,7 +116,10 @@ export class AiService {
       "input": {
         "text": text.toLocaleLowerCase()
       },
-      "voice": voice
+      "voice": {
+        "languageCode": voice.languageCode,
+        "name": voice.code
+      }
     };
     this.post(path, body, (response: any) => {
       callback(response['audioContent']);

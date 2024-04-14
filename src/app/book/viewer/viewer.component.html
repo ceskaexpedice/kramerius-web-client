@@ -50,6 +50,13 @@
                   (click)="tts.skipNext()">
                   skip_next
             </mat-icon>
+
+            <mat-icon
+                  matTooltip="Nastavení"
+                  matTooltipPosition="below"
+                  (click)="tts.openSettings()">
+                  settings
+            </mat-icon>
       </ng-container>
 
 </div>
@@ -87,15 +94,25 @@
                   title
             </mat-icon>
 
-            <mat-icon
-                  [matTooltip]="'viewer_page.page_read' | translate"
-                  matTooltipPosition="left"
-                  (click)="onReadPage()"
-                  *ngIf="aiActionsAvailable()"
-                  [class.app-inactive]="tts.inProgress() || bookService.serviceLoading"
-                  class="app-selection app-type-ai">
-                  record_voice_over
-            </mat-icon>
+            <div class="app-reading-wrapper" *ngIf="aiActionsAvailable()">
+                  <mat-icon
+                        [matTooltip]="'viewer_page.page_read' | translate"
+                        matTooltipPosition="left"
+                        (click)="onReadPage()"
+                        [class.app-inactive]="tts.inProgress() || bookService.serviceLoading"
+                        class="app-selection app-type-ai">
+                        record_voice_over
+                  </mat-icon>
+                  <div class="app-reading-setting">
+                        <mat-icon
+                        matTooltip="Nastavení"
+                        matTooltipPosition="left"
+                        (click)="tts.openSettings()"
+                        class="app-selection">
+                        settings
+                  </mat-icon>
+                  </div>
+            </div>
 
             <mat-icon
                   [matTooltip]="'viewer_page.page_translate' | translate"

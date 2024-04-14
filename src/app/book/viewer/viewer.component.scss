@@ -126,6 +126,7 @@
       // background-color: red;;
       .app-selection {
         display: none;
+        // display: block;
         cursor: pointer;
         width: 40px;
         height: 40px;
@@ -147,6 +148,26 @@
           opacity: 0.2;
           cursor: default !important;
           pointer-events: none; 
+        }
+      }
+      .app-reading-wrapper {
+        position: relative;
+        .app-reading-setting {
+          position: absolute; 
+          display: none;
+          top: 0px; 
+          left: 58px; 
+          margin: 0;
+          mat-icon {
+            margin: 0;
+            background: #555;
+            color: #fff;
+          }
+        }
+        &:hover {
+          .app-reading-setting {
+            display: block;
+          }
         }
       }
       .app-main-selection {

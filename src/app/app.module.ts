@@ -177,6 +177,7 @@ import { LicenceWindowComponent } from './shared/licence-window/licence-window.c
 import { NavigationService } from './services/navigation.service';
 import { CuttingCardComponent } from './shared/cutting-card/cutting-card.component';
 import { AiService } from './services/ai.service';
+import { TtsDialogComponent } from './dialog/tts-dialog/tts-dialog.component';
 
 declare var APP_GLOBAL: any;
 
@@ -308,7 +309,8 @@ export function appInitializerFactory(translate: TranslateService) {
     DisplayMetadataDialogComponent,
     CuratorListsComponent,
     LicenceWindowComponent,
-    CuttingCardComponent
+    CuttingCardComponent,
+    TtsDialogComponent
   ],
   imports: [
     BrowserModule,
