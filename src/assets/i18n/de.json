@@ -127,7 +127,8 @@
       },
       "document": "Im Dokument suchen",
       "delete_query": "Anfrage löschen",
-      "help": "Hilfe"
+      "help": "Hilfe",
+      "search": "Suche"
     },
     "search-help-dialog": {
       "e1": {

@@ -103,7 +103,7 @@
                         class="app-selection app-type-ai">
                         record_voice_over
                   </mat-icon>
-                  <div class="app-reading-setting">
+                  <div class="app-reading-setting" *ngIf="aiActionsEnabled()">
                         <mat-icon
                         matTooltip="Nastavení"
                         matTooltipPosition="left"

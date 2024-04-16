@@ -440,6 +440,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
     return this.authService.aiAvailable();
   }
 
+  aiActionsEnabled(): boolean {
+    return this.authService.aiEnabled();
+  }
+
   showPageActions(): boolean {
     return !this.bookService.serviceLoading && this.selectionState == 'off' && this.bookService.getPage() && !this.bookService.showGeoreference;
   }
