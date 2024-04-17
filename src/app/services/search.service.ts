@@ -29,7 +29,8 @@ export class SearchService {
         'en': 'eng',
         'de': 'ger',
         'sk': 'slo',
-        'sl': 'slv'
+        'sl': 'slv',
+        'pt': 'por'
     };
 
     results: DocumentItem[] = [];

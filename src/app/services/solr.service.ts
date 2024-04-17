@@ -739,7 +739,8 @@ export class SolrService {
                              'eng':'en',
                              'ger':'de',
                              'slo':'sk',
-                             'slv':'sl'}; // PRIDAT DALSI JAZYKY PRO SBIRKY...
+                             'slv':'sl',
+                             'por':'pt'};
             let localTitles = {};
             for (const key in languages) {
                 if (doc['title.search_' + key]) {
@@ -1444,7 +1445,8 @@ export class SolrService {
                                          'eng':'en',
                                          'ger':'de',
                                          'slo':'sk',
-                                         'slv':'sl'}; // PRIDAT DALSI JAZYKY PRO SBIRKY...
+                                         'slv':'sl',
+                                         'por':'pt',};
                         let localTitles = {};
                         for (const key in languages) {
                             if (doc['title.search_' + key]) {
