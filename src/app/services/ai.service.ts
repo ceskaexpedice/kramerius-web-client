@@ -80,17 +80,17 @@ export class AiService {
       }
     }, error => {
       console.log('error', error);
-      if (error.status === 403 || error.status === 401) {
-        errorCallback('unauthorized');
-        return;
-      }
       let e = "error";
-      if (error.error && error.error.errorMessage) {
-        e = error.error.errorMessage;
+      if (error.error && error.error.errorCode) {
+        e = error.error.errorCode;
       }
       console.log('e', e);
-      if (e == 'quota exceeded') {
+      if (e == 'quota_exceeded') {
         errorCallback('quota_exceeded');
+      } else if (e == 'auth_token_expired') {
+        errorCallback('token_expired');
+      } else if (error.status === 403 || error.status === 401) {
+        errorCallback('unauthorized');
       } else {
         errorCallback('unknown_error');
       }

@@ -9,7 +9,6 @@ import { AiService } from './ai.service';
 import { KrameriusApiService } from './kramerius-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TtsDialogComponent } from '../dialog/tts-dialog/tts-dialog.component';
-import { LocalStorageService } from './local-storage.service';
 
 @Injectable()
 export class TtsService {
@@ -384,8 +383,8 @@ export class TtsService {
   }
 
   private onAiError(error: string) {
-    this.finish(true);
     this.onError(error);
+    this.finish(true);
   }
 
 
