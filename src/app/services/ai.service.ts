@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppSettings } from './app-settings';
 import { AuthService } from './auth.service';
+import { Subscription } from 'rxjs';
 
 @Injectable()
 export class AiService {
@@ -17,12 +18,43 @@ export class AiService {
   // private model = 'gpt-3.5-turbo-1106';
   // private model = 'text-davinci-003';
   
+  userSubscription: Subscription;
+
+
+  roles: string[] = [];
+  loggedIn = false;
+
   constructor(
     private settings: AppSettings,
     private auth: AuthService,
     private http: HttpClient) {
+      this.userSubscription = this.auth.watchUser().subscribe((user) => {
+        console.log('USER--', user);
+        if (user && user.isLoggedIn()) {
+          this.loggedIn = true;
+          this.reloadAIUser(null);
+        } else {
+          this.loggedIn = false;
+          this.roles = [];
+        }
+      });
+      if (this.auth.isLoggedIn()) {
+        this.loggedIn = true;
+        this.reloadAIUser(null);
+      }
   } 
-  
+
+  aiEnabled(): boolean {
+    return (this.settings.ai && this.loggedIn) || !!this.settings.getAiToken();
+  }
+
+  aiAvailable(): boolean {
+      return this.settings.ai || !!this.settings.getAiToken();
+  }
+
+  testActionsEnabled(): boolean {
+    return this.roles.includes('TESTER');
+  }  
 
   private post(path: string, body: any, callback: (response: any) => void, errorCallback?: (error: string) => void, responseType: string = null) {
     let token;
@@ -65,6 +97,31 @@ export class AiService {
     });
   }
 
+  reloadAIUser(callback: (response: any) => void) {
+    let token;
+    if (this.settings.ai && this.auth.isLoggedIn()) {
+      token = this.settings.getToken();
+    } else {
+      token = this.settings.getAiToken();
+    }
+    const url = `${this.baseUrl}/user`;
+    let headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', `application/json`);
+
+    let options = { headers: headers };
+    this.http.get(url, options).subscribe((response: any) => {
+      console.log('GET USER', response);
+      this.roles = response.access_rights || [];
+    }, error => {
+      this.roles = [];
+      console.log('GET USER: error', error);
+      if (error.status === 403 || error.status === 401) {
+        // errorCallback('unauthorized');
+        // return;
+      }
+    });
+  }
 
   testOpenAiTTS(text: string, voice: String, callback: (blob: any, error?: string) => void) {
     var body = JSON.stringify({

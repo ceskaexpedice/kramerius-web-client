@@ -51,8 +51,8 @@
                   skip_next
             </mat-icon>
 
-            <mat-icon
-                  matTooltip="Nastavení"
+            <mat-icon *ngIf="ai.testActionsEnabled()"
+                  [matTooltip]="'common.settings' | translate"
                   matTooltipPosition="below"
                   (click)="tts.openSettings()">
                   settings
@@ -103,9 +103,9 @@
                         class="app-selection app-type-ai">
                         record_voice_over
                   </mat-icon>
-                  <div class="app-reading-setting" *ngIf="aiActionsEnabled()">
+                  <div class="app-reading-setting" *ngIf="ai.testActionsEnabled()">
                         <mat-icon
-                        matTooltip="Nastavení"
+                        [matTooltip]="'common.settings' | translate"
                         matTooltipPosition="left"
                         (click)="tts.openSettings()"
                         class="app-selection">

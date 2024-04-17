@@ -437,11 +437,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   aiActionsAvailable(): boolean {
-    return this.authService.aiAvailable();
+    return this.ai.aiAvailable();
   }
 
   aiActionsEnabled(): boolean {
-    return this.authService.aiEnabled();
+    return this.ai.aiEnabled();
   }
 
   showPageActions(): boolean {

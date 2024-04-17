@@ -886,7 +886,7 @@ export class BookService {
     }
     
     private checkAiActionsEnabled(): boolean {
-        if (this.auth.aiEnabled()) {
+        if (this.ai.aiEnabled()) {
             return true;
         }
         this.dialog.open(BasicDialogComponent, { data: {

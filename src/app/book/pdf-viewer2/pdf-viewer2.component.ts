@@ -9,6 +9,7 @@ import { PDFDocumentProxy, PdfViewerComponent } from 'ng2-pdf-viewer';
 import { LicenceService } from '../../services/licence.service';
 import { AuthService } from '../../services/auth.service';
 import { TtsService } from '../../services/tts.service';
+import { AiService } from '../../services/ai.service';
 
 @Component({
   selector: 'app-pdf-viewer2',
@@ -35,7 +36,7 @@ export class PdfViewer2Component implements  OnInit {
               public authService: AuthService,
               public licences: LicenceService,
               public krameriusInfo: KrameriusInfoService,
-              private pdfService: PdfService,
+              private ai: AiService,
               public controlsService: ViewerControlsService) {
     (window as any).pdfWorkerSrc = '/assets/js/pdf.worker.min.js';
   }
@@ -75,7 +76,7 @@ export class PdfViewer2Component implements  OnInit {
   }
 
   aiActionsAvailable(): boolean {
-    return this.authService.aiAvailable();
+    return this.ai.aiAvailable();
   }
 
   onPageOcr() {

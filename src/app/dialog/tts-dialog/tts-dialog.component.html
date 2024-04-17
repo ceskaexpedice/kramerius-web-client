@@ -16,7 +16,7 @@
         <div class="app-table">
           <div class="app-row app-header">
             <div class="app-col" style="width: 100px;">Primární jazyk</div>
-            <div class="app-col" style="width: 100px; text-align: right;">Nepřekládat</div>
+            <!-- <div class="app-col" style="width: 100px; text-align: right;">Nepřekládat</div> -->
           </div>
           <div class="app-row" *ngFor="let l of languages" (click)="onLanguageChange(l)" [class.app-active]="l == language">
             <div class="app-col" style="width: 35px;">
@@ -24,9 +24,9 @@
             </div>
             <div class="app-col" style="width: 145px;">
               {{ 'lang.' + l | translate }}</div>
-            <div class="app-col" style="width: 20px;">
+            <!-- <div class="app-col" style="width: 20px;">
               <mat-icon class="app-cb" [class.app-disabled]="l == language" [class.app-active]="dntLanguages.indexOf(l) >= 0 && l != language" (click)="toggleDntLanguage(l); $event.stopPropagation()">{{ (l == language || dntLanguages.indexOf(l) >= 0) ? 'check_box' : 'check_box_outline_blank' }}</mat-icon>
-            </div>            
+            </div>             -->
           </div>
         </div>
     </div>
