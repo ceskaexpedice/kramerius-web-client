@@ -196,6 +196,7 @@
       "categories": "Unterkategorie",
       "collections": "Sammlung",
       "languages": "Sprache",
+      "sources": "Quelle",
       "licences": "Lizenz",
       "locations": "Eigentümer (Original)",
       "geonames": "Geografischer Name",
@@ -468,7 +469,11 @@
       "region_translate": "Übersetzen",
       "region_summarize": "Zusammenfassen",
       "region_share": "Teilen",
-      "region_image": "Bild"
+      "region_image": "Bild",
+      "read_pause": "Lesen anhalten",
+      "read_resume": "Weiterlesen",
+      "read_stop": "Lesen stoppen",
+      "read_next": "Weiter zum nächsten"
     },
     "book_controls": {
       "tooltip_print": "Drucken",

@@ -196,6 +196,7 @@
       "categories": "Druh dokumentu",    
       "collections": "Zbierky",
       "languages": "Jazyk",
+      "sources": "Zdroj",
       "licences": "Licencie",
       "locations": "Miesto uloženia",
       "geonames": "Geografický názov",
@@ -468,7 +469,11 @@
       "region_translate": "Preložiť",
       "region_summarize": "Sumarizovať",
       "region_share": "Zdieľať",
-      "region_image": "Obrázok"
+      "region_image": "Obrázok",
+      "read_pause": "Pozastaviť čítanie",
+      "read_resume": "Pokračovať v čítaní",
+      "read_stop": "Zastaviť čítanie",
+      "read_next": "Preskočiť na ďalšiu"
     },
     "book_controls": {
       "tooltip_print": "Príprava na tlač",

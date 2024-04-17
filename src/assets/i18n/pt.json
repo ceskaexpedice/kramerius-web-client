@@ -196,6 +196,7 @@
     "categories": "Tipo de documento",
     "collections": "Coleção",
     "languages": "Linguagem",
+    "sources": "Fonte",
     "licences": "Licença",
     "locations": "Localização",
     "geonames": "Nome geográfico",
@@ -473,7 +474,11 @@
     "region_translate": "Traduzir",
     "region_summarize": "Resumir",
     "region_share": "Compartilhar",
-    "region_image": "Imagem"
+    "region_image": "Imagem",
+    "read_pause": "Pausar leitura",
+    "read_resume": "Continuar lendo",
+    "read_stop": "Parar de ler",
+    "read_next": "Pular para o próximo"
   },
   "book_controls": {
     "tooltip_print": "Prepare-se para imprimir",

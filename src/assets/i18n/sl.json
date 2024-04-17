@@ -18,6 +18,7 @@
     },
     "set_page_number": "določi številko strani",
     "copy_to_clipboard": "kopiraj v odložišče",
+    "copy_uuid_to_clipboard": "kopiraj v odložišče",
     "copied_to_clipboard": "kopirano v odložišče",
     "num_of_docs": {
       "one": "dokument",
@@ -70,7 +71,13 @@
     "about": "Vsebina",
     "help": "Pomoč",
     "faq": "Pogosta vprašanja",
+    "terms": "Pogoji uporabe",
     "impressum": "Impressum"
+  },
+  "terms": {
+    "agreement1": "Strinjam se z",
+    "agreement2": "pogoji uporabe",
+    "login": "Prijava z računom knjižnice/eduID"
   },
   "sp": {
     "title": "Digital Library",
@@ -107,7 +114,6 @@
     "impressum": "Impressum",
     "back": "Nazaj na prejšnjo stran",
     "home": "Domača stran",
-    "checkbox_label": "javni dostop",
     "login": "Vstop",
     "logout": "Izstop",
     "folders": "Sezname"
@@ -118,7 +124,8 @@
       "public": "Išči v javno dostopnem gradivu v digitalni knjižnici",
       "filters": "filtriraj iskanje",
       "collection": "Išči v zbirki",
-      "collection_with_filters": "Filtriraj iskanje v zbirki"
+      "collection_with_filters": "Filtriraj iskanje v zbirki",
+      "preselected_licences": "Išči v dokumentih, dostopnih na spletu"
     },
     "document": "Išči v dokumentu",
     "delete_query": "Novo iskanje",
@@ -176,7 +183,9 @@
     "tooltip_display_years": "Prikaz let",
     "tooltip_display_calendar": "Prikaz koledarja",
     "tooltip_display_map": "Prikaz rezultatov na zemljevidu",
-    "tooltip_display_cards": "Prikaz rezultatov"
+    "tooltip_display_cards": "Prikaz rezultatov",
+    "tooltip_display_table": "Prikaži tabelo",
+    "tooltip_download_csv": "Prenos v CSV"
   },
   "search": {
     "k3": "Išči med starejše digitaliziranimi deli",
@@ -187,6 +196,7 @@
     "categories": "Kategorija dokumenta",
     "collections": "Zbirka", 
     "languages": "Jezik",
+    "sources": "Vir",
     "licences": "Licence",
     "locations": "Lokacija",
     "geonames": "Geografsko ime",
@@ -196,6 +206,10 @@
     "authors": "Avtor",
     "switch_kramerius": "Iskanje v drugi knjižnici",
     "inaccessible_document": "Delo ni javno dostopno",
+    "map": {
+      "maps": "Območja",
+      "markers": "Mesta"
+    },
     "ordering": {
       "label": "Razvrščanje",
       "relevance": "Pomembnost",
