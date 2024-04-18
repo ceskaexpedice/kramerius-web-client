@@ -1,5 +1,5 @@
 import { BookService } from '../../services/book.service';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ViewerActions, ViewerControlsService } from '../../services/viewer-controls.service';
 import { AppSettings } from '../../services/app-settings';
 import { KrameriusInfoService } from '../../services/kramerius-info.service';
@@ -16,7 +16,7 @@ import { AiService } from '../../services/ai.service';
   templateUrl: './pdf-viewer2.component.html',
   styleUrls: ['./pdf-viewer2.component.scss']
 })
-export class PdfViewer2Component implements  OnInit {
+export class PdfViewer2Component implements  OnInit, OnDestroy {
 
   private viewerActionsSubscription: Subscription;
   private intervalSubscription: Subscription;
@@ -55,12 +55,14 @@ export class PdfViewer2Component implements  OnInit {
 
 
   ngOnDestroy() {
+    this.tts.stop();
     if (this.viewerActionsSubscription) {
       this.viewerActionsSubscription.unsubscribe();
     }    
     if (this.intervalSubscription) {
       this.intervalSubscription.unsubscribe();
     }
+
   }
 
   afterLoadComplete(pdfData: PDFDocumentProxy) {
