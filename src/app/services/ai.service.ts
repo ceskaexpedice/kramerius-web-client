@@ -29,7 +29,6 @@ export class AiService {
     private auth: AuthService,
     private http: HttpClient) {
       this.userSubscription = this.auth.watchUser().subscribe((user) => {
-        console.log('USER--', user);
         if (user && user.isLoggedIn()) {
           this.loggedIn = true;
           this.reloadAIUser(null);
