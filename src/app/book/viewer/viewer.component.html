@@ -2,6 +2,12 @@
   <app-viewer-controls *ngIf="bookService.pageAvailable && selectionStateOff()" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 
 
+  <div class="app-text-mode-wrapper" *ngIf="bookService.textMode && bookService.pageAvailable">
+      <div class="app-text-mode app-font-size-{{textZoom}}">
+            <div [innerHtml]="textContent"></div>
+      </div>
+  </div>
+
 <div class="app-help-message" *ngIf="showHelpMessage()">
       <mat-icon (click)="cancelSelection()"
             [matTooltip]="'viewer_page.region_selection_cancel' | translate">
@@ -79,6 +85,7 @@
                   [matTooltip]="'viewer_page.region_selection' | translate"
                   matTooltipPosition="left"
                   (click)="enterSelectionMode()"
+                  *ngIf="!bookService.textMode"
                   class="app-selection">
                   highlight_alt
             </mat-icon>
@@ -88,7 +95,7 @@
                   [matTooltip]="'viewer_page.page_text' | translate"
                   matTooltipPosition="left"
                   (click)="onPageOcr()"
-                  *ngIf="aiActionsAvailable()"
+                  *ngIf="aiActionsAvailable() && !bookService.textMode"
                   [class.app-inactive]="bookService.serviceLoading"
                   class="app-selection">
                   title

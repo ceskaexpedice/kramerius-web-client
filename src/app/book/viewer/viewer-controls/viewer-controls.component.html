@@ -62,7 +62,7 @@
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_doublepage_off' | translate" 
-            *ngIf="showDoublePageOff() && !showUnlock() && !bookService.showGeoreference">
+            *ngIf="showDoublePageOff()">
             auto_stories
   </mat-icon>
 
@@ -70,8 +70,16 @@
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_doublepage_on' | translate" 
-            *ngIf="showDoublePageOn() && !showUnlock() && !bookService.showGeoreference">
+            *ngIf="showDoublePageOn()">
             auto_stories
+  </mat-icon>
+
+  <mat-icon (click)="bookService.toggleTextMode();controlsService.toggleTextMode();analytics.sendEvent('viewer', 'controls', 'toggle_text_mode')"
+    tabindex="0"
+    class="hide-on-small"
+    [matTooltip]="'Textový režim'" 
+    *ngIf="showTextModeToggle()">
+    view_headline
   </mat-icon>
 
   <mat-icon (click)="controlsService.toggleLock();analytics.sendEvent('viewer', 'controls', 'lock')"

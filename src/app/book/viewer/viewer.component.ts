@@ -78,6 +78,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   public imageLoading = false;
 
+  public textZoom = 5;
+  public textContent = '';
+
   constructor(public bookService: BookService,
               public authService: AuthService,
               public tts: TtsService,
@@ -539,21 +542,29 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   private zoomIn() {
-    const currentZoom = this.view.getView().getResolution();
-    let newZoom = currentZoom / 1.5;
-    this.view.getView().animate({
-      resolution: newZoom,
-      duration: 300
-    });
+    if (this.bookService.textMode) {
+      this.textZoom < 10 ? this.textZoom += 1 : this.textZoom = 10;
+    } else {
+      const currentZoom = this.view.getView().getResolution();
+      let newZoom = currentZoom / 1.5;
+      this.view.getView().animate({
+        resolution: newZoom,
+        duration: 300
+      });
+    }
   }
 
   private zoomOut() {
-    const currentZoom = this.view.getView().getResolution();
-    let newZoom = currentZoom * 1.5;
-    this.view.getView().animate({
-      resolution: newZoom,
-      duration: 300
-    });
+    if (this.bookService.textMode) {
+      this.textZoom > 0 ? this.textZoom -= 1 : this.textZoom = 0
+    } else {
+      const currentZoom = this.view.getView().getResolution();
+      let newZoom = currentZoom * 1.5;
+      this.view.getView().animate({
+        resolution: newZoom,
+        duration: 300
+      });
+    }
   }
 
   private rotateRight() {
@@ -612,6 +623,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const feature = new ol.Feature(polygon);
     this.vectorLayer.getSource().addFeature(feature);
     this.view.addLayer(this.vectorLayer);
+  }
+
+  private updateTextContent() {
+    this.api.getAlto(this.data.uuid1).subscribe(response => {
+      this.textContent = this.alto.getFormattedText(response, this.data.uuid1, this.imageWidth, this.imageHeight);
+    });
   }
 
   updateBoxes() {
@@ -911,9 +928,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
     this.view.addLayer(this.maskLayer);
     this.updateBoxes();
+    if (this.bookService.textMode) {
+      this.updateTextContent();
+    }
     this.addWaterMark();
     if (this.data.bb) {
-
       const bb = this.data.bb.split(',');
       const extent = [parseInt(bb[0]),  -1*(parseInt(bb[1]) + parseInt(bb[3])),  parseInt(bb[0])+parseInt(bb[2]) , -parseInt(bb[1])];
       setTimeout(() => {
@@ -960,7 +979,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (!data) {
       return;
     }
-    if (this.data && this.data.equals(data)) {
+    if (this.data && this.data.equals(data) && !this.bookService.textMode) {
       return;
     }
     this.view.removeLayer(this.imageLayer);

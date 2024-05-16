@@ -51,17 +51,16 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   showDoublePageOff(): boolean {
-    return !this.bookService.showGeoreference && this.bookService.doublePageSupported() && this.bookService.doublePageEnabled;
+    return this.bookService.doublePageSupported() && this.bookService.doublePageEnabled && !this.showUnlock() && !this.bookService.showGeoreference;
   }
 
   showDoublePageOn(): boolean {
-    return !this.bookService.showGeoreference && this.bookService.doublePageSupported() && !this.bookService.doublePageEnabled;
+    return this.bookService.doublePageSupported() && !this.bookService.doublePageEnabled&& !this.showUnlock() && !this.bookService.showGeoreference;
   }
 
-  // showSelectionMode(): boolean {
-  //   return this.bookService.viewer === 'image' && this.bookService.getPage() && !this.bookService.showGeoreference;
-  // }
-
+  showTextModeToggle(): boolean {
+    return this.bookService.textModeSupported() && !this.showUnlock() && !this.bookService.showGeoreference;
+  }
 
   showCropMap(): boolean {
     return this.bookService.viewer === 'image' && this.bookService.getPage() && this.bookService.showGeoreference;

@@ -11,6 +11,7 @@ export class LocalStorageService {
     private static ACCESSIBILITY_FILTER = 'accessibility_filter';
     private static PRESELECTED_LICENCES_FILTER = 'preselected_licences_filter';
     public static DOUBLE_PAGE = 'double_page';
+    public static TEXT_MODE = 'text_mode';
     public static ZOOM_LOCK = 'zoom_lock';
     public static PERIODICAL_VOLUMES_LAYOUT = 'periodical_volumes_layout';
     public static PERIODICAL_ISSUES_LAYOUT = 'periodical_issues_layout';

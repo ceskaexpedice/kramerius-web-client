@@ -98,6 +98,10 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.doublePageOn);
     }
 
+    toggleTextMode() {
+        this.listners.next(ViewerActions.toggleTextMode);
+    }
+
     toggleLock() {
         this.listners.next(ViewerActions.toggleLock);
     }
@@ -190,5 +194,6 @@ export enum ViewerActions {
     doublePageOff = 10,
     toggleLock = 11,
     hideWarpedLayer = 12,
-    setWarpedLayerOpacity = 13
+    setWarpedLayerOpacity = 13,
+    toggleTextMode = 14
 }

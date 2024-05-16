@@ -52,6 +52,7 @@ export class BookService {
     public doublePageEnabled = false;
     public zoomLockEnabled = false;
 
+    public textMode = false;
 
     public pageState: BookPageState;
     public bookState: BookState;
@@ -618,6 +619,15 @@ export class BookService {
         }
     }
 
+    toggleTextMode() {
+        this.textMode = !this.textMode;
+        this.localStorageService.setProperty(LocalStorageService.TEXT_MODE, this.textMode ? '1' : '0');
+        this.goToPage(this.getPage());
+    }
+
+    textModeSupported() {
+        return this.settings.textModeEnabled && this.localStorageService.getProperty(LocalStorageService.DEV_MODE) === '1'
+    }
 
     private arrangePages(pages: any[], uuid: string, doctype: string): number {
         let index = 0;
@@ -627,6 +637,7 @@ export class BookService {
         let currentPage = 0;
         this.activeMobilePanel = 'viewer';
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
+        this.textMode = this.localStorageService.getProperty(LocalStorageService.TEXT_MODE) === '1';
         let withPlacement = 0;
         const spines: Page[] = [];
         for (const p of pages) {
