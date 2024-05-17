@@ -66,7 +66,7 @@
             <mat-checkbox 
               [checked]="searchService.query.licences.indexOf(item.value) >= 0"
               (change)="searchService.toggleFilter(searchService.query.licences, item.value);analytics.sendEvent('search', 'licence', item.value)">
-              <span>{{ licences.label(item.value) }}</span>
+              {{ licences.label(item.value) }}
             </mat-checkbox>
             <div class="app-lock {{ licences.buildLock([item.value], false).class }}" *ngIf="licences.buildLock([item.value], false)">
               <mat-icon>{{ licences.buildLock([item.value], false).icon }}</mat-icon>
