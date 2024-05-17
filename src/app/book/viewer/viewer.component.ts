@@ -448,7 +448,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   showPageActions(): boolean {
-    return !this.bookService.serviceLoading && this.selectionState == 'off' && this.bookService.getPage() && !this.bookService.showGeoreference;
+    return !this.bookService.isPageLoading() && !this.imageLoading && this.bookService.pageAvailable && !this.bookService.serviceLoading && this.selectionState == 'off' && this.bookService.getPage() && !this.bookService.showGeoreference;
   }
 
   onReadSelection() {
