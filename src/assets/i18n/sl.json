@@ -26,23 +26,6 @@
       "many": "dokumentov"
     }
   },
-  "lang": {
-    "cs": "Čeština",
-    "en": "English",
-    "de": "Deutsch",
-    "sk": "Slovenčina",
-    "sl": "Slovenščina",
-    "pl": "Polski",
-    "es": "Español",
-    "fr": "Français",
-    "it": "Italiano",
-    "ru": "Русский",
-    "uk": "Українська",
-    "pt": "Português",
-    "lt": "Lietuvių",
-    "lv": "Latviešu",
-    "xx": "-"
-  },
   "ai": {
     "warning": {
       "quota_exceeded": "Spoštovani uporabnik,<br/><br/>Zdi se, da ste dosegli največje število uporab chytrih funkcij za ta mesec. Da bi zagotovili pošteno porazdelitev virov med vsemi našimi uporabniki in ohranili visoko kakovost storitev, moramo žal omejiti pogostost njihove uporabe.<br/><br/>Hvala za razumevanje.",
@@ -828,6 +811,26 @@
       "add_new_folder": "Ustvari novo mapo",
       "add_new_folder_name": "Novo ime mape"
     }
+  },
+  "lang": {
+    "cs": "Čeština",
+    "en": "English",
+    "de": "Deutsch",
+    "sk": "Slovenčina",
+    "sl": "Slovenščina",
+    "pl": "Polski",
+    "es": "Español",
+    "fr": "Français",
+    "it": "Italiano",
+    "ru": "Русский",
+    "uk": "Українська",
+    "pt": "Português",
+    "lt": "Lietuvių",
+    "lv": "Latviešu",
+    "et": "Eesti keel",
+    "sv": "Svenska",
+    "hu": "Magyar",
+    "xx": "-"
   },
   "source": {
     "cbvk": "Jihočeská vědecká knihovna v Českých Budějovicích",

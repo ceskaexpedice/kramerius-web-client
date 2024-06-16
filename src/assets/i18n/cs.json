@@ -26,23 +26,6 @@
       "many": "titulů"
     }
   },
-  "lang": {
-    "cs": "Čeština",
-    "en": "English",
-    "de": "Deutsch",
-    "sk": "Slovenčina",
-    "sl": "Slovenščina",
-    "pl": "Polski",
-    "es": "Español",
-    "fr": "Français",
-    "it": "Italiano",
-    "ru": "Русский",
-    "uk": "Українська",
-    "pt": "Português",
-    "lt": "Lietuvių",
-    "lv": "Latviešu",
-    "xx": "-"
-  },
   "ai": {
     "warning": {
       "quota_exceeded": "Vážený čtenáři, <br/><br/>zdá se, že jste dosáhl(a) maximálního počtu použití chytrých funkcí pro tento měsíc. Abychom zajistili spravedlivé rozdělení zdrojů mezi všechny naše uživatele a udrželi vysokou kvalitu služeb, musíme bohužel omezit frekvenci jejich využívání. <br/><br/>Děkujeme za pochopení.",
@@ -840,6 +823,26 @@
       "add_new_folder": "Vytvořit nový seznam",
       "add_new_folder_name": "Jméno nového seznamu"
     }
+  },
+  "lang": {
+    "cs": "Čeština",
+    "en": "English",
+    "de": "Deutsch",
+    "sk": "Slovenčina",
+    "sl": "Slovenščina",
+    "pl": "Polski",
+    "es": "Español",
+    "fr": "Français",
+    "it": "Italiano",
+    "ru": "Русский",
+    "uk": "Українська",
+    "pt": "Português",
+    "lt": "Lietuvių",
+    "lv": "Latviešu",
+    "et": "Eesti keel",
+    "sv": "Svenska",
+    "hu": "Magyar",
+    "xx": "-"
   },
   "source": {
     "cbvk": "Jihočeská vědecká knihovna v Českých Budějovicích",

@@ -120,7 +120,7 @@
 
 
 <mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
-  <ul>
+  <ul [class.app-more-cols]="languages().length >= 6">
     <li class="app-dropdown-item" mat-menu-item tabindex="0" *ngFor="let lang of languages()" (keydown.enter)="closeMenu()" (click)="onLanguageChanged(lang)" role="button">
       <div class="app-language">
         <img src="assets/img/flag_{{lang}}.png">

@@ -26,23 +26,6 @@
       "many": "documentos"
     }
   },
-  "lang": {
-    "cs": "Čeština",
-    "en": "English",
-    "de": "Deutsch",
-    "sk": "Slovenčina",
-    "sl": "Slovenščina",
-    "pl": "Polski",
-    "es": "Español",
-    "fr": "Français",
-    "it": "Italiano",
-    "ru": "Русский",
-    "uk": "Українська",
-    "pt": "Português",
-    "lt": "Lietuvių",
-    "lv": "Latviešu",
-    "xx": "-"
-  },
   "ai": {
     "warning": {
       "quota_exceeded": "Querido usuário, <br/><br/>Parece que você atingiu o número máximo de utilizações de funções inteligentes neste mês.  <br/><br/>Obrigado pela sua compreensão.",
@@ -842,6 +825,26 @@
       "add_new_folder": "Crie uma nova lista",
       "add_new_folder_name": "Nome da nova lista"
     }
+  },
+  "lang": {
+    "cs": "Čeština",
+    "en": "English",
+    "de": "Deutsch",
+    "sk": "Slovenčina",
+    "sl": "Slovenščina",
+    "pl": "Polski",
+    "es": "Español",
+    "fr": "Français",
+    "it": "Italiano",
+    "ru": "Русский",
+    "uk": "Українська",
+    "pt": "Português",
+    "lt": "Lietuvių",
+    "lv": "Latviešu",
+    "et": "Eesti keel",
+    "sv": "Svenska",
+    "hu": "Magyar",
+    "xx": "-"
   },
   "source": {
     "cbvk": "The Research Library of South Bohemia in České Budějovice",

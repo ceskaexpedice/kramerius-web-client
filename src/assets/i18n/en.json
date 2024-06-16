@@ -26,23 +26,6 @@
       "many": "documents"
     }
   },
-  "lang": {
-    "cs": "Čeština",
-    "en": "English",
-    "de": "Deutsch",
-    "sk": "Slovenčina",
-    "sl": "Slovenščina",
-    "pl": "Polski",
-    "es": "Español",
-    "fr": "Français",
-    "it": "Italiano",
-    "ru": "Русский",
-    "uk": "Українська",
-    "pt": "Português",
-    "lt": "Lietuvių",
-    "lv": "Latviešu",
-    "xx": "-"
-  },
   "ai": {
     "warning": {
       "quota_exceeded": "Dear user, <br/><br/>It seems that you have reached the maximum number of uses of smart functions for this month. In order to ensure a fair distribution of resources among all our users and maintain a high quality of service, we unfortunately have to limit the frequency of their use. <br/><br/>Thank you for your understanding.",
@@ -840,6 +823,26 @@
       "add_new_folder": "Create a new list",
       "add_new_folder_name": "Name of the new list"
     }
+  },
+  "lang": {
+    "cs": "Čeština",
+    "en": "English",
+    "de": "Deutsch",
+    "sk": "Slovenčina",
+    "sl": "Slovenščina",
+    "pl": "Polski",
+    "es": "Español",
+    "fr": "Français",
+    "it": "Italiano",
+    "ru": "Русский",
+    "uk": "Українська",
+    "pt": "Português",
+    "lt": "Lietuvių",
+    "lv": "Latviešu",
+    "et": "Eesti keel",
+    "sv": "Svenska",
+    "hu": "Magyar",
+    "xx": "-"
   },
   "source": {
     "cbvk": "The Research Library of South Bohemia in České Budějovice",
