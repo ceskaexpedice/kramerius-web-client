@@ -773,7 +773,7 @@ export class SolrService {
 
     buildFulltextSearchAutocompleteQuery(term: string, uuid: string): string {
         const query = term.toLowerCase().trim() + '*';
-        return `fl=${this.field('id')}&hl=true&hl.fl=${this.field('text_ocr')}&hl.fragsize=1&hl.simple.post=<<&hl.simple.pre=>>&hl.snippets=10&q=${this.field('parent_pid')}:"${uuid}"+AND+${this.field('text_ocr')}:${query}&rows=20`;
+        return `fl=${this.field('id')}&hl=true&hl.fl=${this.field('text_ocr')}&hl.fragsize=1&hl.simple.post=<<&hl.simple.pre=>>&hl.snippets=10&fq=${this.field('parent_pid')}:"${uuid}"&q=${this.field('text_ocr')}:${query}&rows=20`;
     }
 
     fulltextSearchAutocompleteResults(solr): CompleterItem[] {
