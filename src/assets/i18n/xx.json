@@ -1,11 +1,9 @@
 {
   "common": {
-    "of": "common.of",
     "cancel": "common.cancel",
     "close": "common.close",
     "warning": "common.warning",
     "settings": "common.settings",
-    "of_pages": "common.of_pages",
     "n_pages": {
       "one": "common.n_pages.one",
       "few": "common.n_pages.few",

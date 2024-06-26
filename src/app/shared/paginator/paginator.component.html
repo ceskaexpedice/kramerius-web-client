@@ -6,7 +6,7 @@
         <mat-icon tabindex="0" (click)="onPrevious()">chevron_left</mat-icon>
       </li>
       <li *ngFor="let page of pages()" [attr.aria-current]="isActive(page) ? 'page' : null" [class.app-active]="isActive(page)" class="waves-effect" >
-        <a tabindex="0" (click)="onIndex(page)" [attr.aria-label]="page + '. ' + ('common.n_pages.one' | translate) + ' ' + ('common.of' | translate) + ' ' + numberOfPages()">{{page}}</a>
+        <a tabindex="0" (click)="onIndex(page)" [attr.aria-label]="page + '. ' + ('common.n_pages.one' | translate) + ' / ' + numberOfPages()">{{page}}</a>
       </li>
       <li [class.disabled]="!hasNext()" class="app-arrow">
         <mat-icon tabindex="0" (click)="onNext()">chevron_right</mat-icon>

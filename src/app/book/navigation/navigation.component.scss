@@ -72,15 +72,19 @@ app-book-search {
   }
   
   span {
-    &:nth-child(3) {
+    &.app-divider {
+      color: $app-grey-l-1;
       margin: 0 8px 0 2px;
     }
-    &:nth-child(4) {
-      font-weight: 500;
-    }
-    &:last-child {
-      margin-left: 5px;
-    }
+    // &:nth-child(3) {
+    //   margin: 0 8px 0 2px;
+    // }
+    // &:nth-child(4) {
+    //   color: $app-grey-l-1;
+    // }
+    // &:last-child {
+    //   margin-left: 5px;
+    // }
   }
 }
 .app-navigation-articles {

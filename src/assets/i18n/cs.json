@@ -1,11 +1,9 @@
 {
   "common": {
-    "of": "z",
     "cancel": "Zrušit",
     "close": "Zavřít",
     "warning": "Varování",
     "settings": "Nastavení",
-    "of_pages": "stránek",
     "n_pages": {
       "one": "stránka",
       "few": "stránky",

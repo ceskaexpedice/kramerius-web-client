@@ -1,11 +1,9 @@
 {
     "common": {
-      "of": "von",
       "cancel": "Abbrechen",
       "close": "Schließen",
       "warning": "Warnung",
       "settings": "Einstellungen",
-      "of_pages": "Seiten",
       "n_pages": {
         "one": "Seite",
         "few": "Seiten",

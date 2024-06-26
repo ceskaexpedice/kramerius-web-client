@@ -1,11 +1,9 @@
 {
   "common": {
-    "of": "iš",
     "cancel": "Atšaukti",
     "close": "Uždaryti",
     "warning": "Įspėjimas",
     "settings": "Nustatymai",
-    "of_pages": "puslapių",
     "n_pages": {
       "one": "puslapį",
       "few": "puslapių",

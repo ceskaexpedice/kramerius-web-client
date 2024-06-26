@@ -1,11 +1,9 @@
 {
   "common": {
-    "of": "of",
     "cancel": "Megszünteti",
     "close": "Bezárás",
     "warning": "Figyelem",
     "settings": "Beállítások",
-    "of_pages": "oldalakat",
     "n_pages": {
       "one": "oldalon",
       "few": "oldalakat",

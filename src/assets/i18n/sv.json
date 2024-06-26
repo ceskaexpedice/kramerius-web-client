@@ -1,11 +1,9 @@
 {
   "common": {
-    "of": "av",
     "cancel": "Annullera",
     "close": "Stänga",
     "warning": "Varning",
     "settings": "inställningar",
-    "of_pages": "sidor",
     "n_pages": {
       "one": "sida",
       "few": "sidor",

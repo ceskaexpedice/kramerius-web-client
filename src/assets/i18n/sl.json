@@ -1,11 +1,9 @@
 {
   "common": {
-    "of": "od",
     "cancel": "prekliči",
     "close": "Zapri",    
     "warning": "opozorilo",
     "settings": "Nastavitve",
-    "of_pages": "strani",
     "n_pages": {
       "one": "stran",
       "few": "strani",

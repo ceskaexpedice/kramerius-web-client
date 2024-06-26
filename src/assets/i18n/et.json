@@ -1,11 +1,9 @@
 {
   "common": {
-    "of": "kohta",
     "cancel": "Tühista",
     "close": "Sulge",
     "warning": "Hoiatus",
     "settings": "Seaded",
-    "of_pages": "lehekülgi",
     "n_pages": {
       "one": "lehel",
       "few": "lehekülgi",
