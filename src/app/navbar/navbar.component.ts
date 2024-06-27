@@ -9,6 +9,7 @@ import { HistoryService } from '../services/history.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-navbar',
@@ -27,6 +28,7 @@ export class NavbarComponent implements OnInit {
     public authService: AuthService,
     public appSettings: AppSettings,
     private history: HistoryService,
+    public languageService: LanguageService,
     public service: LibrarySearchService,
     public analytics: AnalyticsService,
     @Inject(DOCUMENT) private document: Document,

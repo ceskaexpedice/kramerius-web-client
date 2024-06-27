@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { AppSettings } from '../../services/app-settings';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-signpost-header',
@@ -16,6 +17,7 @@ export class SignpostHeaderComponent implements OnInit {
 
   constructor(public analytics: AnalyticsService, 
               private settings: AppSettings, 
+              public languageService: LanguageService,
               private translate: TranslateService,
               @Inject(DOCUMENT) private document: Document) {
   }

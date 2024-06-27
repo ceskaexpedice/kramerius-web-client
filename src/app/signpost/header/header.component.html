@@ -27,7 +27,7 @@
     <li class="app-dropdown-item" *ngFor="let lang of languages()" (click)="onLanguageChanged(lang)" (keydown.enter)="closeMenu()" mat-menu-item role="button" tabindex="0">
       <div class="app-language">
         <img src="assets/img/flag_{{lang}}.png">
-        <div class="app-language-name">{{ 'lang.' + lang | translate }}</div>
+        <div class="app-language-name">{{ languageService.getLanguageName(lang) }}</div>
       </div>
     </li>
   </ul>

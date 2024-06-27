@@ -810,26 +810,6 @@
       "add_new_folder_name": "Novo ime mape"
     }
   },
-  "lang": {
-    "cs": "Čeština",
-    "en": "English",
-    "de": "Deutsch",
-    "sk": "Slovenčina",
-    "sl": "Slovenščina",
-    "pl": "Polski",
-    "es": "Español",
-    "fr": "Français",
-    "it": "Italiano",
-    "ru": "Русский",
-    "uk": "Українська",
-    "pt": "Português",
-    "lt": "Lietuvių",
-    "lv": "Latviešu",
-    "et": "Eesti keel",
-    "sv": "Svenska",
-    "hu": "Magyar",
-    "xx": "-"
-  },
   "source": {
     "cbvk": "Jihočeská vědecká knihovna v Českých Budějovicích",
     "cdk": "Česká Digitální knihovna",

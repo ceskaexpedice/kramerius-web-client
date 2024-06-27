@@ -217,14 +217,26 @@ export class AiService {
   }
 
   translate(input: string, targetLanguage: string, callback: (answer: string, error?: string) => void) {
-    const path = `/deepl/translate`;
+    // const path = `/deepl/translate`;
+    // const body = {
+    //   'text': [input],
+    //   'target_lang': targetLanguage
+    // };
+    // this.post(path, body, (response: any) => {
+    //   console.log('respnse', response);
+    //   const answer = response['translations'][0]['text'];
+    //   callback(answer);
+    // }, (error: string) => {
+    //   callback(null, error);
+    // });
+    const path = `/google/translate`;
     const body = {
-      'text': [input],
-      'target_lang': targetLanguage
+      'q': [input],
+      'target': targetLanguage
     };
     this.post(path, body, (response: any) => {
       console.log('respnse', response);
-      const answer = response['translations'][0]['text'];
+      const answer = response['data']['translations'][0]['translatedText'];
       callback(answer);
     }, (error: string) => {
       callback(null, error);

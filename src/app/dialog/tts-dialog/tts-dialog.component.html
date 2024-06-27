@@ -23,7 +23,7 @@
               <mat-icon class="app-rb">{{ 'radio_button_' + (l == language ? 'checked' : 'unchecked') }}</mat-icon>
             </div>
             <div class="app-col" style="width: 145px;">
-              {{ 'lang.' + l | translate }}</div>
+              {{ languageService.getLanguageName(l) }}</div>
             <!-- <div class="app-col" style="width: 20px;">
               <mat-icon class="app-cb" [class.app-disabled]="l == language" [class.app-active]="dntLanguages.indexOf(l) >= 0 && l != language" (click)="toggleDntLanguage(l); $event.stopPropagation()">{{ (l == language || dntLanguages.indexOf(l) >= 0) ? 'check_box' : 'check_box_outline_blank' }}</mat-icon>
             </div>             -->

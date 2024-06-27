@@ -54,7 +54,7 @@
         </ng-container>
         <li class="app-language">
           <div tabindex="0" role="button" *ngIf="languages().length > 1" class="app-dropdown-language" [matMenuTriggerFor]="languagesMenu">
-            <img [alt]="'lang.' + translate.currentLang | translate"  src="assets/img/flag_{{translate.currentLang}}.png" >
+            <img [alt]="languageService.getLanguageName(translate.currentLang)"  src="assets/img/flag_{{translate.currentLang}}.png" >
           </div>
         </li>
       </ul>
@@ -124,7 +124,7 @@
     <li class="app-dropdown-item" mat-menu-item tabindex="0" *ngFor="let lang of languages()" (keydown.enter)="closeMenu()" (click)="onLanguageChanged(lang)" role="button">
       <div class="app-language">
         <img src="assets/img/flag_{{lang}}.png">
-        <div class="app-language-name">{{ 'lang.' + lang | translate }}</div>
+        <div class="app-language-name">{{ languageService.getLanguageName(lang) }}</div>
       </div>
     </li>
   </ul>

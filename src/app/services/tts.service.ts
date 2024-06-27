@@ -125,7 +125,16 @@ export class TtsService {
     { code: 'en-GB-Wavenet-B', name: 'en-GB-Wavenet-B', gender: 'male', source: 'Google', language: 'en', languageCode: 'en-GB' },
     { code: 'en-GB-Wavenet-C', name: 'en-GB-Wavenet-C', gender: 'female', source: 'Google', language: 'en', languageCode: 'en-GB' },
     { code: 'en-GB-Wavenet-D', name: 'en-GB-Wavenet-D', gender: 'male', source: 'Google', language: 'en', languageCode: 'en-GB' },
-    { code: 'en-GB-Wavenet-F', name: 'en-GB-Wavenet-F', gender: 'female', source: 'Google', language: 'en', languageCode: 'en-GB' }
+    { code: 'en-GB-Wavenet-F', name: 'en-GB-Wavenet-F', gender: 'female', source: 'Google', language: 'en', languageCode: 'en-GB' },
+
+    { code: 'cmn-CN-Standard-C', name: 'cmn-CN-Standard-C', gender: 'male', source: 'Google', language: 'zh', languageCode: 'cmn-CN' },
+    { code: 'cmn-CN-Standard-D', name: 'cmn-CN-Standard-D', gender: 'female', source: 'Google', language: 'zh', languageCode: 'cmn-CN' },
+
+    { code: 'cmn-CN-Standard-C', name: 'cmn-CN-Standard-C', gender: 'male', source: 'Google', language: 'zh-CN', languageCode: 'cmn-CN' },
+    { code: 'cmn-CN-Standard-D', name: 'cmn-CN-Standard-D', gender: 'female', source: 'Google', language: 'zh-CN', languageCode: 'cmn-CN' },
+    { code: 'cmn-CN-Standard-C', name: 'cmn-CN-Standard-C', gender: 'male', source: 'Google', language: 'zh-TW', languageCode: 'cmn-CN' },
+    { code: 'cmn-CN-Standard-D', name: 'cmn-CN-Standard-D', gender: 'female', source: 'Google', language: 'zh-TW', languageCode: 'cmn-CN' }
+
   ]
 
   static googleVoicesByLanguage(voice: string): any[] {

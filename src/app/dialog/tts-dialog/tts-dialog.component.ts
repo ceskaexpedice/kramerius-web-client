@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TtsService } from '../../services/tts.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-tts-dialog',
@@ -15,7 +16,7 @@ export class TtsDialogComponent implements OnInit {
 
   dntLanguages = [];
 
-  languages = ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'uk', 'ru', 'pt', 'lt', 'lv'];
+  languages = ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'uk', 'ru', 'pt', 'lt', 'lv', 'zh-CN', 'zh-TW'];
   voices = {
     'en': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('en')),
     'de': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('de')),
@@ -30,11 +31,14 @@ export class TtsDialogComponent implements OnInit {
     'pt': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('pt')),
     'lt': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('lt')),
     'lv': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('lv')),
-    'fr': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('fr'))
+    'fr': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('fr')),
+    'zh-CN': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('zh-CN')),
+    'zh-TW': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('zh-TW'))
   }
 
   constructor(
     private dialogRef: MatDialogRef<TtsDialogComponent>,
+    public languageService: LanguageService,
     private tts: TtsService) {
       this.dialogRef.disableClose = true;
   }
@@ -105,6 +109,8 @@ export class TtsDialogComponent implements OnInit {
       case 'pt': return "Era uma vez, numa terra distante onde o sol brilha um pouco mais forte, existia uma pitoresca aldeia.";
       case 'lt': return "Kadaise tolimame krašte, kur saulė šviečia kiek ryškiau, stovėjo vaizdingas kaimas.";
       case 'lv': return "Reiz tālā zemē, kur saule spīd nedaudz spožāk, stāvēja gleznains ciemats.";
+      case 'zh-CN': return "很久很久以前，在一个阳光普照的遥远国度，有一个风景如画的村庄。";
+      case 'zh-TW': return "很久很久以前，在一個陽光普照的遙遠國度，有一個風景如畫的村莊。";
       }
   }
 }
