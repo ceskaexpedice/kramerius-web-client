@@ -1,12 +1,18 @@
 <div class="app-ocr-dialog">
 
   <div class="app-text">
-    <h3 *ngIf="data.title" style="margin: 0; margin-bottom: 5px;">{{ data.title }}</h3>
-    <div [innerHtml]="toHtml(data.ocr)"></div>
-    <div *ngIf="data.ocr2" style="margin-top:15px;" [innerHtml]="toHtml(data.ocr2)"></div>
+    <h3 *ngIf="title" style="margin: 0; margin-bottom: 5px;">{{ title }}</h3>
+    <div class="app-text" [innerHtml]="ocrTxt"></div>
     <label for="ocr-text" class="app-hidden-label">Text</label>
     <textarea id="ocr-text" #ocrInputTarget [value]="ocrTxt" type="text" ></textarea>
-    <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="ocrInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
+    <div class="app-actions">
+      <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="ocrInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
+      <div *ngIf="language && !loading" class="app-language" [matMenuTriggerFor]="languagesMenu">
+        <img [alt]="languageService.getLanguageName(language)"  src="assets/img/flag_{{language}}.png" >
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </div>
+      <mat-spinner *ngIf="loading" [strokeWidth]="2" [diameter]="20"></mat-spinner>
+    </div>
   </div>
 
 
@@ -22,3 +28,14 @@
   </div>
 
 </div>
+
+<mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
+  <ul [class.app-4-cols]="languages.length >= 6">
+    <li class="app-dropdown-item" mat-menu-item tabindex="0" *ngFor="let lang of languages" (keydown.enter)="closeMenu()" (click)="onLanguageChanged(lang)" role="button">
+      <div class="app-language">
+        <img src="assets/img/flag_{{lang}}.png">
+        <div class="app-language-name">{{ languageService.getLanguageName(lang) }}</div>
+      </div>
+    </li>
+  </ul>
+</mat-menu>

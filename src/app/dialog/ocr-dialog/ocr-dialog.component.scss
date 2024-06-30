@@ -20,11 +20,53 @@
     top: -10px;
     width: 1px;
   }
-  mat-icon.app-share-btn {
-    display: block;
-    margin-top: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    height: 18px;
+  .app-actions {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    mat-icon.app-share-btn {
+      display: block;
+      float: left;
+      cursor: pointer;
+      font-size: 18px;
+      height: 18px;
+      margin-right: 5px;
+    }
+    .app-language {
+      display: flex;
+      align-content: stretch;
+      align-items: center;
+      padding: 2px 5px;
+      // position: absolute;
+      // top: 5px;
+      // right: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      img {
+        width: 28px;
+        height: 28px;
+      }
+      mat-icon {
+        font-size: 18px;
+        padding: 3px;
+      }
+      &:hover {
+        background: #dbdbdb;
+      }
+    }
+  }
+}
+
+
+::ng-deep {
+  .app-text {
+    ul {
+      margin-left: 14px;
+      padding: 0;
+      li {
+        list-style-type: disc;
+        margin-bottom: 3px;
+      }
+    }
   }
 }

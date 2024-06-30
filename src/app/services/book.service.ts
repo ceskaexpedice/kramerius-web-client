@@ -34,6 +34,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 import { AiService } from './ai.service';
 import { AuthService } from './auth.service';
+import { LanguageService } from './language.service';
 
 @Injectable()
 export class BookService {
@@ -118,6 +119,7 @@ export class BookService {
         private auth: AuthService,
         private bottomSheet: MatBottomSheet,
         private licenceService: LicenceService,
+        private languageService: LanguageService,
         private tts: TtsService,
         private ai: AiService,
         private translateSrvice: TranslateService,
@@ -866,11 +868,13 @@ export class BookService {
         });
     }
 
-    private getAltoText(uuid: string, callback: (text: string) => void, extent, width: number, height: number) {
+    private getAltoText(uuid: string, callback: (text: string) => void, formatted: boolean, extent, width: number, height: number) {
         this.api.getAlto(uuid).subscribe(
             result => {
                 if (extent) {
                     callback(this.altoService.getTextInBox(result, extent, width, height));
+                } else if (formatted) {
+                    callback(this.altoService.getFormattedText(result, uuid, width, height));
                 } else {
                     callback(this.altoService.getFullText(result));
                 }
@@ -925,14 +929,22 @@ export class BookService {
         if (!this.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+
+        const formatted = !!(extent == null && height && width);
         this.getAltoText(uuid, (text) => {
             this.translateText(text, uuid);
-        }, extent, width, height);
+        }, formatted, extent, width, height);
+
+        // this.getAltoText(uuid, (text) => {
+        //     this.translateText(text, uuid);
+        // }, extent, width, height);
     }
 
     translateText(text: string, uuid: string) {
         this.serviceLoading = true;
-        this.ai.translate(text, this.translateSrvice.currentLang, (answer, error) => {
+        // TODO - this.translateSrvice.currentLang or the one that user selected?
+        const language =  localStorage.getItem('translate.language') || this.translateSrvice.currentLang;
+        this.ai.translate(text, language, (answer, error) => {
             if (error) {
                 this.showAiError(error);
                 return;
@@ -941,6 +953,7 @@ export class BookService {
                 title: '',
                 ocr: answer,
                 uuid: uuid,
+                language: language,
                 showCitation: false
             };
             this.serviceLoading = false;
@@ -954,25 +967,14 @@ export class BookService {
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.getAltoText(uuid, (text) => {
             this.summarizeText(text, uuid);
-        }, extent, width, height);
+        }, false, extent, width, height);
     }
 
     summarizeText(text: string, uuid: string) {
         this.serviceLoading = true
-        const lang = this.translateSrvice.currentLang
-            let instruction = "Summarize the entered text in bullet points";
-            let title = "Summary";
-            if (lang == "cs") {
-                instruction = "Sumarizuj v odrážkách zadaný text";
-                title = "Shrnutí";
-            } else if (lang == "de") {
-                instruction = "Fassen Sie den eingegebenen Text in Aufzählungspunkten zusammen";
-                title = "Zusammenfassung";
-            } else if (lang == "sk") {
-                instruction = "Sumarizuj v odrážkach zadaný text";
-                title = "Zhrnutie";
-            }
-            this.ai.translate(text, this.translateSrvice.currentLang, (translation, error) => {
+        const lang = localStorage.getItem('summary.language') || this.translateSrvice.currentLang;
+            let instruction = this.languageService.getSummaryPrompt(lang)
+            this.ai.translate(text, lang, (translation, error) => {
                 if (error) {
                     this.showAiError(error);
                     return;
@@ -983,8 +985,9 @@ export class BookService {
                             return;
                         }
                         const options = {
-                            title: title,
                             ocr: answer,
+                            summary: true,
+                            language: lang,
                             uuid: uuid,
                             showCitation: false
                         };
@@ -1072,7 +1075,7 @@ export class BookService {
             }, (error) => {
                 this.showAiError(error);
             });
-        }, extent, width, height);
+        }, false, extent, width, height);
     }
 
     summarizePdfPage() {

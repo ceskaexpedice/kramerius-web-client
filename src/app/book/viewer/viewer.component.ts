@@ -79,6 +79,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public imageLoading = false;
 
   public textZoom = 5;
+  public originalTextContent = '';
   public textContent = '';
 
   constructor(public bookService: BookService,
@@ -468,7 +469,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   onTranslatePage() {
-    this.bookService.translate();
+    this.bookService.translate(null, this.imageWidth, this.imageHeight);
   }
 
   onSummarizePage() {
@@ -628,6 +629,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private updateTextContent() {
     this.api.getAlto(this.data.uuid1).subscribe(response => {
       this.textContent = this.alto.getFormattedText(response, this.data.uuid1, this.imageWidth, this.imageHeight);
+      console.log('this.textContent', this.textContent);
     });
   }
 
