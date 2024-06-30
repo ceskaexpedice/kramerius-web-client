@@ -822,6 +822,21 @@
       "add_new_folder_name": "Uue loendi nimi"
     }
   },
+  "settings": {
+    "title": "Seaded",
+    "tts": {
+      "title": "Tekst-kõneks",
+      "text1": "Loetletud keeli ei tõlgita ja tekst loetakse originaalkeeles.",
+      "text2": "Ülejäänud keeled tõlgitakse ja loetakse esmase keeles.",
+      "text3": "Tekst-kõne on saadaval ainult avalike dokumentide jaoks.",
+      "voice": "Hääl",
+      "language": "Keel",
+      "play": "Mängi",
+      "add_language": "Lisa keel",
+      "remove_language": "Eemalda keel",
+      "primary": "Esmane"
+    }
+  },
   "source": {
     "cbvk": "The Research Library of South Bohemia in České Budějovice",
     "cdk": "Czech Digital Library",

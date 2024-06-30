@@ -177,11 +177,17 @@
 
 ::ng-deep {
   .app-languages-menu {
-    max-width: 454px !important;
+    max-width: 610px !important;
     ul {
       max-width: 200px;
       &.app-more-cols {
         max-width: 454px !important;
+        .app-dropdown-item {
+          float: left;
+        }
+      }
+      &.app-4-cols {
+        max-width: 610px !important;
         .app-dropdown-item {
           float: left;
         }
@@ -207,6 +213,11 @@
         }
         .app-language-name {
           text-align: right;
+        }
+        &.app-disabled {
+          opacity: 0.2;
+          cursor: not-allowed;
+          pointer-events: none;
         }
       }
       &:hover {

@@ -822,6 +822,21 @@
       "add_new_folder_name": "folders.dialogs.add_new_folder_name"
     }
   },
+  "settings": {
+    "title": "settings.title",
+    "tts": {
+      "title": "settings.tts.title",
+      "text1": "settings.tts.text1",
+      "text2": "settings.tts.text2",
+      "text3": "settings.tts.text3",
+      "voice": "settings.tts.voice",
+      "language": "settings.tts.language",
+      "play": "settings.tts.play",
+      "add_language": "settings.tts.add_language",
+      "remove_language": "settings.tts.remove_language",
+      "primary": "settings.tts.primary"
+    }
+  },
   "source": {
     "cbvk": "The Research Library of South Bohemia in České Budějovice",
     "cdk": "Czech Digital Library",

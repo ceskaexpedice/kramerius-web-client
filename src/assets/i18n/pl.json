@@ -828,6 +828,21 @@
       "add_new_folder_name": "Nazwa nowej listy"
     }
   },
+  "settings": {
+    "title": "Ustawienia",
+    "tts": {
+      "title": "Czytanie tekstu na głos",
+      "text1": "Wymienione języki nie będą tłumaczone, a tekst będzie czytany w języku oryginalnym.",
+      "text2": "Pozostałe języki będą tłumaczone i czytane w języku podstawowym.",
+      "text3": "Czytanie tekstu na głos jest dostępne tylko dla dokumentów publicznych.",
+      "voice": "Głos",
+      "language": "Język",
+      "play": "Odtwórz",
+      "add_language": "Dodaj język",
+      "remove_language": "Usuń język",
+      "primary": "Podstawowy"
+    }
+  },
   "source": {
     "cbvk": "The Research Library of South Bohemia in České Budějovice",
     "cdk": "Czech Digital Library",

@@ -822,6 +822,21 @@
       "add_new_folder_name": "Naujo sąrašo pavadinimas"
     }
   },
+  "settings": {
+    "title": "Nustatymai",
+    "tts": {
+      "title": "Teksto į kalbą",
+      "text1": "Išvardintos kalbos nebus išverstos ir tekstas bus skaitomas originalia kalba.",
+      "text2": "Likusios kalbos bus išverstos ir skaitomos pagrindine kalba.",
+      "text3": "Teksto į kalbą funkcija yra prieinama tik viešiems dokumentams.",
+      "voice": "Balsas",
+      "language": "Kalba",
+      "play": "Groti",
+      "add_language": "Pridėti kalbą",
+      "remove_language": "Pašalinti kalbą",
+      "primary": "Pagrindinė"
+    }
+  },
   "source": {
     "cbvk": "The Research Library of South Bohemia in České Budějovice",
     "cdk": "Czech Digital Library",

@@ -24,6 +24,44 @@ export class TtsService {
   ];
 
   static googleVoices = [
+    { code: 'cs-CZ-Wavenet-A', name: 'Google', gender: 'female', source: 'Google', language: 'cs', languageCode: 'cs-CZ' },
+    { code: 'sk-SK-Wavenet-A', name: 'Google', gender: 'female', source: 'Google', language: 'sk', languageCode: 'sk-SK' },
+    { code: 'es-ES-Neural2-A', name: 'Google', gender: 'female', source: 'Google', language: 'es', languageCode: 'es-ES' },
+    { code: 'es-ES-Neural2-B', name: 'Google', gender: 'male', source: 'Google', language: 'es', languageCode: 'es-ES' },
+    { code: 'fr-FR-Neural2-A', name: 'Google', gender: 'female', source: 'Google', language: 'fr', languageCode: 'fr-FR' },
+    { code: 'fr-FR-Neural2-B', name: 'Google', gender: 'male', source: 'Google', language: 'fr', languageCode: 'fr-FR' },
+    { code: 'pl-PL-Standard-A', name: 'Google', gender: 'female', source: 'Google', language: 'pl', languageCode: 'pl-PL' },
+    { code: 'pl-PL-Standard-B', name: 'Google', gender: 'male', source: 'Google', language: 'pl', languageCode: 'pl-PL' },
+    { code: 'it-IT-Neural2-A', name: 'Google', gender: 'female', source: 'Google', language: 'it', languageCode: 'it-IT' },
+    { code: 'it-IT-Neural2-B', name: 'Google', gender: 'male', source: 'Google', language: 'it', languageCode: 'it-IT' },
+    { code: 'ru-RU-Standard-A', name: 'Google', gender: 'female', source: 'Google', language: 'ru', languageCode: 'ru-RU' },
+    { code: 'ru-RU-Standard-B', name: 'Google', gender: 'male', source: 'Google', language: 'ru', languageCode: 'ru-RU' },
+    { code: 'uk-UA-Standard-A', name: 'Google', gender: 'female', source: 'Google', language: 'uk', languageCode: 'uk-UA' },
+    { code: 'uk-UA-Wavenet-A', name: 'Google', gender: 'female', source: 'Google', language: 'uk', languageCode: 'uk-UA' },
+    { code: 'pt-PT-Standard-A', name: 'Google', gender: 'female', source: 'Google', language: 'pt', languageCode: 'pt-PT' },
+    { code: 'pt-PT-Standard-B', name: 'Google', gender: 'male', source: 'Google', language: 'pt', languageCode: 'pt-PT' },
+    { code: 'lt-LT-Standard-A', name: 'Google', gender: 'male', source: 'Google', language: 'lt', languageCode: 'lt-LT' },
+    { code: 'lv-LV-Standard-A', name: 'Google', gender: 'male', source: 'Google', language: 'lv', languageCode: 'lv-LV' },
+    { code: 'de-DE-Neural2-C', name: 'Google', gender: 'female', source: 'Google', language: 'de', languageCode: 'de-DE' },
+    { code: 'de-DE-Neural2-D', name: 'Google', gender: 'male', source: 'Google', language: 'de', languageCode: 'de-DE' },
+
+    { code: 'sv-SE-Standard-C', name: 'Google', gender: 'female', source: 'Google', language: 'sv', languageCode: 'sv-SE' },
+    { code: 'sv-SE-Standard-D', name: 'Google', gender: 'male', source: 'Google', language: 'sv', languageCode: 'sv-SE' },
+
+    { code: 'hu-HU-Wavenet-A', name: 'Google', gender: 'female', source: 'Google', language: 'hu', languageCode: 'hu-HU' },
+
+    { code: 'en-US-Neural2-C', name: 'Google (US)', gender: 'female', source: 'Google', language: 'en', languageCode: 'en-US' },
+    { code: 'en-US-Neural2-D', name: 'Google (US)', gender: 'male', source: 'Google', language: 'en', languageCode: 'en-US' },
+    { code: 'en-GB-Neural2-C', name: 'Google (UK)', gender: 'female', source: 'Google', language: 'en', languageCode: 'en-GB' },
+    { code: 'en-GB-Neural2-D', name: 'Google (UK)', gender: 'male', source: 'Google', language: 'en', languageCode: 'en-GB' },
+    { code: 'cmn-CN-Standard-C', name: 'Google', gender: 'male', source: 'Google', language: 'zh-CN', languageCode: 'cmn-CN' },
+    { code: 'cmn-CN-Standard-D', name: 'Google', gender: 'female', source: 'Google', language: 'zh-CN', languageCode: 'cmn-CN' },
+    { code: 'cmn-CN-Standard-C', name: 'Google', gender: 'male', source: 'Google', language: 'zh-TW', languageCode: 'cmn-CN' },
+    { code: 'cmn-CN-Standard-D', name: 'Google', gender: 'female', source: 'Google', language: 'zh-TW', languageCode: 'cmn-CN' }
+
+  ]
+
+  static googleVoicesTest = [
     { code: 'cs-CZ-Standard-A', name: 'cs-CZ-Standard-A', gender: 'female', source: 'Google', language: 'cs', languageCode: 'cs-CZ' },
     { code: 'cs-CZ-Wavenet-A', name: 'cs-CZ-Wavenet-A', gender: 'female', source: 'Google', language: 'cs', languageCode: 'cs-CZ' },
     { code: 'sk-SK-Standard-A', name: 'sk-SK-Standard-A', gender: 'female', source: 'Google', language: 'sk', languageCode: 'sk-SK' },
@@ -141,6 +179,58 @@ export class TtsService {
     return TtsService.googleVoices.filter(v => v.language === voice);
   }
 
+  primaryLanguage ='cs';
+
+  audioConentBuffer: any;
+  audioBlobBuffer: any;
+  activeLanguages = [];
+
+
+  isLanguageActive(lang: string): boolean {
+    return this.activeLanguages.find(l => l.code === lang) !== undefined;
+  }
+
+  addActiveLanguage(lang: string) {
+    if (!this.isLanguageActive(lang)) {
+      this.activeLanguages.push({ code: lang, voice: TtsService.openAIVoices[0] });
+    }
+    this.saveActiveLanguages();
+  }
+
+  setLanguageVoice(lang: string, voice: any) {
+    const langObj = this.activeLanguages.find(l => l.code === lang);
+    if (langObj) {
+      langObj.voice = voice;
+      this.saveActiveLanguages();
+    }
+  }
+
+  removeActiveLanguage(lang: string) {
+    if (lang === this.primaryLanguage) {
+      return;
+    }
+    this.activeLanguages = this.activeLanguages.filter(l => l.code !== lang);
+    this.saveActiveLanguages();
+  }
+
+  setPrimaryLanguage(lang: string) {
+    this.primaryLanguage = lang;
+    localStorage.setItem('tts.primary_language', lang);
+  }
+
+  activeLanguagesFromStorage() {
+    const active = localStorage.getItem('tts.active_languages');
+    if (active) {
+      this.activeLanguages = JSON.parse(active);
+    } else {
+      this.activeLanguages = [({ code: this.primaryLanguage, voice: TtsService.openAIVoices[0] })];
+    }
+  }
+
+  saveActiveLanguages() {
+    localStorage.setItem('tts.active_languages', JSON.stringify(this.activeLanguages));
+  }
+
   private block = new Subject<any>();
   private state: string = 'none';
   private blocks: any[] = null;
@@ -165,6 +255,8 @@ export class TtsService {
     private translateService: TranslateService,
     private dialog: MatDialog,
     private altoService: AltoService) {
+      this.primaryLanguage = localStorage.getItem('tts.primary_language') || this.translateService.currentLang;
+      this.activeLanguagesFromStorage();
   } 
 
   readPage(uuid: string, onFinished: () => void, onError: (error: string) => void) {
@@ -194,7 +286,7 @@ export class TtsService {
 
   openSettings() {
     this.stop();
-    this.dialog.open(TtsDialogComponent);
+    this.dialog.open(TtsDialogComponent, { autoFocus: false });
   }
 
   setInProgress() {
@@ -245,6 +337,8 @@ export class TtsService {
   }
 
   private finish(fromUser: boolean = false) {
+    this.audioBlobBuffer = false;
+    this.audioConentBuffer = false;
     this.userPaused = false;
     this.documentLanguage = null;
     this.state = 'none';
@@ -284,108 +378,132 @@ export class TtsService {
     }
     const block = this.blocks[this.activeBlockIndex];
     this.block.next(block);
-    this.readText(block.text);
-  }
+    // this.readText(block.text);
 
-  ttsLanguage(): string {
-    return localStorage.getItem('tts.language') || this.translateService.currentLang;
-  }
+    let nextBlock = null;
+    if (this.activeBlockIndex + 1 < this.blocks.length) {
+      nextBlock = this.blocks[this.activeBlockIndex + 1]
+    }
 
-  ttsVoice(): any {
-    const source = localStorage.getItem('tts.source');
-    const voice = localStorage.getItem('tts.voice');
-    if (!source || !voice) {
-      const languages = TtsService.googleVoicesByLanguage(this.ttsLanguage());
-      if (languages.length > 0) {
-        return languages[0];
+    if (!this.documentLanguage) {
+      this.readText(block.text, false, nextBlock ? nextBlock.text : null);
+    } else {
+      if (this.audioConentBuffer) {
+        this.playAudioContent(this.audioConentBuffer);
+      } else if (this.audioBlobBuffer) {
+        this.playAudioBlob(this.audioBlobBuffer);
+      } else {
+        this.readText(block.text);
       }
-      return TtsService.openAIVoices[0];
-    }
-    if (source === 'Google') {
-      return TtsService.googleVoices.find(v => v.code === voice);
-    } else if (source === 'OpenAI') {
-      return TtsService.openAIVoices.find(v => v.code === voice);
+      if (this.activeBlockIndex + 1 < this.blocks.length) {
+        this.readText(this.blocks[this.activeBlockIndex + 1].text, true);
+      }
     }
   }
 
 
-  private readText(text: string) {   
-    const voice = this.ttsVoice();
-    if (voice.source === 'Google') {
-      this.readTextG(text, voice);
-    } else if (voice.source === 'OpenAI') {
-      this.readTextO(text, voice);
+  getReadLangFor(language: string): any {
+    let lang = this.activeLanguages.find(l => l.code === language);
+    if (!lang) {
+      lang = this.activeLanguages.find(l => l.code === this.primaryLanguage);
     }
+    return lang;
   }
 
-  private readTextG(text: string, voice: any) {    
+  ttsVoice(language: string): any {
+    return this.getReadLangFor(language).voice;
+
+  }
+
+  private readText(text: string, buffer: boolean = false, bufferText: string = null) {   
     if (this.documentLanguage) {
-      if (this.documentLanguage !== this.ttsLanguage()) {
-          this.ai.translate(text, this.ttsLanguage(), (translation, error) => {
+      const voice = this.ttsVoice(this.documentLanguage);
+      if (voice.source === 'Google') {
+        this.readTextG(text, voice, buffer);
+      } else if (voice.source === 'OpenAI') {
+        this.readTextO(text, voice, buffer);
+      }
+    } else {
+      const dText = text.substring(0,40);
+      this.ai.detectLanguage(dText, (language, error) => {
+        if (error) { this.onAiError(error); return; }
+        this.documentLanguage = language;
+        this.readText(text, buffer);
+        if (bufferText) {
+          this.readText(bufferText, true);
+        }
+      });
+    }
+  }
+
+
+  private readTextG(text: string, voice: any, buffer: boolean = false) {
+    const readLanguage = this.getReadLangFor(this.documentLanguage).code;
+    if (this.documentLanguage != readLanguage) {
+        this.ai.translate(text, readLanguage, (translation, error) => {
+          if (error) { this.onAiError(error); return; }
+          this.ai.textToSpeech(translation, voice, (audioContent, error) => {
             if (error) { this.onAiError(error); return; }
-            this.ai.textToSpeech(translation, voice, (audioContent, error) => {
-              if (error) { this.onAiError(error); return; }
+            if (buffer) {
+              this.audioConentBuffer = audioContent;
+            } else {
               this.playAudioContent(audioContent);
-            });
+            }
           });
-      } else {
-        this.ai.textToSpeech(text, voice, (audioContent, error) => {
-          if (error) { this.onAiError(error); return; }
-          this.playAudioContent(audioContent);
         });
-      }
     } else {
-      const dText = text.substring(0,40);
-      this.ai.detectLanguage(dText, (language, error) => {
+      this.ai.textToSpeech(text, voice, (audioContent, error) => {
         if (error) { this.onAiError(error); return; }
-        this.documentLanguage = language;
-        this.readText(text);
+        if (buffer) {
+          this.audioConentBuffer = audioContent;
+        } else {
+          this.playAudioContent(audioContent);
+        }
       });
     }
   }
 
-  private readTextO(text: string, voice: any) {    
-    if (this.documentLanguage) {
-      if (this.documentLanguage !== this.ttsLanguage()) {
-          this.ai.translate(text, this.ttsLanguage(), (translation, error) => {
-            if (error) { this.onAiError(error); return; }
-            this.ai.testOpenAiTTS(translation, voice.code, (blob, error) => {
-              if (error) { this.onAiError(error); return; }
-              this.playAudioBlob(blob);
-            });
-          });
-      } else {
-        this.ai.testOpenAiTTS(text, voice.code, (blob, error) => {
+  private readTextO(text: string, voice: any, buffer: boolean = false) {
+    const readLanguage = this.getReadLangFor(this.documentLanguage).code;
+    if (this.documentLanguage !== readLanguage) {
+        this.ai.translate(text, readLanguage, (translation, error) => {
           if (error) { this.onAiError(error); return; }
-          this.playAudioBlob(blob);
+          this.ai.testOpenAiTTS(translation, voice.code, (blob, error) => {
+            if (error) { this.onAiError(error); return; }
+            if (buffer) {
+              this.audioBlobBuffer = blob;
+            } else {
+              this.playAudioBlob(blob);
+            }
+          });
         });
-      }
     } else {
-      const dText = text.substring(0,40);
-      this.ai.detectLanguage(dText, (language, error) => {
+      this.ai.testOpenAiTTS(text, voice.code, (blob, error) => {
         if (error) { this.onAiError(error); return; }
-        this.documentLanguage = language;
-        this.readText(text);
+        if (buffer) {
+          this.audioBlobBuffer = blob;
+        } else {
+          this.playAudioBlob(blob);
+        }
       });
     }
   }
-  
 
 
   stopTestTTS() {
     this.finish(true)
   }
 
-  testTTS(voice: any, text: string, loaded: () => void) {
+  testTTS(voice: any, text: string, loaded: () => void, ended: () => void) {
     this.stopTestTTS();
     if (voice.source === 'Google') {
       this.ai.textToSpeech(text, voice, (audioContent, error) => {
-        this.playAudioContent(audioContent);
+        this.playAudioContent(audioContent, ended);
         loaded();
       });
     } else if (voice.source === 'OpenAI') {
       this.ai.testOpenAiTTS(text, voice.code, (blob, error) => {
-        this.playAudioBlob(blob);
+        this.playAudioBlob(blob, ended);
         loaded();
       });
     }
@@ -397,13 +515,16 @@ export class TtsService {
   }
 
 
-  private playAudioBlob(blob) {
+  private playAudioBlob(blob, onEnd: () => void = null){
     this.state = 'speaking'
     const audioUrl = URL.createObjectURL(blob);
     this.audio = new Audio(audioUrl);
     this.audio.onended = (event) => {
       this.state = 'loading';
       this.next();
+      if (onEnd) {
+        onEnd();
+      }
     };
     // this.audio.stop();
     if (!this.userPaused) {
@@ -412,7 +533,7 @@ export class TtsService {
   }
 
 
-  private playAudioContent(audioContent: string) {
+  private playAudioContent(audioContent: string, onEnd: () => void = null){
     this.state = 'speaking'
     const audioData = this.base64ToUint8Array(audioContent);
     const audioBlob = new Blob([audioData], { type: 'audio/mpeg' });
@@ -421,6 +542,9 @@ export class TtsService {
     this.audio.onended = (event) => {
       this.state = 'loading';
       this.next();
+      if (onEnd) {
+        onEnd();
+      }
     };
     // this.audio.stop();
     if (!this.userPaused) {

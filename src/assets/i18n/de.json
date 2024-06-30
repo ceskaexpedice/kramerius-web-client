@@ -819,6 +819,21 @@
         "add_new_folder_name": "Name der neuen Liste"
       }
     },
+    "settings": {
+      "title": "Einstellungen",
+      "tts": {
+        "title": "Text-to-Speech",
+        "text1": "Die aufgelisteten Sprachen werden nicht übersetzt und der Text wird in der Originalsprache vorgelesen.",
+        "text2": "Die verbleibenden Sprachen werden übersetzt und in der Primärsprache vorgelesen.",
+        "text3": "Text-to-Speech ist nur für öffentliche Dokumente verfügbar.",
+        "voice": "Stimme",
+        "language": "Sprache",
+        "play": "Abspielen",
+        "add_language": "Sprache hinzufügen",
+        "remove_language": "Sprache entfernen",
+        "primary": "Primär"
+      }
+    },
     "source": {
       "cbvk": "The Research Library of South Bohemia in České Budějovice",
       "cdk": "Czech Digital Library",

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TtsService } from '../../services/tts.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LanguageService } from '../../services/language.service';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-tts-dialog',
@@ -10,13 +11,15 @@ import { LanguageService } from '../../services/language.service';
 })
 export class TtsDialogComponent implements OnInit {
 
-  language: string;
-  voice;
-  loading: any;
+  @ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
 
-  dntLanguages = [];
+  readingVoice: any;
+  readingVoiceState: string;
 
-  languages = ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'uk', 'ru', 'pt', 'lt', 'lv', 'zh-CN', 'zh-TW'];
+  menuLanguage: any;
+
+  languages = ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'et', 'sv', 'hu', 'uk', 'ru', 'pt', 'lt', 'lv', 'zh-CN', 'zh-TW'];
+  
   voices = {
     'en': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('en')),
     'de': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('de')),
@@ -39,45 +42,15 @@ export class TtsDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<TtsDialogComponent>,
     public languageService: LanguageService,
-    private tts: TtsService) {
+    public tts: TtsService) {
       this.dialogRef.disableClose = true;
   }
 
   ngOnInit(): void {
-    this.language = this.tts.ttsLanguage();
-    const model = this.tts.ttsVoice().code;
-    this.voice = this.voices[this.language].find(v => v.code === model);
-    if (this.voice == null) {
-      this.voice = this.voices[this.language][0];
-    }
   }
 
-  toggleDntLanguage(language: string) {
-    if (this.loading == language) {
-      return;
-    }
-    if (this.dntLanguages.includes(language)) {
-      this.dntLanguages = this.dntLanguages.filter(l => l !== language);
-    } else {
-      this.dntLanguages.push(language);
-    }
-  }
-
-  onLanguageChange(language: string) {
-    this.language = language;
-    this.voice = this.voices[this.language][0];
-  }
-
-  onVoiceChange(voice) {
-    this.voice = voice;
-  }
-
-  save() {
-    this.tts.stopTestTTS();
-    localStorage.setItem('tts.language', this.language);
-    localStorage.setItem('tts.source', this.voice.source);
-    localStorage.setItem('tts.voice', this.voice.code);
-    this.dialogRef.close();
+  setVoiceMenu(language: any) {
+    this.menuLanguage = language;
   }
 
   close() {
@@ -85,12 +58,29 @@ export class TtsDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  read(voice) {
-    const text = this.getTestText(this.language);
-    this.loading = voice;
-    this.tts.testTTS(voice, text, () => {
-      this.loading = null;
-    });
+  closeMenu() {
+    this.menuTrigger.closeMenu();
+  }
+
+  stopReading() {
+    this.readingVoiceState = 'none';
+    this.readingVoice = null;
+    this.tts.stopTestTTS();
+  }
+
+  read(language: any, voice: any) {
+    this.stopReading();
+    const text = this.getTestText(language);
+    this.readingVoiceState = 'loading';
+    this.readingVoice = voice;
+    this.tts.testTTS(voice, text, 
+      () => {
+        this.readingVoiceState = 'reading';
+      },
+      () => {
+        this.readingVoiceState = 'none';
+        this.readingVoice = null;
+      });
   }
 
   private getTestText(language: string): string {
@@ -111,6 +101,10 @@ export class TtsDialogComponent implements OnInit {
       case 'lv': return "Reiz tālā zemē, kur saule spīd nedaudz spožāk, stāvēja gleznains ciemats.";
       case 'zh-CN': return "很久很久以前，在一个阳光普照的遥远国度，有一个风景如画的村庄。";
       case 'zh-TW': return "很久很久以前，在一個陽光普照的遙遠國度，有一個風景如畫的村莊。";
+      case 'et': return "Kord oli, kauges maal, kus päike paistab veidi eredamalt, seisid maalilised külad.";
+      case 'sv': return "Det var en gång, i ett avlägset land där solen skiner lite ljusare, stod en pittoresk by.";
+      case 'hu': return "Volt egyszer, egy távoli országban, ahol a nap egy kicsit fényesebben süt, egy festői falu állt.";
       }
   }
 }
+

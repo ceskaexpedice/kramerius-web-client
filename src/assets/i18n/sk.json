@@ -819,6 +819,21 @@
         "add_new_folder_name": "Meno nového zoznamu"
       }
     },
+    "settings": {
+      "title": "Nastavenia",
+      "tts": {
+        "title": "Preložiť text na reč",
+        "text1": "Zoznam jazykov, ktoré nebudú preložené a text bude čítaný v pôvodnom jazyku.",
+        "text2": "Zvyšné jazyky budú preložené a čítané v primárnom jazyku.",
+        "text3": "Preloženie textu na reč je dostupné len pre verejné dokumenty.",
+        "voice": "Hlas",
+        "language": "Jazyk",
+        "play": "Prehrať",
+        "add_language": "Pridať jazyk",
+        "remove_language": "Odstrániť jazyk",
+        "primary": "Primárny"
+      }
+    },
     "source": {
       "cbvk": "Jihočeská vědecká knihovna v Českých Budějovicích",
       "cdk": "Česká Digitální knihovna",

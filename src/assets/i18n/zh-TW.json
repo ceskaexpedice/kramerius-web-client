@@ -822,6 +822,21 @@
       "add_new_folder_name": "新名單名稱"
     }
   },
+  "settings": {
+    "title": "設定",
+    "tts": {
+      "title": "文字轉語音",
+      "text1": "列出的語言將不被翻譯，文本將以原始語言朗讀。",
+      "text2": "其餘語言將被翻譯並以主要語言朗讀。",
+      "text3": "文字轉語音僅適用於公共文檔。",
+      "voice": "聲音",
+      "language": "語言",
+      "play": "播放",
+      "add_language": "添加語言",
+      "remove_language": "刪除語言",
+      "primary": "主要"
+    }
+  },
   "source": {
     "cbvk": "The Research Library of South Bohemia in České Budějovice",
     "cdk": "Czech Digital Library",

@@ -810,6 +810,21 @@
       "add_new_folder_name": "Novo ime mape"
     }
   },
+  "settings": {
+    "title": "Nastavitve",
+    "tts": {
+      "title": "Pretvorba besedila v govor",
+      "text1": "Navedeni jeziki ne bodo prevedeni in besedilo bo prebrano v izvirnem jeziku.",
+      "text2": "Preostali jeziki bodo prevedeni in prebrani v primarnem jeziku.",
+      "text3": "Pretvorba besedila v govor je na voljo samo za javne dokumente.",
+      "voice": "Glas",
+      "language": "Jezik",
+      "play": "Predvajaj",
+      "add_language": "Dodaj jezik",
+      "remove_language": "Odstrani jezik",
+      "primary": "Primarni"
+    }
+  },
   "source": {
     "cbvk": "Jihočeská vědecká knihovna v Českých Budějovicích",
     "cdk": "Česká Digitální knihovna",

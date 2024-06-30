@@ -822,6 +822,21 @@
       "add_new_folder_name": "Jméno nového seznamu"
     }
   },
+  "settings": {
+    "title": "Nastavení",
+    "tts": {
+      "title": "Předčítání",
+      "text1": "Uvedené jazyky se budou nebudou překládat a text se přečte v originálním jazyce.",
+      "text2": "Zbylé jazyky budou přeloženy a přečteny v primárním jazyce.",
+      "text3": "Předčítání je dostupné pouze pro veřejné dokumenty.",
+      "voice": "Hlas",
+      "language": "Jazyk",
+      "play": "Přehrát",
+      "add_language": "Přidat jazyk",
+      "remove_language": "Odebrat jazyk",
+      "primary": "Primární"
+    }
+  },
   "source": {
     "cbvk": "Jihočeská vědecká knihovna v Českých Budějovicích",
     "cdk": "Česká Digitální knihovna",

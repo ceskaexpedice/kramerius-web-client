@@ -822,6 +822,21 @@
       "add_new_folder_name": "Namn på den nya listan"
     }
   },
+  "settings": {
+    "title": "Inställningar",
+    "tts": {
+      "title": "Text-till-tal",
+      "text1": "De listade språken kommer inte att översättas och texten kommer att läsas på originalspråket.",
+      "text2": "De återstående språken kommer att översättas och läsas på primärspråket.",
+      "text3": "Text-till-tal är endast tillgängligt för offentliga dokument.",
+      "voice": "Röst",
+      "language": "Språk",
+      "play": "Spela",
+      "add_language": "Lägg till språk",
+      "remove_language": "Ta bort språk",
+      "primary": "Primär"
+    }
+  },
   "source": {
     "cbvk": "The Research Library of South Bohemia in České Budějovice",
     "cdk": "Czech Digital Library",

@@ -822,6 +822,21 @@
       "add_new_folder_name": "Az új lista neve"
     }
   },
+  "settings": {
+    "title": "Beállítások",
+    "tts": {
+      "title": "Szöveg-felolvasás",
+      "text1": "A felsorolt nyelveket nem fordítják le, és az eredeti nyelven olvassák fel a szöveget.",
+      "text2": "A maradék nyelveket lefordítják és az elsődleges nyelven olvassák fel.",
+      "text3": "A szöveg-felolvasás csak nyilvános dokumentumok esetén érhető el.",
+      "voice": "Hang",
+      "language": "Nyelv",
+      "play": "Lejátszás",
+      "add_language": "Nyelv hozzáadása",
+      "remove_language": "Nyelv eltávolítása",
+      "primary": "Elsődleges"
+    }
+  },
   "source": {
     "cbvk": "The Research Library of South Bohemia in České Budějovice",
     "cdk": "Czech Digital Library",

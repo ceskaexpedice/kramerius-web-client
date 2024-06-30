@@ -1,22 +1,77 @@
 <div class="app-tts-dialog">
   
 
-  <h1>Nastavení</h1>
+  <button (click)="close()" class="app-close-btn" mat-icon-button>
+    <mat-icon>close</mat-icon>
+ </button>
+
+
+  <h1>
+    <span>{{ 'settings.title' | translate }}</span> 
+    <span style="color: #aaa; padding: 0 7px;">/</span>
+    <span style="color: #0277bd">{{ 'settings.tts.title' | translate }}</span>
+  </h1>
 
   <div class="app-content">
 
   
-  <h2>Text to speech</h2>
+  <!-- <h2>Převod textu na řeč</h2> -->
+
+  <div class="app-info">
+      {{ 'settings.tts.text1' | translate }}
+      <br>
+      {{ 'settings.tts.text2' | translate }}
+  </div>
+
 
   <div class="app-content-in">
 
-      <div class="app-section app-section-languages">
-        <!-- <div class="app-label">Jazyky</div> -->
 
+    <div class="app-table">
+      <div class="app-table-row app-table-header">
+        <div class="app-table-col app-table-col-flag"></div>
+        <div class="app-table-col app-table-col-language">{{ 'settings.tts.language' | translate }}</div>
+        <div class="app-table-col app-table-col-primary"></div>
+        <div class="app-table-col app-table-col-voice">{{ 'settings.tts.voice' | translate }}</div>
+        <div class="app-table-col app-table-col-play">{{ 'settings.tts.play' | translate }}</div>
+        <div class="app-table-col app-table-col-actions"></div>
+      </div>
+
+      <div class="app-table-row" *ngFor="let language of tts.activeLanguages">
+        <div class="app-table-col app-table-col-flag">
+          <img src="assets/img/flag_{{language.code}}.png">
+        </div>
+        <div class="app-table-col app-table-col-language">{{ languageService.getLanguageName(language.code) }}</div>
+        <div class="app-table-col app-table-col-primary">
+          <div [ngClass]="{'app-tag-active': tts.primaryLanguage == language.code, 'app-tag-inactive': tts.primaryLanguage != language.code}" (click)="tts.setPrimaryLanguage(language.code)">{{ 'settings.tts.primary' | translate }}</div>
+        </div>
+        <div class="app-table-col app-table-col-voice">
+          <div class="app-voice" [matMenuTriggerFor]="voicesMenu" (click)="setVoiceMenu(language); stopReading()">
+            {{language.voice.name}}
+            <span class="app-gender">{{language.voice.gender == 'male' ? 'M' : 'F'}}</span>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </div>
+        </div>
+        <div class="app-table-col app-table-col-play">
+          <mat-icon *ngIf="readingVoice != language.voice" class="app-play" (click)="read(language.code, language.voice)">volume_up</mat-icon>
+          <mat-icon *ngIf="readingVoice == language.voice && readingVoiceState == 'loading'" class="app-play app-loading">sync</mat-icon>
+          <mat-icon *ngIf="readingVoice == language.voice && readingVoiceState == 'reading'" class="app-play app-reading" (click)="stopReading()">stop</mat-icon>
+        </div>
+        <div class="app-table-col app-table-col-actions"><mat-icon class="app-delete" (click)="tts.removeActiveLanguage(language.code)" [ngClass]="{'app-disabled': tts.primaryLanguage == language.code}">delete</mat-icon></div>
+      </div>
+    </div>
+
+    <div class="app-button-add" [matMenuTriggerFor]="languagesMenu">
+      <mat-icon>add</mat-icon>
+      {{ 'settings.tts.add_language' | translate }}
+    </div>
+
+
+
+      <!-- <div class="app-section app-section-languages">
         <div class="app-table">
           <div class="app-row app-header">
             <div class="app-col" style="width: 100px;">Primární jazyk</div>
-            <!-- <div class="app-col" style="width: 100px; text-align: right;">Nepřekládat</div> -->
           </div>
           <div class="app-row" *ngFor="let l of languages" (click)="onLanguageChange(l)" [class.app-active]="l == language">
             <div class="app-col" style="width: 35px;">
@@ -24,15 +79,11 @@
             </div>
             <div class="app-col" style="width: 145px;">
               {{ languageService.getLanguageName(l) }}</div>
-            <!-- <div class="app-col" style="width: 20px;">
-              <mat-icon class="app-cb" [class.app-disabled]="l == language" [class.app-active]="dntLanguages.indexOf(l) >= 0 && l != language" (click)="toggleDntLanguage(l); $event.stopPropagation()">{{ (l == language || dntLanguages.indexOf(l) >= 0) ? 'check_box' : 'check_box_outline_blank' }}</mat-icon>
-            </div>             -->
           </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="app-section app-section-voices">
-      <!-- <div class="app-label">Hlas</div> -->
+    <!-- <div class="app-section app-section-voices">
         <div class="app-table">
           <div class="app-row app-header">
             <div class="app-col" style="width: 160px;">Hlas</div>
@@ -52,17 +103,45 @@
           </div>
         </div>
     </div>
-  
+   -->
 
   </div>
 
-
-
-
   </div>
-  <div class="app-actions">
-    <button mat-flat-button color="primary" (click)="save()">Uložit</button>
-    <button mat-flat-button color="default" (click)="close()">Zavřít</button>
-  </div>
+
+  <p style="font-size: 14px; color: #888; margin-top: 10px;">
+    {{ 'settings.tts.text3' | translate }}
+  </p>
 
 </div>
+
+
+<mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
+  <ul class="app-4-cols ">
+    <li class="app-dropdown-item" *ngFor="let lang of languages" (click)="tts.addActiveLanguage(lang)" (keydown.enter)="closeMenu()" mat-menu-item role="button" tabindex="0">
+      <div class="app-language" [class.app-disabled]="tts.isLanguageActive(lang)">
+        <img src="assets/img/flag_{{lang}}.png">
+        <div class="app-language-name">{{ languageService.getLanguageName(lang) }}</div>
+      </div>
+    </li>
+  </ul>
+</mat-menu>
+
+
+<mat-menu #voicesMenu="matMenu" (closed)="stopReading()" xPosition="after" class="app-voices-menu">
+  <ul *ngIf="menuLanguage">
+    <li class="app-dropdown-item" *ngFor="let voice of voices[menuLanguage.code]" (click)="tts.setLanguageVoice(menuLanguage.code, voice)" (keydown.enter)="closeMenu()" mat-menu-item role="button" tabindex="0">
+      <div class="app-language" [class.app-disabled]="tts.isLanguageActive(lang)">
+        <div class="app-language-name">
+          <div class="app-test-voice">
+            <mat-icon *ngIf="readingVoice != voice" class="app-play" (click)="$event.stopPropagation(); read(menuLanguage.code, voice)">volume_up</mat-icon>
+            <mat-icon *ngIf="readingVoice == voice && readingVoiceState == 'loading'" class="app-play app-loading" (click)="$event.stopPropagation()">sync</mat-icon>
+            <mat-icon *ngIf="readingVoice == voice && readingVoiceState == 'reading'" class="app-play app-reading" (click)="$event.stopPropagation(); stopReading()">stop</mat-icon>
+          </div>
+          {{voice.name }}
+          <span style="font-size: 12px; color: #aaa; margin-left: 5px;">{{voice.gender == 'male' ? 'M' : 'F'}}</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</mat-menu>
