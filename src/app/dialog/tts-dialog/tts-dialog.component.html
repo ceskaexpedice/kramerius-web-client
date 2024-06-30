@@ -53,9 +53,9 @@
           </div>
         </div>
         <div class="app-table-col app-table-col-play">
-          <mat-icon *ngIf="readingVoice != language.voice" class="app-play" (click)="read(language.code, language.voice)">volume_up</mat-icon>
-          <mat-icon *ngIf="readingVoice == language.voice && readingVoiceState == 'loading'" class="app-play app-loading">sync</mat-icon>
-          <mat-icon *ngIf="readingVoice == language.voice && readingVoiceState == 'reading'" class="app-play app-reading" (click)="stopReading()">stop</mat-icon>
+          <mat-icon *ngIf="!isVoiceReading(language.code, language.voice, 'table')" class="app-play" (click)="read(language.code, language.voice, 'table')">volume_up</mat-icon>
+          <mat-icon *ngIf="isVoiceReading(language.code, language.voice, 'table') && readingVoiceState == 'loading'" class="app-play app-loading">sync</mat-icon>
+          <mat-icon *ngIf="isVoiceReading(language.code, language.voice, 'table') && readingVoiceState == 'reading'" class="app-play app-reading" (click)="stopReading()">stop</mat-icon>
         </div>
         <div class="app-table-col app-table-col-actions"><mat-icon class="app-delete" (click)="tts.removeActiveLanguage(language.code)" [ngClass]="{'app-disabled': tts.primaryLanguage == language.code}">delete</mat-icon></div>
       </div>
@@ -131,13 +131,14 @@
 <mat-menu #voicesMenu="matMenu" (closed)="stopReading()" xPosition="after" class="app-voices-menu">
   <ul *ngIf="menuLanguage">
     <li class="app-dropdown-item" *ngFor="let voice of voices[menuLanguage.code]" (click)="tts.setLanguageVoice(menuLanguage.code, voice)" (keydown.enter)="closeMenu()" mat-menu-item role="button" tabindex="0">
-      <div class="app-language" [class.app-disabled]="tts.isLanguageActive(lang)">
-        <div class="app-language-name">
+      <div class="app-voice" [class.app-active]="tts.ttsVoice(menuLanguage.code).code == voice.code">
+        <div class="app-voice-name">
           <div class="app-test-voice">
-            <mat-icon *ngIf="readingVoice != voice" class="app-play" (click)="$event.stopPropagation(); read(menuLanguage.code, voice)">volume_up</mat-icon>
-            <mat-icon *ngIf="readingVoice == voice && readingVoiceState == 'loading'" class="app-play app-loading" (click)="$event.stopPropagation()">sync</mat-icon>
-            <mat-icon *ngIf="readingVoice == voice && readingVoiceState == 'reading'" class="app-play app-reading" (click)="$event.stopPropagation(); stopReading()">stop</mat-icon>
+            <mat-icon *ngIf="!isVoiceReading(menuLanguage.code, voice, 'menu')" class="app-play" (click)="$event.stopPropagation(); read(menuLanguage.code, voice, 'menu')">volume_up</mat-icon>
+            <mat-icon *ngIf="isVoiceReading(menuLanguage.code, voice, 'menu') && readingVoiceState == 'loading'" class="app-play app-loading" (click)="$event.stopPropagation()">sync</mat-icon>
+            <mat-icon *ngIf="isVoiceReading(menuLanguage.code, voice, 'menu') && readingVoiceState == 'reading'" class="app-play app-reading" (click)="$event.stopPropagation(); stopReading()">stop</mat-icon>
           </div>
+          <mat-icon class="app-radio">{{ 'radio_button_' + (tts.ttsVoice(menuLanguage.code).code == voice.code ? 'checked' : 'unchecked') }}</mat-icon>
           {{voice.name }}
           <span style="font-size: 12px; color: #aaa; margin-left: 5px;">{{voice.gender == 'male' ? 'M' : 'F'}}</span>
         </div>

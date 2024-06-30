@@ -13,6 +13,8 @@ export class TtsDialogComponent implements OnInit {
 
   @ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
 
+  readingSource: string;
+  readingLanguage: any;
   readingVoice: any;
   readingVoiceState: string;
 
@@ -63,14 +65,22 @@ export class TtsDialogComponent implements OnInit {
   }
 
   stopReading() {
+    this.readingSource = null;
+    this.readingLanguage = null;
     this.readingVoiceState = 'none';
     this.readingVoice = null;
     this.tts.stopTestTTS();
   }
 
-  read(language: any, voice: any) {
+  isVoiceReading(language: string, voice: any, source: string) {
+    return this.readingSource === source && this.readingLanguage === language && this.readingVoice === voice;
+  }
+
+  read(language: any, voice: any, source: string) {
     this.stopReading();
     const text = this.getTestText(language);
+    this.readingSource = source;
+    this.readingLanguage = language;
     this.readingVoiceState = 'loading';
     this.readingVoice = voice;
     this.tts.testTTS(voice, text, 

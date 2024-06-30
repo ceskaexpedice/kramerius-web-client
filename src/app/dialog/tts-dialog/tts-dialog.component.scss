@@ -316,6 +316,37 @@
         }
       }
     }
+    .app-radio {
+      color: #bbb;
+      margin-left: -6px;
+      font-size: 18px;
+      vertical-align: middle;
+      height: 30px;
+      width: 30px;
+      color: #929292;
+      margin-right: 0px;
+      margin-left: -12px;
+      padding: 6px;
+      &.app-active {
+        color: $primary-color;
+      } 
+    }
+  }
+  .app-dropdown-item {
+    .app-voice {
+      &.app-active {
+        font-weight: bold;
+        .app-radio {
+          color: $primary-color;
+        }
+      }
+    }
+    &:hover {
+      background: #f5f5f5;
+      .app-radio {
+        color: $primary-color;
+      }
+    }
   }
 }
 
