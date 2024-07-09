@@ -59,13 +59,22 @@
 
 
 ::ng-deep {
-  .app-text {
-    ul {
-      margin-left: 14px;
-      padding: 0;
-      li {
-        list-style-type: disc;
-        margin-bottom: 3px;
+  .app-ocr-dialog {
+    .app-text-content {
+      p {
+        padding: 0;
+        margin: 7px 0;
+      }
+      img {
+        display: none;
+      }
+      ul {
+        margin-left: 14px;
+        padding: 0;
+        li {
+          list-style-type: disc;
+          margin-bottom: 3px;
+        }
       }
     }
   }

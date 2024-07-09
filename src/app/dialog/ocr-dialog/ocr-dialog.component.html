@@ -2,7 +2,7 @@
 
   <div class="app-text">
     <h3 *ngIf="title" style="margin: 0; margin-bottom: 5px;">{{ title }}</h3>
-    <div class="app-text" [innerHtml]="ocrTxt"></div>
+    <div class="app-text-content" [innerHtml]="ocrTxt"></div>
     <label for="ocr-text" class="app-hidden-label">Text</label>
     <textarea id="ocr-text" #ocrInputTarget [value]="ocrTxt" type="text" ></textarea>
     <div class="app-actions">

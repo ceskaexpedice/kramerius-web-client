@@ -9,7 +9,6 @@ export class AiService {
 
   private baseUrl = 'https://api.trinera.cloud/api';
 
-
   private temperature = 0;
   private maxTokens = 1000;
   // private model = 'gpt-3.5-turbo'; 
@@ -29,7 +28,7 @@ export class AiService {
     private auth: AuthService,
     private http: HttpClient) {
       this.userSubscription = this.auth.watchUser().subscribe((user) => {
-        if (user && user.isLoggedIn()) {
+        if ((user && user.isLoggedIn()) || this.settings.getAiToken()) {
           this.loggedIn = true;
           this.reloadAIUser(null);
         } else {
@@ -37,7 +36,7 @@ export class AiService {
           this.roles = [];
         }
       });
-      if (this.auth.isLoggedIn()) {
+      if (this.auth.isLoggedIn() || this.settings.getAiToken()) {
         this.loggedIn = true;
         this.reloadAIUser(null);
       }
