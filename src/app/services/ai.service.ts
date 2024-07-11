@@ -13,7 +13,7 @@ export class AiService {
   private maxTokens = 1000;
   // private model = 'gpt-3.5-turbo'; 
   // private model = 'gpt-3.5-turbo-16k'; 
-  private model = 'gpt-3.5-turbo-0125';
+  // private model = 'gpt-3.5-turbo-0125';
   // private model = 'gpt-3.5-turbo-1106';
   // private model = 'text-davinci-003';
   
@@ -184,10 +184,11 @@ export class AiService {
   }
 
 
- askGPT(input: string, instructions: string, callback: (answer: string, error?: string) => void) {
+ askGPT(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
     const path = `/openai/chat/completions`;
+    let m = model || 'gpt-3.5-turbo'
     const body = {
-      'model': this.model,
+      'model': m,
       'messages': [
         {
           "role": "system",
@@ -214,6 +215,60 @@ export class AiService {
       callback(null, error);
     });
   }
+
+
+
+
+  askClaude(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
+    const path = `/anthropic/messages`;
+    let m = model || 'claude-3-sonnet-20240229';
+    const body = {
+      'model': m,
+      'messages': [
+        {
+          "role": "user",
+          "content": `${input}\n\n${instructions}`
+        }
+      ],
+      'temperature': this.temperature,
+      'max_tokens': this.maxTokens
+    };
+    this.post(path, body, (response: any) => {
+      let answer = response['content'][0]['text'];
+      callback(answer);
+    }, (error: string) => {
+      callback(null, error);
+    });
+  }
+
+
+  askGemini(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
+    const m = model || 'gemini-pro';
+    const path = `/google/gemini/${model}`;
+    const body = {
+      'contents': [
+        { 'role': 'user', 'parts': [
+          { 'text': `${input}\n\n${instructions}` }
+        ]}
+      ],
+      'generationConfig': { 'temperature' : this.temperature, 'maxOutputTokens': this.maxTokens }
+    }
+    this.post(path, body, (response: any) => {
+      let answer = response['candidates'][0]['content']['parts'][0]['text'];
+      callback(answer);
+    }, (error: string) => {
+      callback(null, error);
+    });
+  }
+
+
+
+
+
+
+  
+
+
 
   translate(input: string, targetLanguage: string, callback: (answer: string, error?: string) => void) {
     // const path = `/deepl/translate`;

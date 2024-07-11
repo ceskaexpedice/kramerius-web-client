@@ -979,7 +979,7 @@ export class BookService {
                     this.showAiError(error);
                     return;
                 }
-                this.ai.askGPT(translation, instruction, (answer, error) => {
+                this.ai.askGPT(translation, instruction, null, (answer, error) => {
                         if (error) {
                             this.showAiError(error);
                             return;
@@ -989,7 +989,8 @@ export class BookService {
                             summary: true,
                             language: lang,
                             uuid: uuid,
-                            showCitation: false
+                            showCitation: false,
+                            originalSourceText: text
                         };
                         this.serviceLoading = false
                         this.bottomSheet.open(OcrDialogComponent, { data: options });

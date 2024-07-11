@@ -7,8 +7,13 @@
     <textarea id="ocr-text" #ocrInputTarget [value]="ocrTxt" type="text" ></textarea>
     <div class="app-actions">
       <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="ocrInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
-      <div *ngIf="language && !loading" class="app-language" [matMenuTriggerFor]="languagesMenu">
+      <div *ngIf="language && !loading" class="app-dropdown app-language" [matMenuTriggerFor]="languagesMenu">
         <img [alt]="languageService.getLanguageName(language)"  src="assets/img/flag_{{language}}.png" >
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </div>
+      <div *ngIf="model && !loading" class="app-dropdown app-model" [matMenuTriggerFor]="modelsMenu">
+        <img src="assets/img/ic_provider_{{model.provider}}.png">
+        <span>{{ model.name }}</span>
         <mat-icon>keyboard_arrow_down</mat-icon>
       </div>
       <mat-spinner *ngIf="loading" [strokeWidth]="2" [diameter]="20"></mat-spinner>
@@ -35,6 +40,17 @@
       <div class="app-language">
         <img src="assets/img/flag_{{lang}}.png">
         <div class="app-language-name">{{ languageService.getLanguageName(lang) }}</div>
+      </div>
+    </li>
+  </ul>
+</mat-menu>
+
+<mat-menu #modelsMenu="matMenu" xPosition="after" class="app-summary-models-menu">
+  <ul>
+    <li class="app-dropdown-item" mat-menu-item tabindex="0" *ngFor="let model of models" (keydown.enter)="closeMenu()" (click)="onModelChanged(model)" role="button">
+      <div class="app-model">
+        <img src="assets/img/ic_provider_{{model.provider}}.png">
+        <div class="app-model-name">{{ model.name }}</div>
       </div>
     </li>
   </ul>

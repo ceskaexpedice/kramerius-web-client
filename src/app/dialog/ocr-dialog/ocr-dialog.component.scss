@@ -32,7 +32,7 @@
       height: 18px;
       margin-right: 5px;
     }
-    .app-language {
+    .app-dropdown {
       display: flex;
       align-content: stretch;
       align-items: center;
@@ -42,6 +42,10 @@
       // right: 5px;
       cursor: pointer;
       border-radius: 5px;
+      span {
+        font-size: 14px;
+        margin-left: 5px;
+      }
       img {
         width: 28px;
         height: 28px;
@@ -52,6 +56,12 @@
       }
       &:hover {
         background: #dbdbdb;
+      }
+      &.app-model {
+        img {
+          width: 24px;
+          height: 24px;
+        }
       }
     }
   }
@@ -76,6 +86,40 @@
           margin-bottom: 3px;
         }
       }
+    }
+  }
+}
+
+
+
+
+
+
+::ng-deep {
+  .app-summary-models-menu {
+    .app-dropdown-item {
+      cursor: pointer;
+      padding: 0;
+      height: 40px;
+      line-height: 40px;
+      font-size: 15px;
+      margin: 0 3px;
+      .app-model {
+        display: flex;
+        align-items: center;
+        padding: 0 8px;
+        img {
+          height: 20px;
+          width: 20px;
+          margin-right: 10px;
+        }
+      }
+      &:hover {
+        background: #e5e5e5;
+      }
+    }
+    &:focus {
+      outline: none;
     }
   }
 }
