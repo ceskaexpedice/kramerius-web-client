@@ -13,6 +13,55 @@ import { TtsDialogComponent } from '../dialog/tts-dialog/tts-dialog.component';
 @Injectable()
 export class TtsService {
 
+  static elevenLabsVoices = [
+    { code: 'dIzPtf5UROMD6ykqGQTS', name: 'Bíba', gender: 'female', source: 'ElevenLabs' },
+    { code: 'bXwRnJxNkyIuXGcXZU4N', name: 'Honza', gender: 'male', source: 'ElevenLabs' },
+    { code: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', gender: 'female', source: 'ElevenLabs' },
+    { code: '29vD33N1CtxCmqQRPOHJ', name: 'Drew', gender: 'male', source: 'ElevenLabs' },
+    { code: '2EiwWnXFnvU5JabPnv8n', name: 'Clyde', gender: 'male', source: 'ElevenLabs' },
+    { code: '5Q0t7uMcjvnagumLfvZi', name: 'Paul', gender: 'male', source: 'ElevenLabs' },
+    { code: 'AZnzlk1XvdvUeBnXmlld', name: 'Domi', gender: 'female', source: 'ElevenLabs' },
+    { code: 'CYw3kZ02Hs0563khs1Fj', name: 'Dave', gender: 'male', source: 'ElevenLabs' },
+    { code: 'D38z5RcWu1voky8WS1ja', name: 'Fin', gender: 'male', source: 'ElevenLabs' },
+    { code: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah', gender: 'female', source: 'ElevenLabs' },
+    { code: 'ErXwobaYiN019PkySvjV', name: 'Antoni', gender: 'male', source: 'ElevenLabs' },
+    { code: 'GBv7mTt0atIp3Br8iCZE', name: 'Thomas', gender: 'male', source: 'ElevenLabs' },
+    { code: 'IKne3meq5aSn9XLyUdCD', name: 'Charlie', gender: 'male', source: 'ElevenLabs' },
+    { code: 'JBFqnCBsd6RMkjVDRZzb', name: 'George', gender: 'male', source: 'ElevenLabs' },
+    { code: 'LcfcDJNUP1GQjkzn1xUU', name: 'Emily', gender: 'female', source: 'ElevenLabs' },
+    { code: 'MF3mGyEYCl7XYWbV9V6O', name: 'Elli', gender: 'female', source: 'ElevenLabs' },
+    { code: 'N2lVS1w4EtoT3dr4eOWO', name: 'Callum', gender: 'male', source: 'ElevenLabs' },
+    { code: 'ODq5zmih8GrVes37Dizd', name: 'Patrick', gender: 'male', source: 'ElevenLabs' },
+    { code: 'SOYHLrjzK2X1ezoPC6cr', name: 'Harry', gender: 'male', source: 'ElevenLabs' },
+    { code: 'TX3LPaxmHKxFdv7VOQHJ', name: 'Liam', gender: 'male', source: 'ElevenLabs' },
+    { code: 'ThT5KcBeYPX3keUQqHPh', name: 'Dorothy', gender: 'female', source: 'ElevenLabs' },
+    { code: 'TxGEqnHWrfWFTfGW9XjX', name: 'Josh', gender: 'male', source: 'ElevenLabs' },
+    { code: 'VR6AewLTigWG4xSOukaG', name: 'Arnold', gender: 'male', source: 'ElevenLabs' },
+    { code: 'XB0fDUnXU5powFXDhCwa', name: 'Charlotte', gender: 'female', source: 'ElevenLabs' },
+    { code: 'Xb7hH8MSUJpSbSDYk0k2', name: 'Alice', gender: 'female', source: 'ElevenLabs' },
+    { code: 'XrExE9yKIg1WjnnlVkGX', name: 'Matilda', gender: 'female', source: 'ElevenLabs' },
+    { code: 'ZQe5CZNOzWyzPSCn5a3c', name: 'James', gender: 'male', source: 'ElevenLabs' },
+    { code: 'Zlb1dXrM653N07WRdFW3', name: 'Joseph', gender: 'male', source: 'ElevenLabs' },
+    { code: 'bVMeCyTHy58xNoL34h3p', name: 'Jeremy', gender: 'male', source: 'ElevenLabs' },
+    { code: 'flq6f7yk4E4fJM5XTYuZ', name: 'Michael', gender: 'male', source: 'ElevenLabs' },
+    { code: 'g5CIjZEefAph4nQFvHAz', name: 'Ethan', gender: 'male', source: 'ElevenLabs' },
+    { code: 'iP95p4xoKVk53GoZ742B', name: 'Chris', gender: 'male', source: 'ElevenLabs' },
+    { code: 'jBpfuIE2acCO8z3wKNLl', name: 'Gigi', gender: 'female', source: 'ElevenLabs' },
+    { code: 'jsCqWAovK2LkecY7zXl4', name: 'Freya', gender: 'female', source: 'ElevenLabs' },
+    { code: 'nPczCjzI2devNBz1zQrb', name: 'Brian', gender: 'male', source: 'ElevenLabs' },
+    { code: 'oWAxZDx7w5VEj9dCyTzz', name: 'Grace', gender: 'female', source: 'ElevenLabs' },
+    { code: 'onwK4e9ZLuTAKqWW03F9', name: 'Daniel', gender: 'male', source: 'ElevenLabs' },
+    { code: 'pFZP5JQG7iQjIQuC4Bku', name: 'Lily', gender: 'female', source: 'ElevenLabs' },
+    { code: 'pMsXgVXv3BLzUgSXRplE', name: 'Serena', gender: 'female', source: 'ElevenLabs' },
+    { code: 'pNInz6obpgDQGcFmaJgB', name: 'Adam', gender: 'male', source: 'ElevenLabs' },
+    { code: 'piTKgcLEGmPE4e6mEKli', name: 'Nicole', gender: 'female', source: 'ElevenLabs' },
+    { code: 'pqHfZKP75CvOlQylNhV4', name: 'Bill', gender: 'male', source: 'ElevenLabs' },
+    { code: 't0jbNlBVZ17f02VDIeMI', name: 'Jessie', gender: 'male', source: 'ElevenLabs' },
+    { code: 'yoZ06aMxZJJ28mfd3POQ', name: 'Sam', gender: 'male', source: 'ElevenLabs' },
+    { code: 'z9fAnlkpzviPz146aGWa', name: 'Glinda', gender: 'female', source: 'ElevenLabs' },
+    { code: 'zcAOhNBS3c14rBihAFp1', name: 'Giovanni', gender: 'male', source: 'ElevenLabs' },
+    { code: 'zrHiDhphv9ZnVXBqCLjz', name: 'Mimi', gender: 'female', source: 'ElevenLabs' }
+  ];
 
   static openAIVoices = [
     { code: 'fable', name: 'Fable', gender: 'female', source: 'OpenAI' },
@@ -337,8 +386,8 @@ export class TtsService {
   }
 
   private finish(fromUser: boolean = false) {
-    this.audioBlobBuffer = false;
-    this.audioConentBuffer = false;
+    this.audioBlobBuffer = null;
+    this.audioConentBuffer = null;
     this.userPaused = false;
     this.documentLanguage = null;
     this.state = 'none';
@@ -418,11 +467,14 @@ export class TtsService {
   private readText(text: string, buffer: boolean = false, bufferText: string = null) {   
     if (this.documentLanguage) {
       const voice = this.ttsVoice(this.documentLanguage);
-      if (voice.source === 'Google') {
-        this.readTextG(text, voice, buffer);
-      } else if (voice.source === 'OpenAI') {
-        this.readTextO(text, voice, buffer);
-      }
+      this.tts(voice.source, text, voice, buffer);
+      // if (voice.source === 'Google') {
+      //   this.readTextG(text, voice, buffer);
+      // } else if (voice.source === 'OpenAI') {
+      //   this.readTextO(text, voice, buffer);
+      // } else if (voice.source === 'ElevenLabs') {
+      //   this.readTextE(text, voice, buffer);
+      // }
     } else {
       const dText = text.substring(0,40);
       this.ai.detectLanguage(dText, (language, error) => {
@@ -436,59 +488,45 @@ export class TtsService {
     }
   }
 
-
-  private readTextG(text: string, voice: any, buffer: boolean = false) {
+  private tts(provider: string, text: string, voice: any, buffer: boolean = false) {
     const readLanguage = this.getReadLangFor(this.documentLanguage).code;
-    if (this.documentLanguage != readLanguage) {
-        this.ai.translate(text, readLanguage, (translation, error) => {
-          if (error) { this.onAiError(error); return; }
-          this.ai.textToSpeech(translation, voice, (audioContent, error) => {
-            if (error) { this.onAiError(error); return; }
-            if (buffer) {
-              this.audioConentBuffer = audioContent;
-            } else {
-              this.playAudioContent(audioContent);
-            }
-          });
-        });
-    } else {
-      this.ai.textToSpeech(text, voice, (audioContent, error) => {
-        if (error) { this.onAiError(error); return; }
-        if (buffer) {
-          this.audioConentBuffer = audioContent;
+    const callback = (blob, error) => {
+      if (error) { this.onAiError(error); return; }
+      if (buffer) {
+        if (provider === 'Google') {
+          this.audioConentBuffer = blob;
         } else {
-          this.playAudioContent(audioContent);
-        }
-      });
-    }
-  }
-
-  private readTextO(text: string, voice: any, buffer: boolean = false) {
-    const readLanguage = this.getReadLangFor(this.documentLanguage).code;
-    if (this.documentLanguage !== readLanguage) {
-        this.ai.translate(text, readLanguage, (translation, error) => {
-          if (error) { this.onAiError(error); return; }
-          this.ai.testOpenAiTTS(translation, voice.code, (blob, error) => {
-            if (error) { this.onAiError(error); return; }
-            if (buffer) {
-              this.audioBlobBuffer = blob;
-            } else {
-              this.playAudioBlob(blob);
-            }
-          });
-        });
-    } else {
-      this.ai.testOpenAiTTS(text, voice.code, (blob, error) => {
-        if (error) { this.onAiError(error); return; }
-        if (buffer) {
           this.audioBlobBuffer = blob;
+        } 
+      } else {
+        if (provider === 'Google') {
+          this.playAudioContent(blob);
         } else {
           this.playAudioBlob(blob);
         }
+      }
+    };
+    if (this.documentLanguage !== readLanguage) {
+      this.ai.translate(text, readLanguage, (translation, error) => {
+        if (error) { this.onAiError(error); return; }
+        if (provider === 'Google') {
+          this.ai.googleTTS(translation, voice.code, voice.languageCode, callback);
+        } else if (provider === 'OpenAI') {
+          this.ai.openAiTTS(translation, voice.code, callback);
+        } else if (provider === 'ElevenLabs') {
+          this.ai.elevenLabsTTS(translation, voice.code, callback);
+        }
       });
+    } else {
+      if (provider === 'Google') {
+          this.ai.googleTTS(text, voice.code, voice.languageCode, callback);
+        } else if (provider === 'OpenAI') {
+          this.ai.openAiTTS(text, voice.code, callback);
+        } else if (provider === 'ElevenLabs') {
+          this.ai.elevenLabsTTS(text, voice.code, callback);
+        }
     }
   }
-
 
   stopTestTTS() {
     this.finish(true)
@@ -497,12 +535,17 @@ export class TtsService {
   testTTS(voice: any, text: string, loaded: () => void, ended: () => void) {
     this.stopTestTTS();
     if (voice.source === 'Google') {
-      this.ai.textToSpeech(text, voice, (audioContent, error) => {
+      this.ai.googleTTS(text, voice.code, voice.languageCode, (audioContent, error) => {
         this.playAudioContent(audioContent, ended);
         loaded();
       });
     } else if (voice.source === 'OpenAI') {
-      this.ai.testOpenAiTTS(text, voice.code, (blob, error) => {
+      this.ai.openAiTTS(text, voice.code, (blob, error) => {
+        this.playAudioBlob(blob, ended);
+        loaded();
+      });
+    } else if (voice.source === 'ElevenLabs') {
+      this.ai.elevenLabsTTS(text, voice.code, (blob, error) => {
         this.playAudioBlob(blob, ended);
         loaded();
       });

@@ -14,7 +14,7 @@
     padding-top: 10px; 
     border-top: 1px solid #ccc;
   }
-  input, textarea {
+  input.ocr-citation, textarea {
     height: 0px;
     position: absolute;
     top: -10px;
@@ -24,6 +24,7 @@
     display: flex;
     align-items: center;
     height: 32px;
+    margin-top: 15px;
     mat-icon.app-share-btn {
       display: block;
       float: left;
@@ -62,6 +63,31 @@
           width: 24px;
           height: 24px;
         }
+      }
+    }
+    .app-custom-instruction-input {
+      padding: 10px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      width: 400px;
+      flex: 1;
+      height: 32px;
+      box-sizing: border-box;
+      margin-left: 5px;
+      &:focus {
+        border: 1px solid #888;
+      }
+    }
+    .app-regenerate {
+      height: 36px;
+      width: 36px;
+      margin-left: 5px;
+      padding: 8px;
+      font-size: 20px;
+      color: $primary-color;
+      cursor: pointer;
+      &:hover {
+        color: darken($primary-color, 10%);
       }
     }
   }

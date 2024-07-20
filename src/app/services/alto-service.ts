@@ -221,10 +221,14 @@ export class AltoService {
         // console.log('diff', diff);
         if (lastBottom > 0 && diff > 50) {
             if (block.text.length > 0) {
-                blocks.push(block);
+                block.text += '. -- -- ';
             }
-            block = { text: '', hMin: 0, hMax: 0, vMin: 0, vMax: 0, width: aw, height: ah };
-            lines = 0;  
+            
+            // if (block.text.length > 0) {
+            //     blocks.push(block);
+            // }
+            // block = { text: '', hMin: 0, hMax: 0, vMin: 0, vMax: 0, width: aw, height: ah };
+            // lines = 0;  
         }
         lastBottom = bottom;
         lines += 1;

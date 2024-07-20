@@ -3,6 +3,7 @@ import { TtsService } from '../../services/tts.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LanguageService } from '../../services/language.service';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { AiService } from '../../services/ai.service';
 
 @Component({
   selector: 'app-tts-dialog',
@@ -22,34 +23,42 @@ export class TtsDialogComponent implements OnInit {
 
   languages = ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'et', 'sv', 'hu', 'uk', 'ru', 'pt', 'lt', 'lv', 'zh-CN'];
   // languages = ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'et', 'sv', 'hu', 'uk', 'ru', 'pt', 'lt', 'lv', 'zh-CN', 'zh-TW'];
-  
-  voices = {
-    'en': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('en')),
-    'de': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('de')),
-    'cs': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('cs')),
-    'sk': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('sk')),
-    'sl': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('sl')),
-    'es': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('es')),
-    'pl': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('pl')),
-    'it': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('it')),
-    'uk': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('uk')),
-    'ru': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('ru')),
-    'pt': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('pt')),
-    'lt': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('lt')),
-    'lv': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('lv')),
-    'fr': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('fr')),
-    'zh-CN': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('zh-CN')),
-    'zh-TW': TtsService.openAIVoices.concat(TtsService.googleVoicesByLanguage('zh-TW'))
-  }
+  voices: any;
+  showVoicesInGrid = false;
 
   constructor(
     private dialogRef: MatDialogRef<TtsDialogComponent>,
     public languageService: LanguageService,
+    private ai: AiService,
     public tts: TtsService) {
       this.dialogRef.disableClose = true;
+
   }
 
   ngOnInit(): void {
+    let generalVoices = TtsService.openAIVoices;
+    if (this.ai.testActionsEnabled()) {
+      // generalVoices = generalVoices.concat(TtsService.elevenLabsVoices);
+      // this.showVoicesInGrid = true;
+    }
+    this.voices = {
+      'en': generalVoices.concat(TtsService.googleVoicesByLanguage('en')),
+      'de': generalVoices.concat(TtsService.googleVoicesByLanguage('de')),
+      'cs': generalVoices.concat(TtsService.googleVoicesByLanguage('cs')),
+      'sk': generalVoices.concat(TtsService.googleVoicesByLanguage('sk')),
+      'sl': generalVoices.concat(TtsService.googleVoicesByLanguage('sl')),
+      'es': generalVoices.concat(TtsService.googleVoicesByLanguage('es')),
+      'pl': generalVoices.concat(TtsService.googleVoicesByLanguage('pl')),
+      'it': generalVoices.concat(TtsService.googleVoicesByLanguage('it')),
+      'uk': generalVoices.concat(TtsService.googleVoicesByLanguage('uk')),
+      'ru': generalVoices.concat(TtsService.googleVoicesByLanguage('ru')),
+      'pt': generalVoices.concat(TtsService.googleVoicesByLanguage('pt')),
+      'lt': generalVoices.concat(TtsService.googleVoicesByLanguage('lt')),
+      'lv': generalVoices.concat(TtsService.googleVoicesByLanguage('lv')),
+      'fr': generalVoices.concat(TtsService.googleVoicesByLanguage('fr')),
+      'zh-CN': generalVoices.concat(TtsService.googleVoicesByLanguage('zh-CN')),
+      'zh-TW': generalVoices.concat(TtsService.googleVoicesByLanguage('zh-TW'))
+    }
   }
 
   setVoiceMenu(language: any) {

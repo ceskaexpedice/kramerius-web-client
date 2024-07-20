@@ -30,10 +30,15 @@ export class OcrDialogComponent implements OnInit {
 
   title: string;
   originalSourceText: string;
+  customInstructions: string;
+  customInstructionsInUse: string;
+
+  copyText: string;
 
   models = [ 
     { provider: 'openai', name: 'GPT 3.5 turbo', code: 'gpt-3.5-turbo' },
     { provider: 'openai', name: 'GPT 4o', code: 'gpt-4o' },
+    { provider: 'openai', name: 'GPT 4o mini', code: 'gpt-4o-mini' },
     { provider: 'openai', name: 'GPT 4 turbo', code: 'gpt-4-turbo' },
     { provider: 'openai', name: 'GPT 4', code: 'gpt-4' },
     { provider: 'anthropic', name: 'Claude 3 Opus', code: 'claude-3-opus-20240229'},
@@ -46,6 +51,8 @@ export class OcrDialogComponent implements OnInit {
   ];
 
   model: any;
+  modelInUse: any;
+  aiTestActionsEnabled: boolean;
 
 
   constructor(private bottomSheetRef: MatBottomSheetRef<OcrDialogComponent>,
@@ -58,17 +65,17 @@ export class OcrDialogComponent implements OnInit {
     private shareService: ShareService,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
     ) {
-      this.ocrTxt = data.ocr;
-      // this.ocrTxt = toHtml(data.ocr);
-      // txt.replace(/\n/g, '<br/>'); 
+      this.setText(data.ocr);
       if (data.summary) {
         this.title = this.languageService.getSummary(data.language);
-        this.ocrTxt = '<p>' + marked.parse(data.ocr) + '</p>';
+        this.setText('<p>' + marked.parse(data.ocr) + '</p>');
         this.originalSourceText = data.originalSourceText;
-        this.model = this.models[0];
+        this.model = this.models[2];
+        this.modelInUse = this.models[2];
+        this.aiTestActionsEnabled = this.ai.testActionsEnabled();
       } else {
         if (data.ocr2) {
-          this.ocrTxt += '<br/><br/>' + data.ocr2;
+          this.setText(data.ocr + '<br/><br/>' + data.ocr2);
         }
       }
       this.language = data.language;
@@ -100,9 +107,11 @@ export class OcrDialogComponent implements OnInit {
           return;
         }
         this.loading = false;
-        this.ocrTxt = answer;
+        this.setText(answer);
         if (this.data.summary) {
-          this.title = this.languageService.getSummary(lang);
+          if (!this.customInstructionsInUse) {
+            this.title = this.languageService.getSummary(lang);
+          }
           localStorage.setItem('summary.language', lang);
         } else {
           localStorage.setItem('translate.language', lang);
@@ -112,25 +121,44 @@ export class OcrDialogComponent implements OnInit {
 
   onModelChanged(model: string) {
     this.model = model;
+    // this.regenerate();
+  }
+
+  regenerate() {
     this.loading = true;
-    const instruction = this.languageService.getSummaryPrompt(this.language);
+    this.modelInUse = this.model;
+    const instruction = this.customInstructions || this.languageService.getSummaryPrompt(this.language);
+    this.customInstructionsInUse = this.customInstructions;
     const callback = (answer, error) => {
       if (error) {
         // TODO: show error
         return;
       }
-      this.ocrTxt = '<p>' + marked.parse(answer) + '</p>';
+      this.setText('<p>' + marked.parse(answer) + '</p>');
+      this.originalText = this.ocrTxt;
+      if (this.customInstructionsInUse) {
+        this.title = this.customInstructionsInUse.substring(0, 80) + (this.customInstructionsInUse.length > 80 ? '...' : '');
+      }
       this.loading = false;
     };
-
     if (this.model.provider === 'openai') {
-      this.ai.askGPT(this.originalSourceText, instruction, model['code'], callback);
+      this.ai.askGPT(this.originalSourceText, instruction, this.model['code'], callback);
     } else if (this.model.provider === 'anthropic') {
-      this.ai.askClaude(this.originalSourceText, instruction, model['code'], callback);
+      this.ai.askClaude(this.originalSourceText, instruction, this.model['code'], callback);
     } else if (this.model.provider === 'google') {
-      this.ai.askGemini(this.originalSourceText, instruction, model['code'], callback);
+      this.ai.askGemini(this.originalSourceText, instruction, this.model['code'], callback);
     }
   }
+
+  setText(text: string) {
+    this.ocrTxt = text;
+    this.copyText = text.replace(/<\/?[^>]+(>|$)/g, "");
+  }
+
+  regenerateIcon(): string {
+    return (this.modelInUse['code'] === this.model['code'] && this.customInstructionsInUse === this.customInstructions) ? 'refresh' : 'send';
+  }
+
 
   onCancel() {
     this.bottomSheetRef.dismiss();

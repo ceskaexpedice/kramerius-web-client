@@ -11,12 +11,7 @@ export class AiService {
 
   private temperature = 0;
   private maxTokens = 1000;
-  // private model = 'gpt-3.5-turbo'; 
-  // private model = 'gpt-3.5-turbo-16k'; 
-  // private model = 'gpt-3.5-turbo-0125';
-  // private model = 'gpt-3.5-turbo-1106';
-  // private model = 'text-davinci-003';
-  
+
   userSubscription: Subscription;
 
 
@@ -121,7 +116,29 @@ export class AiService {
     });
   }
 
-  testOpenAiTTS(text: string, voice: String, callback: (blob: any, error?: string) => void) {
+  elevenLabsTTS(text: string, voice: string, callback: (blob: any, error?: string) => void) {
+    var body = JSON.stringify({
+      'model_id': 'eleven_multilingual_v2',
+      'text':text
+    });
+
+    let headers = new HttpHeaders()
+    .set('Content-Type', 'application/json')
+    .set('xi-api-key', '--');
+
+    let options = { headers: headers };
+    options['responseType'] = 'arraybuffer';
+  
+    this.http.post(`https://api.elevenlabs.io/v1/text-to-speech/${voice}`, body, options).subscribe((response: any) => {
+      var blob = new Blob([response]);
+      callback(blob);
+    },(error: string) => {
+      callback(null, error);
+    });
+  }
+
+
+  openAiTTS(text: string, voice: String, callback: (blob: any, error?: string) => void) {
     var body = JSON.stringify({
       'model':'tts-1',
       'voice': voice,
@@ -135,29 +152,7 @@ export class AiService {
     }, 'arraybuffer');
   }
 
-  textToSpeech(text: string, voice: any, callback: (audioContent: string, error?: string) => void) {
-    // let voice;
-    // if (language === 'cs') {
-    //   voice = {
-    //     "languageCode": "cs-CZ",
-    //     "name": "cs-CZ-Wavenet-A"
-    //   }
-    // } else if (language === 'sk') {
-    //   voice = {
-    //     "languageCode": "sk-SK",
-    //     "name": "sk-SK-Wavenet-A"
-    //   }
-    // } else if (language === 'de') {
-    //   voice = {
-    //     "languageCode": "de-DE",
-    //     "name": "de-DE-Wavenet-F"
-    //   }
-    // } else {  
-    //   voice = {
-    //     "languageCode": "en-US",
-    //     "name": "en-US-Neural2-J"
-    //   }
-    // }
+  googleTTS(text: string, voice: string, language: string, callback: (audioContent: string, error?: string) => void) {
     const path = `/google/tts`;
     const body = {
       "audioConfig": {
@@ -172,8 +167,8 @@ export class AiService {
         "text": text.toLocaleLowerCase()
       },
       "voice": {
-        "languageCode": voice.languageCode,
-        "name": voice.code
+        "languageCode": language,
+        "name": voice
       }
     };
     this.post(path, body, (response: any) => {
@@ -186,7 +181,7 @@ export class AiService {
 
  askGPT(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
     const path = `/openai/chat/completions`;
-    let m = model || 'gpt-3.5-turbo'
+    let m = model || 'gpt-4o-mini'
     const body = {
       'model': m,
       'messages': [
@@ -260,13 +255,6 @@ export class AiService {
       callback(null, error);
     });
   }
-
-
-
-
-
-
-  
 
 
 

@@ -826,7 +826,7 @@
     "title": "Nastavení",
     "tts": {
       "title": "Předčítání",
-      "text1": "Uvedené jazyky se budou nebudou překládat a text se přečte v originálním jazyce.",
+      "text1": "Uvedené jazyky se nebudou překládat a text se přečte v původním jazyce.",
       "text2": "Zbylé jazyky budou přeloženy a přečteny v primárním jazyce.",
       "text3": "Předčítání je dostupné pouze pro veřejné dokumenty.",
       "voice": "Hlas",

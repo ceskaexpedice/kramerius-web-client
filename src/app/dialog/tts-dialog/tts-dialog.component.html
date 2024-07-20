@@ -117,7 +117,7 @@
 
 
 <mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
-  <ul class="app-4-cols ">
+  <ul class="app-4-cols">
     <li class="app-dropdown-item" *ngFor="let lang of languages" (click)="tts.addActiveLanguage(lang)" (keydown.enter)="closeMenu()" mat-menu-item role="button" tabindex="0">
       <div class="app-language" [class.app-disabled]="tts.isLanguageActive(lang)">
         <img src="assets/img/flag_{{lang}}.png">
@@ -129,7 +129,7 @@
 
 
 <mat-menu #voicesMenu="matMenu" (closed)="stopReading()" xPosition="after" class="app-voices-menu">
-  <ul *ngIf="menuLanguage">
+  <ul *ngIf="menuLanguage" [class.app-4-cols]="showVoicesInGrid">
     <li class="app-dropdown-item" *ngFor="let voice of voices[menuLanguage.code]" (click)="tts.setLanguageVoice(menuLanguage.code, voice)" (keydown.enter)="closeMenu()" mat-menu-item role="button" tabindex="0">
       <div class="app-voice" [class.app-active]="tts.ttsVoice(menuLanguage.code).code == voice.code">
         <div class="app-voice-name">

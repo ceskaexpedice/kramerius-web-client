@@ -280,6 +280,22 @@
     }
   }
   .app-voices-menu {
+    max-width: 680px !important;
+    .mat-menu-content {
+      padding: 0;
+    }
+    ul.app-4-cols {
+      overflow: hidden;
+      width: 680px;
+      li {
+        width: 170px;
+        float: left;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        height: 40px;
+        line-height: 40px;
+      }
+    }
     .app-test-voice {
       float: right;
       mat-icon {
