@@ -480,6 +480,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.bookService.readPage();
   }
 
+  openTtsSettings() {
+    this.bookService.openTtsSettings();
+  }
+
+
   cancelSelection() {
     this.maskLayer.getSource().clear();
     this.selectionPosition = null;

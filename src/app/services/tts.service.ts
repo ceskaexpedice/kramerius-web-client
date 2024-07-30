@@ -231,7 +231,7 @@ export class TtsService {
   primaryLanguage ='cs';
 
   audioConentBuffer: any;
-  audioBlobBuffer: any;
+  // audioBlobBuffer: any;
   activeLanguages = [];
 
 
@@ -386,7 +386,7 @@ export class TtsService {
   }
 
   private finish(fromUser: boolean = false) {
-    this.audioBlobBuffer = null;
+    // this.audioBlobBuffer = null;
     this.audioConentBuffer = null;
     this.userPaused = false;
     this.documentLanguage = null;
@@ -439,8 +439,8 @@ export class TtsService {
     } else {
       if (this.audioConentBuffer) {
         this.playAudioContent(this.audioConentBuffer);
-      } else if (this.audioBlobBuffer) {
-        this.playAudioBlob(this.audioBlobBuffer);
+      // } else if (this.audioBlobBuffer) {
+      //   this.playAudioBlob(this.audioBlobBuffer);
       } else {
         this.readText(block.text);
       }
@@ -490,20 +490,12 @@ export class TtsService {
 
   private tts(provider: string, text: string, voice: any, buffer: boolean = false) {
     const readLanguage = this.getReadLangFor(this.documentLanguage).code;
-    const callback = (blob, error) => {
+    const callback = (content, error) => {
       if (error) { this.onAiError(error); return; }
       if (buffer) {
-        if (provider === 'Google') {
-          this.audioConentBuffer = blob;
-        } else {
-          this.audioBlobBuffer = blob;
-        } 
+          this.audioConentBuffer = content;
       } else {
-        if (provider === 'Google') {
-          this.playAudioContent(blob);
-        } else {
-          this.playAudioBlob(blob);
-        }
+          this.playAudioContent(content);
       }
     };
     if (this.documentLanguage !== readLanguage) {
@@ -540,13 +532,14 @@ export class TtsService {
         loaded();
       });
     } else if (voice.source === 'OpenAI') {
-      this.ai.openAiTTS(text, voice.code, (blob, error) => {
-        this.playAudioBlob(blob, ended);
+      this.ai.openAiTTS(text, voice.code, (content, error) => {
+        // this.playAudioBlob(blob, ended);
+        this.playAudioContent(content, ended);
         loaded();
       });
     } else if (voice.source === 'ElevenLabs') {
-      this.ai.elevenLabsTTS(text, voice.code, (blob, error) => {
-        this.playAudioBlob(blob, ended);
+      this.ai.elevenLabsTTS(text, voice.code, (content, error) => {
+        this.playAudioContent(content, ended);
         loaded();
       });
     }
@@ -558,22 +551,22 @@ export class TtsService {
   }
 
 
-  private playAudioBlob(blob, onEnd: () => void = null){
-    this.state = 'speaking'
-    const audioUrl = URL.createObjectURL(blob);
-    this.audio = new Audio(audioUrl);
-    this.audio.onended = (event) => {
-      this.state = 'loading';
-      this.next();
-      if (onEnd) {
-        onEnd();
-      }
-    };
-    // this.audio.stop();
-    if (!this.userPaused) {
-      this.audio.play();
-    }
-  }
+  // private playAudioBlob(blob, onEnd: () => void = null){
+  //   this.state = 'speaking'
+  //   const audioUrl = URL.createObjectURL(blob);
+  //   this.audio = new Audio(audioUrl);
+  //   this.audio.onended = (event) => {
+  //     this.state = 'loading';
+  //     this.next();
+  //     if (onEnd) {
+  //       onEnd();
+  //     }
+  //   };
+  //   // this.audio.stop();
+  //   if (!this.userPaused) {
+  //     this.audio.play();
+  //   }
+  // }
 
 
   private playAudioContent(audioContent: string, onEnd: () => void = null){

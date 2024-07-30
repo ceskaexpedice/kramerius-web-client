@@ -38,8 +38,8 @@ export class TtsDialogComponent implements OnInit {
   ngOnInit(): void {
     let generalVoices = TtsService.openAIVoices;
     if (this.ai.testActionsEnabled()) {
-      // generalVoices = generalVoices.concat(TtsService.elevenLabsVoices);
-      // this.showVoicesInGrid = true;
+      generalVoices = generalVoices.concat(TtsService.elevenLabsVoices);
+      this.showVoicesInGrid = true;
     }
     this.voices = {
       'en': generalVoices.concat(TtsService.googleVoicesByLanguage('en')),

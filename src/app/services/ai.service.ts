@@ -116,40 +116,30 @@ export class AiService {
     });
   }
 
-  elevenLabsTTS(text: string, voice: string, callback: (blob: any, error?: string) => void) {
+  elevenLabsTTS(text: string, voice: string, callback: (audioContent: string, error?: string) => void) {
     var body = JSON.stringify({
       'model_id': 'eleven_multilingual_v2',
       'text':text
     });
-
-    let headers = new HttpHeaders()
-    .set('Content-Type', 'application/json')
-    .set('xi-api-key', '--');
-
-    let options = { headers: headers };
-    options['responseType'] = 'arraybuffer';
-  
-    this.http.post(`https://api.elevenlabs.io/v1/text-to-speech/${voice}`, body, options).subscribe((response: any) => {
-      var blob = new Blob([response]);
-      callback(blob);
+    this.post(`/elevenlabs/tts/${voice}`, body, (response: any) => {
+      callback(response['audioContent']);
     },(error: string) => {
       callback(null, error);
     });
   }
 
 
-  openAiTTS(text: string, voice: String, callback: (blob: any, error?: string) => void) {
+  openAiTTS(text: string, voice: String, callback: (audioContent: string, error?: string) => void) {
     var body = JSON.stringify({
       'model':'tts-1',
       'voice': voice,
       'input':text
     });
     this.post('/openai/tts', body, (response: any) => {
-      var blob = new Blob([response]);
-      callback(blob);
+      callback(response['audioContent']);
     },(error: string) => {
       callback(null, error);
-    }, 'arraybuffer');
+    });
   }
 
   googleTTS(text: string, voice: string, language: string, callback: (audioContent: string, error?: string) => void) {

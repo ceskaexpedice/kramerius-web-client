@@ -1079,6 +1079,12 @@ export class BookService {
         }, false, extent, width, height);
     }
 
+
+    openTtsSettings() {
+        if (!this.checkAiActionsEnabled()) { return; }
+        this.tts.openSettings();
+    }
+
     summarizePdfPage() {
         if (!this.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
