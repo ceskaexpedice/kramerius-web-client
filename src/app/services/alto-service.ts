@@ -402,7 +402,7 @@ for (let i = 0; i < elements.length; i++) {
             const stringHeight = parseInt(stringEl.getAttribute('HEIGHT') || '0', 10);
 
             const style = stringEl.getAttribute('STYLE');
-            console.log('style', style);
+            // console.log('style', style);
             if (!style || style.indexOf('bold') < 0) {
                 allBold = false;
             }

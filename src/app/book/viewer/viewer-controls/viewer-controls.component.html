@@ -10,55 +10,55 @@
     chevron_left
   </mat-icon>
 
-  <mat-icon (click)="controlsService.zoomIn();analytics.sendEvent('viewer', 'controls', 'zoom in');"
+  <mat-icon (click)="zoomIn()"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_zoom_in' | translate" 
-            *ngIf="showZoom() && !showUnlock()">
+            *ngIf="showZoom()">
             add_circle_outline
   </mat-icon>
 
-  <mat-icon (click)="controlsService.zoomOut();analytics.sendEvent('viewer', 'controls', 'zoom out');"
+  <mat-icon (click)="zoomOut()"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_zoom_out' | translate" 
-            *ngIf="showZoom() && !showUnlock()">
+            *ngIf="showZoom()">
             remove_circle_outline
   </mat-icon>
 
-  <mat-icon (click)="controlsService.fitToScreen();analytics.sendEvent('viewer', 'controls', 'fit to screen')"
+  <mat-icon (click)="fitToScreen()"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_fit_to_screen' | translate"
-            *ngIf="showFitToScreen() && !showUnlock()">
+            *ngIf="showFitToScreen()">
             fit_screen
   </mat-icon>
 
-  <mat-icon (click)="controlsService.enterFullscreen(bookService.showGeoreference ? 'geo_ol' : 'app-viewer');analytics.sendEvent('viewer', 'controls', 'enter fullscreen')"
+
+  <mat-icon (click)="enterFullscreen()"
             [matTooltip]="'view_controls.tooltip_enter_fullscreen' | translate" 
             tabindex="0"
-            *ngIf="controlsService.fullscreenAvailable && !controlsService.fullscreenEnabled() && !showUnlock()">
+            *ngIf="showEnterFullscreen()">
             fullscreen
   </mat-icon>
 
-  <mat-icon (click)="controlsService.exitFullscreen(bookService.showGeoreference ? 'geo_ol' :'app-viewer');analytics.sendEvent('viewer', 'controls', 'exit fullscreen');"
+  <mat-icon (click)="exitFullscreen()"
             tabindex="0"
             [matTooltip]="'view_controls.tooltip_exit_fullscreen' | translate" 
-            *ngIf="controlsService.fullscreenAvailable && controlsService.fullscreenEnabled() && !showUnlock()">
+            *ngIf="showExitFullscreen()">
             fullscreen_exit
   </mat-icon>
-
 
 
   <mat-icon (click)="rotate()"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_rotate_right' | translate" 
-            *ngIf="showRotation() && !showUnlock() && !bookService.showGeoreference">
+            *ngIf="showRotation()">
             rotate_right
   </mat-icon>
 
-  <mat-icon (click)="bookService.toggleDoublePage();controlsService.doublePageOff();analytics.sendEvent('viewer', 'controls', 'double page off')"
+  <mat-icon (click)="doublePageOff()"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_doublepage_off' | translate" 
@@ -66,7 +66,7 @@
             auto_stories
   </mat-icon>
 
-  <mat-icon (click)="bookService.toggleDoublePage();controlsService.doublePageOn();analytics.sendEvent('viewer', 'controls', 'double page on')"
+  <mat-icon (click)="doublePageOn()"
             tabindex="0"
             class="hide-on-small"
             [matTooltip]="'view_controls.tooltip_doublepage_on' | translate" 
@@ -74,11 +74,11 @@
             auto_stories
   </mat-icon>
 
-  <mat-icon (click)="bookService.toggleTextMode();controlsService.toggleTextMode();analytics.sendEvent('viewer', 'controls', 'toggle_text_mode')"
+  <mat-icon (click)="toggleViewerMode()"
     tabindex="0"
     class="hide-on-small"
     [matTooltip]="'Textový režim'" 
-    *ngIf="showTextModeToggle()">
+    *ngIf="showViewerModeToggle()">
     view_headline
   </mat-icon>
 

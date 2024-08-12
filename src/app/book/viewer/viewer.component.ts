@@ -81,6 +81,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public textZoom = 5;
   public originalTextContent = '';
   public textContent = '';
+  public textContentLoading = false;
+
+  lastViewerMode = '';
 
   constructor(public bookService: BookService,
               public authService: AuthService,
@@ -464,8 +467,19 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.bookService.summarize(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
-  onPageOcr() {
-    this.bookService.showOcr();
+  // onPageOcr() {
+  //   this.bookService.showOcr();
+  // }
+
+  enterTextMode() {
+    this.bookService.setViewerMode('text');
+  }
+
+  enterScanMode() {
+    this.bookService.setViewerMode('scan');
+    setTimeout(() => {
+      this.controlsService.fitToScreen();
+    }, 100);
   }
 
   onTranslatePage() {
@@ -529,6 +543,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
       case ViewerActions.zoomOut:
         this.zoomOut();
         break;
+      case ViewerActions.textZoomIn:
+        this.textZoomIn();
+        break;
+      case ViewerActions.textZoomOut:
+        this.textZoomOut();
+        break;
       case ViewerActions.rotateRight:
         this.rotateRight();
         break;
@@ -548,29 +568,29 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   private zoomIn() {
-    if (this.bookService.textMode) {
-      this.textZoom < 10 ? this.textZoom += 1 : this.textZoom = 10;
-    } else {
-      const currentZoom = this.view.getView().getResolution();
-      let newZoom = currentZoom / 1.5;
-      this.view.getView().animate({
-        resolution: newZoom,
-        duration: 300
-      });
-    }
+    const currentZoom = this.view.getView().getResolution();
+    let newZoom = currentZoom / 1.5;
+    this.view.getView().animate({
+      resolution: newZoom,
+      duration: 300
+    });
+  }
+
+  private textZoomIn() {
+    this.textZoom < 100 ? this.textZoom += 1 : this.textZoom = 100;
   }
 
   private zoomOut() {
-    if (this.bookService.textMode) {
-      this.textZoom > 0 ? this.textZoom -= 1 : this.textZoom = 0
-    } else {
-      const currentZoom = this.view.getView().getResolution();
-      let newZoom = currentZoom * 1.5;
-      this.view.getView().animate({
-        resolution: newZoom,
-        duration: 300
-      });
-    }
+    const currentZoom = this.view.getView().getResolution();
+    let newZoom = currentZoom * 1.5;
+    this.view.getView().animate({
+      resolution: newZoom,
+      duration: 300
+    });
+  }
+
+  private textZoomOut() {
+    this.textZoom > 0 ? this.textZoom -= 1 : this.textZoom = 0
   }
 
   private rotateRight() {
@@ -601,6 +621,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   private fitToScreen() {
+    console.log('----- fit-to-screen')
     this.view.updateSize();
     this.view.getView().setRotation(0);
     this.view.getView().fit(this.extent);
@@ -615,10 +636,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const box: any[] = [];
     const wc = block.width > 0 ? this.imageWidth / block.width : 1;
     const hc = block.height > 0 ? this.imageHeight / block.height : 1;
-    console.log('wc', wc);
-    console.log('hc', hc);
-    console.log('block.width', block.aw);
-    console.log('this.imageWidth', this.imageWidth);
+    // console.log('wc', wc);
+    // console.log('hc', hc);
+    // console.log('block.width', block.aw);
+    // console.log('this.imageWidth', this.imageWidth);
 
     box.push([block.hMin * wc, -block.vMin * hc]);
     box.push([block.hMax * wc, -block.vMin * hc]);
@@ -631,10 +652,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.addLayer(this.vectorLayer);
   }
 
-  private updateTextContent() {
+  private updateTextContent(useDimensions: boolean = true) {
+    this.textContentLoading = true;
+    let width = useDimensions ? this.imageWidth : 0;
+    let height = useDimensions ? this.imageHeight : 0;
     this.api.getAlto(this.data.uuid1).subscribe(response => {
-      this.textContent = this.alto.getFormattedText(response, this.data.uuid1, this.imageWidth, this.imageHeight);
-      console.log('this.textContent', this.textContent);
+      this.textContent = this.alto.getFormattedText(response, this.data.uuid1, width, height);
+      // console.log('this.textContent', this.textContent);
+      this.textContentLoading = false;
     });
   }
 
@@ -870,7 +895,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
         url2 = url2.replace(this.settings.url, this.settings.replaceImageUrl);
       }
     }
-
     this.onImageLoading();
     const rq = [];
     let w1, w2, h1, h2;
@@ -932,12 +956,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
     } else {
       this.view.getView().fit(this.extent);
       this.initialResolution = this.view.getView().getResolution();
+      this.fitToScreen();
     }
     this.view.addLayer(this.maskLayer);
     this.updateBoxes();
-    if (this.bookService.textMode) {
-      this.updateTextContent();
-    }
+    // if (this.bookService.textMode) {
+    //   this.updateTextContent();
+    // }
     this.addWaterMark();
     if (this.data.bb) {
       const bb = this.data.bb.split(',');
@@ -986,9 +1011,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (!data) {
       return;
     }
-    if (this.data && this.data.equals(data) && !this.bookService.textMode) {
+    // if (this.data && this.data.equals(data) && !this.bookService.textMode) {
+    if (this.data && this.data.equals(data) && this.lastViewerMode == this.bookService.viewerMode) {
       return;
     }
+    this.lastViewerMode = this.bookService.viewerMode;
     this.view.removeLayer(this.imageLayer);
     this.view.removeLayer(this.zoomifyLayer);
     this.view.removeLayer(this.imageLayer2);
@@ -996,9 +1023,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.removeLayer(this.vectorLayer);
     this.view.removeLayer(this.maskLayer);
     this.data = data;
+    if (this.bookService.viewerMode == 'text' || this.bookService.viewerMode == 'split') {
+      this.updateTextContent(false);
+    }
     switch (data.imageType) {
       case ViewerImageType.IIIF: 
+      setTimeout(() => {
         this.updateIiifImage(data.uuid1, data.uuid2);
+      }, 150);
         break;
       case ViewerImageType.ZOOMIFY: 
         this.updateZoomifyImage(data.uuid1, data.uuid2);

@@ -53,7 +53,7 @@ export class BookService {
     public doublePageEnabled = false;
     public zoomLockEnabled = false;
 
-    public textMode = false;
+    public viewerMode = 'scan'; // scan | text | split
 
     public pageState: BookPageState;
     public bookState: BookState;
@@ -621,11 +621,24 @@ export class BookService {
         }
     }
 
-    toggleTextMode() {
-        this.textMode = !this.textMode;
-        this.localStorageService.setProperty(LocalStorageService.TEXT_MODE, this.textMode ? '1' : '0');
+    toggleViewerMode() {
+        if (this.viewerMode === 'scan') {
+            this.viewerMode = 'text';
+        } else if (this.viewerMode === 'text') {
+            this.viewerMode = 'split';
+        } else {
+            this.viewerMode = 'scan';
+        }
+        // this.textMode = !this.textMode;
+        // this.localStorageService.setProperty(LocalStorageService.TEXT_MODE, this.textMode ? '1' : '0');
         this.goToPage(this.getPage());
     }
+
+    setViewerMode(mode: string) {
+        this.viewerMode = mode;
+        this.goToPage(this.getPage());
+    }
+
 
     textModeSupported() {
         return this.settings.textModeEnabled && this.localStorageService.getProperty(LocalStorageService.DEV_MODE) === '1'
@@ -639,7 +652,7 @@ export class BookService {
         let currentPage = 0;
         this.activeMobilePanel = 'viewer';
         this.doublePageEnabled = this.localStorageService.getProperty(LocalStorageService.DOUBLE_PAGE) === '1';
-        this.textMode = this.localStorageService.getProperty(LocalStorageService.TEXT_MODE) === '1';
+        // this.textMode = this.localStorageService.getProperty(LocalStorageService.TEXT_MODE) === '1';
         let withPlacement = 0;
         const spines: Page[] = [];
         for (const p of pages) {

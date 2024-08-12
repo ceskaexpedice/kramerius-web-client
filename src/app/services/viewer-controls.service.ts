@@ -50,6 +50,15 @@ export class ViewerControlsService {
         return this.listners.asObservable();
     }
 
+    textZoomIn() {
+        this.listners.next(ViewerActions.textZoomIn);
+    }
+
+    textZoomOut() {
+        this.listners.next(ViewerActions.textZoomOut);
+    }
+
+
     zoomIn() {
         this.listners.next(ViewerActions.zoomIn);
     }
@@ -98,8 +107,8 @@ export class ViewerControlsService {
         this.listners.next(ViewerActions.doublePageOn);
     }
 
-    toggleTextMode() {
-        this.listners.next(ViewerActions.toggleTextMode);
+    toggleViewerMode() {
+        this.listners.next(ViewerActions.toggleViewerMode);
     }
 
     toggleLock() {
@@ -140,7 +149,6 @@ export class ViewerControlsService {
     }
 
     onFullscreenChanged() {
-        this.fitToScreen();
         setTimeout(() => {
             this.fitToScreen();
         }, 200);
@@ -195,5 +203,7 @@ export enum ViewerActions {
     toggleLock = 11,
     hideWarpedLayer = 12,
     setWarpedLayerOpacity = 13,
-    toggleTextMode = 14
+    toggleViewerMode = 14,
+    textZoomIn = 15,
+    textZoomOut = 16
 }

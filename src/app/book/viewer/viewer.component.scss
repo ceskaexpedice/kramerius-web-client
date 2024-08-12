@@ -1,150 +1,46 @@
 
   @import './src/variables.scss';
 
-  .app-viewer-wrapper {
+
+  .app-main-view {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: $app-grey-l-4;    
+    background-color: $app-grey-l-4; 
     position: relative;
 
-    @keyframes app-spin {
-      from {
-        transform: rotate(0deg);
+
+    .app-handle {
+      position: absolute;
+      top: 10px;
+      height: 40px;
+      z-index: 990;
+      background: rgba(255, 255, 255, 0.9);
+      color: $app-grey;
+      padding-top: 8px;
+      cursor: pointer;
+      &.app-left-handle {
+        left: 0;
+        border: 1px solid #{$app-grey-l-2};
+        border-left: none;
+        border-top-right-radius: $app-border-radius-sidebar;
+        border-bottom-right-radius: $app-border-radius-sidebar;
       }
-      to {
-        transform: rotate(360deg);
+      
+      &.app-right-handle {
+        right: 0;
+        border: 1px solid #{$app-grey-l-2};
+        border-right: none;
+        border-top-left-radius: $app-border-radius-sidebar;
+        border-bottom-left-radius: $app-border-radius-sidebar;
       }
-    }
-    
-    .app-text-mode-wrapper {
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      padding: 16px;
-      .app-text-mode {
-          &.app-font-size-0 { 
-            &::ng-deep {
-              h1 { font-size: 20px;}
-              h2 { font-size: 12px;}
-              h3 { font-size: 12px;}
-              p { font-size: 10px !important;}
-            }
-          }
-          &.app-font-size-1 { 
-            &::ng-deep {
-              h1 { font-size: 22px;}
-              h2 { font-size: 14px;}
-              h3 { font-size: 13px;}
-              p { font-size: 11px;}
-            }
-          }
-          &.app-font-size-2 { 
-            &::ng-deep {
-              h1 { font-size: 24px;}
-              h2 { font-size: 16px;}
-              h3 { font-size: 14px;}
-              p { font-size: 12px;}
-            }
-          }
-          &.app-font-size-3 { 
-            &::ng-deep {
-              h1 { font-size: 26px;}
-              h2 { font-size: 18px;}
-              h3 { font-size: 15px;}
-              p { font-size: 13px;}
-            }
-          }
-          &.app-font-size-4 { 
-            &::ng-deep {
-              h1 { font-size: 28px;}
-              h2 { font-size: 20px;}
-              h3 { font-size: 16px;}
-              p { font-size: 14px;}
-            }
-          }
-          &.app-font-size-5 { 
-            &::ng-deep {
-              h1 { font-size: 30px;}
-              h2 { font-size: 22px;}
-              h3 { font-size: 17px;}
-              p { font-size: 15px;}
-            }
-          }
-          &.app-font-size-6 { 
-            &::ng-deep {
-              h1 { font-size: 32px;}
-              h2 { font-size: 24px;}
-              h3 { font-size: 18px;}
-              p { font-size: 16px;}
-            }
-          }
-          &.app-font-size-7 { 
-            &::ng-deep {
-              h1 { font-size: 34px;}
-              h2 { font-size: 26px;}
-              h3 { font-size: 19px;}
-              p { font-size: 17px;}
-            }
-          }
-          &.app-font-size-8 { 
-            &::ng-deep {
-              h1 { font-size: 36px;}
-              h2 { font-size: 28px;}
-              h3 { font-size: 20px;}
-              p { font-size: 18px;}
-            }
-          }
-          &.app-font-size-9 { 
-            &::ng-deep {
-              h1 { font-size: 38px;}
-              h2 { font-size: 30px;}
-              h3 { font-size: 21px;}
-              p { font-size: 19px;}
-            }
-          }
-          &.app-font-size-10 { 
-            &::ng-deep {
-              h1 { font-size: 40px;}
-              h2 { font-size: 32px;}
-              h3 { font-size: 22px;}
-              p { font-size: 20px;}
-            }
-          }
-
-
-          &::ng-deep {
-
-          max-width: 600px;
-          margin: 40px auto 10px;
-          h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            // margin-top: 40px;
-          }
-          h2 {
-            text-align: center;
-            margin-bottom: 20px;
-          }
-          h3 {
-            text-align: center;
-          }
-          p {
-            margin: 10px 0;
-            text-align: justify;
-          }
-          img {
-            display: block;
-            margin: 0 auto;
-            max-width: 320px;
-            height: auto;
-            @media (max-width: 340px) {
-              max-width: calc(100% - 20px);
-            }
-          }
-        }
+  
+      &:hover {
+        color: #000;
+        background: $app-grey-l-2;
       }
     }
+
 
     .app-rotate-icon {
       animation: app-spin 2s linear infinite;
@@ -170,38 +66,14 @@
       display: inline-block;
     }
 
-    .app-help-message {
-      position: absolute;
-      left: 50%;
-      z-index: 949;
-      bottom: 12px;
-      box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-      margin-right: -50%;
-      -webkit-transform: translate(-50%, 0%);    
-      transform: translate(-50%, 0%);
-      user-select: none;
-      background: $primary-color;
-      color: white;
-      padding: 5px 5px;
-      border-radius: 22px;
-      display: inline-block;
-      span {
-        font-size: 14px;
-        font-weight: 600;
-        margin-right: 10px;
-        margin-left: 10px;
+    @keyframes app-spin {
+      from {
+        transform: rotate(0deg);
       }
-      mat-icon {
-        float: right;
-        cursor: pointer;
-        opacity: 0.85;
-        &:hover {
-          opacity: 1;
-        }
+      to {
+        transform: rotate(360deg);
       }
     }
-
-
 
     .app-sound-controls {
       opacity: 1;
@@ -239,7 +111,7 @@
         opacity: 0;
       }
     }
-
+    
 
     .app-selection-actions {
       opacity: 0.7;
@@ -316,49 +188,6 @@
       }
     }
 
-    #selectionmenu {
-      z-index: 1000; 
-      display: block;
-      position: absolute; 
-      mat-icon {
-        display: block;
-        cursor: pointer;
-        width: 30px;
-        height: 30px;
-        color: #111;
-        background: #eee;
-        line-height: 30px;
-        text-align: center;
-        border-radius: 50%;
-        font-size: 18px;
-        opacity: 0.9;
-        margin-bottom: 4px;
-        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
-        &:hover:not(.app-inactive) {
-          // background: #fff;
-          // color: #000;
-          font-size: 20px;
-          opacity: 1;
-        } 
-        &.app-type-ai {
-          // background-color: #409640;
-          background-color: #45b471;
-          color: #fff;
-        }
-        &.app-type-cancel {
-          background: #777;
-          background: #c53c3c;
-          color: #fff;
-          // background-color: #c34a28;
-        }
-        &.app-inactive {
-          opacity: 0.4;
-          cursor: default !important;
-          pointer-events: none; 
-        }
-      }
-    }
-
     .app-licence-bar {
       position: absolute;
       top: 0;
@@ -418,34 +247,240 @@
       transition-duration: 0.5s;
       transition-timing-function: linear;
     }
-    .app-handle {
+    
+
+
+
+
+
+  .app-viewer-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    &.app-viewer-split {
+      width: 50%;
+      height: 100%;
+      float: left;
+    }
+    &.app-viewer-text {
+      display: none;
+    }
+
+    .app-help-message {
       position: absolute;
-      top: 10px;
-      height: 40px;
-      z-index: 990;
-      background: rgba(255, 255, 255, 0.9);
-      color: $app-grey;
-      padding-top: 8px;
-      cursor: pointer;
-      &.app-left-handle {
-        left: 0;
-        border: 1px solid #{$app-grey-l-2};
-        border-left: none;
-        border-top-right-radius: $app-border-radius-sidebar;
-        border-bottom-right-radius: $app-border-radius-sidebar;
+      left: 50%;
+      z-index: 949;
+      bottom: 12px;
+      box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+      margin-right: -50%;
+      -webkit-transform: translate(-50%, 0%);    
+      transform: translate(-50%, 0%);
+      user-select: none;
+      background: $primary-color;
+      color: white;
+      padding: 5px 5px;
+      border-radius: 22px;
+      display: inline-block;
+      span {
+        font-size: 14px;
+        font-weight: 600;
+        margin-right: 10px;
+        margin-left: 10px;
       }
-      
-      &.app-right-handle {
-        right: 0;
-        border: 1px solid #{$app-grey-l-2};
-        border-right: none;
-        border-top-left-radius: $app-border-radius-sidebar;
-        border-bottom-left-radius: $app-border-radius-sidebar;
+      mat-icon {
+        float: right;
+        cursor: pointer;
+        opacity: 0.85;
+        &:hover {
+          opacity: 1;
+        }
       }
-  
-      &:hover {
-        color: #000;
-        background: $app-grey-l-2;
+    }
+
+
+    #selectionmenu {
+      z-index: 1000; 
+      display: block;
+      position: absolute; 
+      mat-icon {
+        display: block;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        color: #111;
+        background: #eee;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 18px;
+        opacity: 0.9;
+        margin-bottom: 4px;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+        &:hover:not(.app-inactive) {
+          // background: #fff;
+          // color: #000;
+          font-size: 20px;
+          opacity: 1;
+        } 
+        &.app-type-ai {
+          // background-color: #409640;
+          background-color: #45b471;
+          color: #fff;
+        }
+        &.app-type-cancel {
+          background: #777;
+          background: #c53c3c;
+          color: #fff;
+          // background-color: #c34a28;
+        }
+        &.app-inactive {
+          opacity: 0.4;
+          cursor: default !important;
+          pointer-events: none; 
+        }
+      }
+    }
+
+    
+  }
+
+
+  .app-text-viewer-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 16px;
+    position: relative;
+    &.app-viewer-split {
+      width: 50%;
+      height: 100%;
+      float: left;
+    }
+    &.app-viewer-scan {
+      display: none;
+    }
+    .app-text-mode {
+        &.app-font-size-0 { 
+          &::ng-deep {
+            h1 { font-size: 20px;}
+            h2 { font-size: 12px;}
+            h3 { font-size: 12px;}
+            p { font-size: 10px !important;}
+          }
+        }
+        &.app-font-size-1 { 
+          &::ng-deep {
+            h1 { font-size: 22px;}
+            h2 { font-size: 14px;}
+            h3 { font-size: 13px;}
+            p { font-size: 11px;}
+          }
+        }
+        &.app-font-size-2 { 
+          &::ng-deep {
+            h1 { font-size: 24px;}
+            h2 { font-size: 16px;}
+            h3 { font-size: 14px;}
+            p { font-size: 12px;}
+          }
+        }
+        &.app-font-size-3 { 
+          &::ng-deep {
+            h1 { font-size: 26px;}
+            h2 { font-size: 18px;}
+            h3 { font-size: 15px;}
+            p { font-size: 13px;}
+          }
+        }
+        &.app-font-size-4 { 
+          &::ng-deep {
+            h1 { font-size: 28px;}
+            h2 { font-size: 20px;}
+            h3 { font-size: 16px;}
+            p { font-size: 14px;}
+          }
+        }
+        &.app-font-size-5 { 
+          &::ng-deep {
+            h1 { font-size: 30px;}
+            h2 { font-size: 22px;}
+            h3 { font-size: 17px;}
+            p { font-size: 15px;}
+          }
+        }
+        &.app-font-size-6 { 
+          &::ng-deep {
+            h1 { font-size: 32px;}
+            h2 { font-size: 24px;}
+            h3 { font-size: 18px;}
+            p { font-size: 16px;}
+          }
+        }
+        &.app-font-size-7 { 
+          &::ng-deep {
+            h1 { font-size: 34px;}
+            h2 { font-size: 26px;}
+            h3 { font-size: 19px;}
+            p { font-size: 17px;}
+          }
+        }
+        &.app-font-size-8 { 
+          &::ng-deep {
+            h1 { font-size: 36px;}
+            h2 { font-size: 28px;}
+            h3 { font-size: 20px;}
+            p { font-size: 18px;}
+          }
+        }
+        &.app-font-size-9 { 
+          &::ng-deep {
+            h1 { font-size: 38px;}
+            h2 { font-size: 30px;}
+            h3 { font-size: 21px;}
+            p { font-size: 19px;}
+          }
+        }
+        &.app-font-size-10 { 
+          &::ng-deep {
+            h1 { font-size: 40px;}
+            h2 { font-size: 32px;}
+            h3 { font-size: 22px;}
+            p { font-size: 20px;}
+          }
+        }
+
+
+        &::ng-deep {
+
+        max-width: 600px;
+        margin: 40px auto 10px;
+        h1 {
+          text-align: center;
+          margin-bottom: 20px;
+          // margin-top: 40px;
+        }
+        h2 {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        h3 {
+          text-align: center;
+        }
+        p {
+          margin: 10px 0;
+          text-align: justify;
+        }
+        img {
+          display: block;
+          margin: 0 auto;
+          max-width: 320px;
+          height: auto;
+          @media (max-width: 340px) {
+            max-width: calc(100% - 20px);
+          }
+        }
       }
     }
   }
+}
