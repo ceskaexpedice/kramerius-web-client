@@ -1781,6 +1781,7 @@ export class BookService {
         this.showGeoreference = false;
         this.bb = null;
         this.bbPage = null;
+        this.viewerMode = 'scan';
     }
 
     private computeDoublePageBounds(pageCount: number, titlePage: number, lastSingle: number, firstBackSingle: number) {

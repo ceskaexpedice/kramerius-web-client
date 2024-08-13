@@ -145,6 +145,10 @@
           background-color: #45b471;
           color: #fff;
         }
+        &.app-type-cancel {
+          background-color: #b44571;
+          color: #fff;
+        }
         &.app-inactive {
           opacity: 0.4;
           cursor: default !important;
@@ -195,11 +199,14 @@
       background: #435cadd6;
       width: 100%;
       z-index: 12;
+      display: flex;
+      justify-content: space-between;
       .app-info {
         line-height: 32px;
         padding-left: 32px;
         font-size: 15px;
         color: #fff;
+        flex-shrink: 0;
         a {
           padding-left: 8px;
           color: #eee;
@@ -209,11 +216,15 @@
         }
       }
       .app-user {
-        float:right;
         line-height: 32px;
         padding-right: 32px;
+        padding-left: 20px;
         font-size: 15px;  
         color: #fff;
+        // flex-grow: 1;
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        white-space: nowrap;
       }
     }
     .app-alert-not-found {
@@ -233,13 +244,21 @@
       }
     }
 
-    app-licence-window {
-      display: block;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 40px 12px 10px;
-      overflow: auto;
+    .app-licence-window-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
       height: 100%;
+      z-index: 9999;
+      app-licence-window {
+        display: block;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 12px 10px;
+        overflow: auto;
+        height: 100%;
+      }
     }
     .hide-on-inactivity {
       opacity: 0;
@@ -349,8 +368,8 @@
   .app-text-viewer-wrapper {
     width: 100%;
     height: 100%;
-    overflow: auto;
-    padding: 16px;
+    overflow: hidden;
+    // padding: 16px;
     position: relative;
     &.app-viewer-split {
       width: 50%;
@@ -360,7 +379,55 @@
     &.app-viewer-scan {
       display: none;
     }
+
+
+    .app-text-view-header {
+      position: absolute;
+      top: 14px;
+      left: 0;
+      right: 45px;
+      .app-dropdown {
+        display: flex;
+        align-items: center;
+        padding: 2px 5px;
+        border-radius: 5px;
+        width: 56px;
+        margin: 0 auto;
+        cursor: pointer;
+        border-radius: 5px;
+        float: right;
+        span {
+          font-size: 14px;
+          margin-left: 5px;
+        }
+        img {
+          width: 28px;
+          height: 28px;
+        }
+        mat-icon {
+          font-size: 18px;
+          padding: 3px;
+        }
+        &:hover {
+          background: #dbdbdb;
+        }
+        &.app-model {
+          img {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+    }
+
+
     .app-text-mode {
+      max-width: 600px;
+      margin: 50px auto 0px;
+      overflow: auto;
+      height: calc(100% - 50px);
+      padding: 0 16px;
+
         &.app-font-size-0 { 
           &::ng-deep {
             h1 { font-size: 20px;}
@@ -449,7 +516,46 @@
             p { font-size: 20px;}
           }
         }
-
+        &.app-font-size-11 { 
+          &::ng-deep {
+            h1 { font-size: 42px;}
+            h2 { font-size: 34px;}
+            h3 { font-size: 23px;}
+            p { font-size: 21px;}
+          }
+        }
+        &.app-font-size-12 { 
+          &::ng-deep {
+            h1 { font-size: 44px;}
+            h2 { font-size: 35px;}
+            h3 { font-size: 24px;}
+            p { font-size: 22px;}
+          }
+        }
+        &.app-font-size-13 { 
+          &::ng-deep {
+            h1 { font-size: 46px;}
+            h2 { font-size: 37px;}
+            h3 { font-size: 26px;}
+            p { font-size: 23px;}
+          }
+        }
+        &.app-font-size-14 { 
+          &::ng-deep {
+            h1 { font-size: 48px;}
+            h2 { font-size: 38px;}
+            h3 { font-size: 27px;}
+            p { font-size: 24px;}
+          }
+        }
+        &.app-font-size-15 { 
+          &::ng-deep {
+            h1 { font-size: 50px;}
+            h2 { font-size: 40px;}
+            h3 { font-size: 29px;}
+            p { font-size: 25px;}
+          }
+        }
 
         &::ng-deep {
 
@@ -480,6 +586,24 @@
             max-width: calc(100% - 20px);
           }
         }
+      }
+    }
+  }
+}
+
+
+::ng-deep {
+  .app-dropdown-cancel-lang {
+    .app-language {
+      mat-icon {
+        float: right;
+        margin-top: 17px;
+        margin-left: 15px;
+        color: #e71d1d;
+        margin-right: 10px;
+      }
+      .app-language-name {
+        color: #e71d1d;
       }
     }
   }

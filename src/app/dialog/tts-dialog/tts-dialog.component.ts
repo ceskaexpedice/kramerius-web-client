@@ -21,7 +21,7 @@ export class TtsDialogComponent implements OnInit {
 
   menuLanguage: any;
 
-  languages = ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'et', 'sv', 'hu', 'uk', 'ru', 'pt', 'lt', 'lv', 'zh-CN'];
+  languages = LanguageService.TRANSLANTABLE_LANGUAGES;
   // languages = ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'et', 'sv', 'hu', 'uk', 'ru', 'pt', 'lt', 'lv', 'zh-CN', 'zh-TW'];
   voices: any;
   showVoicesInGrid = false;

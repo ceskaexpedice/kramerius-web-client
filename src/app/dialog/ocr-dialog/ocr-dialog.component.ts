@@ -18,9 +18,8 @@ export class OcrDialogComponent implements OnInit {
 
   @ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
 
-
+  languages = LanguageService.TRANSLANTABLE_LANGUAGES;
   // languages = ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'et', 'sv', 'hu', 'uk', 'ru', 'pt', 'lt', 'lv', 'zh-CN', 'zh-TW'];
-  languages = ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'et', 'sv', 'hu', 'uk', 'ru', 'pt', 'lt', 'lv', 'zh-CN'];
   loading = false;
   citation: string;
   citationTxt: string;

@@ -102,9 +102,17 @@
 <div id="app-text-viewer" (mousemove)="onMouseMove()" class="app-text-viewer-wrapper app-viewer-{{bookService.viewerMode}}">
       
       
-      <div class="app-text-mode app-font-size-{{textZoom}}">
+      <div *ngIf="bookService.pageAvailable" class="app-text-mode app-font-size-{{textZoom}}">
             <div [innerHtml]="textContent"></div>
       </div>
+
+      <div class="app-text-view-header">
+            <div *ngIf="textLanguage" class="app-dropdown app-language" [matMenuTriggerFor]="languagesMenu">
+                  <img [alt]="languageService.getLanguageName(textLanguage)"  src="assets/img/flag_{{textLanguage}}.png" >
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+            </div>
+      </div>
+
 
       <app-viewer-controls [context]="'text'" *ngIf="bookService.pageAvailable && selectionStateOff()" [class.hide-on-inactivity]="hideOnInactivity"></app-viewer-controls>
 
@@ -114,6 +122,8 @@
             [strokeWidth]="3"
             [diameter]="40">
       </mat-spinner>
+
+
 
   </div>
 
@@ -154,12 +164,12 @@
                   stop
             </mat-icon>
 
-            <mat-icon *ngIf="tts.continuing"
+            <!-- <mat-icon *ngIf="tts.continuing"
                   [matTooltip]="'viewer_page.read_next' | translate"
                   matTooltipPosition="below"
                   (click)="tts.skipNext()">
                   skip_next
-            </mat-icon>
+            </mat-icon> -->
 
             <mat-icon
                   [matTooltip]="'common.settings' | translate"
@@ -178,7 +188,6 @@
       [class.hide-on-inactivity]="hideOnInactivity"
       *ngIf="showPageActions()">
 
-      <ng-container>
 
             <mat-icon
                   class="app-selection app-main-selection app-hide-on-hover">
@@ -196,65 +205,86 @@
 
 
             <mat-icon
-                  [matTooltip]="'viewer_page.page_text' | translate"
+                  [matTooltip]="'Zobrazit textový přepis'"
                   matTooltipPosition="left"
                   (click)="enterTextMode()"
-                  *ngIf="bookService.viewerMode == 'scan'"
+                  *ngIf="bookService.viewerMode == 'scan' || bookService.viewerMode == 'split'"
                   [class.app-inactive]="bookService.serviceLoading"
                   class="app-selection">
                   title
             </mat-icon>
 
             <mat-icon
-                  [matTooltip]="'viewer_page.page_text' | translate"
+                  [matTooltip]="'Zobrazit originál'"
                   matTooltipPosition="left"
                   (click)="enterScanMode()"
-                  *ngIf="bookService.viewerMode == 'text'"
+                  *ngIf="bookService.viewerMode == 'text' || bookService.viewerMode == 'split'"
                   [class.app-inactive]="bookService.serviceLoading"
                   class="app-selection">
                   image
             </mat-icon>
 
-            <div class="app-reading-wrapper" *ngIf="aiActionsAvailable()">
-                  <mat-icon
-                        [matTooltip]="'viewer_page.page_read' | translate"
-                        matTooltipPosition="left"
-                        (click)="onReadPage()"
-                        [class.app-inactive]="tts.inProgress() || bookService.serviceLoading"
-                        class="app-selection app-type-ai">
-                        record_voice_over
-                  </mat-icon>
-                  <div class="app-reading-setting">
+            <mat-icon
+                  [matTooltip]="'Porovnat s originálem'"
+                  matTooltipPosition="left"
+                  style="transform: rotate(180deg);"
+                  (click)="enterSplitMode()"
+                  *ngIf="bookService.viewerMode == 'text'"
+                  [class.app-inactive]="bookService.serviceLoading"
+                  class="app-selection">
+                  vertical_split
+            </mat-icon>
+
+            <ng-container *ngIf="aiActionsAvailable()">
+                  <div class="app-reading-wrapper">
                         <mat-icon
-                        [matTooltip]="'common.settings' | translate"
-                        matTooltipPosition="left"
-                        (click)="openTtsSettings()"
-                        class="app-selection">
-                        settings
-                  </mat-icon>
+                              [matTooltip]="'viewer_page.page_read' | translate"
+                              matTooltipPosition="left"
+                              (click)="onReadPage()"
+                              [class.app-inactive]="tts.inProgress() || bookService.serviceLoading"
+                              class="app-selection app-type-ai">
+                              record_voice_over
+                        </mat-icon>
+                        <div class="app-reading-setting">
+                              <mat-icon
+                              [matTooltip]="'common.settings' | translate"
+                              matTooltipPosition="left"
+                              (click)="openTtsSettings()"
+                              class="app-selection">
+                              settings
+                        </mat-icon>
+                        </div>
                   </div>
-            </div>
 
-            <mat-icon
-                  [matTooltip]="'viewer_page.page_translate' | translate"
-                  matTooltipPosition="left"
-                  (click)="onTranslatePage()"
-                  [class.app-inactive]="bookService.serviceLoading"
-                  *ngIf="aiActionsAvailable()"
-                  class="app-selection app-type-ai">
-                  translate
-            </mat-icon>
+                  <mat-icon
+                        [matTooltip]="'viewer_page.page_translate' | translate"
+                        matTooltipPosition="left"
+                        (click)="onTranslatePage()"
+                        [class.app-inactive]="bookService.serviceLoading"
+                        *ngIf="!textLanguage"
+                        class="app-selection app-type-ai">
+                        translate
+                  </mat-icon>
 
-            <mat-icon
-                  [matTooltip]="'viewer_page.page_summarize' | translate"
-                  matTooltipPosition="left"
-                  (click)="onSummarizePage()"
-                  [class.app-inactive]="bookService.serviceLoading"
-                  *ngIf="aiActionsAvailable()"
-                  class="app-selection app-type-ai">
-                  list
-            </mat-icon>
-      </ng-container>
+                  <!-- <mat-icon
+                        [matTooltip]="'viewer_page.page_translate' | translate"
+                        matTooltipPosition="left"
+                        (click)="onCancelTranslatePage()"
+                        [class.app-inactive]="bookService.serviceLoading"
+                        *ngIf="textLanguage"
+                        class="app-selection app-type-cancel">
+                        translate
+                  </mat-icon> -->
+
+                  <mat-icon
+                        [matTooltip]="'viewer_page.page_summarize' | translate"
+                        matTooltipPosition="left"
+                        (click)="onSummarizePage()"
+                        [class.app-inactive]="bookService.serviceLoading"
+                        class="app-selection app-type-ai">
+                        list
+                  </mat-icon>
+            </ng-container>
 
 </div>
 
@@ -265,10 +295,9 @@
 
 
 
-
-  <ng-container *ngIf="bookService.isPageInaccessible()">
+<div class="app-licence-window-wrapper" *ngIf="bookService.isPageInaccessible()">
       <app-licence-window [licences]="bookService.licences"></app-licence-window>
-  </ng-container>
+</div>
 
 
   <app-alert *ngIf="bookService.isPageFailure()"
@@ -286,8 +315,8 @@
 <div *ngIf="bookService.licence && licences.bar(bookService.licence)" class="app-licence-bar">
       <span class="app-info">{{ licences.label(bookService.licence) }}</span>
       <span class="app-user">
-            <ng-container *ngIf="authService.isLoggedIn()"> {{ authService.getUserId() || authService.getUserName() }} | </ng-container>
-            {{ today() }}
+            <ng-container *ngIf="authService.isLoggedIn()">{{ today() }} | {{ authService.getUserId() || authService.getUserName() }}</ng-container>
+            
       </span>
   </div>
 
@@ -329,3 +358,22 @@
 
 
   </div>
+
+
+
+  <mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
+      <ul [class.app-4-cols]="languages.length >= 6">
+        <li class="app-dropdown-item" mat-menu-item tabindex="0" *ngFor="let lang of languages" (keydown.enter)="closeMenu()" (click)="onLanguageChanged(lang)" role="button">
+          <div class="app-language">
+            <img src="assets/img/flag_{{lang}}.png">
+            <div class="app-language-name">{{ languageService.getLanguageName(lang) }}</div>
+          </div>
+        </li>
+        <li class="app-dropdown-item app-dropdown-cancel-lang" mat-menu-item tabindex="0" (keydown.enter)="closeMenu()" (click)="onCancelTranslatePage()" role="button">
+            <div class="app-language">
+                  <mat-icon>clear</mat-icon>
+                  <div class="app-language-name">Zrušit překlad</div>
+            </div>
+        </li>
+      </ul>
+</mat-menu>

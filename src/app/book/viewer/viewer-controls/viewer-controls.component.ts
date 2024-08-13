@@ -52,7 +52,7 @@ export class ViewerControlsComponent implements OnInit {
     let div = 'app-viewer';
     if (this.bookService.showGeoreference ) {
       div = 'geo_ol';
-    } else if (this.bookService.viewerMode === 'split') {
+    } else if (!!this.bookService.viewerMode) {
       div = 'app-main-viewer';
     }
     this.controlsService.enterFullscreen(div);
@@ -69,7 +69,8 @@ export class ViewerControlsComponent implements OnInit {
 
 
   showViewerModeToggle(): boolean {
-    return this.bookService.textModeSupported() && !this.showUnlock() && !this.bookService.showGeoreference;
+    return false;
+    // return this.bookService.textModeSupported() && !this.showUnlock() && !this.bookService.showGeoreference;
   }
 
   toggleViewerMode() {
@@ -80,6 +81,7 @@ export class ViewerControlsComponent implements OnInit {
       this.controlsService.fitToScreen();
     }, 100);
   }
+
 
   showDoublePageOff(): boolean {
     return this.context !== 'text' && this.bookService.doublePageSupported() && this.bookService.doublePageEnabled && !this.showUnlock() && !this.bookService.showGeoreference;

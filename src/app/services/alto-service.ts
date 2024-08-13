@@ -299,10 +299,10 @@ getFormattedText(alto: string, uuid: string, width: number, height: number): str
     }
     let wc = 1;
     let hc = 1;
-    if (altoHeight > 0 && altoWidth > 0) {
+    if (altoHeight > 0 && altoWidth > 0 && width > 0 && height > 0) {
         wc = width / altoWidth;
         hc = height / altoHeight;
-    } else if (altoHeight2 > 0 && altoWidth2 > 0) {
+    } else if (altoHeight2 > 0 && altoWidth2 > 0 && width > 0 && height > 0) {
         wc = width / altoWidth2;
         hc = height / altoHeight2;
     }
@@ -332,7 +332,7 @@ for (let i = 0; i < elements.length; i++) {
     const width = parseInt(element.getAttribute('WIDTH') || '0', 10) * wc;
     const height = parseInt(element.getAttribute('HEIGHT') || '0', 10) * hc;
     const url = `${this.api.getIiifBaseUrl(uuid)}/${hpos},${vpos},${width},${height}/max/0/default.jpg`;
-    blocks.push({ text: `<img src="${url}" alt="illustration" />`, tag: 'div' });
+    // blocks.push({ text: `<img src="${url}" alt="illustration" />`, tag: 'div' });
 
 
   } else if (tagName === 'TextBlock') {

@@ -1,7 +1,7 @@
 import { AppSettings } from './../../services/app-settings';
 import { ViewerControlsService, ViewerActions } from '../../services/viewer-controls.service';
 import { BookService, ViewerData, ViewerImageType } from './../../services/book.service';
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { interval } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -17,6 +17,9 @@ import { LicenceService } from '../../services/licence.service';
 import { TtsService } from '../../services/tts.service';
 import { PageImageType } from '../../model/page.model';
 import { AiService } from '../../services/ai.service';
+import { LanguageService } from '../../services/language.service';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var ol: any;
 
@@ -27,6 +30,8 @@ declare var ol: any;
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   
+  @ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
+
   private resolution = 1;
   private view;
   private imageLayer;
@@ -77,13 +82,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private data: ViewerData;
 
   public imageLoading = false;
+  lastViewerMode = '';
 
   public textZoom = 5;
   public originalTextContent = '';
   public textContent = '';
   public textContentLoading = false;
+  public textLanguage = null;
 
-  lastViewerMode = '';
+  languages = LanguageService.TRANSLANTABLE_LANGUAGES;
+
 
   constructor(public bookService: BookService,
               public authService: AuthService,
@@ -96,6 +104,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
               private logger: LoggerService,
               private zoomify: ZoomifyService,
               private alto: AltoService,
+              public languageService: LanguageService,
+              private translateSrvice: TranslateService,
               private api: KrameriusApiService,
               public krameriusInfo: KrameriusInfoService,
               public controlsService: ViewerControlsService) {
@@ -472,18 +482,42 @@ export class ViewerComponent implements OnInit, OnDestroy {
   // }
 
   enterTextMode() {
+    this.textLanguage = null;
     this.bookService.setViewerMode('text');
   }
 
+  enterSplitMode() {
+    this.bookService.setViewerMode('split');
+    setTimeout(() => {
+      this.controlsService.fitToScreen();
+    }, 100);
+  }
+
   enterScanMode() {
+    this.textLanguage = null;
     this.bookService.setViewerMode('scan');
     setTimeout(() => {
       this.controlsService.fitToScreen();
     }, 100);
   }
 
+
+
   onTranslatePage() {
-    this.bookService.translate(null, this.imageWidth, this.imageHeight);
+    // this.bookService.translate(null, this.imageWidth, this.imageHeight);
+    const lang = localStorage.getItem('translate.language') || this.translateSrvice.currentLang || 'en';
+    if (this.bookService.viewerMode == 'scan') {
+      this.textLanguage = lang;
+      this.bookService.setViewerMode('text');
+      this.updateTextContent(false);
+    } else {
+      this.onLanguageChanged(lang);
+    }
+  }
+
+  onCancelTranslatePage() {
+    this.textLanguage = null;
+    this.textContent = this.originalTextContent;
   }
 
   onSummarizePage() {
@@ -577,7 +611,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   private textZoomIn() {
-    this.textZoom < 100 ? this.textZoom += 1 : this.textZoom = 100;
+    this.textZoom < 15 ? this.textZoom += 1 : this.textZoom = 15;
   }
 
   private zoomOut() {
@@ -657,9 +691,24 @@ export class ViewerComponent implements OnInit, OnDestroy {
     let width = useDimensions ? this.imageWidth : 0;
     let height = useDimensions ? this.imageHeight : 0;
     this.api.getAlto(this.data.uuid1).subscribe(response => {
-      this.textContent = this.alto.getFormattedText(response, this.data.uuid1, width, height);
-      // console.log('this.textContent', this.textContent);
+      this.originalTextContent = this.alto.getFormattedText(response, this.data.uuid1, width, height);
+      if (this.textLanguage) {
+        this.ai.translate(this.originalTextContent, this.textLanguage, (answer, error) => {
+          if (error) {
+            // TODO: show error
+            return;
+          }
+          this.textContent = answer;
+          this.textContentLoading = false;
+        });
+      } else {
+        this.textContent = this.originalTextContent;
+        this.textContentLoading = false;
+        }
+    },
+    error => {
       this.textContentLoading = false;
+      console.log('error alto', error);
     });
   }
 
@@ -1243,5 +1292,26 @@ export class ViewerComponent implements OnInit, OnDestroy {
       xhr.send();
     }
   }
+
+
+
+  closeMenu() {
+    this.menuTrigger.closeMenu();
+  }
+
+  onLanguageChanged(lang: string) {
+    this.textLanguage = lang;
+    this.textContentLoading = true;
+    this.ai.translate(this.originalTextContent, lang, (answer, error) => {
+        if (error) {
+          // TODO: show error
+          return;
+        }
+        this.textContentLoading = false;
+        this.textContent = answer;
+        localStorage.setItem('translate.language', lang);
+    });
+  }
+
 
 }

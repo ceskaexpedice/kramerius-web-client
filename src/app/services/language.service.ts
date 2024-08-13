@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class LanguageService {
 
+  static readonly TRANSLANTABLE_LANGUAGES =  ['en', 'cs', 'de', 'sk', 'sl', 'es', 'fr', 'pl', 'it', 'et', 'sv', 'hu', 'uk', 'ru', 'pt', 'lt', 'lv', 'zh-CN'];
+
   private names = {
     "cs": "Čeština",
     "en": "English",
