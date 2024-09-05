@@ -526,7 +526,7 @@ export class SolrService {
         const fq = `(${parent}) AND ${this.field('model')}:page`;
         const q = `_query_:"{!edismax qf=\'${this.field('text_ocr')}\' v=$q1}\"`;
         let term = this.buildQ(query);
-        return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&rows=300&hl=true&hl.fl=${this.field('text_ocr')}&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
+        return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&rows=300&hl=true&hl.fl=${this.field('text_ocr')}&hl.method=original&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
     }
 
     documentFulltextQuery(solr): string[] {
@@ -703,7 +703,7 @@ export class SolrService {
         } else if (query.ordering === 'earliest') {
             sort = `${this.field('date_from_periodical_sort')} asc, ${this.field('date')} asc`;
         }
-        return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&sort=${sort}&rows=${limit}&start=${offset}&hl=true&hl.fl=${this.field('text_ocr')}&hl.snippets=1&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
+        return `q=${q}&q1=${term}&fq=${fq}&fl=${fl}&sort=${sort}&rows=${limit}&start=${offset}&hl=true&hl.fl=${this.field('text_ocr')}&hl.snippets=1&hl.method=original&hl.fragsize=120&hl.simple.pre=<strong>&hl.simple.post=</strong>`;
     }
 
     buildDocumentQuery(uuid: string): string {
@@ -773,7 +773,7 @@ export class SolrService {
 
     buildFulltextSearchAutocompleteQuery(term: string, uuid: string): string {
         const query = term.toLowerCase().trim() + '*';
-        return `fl=${this.field('id')}&hl=true&hl.fl=${this.field('text_ocr')}&hl.fragsize=1&hl.simple.post=<<&hl.simple.pre=>>&hl.snippets=10&fq=${this.field('parent_pid')}:"${uuid}"&q=${this.field('text_ocr')}:${query}&rows=20`;
+        return `fl=${this.field('id')}&hl=true&hl.fl=${this.field('text_ocr')}&hl.fragsize=1&hl.method=original&hl.simple.post=<<&hl.simple.pre=>>&hl.snippets=10&fq=${this.field('parent_pid')}:"${uuid}"&q=${this.field('text_ocr')}:${query}&rows=20`;
     }
 
     fulltextSearchAutocompleteResults(solr): CompleterItem[] {
