@@ -64,8 +64,9 @@ export class LLMDialogComponent implements OnInit {
     }
     this.ai.translate(null, this.data.content, this.language, (answer, error) => {
       if (error) {
-        // TODO: show error
         this.loading = false;
+        this.ai.showAiError(error);
+        this.bottomSheetRef.dismiss();
         return;
       }
       this.originalSourceText = answer;
@@ -99,20 +100,21 @@ export class LLMDialogComponent implements OnInit {
       text = this.originalText;
     }
     this.ai.translate(null, text, lang, (answer, error) => {
-        if (error) {
-          // TODO: show error
-          return;
+      this.loading = false;
+      if (error) {
+        this.ai.showAiError(error);
+        this.bottomSheetRef.dismiss();
+        return;
+      }
+      this.setText(answer);
+      if (this.data.summary) {
+        if (!this.customInstructionsInUse) {
+          this.title = this.languageService.getSummary(lang);
         }
-        this.loading = false;
-        this.setText(answer);
-        if (this.data.summary) {
-          if (!this.customInstructionsInUse) {
-            this.title = this.languageService.getSummary(lang);
-          }
-          localStorage.setItem('summary.language', lang);
-        } else {
-          localStorage.setItem('translate.language', lang);
-        }
+        localStorage.setItem('summary.language', lang);
+      } else {
+        localStorage.setItem('translate.language', lang);
+      }
     });
   }
 
@@ -128,7 +130,8 @@ export class LLMDialogComponent implements OnInit {
     this.customInstructionsInUse = this.customInstructions;
     const callback = (answer, error) => {
       if (error) {
-        // TODO: show error
+        this.ai.showAiError(error);
+        this.bottomSheetRef.dismiss();
         return;
       }
       this.setText('<p>' + marked.parse(answer) + '</p>');

@@ -4,6 +4,8 @@ import { KrameriusApiService } from './kramerius-api.service';
 @Injectable()
 export class AltoService {
 
+
+
     constructor(private api: KrameriusApiService) {
     }
 
@@ -14,7 +16,7 @@ export class AltoService {
     const boxes: any[] = [];
     const wordArray = query.replace(/"/g, '').split(' ');
 
-    console.log('wordArray', wordArray);
+    // console.log('wordArray', wordArray);
 
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(alto, "text/xml");
@@ -201,8 +203,8 @@ export class AltoService {
         aw = altoWidth2;
         ah = altoHeight2;
     }
-    console.log('aw', aw);  
-    console.log('ah', ah);
+    // console.log('aw', aw);  
+    // console.log('ah', ah);
 
     let blocks = [];
     let block = { text: '', hMin: 0, hMax: 0, vMin: 0, vMax: 0, width: aw, height: ah };
@@ -317,7 +319,7 @@ getFormattedText(alto: string, uuid: string, width: number, height: number): str
         const size = style.getAttribute('FONTSIZE');
         fonts[id] = parseInt(size, 10);
     }
-    console.log('-fonts', fonts);
+    // console.log('-fonts', fonts);
     let blocks = [];
     
     const elements = xmlDoc.getElementsByTagName('*');
@@ -338,13 +340,13 @@ for (let i = 0; i < elements.length; i++) {
   } else if (tagName === 'TextBlock') {
     let tag = 'p';
     const style = element.getAttribute('STYLEREFS');
-    console.log('-style', style);
+    // console.log('-style', style);
 
     if (style && style.indexOf(' ') > 0) {
         const f = style.split(' ')[1];
         const size = fonts[f];
         if (size) {
-            console.log('-size', size);
+            // console.log('-size', size);
 
             if (size > 18) {
                 tag = 'h1';
@@ -382,9 +384,9 @@ for (let i = 0; i < elements.length; i++) {
 
 
         const hDiff = textLineHpos - lastLeft;
-        console.log('-- textLineHpos', textLineHpos);
-        console.log('-- lastLeft', lastLeft);
-        console.log('-- hDiff', hDiff);
+        // console.log('-- textLineHpos', textLineHpos);
+        // console.log('-- lastLeft', lastLeft);
+        // console.log('-- hDiff', hDiff);
         if (lastLeft > 0 && hDiff > 40) {
             if (block.text.length > 0) {
                 blocks.push(block);
@@ -421,7 +423,7 @@ for (let i = 0; i < elements.length; i++) {
             block.text += content;
             block.text += ' ';
         }  
-        console.log('===', lines, allBold, block.text.length, block.text);
+        // console.log('===', lines, allBold, block.text.length, block.text);
         lines += 1;
 
         if (lines == 1 && allBold && block.text.length > 0) {
@@ -446,7 +448,7 @@ for (let i = 0; i < elements.length; i++) {
 
 
 
-    console.log('blocks', blocks);
+    // console.log('blocks', blocks);
     let text = '';
     for (let block of blocks) {
         text += `<${block.tag}>${block.text}</${block.tag}>`;

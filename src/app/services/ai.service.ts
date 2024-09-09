@@ -210,10 +210,12 @@ export class AiService {
     }
   }
 
-
-
-
-
+  showAiError(error: string) {
+    this.dialog.open(BasicDialogComponent, { data: {
+        messageHtml: 'ai.warning.' + error,
+        button: 'common.close'
+    }, autoFocus: false });
+  }
 
   private translateWithDeepL(input: string, targetLanguage: string, callback: (answer: string, error?: string) => void) {
     const path = `/deepl/translate`;

@@ -502,24 +502,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
 
-
-  onTranslatePage() {
-    // this.bookService.translate(null, this.imageWidth, this.imageHeight);
-    const lang = localStorage.getItem('translate.language') || this.translateSrvice.currentLang || 'en';
-    if (this.bookService.viewerMode == 'scan') {
-      this.textLanguage = lang;
-      this.bookService.setViewerMode('text');
-      this.updateTextContent(false);
-    } else {
-      this.onLanguageChanged(lang);
-    }
-  }
-
-  onCancelTranslatePage() {
-    this.textLanguage = null;
-    this.textContent = this.originalTextContent;
-  }
-
   onSummarizePage() {
     this.bookService.summarize();
   }
@@ -686,31 +668,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.view.addLayer(this.vectorLayer);
   }
 
-  private updateTextContent(useDimensions: boolean = true) {
-    this.textContentLoading = true;
-    let width = useDimensions ? this.imageWidth : 0;
-    let height = useDimensions ? this.imageHeight : 0;
-    this.api.getAlto(this.data.uuid1).subscribe(response => {
-      this.originalTextContent = this.alto.getFormattedText(response, this.data.uuid1, width, height);
-      if (this.textLanguage) {
-        this.ai.translate(null, this.originalTextContent, this.textLanguage, (answer, error) => {
-          if (error) {
-            // TODO: show error
-            return;
-          }
-          this.textContent = answer;
-          this.textContentLoading = false;
-        });
-      } else {
-        this.textContent = this.originalTextContent;
-        this.textContentLoading = false;
-        }
-    },
-    error => {
-      this.textContentLoading = false;
-      console.log('error alto', error);
-    });
-  }
 
   updateBoxes() {
     this.vectorLayer.getSource().clear();
@@ -1056,6 +1013,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   updateImage(data: ViewerData) {
+    console.log('updateImage', data);
     this.cancelSelection();
     if (!data) {
       return;
@@ -1299,17 +1257,58 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.menuTrigger.closeMenu();
   }
 
+
+  private updateTextContent(useDimensions: boolean = true) {
+    console.log('updateTextContent');
+    this.textContentLoading = true;
+    let width = useDimensions ? this.imageWidth : 0;
+    let height = useDimensions ? this.imageHeight : 0;
+    this.api.getAlto(this.data.uuid1).subscribe(response => {
+      this.originalTextContent = this.alto.getFormattedText(response, this.data.uuid1, width, height);
+      this.textContentLoading = false;
+      if (this.textLanguage) {
+        this.onLanguageChanged(this.textLanguage);
+      } else {
+        this.onCancelTranslatePage();
+      }
+    },
+    error => {
+      this.textContentLoading = false;
+      console.log('error alto', error);
+    });
+  }
+
+
+  onTranslatePage() {
+    const lang = localStorage.getItem('translate.language') || this.translateSrvice.currentLang || 'en';
+    if (this.bookService.viewerMode == 'scan') {
+      this.textLanguage = lang;
+      this.bookService.setViewerMode('text');
+    } else {
+      this.onLanguageChanged(lang);
+    }
+  }
+
+
+  onCancelTranslatePage() {
+    this.textLanguage = null;
+    this.textContent = this.originalTextContent;
+  }
+
+
   onLanguageChanged(lang: string) {
+    console.log('onLanguageChanged', lang);
     this.textLanguage = lang;
     this.textContentLoading = true;
     this.ai.translate(null, this.originalTextContent, lang, (answer, error) => {
-        if (error) {
-          // TODO: show error
-          return;
-        }
-        this.textContentLoading = false;
-        this.textContent = answer;
-        localStorage.setItem('translate.language', lang);
+      this.textContentLoading = false;
+      if (error) {
+        this.onCancelTranslatePage();
+        this.ai.showAiError(error);
+        return;
+      }
+      this.textContent = answer;
+      localStorage.setItem('translate.language', lang);
     });
   }
 

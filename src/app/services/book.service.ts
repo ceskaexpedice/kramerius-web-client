@@ -901,14 +901,6 @@ export class BookService {
             }
         );
     }
-
-    private showAiError(error: string) {
-        this.serviceLoading = false;
-        this.dialog.open(BasicDialogComponent, { data: {
-            messageHtml: 'ai.warning.' + error,
-            button: 'common.close'
-        }, autoFocus: false });
-    }
     
 
     translate(extent = null, width: number = null, height: number = null, right: boolean = null) {
@@ -923,31 +915,13 @@ export class BookService {
         }, formatted, extent, width, height);
     }
 
+
     private translateText(text: string, uuid: string) {
         const data = {
             content: text,
             action: 'translate'
         };
-
         this.bottomSheet.open(LLMDialogComponent, { data: data });
-
-        // const language =  localStorage.getItem('translate.language') || this.translateSrvice.currentLang;
-        // this.ai.translate(null, text, language, (answer, error) => {
-        //     if (error) {
-        //         this.showAiError(error);
-        //         return;
-        //     }
-        //     const options = {
-        //         title: '',
-        //         ocr: answer,
-        //         uuid: uuid,
-        //         language: language,
-        //         showCitation: false
-        //     };
-
-        //     this.serviceLoading = false;
-        //     this.bottomSheet.open(OcrDialogComponent, { data: options });
-        // });
     }
 
     summarize(extent = null, width: number = null, height: number = null, right: boolean = null) {
@@ -960,40 +934,13 @@ export class BookService {
         }, false, extent, width, height);
     }
 
-    summarizeText(text: string, uuid: string) {
-        // this.serviceLoading = true
+    private summarizeText(text: string, uuid: string) {
         const data = {
             content: text,
             action: 'summarize'
         };
         this.bottomSheet.open(LLMDialogComponent, { data: data });
-
-
-            // this.ai.translate(text, lang, (translation, error) => {
-            //     if (error) {
-            //         this.showAiError(error);
-            //         return;
-            //     }
-            //     this.ai.askLLM(translation, instruction, null, null, (answer, error) => {
-            //             if (error) {
-            //                 this.showAiError(error);
-            //                 return;
-            //             }
-            //             const options = {
-            //                 ocr: answer,
-            //                 summary: true,
-            //                 language: lang,
-            //                 uuid: uuid,
-            //                 showCitation: false,
-            //                 originalSourceText: text
-            //             };
-            //             this.serviceLoading = false
-            //             this.bottomSheet.open(LLMDialogComponent, { data: options });
-            //         });
-
-            // }); 
     }
-
 
 
     showTextSelection(extent, width: number, height: number, right: boolean) {
@@ -1052,7 +999,7 @@ export class BookService {
                 this.continueTts = false;
             }
         }, (error) => {
-            this.showAiError(error);
+            this.ai.showAiError(error);
         });
     }
 
@@ -1069,7 +1016,7 @@ export class BookService {
             this.tts.readSelection(text, () => {
                 // console.log('reading finished');
             }, (error) => {
-                this.showAiError(error);
+                this.ai.showAiError(error);
             });
         }, false, extent, width, height);
     }
@@ -1114,7 +1061,7 @@ export class BookService {
                     }, 50);
                 }
                 }, (error) => {
-                    this.showAiError(error);
+                    this.ai.showAiError(error);
                 });
             });
     }
@@ -1432,7 +1379,7 @@ export class BookService {
                         this.continueTts = false;
                     }
                 }, (error) => {
-                    this.showAiError(error);
+                    this.ai.showAiError(error);
                 });
             }, 400);
         }
