@@ -33,7 +33,6 @@ import { TtsService } from './tts.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 import { AiService } from './ai.service';
-import { AuthService } from './auth.service';
 import { LLMDialogComponent } from '../dialog/llm-dialog/llm-dialog.component';
 
 @Injectable()
@@ -919,28 +918,36 @@ export class BookService {
 
         const formatted = !!(extent == null && height && width);
         this.getAltoText(uuid, (text) => {
+            this.serviceLoading = false;
             this.translateText(text, uuid);
         }, formatted, extent, width, height);
     }
 
-    translateText(text: string, uuid: string) {
-        this.serviceLoading = true;
-        const language =  localStorage.getItem('translate.language') || this.translateSrvice.currentLang;
-        this.ai.translate(null, text, language, (answer, error) => {
-            if (error) {
-                this.showAiError(error);
-                return;
-            }
-            const options = {
-                title: '',
-                ocr: answer,
-                uuid: uuid,
-                language: language,
-                showCitation: false
-            };
-            this.serviceLoading = false;
-            this.bottomSheet.open(OcrDialogComponent, { data: options });
-        });
+    private translateText(text: string, uuid: string) {
+        const data = {
+            content: text,
+            action: 'translate'
+        };
+
+        this.bottomSheet.open(LLMDialogComponent, { data: data });
+
+        // const language =  localStorage.getItem('translate.language') || this.translateSrvice.currentLang;
+        // this.ai.translate(null, text, language, (answer, error) => {
+        //     if (error) {
+        //         this.showAiError(error);
+        //         return;
+        //     }
+        //     const options = {
+        //         title: '',
+        //         ocr: answer,
+        //         uuid: uuid,
+        //         language: language,
+        //         showCitation: false
+        //     };
+
+        //     this.serviceLoading = false;
+        //     this.bottomSheet.open(OcrDialogComponent, { data: options });
+        // });
     }
 
     summarize(extent = null, width: number = null, height: number = null, right: boolean = null) {
@@ -956,7 +963,8 @@ export class BookService {
     summarizeText(text: string, uuid: string) {
         // this.serviceLoading = true
         const data = {
-            content: text
+            content: text,
+            action: 'summarize'
         };
         this.bottomSheet.open(LLMDialogComponent, { data: data });
 

@@ -6,9 +6,8 @@
     <label for="ocr-text" class="app-hidden-label">Text</label>
     <textarea id="ocr-text" #ocrInputTarget [value]="copyText" type="text" ></textarea>
     <div class="app-actions">
-      <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="ocrInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
       <ng-container *ngIf="!loading">
-
+        <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="ocrInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
         <div *ngIf="language" class="app-dropdown app-language" [matMenuTriggerFor]="languagesMenu">
           <img [alt]="languageService.getLanguageName(language)"  src="assets/img/flag_{{language}}.png" >
           <mat-icon>keyboard_arrow_down</mat-icon>

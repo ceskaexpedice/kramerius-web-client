@@ -37,7 +37,7 @@ export class LLMDialogComponent implements OnInit {
 
   model: any;
   modelInUse: any;
-  aiTestActionsEnabled: boolean;
+  aiTestActionsEnabled = false;
 
   constructor(private bottomSheetRef: MatBottomSheetRef<LLMDialogComponent>,
     private citationService: CitationService, 
@@ -50,18 +50,18 @@ export class LLMDialogComponent implements OnInit {
     private shareService: ShareService,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
     ) {
-      if (data.summary) {
-        this.aiTestActionsEnabled = this.ai.testActionsEnabled();
-      } 
   }
 
   ngOnInit(): void {
     this.loading = true;
     this.language = localStorage.getItem('summary.language') || this.translateSrvice.currentLang;
-    this.title = this.languageService.getSummary(this.language);
-    this.model = this.ai.getDefaultModel();
-    this.modelInUse = this.ai.getDefaultModel();
-    this.aiTestActionsEnabled = this.ai.testActionsEnabled();
+    console.log("000000", this.data);
+    if (this.data.action === 'summarize') {
+      this.title = this.languageService.getSummary(this.language);
+      this.model = this.ai.getDefaultModel();
+      this.modelInUse = this.ai.getDefaultModel();
+      this.aiTestActionsEnabled = this.ai.testActionsEnabled();
+    }
     this.ai.translate(null, this.data.content, this.language, (answer, error) => {
       if (error) {
         // TODO: show error
@@ -69,7 +69,12 @@ export class LLMDialogComponent implements OnInit {
         return;
       }
       this.originalSourceText = answer;
-      this.regenerate();
+      if (this.data.action === 'summarize') {
+        this.regenerate();
+      } else if (this.data.action === 'translate') {
+        this.setText(answer);
+        this.loading = false;
+      }
     });
 
     if (!this.data.showCitation) {
@@ -89,7 +94,11 @@ export class LLMDialogComponent implements OnInit {
   onLanguageChanged(lang: string) {
     this.language = lang;
     this.loading = true;
-    this.ai.translate(null, this.originalText, lang, (answer, error) => {
+    let text = this.originalSourceText;
+    if (this.data.action === 'summarize') {
+      text = this.originalText;
+    }
+    this.ai.translate(null, text, lang, (answer, error) => {
         if (error) {
           // TODO: show error
           return;
