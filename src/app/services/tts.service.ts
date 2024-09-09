@@ -499,7 +499,7 @@ export class TtsService {
       }
     };
     if (this.documentLanguage !== readLanguage) {
-      this.ai.translate(text, readLanguage, (translation, error) => {
+      this.ai.translate(null, text, readLanguage, (translation, error) => {
         if (error) { this.onAiError(error); return; }
         if (provider === 'Google') {
           this.ai.googleTTS(translation, voice.code, voice.languageCode, callback);

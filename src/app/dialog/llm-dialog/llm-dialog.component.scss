@@ -1,0 +1,151 @@
+@import './src/variables.scss';
+
+.app-llm-dialog {
+  padding: 16px 10px 0;
+  max-width: 1000px;
+  .app-dialog-actions {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    text-align: right;
+  }
+  .app-citation {
+    margin-top:15px; 
+    padding-top: 10px; 
+    border-top: 1px solid #ccc;
+  }
+  input.ocr-citation, textarea {
+    height: 0px;
+    position: absolute;
+    top: -10px;
+    width: 1px;
+  }
+  .app-actions {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    margin-top: 15px;
+    mat-icon.app-share-btn {
+      display: block;
+      float: left;
+      cursor: pointer;
+      font-size: 18px;
+      height: 18px;
+      margin-right: 5px;
+    }
+    .app-dropdown {
+      display: flex;
+      align-content: stretch;
+      align-items: center;
+      padding: 2px 5px;
+      // position: absolute;
+      // top: 5px;
+      // right: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      span {
+        font-size: 14px;
+        margin-left: 5px;
+      }
+      img {
+        width: 28px;
+        height: 28px;
+      }
+      mat-icon {
+        font-size: 18px;
+        padding: 3px;
+      }
+      &:hover {
+        background: #dbdbdb;
+      }
+      &.app-model {
+        img {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+    .app-custom-instruction-input {
+      padding: 10px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      width: 400px;
+      flex: 1;
+      height: 32px;
+      box-sizing: border-box;
+      margin-left: 5px;
+      &:focus {
+        border: 1px solid #888;
+      }
+    }
+    .app-regenerate {
+      height: 36px;
+      width: 36px;
+      margin-left: 5px;
+      padding: 8px;
+      font-size: 20px;
+      color: $primary-color;
+      cursor: pointer;
+      &:hover {
+        color: darken($primary-color, 10%);
+      }
+    }
+  }
+}
+
+
+::ng-deep {
+  .app-ocr-dialog {
+    .app-text-content {
+      p {
+        padding: 0;
+        margin: 7px 0;
+      }
+      img {
+        display: none;
+      }
+      ul {
+        margin-left: 14px;
+        padding: 0;
+        li {
+          list-style-type: disc;
+          margin-bottom: 3px;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+::ng-deep {
+  .app-summary-models-menu {
+    .app-dropdown-item {
+      cursor: pointer;
+      padding: 0;
+      height: 40px;
+      line-height: 40px;
+      font-size: 15px;
+      margin: 0 3px;
+      .app-model {
+        display: flex;
+        align-items: center;
+        padding: 0 8px;
+        img {
+          height: 20px;
+          width: 20px;
+          margin-right: 10px;
+        }
+      }
+      &:hover {
+        background: #e5e5e5;
+      }
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+}

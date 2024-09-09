@@ -179,6 +179,7 @@ import { CuttingCardComponent } from './shared/cutting-card/cutting-card.compone
 import { AiService } from './services/ai.service';
 import { TtsDialogComponent } from './dialog/tts-dialog/tts-dialog.component';
 import { LanguageService } from './services/language.service';
+import { LLMDialogComponent } from './dialog/llm-dialog/llm-dialog.component';
 
 declare var APP_GLOBAL: any;
 
@@ -288,6 +289,7 @@ export function appInitializerFactory(translate: TranslateService) {
     PdfDialogComponent,
     BasicDialogComponent,
     OcrDialogComponent,
+    LLMDialogComponent,
     AuthorsDialogComponent,
     CitationDialogComponent,
     MetadataDialogComponent,

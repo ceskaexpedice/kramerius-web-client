@@ -693,7 +693,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.api.getAlto(this.data.uuid1).subscribe(response => {
       this.originalTextContent = this.alto.getFormattedText(response, this.data.uuid1, width, height);
       if (this.textLanguage) {
-        this.ai.translate(this.originalTextContent, this.textLanguage, (answer, error) => {
+        this.ai.translate(null, this.originalTextContent, this.textLanguage, (answer, error) => {
           if (error) {
             // TODO: show error
             return;
@@ -1302,7 +1302,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   onLanguageChanged(lang: string) {
     this.textLanguage = lang;
     this.textContentLoading = true;
-    this.ai.translate(this.originalTextContent, lang, (answer, error) => {
+    this.ai.translate(null, this.originalTextContent, lang, (answer, error) => {
         if (error) {
           // TODO: show error
           return;

@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppSettings } from './app-settings';
 import { AuthService } from './auth.service';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AiService {
@@ -14,13 +17,29 @@ export class AiService {
 
   userSubscription: Subscription;
 
-
   roles: string[] = [];
   loggedIn = false;
+
+  models = [ 
+    { provider: 'openai', name: 'GPT 3.5 turbo', code: 'gpt-3.5-turbo' },
+    { provider: 'openai', name: 'GPT 4o', code: 'gpt-4o' },
+    { provider: 'openai', name: 'GPT 4o mini', code: 'gpt-4o-mini' },
+    { provider: 'openai', name: 'GPT 4 turbo', code: 'gpt-4-turbo' },
+    { provider: 'openai', name: 'GPT 4', code: 'gpt-4' },
+    { provider: 'anthropic', name: 'Claude 3 Opus', code: 'claude-3-opus-20240229'},
+    { provider: 'anthropic', name: 'Claude 3 Sonnet', code: 'claude-3-sonnet-20240229'},
+    { provider: 'anthropic', name: 'Claude 3 Haiku', code: 'claude-3-haiku-20240307'},
+    { provider: 'anthropic', name: 'Claude 3.5 Sonnet', code: 'claude-3-5-sonnet-20240620'},
+    { provider: 'google', name: 'Gemini 1.0 Pro', code: 'gemini-1.0-pro'},
+    { provider: 'google', name: 'Gemini 1.5 Pro', code: 'gemini-1.5-pro'},
+    { provider: 'google', name: 'Gemini 1.5 Flash', code: 'gemini-1.5-flash'}
+  ];
 
   constructor(
     private settings: AppSettings,
     private auth: AuthService,
+    private dialog: MatDialog,
+    private router: Router,
     private http: HttpClient) {
       this.userSubscription = this.auth.watchUser().subscribe((user) => {
         if ((user && user.isLoggedIn()) || this.settings.getAiToken()) {
@@ -41,6 +60,29 @@ export class AiService {
     return (this.settings.ai && this.loggedIn) || !!this.settings.getAiToken();
   }
 
+  checkAiActionsEnabled(): boolean {
+    if (this.aiEnabled()) {
+        return true;
+    }
+    this.dialog.open(BasicDialogComponent, { data: {
+        title: 'ai.not_logged_in.title',
+        messageHtml: 'ai.not_logged_in.message',
+        button: 'common.close',
+        buttonPositive: 'ai.not_logged_in.action'
+    }, autoFocus: false }).afterClosed().subscribe(result => {
+        if (result == 'positive') {
+            const path = this.settings.getRelativePath();
+            localStorage.setItem('login.url', path);
+            if (this.settings.termsPage) {
+              this.router.navigate(['/terms']);
+            } else {
+              this.auth.login();
+            }
+        }
+    });
+    return false;
+}
+
   aiAvailable(): boolean {
       return this.settings.ai || !!this.settings.getAiToken();
   }
@@ -48,47 +90,6 @@ export class AiService {
   testActionsEnabled(): boolean {
     return this.roles.includes('TESTER');
   }  
-
-  private post(path: string, body: any, callback: (response: any) => void, errorCallback?: (error: string) => void, responseType: string = null) {
-    let token;
-    if (this.settings.ai && this.auth.isLoggedIn()) {
-      token = this.settings.getToken();
-    } else {
-      token = this.settings.getAiToken();
-    }
-    const url = `${this.baseUrl}${path}`;
-    let headers = new HttpHeaders()
-      .set('X-Tai-Source', location.href)
-      .set('X-Tai-Project', `Kramerius`)
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', `application/json`);
-
-    let options = { headers: headers };
-    if (responseType === 'arraybuffer') {
-      options['responseType'] = 'arraybuffer';
-    }
-    this.http.post(url, body, options).subscribe((response: any) => {
-      if (callback) {
-        callback(response);
-      }
-    }, error => {
-      console.log('error', error);
-      let e = "error";
-      if (error.error && error.error.errorCode) {
-        e = error.error.errorCode;
-      }
-      console.log('e', e);
-      if (e == 'quota_exceeded') {
-        errorCallback('quota_exceeded');
-      } else if (e == 'auth_token_expired') {
-        errorCallback('token_expired');
-      } else if (error.status === 403 || error.status === 401) {
-        errorCallback('unauthorized');
-      } else {
-        errorCallback('unknown_error');
-      }
-    });
-  }
 
   reloadAIUser(callback: (response: any) => void) {
     let token;
@@ -169,7 +170,83 @@ export class AiService {
   }
 
 
- askGPT(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
+  getDefaultModel() {
+    return this.models[2];
+  }
+ 
+
+
+  detectLanguage(input: string, callback: (answer: string, error?: string) => void) {
+    const path = `/google/translate/detect`;
+    const body = {
+      'q': input,
+    };
+    this.post(path, body, (response: any) => {
+      console.log('respnse', response);
+      const answer = response['data']['detections'][0][0]['language'];
+      callback(answer);
+    }, (error: string) => {
+      callback(null, error);
+    });
+  }
+
+  translate(provider: String | null, input: string, targetLanguage: string, callback: (answer: string, error?: string) => void) {
+    provider = provider || 'google';
+    if (provider === 'deepl') {
+      this.translateWithDeepL(input, targetLanguage, callback);
+    } else if (provider === 'google') {
+      this.translateWithGoogle(input, targetLanguage, callback);
+    }
+  }
+
+  askLLM(input: string, instructions: string, provider: string | null, model: string | null, callback: (answer: string, error?: string) => void) {
+    provider = provider || 'openai';
+    if (provider === 'openai') {
+      this.askGPT(input, instructions, model, callback);
+    } else if (provider === 'anthropic') {
+      this.askClaude(input, instructions, model, callback);
+    } else if (provider === 'google') {
+      this.askGemini(input, instructions, model, callback);
+    }
+  }
+
+
+
+
+
+
+  private translateWithDeepL(input: string, targetLanguage: string, callback: (answer: string, error?: string) => void) {
+    const path = `/deepl/translate`;
+    const body = {
+      'text': [input],
+      'target_lang': targetLanguage
+    };
+    this.post(path, body, (response: any) => {
+      console.log('respnse', response);
+      const answer = response['translations'][0]['text'];
+      callback(answer);
+    }, (error: string) => {
+      callback(null, error);
+    });
+  }
+
+
+  private translateWithGoogle(input: string, targetLanguage: string, callback: (answer: string, error?: string) => void) {
+    const path = `/google/translate`;
+    const body = {
+      'q': [input],
+      'target': targetLanguage
+    };
+    this.post(path, body, (response: any) => {
+      console.log('respnse', response);
+      const answer = response['data']['translations'][0]['translatedText'];
+      callback(answer);
+    }, (error: string) => {
+      callback(null, error);
+    });
+  }
+
+  private askGPT(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
     const path = `/openai/chat/completions`;
     let m = model || 'gpt-4o-mini'
     const body = {
@@ -201,10 +278,7 @@ export class AiService {
     });
   }
 
-
-
-
-  askClaude(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
+  private askClaude(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
     const path = `/anthropic/messages`;
     let m = model || 'claude-3-sonnet-20240229';
     const body = {
@@ -212,7 +286,7 @@ export class AiService {
       'messages': [
         {
           "role": "user",
-          "content": `${input}\n\n${instructions}`
+          "content": `${instructions}\n\n${input}`
         }
       ],
       'temperature': this.temperature,
@@ -227,13 +301,13 @@ export class AiService {
   }
 
 
-  askGemini(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
+  private askGemini(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
     const m = model || 'gemini-pro';
     const path = `/google/gemini/${model}`;
     const body = {
       'contents': [
         { 'role': 'user', 'parts': [
-          { 'text': `${input}\n\n${instructions}` }
+          { 'text': `${instructions}\n\n${input}` }
         ]}
       ],
       'generationConfig': { 'temperature' : this.temperature, 'maxOutputTokens': this.maxTokens }
@@ -248,45 +322,48 @@ export class AiService {
 
 
 
-  translate(input: string, targetLanguage: string, callback: (answer: string, error?: string) => void) {
-    // const path = `/deepl/translate`;
-    // const body = {
-    //   'text': [input],
-    //   'target_lang': targetLanguage
-    // };
-    // this.post(path, body, (response: any) => {
-    //   console.log('respnse', response);
-    //   const answer = response['translations'][0]['text'];
-    //   callback(answer);
-    // }, (error: string) => {
-    //   callback(null, error);
-    // });
-    const path = `/google/translate`;
-    const body = {
-      'q': [input],
-      'target': targetLanguage
-    };
-    this.post(path, body, (response: any) => {
-      console.log('respnse', response);
-      const answer = response['data']['translations'][0]['translatedText'];
-      callback(answer);
-    }, (error: string) => {
-      callback(null, error);
+
+  private post(path: string, body: any, callback: (response: any) => void, errorCallback?: (error: string) => void, responseType: string = null) {
+    let token;
+    if (this.settings.ai && this.auth.isLoggedIn()) {
+      token = this.settings.getToken();
+    } else {
+      token = this.settings.getAiToken();
+    }
+    const url = `${this.baseUrl}${path}`;
+    let headers = new HttpHeaders()
+      .set('X-Tai-Source', location.href)
+      .set('X-Tai-Project', `Kramerius`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', `application/json`);
+
+    let options = { headers: headers };
+    if (responseType === 'arraybuffer') {
+      options['responseType'] = 'arraybuffer';
+    }
+    this.http.post(url, body, options).subscribe((response: any) => {
+      if (callback) {
+        callback(response);
+      }
+    }, error => {
+      console.log('error', error);
+      let e = "error";
+      if (error.error && error.error.errorCode) {
+        e = error.error.errorCode;
+      }
+      console.log('e', e);
+      if (e == 'quota_exceeded') {
+        errorCallback('quota_exceeded');
+      } else if (e == 'auth_token_expired') {
+        errorCallback('token_expired');
+      } else if (error.status === 403 || error.status === 401) {
+        errorCallback('unauthorized');
+      } else {
+        errorCallback('unknown_error');
+      }
     });
   }
 
-  detectLanguage(input: string, callback: (answer: string, error?: string) => void) {
-    const path = `/google/translate/detect`;
-    const body = {
-      'q': input,
-    };
-    this.post(path, body, (response: any) => {
-      console.log('respnse', response);
-      const answer = response['data']['detections'][0][0]['language'];
-      callback(answer);
-    }, (error: string) => {
-      callback(null, error);
-    });
-  }
+
 
 }

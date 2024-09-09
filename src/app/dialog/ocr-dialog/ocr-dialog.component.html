@@ -7,23 +7,6 @@
     <textarea id="ocr-text" #ocrInputTarget [value]="copyText" type="text" ></textarea>
     <div class="app-actions">
       <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="ocrInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
-      <ng-container *ngIf="!loading">
-
-        <div *ngIf="language" class="app-dropdown app-language" [matMenuTriggerFor]="languagesMenu">
-          <img [alt]="languageService.getLanguageName(language)"  src="assets/img/flag_{{language}}.png" >
-          <mat-icon>keyboard_arrow_down</mat-icon>
-        </div>
-        <ng-container *ngIf="model && aiTestActionsEnabled">
-          <div class="app-dropdown app-model" [matMenuTriggerFor]="modelsMenu">
-            <img src="assets/img/ic_provider_{{model.provider}}.png">
-            <span>{{ model.name }}</span>
-            <mat-icon>keyboard_arrow_down</mat-icon>
-          </div>
-          <input id="custom-instructions" type="text" autocomplete="off" spellcheck="false" [(ngModel)]="customInstructions" placeholder="Vlastní instrukce" class="app-custom-instruction-input">
-          <mat-icon class="app-regenerate" (click)="regenerate()">{{ regenerateIcon() }}</mat-icon>
-        </ng-container>
-      </ng-container>
-    
       <mat-spinner *ngIf="loading" [strokeWidth]="2" [diameter]="20"></mat-spinner>
     </div>
   </div>
@@ -41,25 +24,3 @@
   </div>
 
 </div>
-
-<mat-menu #languagesMenu="matMenu" xPosition="after" class="app-languages-menu">
-  <ul [class.app-4-cols]="languages.length >= 6">
-    <li class="app-dropdown-item" mat-menu-item tabindex="0" *ngFor="let lang of languages" (keydown.enter)="closeMenu()" (click)="onLanguageChanged(lang)" role="button">
-      <div class="app-language">
-        <img src="assets/img/flag_{{lang}}.png">
-        <div class="app-language-name">{{ languageService.getLanguageName(lang) }}</div>
-      </div>
-    </li>
-  </ul>
-</mat-menu>
-
-<mat-menu #modelsMenu="matMenu" xPosition="after" class="app-summary-models-menu">
-  <ul>
-    <li class="app-dropdown-item" mat-menu-item tabindex="0" *ngFor="let model of models" (keydown.enter)="closeMenu()" (click)="onModelChanged(model)" role="button">
-      <div class="app-model">
-        <img src="assets/img/ic_provider_{{model.provider}}.png">
-        <div class="app-model-name">{{ model.name }}</div>
-      </div>
-    </li>
-  </ul>
-</mat-menu>

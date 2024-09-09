@@ -34,7 +34,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 import { AiService } from './ai.service';
 import { AuthService } from './auth.service';
-import { LanguageService } from './language.service';
+import { LLMDialogComponent } from '../dialog/llm-dialog/llm-dialog.component';
 
 @Injectable()
 export class BookService {
@@ -116,10 +116,8 @@ export class BookService {
         private history: HistoryService,
         private router: Router,
         private pdf: PdfService,
-        private auth: AuthService,
         private bottomSheet: MatBottomSheet,
         private licenceService: LicenceService,
-        private languageService: LanguageService,
         private tts: TtsService,
         private ai: AiService,
         private translateSrvice: TranslateService,
@@ -913,33 +911,9 @@ export class BookService {
         }, autoFocus: false });
     }
     
-    private checkAiActionsEnabled(): boolean {
-        if (this.ai.aiEnabled()) {
-            return true;
-        }
-        this.dialog.open(BasicDialogComponent, { data: {
-            title: 'ai.not_logged_in.title',
-            messageHtml: 'ai.not_logged_in.message',
-            button: 'common.close',
-            buttonPositive: 'ai.not_logged_in.action'
-        }, autoFocus: false }).afterClosed().subscribe(result => {
-            if (result == 'positive') {
-                const path = this.settings.getRelativePath();
-                localStorage.setItem('login.url', path);
-                if (this.settings.termsPage) {
-                  this.router.navigate(['/terms']);
-                } else {
-                  this.auth.login();
-                }
-
-
-            }
-        });
-        return false;
-    }
 
     translate(extent = null, width: number = null, height: number = null, right: boolean = null) {
-        if (!this.checkAiActionsEnabled()) { return; }
+        if (!this.ai.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
 
@@ -947,17 +921,12 @@ export class BookService {
         this.getAltoText(uuid, (text) => {
             this.translateText(text, uuid);
         }, formatted, extent, width, height);
-
-        // this.getAltoText(uuid, (text) => {
-        //     this.translateText(text, uuid);
-        // }, extent, width, height);
     }
 
     translateText(text: string, uuid: string) {
         this.serviceLoading = true;
-        // TODO - this.translateSrvice.currentLang or the one that user selected?
         const language =  localStorage.getItem('translate.language') || this.translateSrvice.currentLang;
-        this.ai.translate(text, language, (answer, error) => {
+        this.ai.translate(null, text, language, (answer, error) => {
             if (error) {
                 this.showAiError(error);
                 return;
@@ -975,41 +944,46 @@ export class BookService {
     }
 
     summarize(extent = null, width: number = null, height: number = null, right: boolean = null) {
-        if (!this.checkAiActionsEnabled()) { return; }
+        if (!this.ai.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.getAltoText(uuid, (text) => {
+            this.serviceLoading = false
             this.summarizeText(text, uuid);
         }, false, extent, width, height);
     }
 
     summarizeText(text: string, uuid: string) {
-        this.serviceLoading = true
-        const lang = localStorage.getItem('summary.language') || this.translateSrvice.currentLang;
-            let instruction = this.languageService.getSummaryPrompt(lang)
-            this.ai.translate(text, lang, (translation, error) => {
-                if (error) {
-                    this.showAiError(error);
-                    return;
-                }
-                this.ai.askGPT(translation, instruction, null, (answer, error) => {
-                        if (error) {
-                            this.showAiError(error);
-                            return;
-                        }
-                        const options = {
-                            ocr: answer,
-                            summary: true,
-                            language: lang,
-                            uuid: uuid,
-                            showCitation: false,
-                            originalSourceText: text
-                        };
-                        this.serviceLoading = false
-                        this.bottomSheet.open(OcrDialogComponent, { data: options });
-                    });
+        // this.serviceLoading = true
+        const data = {
+            content: text
+        };
+        this.bottomSheet.open(LLMDialogComponent, { data: data });
 
-            }); 
+
+            // this.ai.translate(text, lang, (translation, error) => {
+            //     if (error) {
+            //         this.showAiError(error);
+            //         return;
+            //     }
+            //     this.ai.askLLM(translation, instruction, null, null, (answer, error) => {
+            //             if (error) {
+            //                 this.showAiError(error);
+            //                 return;
+            //             }
+            //             const options = {
+            //                 ocr: answer,
+            //                 summary: true,
+            //                 language: lang,
+            //                 uuid: uuid,
+            //                 showCitation: false,
+            //                 originalSourceText: text
+            //             };
+            //             this.serviceLoading = false
+            //             this.bottomSheet.open(LLMDialogComponent, { data: options });
+            //         });
+
+            // }); 
     }
 
 
@@ -1061,7 +1035,7 @@ export class BookService {
         if (this.tts.inProgress()) {
             return;
         }
-        if (!this.checkAiActionsEnabled()) { return; }
+        if (!this.ai.checkAiActionsEnabled()) { return; }
         this.tts.readPage(this.getPage().uuid, () => {
             if (this.getPage().uuid == this.tts.readingPageUuid) {
                 this.continueTts = true;
@@ -1078,7 +1052,7 @@ export class BookService {
         if (this.tts.inProgress()) {
             return;
         }
-        if (!this.checkAiActionsEnabled()) { return; }
+        if (!this.ai.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.tts.setInProgress();
@@ -1094,12 +1068,12 @@ export class BookService {
 
 
     openTtsSettings() {
-        if (!this.checkAiActionsEnabled()) { return; }
+        if (!this.ai.checkAiActionsEnabled()) { return; }
         this.tts.openSettings();
     }
 
     summarizePdfPage() {
-        if (!this.checkAiActionsEnabled()) { return; }
+        if (!this.ai.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         this.pdf.getPageContent((text: string) => {
             this.summarizeText(text, this.getUuid());
@@ -1107,7 +1081,7 @@ export class BookService {
     }
 
     translatePdfPage() {
-        if (!this.checkAiActionsEnabled()) { return; }
+        if (!this.ai.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         this.pdf.getPageContent((text: string) => {
             this.translateText(text, this.getUuid());
@@ -1118,7 +1092,7 @@ export class BookService {
         if (this.tts.inProgress()) {
             return;
         }
-        if (!this.checkAiActionsEnabled()) { return; }
+        if (!this.ai.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         this.pdf.getPageContent((text: string) => {
             this.tts.readingPageUuid = this.pdf.pageIndex;
