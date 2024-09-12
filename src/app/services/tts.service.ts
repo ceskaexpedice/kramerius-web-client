@@ -308,29 +308,32 @@ export class TtsService {
       this.activeLanguagesFromStorage();
   } 
 
-  readPage(uuid: string, onFinished: () => void, onError: (error: string) => void) {
+  readPage(uuid: string, blocks: any[], onFinished: () => void, onError: (error: string) => void) {
     this.continuing = true;
     this.readingPageUuid = uuid;
     this.state = 'loading';
     this.onFinished = onFinished;
     this.onError = onError;
-    this.api.getAlto(uuid).subscribe(
-        result => {
-            const blocks = this.altoService.getBlocksForReading(result);
-            console.log(blocks);
-            this.blocks = blocks;
-            this.next();
-        },
-        error => {
-            if (error instanceof NotFoundError) {
-              // todo not found
-            } else if (error instanceof UnauthorizedError) {
-              // todo unauthorized
-            } else {
-              // todo unexpected error
-            }
-        }
-    );
+    this.blocks = blocks;
+    this.next();
+
+    // this.api.getAlto(uuid).subscribe(
+    //     result => {
+    //         const blocks = this.altoService.getBlocksForReading(result);
+    //         console.log(blocks);
+    //         this.blocks = blocks;
+    //         this.next();
+    //     },
+    //     error => {
+    //         if (error instanceof NotFoundError) {
+    //           // todo not found
+    //         } else if (error instanceof UnauthorizedError) {
+    //           // todo unauthorized
+    //         } else {
+    //           // todo unexpected error
+    //         }
+    //     }
+    // );
   }
 
   openSettings() {

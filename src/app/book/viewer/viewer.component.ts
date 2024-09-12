@@ -1263,19 +1263,35 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.textContentLoading = true;
     let width = useDimensions ? this.imageWidth : 0;
     let height = useDimensions ? this.imageHeight : 0;
-    this.api.getAlto(this.data.uuid1).subscribe(response => {
-      this.originalTextContent = this.alto.getFormattedText(response, this.data.uuid1, width, height);
+
+
+    this.bookService.getAltoText(this.data.uuid1, (text) => {
       this.textContentLoading = false;
-      if (this.textLanguage) {
-        this.onLanguageChanged(this.textLanguage);
+      if (text == null) {
+        this.enterScanMode();
       } else {
-        this.onCancelTranslatePage();
+        this.originalTextContent = text;   
+        if (this.textLanguage) {
+          this.onLanguageChanged(this.textLanguage);
+        } else {
+          this.onCancelTranslatePage();
+        }       
       }
-    },
-    error => {
-      this.textContentLoading = false;
-      console.log('error alto', error);
-    });
+  }, true, null, width, height);
+
+    // this.api.getAlto(this.data.uuid1).subscribe(response => {
+    //   this.originalTextContent = this.alto.getFormattedText(response, this.data.uuid1, width, height);
+    //   this.textContentLoading = false;
+    //   if (this.textLanguage) {
+    //     this.onLanguageChanged(this.textLanguage);
+    //   } else {
+    //     this.onCancelTranslatePage();
+    //   }
+    // },
+    // error => {
+    //   this.textContentLoading = false;
+    //   console.log('error alto', error);
+    // });
   }
 
 

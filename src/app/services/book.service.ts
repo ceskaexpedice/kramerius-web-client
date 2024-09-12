@@ -878,7 +878,7 @@ export class BookService {
         });
     }
 
-    private getAltoText(uuid: string, callback: (text: string) => void, formatted: boolean, extent, width: number, height: number) {
+    getAltoText(uuid: string, callback: (text: string) => void, formatted: boolean, extent, width: number, height: number) {
         this.api.getAlto(uuid).subscribe(
             result => {
                 if (extent) {
@@ -891,6 +891,7 @@ export class BookService {
             },
             error => {
                 this.serviceLoading = false;
+                callback(null);
                 if (error && error.status == 404) {
                     this.dialog.open(BasicDialogComponent, { data: {
                         title: 'common.warning',
@@ -911,7 +912,9 @@ export class BookService {
         const formatted = !!(extent == null && height && width);
         this.getAltoText(uuid, (text) => {
             this.serviceLoading = false;
-            this.translateText(text, uuid);
+            if (text) {
+                this.translateText(text, uuid);
+            }
         }, formatted, extent, width, height);
     }
 
@@ -929,8 +932,10 @@ export class BookService {
         this.serviceLoading = true
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
         this.getAltoText(uuid, (text) => {
-            this.serviceLoading = false
-            this.summarizeText(text, uuid);
+            this.serviceLoading = false;
+            if (text) {
+                this.summarizeText(text, uuid);
+            }
         }, false, extent, width, height);
     }
 
@@ -991,16 +996,45 @@ export class BookService {
             return;
         }
         if (!this.ai.checkAiActionsEnabled()) { return; }
-        this.tts.readPage(this.getPage().uuid, () => {
-            if (this.getPage().uuid == this.tts.readingPageUuid) {
-                this.continueTts = true;
-                this.goToNext();
-            } else {
-                this.continueTts = false;
+        const uuid = this.getPage().uuid;
+        this.api.getAlto(uuid).subscribe(
+            result => {
+                const blocks = this.altoService.getBlocksForReading(result);
+                // console.log(blocks);
+                this.tts.readPage(this.getPage().uuid, blocks, () => {
+                    if (this.getPage().uuid == this.tts.readingPageUuid) {
+                        this.continueTts = true;
+                        this.goToNext();
+                    } else {
+                        this.continueTts = false;
+                    }
+                }, (error) => {
+                    this.ai.showAiError(error);
+                });
+            },
+            error => {
+                // this.serviceLoading = false;
+                if (error && error.status == 404) {
+                    this.dialog.open(BasicDialogComponent, { data: {
+                        title: 'common.warning',
+                        message: 'dialogs.missing_alto.message',
+                        button: 'common.close'
+                    }});
+                }
             }
-        }, (error) => {
-            this.ai.showAiError(error);
-        });
+        );
+
+
+        // this.tts.readPage(this.getPage().uuid, () => {
+        //     if (this.getPage().uuid == this.tts.readingPageUuid) {
+        //         this.continueTts = true;
+        //         this.goToNext();
+        //     } else {
+        //         this.continueTts = false;
+        //     }
+        // }, (error) => {
+        //     this.ai.showAiError(error);
+        // });
     }
 
     readSelection(extent, width: number, height: number, right: boolean) {
@@ -1010,14 +1044,16 @@ export class BookService {
         if (!this.ai.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
-        this.tts.setInProgress();
+        // this.tts.setInProgress();
         this.getAltoText(uuid, (text) => {
             this.serviceLoading = false;
-            this.tts.readSelection(text, () => {
-                // console.log('reading finished');
-            }, (error) => {
-                this.ai.showAiError(error);
-            });
+            if (text) {
+                this.tts.readSelection(text, () => {
+                    // console.log('reading finished');
+                }, (error) => {
+                    this.ai.showAiError(error);
+                });
+            }
         }, false, extent, width, height);
     }
 
@@ -1371,16 +1407,17 @@ export class BookService {
         if (this.continueTts) {
             this.continueTts = false;
             setTimeout(() => {
-                this.tts.readPage(this.getPage().uuid, () => {
-                    if (this.getPage().uuid == this.tts.readingPageUuid) {
-                        this.continueTts = true;
-                        this.goToNext();
-                    } else {
-                        this.continueTts = false;
-                    }
-                }, (error) => {
-                    this.ai.showAiError(error);
-                });
+                this.readPage();
+                // this.tts.readPage(this.getPage().uuid, () => {
+                //     if (this.getPage().uuid == this.tts.readingPageUuid) {
+                //         this.continueTts = true;
+                //         this.goToNext();
+                //     } else {
+                //         this.continueTts = false;
+                //     }
+                // }, (error) => {
+                //     this.ai.showAiError(error);
+                // });
             }, 400);
         }
     }
