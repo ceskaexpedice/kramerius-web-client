@@ -283,8 +283,9 @@ getFormattedText(alto: string, uuid: string, width: number, height: number): str
 
     const page = xmlDoc.getElementsByTagName('Page')[0];
     const printSpace = xmlDoc.getElementsByTagName('PrintSpace')[0];
+    console.log('printSpace', printSpace);
     if (!printSpace) {
-        "";
+        return "";
     }
     let altoHeight = parseInt(page.getAttribute('HEIGHT') || '0', 10);
     let altoWidth = parseInt(page.getAttribute('WIDTH') || '0', 10);

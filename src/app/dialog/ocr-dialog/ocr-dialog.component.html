@@ -16,7 +16,9 @@
     <div [innerHtml]="citation"></div>
     <label for="ocr-citation" class="app-hidden-label">{{ 'citation-dialog.title' | translate }}</label>
     <input id="ocr-citation" #citationInputTarget [value]="citationTxt" type="text" >
-    <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="citationInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
+    <div class="app-actions">
+      <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="citationInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
+    </div>
   </div>
 
   <div class="app-dialog-actions">

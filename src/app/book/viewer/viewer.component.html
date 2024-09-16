@@ -107,6 +107,42 @@
       </div>
 
       <div class="app-text-view-header">
+
+            <div class="app-view-toggle">
+
+
+
+            <mat-icon
+                  [matTooltip]="'viewer_page.page_text' | translate"
+                  (click)="enterTextMode()"
+                  [class.app-inactive]="bookService.serviceLoading"
+                  [class.app-active]="bookService.viewerMode == 'text'"
+                  class="app-view-mode">
+                  title
+            </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'Zobrazit originál'"
+                  (click)="enterScanMode()"
+                  [class.app-inactive]="bookService.serviceLoading"
+                  [class.app-active]="bookService.viewerMode == 'scan'"
+                  class="app-view-mode">
+                  image
+            </mat-icon>
+
+            <mat-icon
+                  [matTooltip]="'Porovnat s originálem'"
+                  style="transform: rotate(180deg);"
+                  (click)="enterSplitMode()"
+                  *ngIf="bookService.isActionAvailable('split_mode')"
+                  [class.app-inactive]="bookService.serviceLoading"
+                  [class.app-active]="bookService.viewerMode == 'split'"
+                  class="app-view-mode">
+                  vertical_split
+            </mat-icon>
+
+            </div>
+
             <div *ngIf="textLanguage" class="app-dropdown app-language" [matMenuTriggerFor]="languagesMenu">
                   <img [alt]="languageService.getLanguageName(textLanguage)"  src="assets/img/flag_{{textLanguage}}.png" >
                   <mat-icon>keyboard_arrow_down</mat-icon>
@@ -205,34 +241,13 @@
 
 
             <mat-icon
-                  [matTooltip]="'Zobrazit textový přepis'"
+                  [matTooltip]="'viewer_page.page_text' | translate"
                   matTooltipPosition="left"
                   (click)="enterTextMode()"
-                  *ngIf="bookService.viewerMode == 'scan' || bookService.viewerMode == 'split'"
+                  *ngIf="bookService.viewerMode == 'scan'"
                   [class.app-inactive]="bookService.serviceLoading || !bookService.isActionEnabled('text')"
                   class="app-selection">
                   title
-            </mat-icon>
-
-            <mat-icon
-                  [matTooltip]="'Zobrazit originál'"
-                  matTooltipPosition="left"
-                  (click)="enterScanMode()"
-                  *ngIf="bookService.viewerMode == 'text' || bookService.viewerMode == 'split'"
-                  [class.app-inactive]="bookService.serviceLoading"
-                  class="app-selection">
-                  image
-            </mat-icon>
-
-            <mat-icon
-                  [matTooltip]="'Porovnat s originálem'"
-                  matTooltipPosition="left"
-                  style="transform: rotate(180deg);"
-                  (click)="enterSplitMode()"
-                  *ngIf="bookService.viewerMode == 'text'"
-                  [class.app-inactive]="bookService.serviceLoading"
-                  class="app-selection">
-                  vertical_split
             </mat-icon>
 
             <ng-container *ngIf="aiActionsAvailable()">
