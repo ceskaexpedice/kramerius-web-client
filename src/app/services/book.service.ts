@@ -636,6 +636,17 @@ export class BookService {
         this.goToPage(this.getPage());
     }
 
+    turnOffDoublePage(): boolean {
+        if (this.doublePageEnabled) {
+            this.localStorageService.setProperty(LocalStorageService.DOUBLE_PAGE, '0');
+            this.doublePageEnabled = false;
+            if (this.doublePage) {
+                this.goToPage(this.getPage());
+                return true;
+            }
+        }
+        return false;
+    }
 
     textModeSupported() {
         return this.settings.textModeEnabled && this.localStorageService.getProperty(LocalStorageService.DEV_MODE) === '1'

@@ -88,7 +88,7 @@ export class ViewerControlsComponent implements OnInit {
   }
 
   showDoublePageOn(): boolean {
-    return this.context !== 'text' && this.bookService.doublePageSupported() && !this.bookService.doublePageEnabled&& !this.showUnlock() && !this.bookService.showGeoreference;
+    return this.context !== 'text' && this.bookService.doublePageSupported() && !this.bookService.doublePageEnabled && !this.showUnlock() && !this.bookService.showGeoreference && this.bookService.viewerMode !== 'split';
   }
 
   doublePageOn()  {

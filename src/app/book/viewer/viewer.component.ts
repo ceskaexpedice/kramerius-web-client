@@ -482,11 +482,17 @@ export class ViewerComponent implements OnInit, OnDestroy {
   // }
 
   enterTextMode() {
+    if (this.bookService.turnOffDoublePage()) {
+      return;
+    }
     this.textLanguage = null;
     this.bookService.setViewerMode('text');
   }
 
   enterSplitMode() {
+    if (this.bookService.turnOffDoublePage()) {
+      return;
+    }
     this.bookService.setViewerMode('split');
     setTimeout(() => {
       this.controlsService.fitToScreen();
@@ -494,6 +500,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   enterScanMode() {
+    if (this.bookService.turnOffDoublePage()) {
+      return;
+    }
     this.textLanguage = null;
     this.bookService.setViewerMode('scan');
     setTimeout(() => {
@@ -503,10 +512,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   onSummarizePage() {
+    if (this.bookService.turnOffDoublePage()) {
+      return;
+    }
     this.bookService.summarize();
   }
   
   onReadPage() {
+    if (this.bookService.turnOffDoublePage()) {
+      return;
+    }
     this.bookService.readPage();
   }
 
@@ -1296,6 +1311,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   onTranslatePage() {
+    if (this.bookService.turnOffDoublePage()) {
+      return;
+    }
     const lang = localStorage.getItem('translate.language') || this.translateSrvice.currentLang || 'en';
     if (this.bookService.viewerMode == 'scan') {
       this.textLanguage = lang;
