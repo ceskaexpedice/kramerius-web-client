@@ -150,7 +150,9 @@
           color: #fff;
         }
         &.app-inactive {
-          opacity: 0.4;
+          // opacity: 0.7;
+          color: #888;
+          background: #ccc;
           cursor: default !important;
           pointer-events: none; 
         }

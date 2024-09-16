@@ -454,7 +454,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   aiActionsAvailable(): boolean {
-    return this.ai.aiAvailable();
+    return this.ai.aiAvailable() && this.bookService.isActionEnabled('text');
   }
 
   aiActionsEnabled(): boolean {

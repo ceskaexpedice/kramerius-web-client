@@ -209,7 +209,7 @@
                   matTooltipPosition="left"
                   (click)="enterTextMode()"
                   *ngIf="bookService.viewerMode == 'scan' || bookService.viewerMode == 'split'"
-                  [class.app-inactive]="bookService.serviceLoading"
+                  [class.app-inactive]="bookService.serviceLoading || !bookService.isActionEnabled('text')"
                   class="app-selection">
                   title
             </mat-icon>
