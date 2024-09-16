@@ -496,7 +496,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.bookService.setViewerMode('split');
     setTimeout(() => {
       this.controlsService.fitToScreen();
-    }, 100);
+    }, 120);
   }
 
   enterScanMode() {
@@ -507,7 +507,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.bookService.setViewerMode('scan');
     setTimeout(() => {
       this.controlsService.fitToScreen();
-    }, 100);
+    }, 120);
   }
 
 
