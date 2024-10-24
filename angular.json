@@ -122,7 +122,6 @@
       }
     }
   },
-  "defaultProject": "kramerius-client",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
