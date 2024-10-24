@@ -9,11 +9,11 @@ import { LicenceService } from '../../services/licence.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FolderService } from '../../services/folder.service';
 import { Folder } from '../../model/folder.model';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DisplayMetadataDialogComponent } from '../../dialog/display-metadata-dialog/display-metadata-dialog.component';
 import { Metadata } from '../../model/metadata.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { SearchService } from '../../services/search.service';
 
 @Component({

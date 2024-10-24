@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { AppSettings } from './../../services/app-settings';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { FolderService } from '../../services/folder.service';
 import { LocalStorageService } from '../../services/local-storage.service';

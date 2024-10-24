@@ -159,7 +159,7 @@ import { CookiebarComponent } from './shared/cookiebar/cookiebar.component';
 import { AuthComponent } from './auth/auth.component';
 import { AdvancedSearchDialogComponent } from './dialog/advanced-search-dialog/advanced-search-dialog.component';
 import { SearchHelpDialogComponent } from './dialog/search-help-dialog/search-help-dialog.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
 import { MapSeriesService } from './services/mapseries.service';
 
 import { MapViewerComponent } from './book/map-viewer/map-viewer.component';

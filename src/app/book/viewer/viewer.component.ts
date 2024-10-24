@@ -18,7 +18,7 @@ import { TtsService } from '../../services/tts.service';
 import { PageImageType } from '../../model/page.model';
 import { AiService } from '../../services/ai.service';
 import { LanguageService } from '../../services/language.service';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 import { TranslateService } from '@ngx-translate/core';
 
 declare var ol: any;

@@ -7,7 +7,7 @@ import { AppState } from './../../app.state';
 import { AnalyticsService } from '../../services/analytics.service';
 import { CompleterCmp } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { SearchHelpDialogComponent } from '../../dialog/search-help-dialog/search-help-dialog.component';
 import { AppSettings } from '../../services/app-settings';
 

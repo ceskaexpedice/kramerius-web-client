@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 import { AppSettings } from '../../services/app-settings';
 import { LicenceService } from '../../services/licence.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { AnalyticsService } from '../../services/analytics.service';
 import { LicenceDialogComponent } from '../../dialog/licence-dialog/licence-dialog.component';
 

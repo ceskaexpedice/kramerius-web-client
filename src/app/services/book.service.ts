@@ -22,7 +22,7 @@ import { LoggerService } from './logger.service';
 import { PeriodicalItem } from '../model/periodicalItem.model';
 import { LicenceService } from './licence.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
 import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
 import { OcrDialogComponent } from '../dialog/ocr-dialog/ocr-dialog.component';

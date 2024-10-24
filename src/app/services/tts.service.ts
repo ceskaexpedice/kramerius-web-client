@@ -7,7 +7,7 @@ import { Observable } from 'rxjs-compat';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from './ai.service';
 import { KrameriusApiService } from './kramerius-api.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TtsDialogComponent } from '../dialog/tts-dialog/tts-dialog.component';
 
 @Injectable()

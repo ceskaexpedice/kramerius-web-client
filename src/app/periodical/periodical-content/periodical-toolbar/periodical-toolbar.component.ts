@@ -2,7 +2,7 @@ import { PeriodicalService } from './../../../services/periodical.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { AuthService } from '../../../services/auth.service';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 
 @Component({
   selector: 'app-periodical-toolbar',

@@ -13,7 +13,7 @@ import { NotFoundError } from '../common/errors/not-found-error';
 import { HistoryService } from './history.service';
 import { AnalyticsService } from './analytics.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { SolrService } from './solr.service';
 
