@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CitationService } from '../../services/citation.service';
 import { ShareService } from '../../services/share.service';
 import { SolrService } from '../../services/solr.service';
+import { AppSettings } from '../../services/app-settings';
 
 @Component({
   templateUrl: './citation-dialog.component.html',
@@ -21,6 +22,7 @@ export class CitationDialogComponent implements OnInit {
     private citationService: CitationService,
     private shareService: ShareService,
     private snackBar: MatSnackBar,
+    private settings: AppSettings,
     private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) private data: any) { }
 
@@ -41,6 +43,13 @@ export class CitationDialogComponent implements OnInit {
         item.citation = `${citation} ${locText}: ${link}`;
         item.citationTxt = item.citation.replace(/(<([^>]+)>)/gi, "");
       });
+      if (!this.settings.k5Compat() && this.settings.citationServiceUrl2) {
+        this.citationService.getCitation2(item.uuid).subscribe((citation: string) => {
+          const link = this.shareService.getPersistentLink(item.uuid);
+          const locText = this.translate.instant("share.available_from");
+          item.citation2 = `${citation} ${locText}: ${link}`;
+        });
+      }
     }
   }
 

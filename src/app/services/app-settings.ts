@@ -91,6 +91,8 @@ export class AppSettings {
   public languages: string[] = APP_GLOBAL.languages || ['cs', 'en', 'de', 'sk', 'sl'];
 
   public citationServiceUrl = APP_GLOBAL.citationServiceUrl || "https://citace.kramerius.cloud";
+  public citationServiceUrl2 = APP_GLOBAL.citationServiceUrl2;
+  
   public textModeEnabled = !!APP_GLOBAL.textModeEnabled;
 
 
