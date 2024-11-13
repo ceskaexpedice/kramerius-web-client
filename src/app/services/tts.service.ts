@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { NotFoundError } from '../common/errors/not-found-error';
 import { AltoService } from './alto-service';
-import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs-compat';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from './ai.service';
 import { KrameriusApiService } from './kramerius-api.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { TtsDialogComponent } from '../dialog/tts-dialog/tts-dialog.component';
 
 @Injectable()

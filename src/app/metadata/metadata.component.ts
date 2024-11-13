@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { LicenceService } from '../services/licence.service';
 import { BookService } from '../services/book.service';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthorsDialogComponent } from '../dialog/authors-dialog/authors-dialog.component';
 import { CitationDialogComponent } from '../dialog/citation-dialog/citation-dialog.component';
 import { MetadataDialogComponent } from '../dialog/metadata-dialog/metadata-dialog.component';
@@ -17,7 +17,7 @@ import { Folder } from '../model/folder.model';
 import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../services/search.service';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationService } from '../services/navigation.service';
 import { SolrService } from '../services/solr.service';
 

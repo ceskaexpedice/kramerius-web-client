@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppSettings } from './app-settings';
 import { AuthService } from './auth.service';
 import { Subscription } from 'rxjs';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
 import { Router } from '@angular/router';
 

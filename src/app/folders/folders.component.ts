@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Folder } from '../model/folder.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FolderService } from '../services/folder.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { FolderDialogComponent } from '../dialog/folder-dialog/folder-dialog.component';
 import { HistoryService } from '../services/history.service';
 import { Subscription } from 'rxjs';

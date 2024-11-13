@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { Router } from '@angular/router';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 
 @Component({

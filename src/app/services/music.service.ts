@@ -12,7 +12,7 @@ import { NotFoundError } from '../common/errors/not-found-error';
 import { Router } from '@angular/router';
 import { AppSettings } from './app-settings';
 import { AnalyticsService } from './analytics.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { BasicDialogComponent } from '../dialog/basic-dialog/basic-dialog.component';
 import { NgxGalleryImage } from '@kolkov/ngx-gallery';
 

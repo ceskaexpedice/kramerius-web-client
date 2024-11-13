@@ -11,7 +11,7 @@ import { AnalyticsService } from './analytics.service';
 import { Metadata } from '../model/metadata.model';
 import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { LicenceService } from './licence.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AdvancedSearchDialogComponent } from '../dialog/advanced-search-dialog/advanced-search-dialog.component';
 import { MapSeriesService } from './mapseries.service';

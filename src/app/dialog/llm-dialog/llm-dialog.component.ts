@@ -3,7 +3,7 @@ import { ShareService } from '../../services/share.service';
 import { CitationService } from '../../services/citation.service';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { TranslateService } from '@ngx-translate/core';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 import { AiService } from '../../services/ai.service';
 import { LanguageService } from '../../services/language.service';

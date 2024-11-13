@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Folder } from './../../model/folder.model';
 import { FolderService } from './../../services/folder.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { SearchService } from './../../services/search.service';
 import { FolderConfirmDialogComponent } from '../../dialog/folder-confirm-dialog/folder-confirm-dialog.component';
 import { FolderDialogComponent } from '../../dialog/folder-dialog/folder-dialog.component';

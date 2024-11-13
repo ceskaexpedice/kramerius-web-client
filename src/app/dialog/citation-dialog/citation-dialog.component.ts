@@ -1,7 +1,7 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { CitationService } from '../../services/citation.service';
 import { ShareService } from '../../services/share.service';
@@ -18,38 +18,35 @@ export class CitationDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CitationDialogComponent>,
-    private citationService: CitationService, 
-    private shareService: ShareService, 
+    private citationService: CitationService,
+    private shareService: ShareService,
     private snackBar: MatSnackBar,
     private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) private data: any) { }
 
 
-    ngOnInit(): void {
-      this.items = this.data.metadata.getFullContext(SolrService.allDoctypesShareable);
-      console.log('CitationDialogComponent ngOnInit', this.data.metadata);
-      if (this.items.length > 0) {
-        this.changeTab(this.items[0]);
-      }
+  ngOnInit(): void {
+    this.items = this.data.metadata.getFullContext(SolrService.allDoctypesShareable);
+    if (this.items.length > 0) {
+      this.changeTab(this.items[0]);
     }
-  
-    changeTab(item) {
-      this.selection = item;
-      if (!this.selection.citation) {
-        this.citationService.getCitation(item.uuid).subscribe( (citation: string) => {
-          const link = this.shareService.getPersistentLink(item.uuid);
-          const locText = this.translate.instant("share.available_from");
-          item.citation = `${citation} ${locText}: ${link}`;
-          item.citationTxt = item.citation.replace(/(<([^>]+)>)/gi, "");
-        });
-      }
+  }
+
+  changeTab(item) {
+    this.selection = item;
+    if (!this.selection.citation) {
+      this.citationService.getCitation(item.uuid).subscribe((citation: string) => {
+        const link = this.shareService.getPersistentLink(item.uuid);
+        const locText = this.translate.instant("share.available_from");
+        item.citation = `${citation} ${locText}: ${link}`;
+        item.citationTxt = item.citation.replace(/(<([^>]+)>)/gi, "");
+      });
     }
-
-
+  }
 
   onCopied(callback) {
     if (callback && callback['isSuccess']) {
-      this.snackBar.open(<string> this.translate.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.snackBar.open(<string>this.translate.instant('common.copied_to_clipboard'), '', { duration: 200000, verticalPosition: 'bottom' });
     }
   }
 

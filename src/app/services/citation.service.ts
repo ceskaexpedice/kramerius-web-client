@@ -14,9 +14,13 @@ export class CitationService {
 
     getCitation(uuid: string): Observable<string> {
         const lang = this.translate.currentLang;
-        // const url = `${this.appSettings.citationServiceUrl}/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html&lang=${lang}&k7=${this.appSettings.version >= 7}`;
-        const url = `http://localhost:3000/citation?uuid=${uuid}&format=html&lang=${lang}`;
-        // return this.doGetText(url);
+        const url = `${this.appSettings.citationServiceUrl}/v1/kramerius?url=${this.appSettings.url}&uuid=${uuid}&format=html&lang=${lang}&k7=${this.appSettings.version >= 7}`;
+        return this.doGetText(url);
+    }
+
+    getCitation2(uuid: string): Observable<string> {
+        const lang = this.translate.currentLang;
+        const url = `https://citace.ceskadigitalniknihovna.cz/citation?uuid=${uuid}&format=html&lang=${lang}`;
         return this.http.get(url).pipe(map(response => response as string));
     }
 

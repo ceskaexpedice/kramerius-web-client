@@ -8,7 +8,7 @@ import { DOCUMENT, Location } from '@angular/common';
 import { MatomoInjector } from 'ngx-matomo';
 import { AnalyticsService } from './services/analytics.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 declare global {
   interface Window {

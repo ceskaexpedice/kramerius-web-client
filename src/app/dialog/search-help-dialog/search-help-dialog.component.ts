@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   templateUrl: './search-help-dialog.component.html',

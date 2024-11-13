@@ -7,8 +7,8 @@ import { AnalyticsService } from '../../services/analytics.service';
 import { CompleterCmp } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchHelpDialogComponent } from '../../dialog/search-help-dialog/search-help-dialog.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home-search-bar',
