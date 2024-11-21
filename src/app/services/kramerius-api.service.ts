@@ -5,7 +5,7 @@ import { Utils } from './utils.service';
 import { AppError } from './../common/errors/app-error';
 import { NotFoundError } from './../common/errors/not-found-error';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 import { UnauthorizedError } from '../common/errors/unauthorized-error';
 import { AppSettings } from './app-settings';
@@ -21,10 +21,11 @@ import { BrowseQuery } from '../browse/browse_query.model';
 import { Metadata } from '../model/metadata.model';
 import { ModsParserService } from './mods-parser.service';
 import { catchError, map } from 'rxjs/operators';
-import { Folder } from '../model/folder.model';
 
 @Injectable()
 export class KrameriusApiService {
+
+    private static IIIF_BASE_URL = 'https://iiif.digitalniknihovna.cz';
 
     private static STREAM_DC = 'DC';
     private static STREAM_MODS = 'BIBLIO_MODS';
@@ -39,8 +40,6 @@ export class KrameriusApiService {
         private settings: AppSettings,
         private mods: ModsParserService,
         private solr: SolrService) {
-        // this.http.get('/search/api/v5.0/user?shib=default').subscribe((a)=>{
-        // });
     }
 
     private handleError(error: Response) {
@@ -77,10 +76,6 @@ export class KrameriusApiService {
         return `${url}/search/api/client/v7.0`;
     }
 
-    private getK5CompatApiUrl(): string {
-        return `${this.getbaseUrl()}/search/api/v5.0`;
-    }
-
     private getApiUrl(): string {
         return this.getApiUrlForBaseUrl(this.getbaseUrl());
     }
@@ -99,14 +94,12 @@ export class KrameriusApiService {
     }
 
     getFullJpegUrl(uuid: string): string {
-        // return `${this.getbaseUrl()}/search/img?pid=${uuid}&stream=IMG_FULL&action=SCALE&scaledHeight=200`;
         if (this.settings.k5Compat()) {
             return this.getItemStreamUrl(uuid, KrameriusApiService.STREAM_JPEG);
         } else {
             return this.getItemUrl(uuid) + '/image';
         }
     }
-
 
     getThumbStreamUrl(uuid: string): string {
         if (this.settings.k5Compat()) {
@@ -273,13 +266,12 @@ export class KrameriusApiService {
     }
 
     getIiifPresentationUrl(uuid: string): string {
-        return `https://iiif.digitalniknihovna.cz/${this.settings.code}/${uuid}`;
+        return `${KrameriusApiService.IIIF_BASE_URL}/${this.settings.code}/${uuid}`;
     }
 
     getIiifPresentation(uuid: string): Observable<any> {
         return this.doGet(this.getIiifPresentationUrl(uuid));
     }
-
 
     getModsUrl(uuid: string): string {
         if (this.settings.k5Compat()) {
@@ -524,6 +516,7 @@ export class KrameriusApiService {
     private getFoldersUrl(path: string): string {
         return this.getApiUrl() + '/folders/' + path;
     }
+
     getFolders() {
         const url = this.getFoldersUrl('');
         return this.doGet(url);
