@@ -1,0 +1,31 @@
+<div class="autocompleter-search" appDropdown [ngClass]="{'focus': alwaysOpen}">
+    <form (ngSubmit)="onSubmit()" class="autocompleter-field" #inputField
+        [ngClass]="{'input-autocomplete-open': displayAutocomplete && data.length !== 0 && inputTerm.length !== 0}">
+        <label *ngIf="showSearch" for="autocompleter" class="search-icon-label">
+            <mat-icon (click)="searchClicked()" style="z-index:50" class="material-symbols-outlined action-icon">search</mat-icon>
+        </label>
+        <input 
+            #input
+            id="autocompleter" 
+            autocomplete="off" 
+            type="text" 
+            (input)="onInputChange($event)" 
+            [(ngModel)]="inputTerm"
+            name="inputTerm" 
+            [placeholder]="placeholder" 
+            tabindex="0">
+        <mat-icon *ngIf="showClear && inputTerm.length > 0" (click)="clearSearchTerm()" class="action-icon clear-icon" tabindex="0">clear</mat-icon>
+        <mat-icon class="action-icon extra-icon" *ngIf="actionIcon" tabindex="0" (click)="onActionPerformed()" [matTooltip]="actionText">{{ actionIcon }}</mat-icon>
+
+    </form>
+    <!-- condition inputTerm.length !== 0 is here for cases where user enters search term and the data for autocompleter comes after search results-->
+    <ul class="dropdown-menu" *ngIf="displayAutocomplete && data.length !== 0 && inputTerm.length !== 0"
+        (mouseover)="isAutocompleteHovered = true" (mouseleave)="isAutocompleteHovered = false">
+        <li *ngFor="let result of data; let i = index" (click)="onSearchTermClicked(result)"
+            [ngClass]="{'hovered': i === currentHoveredTermIndex && isAutocompleteHovered}">
+            <span (mouseover)="currentHoveredTerm = result; currentHoveredTermIndex = i;"
+                (mouseleave)="currentHoveredTerm = ''; currentHoveredTermIndex = undefined;"
+                [innerHTML]="getFormattedResult(result)"></span>
+        </li>
+    </ul>
+</div>

@@ -1,14 +1,13 @@
 import { AppSettings } from './../../services/app-settings';
 import { LocalStorageService } from './../../services/local-storage.service';
-import { LibrarySearchService } from './../../services/library-search.service';
 import { Router } from '@angular/router';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
-import { CompleterCmp } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchHelpDialogComponent } from '../../dialog/search-help-dialog/search-help-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { KrameriusApiService } from '../../services/kramerius-api.service';
 
 @Component({
   selector: 'app-home-search-bar',
@@ -16,41 +15,30 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./home-search-bar.component.scss']
 })
 export class HomeSearchBarComponent implements OnInit {
-
-  @Input() autocomplete;
-  @Input() input;
   accessibilityFilter: boolean;
   preselectedLicencesFilter: boolean;
-
   searchStr: string;
+  lastSearchTerm: string;
 
-  @ViewChild('completer', { static: true }) completer: CompleterCmp;
+
+  autocompleterResults: string[] = [];
 
   constructor(
-    public router: Router,
+    private router: Router,
     private translate: TranslateService,
     private dialog: MatDialog,
-    public appSettings: AppSettings,
-    public analytics: AnalyticsService,
+    private api: KrameriusApiService,
+    private analytics: AnalyticsService,
+    private settings: AppSettings,
     private snackBar: MatSnackBar,
     private localStorageService: LocalStorageService,
-    public service: LibrarySearchService) {
+    ) {
   }
 
   ngOnInit() {
     this.accessibilityFilter = this.localStorageService.publicFilterChecked();
     this.preselectedLicencesFilter = this.localStorageService.preselectedLicencesChecked();
     this.searchStr = '';
-    this.completer.fillHighlighted = false;
-  }
-
-  onSelected(event) {
-    if (event) {
-      const title = event['title'];
-      this.searchStr = title;
-      this.analytics.sendEvent('search phrase', 'home-by-selection', this.searchStr);
-      this.search();
-    }
   }
 
   showHelp() {
@@ -72,16 +60,28 @@ export class HomeSearchBarComponent implements OnInit {
     this.searchStr = '';
   }
 
-  onKeyUp(event) {
-    if (event.keyCode === 13) {
-      this.analytics.sendEvent('search phrase', 'home-by-return', this.searchStr);
-      this.search();
-    }
+  getAutocompleteResults(searchTerm: string): void {
+    this.lastSearchTerm = searchTerm;
+    // this.autocompleterResults = [];
+    console.log('getAutocompleteResults', searchTerm);
+    let publicOnly = this.localStorageService.publicFilterChecked() && this.settings.availableFilter('accessibility');
+    this.api.getSearchAutocomplete2(searchTerm, null, publicOnly).subscribe((results: string[]) => {
+        if (searchTerm == this.lastSearchTerm) {
+          console.log('==', searchTerm, this.lastSearchTerm);
+          this.autocompleterResults = results || [];
+        } else {
+          console.log('!=', searchTerm, this.lastSearchTerm);
+        }
+    });
   }
 
-  onMagnifyIconClick() {
-    this.analytics.sendEvent('search phrase', 'home-by-icon', this.searchStr);
-    this.search();
+  onSearch(searchTerm: string, from: string): void {
+    console.log('onSearch', searchTerm, from);
+    if (searchTerm) {
+      this.searchStr = searchTerm;
+      this.analytics.sendEvent('search phrase', `home-by-${from}`, this.searchStr);
+      this.search();
+    }
   }
 
   onSearchButtonClick() {
@@ -94,10 +94,10 @@ export class HomeSearchBarComponent implements OnInit {
   }
 
   onAccessibilityFilterChanged() {
-    if (this.appSettings.availableFilter('accessibility')) {
+    if (this.settings.availableFilter('accessibility')) {
       this.analytics.sendEvent('home', 'accessibility', this.accessibilityFilter + '');
       this.localStorageService.setPublicFilter(this.accessibilityFilter);
-    } else if (this.appSettings.availableFilter('access')) {
+    } else if (this.settings.availableFilter('access')) {
       this.analytics.sendEvent('home', 'access', this.accessibilityFilter + '');
       this.localStorageService.setPublicFilter(this.accessibilityFilter);
     }
@@ -109,11 +109,11 @@ export class HomeSearchBarComponent implements OnInit {
   }
 
   accessibilityFilterEnabled() {
-    return !this.appSettings.preselectedLicences && (this.appSettings.availableFilter('accessibility') || this.appSettings.availableFilter('access'));
+    return !this.settings.preselectedLicences && (this.settings.availableFilter('accessibility') || this.settings.availableFilter('access'));
   }
 
   preselectedLicencesFilterEnabled() {
-    return !!this.appSettings.preselectedLicences;
+    return !!this.settings.preselectedLicences;
   }
 
   anyFilter(): boolean {
@@ -138,13 +138,13 @@ export class HomeSearchBarComponent implements OnInit {
       params['q'] = q;
     }
     if (this.accessibilityFilterEnabled() && this.accessibilityFilter) {
-      if (this.appSettings.availableFilter('accessibility')) {
+      if (this.settings.availableFilter('accessibility')) {
         params['accessibility'] = 'public';
-      } else if (this.appSettings.availableFilter('access')) {
+      } else if (this.settings.availableFilter('access')) {
         params['access'] = 'open';
       }
     } else if (this.preselectedLicencesFilterEnabled() && this.preselectedLicencesFilter) {
-      params['licences'] = this.appSettings.preselectedLicences.join(',,');
+      params['licences'] = this.settings.preselectedLicences.join(',,');
     }
     this.router.navigate(['/search'], { queryParams: params });
   }

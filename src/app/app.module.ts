@@ -180,6 +180,7 @@ import { AiService } from './services/ai.service';
 import { TtsDialogComponent } from './dialog/tts-dialog/tts-dialog.component';
 import { LanguageService } from './services/language.service';
 import { LLMDialogComponent } from './dialog/llm-dialog/llm-dialog.component';
+import { AutocompleterModule } from './common/autocompleter/autocompleter.module';
 
 declare var APP_GLOBAL: any;
 
@@ -327,6 +328,7 @@ export function appInitializerFactory(translate: TranslateService) {
     Ng2CompleterModule,
     MatomoModule,
     MaterialModule,
+    AutocompleterModule,
     MatSlideToggleModule,
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset

@@ -877,6 +877,40 @@ export class SolrService {
         return result;
     }
 
+    searchAutocompleteResults2(solr, term: string): string[] {
+        const items = [];
+        const cache = {};
+        const titleFiled = this.field('title');
+        for (const item of solr['response']['docs']) {
+            const title = item[titleFiled];
+            if (!title || cache[title]) {
+                continue;
+            }
+            let index = title.toLowerCase().indexOf(term.toLowerCase());
+            if (index < 0) {
+                index = 1000 + title.length;
+            }
+            items.push({index: index, title: title});
+            cache[title]  = true;
+        }
+        items.sort(function(a, b) {
+            if (a.index < b.index) {
+                return -1;
+            }
+            if (a.index > b.index) {
+                return 1;
+            }
+            if (a.index === b.index) {
+                return a.title.length - b.title.length;
+            }
+        });
+        const result: string[] = [];
+        for (const item of items) {
+            result.push(item.title);
+        }
+        return result;
+    }
+
 
     buildSearchQuery(query: SearchQuery, facet: string = null) {
         let qString = this.buildQ(query.query);
