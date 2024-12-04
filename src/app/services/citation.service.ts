@@ -20,7 +20,7 @@ export class CitationService {
 
     getCitation2(uuid: string): Observable<string> {
         const lang = this.translate.currentLang;
-        const url = `${this.appSettings.citationServiceUrl2}/citation?uuid=${uuid}&format=html&lang=${lang}`;
+        const url = `${this.appSettings.citationServiceUrl2}/citation?url=${this.appSettings.url}&uuid=${uuid}&exp=iso690&format=html&lang=${lang}`;
         return this.doGetText(url);
         // return this.http.get(url).pipe(map(response => response as string));
     }

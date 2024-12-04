@@ -63,20 +63,16 @@ export class HomeSearchBarComponent implements OnInit {
   getAutocompleteResults(searchTerm: string): void {
     this.lastSearchTerm = searchTerm;
     // this.autocompleterResults = [];
-    console.log('getAutocompleteResults', searchTerm);
     let publicOnly = this.localStorageService.publicFilterChecked() && this.settings.availableFilter('accessibility');
     this.api.getSearchAutocomplete2(searchTerm, null, publicOnly).subscribe((results: string[]) => {
         if (searchTerm == this.lastSearchTerm) {
-          console.log('==', searchTerm, this.lastSearchTerm);
           this.autocompleterResults = results || [];
         } else {
-          console.log('!=', searchTerm, this.lastSearchTerm);
         }
     });
   }
 
   onSearch(searchTerm: string, from: string): void {
-    console.log('onSearch', searchTerm, from);
     if (searchTerm) {
       this.searchStr = searchTerm;
       this.analytics.sendEvent('search phrase', `home-by-${from}`, this.searchStr);
