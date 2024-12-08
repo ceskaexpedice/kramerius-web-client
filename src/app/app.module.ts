@@ -181,6 +181,7 @@ import { TtsDialogComponent } from './dialog/tts-dialog/tts-dialog.component';
 import { LanguageService } from './services/language.service';
 import { LLMDialogComponent } from './dialog/llm-dialog/llm-dialog.component';
 import { AutocompleterModule } from './common/autocompleter/autocompleter.module';
+import { ConfigService } from './services/config.service';
 
 declare var APP_GLOBAL: any;
 
@@ -193,6 +194,10 @@ export function hljsLanguages() {
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json?v2.9.2');
+}
+
+export function initializeApp(configService: ConfigService) {
+  return () => configService.loadConfig().toPromise();
 }
 
 export function appInitializerFactory(translate: TranslateService) {
