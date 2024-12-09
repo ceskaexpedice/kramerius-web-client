@@ -54,10 +54,10 @@
   </div>
 
   <div class="app-col-left">
-    <a tabindex="0" (click)="toggleFilters()" class="hide-on-med-and-up app-filter-toggle">
+    <div tabindex="0" role="button" (click)="toggleFilters()" class="hide-on-med-and-up app-filter-toggle">
       <mat-icon *ngIf="search.activeMobilePanel == 'results'">filter_alt</mat-icon>
       <mat-icon *ngIf="search.activeMobilePanel == 'filters'" class="grey-text">filter_alt_off</mat-icon>
-    </a>
+    </div>
     <span class="app-collection-title" *ngIf="search.collection" class="app-hide-on-med">
       {{ search.getCollectionTitle() }}
     </span>

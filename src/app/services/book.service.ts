@@ -1141,7 +1141,6 @@ export class BookService {
             }, autoFocus: false });
         } else if (this.pageState === BookPageState.Success) {
             if (this.iiifEnabled && this.getPage().imageType == PageImageType.TILES) {
-                // console.log(this.getPage().
                 const maxWidth = this.settings.maxIiifImageSize;
                 const maxHeight = this.settings.maxIiifImageSize;
                 let imageWidth = this.iiifImageLeftWidth || 2000;

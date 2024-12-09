@@ -15,15 +15,14 @@
     }    
   }
   .app-col-left {
-    a {
-      float: left;
-      display: block;
-      line-height: inherit;
-      margin-right: 10px;
-      height: 30px;
-      mat-icon {
-        line-height: inherit;
-      }
+    overflow: hidden;
+    height: 50px;
+    .app-filter-toggle {
+      cursor: pointer;
+      display: inline-block;
+      padding: 6px;
+      cursor: pointer;
+      color: $primary-color;
     }
     .app-collection-title {
       height: 55px;

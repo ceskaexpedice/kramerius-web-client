@@ -35,6 +35,7 @@
         <img *ngFor="let source of item.sources" class="app-card-source" src="{{ sourceLogo(source) }}" >
       </div> -->
 
+      <div class="app-card-bottom">
       <div class="app-card-access" [class]="lock.class" *ngIf="lock && !legacyLocks"> 
         <mat-icon>{{ lock.icon }}</mat-icon>
          {{ 'search.access.' + lock.access | translate}}
@@ -50,6 +51,8 @@
           {{ 'category.' + item.category | translate }}
         </div>
       </div>
+    </div>
+
     </div>
   </div>
 
