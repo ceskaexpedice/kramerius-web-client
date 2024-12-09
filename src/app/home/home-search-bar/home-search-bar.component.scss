@@ -68,13 +68,20 @@
   }
 
 
-  mat-checkbox {
-    margin-top: 8px;
-    display: block;
-    margin: 0 auto;
+  .app-search-bottom {
     max-width: 700px;
-    margin-top: 5px;
-    text-align: right;
+    padding: 0 16px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 7px;
+    .app-search-help {
+      font-size: 14px;
+      color: $app-grey-text;
+      cursor: pointer;
+    }
+    mat-checkbox {
+    }
   }
 
 }
