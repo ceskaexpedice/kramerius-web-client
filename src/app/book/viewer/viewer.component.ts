@@ -907,6 +907,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 
   updateIiifImage(uuid1: string, uuid2: string) {
+    this.bookService.updateIiifImageSize(0,0,0,0);
     let url1 = this.api.getIiifBaseUrl(uuid1);
     let url2 = !!uuid2 ? this.api.getIiifBaseUrl(uuid2) : null;
 
@@ -930,6 +931,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
         w2 = results[1]['width'];
         h2 = results[1]['height'];
       }
+      this.bookService.updateIiifImageSize(w1, h1, w2, h2);
       this.setDimensions(w1, h1, w2, h2);
       if (url2 && results.length > 1) {
         this.addIIIFImage(results[0], w1, h1, url1, this.api.getThumbStreamUrl(uuid1), 1);

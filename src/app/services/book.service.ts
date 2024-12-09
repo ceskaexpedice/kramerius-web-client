@@ -102,6 +102,11 @@ export class BookService {
 
     serviceLoading = false;
 
+    iiifImageLeftWidth = 0;
+    iiifImageLeftHeight = 0;
+    iiifImageRightWidth = 0;
+    iiifImageRightHeight = 0;
+
     constructor(private location: Location,
         private altoService: AltoService,
         private settings: AppSettings,
@@ -261,6 +266,13 @@ export class BookService {
         this.api.getItemInfo(this.id(uuid)).subscribe((info: any) => {
             this.licence = info.licence;
         });
+    }
+
+    updateIiifImageSize(w1, h1, w2, h2) {
+        this.iiifImageLeftWidth = w1;
+        this.iiifImageLeftHeight = h1;
+        this.iiifImageRightWidth = w2;
+        this.iiifImageRightHeight = h2;
     }
 
     changeSource(source: string) {
@@ -1129,9 +1141,28 @@ export class BookService {
             }, autoFocus: false });
         } else if (this.pageState === BookPageState.Success) {
             if (this.iiifEnabled && this.getPage().imageType == PageImageType.TILES) {
-                window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getPage().uuid)), '_blank');
+                // console.log(this.getPage().
+                const maxWidth = this.settings.maxIiifImageSize;
+                const maxHeight = this.settings.maxIiifImageSize;
+                let imageWidth = this.iiifImageLeftWidth || 2000;
+                let imageHeight = this.iiifImageLeftHeight || 2000;
+                let width = Math.min(maxWidth, imageWidth);
+                let height = Math.min(maxHeight, imageHeight);
+                if (imageWidth > maxWidth || imageHeight > maxHeight) {
+                    window.open(this.iiif.getScaledIiifImage(this.api.getIiifBaseUrl(this.getPage().uuid), width, height), '_blank');
+                } else {
+                    window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getPage().uuid)), '_blank');
+                }
                 if (this.getRightPage()) {
-                    window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getRightPage().uuid)), '_blank');
+                    let imageWidth = this.iiifImageRightWidth || 2000;
+                    let imageHeight = this.iiifImageRightHeight || 2000;
+                    let width = Math.min(maxWidth, imageWidth);
+                    let height = Math.min(maxHeight, imageHeight);
+                    if (imageWidth > maxWidth || imageHeight > maxHeight) {
+                        window.open(this.iiif.getScaledIiifImage(this.api.getIiifBaseUrl(this.getRightPage().uuid), width, height), '_blank');
+                    } else {
+                        window.open(this.iiif.getIiifImage(this.api.getIiifBaseUrl(this.getRightPage().uuid)), '_blank');
+                    }
                 }
             } else {
                 window.open(this.api.getFullJpegUrl(this.id(this.getPage().uuid)), '_blank');

@@ -94,7 +94,7 @@ export class AppSettings {
   public citationServiceUrl2 = APP_GLOBAL.citationServiceUrl2;
   
   public textModeEnabled = !!APP_GLOBAL.textModeEnabled;
-
+  public maxIiifImageSize = APP_GLOBAL.maxIiifImageSize || 7000;
 
   public actions = {
     'pdf': AppSettings.action('pdf', 'always'), 

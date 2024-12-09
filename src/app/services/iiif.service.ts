@@ -42,6 +42,10 @@ export class IiifService {
     return `${url}/full/max/0/default.jpg`;
   }
 
+  getScaledIiifImage(url:string, width: number, height: number): string {
+    return `${url}/full/!${width},${height}/0/default.jpg`;
+  }
+
   imageManifest(url: string): string {
     return `${url}/info.json`;
   }
