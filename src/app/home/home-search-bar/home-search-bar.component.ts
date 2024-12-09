@@ -1,13 +1,15 @@
 import { AppSettings } from './../../services/app-settings';
 import { LocalStorageService } from './../../services/local-storage.service';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchHelpDialogComponent } from '../../dialog/search-help-dialog/search-help-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
+import { SpeechRecognitionService } from '../../services/speech-recognition.service';
+import { AutocompleterComponent } from '../../common/autocompleter/autocompleter.component';
 
 @Component({
   selector: 'app-home-search-bar',
@@ -15,16 +17,20 @@ import { KrameriusApiService } from '../../services/kramerius-api.service';
   styleUrls: ['./home-search-bar.component.scss']
 })
 export class HomeSearchBarComponent implements OnInit {
+
+  @ViewChild('autocompleter', { static: true }) autocompleter: AutocompleterComponent;
+
   accessibilityFilter: boolean;
   preselectedLicencesFilter: boolean;
   searchStr: string;
   lastSearchTerm: string;
-
+  recording = false;
 
   autocompleterResults: string[] = [];
 
   constructor(
     private router: Router,
+    private speechService: SpeechRecognitionService,
     private translate: TranslateService,
     private dialog: MatDialog,
     private api: KrameriusApiService,
@@ -115,6 +121,51 @@ export class HomeSearchBarComponent implements OnInit {
   anyFilter(): boolean {
     return this.preselectedLicencesFilterEnabled() || this.accessibilityFilterEnabled();
   }
+
+  toggleRecording() {
+    this.recording = !this.recording;
+    if (this.recording) {
+      this.analytics.sendEvent('home', 'voice-search', '_start');
+      this.speechService.startRecording()
+      .then(() => console.log('Recording started'))
+      .catch(error => console.error(error));
+    } else {
+      this.analytics.sendEvent('home', 'voice-search', '_stop');
+      this.speechService.stopRecording()
+      .then((audioBlob) => {
+        return this.speechService.sendAudioToWhisper(audioBlob);
+      })
+      .then((text) => {
+        // remote . at end of text
+        text = text.replace(/\.$/, '');
+        this.searchStr = text;
+        this.analytics.sendEvent('home', 'voice-search', text);
+      })
+      .catch(error => console.error(error));
+    }
+  }
+
+
+  toggleBrowserRecording() {
+    this.analytics.sendEvent('home', 'voice-search', '_start');
+    this.speechService.useBrowserRecognition()
+    .then((text) => {
+      this.searchStr = text;
+      this.analytics.sendEvent('home', 'voice-search', text);
+      if (this.autocompleter) {
+        this.autocompleter.receiveAutofocus();
+      }
+    })
+    .catch((error) => console.error(error));
+  }
+
+  micActionIcon() {
+    if (this.speechService.speechRecognitionSupported()) {
+      return 'mic';
+    } 
+    return null;
+  }
+
 
   private search() {
     const params = { };

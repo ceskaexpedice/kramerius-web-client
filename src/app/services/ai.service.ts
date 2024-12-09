@@ -174,8 +174,6 @@ export class AiService {
     return this.models[2];
   }
  
-
-
   detectLanguage(input: string, callback: (answer: string, error?: string) => void) {
     const path = `/google/translate/detect`;
     const body = {
@@ -231,7 +229,6 @@ export class AiService {
       callback(null, error);
     });
   }
-
 
   private translateWithGoogle(input: string, targetLanguage: string, callback: (answer: string, error?: string) => void) {
     const path = `/google/translate`;

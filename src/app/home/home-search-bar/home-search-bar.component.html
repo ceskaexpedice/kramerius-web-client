@@ -1,6 +1,6 @@
 <div class="row app-home-search-bar">
   <div class="col s12">
-    <app-autocompleter [placeholder]="getPlaceholder()" [threshold]="1"
+    <!-- <app-autocompleter [placeholder]="getPlaceholder()" [threshold]="1"
       [data]="autocompleterResults" [highlightColor]="'#0276bd'" (inputTermEntered)="onSearch($event, 'return')"
       [inputClass]="'autocompleter-home'" [alwaysOpen]="true"
       (autocompleterTermEntered)="onSearch($event, 'selection')" (inputTermChanged)="getAutocompleteResults($event)"
@@ -9,6 +9,30 @@
       [autofocus]="true"
       [actionText]="'searchbar.help' | translate"
       (actionPerformed)="showHelp()"
+      (inputTermSearched)="onSearch($event, 'icon')">
+    </app-autocompleter> -->
+    <!-- <app-autocompleter [placeholder]="getPlaceholder()" [threshold]="1"
+      [data]="autocompleterResults" [highlightColor]="'#0276bd'" (inputTermEntered)="onSearch($event, 'return')"
+      [inputClass]="'autocompleter-home'" [alwaysOpen]="true"
+      (autocompleterTermEntered)="onSearch($event, 'selection')" (inputTermChanged)="getAutocompleteResults($event)"
+      [inputTerm]="searchStr" (inputTermCleared)="cleanQuery()"
+      [actionIcon]="recording ? 'stop' : 'mic'"
+      [autofocus]="true"
+      [actionText]="'Mluvte'"
+      (actionPerformed)="toggleRecording()"
+      (inputTermSearched)="onSearch($event, 'icon')">
+    </app-autocompleter> -->
+    <app-autocompleter #autocompleter
+      [placeholder]="getPlaceholder()"
+      [threshold]="1"
+      [data]="autocompleterResults" [highlightColor]="'#0276bd'" (inputTermEntered)="onSearch($event, 'return')"
+      [inputClass]="'autocompleter-home'" [alwaysOpen]="true"
+      (autocompleterTermEntered)="onSearch($event, 'selection')" (inputTermChanged)="getAutocompleteResults($event)"
+      [inputTerm]="searchStr" (inputTermCleared)="cleanQuery()"
+      [actionIcon]="micActionIcon()"
+      [autofocus]="true"
+      [actionText]="'Mluvte'"
+      (actionPerformed)="toggleBrowserRecording()"
       (inputTermSearched)="onSearch($event, 'icon')">
     </app-autocompleter>
     <mat-checkbox *ngIf="accessibilityFilterEnabled()" color="primary" (change)="onAccessibilityFilterChanged()" [(ngModel)]="accessibilityFilter">{{ 'home.public_filter' | translate }}</mat-checkbox>

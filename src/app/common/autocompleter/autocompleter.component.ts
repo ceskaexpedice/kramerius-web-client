@@ -59,9 +59,14 @@ export class AutocompleterComponent implements OnChanges, OnInit, AfterViewInit 
 
   ngAfterViewInit(): void {
     if (this.autofocus) {
-      this.renderer.selectRootElement(this.input.nativeElement).focus();
+      this.receiveAutofocus();
     }
   }
+
+  receiveAutofocus() {
+    this.renderer.selectRootElement(this.input.nativeElement).focus();
+  }
+
 
   clearSearchTerm() {
     this.inputTerm = '';
