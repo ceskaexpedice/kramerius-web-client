@@ -37,19 +37,12 @@ export class CitationDialogComponent implements OnInit {
   changeTab(item) {
     this.selection = item;
     if (!this.selection.citation) {
-      this.citationService.getCitation(item.uuid).subscribe((citation: string) => {
+      this.citationService.getCitation(item.uuid, (citation: string) => {
         const link = this.shareService.getPersistentLink(item.uuid);
         const locText = this.translate.instant("share.available_from");
         item.citation = `${citation} ${locText}: ${link}`;
         item.citationTxt = item.citation.replace(/(<([^>]+)>)/gi, "");
       });
-      if (!this.settings.k5Compat() && this.settings.citationServiceUrl2) {
-        this.citationService.getCitation2(item.uuid).subscribe((citation: string) => {
-          const link = this.shareService.getPersistentLink(item.uuid);
-          const locText = this.translate.instant("share.available_from");
-          item.citation2 = `${citation} ${locText}: ${link}`;
-        });
-      }
     }
   }
 

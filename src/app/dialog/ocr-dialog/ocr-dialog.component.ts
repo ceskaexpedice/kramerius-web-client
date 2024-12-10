@@ -41,7 +41,7 @@ export class OcrDialogComponent implements OnInit {
       return;
     }
     this.changeDetectorRef.detectChanges();
-    this.citationService.getCitation(this.data.uuid).subscribe( (citation: string) => {
+    this.citationService.getCitation(this.data.uuid, (citation: string) => {
       const link = this.shareService.getPersistentLink(this.data.uuid);
       const locText = this.translate.instant("share.available_from");
       this.citation = `${citation} ${locText}: ${link}`;
