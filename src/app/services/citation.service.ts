@@ -40,10 +40,10 @@ export class CitationService {
             if (type == 'both') {
                 const url2 = `${this.settings.citationService}/api/v1?url=${this.settings.url}&uuid=${uuid}&exp=iso690&format=html&lang=${lang}`;
                 this.doGetText(url2).subscribe((response2: string) => {
-                    callback('old<br/>' + response + '<br/><br/>new<br/>' + response2);
+                    callback(response + '<br/><br/>' + response2);
                 });
             } else {
-                callback(type + '<br/>' + response);
+                callback(response);
             }
         });
     }
