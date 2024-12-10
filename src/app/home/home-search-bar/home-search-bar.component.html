@@ -31,7 +31,6 @@
       [inputTerm]="searchStr" (inputTermCleared)="cleanQuery()"
       [actionIcon]="micActionIcon()"
       [autofocus]="true"
-      [actionText]="'Mluvte'"
       (actionPerformed)="toggleBrowserRecording()"
       (inputTermSearched)="onSearch($event, 'icon')">
     </app-autocompleter>
@@ -39,7 +38,7 @@
       <mat-checkbox *ngIf="accessibilityFilterEnabled()" color="primary" (change)="onAccessibilityFilterChanged()" [(ngModel)]="accessibilityFilter">{{ 'home.public_filter' | translate }}</mat-checkbox>
       <mat-checkbox *ngIf="preselectedLicencesFilterEnabled()" color="primary" (change)="onPreselectedLicencesFilterChanged()" [(ngModel)]="preselectedLicencesFilter">{{ 'home.preselected_licences_filter' | translate }}</mat-checkbox>
       <div class="app-search-help" (click)="showHelp()">
-        Nápověda
+        {{ 'searchbar.help' | translate }}
       </div>
     </div>
   </div>

@@ -416,6 +416,24 @@
   </div>
 
 
+  <div *ngIf="metadata.hasIdentifier('urnnbn')">
+    <h3>URN:NBN</h3>
+    <ul>
+      <li>
+        {{ metadata.identifiers['urnnbn'].join(", ") }}
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="metadata.hasIdentifier('ccnb')">
+    <h3>čČNB</h3>
+    <ul>
+      <li>
+        {{ metadata.identifiers['ccnb'].join(", ") }}
+      </li>
+    </ul>
+  </div>
+
   <div *ngIf="metadata.activePage">
     <h3>{{ 'metadata.page' | translate }}</h3>
     <ul>

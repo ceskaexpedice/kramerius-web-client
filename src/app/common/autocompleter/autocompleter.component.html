@@ -15,7 +15,7 @@
             [placeholder]="placeholder" 
             tabindex="0">
         <mat-icon *ngIf="showClear && inputTerm.length > 0" (click)="clearSearchTerm()" class="action-icon clear-icon" tabindex="0">clear</mat-icon>
-        <mat-icon class="action-icon extra-icon" *ngIf="actionIcon" tabindex="0" (click)="onActionPerformed()" [matTooltip]="actionText">{{ actionIcon }}</mat-icon>
+        <mat-icon class="action-icon extra-icon" *ngIf="actionIcon" tabindex="0" (click)="onActionPerformed()">{{ actionIcon }}</mat-icon>
 
     </form>
     <!-- condition inputTerm.length !== 0 is here for cases where user enters search term and the data for autocompleter comes after search results-->
