@@ -3,8 +3,8 @@ import { ShareService } from '../../services/share.service';
 import { CitationService } from '../../services/citation.service';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { LanguageService } from '../../services/language.service';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-ocr-dialog',
@@ -26,7 +26,7 @@ export class OcrDialogComponent implements OnInit {
     private translate: TranslateService, 
     private changeDetectorRef: ChangeDetectorRef,
     public languageService: LanguageService,
-    private snackBar: MatSnackBar,
+    private ui: UiService,
     private shareService: ShareService,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
     ) {
@@ -61,7 +61,7 @@ export class OcrDialogComponent implements OnInit {
 
   onCopied(callback) {
     if (callback && callback['isSuccess']) {
-      this.snackBar.open(<string> this.translate.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.ui.showSuccess('common.copied_to_clipboard');
     }
   }
 

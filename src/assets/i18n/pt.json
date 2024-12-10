@@ -514,7 +514,8 @@
   "share-dialog": {
     "title": "Compartilhar",
     "link": "Link persistente",
-    "social": "Compartilhe nas redes sociais"
+    "social": "Compartilhe nas redes sociais",
+    "other_options": "Outras opções"
   },
   "authors-dialog": {
     "title": "Autores",

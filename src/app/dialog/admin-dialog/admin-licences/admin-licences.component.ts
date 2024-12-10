@@ -1,10 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminApiService } from '../../../services/admin-api.service';
-import { KrameriusApiService } from '../../../services/kramerius-api.service';
-import { SolrService } from '../../../services/solr.service';
 import { AdminConfirmDialogComponent } from '../admin-confirm-dialog/admin-confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UiService } from '../../../services/ui.service';
 
 
 @Component({
@@ -25,9 +23,7 @@ export class AdminLicencesComponent implements OnInit {
     this.onUuidChanged(uuids);
   }
 
-  constructor(private api: KrameriusApiService, 
-              private solr: SolrService,
-              private snackBar: MatSnackBar,
+  constructor(private ui: UiService,
               private adminApi: AdminApiService,
               private dialog: MatDialog) { }
 
@@ -91,7 +87,7 @@ export class AdminLicencesComponent implements OnInit {
     this.state = 'progress';
     this.adminApi.removeLicence(this._uuids[index], licence.name).subscribe(() => {
       if (index + 1 >= this._uuids.length) {
-        this.snackBar.open("Odebrání licence bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
+        this.ui.showStringSuccess("Odebrání licence bylo naplánováno");
         this.licencesIn.splice(this.licencesIn.indexOf(licence), 1);
         this.licencesRest.unshift(licence);
         this.state = 'ok';
@@ -121,7 +117,7 @@ export class AdminLicencesComponent implements OnInit {
     this.state = 'progress';
     this.adminApi.addLicence(this._uuids[index], licence.name).subscribe(() => {
       if (index + 1 >= this._uuids.length) {
-        this.snackBar.open("Přidání licence bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
+        this.ui.showStringSuccess("Přidání licence bylo naplánováno");
         this.licencesRest.splice(this.licencesIn.indexOf(licence), 1);
         this.licencesIn.unshift(licence);
         this.state = 'ok';

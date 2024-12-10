@@ -503,7 +503,8 @@
   "share-dialog": {
     "title": "Deli",
     "link": "Trajni identifikator",
-    "social": "Deli na družbenih omrežjih"
+    "social": "Deli na družbenih omrežjih",
+    "other_options": "Druge možnosti"
   },
   "authors-dialog": {
     "title": "Avtorji",

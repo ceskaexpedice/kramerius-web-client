@@ -183,6 +183,7 @@ import { LLMDialogComponent } from './dialog/llm-dialog/llm-dialog.component';
 import { AutocompleterModule } from './common/autocompleter/autocompleter.module';
 import { ConfigService } from './services/config.service';
 import { SpeechRecognitionService } from './services/speech-recognition.service';
+import { UiService } from './services/ui.service';
 
 declare var APP_GLOBAL: any;
 
@@ -397,6 +398,7 @@ export function appInitializerFactory(translate: TranslateService) {
     NavigationService,
     LanguageService,
     SpeechRecognitionService,
+    UiService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,

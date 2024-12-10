@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { KrameriusApiService } from '../../../services/kramerius-api.service';
 import { SolrService } from '../../../services/solr.service';
 import { AdminConfirmDialogComponent } from '../admin-confirm-dialog/admin-confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UiService } from '../../../services/ui.service';
 
 
 @Component({
@@ -31,7 +31,7 @@ export class AdminCollectionsComponent implements OnInit {
   constructor(
     private api: KrameriusApiService, 
     private solr: SolrService,
-    private snackBar: MatSnackBar,
+    private ui: UiService,
     private adminApi: AdminApiService,
     private dialog: MatDialog) {
   }
@@ -98,8 +98,7 @@ export class AdminCollectionsComponent implements OnInit {
     if (this._uuids.length > 1) {
       for (const uuid of this._uuids) {
         this.adminApi.removeItemFromCollection(col.uuid, uuid).subscribe((result) => {
-          // console.log('result', result);
-          this.snackBar.open("Odstranění objektů ze sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
+          this.ui.showStringSuccess("Odstranění objektů ze sbírky bylo naplánováno");
           this.state = 'ok';
         });
       }
@@ -107,27 +106,11 @@ export class AdminCollectionsComponent implements OnInit {
       this.adminApi.removeItemFromCollection(col.uuid, this._uuids[0]).subscribe(() => {
         this.collectionsIn.splice(this.collectionsIn.indexOf(col), 1);
         this.collectionsRest.unshift(col);
-        this.snackBar.open("Odstranění objektu ze sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
+        this.ui.showStringSuccess("Odstranění objektu ze sbírky bylo naplánováno");
         this.state = 'ok';
       });
     }
   }
-
-  // addToCollection(col: any, index = 0) {
-  //   this.state = 'progress';
-  //   this.adminApi.addItemToCollection(col.uuid, this._uuids[index]).subscribe(() => {
-  //     if (index + 1 >= this._uuids.length) {
-  //       this.collectionsRest.splice(this.collectionsRest.indexOf(col), 1);
-  //       if (this._uuids.length == 1) {
-  //         this.collectionsIn.unshift(col);
-  //       }
-  //       this.snackBar.open("Přidání objektu do sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
-  //       this.state = 'ok';
-  //     } else {
-  //       this.addToCollection(col, index + 1);
-  //     }
-  //   });
-  // }
 
   addToCollectionDialog(col: any) {
     console.log('addToCollectionDialog');
@@ -154,7 +137,7 @@ export class AdminCollectionsComponent implements OnInit {
         this.collectionsRest.splice(this.collectionsRest.indexOf(col), 1);
         this.collectionsIn.unshift(col);
       }
-      this.snackBar.open("Přidání objektu do sbírky bylo naplánováno", '', { duration: 3000, verticalPosition: 'bottom' });
+      this.ui.showStringSuccess("Přidání objektu do sbírky bylo naplánováno");
       this.state = 'ok';
     });
   }

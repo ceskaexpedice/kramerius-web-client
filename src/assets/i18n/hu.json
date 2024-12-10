@@ -512,7 +512,8 @@
   "share-dialog": {
     "title": "Ossza meg",
     "link": "Állandó kapcsolat",
-    "social": "Oszd meg a közösségi médiában"
+    "social": "Oszd meg a közösségi médiában",
+    "other_options": "Más lehetőségek"
   },
   "authors-dialog": {
     "title": "Szerzői",

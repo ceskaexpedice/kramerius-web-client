@@ -509,7 +509,8 @@
     "share-dialog": {
       "title": "Zdieľať",
       "link": "Odkaz na zdieľanie",
-      "social": "Zdieľať na sociálnych sieťach"
+      "social": "Zdieľať na sociálnych sieťach",
+      "other_options": "Iné možnosti"
     },
     "authors-dialog": {
       "title": "Informácie o autoroch",

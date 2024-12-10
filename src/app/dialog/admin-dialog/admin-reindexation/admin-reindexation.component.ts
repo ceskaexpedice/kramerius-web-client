@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminApiService } from '../../../services/admin-api.service';
+import { UiService } from '../../../services/ui.service';
 
 @Component({
   selector: 'app-admin-reindexation',
@@ -20,7 +20,7 @@ export class AdminReindexationComponent implements OnInit {
   }
 
   constructor(
-    private snackBar: MatSnackBar,
+    private ui: UiService,
     private adminApi: AdminApiService) {
   }
 
@@ -37,7 +37,7 @@ export class AdminReindexationComponent implements OnInit {
     this.state = 'progress';
     this.adminApi.reindex(this._uuids[index], this.type).subscribe(() => {
       if (index + 1 >= this._uuids.length) {
-        this.snackBar.open("Reindexace byla naplánována", '', { duration: 3000, verticalPosition: 'bottom' });
+        this.ui.showStringSuccess("Reindexace byla naplánována");
         this.state = 'ok';
       } else {
         this.apply(index + 1);

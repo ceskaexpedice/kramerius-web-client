@@ -13,8 +13,8 @@ import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy
 import { MatDialog } from '@angular/material/dialog';
 import { DisplayMetadataDialogComponent } from '../../dialog/display-metadata-dialog/display-metadata-dialog.component';
 import { Metadata } from '../../model/metadata.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SearchService } from '../../services/search.service';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-document-card',
@@ -44,8 +44,7 @@ export class DocumentCardComponent implements OnInit {
               private _sanitizer: DomSanitizer,
               public folderService: FolderService,
               private dialog: MatDialog,
-              private snackBar: MatSnackBar,
-              private searchService: SearchService) { }
+              private ui: UiService) { }
 
   ngOnInit() {
     this.init();
@@ -59,7 +58,7 @@ export class DocumentCardComponent implements OnInit {
   onLike(folder: Folder) {
     this.folderService.like(folder, this.item.uuid);
     this.openSnackBar(folder.name);
-    console.log('onLike', folder, this.item.uuid);
+    // console.log('onLike', folder, this.item.uuid);
   }
   checkFolders() {
     if (!this.folderService.folders) {
@@ -69,7 +68,7 @@ export class DocumentCardComponent implements OnInit {
   
   openSnackBar(name: string) {
     const message = <string> this.translate.instant('folders.liked') + ' ' + name;
-    this.snackBar.open(message, '', { duration: 2000, verticalPosition: 'bottom' });
+    this.ui.showStringSuccess(message);
   }
   onDislike(folder: Folder) {
     this.folderService.dislike(folder, this.item.uuid);
@@ -78,7 +77,7 @@ export class DocumentCardComponent implements OnInit {
   }
   onNewFolder(name: string) {
     this.menu.closeMenu();
-    console.log('onNewFolder', name);
+    // console.log('onNewFolder', name);
     this.folderService.addFolderAndItem(name, this.item.uuid);
   }
 

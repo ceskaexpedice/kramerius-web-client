@@ -1,10 +1,11 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ShareService } from '../../services/share.service';
 import { SolrService } from '../../services/solr.service';
-import { TranslateService } from '@ngx-translate/core';
+import { KrameriusApiService } from '../../services/kramerius-api.service';
+import { IiifService } from '../../services/iiif.service';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   templateUrl: './share-dialog.component.html',
@@ -18,8 +19,9 @@ export class ShareDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ShareDialogComponent>,
     private shareService: ShareService,
-    private translate: TranslateService,
-    private snackBar: MatSnackBar,
+    private api: KrameriusApiService,
+    private iiif: IiifService,
+    private ui: UiService,
     @Inject(MAT_DIALOG_DATA) private data: any) { }
 
 
@@ -49,6 +51,17 @@ export class ShareDialogComponent implements OnInit {
     }
   }
 
+  iiifUrl(): string {
+    if (!this.selection) {
+      return '';
+    }
+    if (this.selection.type === 'page') {
+      return this.iiif.imageManifest(this.api.getIiifBaseUrl(this.selection.uuid));
+    } else {
+      return this.api.getIiifPresentationUrl(this.selection.uuid);
+    }
+  }
+
   changeTab(item) {
     this.selection = item;
   }
@@ -75,7 +88,7 @@ export class ShareDialogComponent implements OnInit {
 
   onCopied(callback) {
     if (callback && callback['isSuccess']) {
-      this.snackBar.open(<string> this.translate.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.ui.showSuccess('common.copied_to_clipboard');
     }
   }
 

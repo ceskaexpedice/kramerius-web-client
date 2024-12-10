@@ -512,7 +512,8 @@
   "share-dialog": {
     "title": "Dalintis",
     "link": "Nuolatinė nuoroda",
-    "social": "Pasidalinkite socialiniuose tinkluose"
+    "social": "Pasidalinkite socialiniuose tinkluose",
+    "other_options": "Kitos galimybės"
   },
   "authors-dialog": {
     "title": "Autoriai",

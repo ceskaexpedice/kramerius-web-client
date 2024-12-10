@@ -1,15 +1,15 @@
 import { AppSettings } from './../../services/app-settings';
 import { LocalStorageService } from './../../services/local-storage.service';
 import { Router } from '@angular/router';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchHelpDialogComponent } from '../../dialog/search-help-dialog/search-help-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { SpeechRecognitionService } from '../../services/speech-recognition.service';
 import { AutocompleterComponent } from '../../common/autocompleter/autocompleter.component';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-home-search-bar',
@@ -36,7 +36,7 @@ export class HomeSearchBarComponent implements OnInit {
     private api: KrameriusApiService,
     private analytics: AnalyticsService,
     private settings: AppSettings,
-    private snackBar: MatSnackBar,
+    private ui: UiService,
     private localStorageService: LocalStorageService,
     ) {
   }
@@ -172,12 +172,12 @@ export class HomeSearchBarComponent implements OnInit {
     let q = this.searchStr;
     if (q == '!turnDevModeOn') {
       this.localStorageService.setProperty(LocalStorageService.DEV_MODE, '1');
-      this.snackBar.open(<string> this.translate.instant('DEV MODE ON'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.ui.showStringSuccess('DEV MODE ON');
       this.searchStr = "";
       return;
     } else if (q == '!turnDevModeOff') {
       this.localStorageService.setProperty(LocalStorageService.DEV_MODE, '0');
-      this.snackBar.open(<string> this.translate.instant('DEV MODE OFF'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.ui.showStringSuccess('DEV MODE OFF');
       this.searchStr = "";
       return;
     }

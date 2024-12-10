@@ -509,7 +509,8 @@
     "share-dialog": {
       "title": "Weiterleiten",
       "link": "Von",
-      "social": "Weiterleiten"
+      "social": "Weiterleiten",
+      "other_options": "Andere Optionen"
     },
     "authors-dialog": {
       "title": "Informationen über den/die Geistigen Schöpfer",

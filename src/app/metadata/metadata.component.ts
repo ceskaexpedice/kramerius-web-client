@@ -17,9 +17,9 @@ import { Folder } from '../model/folder.model';
 import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../services/search.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationService } from '../services/navigation.service';
 import { SolrService } from '../services/solr.service';
+import { UiService } from '../services/ui.service';
 
 @Component({
   selector: 'app-metadata',
@@ -53,7 +53,7 @@ export class MetadataComponent implements OnInit {
               public auth: AuthService,
               public settings: AppSettings,
               public folderService: FolderService,
-              private snackBar: MatSnackBar,
+              private ui: UiService,
               public solrService: SolrService) {
                 this.allDoctypes = SolrService.allDoctypes;
               }
@@ -176,7 +176,7 @@ export class MetadataComponent implements OnInit {
 
   openSnackBar(name: string) {
     const message = <string> this.translate.instant('folders.liked') + ' ' + name;
-    this.snackBar.open(message, '', { duration: 2000, verticalPosition: 'bottom' });
+    this.ui.showStringSuccess(message);
   }
 
   onNewFolder(name: string) {

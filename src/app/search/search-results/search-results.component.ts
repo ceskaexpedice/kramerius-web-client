@@ -4,13 +4,13 @@ import { Component, OnInit } from '@angular/core';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { AppSettings } from './../../services/app-settings';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { FolderService } from '../../services/folder.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { AuthService } from '../../services/auth.service';
 import { NavigationService } from '../../services/navigation.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-search-results',
@@ -25,7 +25,7 @@ export class SearchResultsComponent implements OnInit {
               private krameriusApiService: KrameriusApiService,
               private settings: AppSettings,
               private _sanitizer: DomSanitizer,
-              private snackBar: MatSnackBar,
+              private ui: UiService,
               private localStorageService: LocalStorageService,
               private folderService: FolderService,
               private authService: AuthService,
@@ -61,7 +61,7 @@ export class SearchResultsComponent implements OnInit {
 
   onCopied(callback) {
     if (callback && callback['isSuccess']) {
-      this.snackBar.open(<string> this.translate.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.ui.showSuccess('common.copied_to_clipboard');
     }
   }
   getSnapshot() {

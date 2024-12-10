@@ -512,7 +512,8 @@
   "share-dialog": {
     "title": "Jaga",
     "link": "Püsiv link",
-    "social": "Jaga sotsiaalmeedias"
+    "social": "Jaga sotsiaalmeedias",
+    "other_options": "Muud valikud"
   },
   "authors-dialog": {
     "title": "Autorid",

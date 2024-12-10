@@ -512,7 +512,8 @@
   "share-dialog": {
     "title": "Share",
     "link": "Persistent link",
-    "social": "Share on social media"
+    "social": "Share on social media",
+    "other_options": "Other options"
   },
   "authors-dialog": {
     "title": "Authors",

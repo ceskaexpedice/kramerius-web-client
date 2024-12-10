@@ -512,7 +512,8 @@
   "share-dialog": {
     "title": "Dela med sig",
     "link": "Beständig länk",
-    "social": "Dela på sociala medier"
+    "social": "Dela på sociala medier",
+    "other_options": "Andra alternativ"
   },
   "authors-dialog": {
     "title": "Författare",

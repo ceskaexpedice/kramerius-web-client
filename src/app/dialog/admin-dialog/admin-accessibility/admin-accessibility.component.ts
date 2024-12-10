@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminApiService } from '../../../services/admin-api.service';
+import { UiService } from '../../../services/ui.service';
 
 @Component({
   selector: 'app-admin-accessibility',
@@ -21,7 +21,7 @@ export class AdminAccessibilityComponent implements OnInit {
   }
 
   constructor(
-    private snackBar: MatSnackBar,
+    private ui: UiService,
     private adminApi: AdminApiService) {
   }
 
@@ -39,7 +39,7 @@ export class AdminAccessibilityComponent implements OnInit {
     this.state = 'progress';
     this.adminApi.changeAccessibility(this._uuids[index], this.scope, this.accessibility).subscribe(() => {
       if (index + 1 >= this._uuids.length) {
-        this.snackBar.open("Změna viditelnosti byla naplánována", '', { duration: 3000, verticalPosition: 'bottom' });
+        this.ui.showStringSuccess("Změna viditelnosti byla naplánována");
         this.state = 'ok';
       } else {
         this.apply(index + 1);

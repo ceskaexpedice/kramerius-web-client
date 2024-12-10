@@ -27,6 +27,12 @@
       <img alt="Twitter" tabindex="0" src="/assets/img/ic_share_twitter.png" (click)="share('twitter')">
     </div>
 
+    <div class="app-label">{{ 'share-dialog.other_options' | translate }}</div>
+
+    <div class="app-other">
+      <img alt="IIIF" tabindex="0" src="/assets/img/ic_share_iiif.png" ngxClipboard [cbContent]="iiifUrl()" (cbOnSuccess)="onCopied($event)" [matTooltip]="'common.copy_to_clipboard' | translate">
+    </div>
+
   </div>
       
 

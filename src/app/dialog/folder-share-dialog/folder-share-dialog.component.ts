@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ShareService } from '../../services/share.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Folder } from '../../model/folder.model';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-folder-share-dialog',
@@ -16,7 +16,7 @@ export class FolderShareDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<FolderShareDialogComponent>,
     private shareService: ShareService,
     private translate: TranslateService,
-    private snackBar: MatSnackBar,
+    private ui: UiService,
     @Inject(MAT_DIALOG_DATA) private data: any
   ) { }
 
@@ -51,7 +51,7 @@ export class FolderShareDialogComponent implements OnInit {
 
   onCopied(callback) {
     if (callback && callback['isSuccess']) {
-      this.snackBar.open(<string> this.translate.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.ui.showSuccess('common.copied_to_clipboard');
     }
   }
 

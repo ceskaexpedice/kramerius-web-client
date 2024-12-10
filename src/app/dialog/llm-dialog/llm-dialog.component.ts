@@ -3,11 +3,11 @@ import { ShareService } from '../../services/share.service';
 import { CitationService } from '../../services/citation.service';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 import { AiService } from '../../services/ai.service';
 import { LanguageService } from '../../services/language.service';
 import { marked } from 'marked';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-llm-dialog',
@@ -45,7 +45,7 @@ export class LLMDialogComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     public languageService: LanguageService,
     private translateSrvice: TranslateService,
-    private snackBar: MatSnackBar,
+    private ui: UiService,
     public ai: AiService,
     private shareService: ShareService,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
@@ -160,7 +160,7 @@ export class LLMDialogComponent implements OnInit {
 
   onCopied(callback) {
     if (callback && callback['isSuccess']) {
-      this.snackBar.open(<string> this.translate.instant('common.copied_to_clipboard'), '', { duration: 2000, verticalPosition: 'bottom' });
+      this.ui.showSuccess('common.copied_to_clipboard');
     }
   }
 

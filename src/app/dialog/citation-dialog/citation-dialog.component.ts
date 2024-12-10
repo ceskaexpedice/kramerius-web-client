@@ -1,12 +1,12 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { CitationService } from '../../services/citation.service';
 import { ShareService } from '../../services/share.service';
 import { SolrService } from '../../services/solr.service';
 import { AppSettings } from '../../services/app-settings';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   templateUrl: './citation-dialog.component.html',
@@ -21,7 +21,7 @@ export class CitationDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CitationDialogComponent>,
     private citationService: CitationService,
     private shareService: ShareService,
-    private snackBar: MatSnackBar,
+    private ui: UiService,
     private settings: AppSettings,
     private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) private data: any) { }
@@ -55,7 +55,7 @@ export class CitationDialogComponent implements OnInit {
 
   onCopied(callback) {
     if (callback && callback['isSuccess']) {
-      this.snackBar.open(<string>this.translate.instant('common.copied_to_clipboard'), '', { duration: 200000, verticalPosition: 'bottom' });
+      this.ui.showSuccess('common.copied_to_clipboard');
     }
   }
 

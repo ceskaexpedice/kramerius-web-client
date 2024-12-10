@@ -518,7 +518,8 @@
   "share-dialog": {
     "title": "Udział",
     "link": "Trwałe łącze",
-    "social": "Udostępnij w mediach społecznościowych"
+    "social": "Udostępnij w mediach społecznościowych",
+    "other_options": "Inne opcje"
   },
   "authors-dialog": {
     "title": "Autorski",

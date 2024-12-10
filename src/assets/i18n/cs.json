@@ -512,7 +512,8 @@
   "share-dialog": {
     "title": "Sdílet",
     "link": "Odkaz pro sdílení",
-    "social": "Sdílet na sociálních sítích"
+    "social": "Sdílet na sociálních sítích",
+    "other_options": "Další možnosti"
   },
   "authors-dialog": {
     "title": "Informace o autorech",

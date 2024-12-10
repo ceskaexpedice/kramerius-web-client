@@ -512,7 +512,8 @@
   "share-dialog": {
     "title": "分享",
     "link": "持久链接",
-    "social": "在社交媒体上分享"
+    "social": "在社交媒体上分享",
+    "other_options": "其他选项"
   },
   "authors-dialog": {
     "title": "作者",
