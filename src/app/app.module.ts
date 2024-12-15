@@ -184,6 +184,7 @@ import { AutocompleterModule } from './common/autocompleter/autocompleter.module
 import { ConfigService } from './services/config.service';
 import { SpeechRecognitionService } from './services/speech-recognition.service';
 import { UiService } from './services/ui.service';
+import { SimilarityDialogComponent } from './dialog/similarity-dialog/similarity-dialog.component';
 
 declare var APP_GLOBAL: any;
 
@@ -321,7 +322,8 @@ export function appInitializerFactory(translate: TranslateService) {
     CuratorListsComponent,
     LicenceWindowComponent,
     CuttingCardComponent,
-    TtsDialogComponent
+    TtsDialogComponent,
+    SimilarityDialogComponent
   ],
   imports: [
     BrowserModule,

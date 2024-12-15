@@ -95,6 +95,8 @@ export class AppSettings {
   public citationServiceType = APP_GLOBAL.citationServiceType || "old";
   public textModeEnabled = !!APP_GLOBAL.textModeEnabled;
   public maxIiifImageSize = APP_GLOBAL.maxIiifImageSize || 7000;
+  public similaritySearchIndex = APP_GLOBAL.similaritySearchIndex;
+
 
   public actions = {
     'pdf': AppSettings.action('pdf', 'always'), 

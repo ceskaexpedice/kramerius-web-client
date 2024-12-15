@@ -78,6 +78,15 @@
             list
       </mat-icon>
 
+      <mat-icon (click)="onSimilaritySearchSelection()"
+            matTooltipPosition="right"
+            *ngIf="similaritySearchEnabled()"
+            class="app-type-ai"
+            [class.app-inactive]="bookService.serviceLoading"
+            [matTooltip]="'Najít podobné'">
+            search
+      </mat-icon>
+
       <mat-icon (click)="cancelSelection()"
             matTooltipPosition="right"
             class="app-type-cancel"

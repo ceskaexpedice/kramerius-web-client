@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class AiService {
 
   private baseUrl = 'https://api.trinera.cloud/api';
+  private embeddingModel = 'text-embedding-3-small';
 
   private temperature = 0;
   private maxTokens = 1000;
@@ -91,6 +92,10 @@ export class AiService {
     return this.roles.includes('TESTER');
   }  
 
+  similaritySearchEnabled(): boolean {
+    return this.aiAvailable() && this.testActionsEnabled() && !!this.settings.similaritySearchIndex;
+  }
+  
   reloadAIUser(callback: (response: any) => void) {
     let token;
     if (this.settings.ai && this.auth.isLoggedIn()) {
@@ -207,6 +212,53 @@ export class AiService {
       this.askGemini(input, instructions, model, callback);
     }
   }
+
+  getEmbedding(input: string, callback: (answer: number[], error?: string) => void) {
+    const path = '/openai/embeddings';
+    const body = {
+      input: input,
+      model: this.embeddingModel
+    };
+    this.post(path, body, (response: any) => {
+      const vector = response['data'][0]['embedding'];
+      callback(vector);
+    }, (error: string) => {
+      callback(null, error);
+    });
+  }
+
+  queryVector(vector: number[], topK: number, filter: any = {}, callback: (answer: number[], error?: string) => void) {
+    const path = `/pinecone/query/${this.settings.similaritySearchIndex}`;
+    const body = {
+      vector: vector,
+      topK: topK,
+      filter : filter,
+      include_metadata: true
+    };
+    this.post(path, body, (response: any) => {
+      callback(response);
+    }, (error: string) => {
+      callback(null, error);
+    });
+  }
+
+
+  findSimilarTexts(input: string, count: number, callback: (answer: any[], error?: string) => void) {
+    this.getEmbedding(input, (vector, error) => {
+      if (error) {
+        callback(null, error);
+        return;
+      }
+      this.queryVector(vector, count, {}, (response, error) => {
+        if (error) {
+          callback(null, error);
+          return;
+        }
+        callback(response);
+      });
+    });
+  }
+
 
   showAiError(error: string) {
     this.dialog.open(BasicDialogComponent, { data: {

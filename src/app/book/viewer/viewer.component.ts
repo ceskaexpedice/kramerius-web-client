@@ -477,6 +477,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.bookService.summarize(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
+  onSimilaritySearchSelection() {
+    this.bookService.similaritySearch(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
+  }
+
+  similaritySearchEnabled(): boolean {
+    return this.ai.similaritySearchEnabled();
+  }
+
   // onPageOcr() {
   //   this.bookService.showOcr();
   // }

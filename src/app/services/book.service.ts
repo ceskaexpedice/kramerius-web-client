@@ -34,6 +34,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 import { AiService } from './ai.service';
 import { LLMDialogComponent } from '../dialog/llm-dialog/llm-dialog.component';
+import { SimilarityDialogComponent } from '../dialog/similarity-dialog/similarity-dialog.component';
 
 @Injectable()
 export class BookService {
@@ -968,6 +969,24 @@ export class BookService {
             action: 'summarize'
         };
         this.bottomSheet.open(LLMDialogComponent, { data: data });
+    }
+
+    similaritySearch(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        if (!this.ai.checkAiActionsEnabled()) { return; }
+        this.serviceLoading = true
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.getAltoText(uuid, (text) => {
+            this.serviceLoading = false;
+            if (text) {
+                this.ai.findSimilarTexts(text, 60, (result, error) => {
+                    if (error) {
+                        this.ai.showAiError(error);
+                    } else {
+                       this.dialog.open(SimilarityDialogComponent, { data: result , autoFocus: false });
+                    }
+                });
+            }
+        }, false, extent, width, height);
     }
 
 

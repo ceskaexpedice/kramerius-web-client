@@ -1,0 +1,64 @@
+@import './src/variables.scss';
+
+.app-similarity-dialog {
+  max-width: 1300px;
+  width: calc(100vw - 50px);
+  padding: 20px;
+  height: calc(100vh - 50px);
+    // display: flex;
+    // flex-direction: column;
+    // a {
+    //   color: #707070;
+    //   text-decoration: none;
+    //   .app-title {
+    //     font-size: 16px;
+    //     color: #707070;
+    //   }
+    //   .app-date {
+    //     font-size: 12px;
+    //     color: #707070;
+    //   }
+    //   img {
+    //     width: 200px;
+    //     margin-right: 10px;
+    //   }
+    // }
+
+  
+  .app-grid-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .app-image {
+    max-width: 100%;
+    max-height: calc(100% - 50px); // Space for title and date
+    object-fit: cover;
+  }
+  
+  .app-details {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 8px;
+    background-color: rgba(213, 213, 213, 0.6); // Semi-transparent background
+    color: #333;
+    text-align: center;
+  }
+  
+  .app-details h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+  
+  .app-details p {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+  
+}
