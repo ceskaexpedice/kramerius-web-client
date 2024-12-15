@@ -978,7 +978,7 @@ export class BookService {
         this.getAltoText(uuid, (text) => {
             this.serviceLoading = false;
             if (text) {
-                this.ai.findSimilarTexts(text, 60, (result, error) => {
+                this.ai.findSimilarTexts(text, 60, {}, (result, error) => {
                     if (error) {
                         this.ai.showAiError(error);
                     } else {

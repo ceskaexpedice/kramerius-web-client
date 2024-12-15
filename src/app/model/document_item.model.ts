@@ -32,6 +32,7 @@ export class DocumentItem {
     sources: string[] = [];
     originUrl: string;
     index: number;
+    thumbnail: string;
 
     selected: boolean = false;
     licence: string;
@@ -48,6 +49,8 @@ export class DocumentItem {
         } else if (this.doctype === 'collection') {
             this.url = prefix + '/collection/' + this.uuid;
         } else if (this.doctype === 'page') {
+            this.url = prefix + '/uuid/' + this.uuid;
+        } else if (this.doctype === 'chunk') {
             this.url = prefix + '/uuid/' + this.uuid;
         } else {
             this.url = prefix + '/view/' + this.uuid;

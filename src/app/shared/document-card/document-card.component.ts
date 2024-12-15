@@ -123,7 +123,9 @@ export class DocumentCardComponent implements OnInit {
 
   private init() {
     let url = '';
-    if (this.item.library) {
+    if (this.item.thumbnail) {
+      url = this.item.thumbnail;
+    } else if (this.item.library) {
       const krameriusUrl = this.settings.getUrlByCode(this.item.library);
       url = this.krameriusApiService.getThumbUrlForKramerius(this.item.uuid, krameriusUrl);
     } else {

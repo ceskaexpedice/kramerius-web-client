@@ -18,6 +18,7 @@ import { MapSeriesService } from './mapseries.service';
 import { Observable, Subject, forkJoin } from 'rxjs';
 import { FolderService } from './folder.service';
 import { Cutting } from '../model/cutting';
+import { AiService } from './ai.service';
 
 
 @Injectable()
@@ -87,6 +88,7 @@ export class SearchService {
         private analytics: AnalyticsService,
         private localStorageService: LocalStorageService,
         private api: KrameriusApiService,
+        private ai: AiService,
         private settings: AppSettings,
         private dialog: MatDialog,
         private folderService: FolderService) {
@@ -755,6 +757,46 @@ export class SearchService {
         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
             this.numberOfResults = this.solr.numberOfSearchResults(response);
             this.results = this.solr.searchResultItems(response, this.query);
+
+            const filter = {
+                'source': 'mzk'
+            };
+            if (this.query.isYearRangeSet()) {
+                filter["year_end"] = {
+                    "$gte": this.query.from,
+                    "$lte": this.query.to
+                }
+            }
+
+            if (this.results.length < 60 && this.ai.similaritySearchEnabled()) {
+                console.log('should invoke semantic search', this.query.getRawQ());
+                this.ai.findSimilarTexts(this.query.getRawQ(), 60, filter, (result, error) => {
+                    if (error) {
+                        this.ai.showAiError(error);
+                    } else {
+                        for (const item of result['matches']) {
+                            const score = item['score'];
+                            console.log('score', score);
+                            const m = item['metadata'];
+                            console.log('metadata', m);
+                            let di = new DocumentItem();
+                            di.uuid = m['page_uuid'];
+                            di.date = m['date'];
+                            di.title = m['root_title'];
+                            di.description = m['content'];
+                            di.doctype = m['periodical'];
+                            di.doctype = 'chunk';
+                            di.thumbnail = `https://api.kramerius.mzk.cz/search/iiif/${m.page_uuid}/${m.bb}/max/0/default.jpg`;
+                            this.results.push(di);
+                            di.resolveUrl(this.settings.getPathPrefix());
+                            di.params = { 'bb': m['bb'] };
+                        }
+                    }
+                });
+
+            }
+
+
         } else {
             this.numberOfResults = this.solr.numberOfResults(response);
             this.results = this.solr.documentItems(response);

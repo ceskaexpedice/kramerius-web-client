@@ -243,13 +243,13 @@ export class AiService {
   }
 
 
-  findSimilarTexts(input: string, count: number, callback: (answer: any[], error?: string) => void) {
+  findSimilarTexts(input: string, count: number, filter: any, callback: (answer: any[], error?: string) => void) {
     this.getEmbedding(input, (vector, error) => {
       if (error) {
         callback(null, error);
         return;
       }
-      this.queryVector(vector, count, {}, (response, error) => {
+      this.queryVector(vector, count, filter, (response, error) => {
         if (error) {
           callback(null, error);
           return;
