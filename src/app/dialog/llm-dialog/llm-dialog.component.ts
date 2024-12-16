@@ -53,15 +53,21 @@ export class LLMDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loading = true;
     this.language = localStorage.getItem('summary.language') || this.translateSrvice.currentLang;
-    console.log("000000", this.data);
     if (this.data.action === 'summarize') {
       this.title = this.languageService.getSummary(this.language);
       this.model = this.ai.getDefaultModel();
       this.modelInUse = this.ai.getDefaultModel();
       this.aiTestActionsEnabled = this.ai.testActionsEnabled();
     }
+    if (this.data.action === 'chat') {
+      this.model = this.ai.getDefaultModel();
+      this.modelInUse = this.ai.getDefaultModel();
+      this.aiTestActionsEnabled = this.ai.testActionsEnabled();
+      this.originalSourceText = this.data.content;
+      return;
+    }
+    this.loading = true;
     this.ai.translate(null, this.data.content, this.language, (answer, error) => {
       if (error) {
         this.loading = false;
@@ -77,7 +83,6 @@ export class LLMDialogComponent implements OnInit {
         this.loading = false;
       }
     });
-
     if (!this.data.showCitation) {
       return;
     }
@@ -124,6 +129,9 @@ export class LLMDialogComponent implements OnInit {
   }
 
   regenerate() {
+    if (this.data.action === 'chat' && !this.customInstructions) {
+      return;
+    }
     this.loading = true;
     this.modelInUse = this.model;
     const instruction = this.customInstructions || this.languageService.getSummaryPrompt(this.language);
@@ -137,13 +145,17 @@ export class LLMDialogComponent implements OnInit {
       this.setText('<p>' + marked.parse(answer) + '</p>');
       this.originalText = this.ocrTxt;
       if (this.customInstructionsInUse) {
-        this.title = this.customInstructionsInUse.substring(0, 80) + (this.customInstructionsInUse.length > 80 ? '...' : '');
+        this.title = this.customInstructionsInUse.substring(0, 125) + (this.customInstructionsInUse.length > 125 ? '...' : '');
       }
       this.loading = false;
     };
-    this.ai.askLLM(this.originalSourceText, instruction, this.model['provider'], this.model['code'], callback);
+    let maxTokens = 1000;
+    if (this.data.action === 'chat') {
+      maxTokens = 5000;
+    }
+    this.ai.askLLM(this.originalSourceText, instruction, this.model['provider'], this.model['code'], callback, maxTokens);
   }
-
+  // Přepiš text strany starých novin, nejdřív uveď tučně názvy článku a pod nimi text, kde opravíš OCR chyby, ale jinak nebudeš text upravovat
   setText(text: string) {
     this.ocrTxt = text;
     this.copyText = text.replace(/<\/?[^>]+(>|$)/g, "");

@@ -14,7 +14,6 @@ export class AiService {
   private embeddingModel = 'text-embedding-3-small';
 
   private temperature = 0;
-  private maxTokens = 1000;
 
   userSubscription: Subscription;
 
@@ -202,14 +201,14 @@ export class AiService {
     }
   }
 
-  askLLM(input: string, instructions: string, provider: string | null, model: string | null, callback: (answer: string, error?: string) => void) {
+  askLLM(input: string, instructions: string, provider: string | null, model: string | null, callback: (answer: string, error?: string) => void, maxTokens: number = 1000) {
     provider = provider || 'openai';
     if (provider === 'openai') {
-      this.askGPT(input, instructions, model, callback);
+      this.askGPT(input, instructions, model, maxTokens, callback);
     } else if (provider === 'anthropic') {
-      this.askClaude(input, instructions, model, callback);
+      this.askClaude(input, instructions, model, maxTokens, callback);
     } else if (provider === 'google') {
-      this.askGemini(input, instructions, model, callback);
+      this.askGemini(input, instructions, model, maxTokens, callback);
     }
   }
 
@@ -297,7 +296,7 @@ export class AiService {
     });
   }
 
-  private askGPT(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
+  private askGPT(input: string, instructions: string, model: string | null, maxTokens: number, callback: (answer: string, error?: string) => void) {
     const path = `/openai/chat/completions`;
     let m = model || 'gpt-4o-mini'
     const body = {
@@ -313,7 +312,7 @@ export class AiService {
         }
       ],
       'temperature': this.temperature,
-      'max_tokens': this.maxTokens
+      'max_tokens': maxTokens
     };
     this.post(path, body, (response: any) => {
       console.log('respnse', response);
@@ -329,7 +328,7 @@ export class AiService {
     });
   }
 
-  private askClaude(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
+  private askClaude(input: string, instructions: string, model: string | null, maxTokens: number, callback: (answer: string, error?: string) => void) {
     const path = `/anthropic/messages`;
     let m = model || 'claude-3-sonnet-20240229';
     const body = {
@@ -341,7 +340,7 @@ export class AiService {
         }
       ],
       'temperature': this.temperature,
-      'max_tokens': this.maxTokens
+      'max_tokens': maxTokens
     };
     this.post(path, body, (response: any) => {
       let answer = response['content'][0]['text'];
@@ -352,7 +351,7 @@ export class AiService {
   }
 
 
-  private askGemini(input: string, instructions: string, model: string | null, callback: (answer: string, error?: string) => void) {
+  private askGemini(input: string, instructions: string, model: string | null, maxTokens: number, callback: (answer: string, error?: string) => void) {
     const m = model || 'gemini-pro';
     const path = `/google/gemini/${model}`;
     const body = {
@@ -361,7 +360,7 @@ export class AiService {
           { 'text': `${instructions}\n\n${input}` }
         ]}
       ],
-      'generationConfig': { 'temperature' : this.temperature, 'maxOutputTokens': this.maxTokens }
+      'generationConfig': { 'temperature' : this.temperature, 'maxOutputTokens': maxTokens }
     }
     this.post(path, body, (response: any) => {
       let answer = response['candidates'][0]['content']['parts'][0]['text'];

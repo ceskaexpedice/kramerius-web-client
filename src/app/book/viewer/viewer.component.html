@@ -308,6 +308,25 @@
                         class="app-selection app-type-ai">
                         list
                   </mat-icon>
+
+                  <mat-icon
+                        [matTooltip]="'Zeptat se AI ke stránce'"
+                        matTooltipPosition="left"
+                        (click)="onChatPage()"
+                        [class.app-inactive]="bookService.serviceLoading"
+                        class="app-selection app-type-ai">
+                        chat_bubble
+                  </mat-icon>
+
+                  <mat-icon
+                        [matTooltip]="'Zeptat se AI k celému dokumentu'"
+                        matTooltipPosition="left"
+                        (click)="onChatDoc()"
+                        [class.app-inactive]="bookService.serviceLoading"
+                        class="app-selection app-type-ai">
+                        chat
+            </mat-icon>
+
             </ng-container>
 
 </div>

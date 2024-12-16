@@ -963,6 +963,52 @@ export class BookService {
         }, false, extent, width, height);
     }
 
+    chatWithDoc(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        if (!this.ai.checkAiActionsEnabled()) { return; }
+        this.serviceLoading = true
+        this.getAllAltoTexts(0, '', (text) => {
+            this.serviceLoading = false;
+            if (text) {
+                const data = {
+                    content: text,
+                    action: 'chat'
+                };
+                this.bottomSheet.open(LLMDialogComponent, { data: data });
+            }
+        });
+    }
+
+
+    chatWithPage(extent = null, width: number = null, height: number = null, right: boolean = null) {
+        if (!this.ai.checkAiActionsEnabled()) { return; }
+        this.serviceLoading = true
+        const uuid = right ? this.getRightPage().uuid : this.getPage().uuid;
+        this.getAltoText(uuid, (text) => {
+            this.serviceLoading = false;
+            if (text) {
+                const data = {
+                    content: text,
+                    action: 'chat'
+                };
+                this.bottomSheet.open(LLMDialogComponent, { data: data });
+            }
+        }, false, extent, width, height);
+    }
+
+    private getAllAltoTexts(index: number, text: string, callback: (text: string) => void) {
+        if (index >= this.pages.length) {
+            callback(text);
+            return;
+        }
+        const page = this.pages[index];
+        this.getAltoText(page.uuid, (t) => {
+            if (t) {
+                text += ' ' + t;
+            }
+            this.getAllAltoTexts(index + 1, text, callback);
+        }, false, null, null, null);
+    }
+
     private summarizeText(text: string, uuid: string) {
         const data = {
             content: text,

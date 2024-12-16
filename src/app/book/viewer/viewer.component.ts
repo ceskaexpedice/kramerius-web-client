@@ -525,6 +525,20 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
     this.bookService.summarize();
   }
+
+  onChatDoc() {
+    if (this.bookService.turnOffDoublePage()) {
+      return;
+    }
+    this.bookService.chatWithDoc();
+  }
+
+  onChatPage() {
+    if (this.bookService.turnOffDoublePage()) {
+      return;
+    }
+    this.bookService.chatWithPage();
+  }
   
   onReadPage() {
     if (this.bookService.turnOffDoublePage()) {
