@@ -320,12 +320,20 @@ export class Publisher {
         let s = '';
         if (this.place) {
             s += this.place;
+            if (s.endsWith(':')) {
+                s = s.substring(0, s.length - 1);
+            }
+            s = s.trim();
         }
         if (this.name) {
             if (this.place) {
                 s += ': ';
             }
             s += this.name;
+            if (s.endsWith(',')) {
+                s = s.substring(0, s.length - 1);
+            }
+            s = s.trim();
         }
         return s;
     }
