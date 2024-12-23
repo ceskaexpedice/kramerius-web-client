@@ -481,8 +481,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.bookService.similaritySearch(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
-  similaritySearchEnabled(): boolean {
-    return this.ai.similaritySearchEnabled();
+  similaritySearchAvailable(): boolean {
+    return this.ai.similaritySearchAvailable();
   }
 
   // onPageOcr() {

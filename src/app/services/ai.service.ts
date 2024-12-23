@@ -15,6 +15,8 @@ export class AiService {
 
   private temperature = 0;
 
+  private similaritySearchEnabled = localStorage.getItem('similaritySearchEnabled') === 'true';
+
   userSubscription: Subscription;
 
   roles: string[] = [];
@@ -91,8 +93,16 @@ export class AiService {
     return this.roles.includes('TESTER');
   }  
 
-  similaritySearchEnabled(): boolean {
+  similaritySearchAvailable(): boolean {
     return this.aiAvailable() && this.testActionsEnabled() && !!this.settings.similaritySearchIndex;
+  }
+
+  isSimilaritySearchEnabled(): boolean {
+    return this.similaritySearchAvailable() && this.similaritySearchEnabled;
+  }
+
+  toggleSimilarySearchEnabled() {
+    localStorage.setItem('similaritySearchEnabled', this.similaritySearchEnabled ? 'false' : 'true');
   }
   
   reloadAIUser(callback: (response: any) => void) {

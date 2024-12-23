@@ -6,6 +6,7 @@ import { AnalyticsService } from '../../services/analytics.service';
 import { LicenceService } from '../../services/licence.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LicenceDialogComponent } from '../../dialog/licence-dialog/licence-dialog.component';
+import { AiService } from '../../services/ai.service';
 
 @Component({
   selector: 'app-search-filters',
@@ -26,6 +27,7 @@ export class SearchFiltersComponent implements OnInit {
               public licences: LicenceService,
               public analytics: AnalyticsService,
               public settings: AppSettings,
+              public ai: AiService,
               private dialog: MatDialog) {
   }
 
@@ -33,6 +35,11 @@ export class SearchFiltersComponent implements OnInit {
     this.yearFrom = this.searchService.query.from;
     this.yearTo = this.searchService.query.to;
     this.filters = this.settings.filters;
+  }
+
+  toggleSimilarySearchEnabled() {
+    this.ai.toggleSimilarySearchEnabled();
+    window.location.reload();
   }
 
   showLicenceDialog(licence: String) {

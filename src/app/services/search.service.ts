@@ -757,46 +757,51 @@ export class SearchService {
         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
             this.numberOfResults = this.solr.numberOfSearchResults(response);
             this.results = this.solr.searchResultItems(response, this.query);
-
-            const filter = {
-                'source': 'mzk'
-            };
-            if (this.query.isYearRangeSet()) {
-                filter["year_end"] = {
-                    "$gte": this.query.from,
-                    "$lte": this.query.to
+            if (this.results.length < 60 && this.ai.isSimilaritySearchEnabled()) {
+                console.log('should invoke semantic search', this.query.getRawQ())
+                let filter = {};
+                let yearFiler = 'year';
+                if (this.settings.code != 'knav') {
+                    yearFiler = 'year_end';
+                    filter = {
+                        'source': 'mzk'
+                    };
                 }
-            }
-
-            if (this.results.length < 60 && this.ai.similaritySearchEnabled()) {
-                console.log('should invoke semantic search', this.query.getRawQ());
+                if (this.query.isYearRangeSet()) {
+                    filter[yearFiler] = {
+                        "$gte": this.query.from,
+                        "$lte": this.query.to
+                    }
+                };
                 this.ai.findSimilarTexts(this.query.getRawQ(), 60, filter, (result, error) => {
                     if (error) {
                         this.ai.showAiError(error);
                     } else {
                         for (const item of result['matches']) {
                             const score = item['score'];
-                            console.log('score', score);
+                            // console.log('score', score);
                             const m = item['metadata'];
-                            console.log('metadata', m);
+                            // console.log('metadata', m);
                             let di = new DocumentItem();
-                            di.uuid = m['page_uuid'];
+                            const uuid = m['page_uuid'] || m['uuid'];
+                            di.uuid = uuid;
                             di.date = m['date'];
                             di.title = m['root_title'];
                             di.description = m['content'];
-                            di.doctype = m['periodical'];
                             di.doctype = 'chunk';
-                            di.thumbnail = `https://api.kramerius.mzk.cz/search/iiif/${m.page_uuid}/${m.bb}/max/0/default.jpg`;
+                            di.public = true;
+                            if (m['source'] == 'mzk') {
+                                di.thumbnail = `https://api.kramerius.mzk.cz/search/iiif/${uuid}/${m.bb}/max/0/default.jpg`;
+                            } else {
+                                di.thumbnail = `https://kramerius.lib.cas.cz/search/api/v5.0/item/${uuid}/thumb`;
+                            }
                             this.results.push(di);
                             di.resolveUrl(this.settings.getPathPrefix());
                             di.params = { 'bb': m['bb'] };
                         }
                     }
                 });
-
             }
-
-
         } else {
             this.numberOfResults = this.solr.numberOfResults(response);
             this.results = this.solr.documentItems(response);

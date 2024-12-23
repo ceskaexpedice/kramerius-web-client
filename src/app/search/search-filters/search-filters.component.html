@@ -442,4 +442,23 @@
 
   </mat-accordion>
 
+
+
+  <mat-expansion-panel *ngIf="ai.similaritySearchAvailable()" class="app-filter-panel" [expanded]="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Tester
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ul>
+      <li>
+        <mat-checkbox
+          [checked]="ai.isSimilaritySearchEnabled()"
+          (change)="toggleSimilarySearchEnabled()">
+          Sémantické vyhledávání
+        </mat-checkbox>
+      </li>
+    </ul>
+  </mat-expansion-panel>
+
 </div>

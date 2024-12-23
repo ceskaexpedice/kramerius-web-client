@@ -80,7 +80,7 @@
 
       <mat-icon (click)="onSimilaritySearchSelection()"
             matTooltipPosition="right"
-            *ngIf="similaritySearchEnabled()"
+            *ngIf="similaritySearchAvailable()"
             class="app-type-ai"
             [class.app-inactive]="bookService.serviceLoading"
             [matTooltip]="'Najít podobné'">

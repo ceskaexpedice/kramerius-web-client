@@ -40,6 +40,7 @@ export class AppSettings {
   public curatorListsCardsVertical: boolean;
   public curatorKeywordsEnabled: boolean;
   public curatorKeywords: any[];
+  public similaritySearchIndex: string;
   public hiddenLocks: boolean;
   public legacyLocks: boolean;
   public licences: any;
@@ -95,7 +96,6 @@ export class AppSettings {
   public citationServiceType = APP_GLOBAL.citationServiceType || "old";
   public textModeEnabled = !!APP_GLOBAL.textModeEnabled;
   public maxIiifImageSize = APP_GLOBAL.maxIiifImageSize || 7000;
-  public similaritySearchIndex = APP_GLOBAL.similaritySearchIndex;
 
 
   public actions = {
@@ -211,6 +211,7 @@ export class AppSettings {
     this.curatorListsCardsVertical = !!kramerius.curatorListsCardsVertical;
     this.curatorKeywordsEnabled = !!kramerius.curatorKeywords;
     this.curatorKeywords = kramerius.curatorKeywords || [];
+    this.similaritySearchIndex = kramerius.similaritySearchIndex;
     this.licences = kramerius.licences;
     this.containsLicences = !!kramerius.containsLicences;
     this.preselectedLicences = kramerius.preselectedLicences;
@@ -395,4 +396,5 @@ interface KrameriusData {
   containsLicences: boolean;
   preselectedLicences: [string];
   copyrightedText: string;
+  similaritySearchIndex: string;
 }
