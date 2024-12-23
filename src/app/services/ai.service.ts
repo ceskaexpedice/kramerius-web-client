@@ -44,7 +44,7 @@ export class AiService {
     private router: Router,
     private http: HttpClient) {
       this.userSubscription = this.auth.watchUser().subscribe((user) => {
-        if ((user && user.isLoggedIn()) || this.settings.getAiToken()) {
+        if ((user && user.isLoggedIn() && this.settings.ai) || this.settings.getAiToken()) {
           this.loggedIn = true;
           this.reloadAIUser(null);
         } else {
@@ -52,7 +52,7 @@ export class AiService {
           this.roles = [];
         }
       });
-      if (this.auth.isLoggedIn() || this.settings.getAiToken()) {
+      if ((this.auth.isLoggedIn() && this.settings.ai) || this.settings.getAiToken()) {
         this.loggedIn = true;
         this.reloadAIUser(null);
       }

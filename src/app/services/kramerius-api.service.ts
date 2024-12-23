@@ -480,6 +480,16 @@ export class KrameriusApiService {
         return this.doGet(url);
     }
 
+
+    refreshLock(hash: string): Observable<any> {
+        const url = this.getApiUrl() + '/locks/' + hash + '/refresh';
+        return this.doGet(url)
+                .pipe(map(response => {
+                    console.log(response);
+                }));
+    }
+
+
     getItemInfo(uuid: string): Observable<any> {
         if (this.settings.k5Compat()) {
             return this.doGet(this.getItemUrl(uuid))
@@ -510,9 +520,15 @@ export class KrameriusApiService {
                 imageType: imageType
             }
         } else {
+            let lockHash = '';
+            if (json['accessibleLocks'] && json['accessibleLocks'].length > 0) {
+                lockHash = json['accessibleLocks'][0]['hash'];
+            }
+            if (json)
             return {
                 imageType: json['image'] ? json['image']['type'] : null,
-                licence: json['providedByLicenses'] && json['providedByLicenses'].length > 0 ? json['providedByLicenses'][0] : null
+                licence: json['providedByLicenses'] && json['providedByLicenses'].length > 0 ? json['providedByLicenses'][0] : null,
+                lockHash: lockHash ? lockHash : null,
             }
         }
     }

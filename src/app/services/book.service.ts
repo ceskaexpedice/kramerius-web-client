@@ -1693,6 +1693,21 @@ export class BookService {
             this.metadata.licence = this.licence;
             this.metadata.licences = this.licences;
             ////
+            if (leftPage.lockHash) {
+                this.api.refreshLock(leftPage.lockHash).subscribe(() => {
+                    if (leftPage.imageType === PageImageType.None) {
+                        this.publishNewPages(BookPageState.Failure);
+                    } else if (leftPage.imageType === PageImageType.PDF) {
+                        this.onPdfPageSelected(leftPage, rightPage);
+                    } else {
+                        // this.publishNewPages(BookPageState.Loading);
+                        this.subject.next(this.getViewerData());
+                        this.subjectPages.next([leftPage, rightPage]);
+                    } 
+                });
+                return;
+            }
+
             if (leftPage.imageType === PageImageType.None) {
                 this.publishNewPages(BookPageState.Failure);
             } else if (leftPage.imageType === PageImageType.PDF) {

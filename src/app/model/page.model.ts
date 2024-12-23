@@ -19,6 +19,7 @@ export class Page {
     public: boolean;
     title: string;
     placement: string;
+    lockHash: string;
 
     constructor() {
     }
@@ -52,6 +53,9 @@ export class Page {
             this.imageType = PageImageType.JPEG;
         } else if (data['imageType'] == 'pdf') {
             this.imageType = PageImageType.PDF;
+        }
+        if (data['lockHash']) {
+            this.lockHash = data['lockHash'];
         }
     }
 
