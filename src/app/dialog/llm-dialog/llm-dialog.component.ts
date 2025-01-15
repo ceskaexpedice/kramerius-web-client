@@ -38,6 +38,7 @@ export class LLMDialogComponent implements OnInit {
   model: any;
   modelInUse: any;
   aiTestActionsEnabled = false;
+  aiCustomInstractionsActionsEnabled = false;
 
   constructor(private bottomSheetRef: MatBottomSheetRef<LLMDialogComponent>,
     private citationService: CitationService, 
@@ -59,11 +60,13 @@ export class LLMDialogComponent implements OnInit {
       this.model = this.ai.getDefaultModel();
       this.modelInUse = this.ai.getDefaultModel();
       this.aiTestActionsEnabled = this.ai.testActionsEnabled();
+      this.aiCustomInstractionsActionsEnabled = false;
     }
     if (this.data.action === 'chat') {
       this.model = this.ai.getDefaultModel();
       this.modelInUse = this.ai.getDefaultModel();
       this.aiTestActionsEnabled = this.ai.testActionsEnabled();
+      this.aiCustomInstractionsActionsEnabled = this.ai.testActionsEnabled();
       this.originalSourceText = this.data.content;
       return;
     }
@@ -125,7 +128,9 @@ export class LLMDialogComponent implements OnInit {
 
   onModelChanged(model: string) {
     this.model = model;
-    // this.regenerate();
+    if (this.data.action === 'summarize') {
+      this.regenerate();
+    }
   }
 
   regenerate() {

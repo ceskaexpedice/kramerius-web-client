@@ -310,6 +310,7 @@
                   </mat-icon>
 
                   <mat-icon
+                        *ngIf="alphaTestAiActionsEnabled()"
                         [matTooltip]="'Zeptat se AI ke stránce'"
                         matTooltipPosition="left"
                         (click)="onChatPage()"
@@ -319,6 +320,7 @@
                   </mat-icon>
 
                   <mat-icon
+                        *ngIf="alphaTestAiActionsEnabled()"
                         [matTooltip]="'Zeptat se AI k celému dokumentu'"
                         matTooltipPosition="left"
                         (click)="onChatDoc()"

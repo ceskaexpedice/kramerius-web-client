@@ -23,18 +23,19 @@ export class AiService {
   loggedIn = false;
 
   models = [ 
-    { provider: 'openai', name: 'GPT 3.5 turbo', code: 'gpt-3.5-turbo' },
     { provider: 'openai', name: 'GPT 4o', code: 'gpt-4o' },
     { provider: 'openai', name: 'GPT 4o mini', code: 'gpt-4o-mini' },
-    { provider: 'openai', name: 'GPT 4 turbo', code: 'gpt-4-turbo' },
-    { provider: 'openai', name: 'GPT 4', code: 'gpt-4' },
-    { provider: 'anthropic', name: 'Claude 3 Opus', code: 'claude-3-opus-20240229'},
-    { provider: 'anthropic', name: 'Claude 3 Sonnet', code: 'claude-3-sonnet-20240229'},
+    { provider: 'openai', name: 'GPT 4o FT summary', code: 'ft:gpt-4o-2024-08-06:trinera:summary-2:An2G3Xdx' },
+    { provider: 'openai', name: 'GPT 4o mini FT summary', code: 'ft:gpt-4o-mini-2024-07-18:trinera:summary-1:AmjXIzCx' },
     { provider: 'anthropic', name: 'Claude 3 Haiku', code: 'claude-3-haiku-20240307'},
-    { provider: 'anthropic', name: 'Claude 3.5 Sonnet', code: 'claude-3-5-sonnet-20240620'},
-    { provider: 'google', name: 'Gemini 1.0 Pro', code: 'gemini-1.0-pro'},
+    { provider: 'anthropic', name: 'Claude 3 Sonnet', code: 'claude-3-sonnet-20240229'},
+    { provider: 'anthropic', name: 'Claude 3 Opus', code: 'claude-3-opus-20240229'},
+    { provider: 'anthropic', name: 'Claude 3.5 Haiku', code: 'claude-3-5-haiku-20241022'},
+    { provider: 'anthropic', name: 'Claude 3.5 Sonnet', code: 'claude-3-5-sonnet-20241022'},
     { provider: 'google', name: 'Gemini 1.5 Pro', code: 'gemini-1.5-pro'},
-    { provider: 'google', name: 'Gemini 1.5 Flash', code: 'gemini-1.5-flash'}
+    { provider: 'google', name: 'Gemini 1.5 Flash', code: 'gemini-1.5-flash'},
+    { provider: 'google', name: 'Gemini 1.5 Flash 8B', code: 'gemini-1.5-flash-8b'},
+    { provider: 'google', name: 'Gemini 2.0 Flash Experimental', code: 'gemini-2.0-flash-exp'}
   ];
 
   constructor(
@@ -93,8 +94,12 @@ export class AiService {
     return this.roles.includes('TESTER');
   }  
 
+  alphaTestActionsEnabled(): boolean {
+    return this.roles.includes('TEST_A');
+  }  
+
   similaritySearchAvailable(): boolean {
-    return this.aiAvailable() && this.testActionsEnabled() && !!this.settings.similaritySearchIndex;
+    return this.aiAvailable() && this.alphaTestActionsEnabled() && !!this.settings.similaritySearchIndex;
   }
 
   isSimilaritySearchEnabled(): boolean {
@@ -185,7 +190,7 @@ export class AiService {
 
 
   getDefaultModel() {
-    return this.models[2];
+    return this.models[1];
   }
  
   detectLanguage(input: string, callback: (answer: string, error?: string) => void) {

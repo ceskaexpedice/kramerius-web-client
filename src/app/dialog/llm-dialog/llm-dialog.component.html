@@ -18,8 +18,10 @@
             <span>{{ model.name }}</span>
             <mat-icon>keyboard_arrow_down</mat-icon>
           </div>
-          <input id="custom-instructions" type="text" autocomplete="off" spellcheck="false" [(ngModel)]="customInstructions" placeholder="Vlastní instrukce" class="app-custom-instruction-input">
-          <mat-icon class="app-regenerate" (click)="regenerate()">{{ regenerateIcon() }}</mat-icon>
+          <ng-container *ngIf="aiCustomInstractionsActionsEnabled">
+            <input id="custom-instructions" type="text" autocomplete="off" spellcheck="false" [(ngModel)]="customInstructions" placeholder="Zeptejte se AI" class="app-custom-instruction-input">
+            <mat-icon class="app-regenerate" (click)="regenerate()">{{ regenerateIcon() }}</mat-icon>
+          </ng-container>
         </ng-container>
       </ng-container>
     

@@ -757,7 +757,8 @@ export class SearchService {
         if (this.query.getRawQ() || this.query.isCustomFieldSet()) {
             this.numberOfResults = this.solr.numberOfSearchResults(response);
             this.results = this.solr.searchResultItems(response, this.query);
-            if (this.results.length < 60 && this.ai.isSimilaritySearchEnabled()) {
+            const last = (this.query.page - 1) * 60 + this.results.length == this.numberOfResults;
+            if (last && this.ai.isSimilaritySearchEnabled()) {
                 console.log('should invoke semantic search', this.query.getRawQ())
                 let filter = {};
                 let yearFiler = 'year';
