@@ -488,9 +488,18 @@ export class ViewerComponent implements OnInit, OnDestroy {
   onSimilaritySearchSelection() {
     this.bookService.similaritySearch(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
-
+ 
   similaritySearchAvailable(): boolean {
     return this.ai.similaritySearchAvailable();
+  }
+
+  makariusEnabled(): boolean {
+    // http://localhost:4200/mzk/view/uuid:3883d473-e90d-425a-882c-fad4f3fbe29b?page=uuid:72aa4fd2-ecda-4fa4-aa25-e66b4c39a5e4
+    return this.settings.makarius && this.bookService.isSheetMusic();
+  }
+
+  onMakariusSimilaritySearch() {
+    this.bookService.musicSheetSimilaritySearch();
   }
 
   // onPageOcr() {

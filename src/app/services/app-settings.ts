@@ -41,6 +41,7 @@ export class AppSettings {
   public curatorKeywordsEnabled: boolean;
   public curatorKeywords: any[];
   public similaritySearchIndex: string;
+  public makarius: boolean;
   public hiddenLocks: boolean;
   public legacyLocks: boolean;
   public licences: any;
@@ -212,6 +213,7 @@ export class AppSettings {
     this.curatorKeywordsEnabled = !!kramerius.curatorKeywords;
     this.curatorKeywords = kramerius.curatorKeywords || [];
     this.similaritySearchIndex = kramerius.similaritySearchIndex;
+    this.makarius = !!kramerius.makarius;
     this.licences = kramerius.licences;
     this.containsLicences = !!kramerius.containsLicences;
     this.preselectedLicences = kramerius.preselectedLicences;
@@ -394,6 +396,7 @@ interface KrameriusData {
   adminClientUrl: string;
   replaceImageUrl: string;
   containsLicences: boolean;
+  makarius: boolean;
   preselectedLicences: [string];
   copyrightedText: string;
   similaritySearchIndex: string;

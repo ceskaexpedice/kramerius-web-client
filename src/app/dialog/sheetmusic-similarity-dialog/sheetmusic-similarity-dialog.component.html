@@ -2,11 +2,11 @@
   
 <mat-grid-list cols="4" rowHeight="300px" gutterSize="8px">
   <mat-grid-tile *ngFor="let item of items" [style.background]="'#f5f5f5'">
-    <a class="app-grid-item" [href]="item.metadata.url" target="_blank">
-      <img [src]="getIIIFRegionUrl(item.metadata)"  class="app-image" />
+    <a class="app-grid-item" [href]="getLink(item)" target="_blank">
+      <img [src]="getThumb(item)"  class="app-image" />
       <div class="app-details">
-        <h3>{{ getTitle(item.metadata) }}</h3>
-        <p>{{ item.metadata.date  }}</p>
+        <h3>{{ item._source.parent_title }}</h3>
+        <p>{{ item._source.parent_authors_all }}</p>
       </div>
     </a>
   </mat-grid-tile>

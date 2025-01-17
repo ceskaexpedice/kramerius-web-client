@@ -327,7 +327,18 @@
                         [class.app-inactive]="bookService.serviceLoading"
                         class="app-selection app-type-ai">
                         chat
-            </mat-icon>
+                  </mat-icon>
+
+                  <mat-icon
+                        *ngIf="makariusEnabled()"
+                        [matTooltip]="'Najít podobné notové zápisy'"
+                        matTooltipPosition="left"
+                        (click)="onMakariusSimilaritySearch()"
+                        [class.app-inactive]="bookService.serviceLoading"
+                        class="app-selection app-type-ai">
+                        music_note
+                  </mat-icon>
+
 
             </ng-container>
 

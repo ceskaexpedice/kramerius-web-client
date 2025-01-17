@@ -35,6 +35,8 @@ import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.compon
 import { AiService } from './ai.service';
 import { LLMDialogComponent } from '../dialog/llm-dialog/llm-dialog.component';
 import { SimilarityDialogComponent } from '../dialog/similarity-dialog/similarity-dialog.component';
+import { MakariusService } from './makarius.service';
+import { SheetmusicSimilarityDialogComponent } from '../dialog/sheetmusic-similarity-dialog/sheetmusic-similarity-dialog.component';
 
 @Injectable()
 export class BookService {
@@ -116,6 +118,7 @@ export class BookService {
         private localStorageService: LocalStorageService,
         private api: KrameriusApiService,
         private iiif: IiifService,
+        private makarius: MakariusService,
         private dialog: MatDialog,
         private logger: LoggerService,
         private history: HistoryService,
@@ -125,7 +128,6 @@ export class BookService {
         private licenceService: LicenceService,
         private tts: TtsService,
         private ai: AiService,
-        private translateSrvice: TranslateService,
         private geoService: GeoreferenceService) {
     }
 
@@ -1035,6 +1037,15 @@ export class BookService {
         }, false, extent, width, height);
     }
 
+    musicSheetSimilaritySearch() {
+        this.serviceLoading = true;
+        this.makarius.getSimilarPages(this.getPage().uuid).subscribe((result: any) => {
+            this.dialog.open(SheetmusicSimilarityDialogComponent, { data: result, autoFocus: false });
+            this.serviceLoading = false;
+        });
+    }
+
+
 
     showTextSelection(extent, width: number, height: number, right: boolean) {
         this.serviceLoading = true
@@ -1838,7 +1849,12 @@ export class BookService {
                 });
             // }
          }
-        return data;
+    return data;
+    }
+
+    isSheetMusic(): boolean {
+        const page = this.getPage();
+        return !!page && page.type == 'sheetmusic';
     }
 
     clear() {
