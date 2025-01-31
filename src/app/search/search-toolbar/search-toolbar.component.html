@@ -4,10 +4,10 @@
 
     <!-- ADMIN AKCE -->
     <ng-container *ngIf="auth.isAdmin()">
-      <div tabindex="0" *ngIf="search.adminSelection && search.itemSelected" (click)="search.openAdminActions()" class="app-view-button" [class.app-active]="true">
+      <div tabindex="0" *ngIf="search.adminSelection && search.itemSelected()" (click)="search.openAdminActions()" class="app-view-button" [class.app-active]="true">
         <mat-icon>edit</mat-icon>
       </div>
-      <div tabindex="0" *ngIf="search.adminSelection && !search.itemSelected" class="app-view-button app-view-button-disabled" [class.app-active]="true">
+      <div tabindex="0" *ngIf="search.adminSelection && !search.itemSelected()" class="app-view-button app-view-button-disabled" [class.app-active]="true">
         <mat-icon>edit</mat-icon>
       </div>
       <div tabindex="0" *ngIf="search.adminSelection" (click)="search.toggleAllSelected()" class="app-view-button" [class.app-active]="true">

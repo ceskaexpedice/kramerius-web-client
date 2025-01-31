@@ -73,7 +73,6 @@ export class SearchService {
 
     adminSelection: boolean;
     folder: any;
-    itemSelected: boolean;
 
     activeTab: string;
     displayTabs: boolean ;
@@ -97,7 +96,6 @@ export class SearchService {
     public init(context, params) {
         this.folderName = null;
         this.adminSelection = false;
-        this.itemSelected = false;
         this.collection = null;
         this.collectionStructure = {};
         this.collectionStructureTree = [];
@@ -888,7 +886,7 @@ export class SearchService {
     for (const item of this.results) {
         item.selected = !allSelected;
     }
-    this.itemSelection();
+    // this.itemSelection();
   }
 
   openAdminActions() {
@@ -910,17 +908,8 @@ export class SearchService {
     this.adminSelection = !this.adminSelection;
   }
 
-  itemSelection() {
-    for (const item of this.results) {
-      if (item.selected) {
-        this.itemSelected = true;
-        break;
-      } else {
-        this.itemSelected = false;
-      }
-    }
+  itemSelected(): boolean {
+    return this.results.some(x => x.selected);
   }
-
-
 
 }

@@ -45,7 +45,6 @@ export class PeriodicalService {
 
   orderingType = 'none'; // none | periodical | fulltext
   adminSelection: boolean = false;
-  itemSelected: boolean = false;
 
   folderName: string;
 
@@ -85,7 +84,7 @@ export class PeriodicalService {
           item.selected = !allSelected;
       }
     }
-    this.itemSelection();
+    // this.itemSelection();
   }
 
   openAdminActions() {
@@ -120,19 +119,17 @@ export class PeriodicalService {
       }
     }
     this.adminSelection = !this.adminSelection;
-    this.itemSelected = false;
   }
 
-  itemSelection() {
-    for (const item of this.items) {
-      if (item.selected) {
-        this.itemSelected = true;
-        break;
-      } else {
-        this.itemSelected = false;
-      }
+  itemSelected(): boolean {
+    if (this.items) {
+      return this.items.some(x => x.selected);
+    } else if (this.units) {
+      return this.units.some(x => x.selected);
     }
+    return false;
   }
+
 
   init(query: PeriodicalQuery) {
     this.clear();
