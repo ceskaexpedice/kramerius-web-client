@@ -1,22 +1,22 @@
 <div class="app-book-controls">
 
-   <button *ngIf="bookService.isImage() && bookService.isActionAvailable('print')" [class.app-disabled]="!bookService.isActionEnabled('print')" (click)="print()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_print' | translate" [matTooltip]="'book_controls.tooltip_print' | translate">
+   <button *ngIf="bookService.isImage() && bookService.isActionAvailable('print') && bookService.isActionEnabled('print')" [class.app-disabled]="!bookService.isActionEnabled('print')" (click)="print()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_print' | translate" [matTooltip]="'book_controls.tooltip_print' | translate">
       <mat-icon>print</mat-icon>
    </button>
 
-   <button *ngIf="bookService.isImage() && bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="pdf()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_pdf' | translate" [matTooltip]="'book_controls.tooltip_pdf' | translate">
+   <button *ngIf="bookService.isImage() && bookService.isActionAvailable('pdf') && bookService.isActionEnabled('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="pdf()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_pdf' | translate" [matTooltip]="'book_controls.tooltip_pdf' | translate">
       <mat-icon>picture_as_pdf</mat-icon>
    </button>
 
-   <button *ngIf="bookService.isImage() && bookService.isActionAvailable('jpeg')" [class.app-disabled]="!bookService.isActionEnabled('jpeg')" (click)="jpeg()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_jpg' | translate" [matTooltip]="'book_controls.tooltip_jpg' | translate">
+   <button *ngIf="bookService.isImage() && bookService.isActionAvailable('jpeg') && bookService.isActionEnabled('jpeg')" [class.app-disabled]="!bookService.isActionEnabled('jpeg')" (click)="jpeg()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_jpg' | translate" [matTooltip]="'book_controls.tooltip_jpg' | translate">
       <mat-icon>image</mat-icon>
    </button>
 
-   <button *ngIf="bookService.isActionAvailable('text')" [class.app-disabled]="!bookService.isActionEnabled('text')" (click)="ocr()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_ocr' | translate" [matTooltip]="'book_controls.tooltip_ocr' | translate">
+   <button *ngIf="bookService.isActionAvailable('text') && bookService.isActionEnabled('text')" [class.app-disabled]="!bookService.isActionEnabled('text')" (click)="ocr()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_ocr' | translate" [matTooltip]="'book_controls.tooltip_ocr' | translate">
       <mat-icon>title</mat-icon>
    </button>
 
-   <button *ngIf="bookService.isPdf() && bookService.isActionAvailable('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="downloadPdf()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_pdf' | translate" [matTooltip]="'book_controls.tooltip_pdf' | translate">
+   <button *ngIf="bookService.isPdf() && bookService.isActionAvailable('pdf') && bookService.isActionEnabled('pdf')" [class.app-disabled]="!bookService.isActionEnabled('pdf')" (click)="downloadPdf()" mat-icon-button [attr.aria-label]="'book_controls.tooltip_pdf' | translate" [matTooltip]="'book_controls.tooltip_pdf' | translate">
       <mat-icon>file_download</mat-icon>
    </button>
 

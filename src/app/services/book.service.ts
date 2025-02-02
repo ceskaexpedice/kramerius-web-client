@@ -864,7 +864,7 @@ export class BookService {
           }
         }
         const value = this.settings.actions[action];
-        return value === 'always' || (value === 'available' && this.pageAvailable) || (value === 'public' && !this.isPrivate);
+        return value === 'always' || (value === 'available' && this.pageAvailable) || (value === 'public' && this.licences && this.licences.includes('public'));
     }
 
     isActionAvailable(action: string): boolean {
