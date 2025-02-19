@@ -5,6 +5,7 @@ import { KrameriusApiService } from '../../services/kramerius-api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DocumentItem } from '../../model/document_item.model';
+import { AnalyticsService } from '../../services/analytics.service';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class CuratorListsComponent implements OnInit {
               public solrService: SolrService,
               public krameriusApiService: KrameriusApiService,
               public translate: TranslateService,
+              private analytics: AnalyticsService,
               private _sanitizer: DomSanitizer) { 
                 this.windowWidth = window.innerWidth;
                 this.verticalCards = this.settings.curatorListsCardsVertical;
@@ -76,6 +78,10 @@ export class CuratorListsComponent implements OnInit {
     return item.getTitle(this.translate.currentLang);
   }
 
+  onOpenItem(list: any, item: DocumentItem) {
+    this.analytics.sendEvent('curlist', this.getTitle(item), this.listLabel(list));
+  }
+
   thumb(uuid: string) {
     return this._sanitizer.bypassSecurityTrustStyle(`url(${this.krameriusApiService.getThumbUrl(uuid)})`);
   }
@@ -83,9 +89,11 @@ export class CuratorListsComponent implements OnInit {
   listLabel(list: any) {
     return list[this.translate.currentLang] || list[this.settings.defaultLanguage];
   }
+
   expandCards(list: any) {
     this.expanded[list.id] = !this.expanded[list.id];
   }
+
   isExpanded(list: any): boolean {
     return !!this.expanded[list.id];
   }
