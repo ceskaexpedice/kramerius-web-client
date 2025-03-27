@@ -62,7 +62,7 @@ export class AdminDialogComponent implements OnInit {
   }
 
   reprePageAvailable() {
-    return this.selection && this.selection.type == 'page';
+    return this.selection && (this.selection.type == 'page' || this.selection.type == 'article');
   }
 
   changeCategory(category: string) {

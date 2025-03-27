@@ -22,6 +22,7 @@ export class AdminReprePageComponent implements OnInit {
   }
 
   @Input() context: any;
+  @Input() type: string;
 
   constructor(
     private api: KrameriusApiService, 

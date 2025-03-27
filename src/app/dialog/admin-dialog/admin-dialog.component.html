@@ -17,7 +17,7 @@
     <app-admin-collections *ngIf="selection && category == 'collections'" [uuids]="selection.uuids"></app-admin-collections>
     <app-admin-accessibility *ngIf="selection && category == 'accessibility'" [uuids]="selection.uuids"></app-admin-accessibility>    
     <app-admin-reindexation *ngIf="selection && category == 'reindexation'" [uuids]="selection.uuids"></app-admin-reindexation>
-    <app-admin-reprepage *ngIf="selection && category == 'reprepage'" [uuids]="selection.uuids" [context]="items"></app-admin-reprepage>
+    <app-admin-reprepage *ngIf="selection && category == 'reprepage'" [type]="selection.type" [uuids]="selection.uuids" [context]="items"></app-admin-reprepage>
   </div>
 
   <div class="app-dialog-actions">

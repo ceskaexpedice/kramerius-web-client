@@ -1,9 +1,11 @@
 <div *ngIf="state != 'loading'" class="app-reprepage">
   
-  <div class="app-label">Zvolit stranu jako reprezentativní stranu pro</div>
+  <div class="app-label">Zvolit {{ type == 'article' ? 'článek' : 'stranu' }} jako reprezentativní stranu pro</div>
 
   <mat-radio-group [(ngModel)]="objectPid">
-    <mat-radio-button *ngFor="let c of context" [value]="c.uuids[0]">{{ 'model_4p.' + c.type | translate }}</mat-radio-button>
+    <ng-container *ngFor="let c of context">
+      <mat-radio-button *ngIf="(c.type != 'article' || type != 'article') && c.type != 'page'" [value]="c.uuids[0]">{{ 'model_4p.' + c.type | translate }}</mat-radio-button>
+    </ng-container>
     <div *ngIf="collections.length > 0" class="app-label" style="margin-top: 10px;">Sbírku</div>
     <mat-radio-button *ngFor="let c of collections" [value]="c.uuid">{{ c.name }}</mat-radio-button>
   </mat-radio-group>
