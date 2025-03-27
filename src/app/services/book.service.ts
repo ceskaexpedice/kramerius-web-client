@@ -901,6 +901,15 @@ export class BookService {
             }
             this.serviceLoading = false;
             this.bottomSheet.open(OcrDialogComponent, { data: options });
+        }, error => {
+            this.serviceLoading = false;
+            if (error && error.status == 404) {
+                this.dialog.open(BasicDialogComponent, { data: {
+                    title: 'common.warning',
+                    message: 'dialogs.missing_alto.message',
+                    button: 'common.close'
+                }, autoFocus: false });
+            }
         });
     }
 
