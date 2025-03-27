@@ -1,0 +1,45 @@
+@import './src/variables.scss';
+
+.app-form-banner {
+  overflow: hidden;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  .app-form-banner-content {
+    border-radius: 5px;
+    background: #f6f6f6;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    @media screen and (max-width: 768px) {
+      height: auto;
+      padding: 10px 0;
+    }
+    .app-form-banner-image {
+      height: 180px;
+      margin-right: 40px;
+      img {
+        height: 180px;
+      }
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+    .app-form-banner-text {
+      padding: 0 20px;
+      .app-form-banner-title {
+        line-height: 30px;
+        font-size: 17px;
+        font-weight: 500;
+        color: #282828;
+      }
+      .app-form-banner-description {
+        line-height: 22px;
+        font-size: 13px;
+        vertical-align: middle;
+        color: #282828;
+        padding: 10px 0 16px;
+      }
+    }
+  }
+}

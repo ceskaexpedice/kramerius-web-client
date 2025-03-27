@@ -20,6 +20,7 @@ import { AiService } from '../../services/ai.service';
 import { LanguageService } from '../../services/language.service';
 import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 import { TranslateService } from '@ngx-translate/core';
+import { AnalyticsService } from '../../services/analytics.service';
 
 declare var ol: any;
 
@@ -104,6 +105,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
               private logger: LoggerService,
               private zoomify: ZoomifyService,
               private alto: AltoService,
+              private analytics: AnalyticsService,
               public languageService: LanguageService,
               private translateSrvice: TranslateService,
               private api: KrameriusApiService,
@@ -442,15 +444,18 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   onShareSelection() {
+    this.analytics.sendEvent('viewer', 'page-action', 'selection-share');
     this.bookService.shareSelection(this.selectionExtent, this.selectionRight);
 }
 
   onShowImageCrop() {
+    this.analytics.sendEvent('viewer', 'page-action', 'selection-image');
       this.bookService.showImageCrop(this.selectionExtent, this.selectionRight);
   }
 
   onShowTextSelection() {
-      this.bookService.showTextSelection(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
+    this.analytics.sendEvent('viewer', 'page-action', 'selection-text');
+    this.bookService.showTextSelection(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
   aiActionsAvailable(): boolean {
@@ -474,18 +479,22 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   onReadSelection() {
+    this.analytics.sendEvent('viewer', 'page-action', 'selection-read');
     this.bookService.readSelection(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
   onTranslateSelection() {
+    this.analytics.sendEvent('viewer', 'page-action', 'selection-translate');
     this.bookService.translate(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
   onSummarizeSelection() {
+    this.analytics.sendEvent('viewer', 'page-action', 'selection-summarize');
     this.bookService.summarize(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
 
   onSimilaritySearchSelection() {
+    this.analytics.sendEvent('viewer', 'page-action', 'selection-similarity');
     this.bookService.similaritySearch(this.selectionExtent, this.selectionWidth, this.selectionHeight, this.selectionRight);
   }
  
@@ -499,6 +508,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   onMakariusSimilaritySearch() {
+    this.analytics.sendEvent('viewer', 'page-action', 'page-makarius');
     this.bookService.musicSheetSimilaritySearch();
   }
 
@@ -510,6 +520,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.bookService.turnOffDoublePage()) {
       return;
     }
+    this.analytics.sendEvent('viewer', 'page-action', 'page-text-mode');
     this.textLanguage = null;
     this.bookService.setViewerMode('text');
   }
@@ -518,6 +529,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.bookService.turnOffDoublePage()) {
       return;
     }
+    this.analytics.sendEvent('viewer', 'page-action', 'page-split-mode');
     this.bookService.setViewerMode('split');
     setTimeout(() => {
       this.controlsService.fitToScreen();
@@ -528,6 +540,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.bookService.turnOffDoublePage()) {
       return;
     }
+    this.analytics.sendEvent('viewer', 'page-action', 'page-scan-mode');
     this.textLanguage = null;
     this.bookService.setViewerMode('scan');
     setTimeout(() => {
@@ -540,6 +553,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.bookService.turnOffDoublePage()) {
       return;
     }
+    this.analytics.sendEvent('viewer', 'page-action', 'page-summarize');
     this.bookService.summarize();
   }
 
@@ -547,10 +561,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.bookService.turnOffDoublePage()) {
       return;
     }
+    this.analytics.sendEvent('viewer', 'page-action', 'page-chat-doc');
     this.bookService.chatWithDoc();
   }
 
   onChatPage() {
+    this.analytics.sendEvent('viewer', 'page-action', 'page-chat-page');
     if (this.bookService.turnOffDoublePage()) {
       return;
     }
@@ -561,6 +577,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.bookService.turnOffDoublePage()) {
       return;
     }
+    this.analytics.sendEvent('viewer', 'page-action', 'page-read');
     this.bookService.readPage();
   }
 
@@ -1355,6 +1372,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.bookService.turnOffDoublePage()) {
       return;
     }
+    this.analytics.sendEvent('viewer', 'page-action', 'page-translate');
     const lang = localStorage.getItem('translate.language') || this.translateSrvice.currentLang || 'en';
     if (this.bookService.viewerMode == 'scan') {
       this.textLanguage = lang;

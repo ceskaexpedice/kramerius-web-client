@@ -23,6 +23,8 @@
   </div>
   
   <div *ngIf="!settings.curatorListsEnabled" class="container app-featured">
+    <app-banner></app-banner>
+
     <div class="app-tabs" [class]="'app-tabs-' + numberOfTabs()">
       <div *ngIf="visited.length > 0" class="app-tab" tabindex="0" [class.app-active]="selectedTab === 'visited'" (click)="changeTab('visited')">
         {{ 'home.tab_visited' | translate }}
