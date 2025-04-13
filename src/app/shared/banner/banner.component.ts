@@ -12,17 +12,20 @@ export class BannerComponent implements OnInit {
   
   constructor(private settings: AppSettings, private translate: TranslateService, private analytics: AnalyticsService) { }
 
+  shown: boolean;
+
   ngOnInit() {
+    if (this.settings.formBanner && this.translate.currentLang === 'cs') {
+      this.analytics.sendEvent('home-banner', 'show', this.settings.code);
+      this.shown = true;
+    } else {
+      this.shown = false;
+    }
   }
 
   open() {
     this.analytics.sendEvent('home-banner', 'open', this.settings.code);
-    window.open('https://forms.gle/q91VPGP7KzYAy17Q9', '_blank');
-  }
-
-  show() {
-    this.analytics.sendEvent('home-banner', 'show', this.settings.code);
-    return this.settings.formBanner && this.translate.currentLang === 'cs';
+    window.open(this.settings.formBannerUrl, '_blank');
   }
 
 }

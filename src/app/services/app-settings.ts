@@ -89,6 +89,7 @@ export class AppSettings {
   public navbarLogoOnHome = !!APP_GLOBAL.navbarLogoOnHome;
 
   public formBanner = !!APP_GLOBAL.formBanner;
+  public formBannerUrl = APP_GLOBAL.formBannerUrl || 'https://forms.gle/q91VPGP7KzYAy17Q9';
 
   public defaultLanguage: string = APP_GLOBAL.defaultLanguage || 'cs';
   public docsNav = !!APP_GLOBAL.docsNav;
