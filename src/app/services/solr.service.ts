@@ -2041,7 +2041,29 @@ export class SolrService {
             item.authors = doc[this.field('authors')];
             item.sources = doc[this.field('cdk_sources')];
             this.assignLicences(item, doc);
-            item.description = doc[this.field('collection_description')];
+            // item.description = doc[this.field('collection_description')];
+            if (item.doctype == 'collection') {
+                let languages = {'cze':'cs',
+                                 'eng':'en',
+                                 'ger':'de',
+                                 'slo':'sk',
+                                 'slv':'sl',
+                                 'por':'pt'};
+                let localTitles = {};
+                for (const key in languages) {
+                    if (doc['title.search_' + key]) {
+                        localTitles[languages[key]] = doc['title.search_' + key][0];
+                    }
+                }
+                item.localTitles = localTitles;
+                let localDescriptions = {};
+                for (const key in languages) {
+                    if (doc['collection.desc_' + key]) {
+                        localDescriptions[languages[key]] = doc['collection.desc_' + key][0];
+                    }
+                }  
+                item.localDescriptions = localDescriptions;                     
+            }
             item.geonames = doc[this.field('geonames_facet')] || [];
             if (this.settings.k5Compat()) {
                 this.parseLocationOld(doc[this.field('coords_location')], item);
