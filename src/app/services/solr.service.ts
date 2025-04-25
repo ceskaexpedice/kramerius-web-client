@@ -957,13 +957,13 @@ export class SolrService {
             q += '&group.truncate=true';
             q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model_path')},${this.field('authors')},${this.field('root_title')},${this.field('root_pid')},${this.field('title')},${this.field('date')},score`;
         } else {
-            q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')},title.search_*`;
+            q += `&fl=${this.field('id')},${this.field('accessibility')},${this.field('model')},${this.field('authors')},${this.field('titles')},${this.field('title')},${this.field('root_title')},${this.field('date')}`;
         }
         if (this.settings.filters.indexOf('sources') > -1) {
             q+= `,${this.field('cdk_sources')}`
         }
         if (!this.settings.k5Compat()) {
-            q += `,${this.field('collection_description')}, collection.desc_*`;
+            q += `,${this.field('collection_description')}, collection.desc_*, title.search_*`;
         } else if (this.settings.filters.indexOf('categories') >= 0) {
             q += `,${this.field('category')}`;
         }
