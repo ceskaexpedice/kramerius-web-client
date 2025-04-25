@@ -458,7 +458,8 @@
     "read_pause": "viewer_page.read_pause",
     "read_resume": "viewer_page.read_resume",
     "read_stop": "viewer_page.read_stop",
-    "read_next": "viewer_page.read_next"
+    "read_next": "viewer_page.read_next",
+    "cancel_translation": "viewer_page.cancel_translation"
   },
   "book_controls": {
     "tooltip_print": "book_controls.tooltip_print",

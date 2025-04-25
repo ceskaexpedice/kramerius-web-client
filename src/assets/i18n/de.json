@@ -455,7 +455,8 @@
       "read_pause": "Lesen anhalten",
       "read_resume": "Weiterlesen",
       "read_stop": "Lesen stoppen",
-      "read_next": "Weiter zum nächsten"
+      "read_next": "Weiter zum nächsten",
+      "cancel_translation": "Übersetzung abbrechen"
     },
     "book_controls": {
       "tooltip_print": "Drucken",

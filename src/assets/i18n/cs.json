@@ -458,7 +458,8 @@
     "read_pause": "Pozastavit čtení",
     "read_resume": "Pokračovat v čtení",
     "read_stop": "Zastavit čtení",
-    "read_next": "Přeskočit na další"
+    "read_next": "Přeskočit na další",
+    "cancel_translation": "Zrušit překlad"
   },
   "book_controls": {
     "tooltip_print": "Příprava k tisku",

@@ -458,7 +458,8 @@
     "read_pause": "暫停閱讀",
     "read_resume": "繼續閱讀",
     "read_stop": "停止閱讀",
-    "read_next": "跳至下一個"
+    "read_next": "跳至下一個",
+    "cancel_translation": "取消翻譯"
   },
   "book_controls": {
     "tooltip_print": "準備列印",

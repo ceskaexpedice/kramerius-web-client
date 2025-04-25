@@ -458,7 +458,8 @@
     "read_pause": "Az olvasás szüneteltetése",
     "read_resume": "olvasson tovább",
     "read_stop": "Hagyd abba az olvasást",
-    "read_next": "Ugrás a következőre"
+    "read_next": "Ugrás a következőre",
+    "cancel_translation": "Fordítás törlése"
   },
   "book_controls": {
     "tooltip_print": "Készüljön fel a nyomtatásra",

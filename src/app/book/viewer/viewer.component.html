@@ -427,8 +427,7 @@
         </li>
         <li class="app-dropdown-item app-dropdown-cancel-lang" mat-menu-item tabindex="0" (keydown.enter)="closeMenu()" (click)="onCancelTranslatePage()" role="button">
             <div class="app-language">
-                  <mat-icon>clear</mat-icon>
-                  <div class="app-language-name">Zrušit překlad</div>
+                  <div class="app-language-name" style="font-size: 13px; text-align: center;">{{ 'viewer_page.cancel_translation' | translate }} </div>
             </div>
         </li>
       </ul>

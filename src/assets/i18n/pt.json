@@ -460,7 +460,8 @@
     "read_pause": "Pausar leitura",
     "read_resume": "Continuar lendo",
     "read_stop": "Parar de ler",
-    "read_next": "Pular para o próximo"
+    "read_next": "Pular para o próximo",
+    "cancel_translation": "Cancelar tradução"
   },
   "book_controls": {
     "tooltip_print": "Prepare-se para imprimir",

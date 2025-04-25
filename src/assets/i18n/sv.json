@@ -458,7 +458,8 @@
     "read_pause": "Pausa läsningen",
     "read_resume": "Fortsätt läsa",
     "read_stop": "Sluta läsa",
-    "read_next": "Hoppa till nästa"
+    "read_next": "Hoppa till nästa",
+    "cancel_translation": "Avbryt översättning"
   },
   "book_controls": {
     "tooltip_print": "Förbered att skriva ut",

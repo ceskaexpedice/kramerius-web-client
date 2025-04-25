@@ -458,7 +458,8 @@
     "read_pause": "Pristabdyti skaitymą",
     "read_resume": "Skaityti toliau",
     "read_stop": "Nustokite skaityti",
-    "read_next": "Pereiti prie kito"
+    "read_next": "Pereiti prie kito",
+    "cancel_translation": "Atšaukti vertimą"
   },
   "book_controls": {
     "tooltip_print": "Pasiruoškite spausdinti",

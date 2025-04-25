@@ -455,7 +455,8 @@
       "read_pause": "Pozastaviť čítanie",
       "read_resume": "Pokračovať v čítaní",
       "read_stop": "Zastaviť čítanie",
-      "read_next": "Preskočiť na ďalšiu"
+      "read_next": "Preskočiť na ďalšiu",
+      "cancel_translation": "Zrušiť preklad"
     },
     "book_controls": {
       "tooltip_print": "Príprava na tlač",

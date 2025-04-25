@@ -458,7 +458,8 @@
     "read_pause": "Peatage lugemine",
     "read_resume": "Jätka lugemist",
     "read_stop": "Lõpetage lugemine",
-    "read_next": "Jätke järgmise juurde"
+    "read_next": "Jätke järgmise juurde",
+    "cancel_translation": "Tühista tõlge"
   },
   "book_controls": {
     "tooltip_print": "Valmistuge printimiseks",
