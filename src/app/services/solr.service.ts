@@ -936,7 +936,7 @@ export class SolrService {
             }
             q += `_query_:"{!edismax qf=\'${fields}\' v=$q1}\"`;
         } else if (qString) {
-            q += `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('authors_search')}^2 ${this.field('keywords_search')} ${this.field('text_ocr')}^0.1`;
+            q += `_query_:"{!edismax qf=\'${this.field('titles_search')}^10 ${this.field('authors_search')}^2 ${this.field('keywords_search')} ${this.field('publishers_search')} ${this.field('genres_search')} ${this.field('geonames_search')} ${this.field('text_ocr')}^0.1`;
             if (!this.settings.k5Compat()) {
                 q += ` ${this.field('isbn')}`; 
             }
