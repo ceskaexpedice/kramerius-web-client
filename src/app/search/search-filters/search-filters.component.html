@@ -54,7 +54,7 @@
     </mat-expansion-panel>
 
 
-    <mat-expansion-panel *ngIf="searchService.licences.length && filters.indexOf('licences') > -1" class="app-filter-panel" [expanded]="true">
+    <mat-expansion-panel *ngIf="searchService.licences.length && filters.indexOf('licences') > -1" class="app-filter-panel" [expanded]="false">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{ 'search.licences' | translate }}   
