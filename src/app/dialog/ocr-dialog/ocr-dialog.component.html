@@ -1,10 +1,12 @@
 <div class="app-ocr-dialog">
 
+  <textarea id="ocr-text" #ocrInputTarget [value]="copyText" type="text" ></textarea>
+
   <div class="app-text">
+    <mat-icon class="app-cancel" (click)="onCancel()">clear</mat-icon>
     <h3 *ngIf="title" style="margin: 0; margin-bottom: 5px;">{{ title }}</h3>
     <div class="app-text-content" [innerHtml]="ocrTxt"></div>
     <label for="ocr-text" class="app-hidden-label">Text</label>
-    <textarea id="ocr-text" #ocrInputTarget [value]="copyText" type="text" ></textarea>
     <div class="app-actions">
       <mat-icon tabindex="0" class="app-share-btn" (cbOnSuccess)="onCopied($event)" [ngxClipboard]="ocrInputTarget" [matTooltip]="'common.copy_to_clipboard' | translate">content_copy</mat-icon>
       <mat-spinner *ngIf="loading" [strokeWidth]="2" [diameter]="20"></mat-spinner>
