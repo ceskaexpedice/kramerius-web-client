@@ -37,7 +37,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayRows = this.localStorageService.getProperty(LocalStorageService.DEV_MODE) === '1';
+    this.displayRows = true; //this.localStorageService.getProperty(LocalStorageService.DEV_MODE) === '1';
     if (this.authService.isLoggedIn()) {
       this.folderService.getFolders(null);
     }
