@@ -244,6 +244,9 @@
       "ddt": "DDC",
       "mdt": "UDC",
       "geoname": "Географічна назва",
+      "genre": "Жанр",
+      "publisher": "видавець",
+      "publication_place": "Місце публікації",
       "search": "Обшук"
     },
     "query": {

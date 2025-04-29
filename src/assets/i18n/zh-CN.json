@@ -244,6 +244,9 @@
       "ddt": "DDC",
       "mdt": "UDC",
       "geoname": "地理名称",
+      "genre": "类型",
+      "publisher": "出版商",
+      "publication_place": "出版地",
       "search": "搜索"
     },
     "query": {

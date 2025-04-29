@@ -244,6 +244,9 @@
       "ddt": "DDT",
       "mdt": "MDT",
       "geoname": "Geografický název",
+      "genre": "Žánr",
+      "publisher": "Nakladatel",
+      "publication_place": "Místo vydání", 
       "search": "Vyhledat"
     },
     "query": {

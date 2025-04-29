@@ -244,6 +244,9 @@
       "ddt": "DDC",
       "mdt": "UDC",
       "geoname": "Geograafiline nimi",
+      "genre": "Žanr",
+      "publisher": "Kirjastaja",
+      "publication_place": "Avaldamise koht",
       "search": "Otsing"
     },
     "query": {

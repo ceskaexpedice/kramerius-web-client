@@ -244,6 +244,9 @@
       "ddt": "DDC",
       "mdt": "UDC",
       "geoname": "Földrajzi név",
+      "genre": "Műfaj",
+      "publisher": "Kiadó",
+      "publication_place": "Kiadvány helye",
       "search": "Keresés"
     },
     "query": {

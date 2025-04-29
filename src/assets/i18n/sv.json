@@ -244,6 +244,9 @@
       "ddt": "DDC",
       "mdt": "UDC",
       "geoname": "Geografiskt namn",
+      "genre": "Genre",
+      "publisher": "Förlag",
+      "publication_place": "Plats för publicering",
       "search": "Sök"
     },
     "query": {

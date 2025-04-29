@@ -930,7 +930,7 @@ export class SolrService {
             value = query.value;
             let fields = '';
             if (query.field == 'all') {
-                fields = ['title', 'author', 'keyword', 'geoname', 'signature', 'issn', 'isbn', 'fulltext'].map(f => this.getSolrCustomField(f, true)).join(' ');
+                fields = ['title', 'author', 'keyword', 'geoname', 'signature', 'genre', 'publication_place', 'publisher', 'issn', 'isbn', 'fulltext'].map(f => this.getSolrCustomField(f, true)).join(' ');
             } else {
                 fields = this.getSolrCustomField(query.field);
             }
@@ -2142,6 +2142,12 @@ export class SolrService {
             return this.field('issn');
         } else if (field === 'isbn') {
             return this.field('isbn');
+        } else if (field === 'genre') {
+            return this.field('genres_search');
+        } else if (field === 'publication_place') {
+            return this.field('publication_places_search');
+        } else if (field === 'publisher') {
+            return this.field('publishers_search');
         } else if (field === 'fulltext') {
             return this.field('text_ocr') + (boost ? '^0.1' : '');
         } else if (field === 'all') {

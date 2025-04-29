@@ -243,6 +243,9 @@
       "ddt": "DDC",
       "mdt": "UDC",
       "geoname": "Zemljepisno ime",
+      "genre": "Žanr",
+      "publisher": "Založnik",
+      "publication_place": "Založba",
       "search": "Išči"
     },
     "query": {

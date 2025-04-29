@@ -244,6 +244,9 @@
       "ddt": "advanced_search.field.ddt",
       "mdt": "advanced_search.field.mdt",
       "geoname": "advanced_search.field.geoname",
+      "genre": "advanced_search.field.genre",
+      "publisher": "advanced_search.field.publisher",
+      "publication_place": "advanced_search.field.publication_place",
       "search": "advanced_search.field.search"
     },
     "query": {

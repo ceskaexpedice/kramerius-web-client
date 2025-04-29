@@ -244,6 +244,9 @@
       "ddt": "CDD",
       "mdt": "UDC",
       "geoname": "Nome geográfico",
+      "genre": "Gênero",
+      "publisher": "Editor",
+      "publication_place": "Local de publicação",
       "search": "Procurar"
     },
     "query": {

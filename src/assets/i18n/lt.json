@@ -244,6 +244,9 @@
       "ddt": "DDC",
       "mdt": "UDC",
       "geoname": "Geografinis pavadinimas",
+      "genre": "Žanras",
+      "publisher": "Leidėjas",
+      "publication_place": "Leidimo vieta",
       "search": "Paieška"
     },
     "query": {

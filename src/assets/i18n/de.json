@@ -244,6 +244,9 @@
         "ddt": "DDT",
         "mdt": "MDT",
         "geoname": "Geographic name",
+        "genre": "Genre",
+        "publisher": "Publisher",
+        "publication_place": "Publication place",
         "search": "Search"
       },
       "query": {
