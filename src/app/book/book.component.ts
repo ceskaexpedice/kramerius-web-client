@@ -22,9 +22,12 @@ export class BookComponent implements OnInit, OnDestroy {
               public analytics: AnalyticsService,
               public viewerControls: ViewerControlsService) {
   }
-
+i
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
+    if (event && event.altKey) {
+      return;
+    }
     if (event && (event.keyCode === 37 || event.keyCode === 38)) {
       this.analytics.sendEvent('viewer', 'keyboard', 'previous page');
       if (this.bookService.isEpub()) {
