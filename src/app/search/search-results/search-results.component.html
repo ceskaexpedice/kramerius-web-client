@@ -1,5 +1,5 @@
 <div class="app-search-results-wrapper">
-    <div class="app-search-results" [ngClass]="{'app-search-collection': searchService.collection, 'app-display-table': searchService.contentTypeDisplay === 'table'}">
+    <div #scrollableDiv class="app-search-results" [ngClass]="{'app-search-collection': searchService.collection, 'app-display-table': searchService.contentTypeDisplay === 'table'}">
         <ng-container *ngIf="searchService.collection">
             <div class="app-collection-navigation">
                 <ng-container *ngIf="searchService.collectionStructure && searchService.collectionStructure.ready">

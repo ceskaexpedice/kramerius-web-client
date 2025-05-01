@@ -91,6 +91,7 @@ export class NavbarSearchBarComponent implements OnInit {
   }
 
   search() {
+    sessionStorage.setItem('SRscrollPosition', null);
     let q = this.searchStr;
     if (q == null) {
       q = '';

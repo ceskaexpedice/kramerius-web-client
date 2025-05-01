@@ -1,6 +1,6 @@
 import { SearchService } from './../../services/search.service';
 import { DocumentItem } from './../../model/document_item.model';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { KrameriusApiService } from './../../services/kramerius-api.service';
 import { AppSettings } from './../../services/app-settings';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -17,9 +17,11 @@ import { UiService } from '../../services/ui.service';
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss']
 })
-export class SearchResultsComponent implements OnInit {
+export class SearchResultsComponent implements OnInit, OnDestroy, AfterViewInit {
   
   displayRows: boolean = false;
+  @ViewChild('scrollableDiv') scrollableDivRef!: ElementRef;
+
 
   constructor(public searchService: SearchService,
               private krameriusApiService: KrameriusApiService,
@@ -54,9 +56,11 @@ export class SearchResultsComponent implements OnInit {
     return this._sanitizer.bypassSecurityTrustStyle(`url(${url})`);
   }
 
-
   onOpen(item: DocumentItem) {
     this.navigationService.init(item, this.searchService.query, this.searchService.results, this.searchService.numberOfResults);
+    const scrollTop = this.scrollableDivRef.nativeElement.scrollTop;
+    sessionStorage.setItem('SRscrollPosition', scrollTop.toString());
+    sessionStorage.setItem('SRurl', location.href);
   }
 
   onCopied(callback) {
@@ -67,11 +71,27 @@ export class SearchResultsComponent implements OnInit {
   getSnapshot() {
     this.router.navigate(['/search'], { queryParams: this.route.snapshot.queryParams });
   }
+
   ngOnDestroy(): void {
     this.folderService.folders = null;
   }
+
+  ngAfterViewInit(): void {
+    const savedPos = sessionStorage.getItem('SRscrollPosition');
+    const savedUrl = sessionStorage.getItem('SRurl');
+    const currentUrl = location.href;
+    if (savedPos && this.scrollableDivRef, savedUrl && savedUrl == currentUrl) {
+      this.scrollableDivRef.nativeElement.scrollTop = +savedPos;
+    }
+    sessionStorage.setItem('SRscrollPosition', null);
+  }
+
+
   changeTab(tab: string) {
     this.searchService.activeTab = tab;
   }
 
+
+
+  
 }

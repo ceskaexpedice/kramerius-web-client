@@ -87,6 +87,7 @@ export class HomeSearchBarComponent implements OnInit {
   }
 
   onSearchButtonClick() {
+    sessionStorage.setItem('SRscrollPosition', null);
     if (this.searchStr) {
       this.analytics.sendEvent('search phrase', 'home-by-button', this.searchStr);
     } else {
