@@ -623,7 +623,14 @@ export class SearchService {
                         }
                     }
                 }
-                this[facet] = c1;
+                let cc = [];
+                for (const [key, value] of Object.entries(this.licenceService.licences)) {
+                    const licence = c1.find(x => x.value == key);
+                    if (licence) {
+                        cc.push(licence);
+                    }
+                }
+                this[facet] = cc;
                 break;
             }
             case 'categories':

@@ -16,7 +16,7 @@ import { AiService } from '../../services/ai.service';
 export class SearchFiltersComponent implements OnInit {
 
 
-  collapsedFilter = true;
+  licencesExpanded = true;
 
   yearFrom: number;
   yearTo: number;
@@ -35,6 +35,12 @@ export class SearchFiltersComponent implements OnInit {
     this.yearFrom = this.searchService.query.from;
     this.yearTo = this.searchService.query.to;
     this.filters = this.settings.filters;
+    this.licencesExpanded = sessionStorage.getItem('licencesExpanded') === 'true';
+  }
+
+  onExpansionChange(isExpanded: boolean): void {
+    this.licencesExpanded = isExpanded;
+    sessionStorage.setItem('licencesExpanded', String(isExpanded));
   }
 
   toggleSimilarySearchEnabled() {
