@@ -64,6 +64,8 @@ export class Metadata {
     public inCollections: InCollections[] = [];
     public inCollectionsDirect: InCollections[] = [];
     
+    public isPDF = false;
+
     constructor() {
     }
 

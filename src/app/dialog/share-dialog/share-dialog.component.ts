@@ -46,6 +46,13 @@ export class ShareDialogComponent implements OnInit {
         item.link = this.shareService.getPersistentLink(item.uuid);
       }
     }
+    if (this.data['pdfPageUuid']) {
+      this.items.unshift({
+        type: 'page',
+        uuid: this.data['pdfPageUuid'],
+        link: this.shareService.getPersistentLink(this.data['pdfPageUuid'])
+      });
+    }
     if (this.items.length > 0) {
       this.selection = this.items[0];
     }

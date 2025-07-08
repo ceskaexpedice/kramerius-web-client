@@ -7,7 +7,7 @@ export class PdfService {
 
     url: string;
     pdfObject: any;
-    pageIndex: number;
+    pageIndex: number = 1;
     totalPages: number;
     outline;
     searching = false

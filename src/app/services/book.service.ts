@@ -30,7 +30,6 @@ import { saveAs } from 'file-saver';
 import { PdfService } from './pdf.service';
 import { GeoreferenceService } from './georeference.service';
 import { TtsService } from './tts.service';
-import { TranslateService } from '@ngx-translate/core';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 import { AiService } from './ai.service';
 import { LLMDialogComponent } from '../dialog/llm-dialog/llm-dialog.component';
@@ -97,6 +96,7 @@ export class BookService {
     public sources: string[];
 
     private initPdfPosition = 1;
+    private initPdfPageUuid: string;
 
     epubUrl: string;
     continueTts = false;
@@ -141,6 +141,7 @@ export class BookService {
         this.bookState = BookState.Loading;
         this.iiifEnabled =  this.settings.iiifEnabled;
         this.initPdfPosition = Number(params.pdfIndex) || 1;
+        this.initPdfPageUuid = params.pageUuid;
         if (params.uuid == 'epub') {
             this.bookState = BookState.Success;
             this.setupEpub();
@@ -175,6 +176,10 @@ export class BookService {
                     };
                     if (params.pageUuid && params.pageUuid.indexOf('@') > 0) {
                         const idx = params.pageUuid.substring(params.pageUuid.indexOf('@') + 1);
+                        p['index'] = idx;
+                    }
+                    if (params.pageUuid && params.pageUuid.indexOf('_') > 0) {
+                        const idx = params.pageUuid.substring(params.pageUuid.indexOf('_') + 1);
                         p['index'] = idx;
                     }
                     this.router.navigate(['/view', issueUuid], { replaceUrl: true, queryParams: p });
@@ -265,6 +270,7 @@ export class BookService {
     private setupPdf(uuid: string, index = 1) {
         this.bookState = BookState.Success;
         this.viewer = 'pdf';
+        this.metadata.isPDF = true;
         this.pdf.setUrl(this.api.getPdfUrl(uuid), index);
         this.api.getItemInfo(this.id(uuid)).subscribe((info: any) => {
             this.licence = info.licence;
@@ -334,7 +340,11 @@ export class BookService {
             if (item.epub) {
                 this.setupEpub()
             } else if (item.pdf) {
-                this.setupPdf(params.uuid);
+                let index = 0;
+                if (params.pageUuid && params.pageUuid.indexOf('_') > 0) {
+                    index = Number(params.pageUuid.substring(params.pageUuid.indexOf('_') + 1));
+                }
+                this.setupPdf(params.uuid,  index);
             } else {
                 this.api.getChildren(params.uuid, this.source).subscribe(children => {
                     if (children && children.length > 0) {
@@ -771,6 +781,24 @@ export class BookService {
 
         return currentPage;
     }
+
+
+    goToPdfPageOnIndex(index: number) {
+        const url = this.location.path();
+        const newUrl = this.updateQueryString(url, 'page', this.uuid + "_" + index);
+        this.location.replaceState(newUrl);
+    }
+
+    private updateQueryString(url: string, key: string, value: string): string {
+        const re = new RegExp(`([?&])${key}=.*?(&|$)`, 'i');
+        const separator = url.indexOf('?') !== -1 ? '&' : '?';
+        if (url.match(re)) {
+          return url.replace(re, `$1${key}=${value}$2`);
+        } else {
+          return url + separator + key + '=' + value;
+        }
+      }
+      
 
 
     getFulltextQuery(): string {
@@ -1664,11 +1692,18 @@ export class BookService {
             if (this.source) {
                 urlQuery += '&source=' + this.source;
             }
-            this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
-            const pdfIndex = this.initPdfPosition;
-            this.initPdfPosition = 1;
+            if (this.initPdfPageUuid) {
+                urlQuery += '&page=' + this.initPdfPageUuid;
+            }
             this.licences = article.licences;
             this.metadata.licences = this.licences;
+            this.location.go(this.settings.getPathPrefix() + '/view/' + this.uuid, urlQuery);
+            let pdfIndex = this.initPdfPosition;
+            if  (this.initPdfPageUuid && this.initPdfPageUuid.indexOf('_') > 0) {
+                pdfIndex = Number(this.initPdfPageUuid.substring(this.initPdfPageUuid.indexOf('_') + 1));
+            }
+            this.initPdfPageUuid = null;
+            this.initPdfPosition = 1;
             this.setupPdf(article.uuid, pdfIndex);
         } else if (article.type === 'pages') {
             if (article.firstPageUuid) {

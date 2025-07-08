@@ -105,6 +105,10 @@ export class PdfViewer2Component implements  OnInit, OnDestroy {
     // console.log('thumbnails', this.thumbnails);
   }
 
+  onPageChange(e) {
+    this.bookService.goToPdfPageOnIndex(e)
+  }
+
   onError(error: any) {
     this.pdf.pdfLoading = false;
     if (error && error.status == 403) {

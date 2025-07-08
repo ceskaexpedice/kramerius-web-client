@@ -5,7 +5,6 @@ import { AnalyticsService } from '../services/analytics.service';
 import { AdminDialogComponent } from '../dialog/admin-dialog/admin-dialog.component';
 import { AuthService } from '../services/auth.service';
 import { LicenceService } from '../services/licence.service';
-import { BookService } from '../services/book.service';
 import { ShareDialogComponent } from '../dialog/share-dialog/share-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthorsDialogComponent } from '../dialog/authors-dialog/authors-dialog.component';
@@ -20,6 +19,8 @@ import { SearchService } from '../services/search.service';
 import { NavigationService } from '../services/navigation.service';
 import { SolrService } from '../services/solr.service';
 import { UiService } from '../services/ui.service';
+import { PdfService } from '../services/pdf.service';
+import { BookService } from '../services/book.service';
 
 @Component({
   selector: 'app-metadata',
@@ -46,12 +47,13 @@ export class MetadataComponent implements OnInit {
 
   constructor(public analytics: AnalyticsService,
               private dialog: MatDialog,
-              public bookService: BookService,
               public navigationService: NavigationService,
               private translate: TranslateService,
               public licences: LicenceService,
               public auth: AuthService,
+              public bookService: BookService,
               public settings: AppSettings,
+              public pdfService: PdfService,
               public folderService: FolderService,
               private ui: UiService,
               public solrService: SolrService) {
@@ -155,17 +157,37 @@ export class MetadataComponent implements OnInit {
     if (!this.actionEnabled('citation')) {
       return;
     }
+    const isPDF = this.metadata.isPDF;
     this.analytics.sendEvent('metadata', 'citation');
-    this.dialog.open(CitationDialogComponent, { data: { metadata: this.metadata }, autoFocus: false });
+    let opts = { metadata: this.metadata };
+    if (isPDF) {
+      const idx = this.pdfService.pageIndex;
+      let pdfPageUuid = this.bookService.getUuid() + "_" + idx;
+      if (this.metadata.article) {
+        pdfPageUuid = this.metadata.article.uuid + "_" + idx;
+      }
+      opts['pdfPageUuid'] = pdfPageUuid;
+    }
+
+    this.dialog.open(CitationDialogComponent, { data: opts, autoFocus: false });
   }
 
   onShare() {
     if (!this.actionEnabled('share')) {
       return;
     }
+    const isPDF = this.metadata.isPDF;
     this.analytics.sendEvent('metadata', 'share');
     let opts = { metadata: this.metadata };
-    this.dialog.open(ShareDialogComponent, { data: opts, autoFocus: false });
+    if (isPDF) {
+      const idx = this.pdfService.pageIndex;
+      let pdfPageUuid = this.bookService.getUuid() + "_" + idx;
+      if (this.metadata.article) {
+        pdfPageUuid = this.metadata.article.uuid + "_" + idx;
+      }
+      opts['pdfPageUuid'] = pdfPageUuid;
+    }
+    this.dialog.open(ShareDialogComponent, { data: opts,  autoFocus: false });
   }
   
   onLike(folder: Folder, uuid: string) {
