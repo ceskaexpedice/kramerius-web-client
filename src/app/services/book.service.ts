@@ -1203,6 +1203,7 @@ export class BookService {
         if (!this.ai.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         this.pdf.getPageContent((text: string) => {
+            this.serviceLoading = false;
             this.summarizeText(text, this.getUuid());
         });
     }
@@ -1211,6 +1212,7 @@ export class BookService {
         if (!this.ai.checkAiActionsEnabled()) { return; }
         this.serviceLoading = true;
         this.pdf.getPageContent((text: string) => {
+            this.serviceLoading = false;
             this.translateText(text, this.getUuid());
         });
     }
