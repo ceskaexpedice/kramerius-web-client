@@ -1158,7 +1158,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
       source: iiifTileSource
     });
     const iLayer = new ol.layer.Image({
-      source: imageSource
+      source: imageSource,
+      extent: extent
     });
     this.view.addLayer(iLayer);
     this.view.addLayer(zLayer);
@@ -1207,7 +1208,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
       source: zoomifySource
     });    
     const iLayer = new ol.layer.Image({
-      source: imageSource
+      source: imageSource,
+      extent: extent
     });
     this.view.addLayer(iLayer);
     this.view.addLayer(zLayer);
