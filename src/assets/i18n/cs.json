@@ -303,7 +303,7 @@
   "licence": {
     "metadata_licence": "Zpřístupněno pod licencí",
     "window": {
-      "title": "K tomuto dokumentu nemáte přístup",
+      "title": "K tomuto dokumentu nyní nemáte přístup",
       "message1": "Dokument je dostupný pod licencemi: ",
       "message2": "Pro jeho zobrazeni: ",
       "default_text": "Tento dokument není možné volně prohlížet v souladu se zákonem č. 121/2000 Sb. (autorský zákon). Autorský zákon připouští zpřístupnění děl 70 let po smrti všech autorů (včetně překladatele, ilustrátora apod.) a 50 let od vydání díla."

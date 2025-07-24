@@ -301,7 +301,7 @@
     "licence": {
       "metadata_licence": "Sprístupnené pod licenciou",
       "window": {
-        "title": "K tomuto dokumentu nemáte prístup",
+        "title": "K tomuto dokumentu teraz nemáte prístup",
         "message1": "Dokument je dostupný pod licenciami: ",
         "message2": "Pre jeho zobrazenie: ",
         "default_text": "Tento dokument nie je možné voľne prezerať v súlade so zákonom č. 121/2000 Zb. (autorský zákon). Autorský zákon pripúšťa sprístupnenie diel 70 rokov po smrti všetkých autorov (vrátane prekladateľa, ilustrátora a pod.) a 50 rokov od vydanie diela."
