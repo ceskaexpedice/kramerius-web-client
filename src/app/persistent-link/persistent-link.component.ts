@@ -141,8 +141,14 @@ export class PersistentLinkComponent implements OnInit, OnDestroy {
   private handleSoundNavigation(item: DocumentItem): void {
     const soundrecording = item.context?.find(ctx => ctx.doctype === 'soundrecording');
     if (soundrecording?.uuid) {
-      const queryParams = item.doctype === 'track' ? { track: item.uuid } : undefined;
-      this.router.navigate(['/music', soundrecording.uuid], { queryParams });
+      if (item.doctype === 'track') {
+        this.router.navigate(['/music', soundrecording.uuid], {
+          replaceUrl: true,
+          queryParams: { track: item.uuid }
+        });
+      } else {
+        this.router.navigate(['/music', soundrecording.uuid]);
+      }
     } else {
       this.navigateTo404();
     }
